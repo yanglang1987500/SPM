@@ -1,0 +1,17 @@
+<div id="attence-search">
+    <div class="condition-wrap shadow-block">
+        <input id="home-easyui-searchbox" style="width:200px"/>
+        <div id="attence-type-select" style="width:120px">
+            <div data-options="name:'-1'">全部</div>
+            <div data-options="name:'1',iconCls:'icon-in'">进校</div>
+            <div data-options="name:'0',iconCls:'icon-out'">出校</div>
+        </div>
+        <div class="conditionitem"><span>开始时间：</span><input id="startdate" type="text" class="easyui-datetimebox"/></div>
+        <div class="conditionitem"><span>结束时间：</span><input id="enddate" type="text" class="easyui-datetimebox" /></div>
+    </div>
+    <div class="tablecontainer shadow-block">
+        <div class="tablecontainer">
+            <table id="dataTable"></table>
+        </div>
+    </div>
+</div>

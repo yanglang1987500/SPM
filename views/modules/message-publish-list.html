@@ -1,0 +1,41 @@
+<div id="message-publish-list">
+    <div class="condition-wrap shadow-block">
+        <input id="home-easyui-searchbox" style="width:200px"/>
+        <div class="conditionitem"><span>开始时间：</span><input id="startdate" type="text" class="easyui-datebox" style="width:100px"/></div>
+        <div class="conditionitem"><span>结束时间：</span><input id="enddate" type="text" class="easyui-datebox" style="width:100px"/></div>
+        <div class="conditionitem">
+            <span>是否显示：</span>
+            <select id="is_show">
+                <option value="2">全部</option>
+                <option value="0">隐藏</option>
+                <option value="1">显示</option>
+            </select>
+        </div>
+        <div class="conditionitem">
+            <span>是否发布：</span>
+            <select id="is_publish">
+                <option value="2">全部</option>
+                <option value="0">未发布</option>
+                <option value="1">已发布</option>
+            </select>
+        </div>
+    </div>
+    <div class="tablecontainer shadow-block">
+        <div class="tablecontainer">
+            <table id="dataTable"></table>
+        </div>
+        <div id="message-publish-list-toolbar">
+            <a href="#" class="easyui-linkbutton" id="add_message_btn" data-options="iconCls:'fa fa-plus icon-datagrid',plain:true">发布新信息</a>
+            <div class="datagrid-btn-separator"></div>
+            <a href="#" class="easyui-linkbutton" id="modify_message_btn" data-options="iconCls:'fa fa-pencil icon-datagrid',plain:true">编辑信息</a>
+            <div class="datagrid-btn-separator"></div>
+            <a href="#" class="easyui-linkbutton" id="delete_message_btn" data-options="iconCls:'fa fa-remove icon-datagrid',plain:true">删除信息</a>
+            <div class="datagrid-btn-separator"></div>
+            <a href="#" class="easyui-linkbutton" id="set_show_btn" data-options="iconCls:'fa fa-toggle-on icon-datagrid',plain:true">显示隐藏</a>
+            <div class="datagrid-btn-separator"></div>
+            <a href="#" class="easyui-linkbutton" id="publish_btn" data-options="iconCls:'fa fa-send icon-datagrid',plain:true">发布</a>
+            <div class="datagrid-btn-separator"></div>
+            <a href="#" class="easyui-linkbutton" id="unpublish_btn" data-options="iconCls:'fa fa-undo icon-datagrid',plain:true">取消发布</a>
+        </div>
+    </div>
+</div>

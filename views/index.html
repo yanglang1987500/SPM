@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>学校物业管理平台</title>
+    <!--[if lte IE 8]>
+    <script src="ieBetter.js"></script>
+    <![endif]-->
+    <link rel='stylesheet' href='/dist/modules/animation.css'/>
+    <link rel='stylesheet' href='/dist/font-awesome-4.6.3/css/font-awesome.css'/>
+    <link rel='stylesheet' href='/dist/modules/index.css'/>
+</head>
+<body>
+    <div class="container">
+        <div class="topbar">
+            <div class="logobar">学校物业管理平台</div>
+            <p class="welcomeinfo">您好，<%=session.userInfo.username%>，欢迎回来</p>
+            <div class="toolbar clearfix">
+                <div class="btn" id="homepageBtn"><i class=" fa fa-home"></i><span>首页</span></div>
+                <div class="btn" id="returnBtn"><i class=" fa fa-arrow-circle-left"></i><span>后退</span></div>
+                <div class="btn" id="nextBtn"><i class=" fa fa-arrow-circle-right"></i><span>前进</span></div>
+                <div class="btn" id="colorBtn"><i class="fa fa-black-tie "></i><span>主题</span>
+                    <ul id="colorMenu">
+                        <li data-value="bg-img-num1" class="bg-img-num1"></li>
+                        <li data-value="bg-img-num2" class="bg-img-num2"></li>
+                        <li data-value="bg-img-num3" class="bg-img-num3"></li>
+                        <li data-value="bg-img-num4" class="bg-img-num4"></li>
+                        <li data-value="bg-img-num5" class="bg-img-num5"></li>
+                        <li data-value="wall-num1" class="wall-num1"></li>
+                        <li data-value="wall-num2" class="wall-num2"></li>
+                        <li data-value="wall-num3" class="wall-num3"></li>
+                        <li data-value="wall-num4" class="wall-num4"></li>
+                        <li data-value="wall-num5" class="wall-num5"></li>
+                    </ul>
+                </div>
+                <div class="btn" id="configBtn"><i class=" fa-cog fa"></i><span>配置</span>
+                    <ul id="configMenu">
+                        <li id="modifyPassword"><i class="fa fa-lock"></i>修改密码</li>
+                        <li id="dictionaryConfig"><i class="fa fa-book"></i>字典维护</li>
+                        <li id="synchroData"><i class="fa fa-refresh"></i>同步数据</li>
+                    </ul>
+                </div>
+                <div class="btn" id="userInfo">
+                    <i class="fa fa-user"></i>
+                    <span id="userName"><%=session.userInfo.username%></span>
+                </div>
+                <div class="btn" id="logoutBtn"><i class="fa fa-power-off"></i><span>注销</span></div>
+            </div>
+        </div>
+
+        <div class="menubar">
+            <ul id="menu">
+                <li data-modules="./modules/attence-search"  id="attenceSearch"><i class="fa fa-paw menu-icon"></i>学生考勤查询<i class="fa fa-angle-right pull-right menu-arrow"></i></li>
+                <li data-modules="./modules/attence-analyse" id="attenceAnalyse"><i class="fa fa-bar-chart menu-icon"></i>学生考勤统计<i class="fa fa-angle-right pull-right menu-arrow"></i></li>
+                <li data-modules="./modules/message-publish-list" id="messagePublish"><i class="fa fa-list-alt menu-icon"></i>学校信息发布<i class="fa fa-angle-right pull-right menu-arrow"></i></li>
+                <li data-modules="./modules/aboutus" id="aboutus"><i class="fa fa-copyright menu-icon"></i>关于我们<i class="fa fa-angle-right pull-right menu-arrow"></i></li>
+            </ul>
+        </div>
+        <div id="framework-content-main-wrapper"><div id="framework-content-main"></div></div>
+
+    </div>
+    <div id="framework_dialog"></div>
+    <script src="/dist/modules/common.js"></script>
+    <script src="/dist/modules/index.js"></script>
+</body>
+</html>

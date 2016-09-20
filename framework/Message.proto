@@ -1,0 +1,15 @@
+package protobuf;
+
+message MessageIn{
+    required string method = 1;
+    optional string params = 2;
+    required string _CALLID = 3;
+    optional bytes fileData = 4;
+}
+message MessageOut{
+    required bool success = 1;
+    optional int32 code = 2;
+    required string _CALLID = 3;
+    optional string message = 4;
+    optional string data = 5;
+}

@@ -1,0 +1,15 @@
+.job-history {
+  width: 100%;
+  #jobHistoryGrainSelector {
+    width: 100px;
+    border: 1px solid #ccc;
+    height: 25px;
+    line-height: 25px;
+    margin-left: 10px;
+  }
+  #main, #main2 {
+    float: left;
+    margin-right: 15px;
+    height: 400px;
+  }
+}
