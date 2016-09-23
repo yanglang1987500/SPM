@@ -27,5 +27,9 @@ router.get('/', function(req, res, next) {
     res.redirect('/login');
 });
 
+router.get('/reporth5', function(req, res, next) {
+        res.render('reporth5');
+});
+
 
 module.exports = router;

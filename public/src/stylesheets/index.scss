@@ -510,7 +510,7 @@ header.head-block{
 .view-block{
     border-radius: 3px;
     height: 300px;
-    background: rgba(0,0,0,0.4) !important;
+    background: rgba(0,0,0,0.3) !important;
 }
 [class*='column-']{
     float:left;
@@ -545,13 +545,24 @@ header.head-block{
 .pl10{
     padding-left:10px;
 }
+.mt10{
+    margin-top:10px;
+}
+.mb0{
+    margin-bottom:0 ;
+}
+.mb15{
+    margin-bottom:15px ;
+}
+.mb10{
+    margin-bottom:10px ;
+}
 .view-block-row{
     &:after{
         content:'';
         display:block;
         clear:both;
     }
-    margin-bottom:15px;
 }
 #attence-analyse-chart3{
     height: 400px;

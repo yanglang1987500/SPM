@@ -8,12 +8,24 @@ require('../libs/jquery.easyui.min.js');
 require('../libs/easyui-lang-zh_CN.js');
 require('../../stylesheets/modules/message-publish-list.scss');
 require('../../stylesheets/easyui.css');
+var juicer = require('juicer');
 var MessagePublishList = function () {};
 
 //继承自框架基类
 MessagePublishList.prototype = $.extend({}, frameworkBase);
 MessagePublishList.prototype.id = 'message-publish-list';
-
+var widgetTpl = "<ul>" +
+    "{@each rows as it}" +
+        "<li class='shadow-block view-block'>" +
+    "    <header class='title'>" +
+    "    <span class='fa fa-bell'></span>" +
+    "     ${it.publish_title}" +
+    "    <i>${it.update_time}</i>" +
+    "    </header>" +
+    "    <article class='content clearfix'>$${it.publish_content}</article>" +
+    "    </li>" +
+    "     {@/each}" +
+"    </ul>";
 
 /**
  * 模块初始化入口<br>
@@ -227,16 +239,20 @@ MessagePublishList.prototype.loadWidgets = function(temp){
             that.toast(ret.message);
             return;
         }
-        var data = ret.data.rows;
-        var html = '<ul>';
-        for(var i = 0,len = data.length;i<len;i++){
-            html += '<li class="shadow-block view-block"><header class="title"><span class="fa fa-bell"></span> '+data[i].publish_title+'<i>'+data[i].update_time+'</i></header><article class="content clearfix">'+data[i].publish_content+'</article></li>';
-        }
-        html += '</ul>';
+        var html = juicer(widgetTpl, ret.data);
         $dom.html(html);
+    });
+    Events.subscribe('websocket:message-publish-new',function(data){
+        $dom.find('ul').prepend('<li class="shadow-block view-block uk-animation-scale-up"><header class="title"><span class="fa fa-bell"></span> '+data.publish_title+'<i>'+data.update_time+'</i></header><article class="content clearfix">'+data.publish_content+'</article></li>');
     });
 };
 
+/**
+ * 销毁插件
+ */
+MessagePublishList.prototype.destoryWidgets = function(){
+    Events.unsubscribe('websocket:message-publish-new');
+};
 /**
  * 销毁方法
  * 由框架调用，主要用于销毁订阅的事件

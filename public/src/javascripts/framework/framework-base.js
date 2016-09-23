@@ -19,6 +19,11 @@ require('./framework-history');
  */
 var _currentModel = null;
 
+/**
+ * websocket
+ */
+var _websocket = null;
+var EVENT_LISTEN_PREFIX = 'LISTENEVENT';
 
 /**
  * 父模块列表
@@ -62,6 +67,7 @@ var _prevModule = null;
 var Framework = function () {
     this.baseTitle = window.document.title;
 };
+
 
 Framework.prototype = {
     /**
@@ -598,6 +604,13 @@ Framework.prototype = {
         return false;
     },
     /**
+     * 提供给外部使用的插件销毁方式
+     * 由子类实现该方法
+     */
+    destoryWidgets:function(){
+        return false;
+    },
+    /**
      * 提供给外部使用的插件尺寸调整方法
      */
     resizeWidgets:function(){
@@ -712,10 +725,42 @@ Framework.prototype = {
 
             return result;
         };
+    },
+    wsCall:function(eventName,data,callback){
+        var tmpId = Events.EVENT_PREFIX + '_' + (new Date()).getTime();
+        Events.subscribe(tmpId,function(data){
+            callback && callback(data);
+        });
+        _websocket.send(JSON.stringify({
+            callbackId:tmpId,
+            clientId:_websocket.client_id,
+            eventName:eventName,
+            data:data
+        }));
+        return tmpId;
+    },
+    wsListen:function(eventName,data,callback){
+        var tmpId = EVENT_LISTEN_PREFIX + '_' + (new Date()).getTime();
+        Events.subscribe(tmpId,function(data){
+            callback && callback(data);
+        });
+        _websocket.send(JSON.stringify({
+            callbackId:tmpId,
+            clientId:_websocket.client_id,
+            eventName:eventName,
+            data:data
+        }));
+        return tmpId;
+    },
+    wsUnListen:function(id){
+        Events.unsubscribe(id);
     }
 };
 
-var frameWork = new Framework();
+var frameWork = window.fw = new Framework();
+
+
+/**======================订阅resize事件，通过debounce进行函数节流处理start================**/
 /**
  * 订阅resize事件，通过debounce进行函数节流处理
  */
@@ -726,6 +771,44 @@ var resize = function(){
 };
 
 $(window).resize(frameWork.debounce(resize,100));
+/**======================订阅resize事件，通过debounce进行函数节流处理end================**/
+
+
+
+/**======================websocket 封装 start================**/
+_websocket = new WebSocket('ws:'+location.host.split(':')[0]+':8088');
+_websocket.onopen = function(){
+};
+_websocket.onclose  = function(){
+  console.log('ws close');
+};
+_websocket.onerror  = function(){
+  console.log('ws onerror ');
+};
+_websocket.onmessage  = function(e){
+    try{
+        transfer(e);
+    }catch(ex){
+        console.log(ex);
+    }
+};
+var CLIENT_ID_REG = /^__CLIENT_ID__:(.*)$/;
+function transfer(e){
+    var data = e.data;
+    if(data.match(CLIENT_ID_REG)){
+        _websocket.client_id = RegExp.$1;
+    }else{
+        var data = JSON.parse(e.data);
+        debugger;
+        Events.notify(data.callbackId,data.data);
+    }
+
+}
+
+
+/**======================websocket 封装 end================**/
+
+
 
 module.exports = frameWork;
 

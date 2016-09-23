@@ -6,6 +6,8 @@ require('./libs/calendar.js');
 require('./libs/sweetalert.min');
 require('../stylesheets/sweetalert.css');
 require('../stylesheets/index.scss');
+window.toastr = require('./libs/toastr');
+require('../stylesheets/toastr.scss');
 require('./libs/utils');
 var prefix = './modules/';
 var Events = require('./framework/framework-events');
@@ -20,6 +22,7 @@ Events.addMethod('require',function(moduleId,options){
     }
     return require(moduleId);
 }).subscribe('onSelectMenu',function(moduleId){
+    $('#menu>li').removeClass('actived');
     if(moduleId.indexOf(prefix)=='-1'){
         moduleId = prefix + moduleId;
     }
@@ -36,6 +39,13 @@ var urlParam = $.getUrlParamObject();
 !urlParam.init && (urlParam.init = 'homepage')
 var initModule = Events.notify('onSelectMenu',urlParam.init).require(urlParam.init);
 initModule.init({from:'init'});
+
+/**
+ * 配置toastr通知
+ */
+toastr.options.timeOut = 10000;
+toastr.options.positionClass = 'toast-bottom-right';
+
 
 $(function(){
     $('#menu>li').click(function(){
@@ -55,9 +65,10 @@ $(function(){
     });
     $('#returnBtn').click(function(){
         window.history.go(-1);
-    });
+    }); 
     $('#homepageBtn').click(function(){
         Events.require('homepage').init();
+        $('#menu>li').removeClass('actived');
     });
     $('#nextBtn').click(function(){
         window.history.go(1);
@@ -69,7 +80,14 @@ $(function(){
     });
     $('body').on('click','a[data-module]',function(){
         var module = $(this).attr('data-module');
-        Events.require(module).init();
+        $('#menu>li').removeClass('actived');
+        Events.notify('onSelectMenu',module).require(module).init();
+    });
+
+    Events.subscribe('websocket:message-publish-new',function(data){
+        toastr.info(data.publish_content_pure,data.publish_title);
+    }).subscribe('websocket:report-new',function(data){
+        toastr.info(data.report_content,data.report_title);
     });
 });
 

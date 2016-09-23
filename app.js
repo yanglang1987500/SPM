@@ -6,16 +6,22 @@ var session = require('cookie-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var rd = require('rd');
+var guid = require('guid');
+var bodyParser = require('body-parser');
 
 
 var ejs = require('ejs');
 
 var app = express();
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
 //初始化上下文对象
 var context = require('./framework/context');
 context.setApp(app);
 //引入权限控制初始化
 var authority = require('./framework/authority');
+var websocket = require('./framework/websocket');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -48,10 +54,12 @@ app.use(function(req, res, next) {
 });
 
 
-
-
+/**
+ * 加载模块页
+ * 此处如果不拦截进行特殊处理的话，这个目录下的静态资源是不对外开放的。
+ */
 app.get('*', function(req,res,next){
-  //加载模块页
+
   var url = req.originalUrl;
   if(/^\/views\/(modules\/.*)\.html$/.test(url)){
     res.render(RegExp.$1);
@@ -105,4 +113,8 @@ process.on('uncaughtException', function (err) {
 
 
 app.listen(8080);
+
+
+
+
 module.exports = app;

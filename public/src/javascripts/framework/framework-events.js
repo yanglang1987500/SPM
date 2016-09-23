@@ -9,6 +9,7 @@ var __Events = {},
 typeof window == 'undefined'?(window ={}):'';
 
 var Events = window.Events = {
+    EVENT_PREFIX:EVENT_PREFIX,
     addMethod:function(methodName,method){
         var that = this;
         if(typeof method === 'function' && this[methodName] == undefined){

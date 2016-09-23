@@ -72,7 +72,7 @@ MessagePublish.prototype.bindEvents = function () {
             publish_id:that.options.publish_id,
             publish_title:title,
             publish_content:content,
-            publish_content_pure:that.um.getPlainTxt()
+            publish_content_pure:that.um.getContentTxt()
         },function(data){
             data.success?(that.finish()):(that.toast(data.message));
         });

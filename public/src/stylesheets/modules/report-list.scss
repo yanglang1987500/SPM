@@ -1,0 +1,92 @@
+
+#report-list{
+    .tablecontainer{
+        height:100%;
+    }
+
+    select{
+        width:100px;
+        vertical-align: middle;
+        border:1px solid #DDDDDD;
+        height:22px;
+        color: #3a3a3a;
+        outline:none;
+    }
+
+    .datagrid-btable{
+        font-family:Verdana, Arial, Helvetica, AppleGothic, sans-serif;
+    }
+
+    .nav{
+        height:70px;
+        background-color: #9AA7AF;
+        position: relative;
+    }
+    .nav h2{
+        font-size: 22px;
+        color: #FCFCFC;
+        line-height: 70px;
+        margin: 0 20px;
+        font-weight: normal;
+    }
+    .nav .logout{
+        position: absolute;
+        right: 50px;
+        bottom: 25px;
+        color: #FCFCFC;
+    }
+
+    .nav .logout>.link{
+        color: #D3D4DB;
+        cursor: pointer;
+    }
+    #exportFrame{
+        display: none;
+    }
+    .conditionitem{
+        width:180px;
+    }
+}
+
+header.title{
+    line-height: 30px;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.75);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    padding:0 10px;
+    i{
+        float:right;
+        font-style:normal;
+        font-size:12px;
+    }
+}
+
+article.content{
+    padding:20px;
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    p{
+        margin:10px 0;
+    }
+    dl{
+        list-style: none;
+        overflow: hidden;
+        dd{
+            float:left;
+            margin:5px;
+            border:1px solid #eee;
+            width:100px;
+            height:100px;
+            line-height: 100px;
+            text-align: center;
+            box-shadow:0 1px 3px rgba(0, 0, 0, 0.2);
+            img{
+                vertical-align: middle;
+                width: 100px;
+                cursor:pointer;
+            }
+        }
+    }
+}

@@ -5,8 +5,15 @@
     overflow-y: auto;
     overflow-x: hidden;
   }
+  #report-list{
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
   li.view-block{
     height:auto;
     margin-bottom:10px;
+  }
+  img{
+    width:100px;
   }
 }

@@ -14,7 +14,8 @@ HomePage.prototype.id = 'homepage';
 var WIDGETS = [
     {container:'#attence-analyse-chart1',module:'./attence-analyse-widgets/attence-analyse-chart1'},
     {container:'#attence-analyse-chart2',module:'./attence-analyse-widgets/attence-analyse-chart2'},
-    {container:'#message-publish-list',module:'message-publish-list'}];
+    {container:'#message-publish-list',module:'message-publish-list'},
+    {container:'#report-list',module:'report-list'}];
 
 /**
  * 模块初始化入口<br>
@@ -41,22 +42,38 @@ HomePage.prototype.loadWidgets = function(){
     this.widgets = [];
     this.widgets.push(require('./attence-analyse'));
     this.widgets.push(require('./message-publish-list'));
+    this.widgets.push(require('./report-list'));
     this.widgets.forEach(function(widget){
         widget.loadWidgets(WIDGETS);
     });
+}; 
+
+/**
+ * 销毁方法
+ * 由框架调用，主要用于销毁订阅的事件
+ */
+HomePage.prototype.finish = function () {
+    try{
+        this.widgets.forEach(function(widget){
+            widget.destoryWidgets();
+        });
+        frameworkBase.finish.call(this);
+    }catch(e){
+        console.log(e);
+    }
 };
 
 var homePage = new HomePage();
 
 Events.subscribe('onWindowResize',function(){
-    if(homePage.dom)
-        $('#message-publish-list',homePage.dom).height(homePage.dom.height()-55);
+    if(homePage.dom){
+        $('#message-publish-list',homePage.dom).height(homePage.dom.height()-38);
+        $('#report-list',homePage.dom).height(homePage.dom.height()-386);
+    }
     if(homePage.widgets)
         homePage.widgets.forEach(function(widget){
             widget.resizeWidgets();
         });
 });
-
-
 
 module.exports = homePage;

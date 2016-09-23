@@ -3,6 +3,8 @@ var router = express.Router();
 var publishDao = require('../daos/publishDao');
 var fs = require("fs");
 var utils = require('../libs/utils');
+var websocket = require('../framework/websocket');
+var Calendar = require('../libs/calendar');
 
 /**
  * 学校信息发布查询
@@ -61,6 +63,14 @@ router.post('/publish-save', function (req, res, next) {
                 user_id:userCode
             },function(err,data){
                 res.json(utils.returns(arguments));
+                if(!err){
+                    websocket.broadcast('websocket:message-publish-new',{
+                        publish_title:publish_title,
+                        publish_content_pure:publish_content_pure,
+                        update_time:Calendar.getInstance().format('yyyyMMdd HH:mm:ss'),
+                        publish_content:publish_content
+                    });
+                }
             });
         }else if(action == '002'){//修改
             var params = {};

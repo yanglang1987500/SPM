@@ -8,7 +8,8 @@ module.exports = {
     ],
     //页面入口文件配置
     entry:{
-        index : './public/src/javascripts/index.js'
+        index : './public/src/javascripts/index.js',
+        reporth5 : './public/src/javascripts/reporth5.js'
     },
     //入口文件输出配置
     output: {

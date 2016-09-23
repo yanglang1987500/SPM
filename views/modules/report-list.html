@@ -1,0 +1,25 @@
+<div id="report-list">
+    <div class="condition-wrap shadow-block">
+        <input id="home-easyui-searchbox" style="width:200px"/>
+        <div class="conditionitem"><span>开始时间：</span><input id="startdate" type="text" class="easyui-datebox" style="width:100px"/></div>
+        <div class="conditionitem"><span>结束时间：</span><input id="enddate" type="text" class="easyui-datebox" style="width:100px"/></div>
+        <div class="conditionitem">
+            <span>是否处理：</span>
+            <select id="is_handle">
+                <option value="2">全部</option>
+                <option value="0">未处理</option>
+                <option value="1">已处理</option>
+            </select>
+        </div>
+    </div>
+    <div class="tablecontainer shadow-block">
+        <div class="tablecontainer">
+            <table id="dataTable"></table>
+        </div>
+        <div id="report-list-toolbar">
+            <a href="#" class="easyui-linkbutton" id="delete_message_btn" data-options="iconCls:'fa fa-remove icon-datagrid',plain:true">删除信息</a>
+            <div class="datagrid-btn-separator"></div>
+            <a href="#" class="easyui-linkbutton" id="set_handle_btn" data-options="iconCls:'fa fa-wrench icon-datagrid',plain:true">设置处理状态</a>
+        </div>
+    </div>
+</div>
