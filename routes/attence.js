@@ -5,7 +5,7 @@ var fs = require("fs");
 var guid = require('guid');
 var utils = require('../libs/utils');
 
-router.get('/attence-search', function (req, res, next) {
+router.get('/attence/search', function (req, res, next) {
     if (req.session.isLogin) {
         var page = req.query.page,
             rows = req.query.rows,
@@ -24,7 +24,7 @@ router.get('/attence-search', function (req, res, next) {
     }
 });
 
-router.get('/attence-analyse', function (req, res, next) {
+router.get('/attence/analyse', function (req, res, next) {
     if (req.session.isLogin) {
         var action = req.query.action;
         switch(action){

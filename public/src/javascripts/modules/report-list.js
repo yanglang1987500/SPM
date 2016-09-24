@@ -62,7 +62,7 @@ ReportList.prototype.loadBaseView = function () {
     $('.easyui-linkbutton',this.dom).linkbutton();
     var columns = require('../../../../configs/modules/report-Column.js');
     that.$table = $('#dataTable',this.dom).datagrid({
-        url: '/report-search',
+        url: '/report/search',
         method: 'get',
         columns: [columns],
         pagination: true,
@@ -136,7 +136,7 @@ ReportList.prototype.bindEvents = function () {
         var rowData;
         if(!(rowData = getSelectRow()))
             return;
-        that.save('/report-save',{action:'003',report_id:rowData.report_id},function(data){
+        that.save('/report/save',{action:'003',report_id:rowData.report_id},function(data){
             if(data.success){
                 that.toast("删除信息成功!");
                 Events.notify('onRefresh:report-list');
@@ -150,7 +150,7 @@ ReportList.prototype.bindEvents = function () {
         var rowData;
         if(!(rowData = getSelectRow()))
             return;
-        that.save('/report-save',{
+        that.save('/report/save',{
             action:'002',
             report_id:rowData.report_id,
             is_handle:rowData.is_handle == '0'?'1':'0'
@@ -190,7 +190,7 @@ ReportList.prototype.loadWidgets = function(temp){
     if(widget == null)
         return;
     var $dom = $(widget.container);
-    this.query('/report-search',{detail:true},function(ret){
+    this.query('/report/search',{detail:true},function(ret){
         if(!ret.success){
             that.toast(ret.message);
             return;

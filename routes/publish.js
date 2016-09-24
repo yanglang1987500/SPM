@@ -9,7 +9,7 @@ var Calendar = require('../libs/calendar');
 /**
  * 学校信息发布查询
  */
-router.get('/publish-search', function (req, res, next) {
+router.get('/publish/search', function (req, res, next) {
     if (req.session.isLogin) {
         var detail = req.query.detail,
             page = req.query.page || 1,
@@ -35,7 +35,7 @@ router.get('/publish-search', function (req, res, next) {
 /**
  * 学校信息发布查询 指定id
  */
-router.get('/publish-search-id', function (req, res, next) {
+router.get('/publish/search-id', function (req, res, next) {
     if (req.session.isLogin) {
         var publish_id = req.query.publish_id;
         publishDao.publishSearchById(publish_id,function(err,data){
@@ -48,7 +48,7 @@ var MODIFYCOLUMNS = ['publish_id','publish_title','publish_content','publish_con
 /**
  * 信息保存
  */
-router.post('/publish-save', function (req, res, next) {
+router.post('/publish/save', function (req, res, next) {
     if (req.session.isLogin) {
         var action = req.body.action;
         if(action == '001'){//新增

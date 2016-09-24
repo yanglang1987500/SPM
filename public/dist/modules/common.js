@@ -1275,7 +1275,7 @@
 	        var params = replaceParam('init', that.id);
 	        console.log('push state:'+that.id);
 	        if(that.options && that.options.from != 'history')
-	            History.pushState({model: that.id, options: that.options},  that.getTitle()+ '-' +that.baseTitle , "?" + params);
+	            History.pushState({model: that.id, options: that.options},  that.getTitle()+ '-' +that.baseTitle , "/"+that.id);
 	        History.Adapter.bind(window, 'statechange', historyStateChange);
 	    },10);
 

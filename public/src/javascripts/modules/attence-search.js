@@ -34,7 +34,7 @@ AttenceSearch.prototype.loadBaseView = function () {
     this.render(html);
     var columns = require('../../../../configs/modules/attence-search-Column.js');
     var $table = $('#dataTable',that.dom).datagrid({
-        url: '/attence-search',
+        url: '/attence/search',
         method: 'get',
         columns: [columns],
         pagination: true,

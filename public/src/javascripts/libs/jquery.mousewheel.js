@@ -25,7 +25,6 @@
 
     $.event.special.mousewheel = {
         setup: function() {
-            debugger;
             if ( this.addEventListener ) {
                 for ( var i=types.length; i; ) {
                     this.addEventListener( types[--i], handler, false );

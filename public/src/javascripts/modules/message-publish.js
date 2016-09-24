@@ -43,7 +43,7 @@ MessagePublish.prototype.loadBaseView = function(options){
  */
 MessagePublish.prototype.restoreData = function () {
     var that = this;
-    this.query('/publish-search-id',{publish_id:this.options.publish_id},function(data){
+    this.query('/publish/search-id',{publish_id:this.options.publish_id},function(data){
         if(data.success){
             that.um.setContent(data.data.publish_content);
             $('#title',that.dom).val(data.data.publish_title);
@@ -67,7 +67,7 @@ MessagePublish.prototype.bindEvents = function () {
             swal('提示','请输入标题','warning');
             return;
         }
-        that.save('/publish-save',{
+        that.save('/publish/save',{
             action:that.options.action,
             publish_id:that.options.publish_id,
             publish_title:title,

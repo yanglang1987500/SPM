@@ -35,9 +35,9 @@ Events.addMethod('require',function(moduleId,options){
         }
     });
 });
-var urlParam = $.getUrlParamObject();
-!urlParam.init && (urlParam.init = 'homepage')
-var initModule = Events.notify('onSelectMenu',urlParam.init).require(urlParam.init);
+var init = location.href.match(/^http:\/\/[^\/]*(?:\:\d{4,5})?\/([^?]*)\??.*$/)[1];
+!init && (init = 'homepage')
+var initModule = Events.notify('onSelectMenu',init).require(init);
 initModule.init({from:'init'});
 
 /**

@@ -49,7 +49,7 @@ MessagePublishList.prototype.loadBaseView = function () {
     $('.easyui-linkbutton',this.dom).linkbutton();
     var columns = require('../../../../configs/modules/message-publish-Column.js');
     that.$table = $('#dataTable',this.dom).datagrid({
-        url: '/publish-search',
+        url: '/publish/search',
         method: 'get',
         columns: [columns],
         pagination: true,
@@ -144,7 +144,7 @@ MessagePublishList.prototype.bindEvents = function () {
         var rowData;
         if(!(rowData = getSelectRow()))
             return;
-        that.save('/publish-save',{action:'003',publish_id:rowData.publish_id},function(data){
+        that.save('/publish/save',{action:'003',publish_id:rowData.publish_id},function(data){
             if(data.success){
                 that.toast("删除信息成功!");
                 Events.notify('onRefresh:message-publish-list');
@@ -158,7 +158,7 @@ MessagePublishList.prototype.bindEvents = function () {
         var rowData;
         if(!(rowData = getSelectRow()))
             return;
-        that.save('/publish-save',{
+        that.save('/publish/save',{
             action:'002',
             publish_id:rowData.publish_id,
             is_show:rowData.is_show == '0'?'1':'0'
@@ -176,7 +176,7 @@ MessagePublishList.prototype.bindEvents = function () {
         var rowData;
         if(!(rowData = getSelectRow()))
             return;
-        that.save('/publish-save',{
+        that.save('/publish/save',{
             action:'002',
             publish_id:rowData.publish_id,
             is_publish:'1'
@@ -194,7 +194,7 @@ MessagePublishList.prototype.bindEvents = function () {
         var rowData;
         if(!(rowData = getSelectRow()))
             return; 
-        that.save('/publish-save',{
+        that.save('/publish/save',{
             action:'002',
             publish_id:rowData.publish_id,
             is_publish:'0'
@@ -234,7 +234,7 @@ MessagePublishList.prototype.loadWidgets = function(temp){
     if(widget == null)
         return;
     var $dom = $(widget.container);
-    this.query('/publish-search',{detail:true},function(ret){
+    this.query('/publish/search',{detail:true},function(ret){
         if(!ret.success){
             that.toast(ret.message);
             return;

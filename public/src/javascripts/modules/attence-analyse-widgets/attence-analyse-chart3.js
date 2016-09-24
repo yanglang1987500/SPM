@@ -25,7 +25,7 @@ AttenceAnalyseModule3.prototype.init = function (options) {
 
 AttenceAnalyseModule3.prototype.refreshChart = function (option) {
     var that = this;
-    this.query('/attence-analyse', option, function (ret) {
+    this.query('/attence/analyse', option, function (ret) {
         if(!ret.success){
             that.toast(ret.message);
             return;

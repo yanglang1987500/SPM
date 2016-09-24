@@ -13,7 +13,7 @@ var Calendar = require('../libs/calendar');
 /**
  * 报修信息查询
  */
-router.get('/report-search', function (req, res, next) {
+router.get('/report/search', function (req, res, next) {
     if (req.session.isLogin) {
         var detail = req.query.detail,
             page = req.query.page || 1,
@@ -37,7 +37,7 @@ router.get('/report-search', function (req, res, next) {
 /**
  * 报修信息查询 指定id
  */
-router.get('/report-search-id', function (req, res, next) {
+router.get('/report/search-id', function (req, res, next) {
     if (req.session.isLogin) {
         var report_id = req.query.report_id;
         reportDao.reportSearchById(report_id,function(err,data){
@@ -50,7 +50,7 @@ var MODIFYCOLUMNS = ['report_id','report_title','report_content','is_handle'];
 /**
  * 信息保存
  */
-router.post('/report-save', function (req, res, next) {
+router.post('/report/save', function (req, res, next) {
         var action = req.body.action;
         if(action == '001'){//新增
             var report_title = req.body.report_title,

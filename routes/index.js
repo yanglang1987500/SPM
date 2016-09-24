@@ -17,7 +17,7 @@ function test(){
 //test();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get(/\/[\d\w-]*/, function(req, res, next) {
   if(req.session.isLogin){
 
 
