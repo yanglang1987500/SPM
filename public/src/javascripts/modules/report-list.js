@@ -26,7 +26,7 @@ var widgetLiTpl = "<li class='shadow-block view-block ${it.new?\"uk-animation-sc
     "    <article class='content clearfix'><p>$${it.report_content}</p>" +
     "       <dl class='content clearfix'>" +
     "       {@each it.photos as photo}  " +
-    "           <dd><img class='overview' src='${photo}'></dd>" +
+    "           <dd><img class='overview' src='${host}/${photo}'></dd>" +
     "       {@/each}" +
     "       </dl>" +
     "   </article>" +
@@ -201,6 +201,7 @@ ReportList.prototype.loadWidgets = function(temp){
             else
                 item.photos = item.photos.split(';');
         });
+        ret.data.host = $.getDomain();
         var html = juicer(widgetTpl, ret.data);
         $dom.html(html);
 
@@ -210,7 +211,8 @@ ReportList.prototype.loadWidgets = function(temp){
         data.photos = data.photos?data.photos.split(';'):[];
         data.new = true;
         var obj = {
-            it:data
+            it:data,
+            host:$.getDomain()
         };
 
         var html = juicer(widgetLiTpl, obj);

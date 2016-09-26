@@ -73,3 +73,15 @@ $.getUrlParamObject = function(){
     }
     return result;
 };
+
+/**
+ * 获取当前域名
+ * @method getDomain
+ * return {String} 域名
+ */
+$.getDomain = function(){
+    var url = window.location.href;
+    var url = decodeURI(url);
+    var arr = url.match(/^(http[s]?:\/\/[^\/]*)\/.*$/);
+    return arr[1];
+};

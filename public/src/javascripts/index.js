@@ -35,8 +35,10 @@ Events.addMethod('require',function(moduleId,options){
         }
     });
 });
-var init = location.href.match(/^http:\/\/[^\/]*(?:\:\d{4,5})?\/([^?]*)\??.*$/)[1];
-!init && (init = 'homepage')
+var init = 'homepage';
+try{
+    init = location.href.match(/^http:\/\/[^\/]*(?:\:\d{4,5})?\/module\/([^?]*)\??.*$/)[1];
+}catch(e){}
 var initModule = Events.notify('onSelectMenu',init).require(init);
 initModule.init({from:'init'});
 

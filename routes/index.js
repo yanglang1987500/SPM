@@ -13,11 +13,19 @@ function test(){
     });
 
 }
+router.get('/module/*', function(req, res, next) {
+    if(req.session.isLogin){
 
+
+        res.render('index');
+    }
+    else
+        res.redirect('/login');
+});
 //test();
 
 /* GET home page. */
-router.get(/\/[\d\w-]*/, function(req, res, next) {
+router.get('/', function(req, res, next) {
   if(req.session.isLogin){
 
 

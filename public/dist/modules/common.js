@@ -215,6 +215,18 @@
 	    return result;
 	};
 
+	/**
+	 * 获取当前域名
+	 * @method getDomain
+	 * return {String} 域名
+	 */
+	$.getDomain = function(){
+	    var url = window.location.href;
+	    var url = decodeURI(url);
+	    var arr = url.match(/^(http[s]?:\/\/[^\/]*)\/.*$/);
+	    return arr[1];
+	};
+
 /***/ },
 
 /***/ 27:
@@ -1275,7 +1287,7 @@
 	        var params = replaceParam('init', that.id);
 	        console.log('push state:'+that.id);
 	        if(that.options && that.options.from != 'history')
-	            History.pushState({model: that.id, options: that.options},  that.getTitle()+ '-' +that.baseTitle , "/"+that.id);
+	            History.pushState({model: that.id, options: that.options},  that.getTitle()+ '-' +that.baseTitle , "/module/"+that.id);
 	        History.Adapter.bind(window, 'statechange', historyStateChange);
 	    },10);
 
