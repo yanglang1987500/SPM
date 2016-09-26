@@ -9,11 +9,9 @@ var table = 'sys_menu', mainKey = 'menu_id';
 module.exports = {
     /**
      * 菜单列表查询
-     * @param page 当前页数
-     * @param rows 每页显示数目
      * @param callback 回调
      */
-    roleListSearch:function(page,rows,callback){
+    menuSearch:function(callback){
         var selectSql = 'select * from  '+table;
         mySqlPool.getConnection(function(connection){
             connection.query(selectSql,function(err,result){
@@ -32,7 +30,7 @@ module.exports = {
      * @param menu_id 菜单id
      * @param callback 回调
      */
-    roleListSearchById:function(menu_id,callback){
+    menuSearchById:function(menu_id,callback){
         var selectSql = "select * from "+table+" where "+mainKey+" = '"+menu_id+"'";
         mySqlPool.getConnection(function(connection){
             connection.query(selectSql,function(err,result){
@@ -51,7 +49,7 @@ module.exports = {
      * @param params
      * @param callback
      */
-    addOrg:function(params,callback){
+    addMenu:function(params,callback){
         params[mainKey] = guid.raw().replace(/-/gi,'');
         var insertSql = 'INSERT INTO '+table+' set ?';
         mySqlPool.getConnection(function(connection){
@@ -70,7 +68,7 @@ module.exports = {
      * @param params 参数包
      * @param callback 回调
      */
-    modifyRole:function(params,callback){
+    modifyMenu:function(params,callback){
         var sql = 'update '+table+' set ', condition = [], pArr = [];
         for(var key in params){
             if(key == mainKey)
@@ -79,7 +77,7 @@ module.exports = {
             pArr.push(params[key]);
         }
         sql += condition.join(',');
-        sql += ' where '+"+mainKey+"+' = ? ';
+        sql += ' where '+mainKey+' = ? ';
         pArr.push(params[mainKey]);
         mySqlPool.getConnection(function(connection) {
             connection.query(sql, pArr, function (err, result) {
@@ -97,7 +95,7 @@ module.exports = {
      * @param menu_id 菜单id
      * @param callback
      */
-    removeRole:function(menu_id,callback){
+    removeMenu:function(menu_id,callback){
         mySqlPool.getConnection(function(connection){
             connection.query("DELETE FROM "+table+" WHERE "+mainKey+" = '"+menu_id+"'", function (err, result) {
                 if(err){

@@ -9,11 +9,9 @@ var table = 'sys_org', mainKey = 'org_id';
 module.exports = {
     /**
      * 组织机构列表查询
-     * @param page 当前页数
-     * @param rows 每页显示数目
      * @param callback 回调
      */
-    orgListSearch:function(page,rows,callback){
+    orgListSearch:function(callback){
         var selectSql = 'select * from  '+table;
         mySqlPool.getConnection(function(connection){
             connection.query(selectSql,function(err,result){
@@ -79,7 +77,7 @@ module.exports = {
             pArr.push(params[key]);
         }
         sql += condition.join(',');
-        sql += ' where '+"+mainKey+"+' = ? ';
+        sql += ' where '+mainKey+' = ? ';
         pArr.push(params[mainKey]);
         mySqlPool.getConnection(function(connection) {
             connection.query(sql, pArr, function (err, result) {
