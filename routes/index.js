@@ -8,15 +8,12 @@ var ejs = require('ejs');
 
 function test(){
     fs.readFile('../views/index.html','utf-8',function(err,data){
-
         var data = ejs.render('index');
     });
 
 }
 router.get('/module/*', function(req, res, next) {
     if(req.session.isLogin){
-
-
         res.render('index');
     }
     else
@@ -27,8 +24,6 @@ router.get('/module/*', function(req, res, next) {
 /* GET home page. */
 router.get('/', function(req, res, next) {
   if(req.session.isLogin){
-
-
       res.render('index');
   }
   else
