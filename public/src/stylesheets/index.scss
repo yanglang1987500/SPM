@@ -35,7 +35,8 @@ body,html{
             .toolbar{
                 border-left:1px solid #00130e;
                 border-right:1px solid #00694e;
-                &>.btn {
+                & .btn {
+                    display: block;
                     border-left: 1px solid #00694e;
                     border-right: 1px solid #00130e;
                 }
@@ -51,7 +52,7 @@ body,html{
             .toolbar{
                 border-left:1px solid #161342;
                 border-right:1px solid #4339ca;
-                &>.btn {
+                & .btn {
                     border-left: 1px solid #4339ca;
                     border-right: 1px solid #161342;
                 }
@@ -67,7 +68,7 @@ body,html{
             .toolbar{
                 border-left:1px solid #031a1c;
                 border-right:1px solid #0b5b61;
-                &>.btn {
+                & .btn {
                     border-left: 1px solid #0b5b61;
                     border-right: 1px solid #031a1c;
                 }
@@ -84,7 +85,7 @@ body,html{
             .toolbar{
                 border-left:1px solid #3e1d46;
                 border-right:1px solid #9d49af;
-                &>.btn {
+                & .btn {
                     border-left: 1px solid #9d49af;
                     border-right: 1px solid #3e1d46;
                 }
@@ -158,8 +159,10 @@ body,html{
             *zoom:1;
             &>*{
                 float:left;
+                display: block;
             }
-            &>.btn{
+            & .btn{
+                text-decoration: none;
                 width: 80px;
                 text-align: center;
                 vertical-align: middle;
@@ -197,7 +200,11 @@ body,html{
                     color:#fff;
                     box-shadow: $box-shadow;
                     display: none;
-                    &>li{
+                    a{
+                        color:#fff;
+                        text-decoration: none;
+                    }
+                    & li{
                         line-height:40px;
                         height:40px;
                         padding: 0 40px;
@@ -205,7 +212,7 @@ body,html{
                         background-repeat:no-repeat;
                         background-size:20px 20px;
                         background-position: 10px center;
-                    &:hover{
+                        &:hover{
                             color:#82D5FF;
                             background: rgba(0,0,0,.9);
                         }

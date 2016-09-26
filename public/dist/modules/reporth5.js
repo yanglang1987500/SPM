@@ -6,7 +6,7 @@ webpackJsonp([1],{
 	__webpack_require__(1);
 	__webpack_require__(33);
 	__webpack_require__(147);
-	var frameworkBase = __webpack_require__(29);
+	var frameworkBase = __webpack_require__(30);
 	var FastClick = __webpack_require__(36);
 
 	$(function() {

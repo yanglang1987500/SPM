@@ -11,7 +11,10 @@ require('../stylesheets/toastr.scss');
 require('./libs/utils');
 var prefix = './modules/';
 var Events = require('./framework/framework-events');
+var Router = require('./framework/framework-route');
+Router.init();
 var theme,_THEME_KEY_ = '_THEME_KEY';
+
 if(theme = localStorage.getItem(_THEME_KEY_)){
     $('#colorMenu>li.'+theme+'').addClass('actived');
     $('body').addClass(theme);
@@ -35,9 +38,10 @@ Events.addMethod('require',function(moduleId,options){
         }
     });
 });
+
 var init = 'homepage';
 try{
-    init = location.href.match(/^http:\/\/[^\/]*(?:\:\d{4,5})?\/module\/([^?]*)\??.*$/)[1];
+    init = location.href.match(/^http:\/\/[^\/]*(?:\:\d{4,5})?\/#\/modules\/([^?]*)\??.*$/)[1];
 }catch(e){}
 var initModule = Events.notify('onSelectMenu',init).require(init);
 initModule.init({from:'init'});
@@ -50,20 +54,18 @@ toastr.options.positionClass = 'toast-bottom-right';
 
 
 $(function(){
-    $('#menu>li').click(function(){
-        var $this = $(this);
+ /*   $('#menu>li').click(function(){
+        /!*var $this = $(this);
         var _module = $this.attr('data-modules');
-        Events.notify('onSelectMenu',_module).require(_module).init({from:'click'});
-    });
+        location.href = _module;*!/
+
+    });*/
     $('#colorMenu>li').click(function(){
         var $this = $(this);
         var theme = $this.attr('data-value');
         $('body').removeClass(function(index ,oldClass){return oldClass;}).addClass(theme);
         $this.parent().find('li').removeClass('actived').end().end().addClass('actived');
         localStorage.setItem(_THEME_KEY_,theme);
-    });
-    $('#logoutBtn').click(function(){
-        window.location.href = '/logout';
     });
     $('#returnBtn').click(function(){
         window.history.go(-1);

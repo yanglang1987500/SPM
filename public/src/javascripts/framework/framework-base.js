@@ -9,8 +9,7 @@
 
 require('../libs/utils');
 var Events = require('./framework-events');
-//为基类添加历史行为控制
-require('./framework-history');
+
 
 /**
  * 当前模块对象
