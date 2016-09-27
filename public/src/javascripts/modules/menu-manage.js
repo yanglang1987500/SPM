@@ -56,8 +56,10 @@ MenuManage.prototype.loadBaseView = function () {
             return {rows: data.data, total: data.data.length};
         },
         onDblClickRow: function (rowIndex, rowData) {
-            Events.require('menu-add-modify').addCallback(function(){
-                that.init();
+            Events.require('menu-add-modify').addCallback(function(flag){
+                debugger;
+                if(flag)
+                    Events.notify('onRefresh:menu-manage');
             }).init({showType:'Pop',action:'002',menu_id:rowData.menu_id});
         },
         toolbar: '#menu-manage-toolbar'
@@ -104,8 +106,10 @@ MenuManage.prototype.bindEvents = function () {
         var rowData;
         if(!(rowData = getSelectRow()))
             return;
-        Events.require('menu-add-modify').addCallback(function(){
-            that.init();
+        Events.require('menu-add-modify').addCallback(function(flag){
+            debugger;
+            if(flag)
+                Events.notify('onRefresh:menu-manage');
         }).init({showType:'Pop',action:'002',menu_id:rowData.menu_id});
     });
     //删除信息
@@ -143,7 +147,7 @@ MenuManage.prototype.bindEvents = function () {
  */
 MenuManage.prototype.finish = function () {
     Events.unsubscribe('onRefresh:menu-manage');
-    frameworkBase.finish.call(this);
+    frameworkBase.finish.apply(this,arguments);
 };
 
 var menuManage = new MenuManage();

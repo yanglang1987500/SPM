@@ -90,7 +90,7 @@ MessagePublish.prototype.bindEvents = function () {
 MessagePublish.prototype.finish = function () {
     try{
         this.um.destroy();
-        frameworkBase.finish.call(this);
+        frameworkBase.finish.apply(this,arguments);
     }catch(e){
         console.log(e);
     }

@@ -258,7 +258,7 @@ MessagePublishList.prototype.destoryWidgets = function(){
  */
 MessagePublishList.prototype.finish = function () {
     Events.unsubscribe('onRefresh:message-publish-list');
-    frameworkBase.finish.call(this);
+    frameworkBase.finish.apply(this,arguments);
 };
 
 var messagePublishList = new MessagePublishList();

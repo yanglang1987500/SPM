@@ -60,12 +60,12 @@ MenuAddModify.prototype.bindEvents = function(){
                 that.toast(data.message);
                 return;
             }
-            that.finish();
+            that.finish(true);
         });
 
     });
     $('#cancelBtn',this.dom).click(function(){
-        that.finish();
+        that.finish(false);
     });
 
     this.$treepanel = $('<div id="menu_tree_panel" class="dropdown_panel"><ul id="menuTree" class="ztree"></ul></div>').appendTo($('body'));
@@ -127,9 +127,7 @@ MenuAddModify.prototype.initMenuTree = function(){
 
         var ztreeObj = $.fn.zTree.init($("#menuTree",this.$treepanel), setting,data.data);
         ztreeObj.expandNode(ztreeObj.getNodes()[0], true, false, true);
-
     });
-
 };
 
 function hidePanel(){
@@ -162,7 +160,7 @@ MenuAddModify.prototype.restoreData = function() {
  */
 MenuAddModify.prototype.finish = function () {
     this.$treepanel.remove();
-    frameworkBase.finish.call(this);
+    frameworkBase.finish.apply(this,arguments);
 };
 
 module.exports = new MenuAddModify();

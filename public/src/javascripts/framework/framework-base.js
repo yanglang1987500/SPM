@@ -775,7 +775,7 @@ $(window).resize(frameWork.debounce(resize,100));
 
 
 /**======================websocket 封装 start================**/
-_websocket = new WebSocket('ws:'+location.host.split(':')[0]+':8088');
+_websocket = new WebSocket('ws://'+location.host.split(':')[0]+':8088');
 _websocket.onopen = function(){
 };
 _websocket.onclose  = function(){

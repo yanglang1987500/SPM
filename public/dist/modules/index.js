@@ -27317,7 +27317,7 @@ webpackJsonp([0],[
 	 */
 	AttenceAnalyse.prototype.finish = function () {
 	    Events.unsubscribe('onRefresh:attence-analyse');
-	    frameworkBase.finish.call(this);
+	    frameworkBase.finish.apply(this,arguments);
 	};
 	var attenceAnalyse = new AttenceAnalyse();
 	Events.subscribe('onWindowResize',function(){
@@ -27871,7 +27871,7 @@ webpackJsonp([0],[
 	 */
 	AttenceSearch.prototype.finish = function () {
 	    Events.unsubscribe('onRefresh:attence-search');
-	    frameworkBase.finish.call(this);
+	    frameworkBase.finish.apply(this,arguments);
 	};
 
 	var attenceSearch = new AttenceSearch();
@@ -28161,7 +28161,7 @@ webpackJsonp([0],[
 	        this.widgets.forEach(function(widget){
 	            widget.destoryWidgets();
 	        });
-	        frameworkBase.finish.call(this);
+	        frameworkBase.finish.apply(this,arguments);
 	    }catch(e){
 	        console.log(e);
 	    }
@@ -28453,7 +28453,7 @@ webpackJsonp([0],[
 	 */
 	MessagePublishList.prototype.finish = function () {
 	    Events.unsubscribe('onRefresh:message-publish-list');
-	    frameworkBase.finish.call(this);
+	    frameworkBase.finish.apply(this,arguments);
 	};
 
 	var messagePublishList = new MessagePublishList();
@@ -29339,7 +29339,7 @@ webpackJsonp([0],[
 	 */
 	ReportList.prototype.finish = function () {
 	    Events.unsubscribe('onRefresh:report-list');
-	    frameworkBase.finish.call(this);
+	    frameworkBase.finish.apply(this,arguments);
 	};
 
 	var messagePublishList = new ReportList();
@@ -29446,12 +29446,12 @@ webpackJsonp([0],[
 	                that.toast(data.message);
 	                return;
 	            }
-	            that.finish();
+	            that.finish(true);
 	        });
 
 	    });
 	    $('#cancelBtn',this.dom).click(function(){
-	        that.finish();
+	        that.finish(false);
 	    });
 
 	    this.$treepanel = $('<div id="menu_tree_panel" class="dropdown_panel"><ul id="menuTree" class="ztree"></ul></div>').appendTo($('body'));
@@ -29513,9 +29513,7 @@ webpackJsonp([0],[
 
 	        var ztreeObj = $.fn.zTree.init($("#menuTree",this.$treepanel), setting,data.data);
 	        ztreeObj.expandNode(ztreeObj.getNodes()[0], true, false, true);
-
 	    });
-
 	};
 
 	function hidePanel(){
@@ -29548,7 +29546,7 @@ webpackJsonp([0],[
 	 */
 	MenuAddModify.prototype.finish = function () {
 	    this.$treepanel.remove();
-	    frameworkBase.finish.call(this);
+	    frameworkBase.finish.apply(this,arguments);
 	};
 
 	module.exports = new MenuAddModify();
@@ -29628,8 +29626,10 @@ webpackJsonp([0],[
 	            return {rows: data.data, total: data.data.length};
 	        },
 	        onDblClickRow: function (rowIndex, rowData) {
-	            Events.require('menu-add-modify').addCallback(function(){
-	                that.init();
+	            Events.require('menu-add-modify').addCallback(function(flag){
+	                debugger;
+	                if(flag)
+	                    Events.notify('onRefresh:menu-manage');
 	            }).init({showType:'Pop',action:'002',menu_id:rowData.menu_id});
 	        },
 	        toolbar: '#menu-manage-toolbar'
@@ -29676,8 +29676,10 @@ webpackJsonp([0],[
 	        var rowData;
 	        if(!(rowData = getSelectRow()))
 	            return;
-	        Events.require('menu-add-modify').addCallback(function(){
-	            that.init();
+	        Events.require('menu-add-modify').addCallback(function(flag){
+	            debugger;
+	            if(flag)
+	                Events.notify('onRefresh:menu-manage');
 	        }).init({showType:'Pop',action:'002',menu_id:rowData.menu_id});
 	    });
 	    //删除信息
@@ -29715,7 +29717,7 @@ webpackJsonp([0],[
 	 */
 	MenuManage.prototype.finish = function () {
 	    Events.unsubscribe('onRefresh:menu-manage');
-	    frameworkBase.finish.call(this);
+	    frameworkBase.finish.apply(this,arguments);
 	};
 
 	var menuManage = new MenuManage();
@@ -29854,7 +29856,7 @@ webpackJsonp([0],[
 	MessagePublish.prototype.finish = function () {
 	    try{
 	        this.um.destroy();
-	        frameworkBase.finish.call(this);
+	        frameworkBase.finish.apply(this,arguments);
 	    }catch(e){
 	        console.log(e);
 	    }

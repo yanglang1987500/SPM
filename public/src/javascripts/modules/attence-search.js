@@ -98,7 +98,7 @@ AttenceSearch.prototype.loadBaseView = function () {
  */
 AttenceSearch.prototype.finish = function () {
     Events.unsubscribe('onRefresh:attence-search');
-    frameworkBase.finish.call(this);
+    frameworkBase.finish.apply(this,arguments);
 };
 
 var attenceSearch = new AttenceSearch();

@@ -250,7 +250,7 @@ ReportList.prototype.destoryWidgets = function(){
  */
 ReportList.prototype.finish = function () {
     Events.unsubscribe('onRefresh:report-list');
-    frameworkBase.finish.call(this);
+    frameworkBase.finish.apply(this,arguments);
 };
 
 var messagePublishList = new ReportList();

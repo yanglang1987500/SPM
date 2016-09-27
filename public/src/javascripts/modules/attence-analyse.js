@@ -117,7 +117,7 @@ AttenceAnalyse.prototype.resizeWidgets = function () {
  */
 AttenceAnalyse.prototype.finish = function () {
     Events.unsubscribe('onRefresh:attence-analyse');
-    frameworkBase.finish.call(this);
+    frameworkBase.finish.apply(this,arguments);
 };
 var attenceAnalyse = new AttenceAnalyse();
 Events.subscribe('onWindowResize',function(){
