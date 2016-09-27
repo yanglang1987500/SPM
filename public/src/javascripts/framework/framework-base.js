@@ -769,7 +769,7 @@ var resize = function(){
     }catch(e){}
 };
 
-$(window).resize(frameWork.debounce(resize,100));
+$(window).resize(frameWork.debounce(resize,70));
 /**======================订阅resize事件，通过debounce进行函数节流处理end================**/
 
 
