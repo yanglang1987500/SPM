@@ -47,7 +47,6 @@
 
     $.fn.extend({
         mousewheel: function(fn) {
-            debugger;
             return fn ? this.bind("mousewheel", fn) : this.trigger("mousewheel");
         },
 

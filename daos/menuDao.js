@@ -11,15 +11,34 @@ module.exports = {
      * 菜单列表查询
      * @param callback 回调
      */
-    menuSearch:function(callback){
-        var selectSql = 'select * from  '+table;
+    menuSearch:function(params,callback){
+        
+        var condition = [] , _params, _callback;
+        if(Object.prototype.toString.call(params) == '[object Function]'){
+            _callback = params;
+            _params = null;
+        }else{
+            _callback = callback;
+            _params = params;
+        }
+        condition.push(' 1=1 ');
+        if(_params)
+            with(_params){
+                key && condition.push(' (menu_title like \'%'+key+'%\' or menu_url like \'%'+key+'%\') ');
+                (show_type == '1'||show_type == '2') && condition.push(' show_type = ' + show_type);
+                (menu_type == '1'||menu_type == '2') && condition.push(' menu_type = ' + menu_type);
+            }
+
+        condition = condition.join(' and ');
+        var selectSql = 'select a.*,ifnull(b.menu_title,\'根菜单\') menu_parent_title ',fromSql = 'from '+table+' a left join '+table+' b on a.menu_parent_id=b.menu_id where '+condition+' ';
+
         mySqlPool.getConnection(function(connection){
-            connection.query(selectSql,function(err,result){
+            connection.query(selectSql+fromSql,function(err,result){
                 if(err){
-                    callback && callback(err);
+                    _callback && _callback(err);
                     return;
                 }
-                callback && callback(false,result);
+                _callback && _callback(false,result);
                 connection.release();
             });
         });
@@ -31,7 +50,7 @@ module.exports = {
      * @param callback 回调
      */
     menuSearchById:function(menu_id,callback){
-        var selectSql = "select * from "+table+" where "+mainKey+" = '"+menu_id+"'";
+        var selectSql = "select a.*,ifnull(b.menu_title,\'根菜单\') menu_parent_title from "+table+" a left join "+table+" b on a.menu_parent_id=b.menu_id where a."+mainKey+" = '"+menu_id+"'";
         mySqlPool.getConnection(function(connection){
             connection.query(selectSql,function(err,result){
                 if(err){

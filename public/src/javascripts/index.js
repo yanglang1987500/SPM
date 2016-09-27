@@ -6,6 +6,7 @@ require('./libs/calendar.js');
 require('./libs/sweetalert.min');
 require('../stylesheets/sweetalert.css');
 require('../stylesheets/index.scss');
+require('./libs/jquery.easyui.min.js');
 window.toastr = require('./libs/toastr');
 require('../stylesheets/toastr.scss');
 require('./libs/utils');
@@ -29,22 +30,28 @@ Events.addMethod('require',function(moduleId,options){
     if(moduleId.indexOf(prefix)=='-1'){
         moduleId = prefix + moduleId;
     }
-    $('#menu>li').each(function(){
+    moduleId = moduleId.replace('.','#')
+    $('#menu a').each(function(){
         var $this = $(this);
-        if($this.attr('data-modules') == (moduleId)){
-            $('#menu>li').removeClass('actived');
-            $this.addClass('actived');
-            return false;
-        }
+            if($this.attr('href') == (moduleId)){
+                $('#menu li').removeClass('actived');
+                var $li = $this.find('>li');
+                $li.addClass('actived');
+                if($li.hasClass('menu_sub_item')){
+                    setTimeout(function(){
+                        $li.parent().parent().slideDown(200);
+                    },500);
+                }
+                return false;
+            }
     });
 });
 
-var init = 'homepage';
+var init = '#/modules/homepage';
 try{
-    init = location.href.match(/^http:\/\/[^\/]*(?:\:\d{4,5})?\/#\/modules\/([^?]*)\??.*$/)[1];
+    init = location.href.match(/^http:\/\/[^\/]*(?:\:\d{4,5})?\/(#\/modules\/[^?]*)\??.*$/)[1];
 }catch(e){}
-var initModule = Events.notify('onSelectMenu',init).require(init);
-initModule.init({from:'init'});
+location.href = init;
 
 /**
  * 配置toastr通知
@@ -52,14 +59,8 @@ initModule.init({from:'init'});
 toastr.options.timeOut = 10000;
 toastr.options.positionClass = 'toast-bottom-right';
 
-
+ 
 $(function(){
- /*   $('#menu>li').click(function(){
-        /!*var $this = $(this);
-        var _module = $this.attr('data-modules');
-        location.href = _module;*!/
-
-    });*/
     $('#colorMenu>li').click(function(){
         var $this = $(this);
         var theme = $this.attr('data-value');
@@ -70,28 +71,32 @@ $(function(){
     $('#returnBtn').click(function(){
         window.history.go(-1);
     }); 
-    $('#homepageBtn').click(function(){
-        Events.require('homepage').init();
-        $('#menu>li').removeClass('actived');
-    });
     $('#nextBtn').click(function(){
         window.history.go(1);
     });
-    $('#userInfo').click(function(){ 
-    });
-    $('#modifyPassword').click(function(){
-        Events.require('passwordModify').init({showType:'Pop'});
-    });
+
     $('body').on('click','a[data-module]',function(){
         var module = $(this).attr('data-module');
+        var showType = $(this).attr('data-showtype');
         $('#menu>li').removeClass('actived');
-        Events.notify('onSelectMenu',module).require(module).init();
+        if(showType != '2'){
+            location.href = module;
+            return;
+        }
+        module = module.replace('#','.');
+        Events.notify('onSelectMenu',module).require(module).init({showType:'Pop'});
     });
 
     Events.subscribe('websocket:message-publish-new',function(data){
         toastr.info(data.publish_content_pure,data.publish_title);
     }).subscribe('websocket:report-new',function(data){
         toastr.info(data.report_content,data.report_title);
+    });
+    $('.menu_item').click(function(e){
+        if($(e.target).hasClass('menu_sub_item'))
+            return;
+        var $this = $(this),$sub = $this.find('.menu_sub');
+        $sub.is(':visible')?($sub.slideUp(200)):($sub.slideDown(200));
     });
 });
 

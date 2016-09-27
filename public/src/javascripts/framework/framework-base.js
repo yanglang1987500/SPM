@@ -798,7 +798,6 @@ function transfer(e){
         _websocket.client_id = RegExp.$1;
     }else{
         var data = JSON.parse(e.data);
-        debugger;
         Events.notify(data.callbackId,data.data);
     }
 

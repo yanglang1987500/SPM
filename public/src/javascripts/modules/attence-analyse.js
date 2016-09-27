@@ -4,7 +4,7 @@
  */
 
 var frameworkBase = require('../framework/framework-base');
-require('../libs/jquery.easyui.min.js');
+
 require('../libs/easyui-lang-zh_CN.js');
 require('../../stylesheets/modules/attence-analyse.scss');
 require('../../stylesheets/easyui.css');

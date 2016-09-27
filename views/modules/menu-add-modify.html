@@ -1,0 +1,38 @@
+<div class="menu-add-modify">
+    <div class="panel-body">
+            <div class="form-group">
+                <label>菜单标题：</label>
+                <input class="form-control" placeholder="请输入菜单标题" name="menu_title" id="menu_title" type="text" autofocus>
+            </div>
+            <div class="form-group">
+                <label>菜单url：</label>
+                <input class="form-control" placeholder="请输入菜单url" name="menu_url" id="menu_url" type="text" value="">
+            </div>
+            <div class="form-group">
+                <label>菜单icon：</label>
+                <input class="form-control" placeholder="请输入菜单icon样式名" name="menu_icon" id="menu_icon" type="text" value="">
+            </div>
+            <div class="form-group">
+                <label>展式形式：</label>
+                <select id="show_type" class="form-control">
+                    <option value="1" selected>普通</option>
+                    <option value="2">弹窗</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>菜单位置：</label>
+                <select id="menu_type" class="form-control">
+                    <option value="1" selected>左侧菜单</option>
+                    <option value="2">设置下拉菜单</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>父级菜单：</label>
+                <input class="form-control" placeholder="请选择父级菜单" readonly="true" name="menu_parent_id" id="menu_parent_id" type="text" data-pid="0" value="根菜单">
+            </div>
+            <div class="btn-wrap">
+                <span class="framework-button" id="confirmBtn">提交</span>
+                <span class="framework-button" id="cancelBtn">取消</span>
+            </div>
+    </div>
+</div>
