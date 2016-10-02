@@ -3,39 +3,85 @@ var router = express.Router();
 var userDao = require('../daos/userDao');
 var utils = require('../libs/utils');
 
-/* GET users listing. */
-router.post('/user/passwordmodify', function(req, res, next) {
-    //1，根据当前用户名判断有没有修改过密码
-    var oldPassword = req.body.oldPassword;
-    var newPassword = req.body.newPassword;
-    var userCode = req.session.userInfo.usercode;
-    if(newPassword.trim()==''||newPassword.trim().length<6){
-        res.json(utils.returnJson(false,'新密码不能为空，且必须大于6位'));
+router.get('/user/list', function(req, res, next) {
+    if (req.session.isLogin) {
+        var page = req.query.page || 1,
+            rows = req.query.rows || 20,
+            key = req.query.key,
+            startdate = req.query.startdate,
+            enddate   = req.query.enddate;
+        userDao.userListSearch(parseInt(page),parseInt(rows),{
+            key:key?key:null,
+            startdate:startdate?startdate:null,
+            enddate:enddate?enddate:null
+        },function(err,data){
+            res.json(utils.returns(arguments));
+        });
     }
-    userDao.queryUserPasswordByName(userCode,function(userPasswords){
-        if(userPasswords.length == 0){
-            //尚未修改过密码，使用默认密码判断，此处需要MD5加密
-            modifyPassword(utils.md5(userDao.defaultPassword),true);
-        } else{
-            //此处密码本身已经是MD5加密了的
-            modifyPassword(userPasswords[0].password,false);
-        }
+});
+
+/**
+ * 根据用户id用户查询
+ */
+router.get('/user/search/:user_id', function (req, res, next) {
+    var user_id = req.params.user_id;
+    userDao.userListSearchById(user_id,function(){
+        res.json(utils.returns(arguments));
     });
+});
 
 
-    function modifyPassword(_oldPassword,insert){
-        if(utils.md5(oldPassword) !== _oldPassword ){
-            res.json(utils.returnJson(false,'原始密码输入有误'));
-        }else{
-            insert?userDao.insertUserPassword(userCode,utils.md5(newPassword),function(data){
+var MODIFYCOLUMNS = ['user_id','user_name','user_password'];
+/**
+ * 用户保存
+ */
+router.post('/user/save', function (req, res, next) {
+    if (req.session.isLogin) {
+        var action = req.body.action;
+        if(action == '001'){//新增
+            var user_name = req.body.user_name,
+                user_password = req.body.user_password;
+            userDao.addUser({
+                user_name:user_name,
+                user_password:utils.md5(user_password)
+            },function(err,data){
                 res.json(utils.returns(arguments));
-            }):userDao.modifyUserPasswordByName(userCode,utils.md5(newPassword),function(data){
+            });
+        }else if(action == '002'){//修改
+            var params = {};
+            for(var key in req.body){
+                if(MODIFYCOLUMNS.indexOf(key)!=-1)
+                    params[key] = req.body[key];
+            }
+            userDao.modifyUser(params,function(err,data){
+                if(err){
+                    res.json(utils.returns(false,err.message));
+                }else{
+                    res.json(utils.returns(true,data));
+                }
+            });
+        }else if(action == '003'){
+            //修改密码
+            var user_id = req.body.user_id;
+            var user_password = req.body.user_password;
+            userDao.modifyUser({user_id:user_id,user_password:utils.md5(user_password)},function(err,data){
+                if(err){
+                    res.json(utils.returns(false,err.message));
+                }else{
+                    res.json(utils.returns(true,data));
+                }
+            });
+        }else if(action == '004'){
+            //删除
+            var user_id = req.body.user_id;
+            userDao.removeUser(user_id,function(err,data){
                 res.json(utils.returns(arguments));
             });
         }
     }
-    
-    
 });
+
+
+
 
 module.exports = router;

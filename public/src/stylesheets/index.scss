@@ -414,6 +414,7 @@ body,html{
         vertical-align: middle;
         padding:0 10px;
         margin-bottom:15px;
+        font-size: 12px;
         label{
             color:#808080;
             font-size: 12px;
@@ -493,6 +494,67 @@ body,html{
     }
 }
 
+/**==================左选右操作面板基础样式======================**/
+.lr-c-panel{
+    overflow: hidden;
+    height:100%;
+    padding:10px 5px;
+    &>div{
+        height:100%;
+    }
+    .left-choose-panel,.right-choose-panel{
+        width:40%;
+        border:1px solid #eee;
+    }
+    .left-choose-panel{
+        float:left;
+    }
+    .right-choose-panel{
+        float:right;
+    }
+    .center-operator-panel{
+        width:20%;
+        float:left;
+        height:100%;
+        font-size:0;
+        text-align: center;
+        &:after{
+            content:'';
+            display: inline-block;
+            width:0;
+            height:100%;
+            vertical-align: middle;
+        }
+        .operator-wrap{
+            display: inline-block;
+            vertical-align: middle;
+            .choose-btn{
+                width:35px;
+                height:35px;
+                border-radius: 2px;
+                line-height:35px;
+                display: block;
+                cursor:pointer;
+                background: #408ed1;
+                vertical-align: middle;
+                text-align: center;
+                color:#fff;
+                font-size: 16px;
+                border:1px solid #3686ca;
+                margin-top:20px;
+                &:hover{
+                    background: #3e8acb;
+                    box-shadow: 0 0 1px rgba(0,0,0,.5);
+                }
+            }
+        }
+
+    }
+}
+
+
+
+
 /*=====================定制滚动条样式====================*/
 ::-webkit-scrollbar {
     width: 0.2em;
@@ -503,7 +565,7 @@ body,html{
 }
 /* Track */
 ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
     -webkit-border-radius: 10px;
     border-radius: 10px;
 }
@@ -511,8 +573,8 @@ body,html{
 ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 10px;
     border-radius: 10px;
-    background: #408ed1;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    background: #8ed0ff;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
 
 ::-webkit-scrollbar-thumb:window-inactive {
