@@ -18,7 +18,7 @@
                 <a href="#/modules/homepage"><div class="btn"><i class=" fa fa-home"></i><span>首页</span></div></a>
                 <a><div class="btn" id="returnBtn"><i class=" fa fa-arrow-circle-left"></i><span>后退</span></div></a>
                 <a><div class="btn" id="nextBtn"><i class=" fa fa-arrow-circle-right"></i><span>前进</span></div></a>
-                <a href="javascript:void(0)"><div  class="btn" id="colorBtn"><i class="fa fa-black-tie "></i><span>主题</span>
+                <div  class="btn" id="colorBtn"><i class="fa fa-black-tie "></i><span>主题</span>
                     <ul id="colorMenu">
                         <li data-value="bg-img-num1" class="bg-img-num1"></li>
                         <li data-value="bg-img-num2" class="bg-img-num2"></li>
@@ -31,9 +31,9 @@
                         <li data-value="wall-num4" class="wall-num4"></li>
                         <li data-value="wall-num5" class="wall-num5"></li>
                     </ul>
-                    </div>
-                </a>
-                <a><div class="btn" id="configBtn"><i class=" fa-cog fa"></i><span>配置</span>
+                </div>
+
+                <div class="btn" id="configBtn"><i class=" fa-cog fa"></i><span>配置</span>
                     <ul id="configMenu">
                         <%
                             for(var i = 0;i<menuList.length;i++){
@@ -46,7 +46,7 @@
                         %>
 
                     </ul>
-                </div></a>
+                </div>
                 <a href="#"><div class="btn" id="userInfo">
                     <i class="fa fa-user"></i>
                     <span id="userName"><%=session.userInfo.username%></span>
