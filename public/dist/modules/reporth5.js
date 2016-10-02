@@ -5,7 +5,7 @@ webpackJsonp([1],{
 
 	__webpack_require__(1);
 	__webpack_require__(34);
-	__webpack_require__(173);
+	__webpack_require__(195);
 	var frameworkBase = __webpack_require__(31);
 	var FastClick = __webpack_require__(37);
 
@@ -71,7 +71,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 173:
+/***/ 195:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin

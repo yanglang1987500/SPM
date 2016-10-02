@@ -11,19 +11,34 @@ module.exports = {
      * 角色列表查询
      * @param callback 回调
      */
-    roleListSearch:function(callback){
-        var selectSql = 'select * from  '+table;
+    roleListSearch:function(params,callback){
+
+        var condition = [] , _params, _callback;
+        if(Object.prototype.toString.call(params) == '[object Function]'){
+            _callback = params;
+            _params = null;
+        }else{
+            _callback = callback;
+            _params = params;
+        }
+        condition.push(' 1=1 ');
+        if(_params)
+            with(_params){
+                key && condition.push(' role_name like \'%'+key+'%\'  ');
+            }
+        condition = condition.join(' and ');
+        var selectSql = 'select * ',fromSql = 'from '+table+'  where '+condition+' ';
+
         mySqlPool.getConnection(function(connection){
-            connection.query(selectSql,function(err,result){
+            connection.query(selectSql+fromSql,function(err,result){
                 if(err){
-                    callback && callback(err);
+                    _callback && _callback(err);
                     return;
                 }
-                callback && callback(false,result);
+                _callback && _callback(false,result);
                 connection.release();
             });
         });
-
     },
     /**
      * 根据角色id查询角色
@@ -43,6 +58,79 @@ module.exports = {
             });
         });
 
+    },
+    /**
+     * 根据用户id查询其所有角色
+     * @param user_id 用户id
+     * @param callback 回调
+     */
+    userRoleListSearchByUserId:function(user_id,callback){
+        var selectSql = "select t1.* from "+table+" t1,sys_user_role t2 where t1.role_id=t2.role_id and t2.user_id = '"+user_id+"'";
+        mySqlPool.getConnection(function(connection){
+            connection.query(selectSql,function(err,result){
+                if(err){
+                    callback && callback(err);
+                    return;
+                }
+                callback && callback(false,result);
+                connection.release();
+            });
+        });
+
+    },
+    /**
+     * 根据组织机构id查询其所有角色
+     * @param org_id 组织机构id
+     * @param callback 回调
+     */
+    orgRoleListSearchByOrgId:function(org_id,callback){
+        var selectSql = "select t1.* from "+table+" t1,sys_org_role t2 where t1.role_id=t2.role_id and t2.org_id = '"+org_id+"'";
+        mySqlPool.getConnection(function(connection){
+            connection.query(selectSql,function(err,result){
+                if(err){
+                    callback && callback(err);
+                    return;
+                }
+                callback && callback(false,result);
+                connection.release();
+            });
+        });
+
+    },
+    /**
+     * 根据用户id保存角色
+     * @param user_id 用户id
+     * @param role_ids 角色id列表
+     * @param callback 回调
+     */
+    userRoleListSaveByUserId:function(user_id,role_ids,callback){
+        mySqlPool.getConnection(function(connection){
+            connection.query("DELETE FROM sys_user_role WHERE user_id = '"+user_id+"'", function (err, result) {
+                if(err){
+                    console.log(err);
+                    callback && callback(err);
+                    return;
+                }
+                if(role_ids.length == 0){
+                    callback && callback(false,result);
+                    return;
+                }
+                var insertSql = 'INSERT INTO sys_user_role(user_id,role_id) VALUES ?';
+                var arr = [];
+                for(var i = 0;i<role_ids.length;i++){
+                    arr.push([user_id,role_ids[i]]);
+                }
+                connection.query(insertSql,[arr],function(err,result){
+                    if(err){
+                        console.log(err);
+                        callback && callback(err);
+                        return;
+                    }
+                    callback && callback(false,result);
+                    connection.release();
+                });
+            });
+        });
     },
     /**
      * 添加角色

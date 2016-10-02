@@ -100,7 +100,7 @@ AttenceAnalyseModule3.prototype.refreshChart = function (option) {
                     data: chidaoData,
                     itemStyle:{
                         normal:{
-                            color:'#009587'
+                            color:'#FE5621'
                         }
                     }
                 },
@@ -111,7 +111,7 @@ AttenceAnalyseModule3.prototype.refreshChart = function (option) {
                     data: normal1Data,
                     itemStyle:{
                         normal:{
-                            color:'#FE5621'
+                            color:'#009587'
                         }
                     }
                 },

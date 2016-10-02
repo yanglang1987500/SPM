@@ -7,7 +7,6 @@ var frameworkBase = require('../framework/framework-base');
 require('../libs/easyui-lang-zh_CN.js');
 require('../../stylesheets/modules/menu-manage.scss');
 require('../../stylesheets/easyui.css');
-var juicer = require('juicer');
 var MenuManage = function () {};
 
 //继承自框架基类
@@ -57,7 +56,6 @@ MenuManage.prototype.loadBaseView = function () {
         },
         onDblClickRow: function (rowIndex, rowData) {
             Events.require('menu-add-modify').addCallback(function(flag){
-                debugger;
                 if(flag)
                     Events.notify('onRefresh:menu-manage');
             }).init({showType:'Pop',action:'002',menu_id:rowData.menu_id});
@@ -97,8 +95,9 @@ MenuManage.prototype.bindEvents = function () {
     var that = this;
     //添加信息
     $('#add_menu_btn',this.dom).click(function(){
-        Events.require('menu-add-modify').addCallback(function(){
-            that.init();
+        Events.require('menu-add-modify').addCallback(function(flag){
+            if(flag)
+                Events.notify('onRefresh:menu-manage');
         }).init({showType:'Pop'});
     });
     //修改信息
@@ -107,7 +106,6 @@ MenuManage.prototype.bindEvents = function () {
         if(!(rowData = getSelectRow()))
             return;
         Events.require('menu-add-modify').addCallback(function(flag){
-            debugger;
             if(flag)
                 Events.notify('onRefresh:menu-manage');
         }).init({showType:'Pop',action:'002',menu_id:rowData.menu_id});
@@ -127,10 +125,6 @@ MenuManage.prototype.bindEvents = function () {
         });
     });
     
-    $('#menu_parent_id',this.dom).click(function(){
-        
-    });
-
     function getSelectRow(){
         var rowData = that.$table.datagrid('getSelected');
         if(!rowData){
