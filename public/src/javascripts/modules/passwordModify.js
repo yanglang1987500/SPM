@@ -1,7 +1,6 @@
 
 var frameworkBase = require('../framework/framework-base');
 require('../../stylesheets/modules/passwordmodify.scss');
-require('../libs/jquery.easyui.min.js');
 require('../../stylesheets/easyui.css');
 var PasswordModify = function(){ };
 
@@ -18,7 +17,7 @@ PasswordModify.prototype.id = 'passwordModify';
 PasswordModify.prototype.init = function(options){
     var that = this;
     this.options = $.extend({},options);
-    that.setTitle('修改密码').setHeight(285).setWidth(400);
+    that.setTitle('修改密码').setHeight(240).setWidth(400);
     frameworkBase.init.call(this,options);
     this.loadBaseView();
     this.bindEvents();
@@ -47,7 +46,7 @@ PasswordModify.prototype.bindEvents = function(){
             swal("提示", "确认密码与新密码不一致!", "warning");
             return;
         }
-        that.query('/user/passwordmodify',{
+        that.save('/user/passwordmodify',{
             oldPassword:oldPassword,
             newPassword:newPassword
         },function(data){

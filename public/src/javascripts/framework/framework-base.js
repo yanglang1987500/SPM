@@ -769,13 +769,13 @@ var resize = function(){
     }catch(e){}
 };
 
-$(window).resize(frameWork.debounce(resize,100));
+$(window).resize(frameWork.debounce(resize,70));
 /**======================订阅resize事件，通过debounce进行函数节流处理end================**/
 
 
 
 /**======================websocket 封装 start================**/
-_websocket = new WebSocket('ws:'+location.host.split(':')[0]+':8088');
+_websocket = new WebSocket('ws://'+location.host.split(':')[0]+':8088');
 _websocket.onopen = function(){
 };
 _websocket.onclose  = function(){
@@ -798,7 +798,6 @@ function transfer(e){
         _websocket.client_id = RegExp.$1;
     }else{
         var data = JSON.parse(e.data);
-        debugger;
         Events.notify(data.callbackId,data.data);
     }
 

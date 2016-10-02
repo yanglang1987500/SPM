@@ -57,7 +57,7 @@ HomePage.prototype.finish = function () {
         this.widgets.forEach(function(widget){
             widget.destoryWidgets();
         });
-        frameworkBase.finish.call(this);
+        frameworkBase.finish.apply(this,arguments);
     }catch(e){
         console.log(e);
     }

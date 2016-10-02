@@ -1,4 +1,4 @@
-.passwordmodify{
+.menu-add-modify{
     box-sizing: border-box;
     *{
         font-family: "MicroSoft Yahei";
@@ -75,4 +75,17 @@
     .btn-wrap{
         text-align:right;
     }
+
+}
+#menu_tree_panel{
+    overflow:auto;
+    display: none;
+    position:fixed;
+    width:300px;
+    height:200px;
+    left:-9999px;
+    top:-9999px;
+    z-index:999999;
+    background: #fff;
+    box-shadow: 0 0 5px rgba(0,0,0,.5);
 }

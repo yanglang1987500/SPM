@@ -4,7 +4,6 @@
  */
 
 var frameworkBase = require('../framework/framework-base');
-require('../libs/jquery.easyui.min.js');
 require('../libs/easyui-lang-zh_CN.js');
 require('../../stylesheets/modules/attence-search.scss');
 require('../../stylesheets/easyui.css');
@@ -99,7 +98,7 @@ AttenceSearch.prototype.loadBaseView = function () {
  */
 AttenceSearch.prototype.finish = function () {
     Events.unsubscribe('onRefresh:attence-search');
-    frameworkBase.finish.call(this);
+    frameworkBase.finish.apply(this,arguments);
 };
 
 var attenceSearch = new AttenceSearch();

@@ -10,69 +10,98 @@
     <link rel='stylesheet' href='/dist/modules/index.css'/>
 </head>
 <body>
-    <div class="container">
-        <div class="topbar">
-            <div class="logobar">学校物业管理平台</div>
-            <p class="welcomeinfo">您好，<%=session.userInfo.username%>，欢迎回来</p>
-            <div class="toolbar clearfix">
-                <a href="#/modules/homepage"><div class="btn"><i class=" fa fa-home"></i><span>首页</span></div></a>
-                <a><div class="btn" id="returnBtn"><i class=" fa fa-arrow-circle-left"></i><span>后退</span></div></a>
-                <a><div class="btn" id="nextBtn"><i class=" fa fa-arrow-circle-right"></i><span>前进</span></div></a>
-                <div  class="btn" id="colorBtn"><i class="fa fa-black-tie "></i><span>主题</span>
-                    <ul id="colorMenu">
-                        <li data-value="bg-img-num1" class="bg-img-num1"></li>
-                        <li data-value="bg-img-num2" class="bg-img-num2"></li>
-                        <li data-value="bg-img-num3" class="bg-img-num3"></li>
-                        <li data-value="bg-img-num4" class="bg-img-num4"></li>
-                        <li data-value="bg-img-num5" class="bg-img-num5"></li>
-                        <li data-value="wall-num1" class="wall-num1"></li>
-                        <li data-value="wall-num2" class="wall-num2"></li>
-                        <li data-value="wall-num3" class="wall-num3"></li>
-                        <li data-value="wall-num4" class="wall-num4"></li>
-                        <li data-value="wall-num5" class="wall-num5"></li>
-                    </ul>
-                </div>
-
-                <div class="btn" id="configBtn"><i class=" fa-cog fa"></i><span>配置</span>
-                    <ul id="configMenu">
-                        <%
-                            for(var i = 0;i<menuList.length;i++){
-                                if(menuList[i].menu_type == '2'){
-                                %>
-                                <a href="#<%=menuList[i].menu_url%>"><li><i class="fa <%=menuList[i].menu_icon%>"></i><%=menuList[i].menu_title%></li></a>
-                                <%
-                                }
-                            }
-                        %>
-
-                    </ul>
-                </div>
-                <a href="#"><div class="btn" id="userInfo">
-                    <i class="fa fa-user"></i>
-                    <span id="userName"><%=session.userInfo.username%></span>
-                </div></a>
-                <a href="/logout"><div class="btn" id="logoutBtn"><i class="fa fa-power-off"></i><span>注销</span></div></a>
+<div class="container">
+    <div class="topbar">
+        <div class="logobar">学校物业管理平台</div>
+        <p class="welcomeinfo">您好，<%=session.userInfo.username%>，欢迎回来</p>
+        <div class="toolbar clearfix">
+            <a href="#/modules/homepage"><div class="btn"><i class=" fa fa-home"></i><span>首页</span></div></a>
+            <div class="btn" id="returnBtn"><i class=" fa fa-arrow-circle-left"></i><span>后退</span></div>
+            <div class="btn" id="nextBtn"><i class=" fa fa-arrow-circle-right"></i><span>前进</span></div>
+            <div  class="btn" id="colorBtn"><i class="fa fa-black-tie "></i><span>主题</span>
+                <ul id="colorMenu">
+                    <li data-value="bg-img-num1" class="bg-img-num1"></li>
+                    <li data-value="bg-img-num2" class="bg-img-num2"></li>
+                    <li data-value="bg-img-num3" class="bg-img-num3"></li>
+                    <li data-value="bg-img-num4" class="bg-img-num4"></li>
+                    <li data-value="bg-img-num5" class="bg-img-num5"></li>
+                    <li data-value="wall-num1" class="wall-num1"></li>
+                    <li data-value="wall-num2" class="wall-num2"></li>
+                    <li data-value="wall-num3" class="wall-num3"></li>
+                    <li data-value="wall-num4" class="wall-num4"></li>
+                    <li data-value="wall-num5" class="wall-num5"></li>
+                </ul>
             </div>
-        </div>
 
-        <div class="menubar">
-            <ul id="menu">
-                <%
+            <div class="btn" id="configBtn"><i class=" fa-cog fa"></i><span>配置</span>
+                <ul id="configMenu">
+                    <%
                     for(var i = 0;i<menuList.length;i++){
-                        if(menuList[i].menu_type != '1')
-                            continue;
-                        %>
-                        <a href="#<%=menuList[i].menu_url%>"><li><i class="fa <%=menuList[i].menu_icon%> menu-icon"></i><%=menuList[i].menu_title%><i class="fa fa-angle-right pull-right menu-arrow"></i></li></a>
-                        <%
+                    if(menuList[i].menu_type == '2'){
+                    if(menuList[i].show_type == '2'){
+                    %>
+                    <a href="javascript:void(0)" data-module="#<%=menuList[i].menu_url%>" data-showtype="<%=menuList[i].show_type%>"><li><i class="fa <%=menuList[i].menu_icon%>"></i><%=menuList[i].menu_title%></li></a>
+                    <%
+                    }else{
+                    %>
+                    <a href="#<%=menuList[i].menu_url%>"><li><i class="fa <%=menuList[i].menu_icon%>"></i><%=menuList[i].menu_title%></li></a>
+                    <%
                     }
-                %>
+                    }
+                    }
+                    %>
 
-            </ul>
+                </ul>
+            </div>
+            <div class="btn" id="userInfo">
+                <i class="fa fa-user"></i>
+                <span id="userName"><%=session.userInfo.username%></span>
+            </div>
+            <a href="/logout"><div class="btn" id="logoutBtn"><i class="fa fa-power-off"></i><span>注销</span></div></a>
         </div>
-        <div id="framework-content-main-wrapper"><div id="framework-content-main"></div></div>
     </div>
-    <div id="framework_dialog"></div>
-    <script src="/dist/modules/common.js"></script>
-    <script src="/dist/modules/index.js"></script>
+
+    <div class="menubar">
+        <ul id="menu">
+            <%
+            for(var i = 0;i<menuList.length;i++){
+            if(menuList[i].menu_type != '1' || menuList[i].menu_parent_id != '0')
+            continue;
+
+            if(menuList[i].menu_url){
+            %>
+            <a href="#<%=menuList[i].menu_url%>"><li class="menu_item"><i class="fa <%=menuList[i].menu_icon%> menu-icon"></i><%=menuList[i].menu_title%><i class="fa fa-angle-right pull-right menu-arrow"></i></li></a>
+            <%
+            }else{
+            %>
+            <li class="menu_item">
+                <i class="fa <%=menuList[i].menu_icon%> menu-icon"></i>
+                <%=menuList[i].menu_title%>
+                <i class="fa fa-angle-right pull-right menu-arrow"></i>
+                <ul class="menu_sub">
+                    <%
+                    for(var j = 0;j<menuList.length;j++){
+                    if(menuList[j].menu_parent_id == menuList[i].menu_id){
+                    %>
+                    <a href="#<%=menuList[j].menu_url%>"><li class="menu_sub_item"><i class="fa <%=menuList[j].menu_icon%> menu_icon menu_sub_icon"></i><%=menuList[j].menu_title%></li></a>
+                    <%
+                    }
+                    }
+                    %>
+                </ul>
+            </li>
+            <%
+            }
+
+            }
+            %>
+
+        </ul>
+    </div>
+    <div id="framework-content-main-wrapper"><div id="framework-content-main"></div></div>
+</div>
+<div id="framework_dialog"></div>
+<script src="/dist/modules/common.js"></script>
+<script src="/dist/modules/index.js"></script>
 </body>
 </html>

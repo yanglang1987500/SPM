@@ -4,7 +4,6 @@
  */
 
 var frameworkBase = require('../framework/framework-base');
-require('../libs/jquery.easyui.min.js');
 require('../libs/easyui-lang-zh_CN.js');
 require('../../stylesheets/modules/report-list.scss');
 require('../../stylesheets/easyui.css');
@@ -251,7 +250,7 @@ ReportList.prototype.destoryWidgets = function(){
  */
 ReportList.prototype.finish = function () {
     Events.unsubscribe('onRefresh:report-list');
-    frameworkBase.finish.call(this);
+    frameworkBase.finish.apply(this,arguments);
 };
 
 var messagePublishList = new ReportList();

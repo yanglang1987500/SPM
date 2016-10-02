@@ -4,7 +4,6 @@
  */
 
 var frameworkBase = require('../framework/framework-base');
-require('../libs/jquery.easyui.min.js');
 require('../libs/easyui-lang-zh_CN.js');
 require('../../stylesheets/modules/message-publish-list.scss');
 require('../../stylesheets/easyui.css');
@@ -259,7 +258,7 @@ MessagePublishList.prototype.destoryWidgets = function(){
  */
 MessagePublishList.prototype.finish = function () {
     Events.unsubscribe('onRefresh:message-publish-list');
-    frameworkBase.finish.call(this);
+    frameworkBase.finish.apply(this,arguments);
 };
 
 var messagePublishList = new MessagePublishList();
