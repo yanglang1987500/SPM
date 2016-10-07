@@ -13890,6 +13890,24 @@ webpackJsonp([0],[
 	        buttons: buttons
 	    });
 
+	    /**
+	     * 给时间框控件扩展一个清除的按钮
+	     */
+	    $.fn.datebox.defaults.cleanText = '清空';
+	    var buttons = $.extend([], $.fn.datebox.defaults.buttons);
+	    buttons.splice(1, 0, {
+	        text: function (target) {
+	            return $(target).datebox("options").cleanText
+	        },
+	        handler: function (target) {
+	            $(target).datebox("setValue", "");
+	            $(target).datebox("hidePanel");
+	        }
+	    });
+	    $.extend($.fn.datebox.defaults, {
+	        buttons: buttons
+	    });
+
 	})(jQuery);
 
 
@@ -14374,9 +14392,8 @@ webpackJsonp([0],[
 /* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*eslint-disable no-unused-vars*/
-	/*!
-	 * jQuery JavaScript Library v3.1.0
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	 * jQuery JavaScript Library v3.1.1
 	 * https://jquery.com/
 	 *
 	 * Includes Sizzle.js
@@ -14386,7 +14403,7 @@ webpackJsonp([0],[
 	 * Released under the MIT license
 	 * https://jquery.org/license
 	 *
-	 * Date: 2016-07-07T21:44Z
+	 * Date: 2016-09-22T22:30Z
 	 */
 	( function( global, factory ) {
 
@@ -14459,13 +14476,13 @@ webpackJsonp([0],[
 			doc.head.appendChild( script ).parentNode.removeChild( script );
 		}
 	/* global Symbol */
-	// Defining this global in .eslintrc would create a danger of using the global
+	// Defining this global in .eslintrc.json would create a danger of using the global
 	// unguarded in another place, it seems safer to define global only for this module
 
 
 
 	var
-		version = "3.1.0",
+		version = "3.1.1",
 
 		// Define a local copy of jQuery
 		jQuery = function( selector, context ) {
@@ -14505,13 +14522,14 @@ webpackJsonp([0],[
 		// Get the Nth element in the matched element set OR
 		// Get the whole matched element set as a clean array
 		get: function( num ) {
-			return num != null ?
 
-				// Return just the one element from the set
-				( num < 0 ? this[ num + this.length ] : this[ num ] ) :
+			// Return all the elements in a clean array
+			if ( num == null ) {
+				return slice.call( this );
+			}
 
-				// Return all the elements in a clean array
-				slice.call( this );
+			// Return just the one element from the set
+			return num < 0 ? this[ num + this.length ] : this[ num ];
 		},
 
 		// Take an array of elements and push it onto the stack
@@ -14919,14 +14937,14 @@ webpackJsonp([0],[
 	}
 	var Sizzle =
 	/*!
-	 * Sizzle CSS Selector Engine v2.3.0
+	 * Sizzle CSS Selector Engine v2.3.3
 	 * https://sizzlejs.com/
 	 *
 	 * Copyright jQuery Foundation and other contributors
 	 * Released under the MIT license
 	 * http://jquery.org/license
 	 *
-	 * Date: 2016-01-04
+	 * Date: 2016-08-08
 	 */
 	(function( window ) {
 
@@ -15072,7 +15090,7 @@ webpackJsonp([0],[
 
 		// CSS string/identifier serialization
 		// https://drafts.csswg.org/cssom/#common-serializing-idioms
-		rcssescape = /([\0-\x1f\x7f]|^-?\d)|^-$|[^\x80-\uFFFF\w-]/g,
+		rcssescape = /([\0-\x1f\x7f]|^-?\d)|^-$|[^\0-\x1f\x7f-\uFFFF\w-]/g,
 		fcssescape = function( ch, asCodePoint ) {
 			if ( asCodePoint ) {
 
@@ -15099,7 +15117,7 @@ webpackJsonp([0],[
 
 		disabledAncestor = addCombinator(
 			function( elem ) {
-				return elem.disabled === true;
+				return elem.disabled === true && ("form" in elem || "label" in elem);
 			},
 			{ dir: "parentNode", next: "legend" }
 		);
@@ -15385,26 +15403,54 @@ webpackJsonp([0],[
 	 * @param {Boolean} disabled true for :disabled; false for :enabled
 	 */
 	function createDisabledPseudo( disabled ) {
-		// Known :disabled false positives:
-		// IE: *[disabled]:not(button, input, select, textarea, optgroup, option, menuitem, fieldset)
-		// not IE: fieldset[disabled] > legend:nth-of-type(n+2) :can-disable
+
+		// Known :disabled false positives: fieldset[disabled] > legend:nth-of-type(n+2) :can-disable
 		return function( elem ) {
 
-			// Check form elements and option elements for explicit disabling
-			return "label" in elem && elem.disabled === disabled ||
-				"form" in elem && elem.disabled === disabled ||
+			// Only certain elements can match :enabled or :disabled
+			// https://html.spec.whatwg.org/multipage/scripting.html#selector-enabled
+			// https://html.spec.whatwg.org/multipage/scripting.html#selector-disabled
+			if ( "form" in elem ) {
 
-				// Check non-disabled form elements for fieldset[disabled] ancestors
-				"form" in elem && elem.disabled === false && (
-					// Support: IE6-11+
-					// Ancestry is covered for us
-					elem.isDisabled === disabled ||
+				// Check for inherited disabledness on relevant non-disabled elements:
+				// * listed form-associated elements in a disabled fieldset
+				//   https://html.spec.whatwg.org/multipage/forms.html#category-listed
+				//   https://html.spec.whatwg.org/multipage/forms.html#concept-fe-disabled
+				// * option elements in a disabled optgroup
+				//   https://html.spec.whatwg.org/multipage/forms.html#concept-option-disabled
+				// All such elements have a "form" property.
+				if ( elem.parentNode && elem.disabled === false ) {
 
-					// Otherwise, assume any non-<option> under fieldset[disabled] is disabled
-					/* jshint -W018 */
-					elem.isDisabled !== !disabled &&
-						("label" in elem || !disabledAncestor( elem )) !== disabled
-				);
+					// Option elements defer to a parent optgroup if present
+					if ( "label" in elem ) {
+						if ( "label" in elem.parentNode ) {
+							return elem.parentNode.disabled === disabled;
+						} else {
+							return elem.disabled === disabled;
+						}
+					}
+
+					// Support: IE 6 - 11
+					// Use the isDisabled shortcut property to check for disabled fieldset ancestors
+					return elem.isDisabled === disabled ||
+
+						// Where there is no isDisabled, check manually
+						/* jshint -W018 */
+						elem.isDisabled !== !disabled &&
+							disabledAncestor( elem ) === disabled;
+				}
+
+				return elem.disabled === disabled;
+
+			// Try to winnow out elements that can't be disabled before trusting the disabled property.
+			// Some victims get caught in our net (label, legend, menu, track), but it shouldn't
+			// even exist on them, let alone have a boolean value.
+			} else if ( "label" in elem ) {
+				return elem.disabled === disabled;
+			}
+
+			// Remaining elements are neither :enabled nor :disabled
+			return false;
 		};
 	}
 
@@ -15520,25 +15566,21 @@ webpackJsonp([0],[
 			return !document.getElementsByName || !document.getElementsByName( expando ).length;
 		});
 
-		// ID find and filter
+		// ID filter and find
 		if ( support.getById ) {
-			Expr.find["ID"] = function( id, context ) {
-				if ( typeof context.getElementById !== "undefined" && documentIsHTML ) {
-					var m = context.getElementById( id );
-					return m ? [ m ] : [];
-				}
-			};
 			Expr.filter["ID"] = function( id ) {
 				var attrId = id.replace( runescape, funescape );
 				return function( elem ) {
 					return elem.getAttribute("id") === attrId;
 				};
 			};
+			Expr.find["ID"] = function( id, context ) {
+				if ( typeof context.getElementById !== "undefined" && documentIsHTML ) {
+					var elem = context.getElementById( id );
+					return elem ? [ elem ] : [];
+				}
+			};
 		} else {
-			// Support: IE6/7
-			// getElementById is not reliable as a find shortcut
-			delete Expr.find["ID"];
-
 			Expr.filter["ID"] =  function( id ) {
 				var attrId = id.replace( runescape, funescape );
 				return function( elem ) {
@@ -15546,6 +15588,36 @@ webpackJsonp([0],[
 						elem.getAttributeNode("id");
 					return node && node.value === attrId;
 				};
+			};
+
+			// Support: IE 6 - 7 only
+			// getElementById is not reliable as a find shortcut
+			Expr.find["ID"] = function( id, context ) {
+				if ( typeof context.getElementById !== "undefined" && documentIsHTML ) {
+					var node, i, elems,
+						elem = context.getElementById( id );
+
+					if ( elem ) {
+
+						// Verify the id attribute
+						node = elem.getAttributeNode("id");
+						if ( node && node.value === id ) {
+							return [ elem ];
+						}
+
+						// Fall back on getElementsByName
+						elems = context.getElementsByName( id );
+						i = 0;
+						while ( (elem = elems[i++]) ) {
+							node = elem.getAttributeNode("id");
+							if ( node && node.value === id ) {
+								return [ elem ];
+							}
+						}
+					}
+
+					return [];
+				}
 			};
 		}
 
@@ -16587,6 +16659,7 @@ webpackJsonp([0],[
 						return matcher( elem, context, xml );
 					}
 				}
+				return false;
 			} :
 
 			// Check against all ancestor/preceding elements
@@ -16631,6 +16704,7 @@ webpackJsonp([0],[
 						}
 					}
 				}
+				return false;
 			};
 	}
 
@@ -16993,8 +17067,7 @@ webpackJsonp([0],[
 			// Reduce context if the leading compound selector is an ID
 			tokens = match[0] = match[0].slice( 0 );
 			if ( tokens.length > 2 && (token = tokens[0]).type === "ID" &&
-					support.getById && context.nodeType === 9 && documentIsHTML &&
-					Expr.relative[ tokens[1].type ] ) {
+					context.nodeType === 9 && documentIsHTML && Expr.relative[ tokens[1].type ] ) {
 
 				context = ( Expr.find["ID"]( token.matches[0].replace(runescape, funescape), context ) || [] )[0];
 				if ( !context ) {
@@ -17176,24 +17249,29 @@ webpackJsonp([0],[
 			return jQuery.grep( elements, function( elem, i ) {
 				return !!qualifier.call( elem, i, elem ) !== not;
 			} );
-
 		}
 
+		// Single element
 		if ( qualifier.nodeType ) {
 			return jQuery.grep( elements, function( elem ) {
 				return ( elem === qualifier ) !== not;
 			} );
-
 		}
 
-		if ( typeof qualifier === "string" ) {
-			if ( risSimple.test( qualifier ) ) {
-				return jQuery.filter( qualifier, elements, not );
-			}
-
-			qualifier = jQuery.filter( qualifier, elements );
+		// Arraylike of elements (jQuery, arguments, Array)
+		if ( typeof qualifier !== "string" ) {
+			return jQuery.grep( elements, function( elem ) {
+				return ( indexOf.call( qualifier, elem ) > -1 ) !== not;
+			} );
 		}
 
+		// Simple selector that can be filtered directly, removing non-Elements
+		if ( risSimple.test( qualifier ) ) {
+			return jQuery.filter( qualifier, elements, not );
+		}
+
+		// Complex selector, compare the two sets, removing non-Elements
+		qualifier = jQuery.filter( qualifier, elements );
 		return jQuery.grep( elements, function( elem ) {
 			return ( indexOf.call( qualifier, elem ) > -1 ) !== not && elem.nodeType === 1;
 		} );
@@ -17206,11 +17284,13 @@ webpackJsonp([0],[
 			expr = ":not(" + expr + ")";
 		}
 
-		return elems.length === 1 && elem.nodeType === 1 ?
-			jQuery.find.matchesSelector( elem, expr ) ? [ elem ] : [] :
-			jQuery.find.matches( expr, jQuery.grep( elems, function( elem ) {
-				return elem.nodeType === 1;
-			} ) );
+		if ( elems.length === 1 && elem.nodeType === 1 ) {
+			return jQuery.find.matchesSelector( elem, expr ) ? [ elem ] : [];
+		}
+
+		return jQuery.find.matches( expr, jQuery.grep( elems, function( elem ) {
+			return elem.nodeType === 1;
+		} ) );
 	};
 
 	jQuery.fn.extend( {
@@ -17538,14 +17618,14 @@ webpackJsonp([0],[
 			return this.pushStack( matched );
 		};
 	} );
-	var rnotwhite = ( /\S+/g );
+	var rnothtmlwhite = ( /[^\x20\t\r\n\f]+/g );
 
 
 
 	// Convert String-formatted options into Object-formatted ones
 	function createOptions( options ) {
 		var object = {};
-		jQuery.each( options.match( rnotwhite ) || [], function( _, flag ) {
+		jQuery.each( options.match( rnothtmlwhite ) || [], function( _, flag ) {
 			object[ flag ] = true;
 		} );
 		return object;
@@ -18310,13 +18390,16 @@ webpackJsonp([0],[
 			}
 		}
 
-		return chainable ?
-			elems :
+		if ( chainable ) {
+			return elems;
+		}
 
-			// Gets
-			bulk ?
-				fn.call( elems ) :
-				len ? fn( elems[ 0 ], key ) : emptyGet;
+		// Gets
+		if ( bulk ) {
+			return fn.call( elems );
+		}
+
+		return len ? fn( elems[ 0 ], key ) : emptyGet;
 	};
 	var acceptData = function( owner ) {
 
@@ -18453,7 +18536,7 @@ webpackJsonp([0],[
 					// Otherwise, create an array by matching non-whitespace
 					key = key in cache ?
 						[ key ] :
-						( key.match( rnotwhite ) || [] );
+						( key.match( rnothtmlwhite ) || [] );
 				}
 
 				i = key.length;
@@ -18501,6 +18584,31 @@ webpackJsonp([0],[
 	var rbrace = /^(?:\{[\w\W]*\}|\[[\w\W]*\])$/,
 		rmultiDash = /[A-Z]/g;
 
+	function getData( data ) {
+		if ( data === "true" ) {
+			return true;
+		}
+
+		if ( data === "false" ) {
+			return false;
+		}
+
+		if ( data === "null" ) {
+			return null;
+		}
+
+		// Only convert to a number if it doesn't change the string
+		if ( data === +data + "" ) {
+			return +data;
+		}
+
+		if ( rbrace.test( data ) ) {
+			return JSON.parse( data );
+		}
+
+		return data;
+	}
+
 	function dataAttr( elem, key, data ) {
 		var name;
 
@@ -18512,14 +18620,7 @@ webpackJsonp([0],[
 
 			if ( typeof data === "string" ) {
 				try {
-					data = data === "true" ? true :
-						data === "false" ? false :
-						data === "null" ? null :
-
-						// Only convert to a number if it doesn't change the string
-						+data + "" === data ? +data :
-						rbrace.test( data ) ? JSON.parse( data ) :
-						data;
+					data = getData( data );
 				} catch ( e ) {}
 
 				// Make sure we set the data so it isn't changed later
@@ -18896,7 +18997,7 @@ webpackJsonp([0],[
 			return display;
 		}
 
-		temp = doc.body.appendChild( doc.createElement( nodeName ) ),
+		temp = doc.body.appendChild( doc.createElement( nodeName ) );
 		display = jQuery.css( temp, "display" );
 
 		temp.parentNode.removeChild( temp );
@@ -19014,15 +19115,23 @@ webpackJsonp([0],[
 
 		// Support: IE <=9 - 11 only
 		// Use typeof to avoid zero-argument method invocation on host objects (#15151)
-		var ret = typeof context.getElementsByTagName !== "undefined" ?
-				context.getElementsByTagName( tag || "*" ) :
-				typeof context.querySelectorAll !== "undefined" ?
-					context.querySelectorAll( tag || "*" ) :
-				[];
+		var ret;
 
-		return tag === undefined || tag && jQuery.nodeName( context, tag ) ?
-			jQuery.merge( [ context ], ret ) :
-			ret;
+		if ( typeof context.getElementsByTagName !== "undefined" ) {
+			ret = context.getElementsByTagName( tag || "*" );
+
+		} else if ( typeof context.querySelectorAll !== "undefined" ) {
+			ret = context.querySelectorAll( tag || "*" );
+
+		} else {
+			ret = [];
+		}
+
+		if ( tag === undefined || tag && jQuery.nodeName( context, tag ) ) {
+			return jQuery.merge( [ context ], ret );
+		}
+
+		return ret;
 	}
 
 
@@ -19296,7 +19405,7 @@ webpackJsonp([0],[
 			}
 
 			// Handle multiple events separated by a space
-			types = ( types || "" ).match( rnotwhite ) || [ "" ];
+			types = ( types || "" ).match( rnothtmlwhite ) || [ "" ];
 			t = types.length;
 			while ( t-- ) {
 				tmp = rtypenamespace.exec( types[ t ] ) || [];
@@ -19378,7 +19487,7 @@ webpackJsonp([0],[
 			}
 
 			// Once for each type.namespace in types; type may be omitted
-			types = ( types || "" ).match( rnotwhite ) || [ "" ];
+			types = ( types || "" ).match( rnothtmlwhite ) || [ "" ];
 			t = types.length;
 			while ( t-- ) {
 				tmp = rtypenamespace.exec( types[ t ] ) || [];
@@ -19504,51 +19613,58 @@ webpackJsonp([0],[
 		},
 
 		handlers: function( event, handlers ) {
-			var i, matches, sel, handleObj,
+			var i, handleObj, sel, matchedHandlers, matchedSelectors,
 				handlerQueue = [],
 				delegateCount = handlers.delegateCount,
 				cur = event.target;
 
-			// Support: IE <=9
 			// Find delegate handlers
-			// Black-hole SVG <use> instance trees (#13180)
-			//
-			// Support: Firefox <=42
-			// Avoid non-left-click in FF but don't block IE radio events (#3861, gh-2343)
-			if ( delegateCount && cur.nodeType &&
-				( event.type !== "click" || isNaN( event.button ) || event.button < 1 ) ) {
+			if ( delegateCount &&
+
+				// Support: IE <=9
+				// Black-hole SVG <use> instance trees (trac-13180)
+				cur.nodeType &&
+
+				// Support: Firefox <=42
+				// Suppress spec-violating clicks indicating a non-primary pointer button (trac-3861)
+				// https://www.w3.org/TR/DOM-Level-3-Events/#event-type-click
+				// Support: IE 11 only
+				// ...but not arrow key "clicks" of radio inputs, which can have `button` -1 (gh-2343)
+				!( event.type === "click" && event.button >= 1 ) ) {
 
 				for ( ; cur !== this; cur = cur.parentNode || this ) {
 
 					// Don't check non-elements (#13208)
 					// Don't process clicks on disabled elements (#6911, #8165, #11382, #11764)
-					if ( cur.nodeType === 1 && ( cur.disabled !== true || event.type !== "click" ) ) {
-						matches = [];
+					if ( cur.nodeType === 1 && !( event.type === "click" && cur.disabled === true ) ) {
+						matchedHandlers = [];
+						matchedSelectors = {};
 						for ( i = 0; i < delegateCount; i++ ) {
 							handleObj = handlers[ i ];
 
 							// Don't conflict with Object.prototype properties (#13203)
 							sel = handleObj.selector + " ";
 
-							if ( matches[ sel ] === undefined ) {
-								matches[ sel ] = handleObj.needsContext ?
+							if ( matchedSelectors[ sel ] === undefined ) {
+								matchedSelectors[ sel ] = handleObj.needsContext ?
 									jQuery( sel, this ).index( cur ) > -1 :
 									jQuery.find( sel, this, null, [ cur ] ).length;
 							}
-							if ( matches[ sel ] ) {
-								matches.push( handleObj );
+							if ( matchedSelectors[ sel ] ) {
+								matchedHandlers.push( handleObj );
 							}
 						}
-						if ( matches.length ) {
-							handlerQueue.push( { elem: cur, handlers: matches } );
+						if ( matchedHandlers.length ) {
+							handlerQueue.push( { elem: cur, handlers: matchedHandlers } );
 						}
 					}
 				}
 			}
 
 			// Add the remaining (directly-bound) handlers
+			cur = this;
 			if ( delegateCount < handlers.length ) {
-				handlerQueue.push( { elem: this, handlers: handlers.slice( delegateCount ) } );
+				handlerQueue.push( { elem: cur, handlers: handlers.slice( delegateCount ) } );
 			}
 
 			return handlerQueue;
@@ -19782,7 +19898,19 @@ webpackJsonp([0],[
 
 			// Add which for click: 1 === left; 2 === middle; 3 === right
 			if ( !event.which && button !== undefined && rmouseEvent.test( event.type ) ) {
-				return ( button & 1 ? 1 : ( button & 2 ? 3 : ( button & 4 ? 2 : 0 ) ) );
+				if ( button & 1 ) {
+					return 1;
+				}
+
+				if ( button & 2 ) {
+					return 3;
+				}
+
+				if ( button & 4 ) {
+					return 2;
+				}
+
+				return 0;
 			}
 
 			return event.which;
@@ -20538,15 +20666,17 @@ webpackJsonp([0],[
 	}
 
 	function augmentWidthOrHeight( elem, name, extra, isBorderBox, styles ) {
-		var i = extra === ( isBorderBox ? "border" : "content" ) ?
-
-			// If we already have the right measurement, avoid augmentation
-			4 :
-
-			// Otherwise initialize for horizontal or vertical properties
-			name === "width" ? 1 : 0,
-
+		var i,
 			val = 0;
+
+		// If we already have the right measurement, avoid augmentation
+		if ( extra === ( isBorderBox ? "border" : "content" ) ) {
+			i = 4;
+
+		// Otherwise initialize for horizontal or vertical properties
+		} else {
+			i = name === "width" ? 1 : 0;
+		}
 
 		for ( ; i < 4; i += 2 ) {
 
@@ -21400,7 +21530,7 @@ webpackJsonp([0],[
 				callback = props;
 				props = [ "*" ];
 			} else {
-				props = props.match( rnotwhite );
+				props = props.match( rnothtmlwhite );
 			}
 
 			var prop,
@@ -21438,9 +21568,14 @@ webpackJsonp([0],[
 			opt.duration = 0;
 
 		} else {
-			opt.duration = typeof opt.duration === "number" ?
-				opt.duration : opt.duration in jQuery.fx.speeds ?
-					jQuery.fx.speeds[ opt.duration ] : jQuery.fx.speeds._default;
+			if ( typeof opt.duration !== "number" ) {
+				if ( opt.duration in jQuery.fx.speeds ) {
+					opt.duration = jQuery.fx.speeds[ opt.duration ];
+
+				} else {
+					opt.duration = jQuery.fx.speeds._default;
+				}
+			}
 		}
 
 		// Normalize opt.queue - true/undefined/null -> "fx"
@@ -21790,7 +21925,10 @@ webpackJsonp([0],[
 		removeAttr: function( elem, value ) {
 			var name,
 				i = 0,
-				attrNames = value && value.match( rnotwhite );
+
+				// Attribute names can contain non-HTML whitespace characters
+				// https://html.spec.whatwg.org/multipage/syntax.html#attributes-2
+				attrNames = value && value.match( rnothtmlwhite );
 
 			if ( attrNames && elem.nodeType === 1 ) {
 				while ( ( name = attrNames[ i++ ] ) ) {
@@ -21897,12 +22035,19 @@ webpackJsonp([0],[
 					// Use proper attribute retrieval(#12072)
 					var tabindex = jQuery.find.attr( elem, "tabindex" );
 
-					return tabindex ?
-						parseInt( tabindex, 10 ) :
+					if ( tabindex ) {
+						return parseInt( tabindex, 10 );
+					}
+
+					if (
 						rfocusable.test( elem.nodeName ) ||
-							rclickable.test( elem.nodeName ) && elem.href ?
-								0 :
-								-1;
+						rclickable.test( elem.nodeName ) &&
+						elem.href
+					) {
+						return 0;
+					}
+
+					return -1;
 				}
 			}
 		},
@@ -21919,9 +22064,14 @@ webpackJsonp([0],[
 	// on the option
 	// The getter ensures a default option is selected
 	// when in an optgroup
+	// eslint rule "no-unused-expressions" is disabled for this code
+	// since it considers such accessions noop
 	if ( !support.optSelected ) {
 		jQuery.propHooks.selected = {
 			get: function( elem ) {
+
+				/* eslint no-unused-expressions: "off" */
+
 				var parent = elem.parentNode;
 				if ( parent && parent.parentNode ) {
 					parent.parentNode.selectedIndex;
@@ -21929,6 +22079,9 @@ webpackJsonp([0],[
 				return null;
 			},
 			set: function( elem ) {
+
+				/* eslint no-unused-expressions: "off" */
+
 				var parent = elem.parentNode;
 				if ( parent ) {
 					parent.selectedIndex;
@@ -21959,7 +22112,13 @@ webpackJsonp([0],[
 
 
 
-	var rclass = /[\t\r\n\f]/g;
+		// Strip and collapse whitespace according to HTML spec
+		// https://html.spec.whatwg.org/multipage/infrastructure.html#strip-and-collapse-whitespace
+		function stripAndCollapse( value ) {
+			var tokens = value.match( rnothtmlwhite ) || [];
+			return tokens.join( " " );
+		}
+
 
 	function getClass( elem ) {
 		return elem.getAttribute && elem.getAttribute( "class" ) || "";
@@ -21977,12 +22136,11 @@ webpackJsonp([0],[
 			}
 
 			if ( typeof value === "string" && value ) {
-				classes = value.match( rnotwhite ) || [];
+				classes = value.match( rnothtmlwhite ) || [];
 
 				while ( ( elem = this[ i++ ] ) ) {
 					curValue = getClass( elem );
-					cur = elem.nodeType === 1 &&
-						( " " + curValue + " " ).replace( rclass, " " );
+					cur = elem.nodeType === 1 && ( " " + stripAndCollapse( curValue ) + " " );
 
 					if ( cur ) {
 						j = 0;
@@ -21993,7 +22151,7 @@ webpackJsonp([0],[
 						}
 
 						// Only assign if different to avoid unneeded rendering.
-						finalValue = jQuery.trim( cur );
+						finalValue = stripAndCollapse( cur );
 						if ( curValue !== finalValue ) {
 							elem.setAttribute( "class", finalValue );
 						}
@@ -22019,14 +22177,13 @@ webpackJsonp([0],[
 			}
 
 			if ( typeof value === "string" && value ) {
-				classes = value.match( rnotwhite ) || [];
+				classes = value.match( rnothtmlwhite ) || [];
 
 				while ( ( elem = this[ i++ ] ) ) {
 					curValue = getClass( elem );
 
 					// This expression is here for better compressibility (see addClass)
-					cur = elem.nodeType === 1 &&
-						( " " + curValue + " " ).replace( rclass, " " );
+					cur = elem.nodeType === 1 && ( " " + stripAndCollapse( curValue ) + " " );
 
 					if ( cur ) {
 						j = 0;
@@ -22039,7 +22196,7 @@ webpackJsonp([0],[
 						}
 
 						// Only assign if different to avoid unneeded rendering.
-						finalValue = jQuery.trim( cur );
+						finalValue = stripAndCollapse( cur );
 						if ( curValue !== finalValue ) {
 							elem.setAttribute( "class", finalValue );
 						}
@@ -22074,7 +22231,7 @@ webpackJsonp([0],[
 					// Toggle individual class names
 					i = 0;
 					self = jQuery( this );
-					classNames = value.match( rnotwhite ) || [];
+					classNames = value.match( rnothtmlwhite ) || [];
 
 					while ( ( className = classNames[ i++ ] ) ) {
 
@@ -22117,10 +22274,8 @@ webpackJsonp([0],[
 			className = " " + selector + " ";
 			while ( ( elem = this[ i++ ] ) ) {
 				if ( elem.nodeType === 1 &&
-					( " " + getClass( elem ) + " " ).replace( rclass, " " )
-						.indexOf( className ) > -1
-				) {
-					return true;
+					( " " + stripAndCollapse( getClass( elem ) ) + " " ).indexOf( className ) > -1 ) {
+						return true;
 				}
 			}
 
@@ -22131,8 +22286,7 @@ webpackJsonp([0],[
 
 
 
-	var rreturn = /\r/g,
-		rspaces = /[\x20\t\r\n\f]+/g;
+	var rreturn = /\r/g;
 
 	jQuery.fn.extend( {
 		val: function( value ) {
@@ -22153,13 +22307,13 @@ webpackJsonp([0],[
 
 					ret = elem.value;
 
-					return typeof ret === "string" ?
+					// Handle most common string cases
+					if ( typeof ret === "string" ) {
+						return ret.replace( rreturn, "" );
+					}
 
-						// Handle most common string cases
-						ret.replace( rreturn, "" ) :
-
-						// Handle cases where value is null/undef or number
-						ret == null ? "" : ret;
+					// Handle cases where value is null/undef or number
+					return ret == null ? "" : ret;
 				}
 
 				return;
@@ -22216,20 +22370,24 @@ webpackJsonp([0],[
 						// option.text throws exceptions (#14686, #14858)
 						// Strip and collapse whitespace
 						// https://html.spec.whatwg.org/#strip-and-collapse-whitespace
-						jQuery.trim( jQuery.text( elem ) ).replace( rspaces, " " );
+						stripAndCollapse( jQuery.text( elem ) );
 				}
 			},
 			select: {
 				get: function( elem ) {
-					var value, option,
+					var value, option, i,
 						options = elem.options,
 						index = elem.selectedIndex,
 						one = elem.type === "select-one",
 						values = one ? null : [],
-						max = one ? index + 1 : options.length,
-						i = index < 0 ?
-							max :
-							one ? index : 0;
+						max = one ? index + 1 : options.length;
+
+					if ( index < 0 ) {
+						i = max;
+
+					} else {
+						i = one ? index : 0;
+					}
 
 					// Loop through all the selected options
 					for ( ; i < max; i++ ) {
@@ -22683,13 +22841,17 @@ webpackJsonp([0],[
 			.map( function( i, elem ) {
 				var val = jQuery( this ).val();
 
-				return val == null ?
-					null :
-					jQuery.isArray( val ) ?
-						jQuery.map( val, function( val ) {
-							return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
-						} ) :
-						{ name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
+				if ( val == null ) {
+					return null;
+				}
+
+				if ( jQuery.isArray( val ) ) {
+					return jQuery.map( val, function( val ) {
+						return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
+					} );
+				}
+
+				return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
 			} ).get();
 		}
 	} );
@@ -22698,7 +22860,7 @@ webpackJsonp([0],[
 	var
 		r20 = /%20/g,
 		rhash = /#.*$/,
-		rts = /([?&])_=[^&]*/,
+		rantiCache = /([?&])_=[^&]*/,
 		rheaders = /^(.*?):[ \t]*([^\r\n]*)$/mg,
 
 		// #7653, #8125, #8152: local protocol detection
@@ -22744,7 +22906,7 @@ webpackJsonp([0],[
 
 			var dataType,
 				i = 0,
-				dataTypes = dataTypeExpression.toLowerCase().match( rnotwhite ) || [];
+				dataTypes = dataTypeExpression.toLowerCase().match( rnothtmlwhite ) || [];
 
 			if ( jQuery.isFunction( func ) ) {
 
@@ -23212,7 +23374,7 @@ webpackJsonp([0],[
 			s.type = options.method || options.type || s.method || s.type;
 
 			// Extract dataTypes list
-			s.dataTypes = ( s.dataType || "*" ).toLowerCase().match( rnotwhite ) || [ "" ];
+			s.dataTypes = ( s.dataType || "*" ).toLowerCase().match( rnothtmlwhite ) || [ "" ];
 
 			// A cross-domain request is in order when the origin doesn't match the current origin.
 			if ( s.crossDomain == null ) {
@@ -23284,9 +23446,9 @@ webpackJsonp([0],[
 					delete s.data;
 				}
 
-				// Add anti-cache in uncached url if needed
+				// Add or update anti-cache param if needed
 				if ( s.cache === false ) {
-					cacheURL = cacheURL.replace( rts, "" );
+					cacheURL = cacheURL.replace( rantiCache, "$1" );
 					uncached = ( rquery.test( cacheURL ) ? "&" : "?" ) + "_=" + ( nonce++ ) + uncached;
 				}
 
@@ -24025,7 +24187,7 @@ webpackJsonp([0],[
 			off = url.indexOf( " " );
 
 		if ( off > -1 ) {
-			selector = jQuery.trim( url.slice( off ) );
+			selector = stripAndCollapse( url.slice( off ) );
 			url = url.slice( 0, off );
 		}
 
@@ -24417,7 +24579,6 @@ webpackJsonp([0],[
 
 
 
-
 	var
 
 		// Map over jQuery in case of overwrite
@@ -24444,6 +24605,9 @@ webpackJsonp([0],[
 	if ( !noGlobal ) {
 		window.jQuery = window.$ = jQuery;
 	}
+
+
+
 
 
 	return jQuery;
@@ -24636,30 +24800,42 @@ webpackJsonp([0],[
 		"./modules/attence-analyse.js": 108,
 		"./modules/attence-search": 134,
 		"./modules/attence-search.js": 134,
-		"./modules/homepage": 142,
-		"./modules/homepage.js": 142,
-		"./modules/menu-add-modify": 156,
-		"./modules/menu-add-modify.js": 156,
-		"./modules/menu-manage": 160,
-		"./modules/menu-manage.js": 160,
-		"./modules/message-publish": 165,
-		"./modules/message-publish-list": 145,
-		"./modules/message-publish-list.js": 145,
-		"./modules/message-publish.js": 165,
-		"./modules/passwordModify": 169,
-		"./modules/passwordModify.js": 169,
-		"./modules/report-list": 151,
-		"./modules/report-list.js": 151,
-		"./modules/role-add-modify": 173,
-		"./modules/role-add-modify.js": 173,
-		"./modules/role-manage": 177,
-		"./modules/role-manage.js": 177,
-		"./modules/role2user": 182,
-		"./modules/role2user.js": 182,
-		"./modules/user-add-modify": 186,
-		"./modules/user-add-modify.js": 186,
-		"./modules/user-manage": 190,
-		"./modules/user-manage.js": 190
+		"./modules/authority-control": 142,
+		"./modules/authority-control.js": 142,
+		"./modules/homepage": 146,
+		"./modules/homepage.js": 146,
+		"./modules/menu-add-modify": 160,
+		"./modules/menu-add-modify.js": 160,
+		"./modules/menu-manage": 164,
+		"./modules/menu-manage.js": 164,
+		"./modules/message-publish": 169,
+		"./modules/message-publish-list": 149,
+		"./modules/message-publish-list.js": 149,
+		"./modules/message-publish.js": 169,
+		"./modules/org-add-modify": 173,
+		"./modules/org-add-modify.js": 173,
+		"./modules/org-manage": 177,
+		"./modules/org-manage.js": 177,
+		"./modules/passwordModify": 182,
+		"./modules/passwordModify.js": 182,
+		"./modules/report-list": 155,
+		"./modules/report-list.js": 155,
+		"./modules/role-add-modify": 186,
+		"./modules/role-add-modify.js": 186,
+		"./modules/role-manage": 190,
+		"./modules/role-manage.js": 190,
+		"./modules/role2org": 195,
+		"./modules/role2org.js": 195,
+		"./modules/role2user": 199,
+		"./modules/role2user.js": 199,
+		"./modules/user-add-modify": 203,
+		"./modules/user-add-modify.js": 203,
+		"./modules/user-manage": 207,
+		"./modules/user-manage.js": 207,
+		"./modules/user2org": 212,
+		"./modules/user2org.js": 212,
+		"./modules/user2role": 216,
+		"./modules/user2role.js": 216
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -27389,30 +27565,42 @@ webpackJsonp([0],[
 		"./attence-analyse.js": 108,
 		"./attence-search": 134,
 		"./attence-search.js": 134,
-		"./homepage": 142,
-		"./homepage.js": 142,
-		"./menu-add-modify": 156,
-		"./menu-add-modify.js": 156,
-		"./menu-manage": 160,
-		"./menu-manage.js": 160,
-		"./message-publish": 165,
-		"./message-publish-list": 145,
-		"./message-publish-list.js": 145,
-		"./message-publish.js": 165,
-		"./passwordModify": 169,
-		"./passwordModify.js": 169,
-		"./report-list": 151,
-		"./report-list.js": 151,
-		"./role-add-modify": 173,
-		"./role-add-modify.js": 173,
-		"./role-manage": 177,
-		"./role-manage.js": 177,
-		"./role2user": 182,
-		"./role2user.js": 182,
-		"./user-add-modify": 186,
-		"./user-add-modify.js": 186,
-		"./user-manage": 190,
-		"./user-manage.js": 190
+		"./authority-control": 142,
+		"./authority-control.js": 142,
+		"./homepage": 146,
+		"./homepage.js": 146,
+		"./menu-add-modify": 160,
+		"./menu-add-modify.js": 160,
+		"./menu-manage": 164,
+		"./menu-manage.js": 164,
+		"./message-publish": 169,
+		"./message-publish-list": 149,
+		"./message-publish-list.js": 149,
+		"./message-publish.js": 169,
+		"./org-add-modify": 173,
+		"./org-add-modify.js": 173,
+		"./org-manage": 177,
+		"./org-manage.js": 177,
+		"./passwordModify": 182,
+		"./passwordModify.js": 182,
+		"./report-list": 155,
+		"./report-list.js": 155,
+		"./role-add-modify": 186,
+		"./role-add-modify.js": 186,
+		"./role-manage": 190,
+		"./role-manage.js": 190,
+		"./role2org": 195,
+		"./role2org.js": 195,
+		"./role2user": 199,
+		"./role2user.js": 199,
+		"./user-add-modify": 203,
+		"./user-add-modify.js": 203,
+		"./user-manage": 207,
+		"./user-manage.js": 207,
+		"./user2org": 212,
+		"./user2org.js": 212,
+		"./user2role": 216,
+		"./user2role.js": 216
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -28123,12 +28311,169 @@ webpackJsonp([0],[
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
+	 * 权限赋值模块
+	 * @author yanglang
+	 * @type {Framework}
+	 */
+	var frameworkBase = __webpack_require__(31);
+	__webpack_require__(143);
+	__webpack_require__(111);
+	__webpack_require__(103);
+	__webpack_require__(101);
+	var AuthorityControl = function(){ };
+
+	//继承自框架基类
+	AuthorityControl.prototype = $.extend({},frameworkBase);
+	AuthorityControl.prototype.id = 'authority-control';
+
+
+	/**
+	 * 模块初始化入口<br>
+	 * @method init
+	 * @param options 参数对象
+	 */
+	AuthorityControl.prototype.init = function(options){
+	    var that = this;
+	    this.options = $.extend({},options);
+	    that.setTitle('权限赋值').setHeight(500).setWidth(500);
+	    frameworkBase.init.call(this,options);
+	    this.loadBaseView();
+	    this.bindEvents();
+	    this.initMenuAuthority();
+	    this.restoreData();
+	};
+
+	AuthorityControl.prototype.loadBaseView = function(options){
+	    var html = __webpack_require__(145);
+	    this.render(html);
+	};
+
+	/**
+	 * 修改状态返显数据
+	 */
+	AuthorityControl.prototype.restoreData = function () {
+	    var that = this;
+
+	};
+
+	/**
+	 * 初始化菜单权限
+	 */
+	AuthorityControl.prototype.initMenuAuthority = function () {
+	    var that = this;
+	    this.query('/auth/menu',{role_id:this.options.role_id},function(data){
+	        if(!data.success){
+	            that.toast(data.message);
+	            return;
+	        }
+	        var setting = {
+	            check:{
+	                enable:true,
+	                chkboxType:{ "Y" : "ps", "N" : "s" }
+	            },
+	            data:{
+	                keep:{
+	                    parent:true,
+	                    leaf:true
+	                },
+	                simpleData:{
+	                    enable:true,
+	                    idKey:'menu_id',
+	                    pIdKey:'menu_parent_id',
+	                    rootPId:null
+	                },
+	                key:{
+	                    name:'menu_title',
+	                    title:'menu_title'
+	                }
+	            },
+	            callback:{
+
+	            }
+	        };
+	        data.data.push({'menu_id':'0','menu_parent_id':null,'menu_title':'根节点','menu_url':''});
+	        that.menuAuthorityTree = $.fn.zTree.init($("#menuAuthorityTree",this.dom), setting,data.data);
+	        that.menuAuthorityTree.expandNode(that.menuAuthorityTree.getNodes()[0], true, false, true);
+	    });
+	};
+
+	/**
+	 * 绑定元素事件
+	 */
+	AuthorityControl.prototype.bindEvents = function () {
+	    var that = this;
+	    $('.ui-tabs',this.dom).on('click','li',function(){
+	        var $this = $(this);
+	        if(!$this.hasClass('actived')){
+	            $('.ui-tabs>li.actived').removeClass('actived');
+	            $this.addClass('actived');
+	            $('.ui-tabs-content>div').hide().eq($this.index()).show();
+	        }
+	    });
+	    $('#saveBtn',this.dom).click(function(){
+	        //获取被勾选的节点数组
+	        var checkedNodes = that.menuAuthorityTree.getCheckedNodes(true);
+	        that.save('/auth/menu',{
+	            role_id:that.options.role_id,
+	            auth_ids:function(){
+	                var ids = [];
+	                for(var i = 0;i<checkedNodes.length;i++){
+	                    if(checkedNodes[i].menu_id == '0')
+	                        continue;
+	                    ids.push(checkedNodes[i].auth_id);
+	                }
+	                return ids.join(';');
+	            }()
+	        },function(data){
+	            if(!data.success){
+	                that.toast(data.message);
+	                return;
+	            }
+	            that.finish(true);
+	        });
+	    });
+	};
+
+	/**
+	 * 销毁方法
+	 * 由框架调用，主要用于销毁订阅的事件
+	 */
+	AuthorityControl.prototype.finish = function () {
+	    try{
+	        frameworkBase.finish.apply(this,arguments);
+	    }catch(e){
+	        console.log(e);
+	    }
+	};
+
+	var authorityControl = new AuthorityControl();
+
+	module.exports = authorityControl;
+
+/***/ },
+/* 143 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 144 */,
+/* 145 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"authority-control\">\r\n    <ul class=\"ui-tabs\">\r\n        <li class=\"actived\">菜单权限</li>\r\n        <li>元素权限</li>\r\n    </ul>\r\n    <div class=\"ui-tabs-content\">\r\n        <div><ul class=\"ztree\" id=\"menuAuthorityTree\"></ul></div>\r\n        <div>元素权限内容</div>\r\n    </div>\r\n    <span class=\"framework-button fa fa-save\" id=\"saveBtn\"></span>\r\n</div>";
+
+/***/ },
+/* 146 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
 	 * Created by yanglang on 2016/4/13.
 	 * homepage首页聚合模块
 	 */
 
 	var frameworkBase = __webpack_require__(31);
-	__webpack_require__(143);
+	__webpack_require__(147);
 	var HomePage = function(){ };
 
 	//继承自框架基类
@@ -28165,8 +28510,8 @@ webpackJsonp([0],[
 	HomePage.prototype.loadWidgets = function(){
 	    this.widgets = [];
 	    this.widgets.push(__webpack_require__(108));
-	    this.widgets.push(__webpack_require__(145));
-	    this.widgets.push(__webpack_require__(151));
+	    this.widgets.push(__webpack_require__(149));
+	    this.widgets.push(__webpack_require__(155));
 	    this.widgets.forEach(function(widget){
 	        widget.loadWidgets(WIDGETS);
 	    });
@@ -28203,14 +28548,14 @@ webpackJsonp([0],[
 	module.exports = homePage;
 
 /***/ },
-/* 143 */
+/* 147 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 144 */,
-/* 145 */
+/* 148 */,
+/* 149 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -28220,9 +28565,9 @@ webpackJsonp([0],[
 
 	var frameworkBase = __webpack_require__(31);
 	__webpack_require__(35);
-	__webpack_require__(146);
+	__webpack_require__(150);
 	__webpack_require__(111);
-	var juicer = __webpack_require__(148);
+	var juicer = __webpack_require__(152);
 	var MessagePublishList = function () {};
 
 	//继承自框架基类
@@ -28257,11 +28602,11 @@ webpackJsonp([0],[
 
 	MessagePublishList.prototype.loadBaseView = function () {
 	    var that = this;
-	    var html = __webpack_require__(149);
+	    var html = __webpack_require__(153);
 	    this.render(html);
 	    $('.tablecontainer',this.dom).height(this.dom.height()-55);
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(150);
+	    var columns = __webpack_require__(154);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '/publish/search',
 	        method: 'get',
@@ -28486,14 +28831,14 @@ webpackJsonp([0],[
 	module.exports = messagePublishList;
 
 /***/ },
-/* 146 */
+/* 150 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 147 */,
-/* 148 */
+/* 151 */,
+/* 152 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/*
@@ -29079,13 +29424,13 @@ webpackJsonp([0],[
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 149 */
+/* 153 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"message-publish-list\">\r\n    <div class=\"condition-wrap shadow-block\">\r\n        <input id=\"home-easyui-searchbox\" style=\"width:200px\"/>\r\n        <div class=\"conditionitem\"><span>开始时间：</span><input id=\"startdate\" type=\"text\" class=\"easyui-datebox\" style=\"width:100px\"/></div>\r\n        <div class=\"conditionitem\"><span>结束时间：</span><input id=\"enddate\" type=\"text\" class=\"easyui-datebox\" style=\"width:100px\"/></div>\r\n        <div class=\"conditionitem\">\r\n            <span>是否显示：</span>\r\n            <select id=\"is_show\">\r\n                <option value=\"2\">全部</option>\r\n                <option value=\"0\">隐藏</option>\r\n                <option value=\"1\">显示</option>\r\n            </select>\r\n        </div>\r\n        <div class=\"conditionitem\">\r\n            <span>是否发布：</span>\r\n            <select id=\"is_publish\">\r\n                <option value=\"2\">全部</option>\r\n                <option value=\"0\">未发布</option>\r\n                <option value=\"1\">已发布</option>\r\n            </select>\r\n        </div>\r\n    </div>\r\n    <div class=\"tablecontainer shadow-block\">\r\n        <div class=\"tablecontainer\">\r\n            <table id=\"dataTable\"></table>\r\n        </div>\r\n        <div id=\"message-publish-list-toolbar\">\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"add_message_btn\" data-options=\"iconCls:'fa fa-plus icon-datagrid',plain:true\">发布新信息</a>\r\n            <div class=\"datagrid-btn-separator\"></div>\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"modify_message_btn\" data-options=\"iconCls:'fa fa-pencil icon-datagrid',plain:true\">编辑信息</a>\r\n            <div class=\"datagrid-btn-separator\"></div>\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"delete_message_btn\" data-options=\"iconCls:'fa fa-remove icon-datagrid',plain:true\">删除信息</a>\r\n            <div class=\"datagrid-btn-separator\"></div>\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"set_show_btn\" data-options=\"iconCls:'fa fa-toggle-on icon-datagrid',plain:true\">显示隐藏</a>\r\n            <div class=\"datagrid-btn-separator\"></div>\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"publish_btn\" data-options=\"iconCls:'fa fa-send icon-datagrid',plain:true\">发布</a>\r\n            <div class=\"datagrid-btn-separator\"></div>\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"unpublish_btn\" data-options=\"iconCls:'fa fa-undo icon-datagrid',plain:true\">取消发布</a>\r\n        </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 150 */
+/* 154 */
 /***/ function(module, exports, __webpack_require__) {
 
 	typeof window == 'undefined' && (Calendar = __webpack_require__(141));
@@ -29104,7 +29449,7 @@ webpackJsonp([0],[
 	];
 
 /***/ },
-/* 151 */
+/* 155 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -29114,9 +29459,9 @@ webpackJsonp([0],[
 
 	var frameworkBase = __webpack_require__(31);
 	__webpack_require__(35);
-	__webpack_require__(152);
+	__webpack_require__(156);
 	__webpack_require__(111);
-	var juicer = __webpack_require__(148);
+	var juicer = __webpack_require__(152);
 	__webpack_require__(38);
 	__webpack_require__(47);
 	__webpack_require__(45);
@@ -29164,11 +29509,11 @@ webpackJsonp([0],[
 
 	ReportList.prototype.loadBaseView = function () {
 	    var that = this;
-	    var html = __webpack_require__(154);
+	    var html = __webpack_require__(158);
 	    this.render(html);
 	    $('.tablecontainer',this.dom).height(this.dom.height()-55);
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(155);
+	    var columns = __webpack_require__(159);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '/report/search',
 	        method: 'get',
@@ -29372,20 +29717,20 @@ webpackJsonp([0],[
 	module.exports = messagePublishList;
 
 /***/ },
-/* 152 */
+/* 156 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 153 */,
-/* 154 */
+/* 157 */,
+/* 158 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"report-list\">\r\n    <div class=\"condition-wrap shadow-block\">\r\n        <input id=\"home-easyui-searchbox\" style=\"width:200px\"/>\r\n        <div class=\"conditionitem\"><span>开始时间：</span><input id=\"startdate\" type=\"text\" class=\"easyui-datebox\" style=\"width:100px\"/></div>\r\n        <div class=\"conditionitem\"><span>结束时间：</span><input id=\"enddate\" type=\"text\" class=\"easyui-datebox\" style=\"width:100px\"/></div>\r\n        <div class=\"conditionitem\">\r\n            <span>是否处理：</span>\r\n            <select id=\"is_handle\">\r\n                <option value=\"2\">全部</option>\r\n                <option value=\"0\">未处理</option>\r\n                <option value=\"1\">已处理</option>\r\n            </select>\r\n        </div>\r\n    </div>\r\n    <div class=\"tablecontainer shadow-block\">\r\n        <div class=\"tablecontainer\">\r\n            <table id=\"dataTable\"></table>\r\n        </div>\r\n        <div id=\"report-list-toolbar\">\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"delete_message_btn\" data-options=\"iconCls:'fa fa-remove icon-datagrid',plain:true\">删除信息</a>\r\n            <div class=\"datagrid-btn-separator\"></div>\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"set_handle_btn\" data-options=\"iconCls:'fa fa-wrench icon-datagrid',plain:true\">设置处理状态</a>\r\n        </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 155 */
+/* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
 	typeof window == 'undefined' && (Calendar = __webpack_require__(141));
@@ -29401,12 +29746,12 @@ webpackJsonp([0],[
 	];
 
 /***/ },
-/* 156 */
+/* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
 	var frameworkBase = __webpack_require__(31);
-	__webpack_require__(157);
+	__webpack_require__(161);
 	__webpack_require__(111);
 	__webpack_require__(103);
 	__webpack_require__(101);
@@ -29436,7 +29781,7 @@ webpackJsonp([0],[
 
 	MenuAddModify.prototype.loadBaseView = function(options){
 	    var that = this;
-	    var html = __webpack_require__(159);
+	    var html = __webpack_require__(163);
 	    this.render(html);
 
 
@@ -29572,20 +29917,20 @@ webpackJsonp([0],[
 	module.exports = new MenuAddModify();
 
 /***/ },
-/* 157 */
+/* 161 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 158 */,
-/* 159 */
+/* 162 */,
+/* 163 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"menu-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>菜单标题：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入菜单标题\" name=\"menu_title\" id=\"menu_title\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>菜单url：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入菜单url\" name=\"menu_url\" id=\"menu_url\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>菜单icon：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入菜单icon样式名\" name=\"menu_icon\" id=\"menu_icon\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>展式形式：</label>\r\n                <select id=\"show_type\" class=\"form-control\">\r\n                    <option value=\"1\" selected>普通</option>\r\n                    <option value=\"2\">弹窗</option>\r\n                </select>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>菜单位置：</label>\r\n                <select id=\"menu_type\" class=\"form-control\">\r\n                    <option value=\"1\" selected>左侧菜单</option>\r\n                    <option value=\"2\">设置下拉菜单</option>\r\n                </select>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>父级菜单：</label>\r\n                <input class=\"form-control\" placeholder=\"请选择父级菜单\" readonly=\"true\" name=\"menu_parent_id\" id=\"menu_parent_id\" type=\"text\" data-pid=\"0\" value=\"根菜单\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 160 */
+/* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -29595,7 +29940,7 @@ webpackJsonp([0],[
 
 	var frameworkBase = __webpack_require__(31);
 	__webpack_require__(35);
-	__webpack_require__(161);
+	__webpack_require__(165);
 	__webpack_require__(111);
 	var MenuManage = function () {};
 
@@ -29620,11 +29965,11 @@ webpackJsonp([0],[
 
 	MenuManage.prototype.loadBaseView = function () {
 	    var that = this;
-	    var html = __webpack_require__(163);
+	    var html = __webpack_require__(167);
 	    this.render(html);
 	    $('.tablecontainer',this.dom).height(this.dom.height()-55);
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(164);
+	    var columns = __webpack_require__(168);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '/menu/list',
 	        method: 'get',
@@ -29744,20 +30089,20 @@ webpackJsonp([0],[
 	module.exports = menuManage;
 
 /***/ },
-/* 161 */
+/* 165 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 162 */,
-/* 163 */
+/* 166 */,
+/* 167 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"menu-manage\">\r\n    <div class=\"condition-wrap shadow-block\">\r\n        <input id=\"home-easyui-searchbox\" style=\"width:200px\"/>\r\n        <div class=\"conditionitem\">\r\n            <span>展式形式：</span>\r\n            <select id=\"show_type\">\r\n                <option value=\"0\">全部</option>\r\n                <option value=\"1\">普通</option>\r\n                <option value=\"2\">弹窗</option>\r\n            </select>\r\n        </div>\r\n        <div class=\"conditionitem\">\r\n            <span>菜单位置：</span>\r\n            <select id=\"menu_type\">\r\n                <option value=\"0\">全部</option>\r\n                <option value=\"1\">左侧菜单</option>\r\n                <option value=\"2\">设置下拉菜单</option>\r\n            </select>\r\n        </div>\r\n    </div>\r\n    <div class=\"tablecontainer shadow-block\">\r\n        <div class=\"tablecontainer\">\r\n            <table id=\"dataTable\"></table>\r\n        </div>\r\n        <div id=\"menu-manage-toolbar\">\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"add_menu_btn\" data-options=\"iconCls:'fa fa-plus icon-datagrid',plain:true\">添加菜单</a>\r\n            <div class=\"datagrid-btn-separator\"></div>\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"modify_menu_btn\" data-options=\"iconCls:'fa fa-pencil icon-datagrid',plain:true\">编辑菜单</a>\r\n            <div class=\"datagrid-btn-separator\"></div>\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"delete_menu_btn\" data-options=\"iconCls:'fa fa-remove icon-datagrid',plain:true\">删除菜单</a>\r\n        </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 164 */
+/* 168 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -29775,7 +30120,7 @@ webpackJsonp([0],[
 	];
 
 /***/ },
-/* 165 */
+/* 169 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -29784,7 +30129,7 @@ webpackJsonp([0],[
 	 * @type {Framework}
 	 */
 	var frameworkBase = __webpack_require__(31);
-	__webpack_require__(166);
+	__webpack_require__(170);
 	__webpack_require__(81);
 	__webpack_require__(85);
 	__webpack_require__(86);
@@ -29814,7 +30159,7 @@ webpackJsonp([0],[
 	};
 
 	MessagePublish.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(168);
+	    var html = __webpack_require__(172);
 	    this.render(html);
 	};
 
@@ -29895,25 +30240,524 @@ webpackJsonp([0],[
 	module.exports = messagePublish;
 
 /***/ },
-/* 166 */
+/* 170 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 167 */,
-/* 168 */
+/* 171 */,
+/* 172 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"message-publish shadow-block\">\r\n    <!--style给定宽度可以影响编辑器的最终宽度-->\r\n    <div>\r\n        <input id=\"title\" type=\"text\" placeholder=\"请输入信息标题\"/>\r\n    </div>\r\n    <script type=\"text/plain\" id=\"myEditor\" style=\"width:100%;height:400px;\"></script>\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"submitBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>";
 
 /***/ },
-/* 169 */
+/* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
 	var frameworkBase = __webpack_require__(31);
-	__webpack_require__(170);
+	__webpack_require__(174);
+	__webpack_require__(111);
+	__webpack_require__(103);
+	__webpack_require__(101);
+	var OrgAddModify = function(){ };
+
+	//继承自框架基类
+	OrgAddModify.prototype = $.extend({},frameworkBase);
+	OrgAddModify.prototype.id = 'org-add-modify';
+
+
+	/**
+	 * 模块初始化入口<br>
+	 * @method init
+	 * @param options 参数对象
+	 */
+	OrgAddModify.prototype.init = function(options){
+	    var that = this;
+	    this.options = $.extend({action:'001'},options);
+	    that.setTitle(this.options.action == '001'?'添加组织机构':'编辑组织机构').setHeight(this.options.action == '001'?200:150).setWidth(400);
+	    frameworkBase.init.call(this,options);
+	    this.loadBaseView();
+	    this.bindEvents();
+	    if(this.options.action == '002'){
+	        $('#org_parent_id',that.dom).parent().hide();
+	        this.restoreData();
+	    }
+	};
+
+	OrgAddModify.prototype.loadBaseView = function(options){
+	    var that = this;
+	    var html = __webpack_require__(176);
+	    this.render(html);
+	};
+
+	OrgAddModify.prototype.bindEvents = function(){
+	    var that = this;
+	    $('#confirmBtn',this.dom).click(function(){
+	        var org_title = $('#org_title',that.dom).val();
+	        if($.trim(org_title) === '' ){
+	            swal("提示", "请输入组织机构标题!", "warning");
+	            return;
+	        }
+	        that.save('/org/save',{
+	            action:that.options.action,
+	            org_id:that.options.org_id,
+	            org_title:org_title,
+	            org_parent_id:$('#org_parent_id',that.dom).attr('data-pid')
+	        },function(data){
+	            if(!data.success){
+	                that.toast(data.message);
+	                return;
+	            }
+	            that.finish(true,$('#org_parent_id',that.dom).attr('data-pid'));
+	        });
+
+	    });
+	    $('#cancelBtn',this.dom).click(function(){
+	        that.finish(false);
+	    });
+
+	    this.$treepanel = $('<div id="org_tree_panel" class="dropdown_panel"><ul id="_panelOrgTree" class="ztree"></ul></div>').appendTo($('body'));
+	    var $org_parent_id = $('#org_parent_id',this.dom);
+
+	    $org_parent_id.click(function(){
+	        var offset = $org_parent_id.offset();
+	        that.$treepanel.css({
+	            left:offset.left,
+	            top:offset.top+30,
+	            width:$org_parent_id.outerWidth()
+	        });
+	        that.$treepanel.is(':visible')?(that.$treepanel.hide()):(that.$treepanel.show());
+	        return false;
+	    });
+	    this.$treepanel.click(function(){
+	        return false;
+	    });
+	    this.initOrgTree();
+
+	};
+
+	OrgAddModify.prototype.initOrgTree = function(){
+	    var that = this;
+	    this.query('/org/list',function(data){
+	        if(!data.success){
+	            that.toast(data.message);
+	            return;
+	        }
+	        var setting = {
+	            data:{
+	                keep:{
+	                    parent:true,
+	                    leaf:true
+	                },
+	                simpleData:{
+	                    enable:true,
+	                    idKey:'org_id',
+	                    pIdKey:'org_parent_id',
+	                    rootPId:null
+	                },
+	                key:{
+	                    name:'org_title',
+	                    title:'org_title'
+	                }
+	            },
+	            callback:{
+	                onClick:function(event, treeId, treeNode){
+	                    $('#org_parent_id',that.dom).val(treeNode.org_title);
+	                    $('#org_parent_id',that.dom).attr('data-pid',treeNode.org_id);
+	                    hidePanel();
+	                }
+	            }
+	        };
+	        for(var i = 0,len = data.data.length;i<len;i++){
+	            data.data[i].isParent = true;
+	            if(data.data[i].org_id == that.options.org_parent_id){
+	                $('#org_parent_id',that.dom).val(data.data[i].org_title);
+	                $('#org_parent_id',that.dom).attr('data-pid',data.data[i].org_id);
+	            }
+	        }
+	        data.data.push({'org_id':'0','org_parent_id':null,'org_title':'根节点'});
+	        var ztreeObj = $.fn.zTree.init($("#_panelOrgTree",that.$treepanel), setting,data.data);
+	        var nodes = ztreeObj.getNodesByParam("org_id",that.options.org_parent_id , null);
+	        ztreeObj.selectNode(nodes[0], false, false);
+	    });
+	};
+
+	function hidePanel(){
+	    $('.dropdown_panel').hide();
+	}
+	$('body').on('click',function(){
+	    hidePanel();
+	});
+	OrgAddModify.prototype.restoreData = function() {
+	    var that = this;
+	    this.query('/org/search/'+this.options.org_id,function(data){
+	        if(!data.success){
+	            that.toast(data.message);
+	            return;
+	        }
+	        data = data.data;
+	        $('#org_title',that.dom).val(data.org_title);
+	        $('#org_parent_id',that.dom).attr('data-pid',data.org_parent_id);
+	    });
+	};
+
+	/**
+	 * 销毁方法
+	 * 由框架调用，主要用于销毁订阅的事件
+	 */
+	OrgAddModify.prototype.finish = function () {
+	    this.$treepanel.remove();
+	    frameworkBase.finish.apply(this,arguments);
+	};
+
+	module.exports = new OrgAddModify();
+
+/***/ },
+/* 174 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 175 */,
+/* 176 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"org-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>组织机构标题：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入组织机构名称\" name=\"org_title\" id=\"org_title\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>父级组织机构：</label>\r\n                <input class=\"form-control\" placeholder=\"请选择父级组织机构\" readonly=\"true\" name=\"org_parent_id\" id=\"org_parent_id\" type=\"text\" data-pid=\"0\" value=\"根节点\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
+
+/***/ },
+/* 177 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Created by yanglang on 2016/4/13.
+	 * 组织机构管理
+	 */
+
+	var frameworkBase = __webpack_require__(31);
+	__webpack_require__(35);
+	__webpack_require__(103);
+	__webpack_require__(101);
+	__webpack_require__(178);
+	__webpack_require__(111);
+	var OrgManage = function () {};
+
+	//继承自框架基类
+	OrgManage.prototype = $.extend({}, frameworkBase);
+	OrgManage.prototype.id = 'org-manage';
+
+
+	/**
+	 * 模块初始化入口<br>
+	 * @method init
+	 * @param options 参数对象
+	 */
+	OrgManage.prototype.init = function (options) {
+	    var that = this;
+	    this.options = $.extend({}, options);
+	    that.setTitle('组织机构管理').setHeight(700).setWidth(780);
+	    frameworkBase.init.call(this, options);
+	    this.loadBaseView();
+	    this.initOrgTree();
+	    this.bindEvents();
+	};
+
+	OrgManage.prototype.loadBaseView = function () {
+	    var that = this;
+	    var html = __webpack_require__(180);
+	    this.render(html);
+	    $('.tablecontainer',this.dom).height(this.dom.height()-55);
+	    $('.easyui-linkbutton',this.dom).linkbutton();
+	    var columns = __webpack_require__(181);
+	    that.$table = $('#dataTable',this.dom).datagrid({
+	        url: '/org/orguser',
+	        method: 'get',
+	        columns: [columns],
+	        pagination: true,
+	        pageSize: 20,
+	        ctrlSelect: true,
+	        checkOnSelect: true,
+	        selectOnCheck: true,
+	        loadMsg: '正在查询，请稍候……',
+	        striped: true,
+	        fit: true,
+	        fitColumns: true,
+	        loadFilter: function (data) {
+	            if(!data.success){
+	                that.toast(data.message);
+	            }
+	            return data.data;
+	        },
+	        onDblClickRow: function (rowIndex, rowData) {
+	        },
+	        toolbar: '#org-manage-toolbar'
+	    });
+
+	    var searchBox = $('#org-manage #home-easyui-searchbox',that.dom).searchbox({
+	        searcher: function (value, name) {
+	            Events.notify('onRefresh:org-manage');
+	        },
+	        prompt: '请输关键字，如组织机构名'
+	    });
+
+	    var startDate = $("#startdate",that.dom).datebox({
+	        editable:false ,
+	        formatter: function (date) {
+	            return Calendar.getInstance(date).format('yyyy-MM-dd');
+	        },
+	        onChange:function(date){
+	            Events.notify('onRefresh:org-manage');
+	        }
+	    });
+	    var endDate = $("#enddate",that.dom).datebox({
+	        editable:false ,
+	        formatter: function (date) {
+	            return Calendar.getInstance(date).format('yyyy-MM-dd');
+	        },
+	        onChange:function(date){
+	            Events.notify('onRefresh:org-manage');
+	        } 
+	    });
+
+	    //订阅刷新消息
+	    Events.subscribe('onRefresh:org-manage',function(org_id){
+	        that.$table.datagrid('load',{
+	            org_id:selectOrgId,
+	            key:searchBox.searchbox('getValue'),
+	            startdate:startDate.combo('getValue').replace(/-/gi,''),
+	            enddate:endDate.combo('getValue').replace(/-/gi,'')
+	        });
+	    });
+	};
+
+	var ztreeObj = null, selectOrgId, firstRefresh = false;
+	OrgManage.prototype.initOrgTree = function(){
+	    firstRefresh = false;
+	    var setting = {
+
+	        async:{
+	            enable:true,
+	            url:'/org/listbypid',
+	            autoParam:['org_id'],
+	            type:'get'
+	        },
+	        data:{
+	            key:{
+	                name:'org_title',
+	                title:'org_title'
+	            },
+	            simpleData:{
+	                idKey:'org_id',
+	                pIdKey:'org_parent_id'
+	            },
+	            keep:{
+	                parent:true
+	            }
+	        },
+	        callback:{
+	            onClick:function(event, treeId, treeNode){
+	                selectOrgId = treeNode.org_id;
+	                Events.notify('onRefresh:org-manage');
+	            },
+	            onAsyncSuccess:function(){
+	                if(firstRefresh)
+	                    return;
+	                selectOrgId = ztreeObj.getNodes()[0].org_id;
+	                ztreeObj.selectNode(ztreeObj.getNodes()[0], false, false);
+	                Events.notify('onRefresh:org-manage');
+	                firstRefresh = true;
+	            }
+	        }
+	    };
+	    ztreeObj = $.fn.zTree.init($("#orgTree",this.dom), setting);
+	};
+
+	/**
+	 * 绑定按钮点击事件
+	 */
+	OrgManage.prototype.bindEvents = function () {
+	    var that = this;
+	    //添加组织机构
+	    $('#addOrgBtn',this.dom).click(function(){
+	        var nodes = ztreeObj.getSelectedNodes(),org_parent_id;
+	        if(nodes.length>0){
+	            org_parent_id = nodes[0].org_id;
+	        }
+	        Events.require('org-add-modify').addCallback(function(flag,_org_id){
+	            if(flag){
+	                //TODO 添加新节点
+	                if(_org_id == '0'){
+	                    ztreeObj.reAsyncChildNodes(null, "refresh");
+	                }else{
+	                    var nodes = ztreeObj.getNodesByParam("org_id", _org_id, null);
+	                    ztreeObj.reAsyncChildNodes(nodes[0], "refresh");
+	                }
+	                that.toast('保存成功！');
+	            }
+	        }).init({showType:'Pop',org_parent_id:org_parent_id});
+	    });
+	    //编辑组织机构
+	    $('#modifyOrgBtn',this.dom).click(function(){
+	        var nodes = ztreeObj.getSelectedNodes(),org_id,org_parent_id;
+	        if(nodes.length>0){
+	            org_id = nodes[0].org_id;
+	            org_parent_id = nodes[0].org_parent_id;
+	        }else{
+	            swal("提示", "请先选择一条数据!", "warning");
+	            return;
+	        }
+	        Events.require('org-add-modify').addCallback(function(flag,_org_id){
+	            if(flag){
+	                //TODO 添加新节点
+	                if(_org_id == '0'){
+	                    ztreeObj.reAsyncChildNodes(null, "refresh");
+	                }else{
+	                    var nodes = ztreeObj.getNodesByParam("org_id", org_id, null);
+	                    ztreeObj.reAsyncChildNodes(nodes[0].getParentNode(), "refresh");
+	                }
+	                that.toast('保存成功！');
+	            }
+	        }).init({showType:'Pop',action:'002',org_id:org_id,org_parent_id:org_parent_id});
+	    });
+	    //删除组织机构
+	    $('#removeOrgBtn', this.dom).click(function () {
+	        var nodes = ztreeObj.getSelectedNodes();
+	        if (nodes.length == 0) {
+	            swal("提示", "请先选择一条数据!", "warning");
+	            return;
+	        }
+	        swal({
+	            title: "确认",
+	            text: "删除该组织机构将会清空其所关联的角色与用户关系，确认删除吗？",
+	            type: "warning",
+	            showCancelButton: true,
+	            confirmButtonColor: "#DD6B55",
+	            confirmButtonText: "删除",
+	            cancelButtonText: "取消",
+	            closeOnConfirm: true
+	        }, function () {
+	            that.save('/org/save', {action:'003',org_id: nodes[0].org_id}, function (data) {
+	                if (!data.success) {
+	                    that.toast(data.message);
+	                    return;
+	                }
+	                ztreeObj.removeNode(nodes[0]);
+	                that.toast('删除成功！');
+	            });
+	        });
+
+	    });
+	    //编辑组织机构用户
+	    $('#modify_org_user_btn',this.dom).click(function(){
+	        var nodes = ztreeObj.getSelectedNodes();
+	        if (nodes.length == 0) {
+	            swal("提示", "请先选择要操作的组织机构数据!", "warning");
+	            return;
+	        }
+	        Events.require('user2org').addCallback(function(flag){
+	            if(flag)
+	                Events.notify('onRefresh:org-manage');
+	        }).init({showType:'Pop',org_id:nodes[0].org_id});
+	    });
+
+	    //删除信息
+	    $('#delete_user_btn',this.dom).click(function(){
+	        var rowData;
+	        if(!(rowData = getSelectRow()))
+	            return;
+	        that.save('/user/save',{action:'004',user_id:rowData.user_id},function(data){
+	            if(data.success){
+	                that.toast("删除用户成功!");
+	                Events.notify('onRefresh:org-manage');
+	            }else{
+	                that.toast(data.message);
+	            }
+	        });
+	    });
+	    /**
+	     * 为用户分配角色
+	     */
+	    $('#auth_role_btn',this.dom).click(function(){
+	        var rowData;
+	        if(!(rowData = getSelectRow()))
+	            return;
+	        Events.require('role2user').init({showType:'Pop',user_id:rowData.user_id});
+	    });
+	    /**
+	     * 为组织机构分配角色
+	     */
+	    $('#authRoleOrgBtn',this.dom).click(function(){
+	        var nodes = ztreeObj.getSelectedNodes();
+	        if (nodes.length == 0) {
+	            swal("提示", "请先选择要操作的组织机构数据!", "warning");
+	            return;
+	        }
+	        Events.require('role2org').init({showType:'Pop',org_id:nodes[0].org_id});
+	    });
+	    function getSelectRow(){
+	        var rowData = that.$table.datagrid('getSelected');
+	        if(!rowData){
+	            swal("提示", "请先选择一条数据!", "warning");
+	            return;
+	        }
+	        return rowData;
+	    }
+	};
+
+	/**
+	 * 销毁方法
+	 * 由框架调用，主要用于销毁订阅的事件
+	 */
+	OrgManage.prototype.finish = function () {
+	    Events.unsubscribe('onRefresh:org-manage');
+	    frameworkBase.finish.apply(this,arguments);
+	};
+
+	var orgManage = new OrgManage();
+	Events.subscribe('onWindowResize',function(){
+	    if(!orgManage.dom)
+	        return;
+	    $('.tablecontainer',orgManage.dom).height(orgManage.dom.height()-55);
+	});
+
+	module.exports = orgManage;
+
+
+
+/***/ },
+/* 178 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 179 */,
+/* 180 */
+/***/ function(module, exports) {
+
+	module.exports = "<div id=\"org-manage\">\r\n    <div class=\"lr-panel-wrap\">\r\n        <div class=\"lr-panel-left\">\r\n            <ul class=\"head-tools\">\r\n                <li id=\"authRoleOrgBtn\" title=\"分配角色\"><span class=\"fa fa-graduation-cap\"></span></li>\r\n                <li id=\"removeOrgBtn\" title=\"删除组织机构\"><span class=\"fa fa-remove\"></span></li>\r\n                <li id=\"modifyOrgBtn\" title=\"编辑组织机构\"><span class=\"fa fa-pencil\"></span></li>\r\n                <li id=\"addOrgBtn\" title=\"添加组织机构\"><span class=\"fa fa-plus\"></span></li>\r\n            </ul>\r\n            <div class=\"tree-container\">\r\n                <ul id=\"orgTree\" class=\"ztree\"></ul>\r\n            </div>\r\n        </div>\r\n        <div class=\"lr-panel-right\">\r\n            <div class=\"condition-wrap shadow-block\">\r\n                <input id=\"home-easyui-searchbox\" style=\"width:200px\"/>\r\n                <div class=\"conditionitem\"><span>开始时间：</span><input id=\"startdate\" type=\"text\" class=\"easyui-datebox\" style=\"width:100px\"/></div>\r\n                <div class=\"conditionitem\"><span>结束时间：</span><input id=\"enddate\" type=\"text\" class=\"easyui-datebox\" style=\"width:100px\"/></div>\r\n            </div>\r\n            <div class=\"tablecontainer shadow-block\">\r\n                <div class=\"tablecontainer\">\r\n                    <table id=\"dataTable\"></table>\r\n                </div>\r\n                <div id=\"org-manage-toolbar\">\r\n                    <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"modify_org_user_btn\" data-options=\"iconCls:'fa fa-pencil icon-datagrid',plain:true\">编辑组织机构用户</a>\r\n                    <div class=\"datagrid-btn-separator\"></div>\r\n                    <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"delete_org_user_btn\" data-options=\"iconCls:'fa fa-remove icon-datagrid',plain:true\">删除用户</a>\r\n                    <div class=\"datagrid-btn-separator\"></div>\r\n                    <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"auth_role_btn\" data-options=\"iconCls:'fa fa-graduation-cap icon-datagrid',plain:true\">分配角色</a>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n";
+
+/***/ },
+/* 181 */
+/***/ function(module, exports) {
+
+	module.exports = [
+	    {field: 'user_id', title: '用户ID', width: 200},
+	    {field: 'user_name', title: '用户名', width: 150},
+	    {field: 'create_time', title: '创建时间', width: 150},
+	    {field: 'update_time', title: '修改时间', width: 200}
+	];
+
+/***/ },
+/* 182 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	var frameworkBase = __webpack_require__(31);
+	__webpack_require__(183);
 	__webpack_require__(111);
 	var PasswordModify = function(){ };
 
@@ -29937,7 +30781,7 @@ webpackJsonp([0],[
 	};
 
 	PasswordModify.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(172);
+	    var html = __webpack_require__(185);
 	    this.render(html);
 	};
 
@@ -29981,25 +30825,25 @@ webpackJsonp([0],[
 	module.exports = new PasswordModify();
 
 /***/ },
-/* 170 */
+/* 183 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 171 */,
-/* 172 */
+/* 184 */,
+/* 185 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"passwordmodify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>旧密码：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入旧密码\" name=\"oldpassword\" id=\"oldpassword\" type=\"password\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>新密码：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入新密码\" name=\"newpassword\" id=\"newpassword\" type=\"password\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>确认密码：</label>\r\n                <input class=\"form-control\" placeholder=\"请确认密码\" name=\"repassword\" id=\"repassword\" type=\"password\" value=\"\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span id=\"confirmBtn\" class=\"framework-button\">确认</span>\r\n                <span id=\"cancelBtn\" class=\"framework-button\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 173 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
 	var frameworkBase = __webpack_require__(31);
-	__webpack_require__(174);
+	__webpack_require__(187);
 	var RoleAddModify = function(){ };
 
 	//继承自框架基类
@@ -30028,7 +30872,7 @@ webpackJsonp([0],[
 	};
 
 	RoleAddModify.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(176);
+	    var html = __webpack_require__(189);
 	    this.render(html);
 	};
 
@@ -30082,20 +30926,20 @@ webpackJsonp([0],[
 	module.exports = new RoleAddModify();
 
 /***/ },
-/* 174 */
+/* 187 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 175 */,
-/* 176 */
+/* 188 */,
+/* 189 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"role-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>角色名：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入角色名\" name=\"role_name\" id=\"role_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 177 */
+/* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -30105,7 +30949,7 @@ webpackJsonp([0],[
 
 	var frameworkBase = __webpack_require__(31);
 	__webpack_require__(35);
-	__webpack_require__(178);
+	__webpack_require__(191);
 	__webpack_require__(111);
 	var Calendar = __webpack_require__(3);
 	var RoleManage = function () {};
@@ -30131,11 +30975,11 @@ webpackJsonp([0],[
 
 	RoleManage.prototype.loadBaseView = function () {
 	    var that = this;
-	    var html = __webpack_require__(180);
+	    var html = __webpack_require__(193);
 	    this.render(html);
 	    $('.tablecontainer',this.dom).height(this.dom.height()-55);
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(181);
+	    var columns = __webpack_require__(194);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '/role/list',
 	        method: 'get',
@@ -30204,26 +31048,47 @@ webpackJsonp([0],[
 	                Events.notify('onRefresh:role-manage');
 	        }).init({showType:'Pop',action:'002',role_id:rowData.role_id});
 	    });
-	    //修改密码
+	    //赋权
 	    $('#authority_btn',this.dom).click(function(){
 	        var rowData;
 	        if(!(rowData = getSelectRow()))
 	            return;
-
+	        Events.require('authority-control').addCallback(function(flag){
+	        }).init({showType:'Pop',role_id:rowData.role_id});
+	    });
+	    //设置属于当前角色的用户
+	    $('#role_user_btn',this.dom).click(function(){
+	        var rowData;
+	        if(!(rowData = getSelectRow()))
+	            return;
+	        Events.require('user2role').addCallback(function(flag){
+	        }).init({showType:'Pop',role_id:rowData.role_id});
 	    });
 	    //删除信息
 	    $('#delete_role_btn',this.dom).click(function(){
 	        var rowData;
 	        if(!(rowData = getSelectRow()))
 	            return;
-	        that.save('/role/save',{action:'003',role_id:rowData.role_id},function(data){
-	            if(data.success){
-	                that.toast("删除角色成功!");
-	                Events.notify('onRefresh:role-manage');
-	            }else{
-	                that.toast(data.message);
-	            }
+	        swal({
+	            title: "确认",
+	            text: "删除该角色将会清空此角色所关联的组织机构与用户关系，确认删除吗？",
+	            type: "warning",
+	            showCancelButton: true,
+	            confirmButtonColor: "#DD6B55",
+	            confirmButtonText: "删除",
+	            cancelButtonText: "取消",
+	            closeOnConfirm: true
+	        }, function () {
+	            that.save('/role/save',{action:'003',role_id:rowData.role_id},function(data){
+	                if(data.success){
+	                    that.toast("删除角色成功!");
+	                    Events.notify('onRefresh:role-manage');
+	                }else{
+	                    that.toast(data.message);
+	                }
+	            });
 	        });
+
 	    });
 	   
 
@@ -30258,20 +31123,20 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 178 */
+/* 191 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 179 */,
-/* 180 */
+/* 192 */,
+/* 193 */
 /***/ function(module, exports) {
 
-	module.exports = "<div id=\"role-manage\">\r\n    <div class=\"condition-wrap shadow-block\">\r\n        <input id=\"home-easyui-searchbox\" style=\"width:200px\"/>\r\n    </div>\r\n    <div class=\"tablecontainer shadow-block\">\r\n        <div class=\"tablecontainer\">\r\n            <table id=\"dataTable\"></table>\r\n        </div>\r\n        <div id=\"role-manage-toolbar\">\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"add_role_btn\" data-options=\"iconCls:'fa fa-plus icon-datagrid',plain:true\">添加角色</a>\r\n            <div class=\"datagrid-btn-separator\"></div>\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"modify_role_btn\" data-options=\"iconCls:'fa fa-pencil icon-datagrid',plain:true\">编辑角色</a>\r\n            <div class=\"datagrid-btn-separator\"></div>\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"delete_role_btn\" data-options=\"iconCls:'fa fa-remove icon-datagrid',plain:true\">删除角色</a>\r\n            <div class=\"datagrid-btn-separator\"></div>\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"authority_btn\" data-options=\"iconCls:'fa fa-shield icon-datagrid',plain:true\">赋权</a>\r\n        </div>\r\n    </div>\r\n</div>\r\n";
+	module.exports = "<div id=\"role-manage\">\r\n    <div class=\"condition-wrap shadow-block\">\r\n        <input id=\"home-easyui-searchbox\" style=\"width:200px\"/>\r\n    </div>\r\n    <div class=\"tablecontainer shadow-block\">\r\n        <div class=\"tablecontainer\">\r\n            <table id=\"dataTable\"></table>\r\n        </div>\r\n        <div id=\"role-manage-toolbar\">\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"add_role_btn\" data-options=\"iconCls:'fa fa-plus icon-datagrid',plain:true\">添加角色</a>\r\n            <div class=\"datagrid-btn-separator\"></div>\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"modify_role_btn\" data-options=\"iconCls:'fa fa-pencil icon-datagrid',plain:true\">编辑角色</a>\r\n            <div class=\"datagrid-btn-separator\"></div>\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"delete_role_btn\" data-options=\"iconCls:'fa fa-remove icon-datagrid',plain:true\">删除角色</a>\r\n            <div class=\"datagrid-btn-separator\"></div>\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"role_user_btn\" data-options=\"iconCls:'fa fa-user icon-datagrid',plain:true\">设置用户</a>\r\n            <div class=\"datagrid-btn-separator\"></div>\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"authority_btn\" data-options=\"iconCls:'fa fa-shield icon-datagrid',plain:true\">赋权</a>\r\n        </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 181 */
+/* 194 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -30280,12 +31145,161 @@ webpackJsonp([0],[
 	];
 
 /***/ },
-/* 182 */
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
 	var frameworkBase = __webpack_require__(31);
-	__webpack_require__(183);
+	__webpack_require__(196);
+	var Role2User = function(){ };
+
+	//继承自框架基类
+	Role2User.prototype = $.extend({},frameworkBase);
+	Role2User.prototype.id = 'role2org';
+
+	/**
+	 * 模块初始化入口<br>
+	 * @method init
+	 * @param options 参数对象
+	 */
+	Role2User.prototype.init = function(options){
+	    var that = this;
+	    this.options = $.extend({},options);
+	    that.setTitle('给组织机构赋角色').setHeight(500).setWidth(600);
+	    frameworkBase.init.call(this, options);
+	    this.loadBaseView();
+	    this.bindEvents();
+	    this.restoreData();
+	};
+
+	Role2User.prototype.loadBaseView = function(options){
+	    var html = __webpack_require__(198);
+	    this.render(html);
+	};
+
+	Role2User.prototype.bindEvents = function(){
+	    this.dom.on('selectstart',function(){
+	        return false;
+	    });
+	    var that = this;
+	    $('.list-panel',this.dom).on('click','li.list-item',function(){
+	        var $this = $(this);
+	        $this.parent().find('.list-item').removeClass('selected').end().end().addClass('selected');
+	    });
+	    $('#mapList',this.dom).on('dblclick','li.list-item',function(){
+	        removeItem($(this));
+	    });
+	    $('#roleList',this.dom).on('dblclick','li.list-item',function(){
+	        roleItemClick($(this));
+	    });
+	    $('#addRole',this.dom).click(function(){
+	        var $item = $('#roleList .list-item.selected');
+	        roleItemClick($item);
+	    });
+	    function roleItemClick($item){
+	        var role_id = $item.attr('data-role-id');
+	        if($('#mapList .list-item[data-role-id="'+role_id+'"]').length == 0){
+	            var role_name = $item.html();
+	            $('<li class="list-item" data-role-id="'+role_id+'">'+role_name+'</li>').appendTo($('#mapList'));
+	        }
+	    }
+	    function removeItem($item){
+	        $item.remove();
+	    }
+	    $('#removeRole',this.dom).click(function(){
+	        var $item = $('#mapList .list-item.selected');
+	        removeItem($item);
+	    });
+	    $('#addAllRole',this.dom).click(function(){
+	        $('#roleList .list-item').each(function(){
+	            roleItemClick($(this));
+	        });
+	    });
+	    $('#removeAllRole',this.dom).click(function(){
+	        $('#mapList .list-item').remove();
+	    });
+
+
+	    $('#confirmBtn',this.dom).click(function(){
+	        that.save('/role/orgrole/',{
+	            org_id:that.options.org_id,
+	            role_ids:function(){
+	                var ids = [];
+	                $('#mapList .list-item').each(function(){
+	                    ids.push($(this).attr('data-role-id'));
+	                }) ;
+	                return ids.join(';');
+	            }()
+	        },function(data){
+	            if(!data.success){
+	               that.toast(data.message);
+	               return;
+	            }
+	            that.finish(true);
+	        });
+
+	    });
+	    $('#cancelBtn',this.dom).click(function(){
+	        that.finish(false);
+	    });
+	};
+
+	Role2User.prototype.restoreData = function() {
+	    var that = this;
+	    this.query('/role/list',function(data){
+	        if(!data.success){
+	            that.toast(data.message);
+	            return;
+	        }
+	        var html = '';
+	        for(var i = 0,len = data.data.length;i<len;i++){
+	            html += '<li class="list-item" data-role-id="'+data.data[i].role_id+'">'+data.data[i].role_name+'</li>'
+	        }
+	        $('#roleList',that.dom).html(html);
+	    });
+	    this.query('/role/orgrole',{org_id:this.options.org_id},function(data){
+	        if(!data.success){
+	            that.toast(data.message);
+	            return;
+	        }
+	        var html = '';
+	        for(var i = 0,len = data.data.length;i<len;i++){
+	            html += '<li class="list-item" data-role-id="'+data.data[i].role_id+'">'+data.data[i].role_name+'</li>'
+	        }
+	        $('#mapList',that.dom).html(html);
+	    });
+	};
+
+	/**
+	 * 销毁方法
+	 * 由框架调用，主要用于销毁订阅的事件
+	 */
+	Role2User.prototype.finish = function () {
+	    frameworkBase.finish.apply(this,arguments);
+	};
+
+	module.exports = new Role2User();
+
+/***/ },
+/* 196 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 197 */,
+/* 198 */
+/***/ function(module, exports) {
+
+	module.exports = "<div id=\"role2org\">\r\n    <div class=\"role2org_content_wrap\">\r\n        <div class=\"lr-choose-panel\">\r\n            <div class=\"left-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"roleList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n            <div class=\"center-operator-panel\">\r\n                <div class=\"operator-wrap\">\r\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllRole\"></span>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"right-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"mapList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>\r\n";
+
+/***/ },
+/* 199 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	var frameworkBase = __webpack_require__(31);
+	__webpack_require__(200);
 	var Role2User = function(){ };
 
 	//继承自框架基类
@@ -30308,7 +31322,7 @@ webpackJsonp([0],[
 	};
 
 	Role2User.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(185);
+	    var html = __webpack_require__(202);
 	    this.render(html);
 	};
 
@@ -30416,25 +31430,25 @@ webpackJsonp([0],[
 	module.exports = new Role2User();
 
 /***/ },
-/* 183 */
+/* 200 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 184 */,
-/* 185 */
+/* 201 */,
+/* 202 */
 /***/ function(module, exports) {
 
-	module.exports = "<div id=\"role2user\">\r\n    <div class=\"role2user_content_wrap\">\r\n        <div class=\"lr-c-panel\">\r\n            <div class=\"left-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"roleList\" class=\"list-panel\">\r\n\r\n                        <li class=\"list-item\">管理员</li>\r\n                        <li class=\"list-item\">管理员</li>\r\n                        <li class=\"list-item\">管理员</li>\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n            <div class=\"center-operator-panel\">\r\n                <div class=\"operator-wrap\">\r\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllRole\"></span>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"right-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"mapList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>\r\n";
+	module.exports = "<div id=\"role2user\">\r\n    <div class=\"role2user_content_wrap\">\r\n        <div class=\"lr-choose-panel\">\r\n            <div class=\"left-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"roleList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n            <div class=\"center-operator-panel\">\r\n                <div class=\"operator-wrap\">\r\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllRole\"></span>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"right-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"mapList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 186 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
 	var frameworkBase = __webpack_require__(31);
-	__webpack_require__(187);
+	__webpack_require__(204);
 	var UserAddModify = function(){ };
 
 	//继承自框架基类
@@ -30468,7 +31482,7 @@ webpackJsonp([0],[
 	};
 
 	UserAddModify.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(189);
+	    var html = __webpack_require__(206);
 	    this.render(html);
 	};
 
@@ -30537,20 +31551,20 @@ webpackJsonp([0],[
 	module.exports = new UserAddModify();
 
 /***/ },
-/* 187 */
+/* 204 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 188 */,
-/* 189 */
+/* 205 */,
+/* 206 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"user-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>用户名：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入用户名\" name=\"user_name\" id=\"user_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>密码：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入密码\" name=\"user_password\" id=\"user_password\" type=\"password\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>确认密码：</label>\r\n                <input class=\"form-control\" placeholder=\"请确认密码\" name=\"user_repassword\" id=\"user_repassword\" type=\"password\" value=\"\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 190 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -30560,7 +31574,7 @@ webpackJsonp([0],[
 
 	var frameworkBase = __webpack_require__(31);
 	__webpack_require__(35);
-	__webpack_require__(191);
+	__webpack_require__(208);
 	__webpack_require__(111);
 	var UserManage = function () {};
 
@@ -30585,11 +31599,11 @@ webpackJsonp([0],[
 
 	UserManage.prototype.loadBaseView = function () {
 	    var that = this;
-	    var html = __webpack_require__(193);
+	    var html = __webpack_require__(210);
 	    this.render(html);
 	    $('.tablecontainer',this.dom).height(this.dom.height()-55);
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(194);
+	    var columns = __webpack_require__(211);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '/user/list',
 	        method: 'get',
@@ -30693,14 +31707,26 @@ webpackJsonp([0],[
 	        var rowData;
 	        if(!(rowData = getSelectRow()))
 	            return;
-	        that.save('/user/save',{action:'004',user_id:rowData.user_id},function(data){
-	            if(data.success){
-	                that.toast("删除用户成功!");
-	                Events.notify('onRefresh:user-manage');
-	            }else{
-	                that.toast(data.message);
-	            }
+	        swal({
+	            title: "确认",
+	            text: "删除该用户将会清空此用户所属于组织机构以及其所拥有的角色关联数据，确认删除吗？",
+	            type: "warning",
+	            showCancelButton: true,
+	            confirmButtonColor: "#DD6B55",
+	            confirmButtonText: "删除",
+	            cancelButtonText: "取消",
+	            closeOnConfirm: true
+	        }, function () {
+	            that.save('/user/save',{action:'004',user_id:rowData.user_id},function(data){
+	                if(data.success){
+	                    that.toast("删除用户成功!");
+	                    Events.notify('onRefresh:user-manage');
+	                }else{
+	                    that.toast(data.message);
+	                }
+	            });
 	        });
+
 	    });
 	    /**
 	     * 为用户分配角色
@@ -30743,20 +31769,20 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 191 */
+/* 208 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 192 */,
-/* 193 */
+/* 209 */,
+/* 210 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"user-manage\">\r\n    <div class=\"condition-wrap shadow-block\">\r\n        <input id=\"home-easyui-searchbox\" style=\"width:200px\"/>\r\n        <div class=\"conditionitem\"><span>开始时间：</span><input id=\"startdate\" type=\"text\" class=\"easyui-datebox\" style=\"width:100px\"/></div>\r\n        <div class=\"conditionitem\"><span>结束时间：</span><input id=\"enddate\" type=\"text\" class=\"easyui-datebox\" style=\"width:100px\"/></div>\r\n    </div>\r\n    <div class=\"tablecontainer shadow-block\">\r\n        <div class=\"tablecontainer\">\r\n            <table id=\"dataTable\"></table>\r\n        </div>\r\n        <div id=\"user-manage-toolbar\">\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"add_user_btn\" data-options=\"iconCls:'fa fa-plus icon-datagrid',plain:true\">添加用户</a>\r\n            <div class=\"datagrid-btn-separator\"></div>\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"modify_user_btn\" data-options=\"iconCls:'fa fa-pencil icon-datagrid',plain:true\">编辑用户</a>\r\n            <div class=\"datagrid-btn-separator\"></div>\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"modify_password_btn\" data-options=\"iconCls:'fa fa-lock icon-datagrid',plain:true\">重置密码</a>\r\n            <div class=\"datagrid-btn-separator\"></div>\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"delete_user_btn\" data-options=\"iconCls:'fa fa-remove icon-datagrid',plain:true\">删除用户</a>\r\n            <div class=\"datagrid-btn-separator\"></div>\r\n            <a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"auth_role_btn\" data-options=\"iconCls:'fa fa-graduation-cap icon-datagrid',plain:true\">分配角色</a>\r\n        </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 194 */
+/* 211 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -30765,6 +31791,308 @@ webpackJsonp([0],[
 	    {field: 'create_time', title: '创建时间', width: 150},
 	    {field: 'update_time', title: '修改时间', width: 200}
 	];
+
+/***/ },
+/* 212 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	var frameworkBase = __webpack_require__(31);
+	__webpack_require__(213);
+	var User2Org = function(){ };
+
+	//继承自框架基类
+	User2Org.prototype = $.extend({},frameworkBase);
+	User2Org.prototype.id = 'user2org';
+
+	/**
+	 * 模块初始化入口<br>
+	 * @method init
+	 * @param options 参数对象
+	 */
+	User2Org.prototype.init = function(options){
+	    var that = this;
+	    this.options = $.extend({},options);
+	    that.setTitle('编辑组织机构下的用户').setHeight(500).setWidth(600);
+	    frameworkBase.init.call(this, options);
+	    this.loadBaseView();
+	    this.bindEvents();
+	    this.restoreData();
+	};
+
+	User2Org.prototype.loadBaseView = function(options){
+	    var html = __webpack_require__(215);
+	    this.render(html);
+	};
+
+	User2Org.prototype.bindEvents = function(){
+	    this.dom.on('selectstart',function(){
+	        return false;
+	    });
+	    var that = this;
+	    $('.list-panel',this.dom).on('click','li.list-item',function(){
+	        var $this = $(this);
+	        $this.parent().find('.list-item').removeClass('selected').end().end().addClass('selected');
+	    });
+	    $('#mapList',this.dom).on('dblclick','li.list-item',function(){
+	        removeItem($(this));
+	    });
+	    $('#userList',this.dom).on('dblclick','li.list-item',function(){
+	        roleItemClick($(this));
+	    });
+	    $('#addUser',this.dom).click(function(){
+	        var $item = $('#userList .list-item.selected');
+	        roleItemClick($item);
+	    });
+	    function roleItemClick($item){
+	        if($item.length == 0)
+	            return;
+	        var user_id = $item.attr('data-user-id');
+	        if($('#mapList .list-item[data-user-id="'+user_id+'"]').length == 0){
+	            var role_name = $item.html();
+	            $('<li class="list-item" data-user-id="'+user_id+'">'+role_name+'</li>').appendTo($('#mapList'));
+	        }
+	    }
+	    function removeItem($item){
+	        $item.remove();
+	    }
+	    $('#removeUser',this.dom).click(function(){
+	        var $item = $('#mapList .list-item.selected');
+	        removeItem($item);
+	    });
+	    $('#addAllUser',this.dom).click(function(){
+	        $('#userList .list-item').each(function(){
+	            roleItemClick($(this));
+	        });
+	    });
+	    $('#removeAllUser',this.dom).click(function(){
+	        $('#mapList .list-item').remove();
+	    });
+
+
+	    $('#confirmBtn',this.dom).click(function(){
+	        that.save('/org/orguser/',{
+	            org_id:that.options.org_id,
+	            user_ids:function(){
+	                var ids = [];
+	                $('#mapList .list-item').each(function(){
+	                    ids.push($(this).attr('data-user-id'));
+	                }) ;
+	                return ids.join(';');
+	            }()
+	        },function(data){
+	            if(!data.success){
+	               that.toast(data.message);
+	               return;
+	            }
+	            that.finish(true);
+	        });
+
+	    });
+	    $('#cancelBtn',this.dom).click(function(){
+	        that.finish(false);
+	    });
+	};
+
+	User2Org.prototype.restoreData = function() {
+	    var that = this;
+	    this.query('/user/list',{page:1,rows:999999},function(data){
+	        if(!data.success){
+	            that.toast(data.message);
+	            return;
+	        }
+	        var html = '';
+	        for(var i = 0,len = data.data.total;i<len;i++){
+	            html += '<li class="list-item" data-user-id="'+data.data.rows[i].user_id+'">'+data.data.rows[i].user_name+'</li>'
+	        }
+	        $('#userList',that.dom).html(html);
+	    });
+	    this.query('/org/orguser',{org_id:this.options.org_id,page:1,rows:99999},function(data){
+	        if(!data.success){
+	            that.toast(data.message);
+	            return;
+	        }
+	        var html = '';
+	        for(var i = 0,len = data.data.total;i<len;i++){
+	            html += '<li class="list-item" data-user-id="'+data.data.rows[i].user_id+'">'+data.data.rows[i].user_name+'</li>'
+	        }
+	        $('#mapList',that.dom).html(html);
+	    });
+	};
+
+	/**
+	 * 销毁方法
+	 * 由框架调用，主要用于销毁订阅的事件
+	 */
+	User2Org.prototype.finish = function () {
+	    frameworkBase.finish.apply(this,arguments);
+	};
+
+	module.exports = new User2Org();
+
+/***/ },
+/* 213 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 214 */,
+/* 215 */
+/***/ function(module, exports) {
+
+	module.exports = "<div id=\"user2org\">\r\n    <div class=\"user2org_content_wrap\">\r\n        <div class=\"lr-choose-panel\">\r\n            <div class=\"left-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"userList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n            <div class=\"center-operator-panel\">\r\n                <div class=\"operator-wrap\">\r\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllUser\"></span>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"right-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"mapList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>\r\n";
+
+/***/ },
+/* 216 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	var frameworkBase = __webpack_require__(31);
+	__webpack_require__(217);
+	var User2Role = function(){ };
+
+	//继承自框架基类
+	User2Role.prototype = $.extend({},frameworkBase);
+	User2Role.prototype.id = 'user2role';
+
+	/**
+	 * 模块初始化入口<br>
+	 * @method init
+	 * @param options 参数对象
+	 */
+	User2Role.prototype.init = function(options){
+	    var that = this;
+	    this.options = $.extend({},options);
+	    that.setTitle('编辑角色下的用户').setHeight(500).setWidth(600);
+	    frameworkBase.init.call(this, options);
+	    this.loadBaseView();
+	    this.bindEvents();
+	    this.restoreData();
+	};
+
+	User2Role.prototype.loadBaseView = function(options){
+	    var html = __webpack_require__(219);
+	    this.render(html);
+	};
+
+	User2Role.prototype.bindEvents = function(){
+	    this.dom.on('selectstart',function(){
+	        return false;
+	    });
+	    var that = this;
+	    $('.list-panel',this.dom).on('click','li.list-item',function(){
+	        var $this = $(this);
+	        $this.parent().find('.list-item').removeClass('selected').end().end().addClass('selected');
+	    });
+	    $('#mapList',this.dom).on('dblclick','li.list-item',function(){
+	        removeItem($(this));
+	    });
+	    $('#userList',this.dom).on('dblclick','li.list-item',function(){
+	        roleItemClick($(this));
+	    });
+	    $('#addUser',this.dom).click(function(){
+	        var $item = $('#userList .list-item.selected');
+	        roleItemClick($item);
+	    });
+	    function roleItemClick($item){
+	        if($item.length == 0)
+	            return;
+	        var user_id = $item.attr('data-user-id');
+	        if($('#mapList .list-item[data-user-id="'+user_id+'"]').length == 0){
+	            var role_name = $item.html();
+	            $('<li class="list-item" data-user-id="'+user_id+'">'+role_name+'</li>').appendTo($('#mapList'));
+	        }
+	    }
+	    function removeItem($item){
+	        $item.remove();
+	    }
+	    $('#removeUser',this.dom).click(function(){
+	        var $item = $('#mapList .list-item.selected');
+	        removeItem($item);
+	    });
+	    $('#addAllUser',this.dom).click(function(){
+	        $('#userList .list-item').each(function(){
+	            roleItemClick($(this));
+	        });
+	    });
+	    $('#removeAllUser',this.dom).click(function(){
+	        $('#mapList .list-item').remove();
+	    });
+
+
+	    $('#confirmBtn',this.dom).click(function(){
+	        that.save('/role/roleuser/',{
+	            role_id:that.options.role_id,
+	            user_ids:function(){
+	                var ids = [];
+	                $('#mapList .list-item').each(function(){
+	                    ids.push($(this).attr('data-user-id'));
+	                }) ;
+	                return ids.join(';');
+	            }()
+	        },function(data){
+	            if(!data.success){
+	               that.toast(data.message);
+	               return;
+	            }
+	            that.finish(true);
+	        });
+
+	    });
+	    $('#cancelBtn',this.dom).click(function(){
+	        that.finish(false);
+	    });
+	};
+
+	User2Role.prototype.restoreData = function() {
+	    var that = this;
+	    this.query('/user/list',{page:1,rows:999999},function(data){
+	        if(!data.success){
+	            that.toast(data.message);
+	            return;
+	        }
+	        var html = '';
+	        for(var i = 0,len = data.data.total;i<len;i++){
+	            html += '<li class="list-item" data-user-id="'+data.data.rows[i].user_id+'">'+data.data.rows[i].user_name+'</li>'
+	        }
+	        $('#userList',that.dom).html(html);
+	    });
+	    this.query('/role/roleuser',{role_id:this.options.role_id,page:1,rows:99999},function(data){
+	        if(!data.success){
+	            that.toast(data.message);
+	            return;
+	        }
+	        var html = '';
+	        for(var i = 0,len = data.data.length;i<len;i++){
+	            html += '<li class="list-item" data-user-id="'+data.data[i].user_id+'">'+data.data[i].user_name+'</li>'
+	        }
+	        $('#mapList',that.dom).html(html);
+	    });
+	};
+
+	/**
+	 * 销毁方法
+	 * 由框架调用，主要用于销毁订阅的事件
+	 */
+	User2Role.prototype.finish = function () {
+	    frameworkBase.finish.apply(this,arguments);
+	};
+
+	module.exports = new User2Role();
+
+/***/ },
+/* 217 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 218 */,
+/* 219 */
+/***/ function(module, exports) {
+
+	module.exports = "<div id=\"user2role\">\r\n    <div class=\"user2role_content_wrap\">\r\n        <div class=\"lr-choose-panel\">\r\n            <div class=\"left-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"userList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n            <div class=\"center-operator-panel\">\r\n                <div class=\"operator-wrap\">\r\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllUser\"></span>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"right-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"mapList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>\r\n";
 
 /***/ }
 ]);

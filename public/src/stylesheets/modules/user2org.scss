@@ -1,0 +1,35 @@
+
+#user2org{
+    height:100%;
+    .user2org_content_wrap{
+        height:85%;
+    }
+    .btn-wrap{
+        margin-top:3%;
+        text-align: center;
+    }
+
+    .panel-flow-wrap{
+        height:100%;
+        overflow: auto;
+        .list-panel{
+            list-style: none;
+            margin: 0;
+            padding:0;
+            .list-item{
+                height:20px;
+                line-height: 20px;
+                font-size:12px;
+                text-align: left;
+                padding:0 5px;
+                &:hover{
+                    background: #b8f1fe;
+                }
+                &.selected{
+                    background: #7cc2f1;
+                }
+            }
+        }
+    }
+
+}

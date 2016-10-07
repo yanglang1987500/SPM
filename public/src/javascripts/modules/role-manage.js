@@ -104,26 +104,47 @@ RoleManage.prototype.bindEvents = function () {
                 Events.notify('onRefresh:role-manage');
         }).init({showType:'Pop',action:'002',role_id:rowData.role_id});
     });
-    //修改密码
+    //赋权
     $('#authority_btn',this.dom).click(function(){
         var rowData;
         if(!(rowData = getSelectRow()))
             return;
-
+        Events.require('authority-control').addCallback(function(flag){
+        }).init({showType:'Pop',role_id:rowData.role_id});
+    });
+    //设置属于当前角色的用户
+    $('#role_user_btn',this.dom).click(function(){
+        var rowData;
+        if(!(rowData = getSelectRow()))
+            return;
+        Events.require('user2role').addCallback(function(flag){
+        }).init({showType:'Pop',role_id:rowData.role_id});
     });
     //删除信息
     $('#delete_role_btn',this.dom).click(function(){
         var rowData;
         if(!(rowData = getSelectRow()))
             return;
-        that.save('/role/save',{action:'003',role_id:rowData.role_id},function(data){
-            if(data.success){
-                that.toast("删除角色成功!");
-                Events.notify('onRefresh:role-manage');
-            }else{
-                that.toast(data.message);
-            }
+        swal({
+            title: "确认",
+            text: "删除该角色将会清空此角色所关联的组织机构与用户关系，确认删除吗？",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "删除",
+            cancelButtonText: "取消",
+            closeOnConfirm: true
+        }, function () {
+            that.save('/role/save',{action:'003',role_id:rowData.role_id},function(data){
+                if(data.success){
+                    that.toast("删除角色成功!");
+                    Events.notify('onRefresh:role-manage');
+                }else{
+                    that.toast(data.message);
+                }
+            });
         });
+
     });
    
 

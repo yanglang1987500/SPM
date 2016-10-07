@@ -4,7 +4,6 @@
 var express = require('express');
 var router = express.Router();
 var fs = require("fs");
-var guid = require('guid');
 var multiparty = require('multiparty');
 var updateTempDir = './public/files/temp';
 var updateDir = './public/files/';
@@ -24,7 +23,7 @@ router.post('/file/upload', function (req, res, next) {
         } else {
             console.log('parse files: ' + filesTmp);
             var inputFile = files.upfile[0];
-            var filename = guid.raw().replace(/-/gi,'');
+            var filename = utils.guid();
             var filetype = inputFile.originalFilename.match(/.*\.(.*)$/)[1];
             var uploadedPath = inputFile.path;
             var dstPath = updateDir + filename+'.'+filetype;

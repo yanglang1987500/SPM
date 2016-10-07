@@ -138,14 +138,26 @@ UserManage.prototype.bindEvents = function () {
         var rowData;
         if(!(rowData = getSelectRow()))
             return;
-        that.save('/user/save',{action:'004',user_id:rowData.user_id},function(data){
-            if(data.success){
-                that.toast("删除用户成功!");
-                Events.notify('onRefresh:user-manage');
-            }else{
-                that.toast(data.message);
-            }
+        swal({
+            title: "确认",
+            text: "删除该用户将会清空此用户所属于组织机构以及其所拥有的角色关联数据，确认删除吗？",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "删除",
+            cancelButtonText: "取消",
+            closeOnConfirm: true
+        }, function () {
+            that.save('/user/save',{action:'004',user_id:rowData.user_id},function(data){
+                if(data.success){
+                    that.toast("删除用户成功!");
+                    Events.notify('onRefresh:user-manage');
+                }else{
+                    that.toast(data.message);
+                }
+            });
         });
+
     });
     /**
      * 为用户分配角色

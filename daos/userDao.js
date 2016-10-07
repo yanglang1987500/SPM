@@ -3,7 +3,7 @@
  */
 var Calendar = require('../libs/calendar');
 var mySqlPool = require('../database/mysqlpool');
-var guid = require('guid');
+var utils = require('../libs/utils');
 var table = 'sys_user',mainKey = 'user_id';
 
 module.exports = {
@@ -62,7 +62,24 @@ module.exports = {
                 connection.release();
             });
         });
-
+    },
+    /**
+     * 根据用户user_name查询用户数据
+     * @param user_name 用户名
+     * @param callback 回调
+     */
+    userInfoSearchByUserName:function(user_name,callback){
+        var selectSql = "select * from "+table+" where user_name = '"+user_name+"'";
+        mySqlPool.getConnection(function(connection){
+            connection.query(selectSql,function(err,result){
+                if(err){
+                    callback && callback(err);
+                    return;
+                }
+                callback && callback(false,result[0]);
+                connection.release();
+            });
+        });
     },
     /**
      * 添加用户
@@ -72,7 +89,7 @@ module.exports = {
     addUser:function(params,callback){
         params.create_time = Calendar.getInstance().format('yyyyMMdd HH:mm:ss');
         params.update_time = Calendar.getInstance().format('yyyyMMdd HH:mm:ss');
-        params[mainKey] = guid.raw().replace(/-/gi,'');
+        params[mainKey] = utils.guid();
         var insertSql = 'INSERT INTO '+table+' set ?';
         mySqlPool.getConnection(function(connection){
             connection.query(insertSql,params,function(err,result){
@@ -119,15 +136,17 @@ module.exports = {
      * @param callback
      */
     removeUser:function(user_id,callback){
-        mySqlPool.getConnection(function(connection){
-            connection.query("DELETE FROM "+table+" WHERE "+mainKey+" = '"+user_id+"'", function (err, result) {
-                if(err){
-                    callback && callback(err);
-                    return;
-                }
-                callback && callback(false,result);
-                connection.release();
-            });
+        var execArr = [
+            {sql:"DELETE FROM sys_org_user WHERE "+mainKey+" = '"+user_id+"'"},
+            {sql:"DELETE FROM sys_user_role WHERE "+mainKey+" = '"+user_id+"'"},
+            {sql:"DELETE FROM "+table+" WHERE "+mainKey+" = '"+user_id+"'"}];
+        mySqlPool.execTrans(execArr,function(err,result){
+            if(err){
+                console.log(err);
+                callback && callback(err);
+                return;
+            }
+            callback && callback(false,result);
         });
     }
 };

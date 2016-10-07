@@ -9,7 +9,7 @@ module.exports = {
         app = _app;
     },
     isLocal:function (){
-        return true;
+        return false;
     }
 
 

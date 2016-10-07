@@ -495,7 +495,7 @@ body,html{
 }
 
 /**==================左选右操作面板基础样式======================**/
-.lr-c-panel{
+.lr-choose-panel{
     overflow: hidden;
     height:100%;
     padding:10px 5px;
@@ -552,6 +552,50 @@ body,html{
     }
 }
 
+/**==================左右布局面板基础样式======================**/
+
+.lr-panel-wrap{
+    height:100%;
+    .lr-panel-left{
+        width:200px;
+        height:100%;
+        position: absolute;
+        background: rgba(255,255,255,.8);
+        border:1px solid #DDDDDD;
+        .head-tools{
+            &>li{
+                float:right;
+                width:25px;
+                height:30px;
+                line-height: 30px;
+                text-align: center;
+                color:#6D98DB;
+                cursor: pointer;
+                border:1px solid transparent;
+                &:hover{
+                    background: #E6E6E6;
+                    border:1px solid #DDDDDD;
+                }
+            }
+            &:before{
+                font-size: 12px;
+                line-height: 30px;
+                margin-left:5px;
+                content:'列表';
+                display: inline;
+            }
+            text-align: left;
+            overflow: hidden;
+            background: rgba(255,255,255,1);
+            list-style: none;
+        }
+
+    }
+    .lr-panel-right{
+        height:100%;
+        padding-left:210px;
+    }
+}
 
 
 

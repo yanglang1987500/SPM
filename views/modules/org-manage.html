@@ -1,0 +1,34 @@
+<div id="org-manage">
+    <div class="lr-panel-wrap">
+        <div class="lr-panel-left">
+            <ul class="head-tools">
+                <li id="authRoleOrgBtn" title="分配角色"><span class="fa fa-graduation-cap"></span></li>
+                <li id="removeOrgBtn" title="删除组织机构"><span class="fa fa-remove"></span></li>
+                <li id="modifyOrgBtn" title="编辑组织机构"><span class="fa fa-pencil"></span></li>
+                <li id="addOrgBtn" title="添加组织机构"><span class="fa fa-plus"></span></li>
+            </ul>
+            <div class="tree-container">
+                <ul id="orgTree" class="ztree"></ul>
+            </div>
+        </div>
+        <div class="lr-panel-right">
+            <div class="condition-wrap shadow-block">
+                <input id="home-easyui-searchbox" style="width:200px"/>
+                <div class="conditionitem"><span>开始时间：</span><input id="startdate" type="text" class="easyui-datebox" style="width:100px"/></div>
+                <div class="conditionitem"><span>结束时间：</span><input id="enddate" type="text" class="easyui-datebox" style="width:100px"/></div>
+            </div>
+            <div class="tablecontainer shadow-block">
+                <div class="tablecontainer">
+                    <table id="dataTable"></table>
+                </div>
+                <div id="org-manage-toolbar">
+                    <a href="javascript:void(0)" class="easyui-linkbutton" id="modify_org_user_btn" data-options="iconCls:'fa fa-pencil icon-datagrid',plain:true">编辑组织机构用户</a>
+                    <div class="datagrid-btn-separator"></div>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" id="delete_org_user_btn" data-options="iconCls:'fa fa-remove icon-datagrid',plain:true">删除用户</a>
+                    <div class="datagrid-btn-separator"></div>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" id="auth_role_btn" data-options="iconCls:'fa fa-graduation-cap icon-datagrid',plain:true">分配角色</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -564,6 +564,7 @@ Framework.prototype = {
             this._callbacks.length = 0;//清空回调
         }
         this.finished = true;
+        this.dom = null;
         return this;
     },
     /**

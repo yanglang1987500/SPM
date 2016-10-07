@@ -3,7 +3,7 @@
  */
 var Calendar = require('../libs/calendar');
 var mySqlPool = require('../database/mysqlpool');
-var guid = require('guid');
+var utils = require('../libs/utils');
 var table = 'sys_role', mainKey = 'role_id';
 
 module.exports = {
@@ -79,6 +79,48 @@ module.exports = {
 
     },
     /**
+     * 根据角色id查询其所有用户
+     * @param role_id 角色id
+     * @param callback 回调
+     */
+    roleUserListSearchByRoleId:function(role_id,callback){
+        var selectSql = "select t1.* from sys_user t1,sys_user_role t2 where t1.user_id=t2.user_id and t2.role_id = '"+role_id+"'";
+        mySqlPool.getConnection(function(connection){
+            connection.query(selectSql,function(err,result){
+                if(err){
+                    callback && callback(err);
+                    return;
+                }
+                callback && callback(false,result);
+                connection.release();
+            });
+        });
+
+    },
+    /**
+     * 根据角色id保存所有用户
+     * @param role_id 角色id
+     * @param user_ids 用户id列表
+     * @param callback 回调
+     */
+    roleUserListSaveByRoleId:function(role_id,user_ids,callback){
+        var arr = [];
+        for(var i = 0;i<user_ids.length;i++){
+            arr.push([utils.guid(),role_id,user_ids[i]]);
+        }
+        var execArr = [{sql:"DELETE FROM sys_user_role WHERE role_id = '"+role_id+"'"}];
+        if(user_ids.length>0)
+            execArr.push({sql:"INSERT INTO sys_user_role(id,role_id,user_id) VALUES ?",params:[arr]});
+        mySqlPool.execTrans(execArr,function(err,result){
+            if(err){
+                console.log(err);
+                callback && callback(err);
+                return;
+            }
+            callback && callback(false,result);
+        });
+    },
+    /**
      * 根据组织机构id查询其所有角色
      * @param org_id 组织机构id
      * @param callback 回调
@@ -104,32 +146,43 @@ module.exports = {
      * @param callback 回调
      */
     userRoleListSaveByUserId:function(user_id,role_ids,callback){
-        mySqlPool.getConnection(function(connection){
-            connection.query("DELETE FROM sys_user_role WHERE user_id = '"+user_id+"'", function (err, result) {
-                if(err){
-                    console.log(err);
-                    callback && callback(err);
-                    return;
-                }
-                if(role_ids.length == 0){
-                    callback && callback(false,result);
-                    return;
-                }
-                var insertSql = 'INSERT INTO sys_user_role(user_id,role_id) VALUES ?';
-                var arr = [];
-                for(var i = 0;i<role_ids.length;i++){
-                    arr.push([user_id,role_ids[i]]);
-                }
-                connection.query(insertSql,[arr],function(err,result){
-                    if(err){
-                        console.log(err);
-                        callback && callback(err);
-                        return;
-                    }
-                    callback && callback(false,result);
-                    connection.release();
-                });
-            });
+        var arr = [];
+        for(var i = 0;i<role_ids.length;i++){
+            arr.push([utils.guid(),user_id,role_ids[i]]);
+        }
+        var execArr = [{sql:"DELETE FROM sys_user_role WHERE user_id = '"+user_id+"'"}];
+        if(role_ids.length>0)
+            execArr.push({sql:"INSERT INTO sys_user_role(id,user_id,role_id) VALUES ?",params:[arr]});
+        mySqlPool.execTrans(execArr,function(err,result){
+            if(err){
+                console.log(err);
+                callback && callback(err);
+                return;
+            }
+            callback && callback(false,result);
+        });
+    },
+    /**
+     * 根据组织机构id保存角色
+     * @param org_id 组织机构id
+     * @param role_ids 角色id列表
+     * @param callback 回调
+     */
+    orgRoleListSaveByOrgId:function(org_id,role_ids,callback){
+        var arr = [];
+        for(var i = 0;i<role_ids.length;i++){
+            arr.push([utils.guid(),org_id,role_ids[i]]);
+        }
+        var execArr = [{sql:"DELETE FROM sys_org_role WHERE org_id = '"+org_id+"'"}];
+        if(role_ids.length>0)
+            execArr.push({sql:"INSERT INTO sys_org_role(id,org_id,role_id) VALUES ?",params:[arr]});
+        mySqlPool.execTrans(execArr,function(err,result){
+            if(err){
+                console.log(err);
+                callback && callback(err);
+                return;
+            }
+            callback && callback(false,result);
         });
     },
     /**
@@ -138,7 +191,7 @@ module.exports = {
      * @param callback
      */
     addRole:function(params,callback){
-        params[mainKey] = guid.raw().replace(/-/gi,'');
+        params[mainKey] = utils.guid();
         var insertSql = 'INSERT INTO '+table+' set ?';
         mySqlPool.getConnection(function(connection){
             connection.query(insertSql,params,function(err,result){
@@ -184,15 +237,17 @@ module.exports = {
      * @param callback
      */
     removeRole:function(role_id,callback){
-        mySqlPool.getConnection(function(connection){
-            connection.query("DELETE FROM "+table+" WHERE "+mainKey+" = '"+role_id+"'", function (err, result) {
-                if(err){
-                    callback && callback(err);
-                    return;
-                }
-                callback && callback(false,result);
-                connection.release();
-            });
+        var execArr = [
+            {sql:"DELETE FROM sys_org_role WHERE "+mainKey+" = '"+role_id+"'"},
+            {sql:"DELETE FROM sys_user_role WHERE "+mainKey+" = '"+role_id+"'"},
+            {sql:"DELETE FROM "+table+" WHERE "+mainKey+" = '"+role_id+"'"}];
+        mySqlPool.execTrans(execArr,function(err,result){
+            if(err){
+                console.log(err);
+                callback && callback(err);
+                return;
+            }
+            callback && callback(false,result);
         });
     }
 };

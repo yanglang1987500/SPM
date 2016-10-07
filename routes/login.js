@@ -14,39 +14,19 @@ router.get('/login', function (req, res, next) {
 });
 
 router.post('/login', function (req, res, next) {
-    var username = req.body.username,usercode;
+    var username = req.body.username,usercode = username;
     var password = req.body.password;
     var remember = req.body.remember;
     if(context.isLocal()){
-        usercode = username;
         doCheck(username,utils.md5('123456'));
     }else{
-        userDao.queryUserInfoMapByNickname(username,function(maps){
-            if(maps.length == 0){
+        userDao.userInfoSearchByUserName(username,function(err,result){
+            if(!result){
                 //用户名不存在
                 res.render('login',{error:'用户名不存在'});
             }else{
-                usercode = maps[0].code;
-                userDao.queryUserInfoByName(usercode,function(userinfos){
-                    if(userinfos.length == 0){
-                        //用户名不存在
-                        res.render('login',{error:'用户编号不存在'});
-                    }else{
-                        //若存在，则看是否修改过密码（默认密码都是123456），修改密码会在UserPassword表中生成一条记录
-                        userDao.queryUserPasswordByName(usercode,function(userPasswords){
-                            if(userPasswords.length == 0){
-                                //尚未修改过密码，使用默认密码123456进行判断
-                                doCheck(usercode,utils.md5(userDao.defaultPassword));
-                            }else{
-                                //已经修改过密码
-                                var userPassword = userPasswords[0];
-                                doCheck(userPassword.username,userPassword.password);
-                            }
-                        });
-                    }
-                });
+                doCheck(result.user_name,result.user_password);
             }
-
         });
     }
 

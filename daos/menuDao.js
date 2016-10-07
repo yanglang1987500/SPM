@@ -3,7 +3,7 @@
  */
 var Calendar = require('../libs/calendar');
 var mySqlPool = require('../database/mysqlpool');
-var guid = require('guid');
+var utils = require('../libs/utils');
 var table = 'sys_menu', mainKey = 'menu_id';
 
 module.exports = {
@@ -30,7 +30,7 @@ module.exports = {
             }
 
         condition = condition.join(' and ');
-        var selectSql = 'select t1.*,ifnull(t2.menu_title,\'根菜单\') menu_parent_title ',fromSql = 'from '+table+' t1 left join '+table+' t2 on t1.menu_parent_id=t2.menu_id where '+condition+' ';
+        var selectSql = 'select t1.*,ifnull(t2.menu_title,\'根菜单\') menu_parent_title ',fromSql = 'from '+table+' t1 left join '+table+' t2 on t1.menu_parent_id=t2.menu_id where '+condition+' order by t1.menu_order asc';
 
         mySqlPool.getConnection(function(connection){
             connection.query(selectSql+fromSql,function(err,result){
@@ -65,21 +65,29 @@ module.exports = {
     },
     /**
      * 添加菜单
+     * 同时写入sys_auth权限表
      * @param params
      * @param callback
      */
     addMenu:function(params,callback){
-        params[mainKey] = guid.raw().replace(/-/gi,'');
+        params[mainKey] = utils.guid();
+        params['menu_order'] = utils.generatorOrder();
         var insertSql = 'INSERT INTO '+table+' set ?';
-        mySqlPool.getConnection(function(connection){
-            connection.query(insertSql,params,function(err,result){
-                if(err){
-                    callback && callback(err);
-                    return;
-                }
-                callback && callback(false,result);
-                connection.release();
-            });
+
+        var execArr = [
+            {sql:insertSql,params:params},
+            {sql:"insert into sys_auth set ?",params:{
+                auth_id:utils.guid(),
+                auth_type:'menu',
+                resource_id:params[mainKey]
+            }}];
+        mySqlPool.execTrans(execArr,function(err,result){
+            if(err){
+                console.log(err);
+                callback && callback(err);
+                return;
+            }
+            callback && callback(false,result);
         });
     },
     /**
@@ -115,15 +123,16 @@ module.exports = {
      * @param callback
      */
     removeMenu:function(menu_id,callback){
-        mySqlPool.getConnection(function(connection){
-            connection.query("DELETE FROM "+table+" WHERE "+mainKey+" = '"+menu_id+"'", function (err, result) {
-                if(err){
-                    callback && callback(err);
-                    return;
-                }
-                callback && callback(false,result);
-                connection.release();
-            });
+        var execArr = [
+            {sql:"DELETE FROM "+table+" WHERE "+mainKey+" = '"+menu_id+"'"},
+            {sql:"DELETE FROM sys_auth WHERE resource_id = '"+menu_id+"'"}];
+        mySqlPool.execTrans(execArr,function(err,result){
+            if(err){
+                console.log(err);
+                callback && callback(err);
+                return;
+            }
+            callback && callback(false,result);
         });
     }
 };

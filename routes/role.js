@@ -47,11 +47,45 @@ router.post('/role/userrole', function (req, res, next) {
 });
 
 /**
+ * 根据角色id查询其用户
+ */
+router.get('/role/roleuser', function (req, res, next) {
+    var role_id = req.query.role_id;
+    roleDao.roleUserListSearchByRoleId(role_id,function(){
+        res.json(utils.returns(arguments));
+    });
+});
+
+/**
+ * 根据角色id查询保存用户
+ */
+router.post('/role/roleuser', function (req, res, next) {
+    var role_id = req.body.role_id;
+    var user_ids = req.body.user_ids;
+    var user_id_arr = user_ids?user_ids.split(';'):[];
+    roleDao.roleUserListSaveByRoleId(role_id,user_id_arr,function(){
+        res.json(utils.returns(arguments));
+    });
+});
+
+/**
  * 根据组织机构id查询其角色
  */
 router.get('/role/orgrole', function (req, res, next) {
     var org_id = req.query.org_id;
     roleDao.orgRoleListSearchByOrgId(org_id,function(){
+        res.json(utils.returns(arguments));
+    });
+});
+
+/**
+ * 根据组织机构id保存其角色
+ */
+router.post('/role/orgrole', function (req, res, next) {
+    var org_id = req.body.org_id;
+    var role_ids = req.body.role_ids;
+    var role_id_arr = role_ids?role_ids.split(';'):[];
+    roleDao.orgRoleListSaveByOrgId(org_id,role_id_arr,function(){
         res.json(utils.returns(arguments));
     });
 });

@@ -3,16 +3,37 @@
  */
 var Calendar = require('../libs/calendar');
 var mySqlPool = require('../database/mysqlpool');
-var guid = require('guid');
+var utils = require('../libs/utils');
 var table = 'sys_auth', mainKey = 'auth_id';
 
 module.exports = {
     /**
-     * 权限列表查询
+     * 权限菜单列表查询
+     * @param role_id 角色id
      * @param callback 回调
      */
-    roleListSearch:function(callback){
-        var selectSql = 'select * from  '+table;
+    menuAuthTreeSearch:function(role_id,callback){
+        var selectSql = "SELECT";
+        selectSql += "	t1.*, t0.auth_id, ";
+        selectSql += " IF (t2.auth_id IS NULL, 0, 1) AS checked ";
+        selectSql += " FROM ";
+        selectSql += "	sys_auth t0,";
+        selectSql += "	sys_menu t1 ";
+        selectSql += " LEFT JOIN (";
+        selectSql += "	SELECT ";
+        selectSql += "		t4.resource_id, ";
+        selectSql += "		t4.auth_id " ;
+        selectSql += "	FROM ";
+        selectSql += "		sys_auth t4,";
+        selectSql += "		sys_auth_role t5,";
+        selectSql += "		sys_role t6";
+        selectSql += "	WHERE";
+        selectSql += "		t4.auth_id = t5.auth_id";
+        selectSql += "	AND t5.role_id = t6.role_id";
+        selectSql += "	AND t5.role_id = '"+role_id+"'";
+        selectSql += ") t2 ON t1.menu_id = t2.resource_id ";
+        selectSql += " WHERE ";
+        selectSql += "	t0.resource_id = t1.menu_id";
         mySqlPool.getConnection(function(connection){
             connection.query(selectSql,function(err,result){
                 if(err){
@@ -26,85 +47,26 @@ module.exports = {
 
     },
     /**
-     * 根据权限id查询权限
-     * @param auth_id 权限id
-     * @param callback 回调
-     */
-    roleListSearchById:function(auth_id,callback){
-        var selectSql = "select * from "+table+" where "+mainKey+" = '"+auth_id+"'";
-        mySqlPool.getConnection(function(connection){
-            connection.query(selectSql,function(err,result){
-                if(err){
-                    callback && callback(err);
-                    return;
-                }
-                callback && callback(false,result[0]);
-                connection.release();
-            });
-        });
-
-    },
-    /**
-     * 添加权限
-     * @param params
+     * 权限菜单保存
+     * @param role_id 角色id
+     * @param auth_ids 权限id列表
      * @param callback
      */
-    addOrg:function(params,callback){
-        params[mainKey] = guid.raw().replace(/-/gi,'');
-        var insertSql = 'INSERT INTO '+table+' set ?';
-        mySqlPool.getConnection(function(connection){
-            connection.query(insertSql,params,function(err,result){
-                if(err){
-                    callback && callback(err);
-                    return;
-                }
-                callback && callback(false,result);
-                connection.release();
-            });
-        });
-    },
-    /**
-     * 修改权限数据
-     * @param params 参数包
-     * @param callback 回调
-     */
-    modifyRole:function(params,callback){
-        var sql = 'update '+table+' set ', condition = [], pArr = [];
-        for(var key in params){
-            if(key == mainKey)
-                continue;
-            condition.push(' '+key+' = ? ');
-            pArr.push(params[key]);
+    menuAuthTreeSave:function(role_id,auth_ids,callback){
+        var arr = [];
+        for(var i = 0;i<auth_ids.length;i++){
+            arr.push([utils.guid(),role_id,auth_ids[i]]);
         }
-        sql += condition.join(',');
-        sql += ' where '+mainKey+' = ? ';
-        pArr.push(params[mainKey]);
-        mySqlPool.getConnection(function(connection) {
-            connection.query(sql, pArr, function (err, result) {
-                if(err){
-                    callback && callback(err);
-                    return;
-                }
-                callback && callback(false,result);
-                connection.release();
-            });
-        });
-    },
-    /**
-     * 删除权限
-     * @param auth_id 权限id
-     * @param callback
-     */
-    removeRole:function(auth_id,callback){
-        mySqlPool.getConnection(function(connection){
-            connection.query("DELETE FROM "+table+" WHERE "+mainKey+" = '"+auth_id+"'", function (err, result) {
-                if(err){
-                    callback && callback(err);
-                    return;
-                }
-                callback && callback(false,result);
-                connection.release();
-            });
+        var execArr = [{sql:"delete from sys_auth_role where auth_id in (select t1.auth_id from sys_auth t1 where t1.auth_type = 'menu') and role_id = '"+role_id+"' "}];
+        if(auth_ids.length>0)
+            execArr.push({sql:"INSERT INTO sys_auth_role(id,role_id,auth_id) VALUES ?",params:[arr]});
+        mySqlPool.execTrans(execArr,function(err,result){
+            if(err){
+                console.log(err);
+                callback && callback(err);
+                return;
+            }
+            callback && callback(false,result);
         });
     }
 };

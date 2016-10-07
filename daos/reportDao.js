@@ -72,7 +72,7 @@ module.exports = {
     addReport:function(params,callback){
         params.create_time = Calendar.getInstance().format('yyyyMMdd HH:mm:ss');
         params.update_time = Calendar.getInstance().format('yyyyMMdd HH:mm:ss');
-        params.report_id = guid.raw().replace(/-/gi,'');
+        params.report_id = utils.guid();
         var insertSql = 'INSERT INTO t_report set ?';
         mySqlPool.getConnection(function(connection){
             connection.query(insertSql,params,function(err,result){
