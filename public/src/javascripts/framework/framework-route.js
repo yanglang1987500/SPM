@@ -18,7 +18,7 @@ function load(_module,showType){
 
 module.exports = {
     init:function(){
-        frameworkBase.query('/menu/list',function(data){
+        frameworkBase.query('/auth/menu/list',function(data){
             if(!data.success){
                 frameworkBase.toast(data.message);
                 return;

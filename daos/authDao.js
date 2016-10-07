@@ -68,5 +68,48 @@ module.exports = {
             }
             callback && callback(false,result);
         });
+    },
+    /**
+     * 根据用户id查询该用户的所有角色，包括用户所属组织机构具有的角色集合
+     * @param userId 用户id
+     * @param callback
+     */
+    queryUserRoleByUserId:function(userId,callback){
+        var querySql = "";
+        querySql += "select t2.role_id,t2.role_name from sys_user_role t1,sys_role t2 where t1.role_id = t2.role_id and t1.user_id = '"+userId+"'";
+        querySql += "union ";
+        querySql += "select t4.role_id,t4.role_name from sys_org_role t3,sys_role t4 where t3.org_id  ";
+        querySql += "in (select t1.org_id from sys_org_user t1 where t1.user_id = '"+userId+"') ";
+        querySql += "and t3.role_id = t4.role_id";
+        mySqlPool.getConnection(function(connection){
+            connection.query(querySql,function(err,result){
+                if(err){
+                    callback && callback(err);
+                    return;
+                }
+                callback && callback(false,result);
+                connection.release();
+            });
+        });
+    },
+    /**
+     * 查询角色所对应的所有权限对象
+     * @param callback
+     */
+    queryRoleAuthority:function(callback){
+        var querySql = "select t1.role_id,t1.role_name,t2.auth_id,t2.auth_type,t2.resource_id,t4.* " +
+            "from sys_role t1,sys_auth t2,sys_auth_role t3,sys_menu t4 " +
+            "where t1.role_id = t3.role_id and t3.auth_id = t2.auth_id "+
+            " and t2.resource_id = t4.menu_id";
+        mySqlPool.getConnection(function(connection){
+            connection.query(querySql,function(err,result){
+                if(err){
+                    callback && callback(err);
+                    return;
+                }
+                callback && callback(false,result);
+                connection.release();
+            });
+        });
     }
 };
