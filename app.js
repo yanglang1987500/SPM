@@ -9,6 +9,7 @@ var rd = require('rd');
 var guid = require('guid');
 var bodyParser = require('body-parser');
 
+
 var ejs = require('ejs');
 
 var app = express();
@@ -20,6 +21,9 @@ var context = require('./framework/context');
 context.setApp(app);
 //引入权限控制初始化
 var authority = require('./framework/authority');
+//初始化权限数据
+authority.loadAuthorities();
+var sessionUtil = require('./framework/sessionUtil');
 var websocket = require('./framework/websocket');
 
 // view engine setup
@@ -29,7 +33,8 @@ app.engine('html', function(){
   var args = arguments;
   ejs.renderFile.apply(this,[].slice.call(arguments,0,2).concat([function(err,data){
     if(args.length==3){
-      args[2].apply(this,[null,authority.parse(data,args[1])]);
+      var sessionUserInfo = sessionUtil.createUserInfo(args[1].session.userInfo);
+      args[2].apply(this,[null,authority.parse(data,sessionUserInfo)]);
     }
   }]));
 });

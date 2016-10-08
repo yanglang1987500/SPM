@@ -15,7 +15,9 @@
         <div class="logobar">学校物业管理平台</div>
         <p class="welcomeinfo">您好，<%=session.userInfo.username%>，欢迎回来</p>
         <div class="toolbar clearfix">
-            <a href="#/modules/homepage"><div class="btn"><i class=" fa fa-home"></i><span>首页</span></div></a>
+            <sec-authorize url="menu:/modules/homepage">
+                <a href="#/modules/homepage"><div class="btn"><i class=" fa fa-home"></i><span>首页</span></div></a>
+            </sec-authorize>
             <div class="btn" id="returnBtn"><i class=" fa fa-arrow-circle-left"></i><span>后退</span></div>
             <div class="btn" id="nextBtn"><i class=" fa fa-arrow-circle-right"></i><span>前进</span></div>
             <div  class="btn" id="colorBtn"><i class="fa fa-black-tie "></i><span>主题</span>

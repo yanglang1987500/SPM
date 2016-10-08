@@ -6,7 +6,8 @@ var router = express.Router();
 var authDao = require('../daos/authDao');
 var utils = require('../libs/utils');
 var menuDao = require('../daos/menuDao');
-var session = require('../framework/session');
+var sessionUtil = require('../framework/sessionUtil');
+var authority = require('../framework/authority');
 
 /**
  * 菜单权限列表查询
@@ -29,6 +30,7 @@ router.post('/auth/menu', function (req, res, next) {
 
         var auth_id_arr = auth_ids?auth_ids.split(';'):[];
         authDao.menuAuthTreeSave(role_id,auth_id_arr,function(err,data){
+            authority.reloadAuthorities();
             res.json(utils.returns(arguments));
         });
     }
@@ -47,7 +49,7 @@ router.get('/auth/menu/list', function (req, res, next) {
             show_type:show_type!=undefined?show_type:null,
             menu_type:menu_type!=undefined?menu_type:null
         },function(err,data){
-            var sessionUserInfo = session.createUserInfo(req.session.userInfo);
+            var sessionUserInfo = sessionUtil.createUserInfo(req.session.userInfo);
             data = data.filter(function(menu){
                 var ret = sessionUserInfo.getRoles().isPermission(menu.menu_id);
                 console.log('--------------'+ret);

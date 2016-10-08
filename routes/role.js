@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var roleDao = require('../daos/roleDao');
 var utils = require('../libs/utils');
+var authority = require('../framework/authority');
 
 router.get('/role/list', function(req, res, next) {
     if (req.session.isLogin) {
@@ -42,6 +43,7 @@ router.post('/role/userrole', function (req, res, next) {
     var role_ids = req.body.role_ids;
     var role_id_arr = role_ids?role_ids.split(';'):[];
     roleDao.userRoleListSaveByUserId(user_id,role_id_arr,function(){
+        authority.reloadUserRole(req);
         res.json(utils.returns(arguments));
     });
 });
@@ -64,6 +66,7 @@ router.post('/role/roleuser', function (req, res, next) {
     var user_ids = req.body.user_ids;
     var user_id_arr = user_ids?user_ids.split(';'):[];
     roleDao.roleUserListSaveByRoleId(role_id,user_id_arr,function(){
+        authority.reloadUserRole(req);
         res.json(utils.returns(arguments));
     });
 });
@@ -86,6 +89,7 @@ router.post('/role/orgrole', function (req, res, next) {
     var role_ids = req.body.role_ids;
     var role_id_arr = role_ids?role_ids.split(';'):[];
     roleDao.orgRoleListSaveByOrgId(org_id,role_id_arr,function(){
+        authority.reloadUserRole(req);
         res.json(utils.returns(arguments));
     });
 });

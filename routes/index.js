@@ -7,7 +7,7 @@ var client = new Client();
 var ejs = require('ejs');
 var menuDao = require('../daos/menuDao');
 var authDao = require('../daos/authDao');
-var session = require('../framework/session');
+var sessionUtil = require('../framework/sessionUtil');
 
 function test() {
     fs.readFile('../views/index.html', 'utf-8', function (err, data) {
@@ -20,14 +20,13 @@ function test() {
 /* GET home page. */
 router.get('/', function (req, res, next) {
     if (req.session.isLogin) {
-        var sessionUserInfo = session.createUserInfo(req.session.userInfo);
+        var sessionUserInfo = sessionUtil.createUserInfo(req.session.userInfo);
         menuDao.menuSearch(function (err, data) {
             if (err) {
                 console.log(err);
             }
             data = data.filter(function(menu){
                 var ret = sessionUserInfo.getRoles().isPermission(menu.menu_id);
-                console.log('--------------'+ret);
                 return ret;
             });
             res.render('index', {menuList:data});

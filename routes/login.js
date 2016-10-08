@@ -3,8 +3,9 @@ var router = express.Router();
 var userDao = require('../daos/userDao');
 var utils = require('../libs/utils');
 var context = require('../framework/context');
-var session = require('../framework/session');
+var sessionUtil = require('../framework/sessionUtil');
 var authDao = require('../daos/authDao');
+var authority = require('../framework/authority');
 
 /* GET home page. */
 router.get('/login', function (req, res, next) {
@@ -35,14 +36,12 @@ router.post('/login', function (req, res, next) {
                 maxAge = 1000 * 60 * 60 * 24 * 7; // 一周
             }
             req.sessionOptions.maxAge = new Date(Date.now() + maxAge);
-            var sessionUserInfo = req.session.userInfo = session.createUserInfo({
+            var sessionUserInfo = req.session.userInfo = sessionUtil.createUserInfo({
                 username:username,
                 usercode:username,
                 userid:userInfo.user_id
             });
-
-            authDao.queryUserRoleByUserId(req.session.userInfo.userid,function(err,roles) {
-                sessionUserInfo.setRoles(roles);
+            authority.reloadUserRole(sessionUserInfo,function(){
                 req.session.isLogin = true;
                 res.redirect('/');
             });

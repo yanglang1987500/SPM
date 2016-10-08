@@ -229,20 +229,7 @@ OrgManage.prototype.bindEvents = function () {
         }).init({showType:'Pop',org_id:nodes[0].org_id});
     });
 
-    //删除信息
-    $('#delete_user_btn',this.dom).click(function(){
-        var rowData;
-        if(!(rowData = getSelectRow()))
-            return;
-        that.save('/user/save',{action:'004',user_id:rowData.user_id},function(data){
-            if(data.success){
-                that.toast("删除用户成功!");
-                Events.notify('onRefresh:org-manage');
-            }else{
-                that.toast(data.message);
-            }
-        });
-    });
+   
     /**
      * 为用户分配角色
      */
