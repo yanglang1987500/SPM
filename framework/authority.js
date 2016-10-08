@@ -23,7 +23,7 @@ function parseExpr(expr){
     var matches = expr.match(/^(menu|element):([^:]*):?([^:]*)$/);
     obj['auth_type'] = matches[1];
     obj['auth_url'] = matches[2];
-    obj['auth_value'] = matches[3];
+    obj['auth_code'] = matches[3];
     return obj;
 }
 
@@ -80,11 +80,15 @@ module.exports = {
                 var expObj = parseExpr(expr);
                 for(var j = 0;j<resources.length;j++){
                     if(expObj.auth_type == 'menu'){
-                        if(resources[j].menu_url == expObj.auth_url){
+                        //菜单鉴权
+                        if(resources[j].auth_url == expObj.auth_url){
                             return true;
                         }
                     }else if(expObj.auth_type == 'element'){
-                        //TODO 元素鉴权
+                        //元素鉴权
+                        if(resources[j].auth_url == expObj.auth_url && resources[j].auth_code == expObj.auth_code){
+                            return true;
+                        }
                     }
                 }
             }

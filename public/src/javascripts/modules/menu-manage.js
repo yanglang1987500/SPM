@@ -76,12 +76,12 @@ MenuManage.prototype.initTable = function () {
         prompt: '请输关键字，如菜单标题、菜单url'
     });
 
-    //绑定下拉框事件 通知刷新消息
+    //绑定下拉框事件 通知刷新菜单
     $('#show_type,#menu_type',that.dom).on('change',function(){
         Events.notify('onRefresh:menu-manage');
     });
 
-    //订阅刷新消息
+    //订阅刷新菜单
     Events.subscribe('onRefresh:menu-manage',function(){
         that.$table.datagrid('load',{
             key:searchBox.searchbox('getValue'),
@@ -95,14 +95,14 @@ MenuManage.prototype.initTable = function () {
  */
 MenuManage.prototype.bindEvents = function () {
     var that = this;
-    //添加信息
+    //添加菜单
     $('#add_menu_btn',this.dom).click(function(){
         Events.require('menu-add-modify').addCallback(function(flag){
             if(flag)
                 Events.notify('onRefresh:menu-manage');
         }).init({showType:'Pop'});
     });
-    //修改信息
+    //修改菜单
     $('#modify_menu_btn',this.dom).click(function(){
         var rowData;
         if(!(rowData = getSelectRow()))
@@ -112,14 +112,14 @@ MenuManage.prototype.bindEvents = function () {
                 Events.notify('onRefresh:menu-manage');
         }).init({showType:'Pop',action:'002',menu_id:rowData.menu_id});
     });
-    //删除信息
+    //删除菜单
     $('#delete_menu_btn',this.dom).click(function(){
         var rowData;
         if(!(rowData = getSelectRow()))
             return;
         that.save('/menu/save',{action:'003',menu_id:rowData.menu_id},function(data){
             if(data.success){
-                that.toast("删除信息成功!");
+                that.toast("删除菜单成功!");
                 Events.notify('onRefresh:menu-manage');
             }else{
                 that.toast(data.message);

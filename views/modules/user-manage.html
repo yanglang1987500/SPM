@@ -9,10 +9,14 @@
             <table id="dataTable"></table>
         </div>
         <div id="user-manage-toolbar">
+            <sec-authorize url="element:/modules/user-manage:addUser">
             <a href="javascript:void(0)" class="easyui-linkbutton" id="add_user_btn" data-options="iconCls:'fa fa-plus icon-datagrid',plain:true">添加用户</a>
             <div class="datagrid-btn-separator"></div>
+            </sec-authorize>
+            <sec-authorize url="element:/modules/user-manage:modifyUser">
             <a href="javascript:void(0)" class="easyui-linkbutton" id="modify_user_btn" data-options="iconCls:'fa fa-pencil icon-datagrid',plain:true">编辑用户</a>
             <div class="datagrid-btn-separator"></div>
+            </sec-authorize>
             <a href="javascript:void(0)" class="easyui-linkbutton" id="modify_password_btn" data-options="iconCls:'fa fa-lock icon-datagrid',plain:true">重置密码</a>
             <div class="datagrid-btn-separator"></div>
             <a href="javascript:void(0)" class="easyui-linkbutton" id="delete_user_btn" data-options="iconCls:'fa fa-remove icon-datagrid',plain:true">删除用户</a>

@@ -20,19 +20,38 @@ router.get('/auth/menu', function (req, res, next) {
         });
     }
 });
-/**
- * 菜单权限列表保存
- */
-router.post('/auth/menu', function (req, res, next) {
-    if (req.session.isLogin) {
-        var role_id = req.body.role_id;
-        var auth_ids = req.body.auth_ids;
 
-        var auth_id_arr = auth_ids?auth_ids.split(';'):[];
-        authDao.menuAuthTreeSave(role_id,auth_id_arr,function(err,data){
-            authority.reloadAuthorities();
+/**
+ * 元素权限列表查询
+ */
+router.get('/auth/element', function (req, res, next) {
+    if (req.session.isLogin) {
+        var role_id = req.query.role_id;
+        authDao.elementAuthTreeSearch(role_id,function(err,data){
             res.json(utils.returns(arguments));
         });
+    }
+});
+
+/**
+ * 权限列表保存
+ */
+router.post('/auth/save', function (req, res, next) {
+    if (req.session.isLogin) {
+        var role_id = req.body.role_id;
+        var auth_menu_ids = req.body.auth_menu_ids;
+        var auth_element_ids = req.body.auth_element_ids;
+
+        var auth_menu_id_arr = auth_menu_ids?auth_menu_ids.split(';'):[];
+        var auth_element_id_arr = auth_element_ids?auth_element_ids.split(';'):[];
+
+        authDao.menuAuthTreeSave(role_id,auth_menu_id_arr,function(err,data){
+            authDao.elementAuthTreeSave(role_id,auth_element_id_arr,function(err,data){
+                authority.reloadAuthorities();
+                res.json(utils.returns(arguments));
+            });
+        });
+
     }
 });
 
@@ -52,7 +71,6 @@ router.get('/auth/menu/list', function (req, res, next) {
             var sessionUserInfo = sessionUtil.createUserInfo(req.session.userInfo);
             data = data.filter(function(menu){
                 var ret = sessionUserInfo.getRoles().isPermission(menu.menu_id);
-                console.log('--------------'+ret);
                 return ret;
             });
             res.json(utils.returnJson(true,data));

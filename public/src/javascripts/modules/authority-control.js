@@ -28,6 +28,7 @@ AuthorityControl.prototype.init = function(options){
     this.loadBaseView();
     this.bindEvents();
     this.initMenuAuthority();
+    this.initElementAuthority();
     this.restoreData();
 };
 
@@ -86,6 +87,47 @@ AuthorityControl.prototype.initMenuAuthority = function () {
 };
 
 /**
+ * 初始化元素权限
+ */
+AuthorityControl.prototype.initElementAuthority = function () {
+    var that = this;
+    this.query('/auth/element',{role_id:this.options.role_id},function(data){
+        if(!data.success){
+            that.toast(data.message);
+            return;
+        }
+        var setting = {
+            check:{
+                enable:true,
+                chkboxType:{ "Y" : "ps", "N" : "s" }
+            },
+            data:{
+                keep:{
+                    parent:true,
+                    leaf:true
+                },
+                simpleData:{
+                    enable:true,
+                    idKey:'node_id',
+                    pIdKey:'parent_id',
+                    rootPId:null
+                },
+                key:{
+                    name:'node_title',
+                    title:'node_title'
+                }
+            },
+            callback:{
+
+            }
+        };
+        data.data.push({'node_id':'0','parent_id':null,'node_title':'根节点','node_value':'','node_type':'menu'});
+        that.elementAuthorityTree = $.fn.zTree.init($("#elementAuthorityTree",this.dom), setting,data.data);
+        that.elementAuthorityTree.expandNode(that.elementAuthorityTree.getNodes()[0], true, false, true);
+    });
+};
+
+/**
  * 绑定元素事件
  */
 AuthorityControl.prototype.bindEvents = function () {
@@ -100,15 +142,25 @@ AuthorityControl.prototype.bindEvents = function () {
     });
     $('#saveBtn',this.dom).click(function(){
         //获取被勾选的节点数组
-        var checkedNodes = that.menuAuthorityTree.getCheckedNodes(true);
-        that.save('/auth/menu',{
+        var checkedMenuNodes = that.menuAuthorityTree.getCheckedNodes(true);
+        var checkedElementNodes = that.elementAuthorityTree.getCheckedNodes(true);
+        that.save('/auth/save',{
             role_id:that.options.role_id,
-            auth_ids:function(){
+            auth_menu_ids:function(){
                 var ids = [];
-                for(var i = 0;i<checkedNodes.length;i++){
-                    if(checkedNodes[i].menu_id == '0')
+                for(var i = 0;i<checkedMenuNodes.length;i++){
+                    if(checkedMenuNodes[i].menu_id == '0')
                         continue;
-                    ids.push(checkedNodes[i].auth_id);
+                    ids.push(checkedMenuNodes[i].auth_id);
+                }
+                return ids.join(';');
+            }(),
+            auth_element_ids:function(){
+                var ids = [];
+                for(var i = 0;i<checkedElementNodes.length;i++){
+                    if(checkedElementNodes[i].node_type == 'menu')
+                        continue;
+                    ids.push(checkedElementNodes[i].auth_id);
                 }
                 return ids.join(';');
             }()

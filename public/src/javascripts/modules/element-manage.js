@@ -64,6 +64,10 @@ ElementManage.prototype.initTable = function () {
             return {rows: data.data, total: data.data.length};
         },
         onDblClickRow: function (rowIndex, rowData) {
+            Events.require('element-add-modify').addCallback(function(flag){
+                if(flag)
+                    Events.notify('onRefresh:element-manage');
+            }).init({showType:'Pop',action:'002',element_id:rowData.element_id});
         },
         toolbar: '#element-manage-toolbar'
     });
