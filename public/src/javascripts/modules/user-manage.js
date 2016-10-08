@@ -25,14 +25,20 @@ UserManage.prototype.init = function (options) {
     that.setTitle('用户管理').setHeight(700).setWidth(780);
     frameworkBase.init.call(this, options);
     this.loadBaseView();
-    this.bindEvents();
 };
 
 UserManage.prototype.loadBaseView = function () {
     var that = this;
-    var html = require('../../../../views/modules/user-manage.html');
-    this.render(html);
-    $('.tablecontainer',this.dom).height(this.dom.height()-55);
+    this.loadFragment('/views/modules/user-manage.html').then(function(html){
+        that.render(html);
+        $('.tablecontainer',that.dom).height(that.dom.height()-55);
+        that.initTable();
+        that.bindEvents();
+    });
+};
+
+UserManage.prototype.initTable = function () {
+    var that = this;
     $('.easyui-linkbutton',this.dom).linkbutton();
     var columns = require('../../../../configs/modules/user-manage-Column.js');
     that.$table = $('#dataTable',this.dom).datagrid({
@@ -86,7 +92,7 @@ UserManage.prototype.loadBaseView = function () {
         },
         onChange:function(date){
             Events.notify('onRefresh:user-manage');
-        } 
+        }
     });
 
     //订阅刷新消息
@@ -97,8 +103,6 @@ UserManage.prototype.loadBaseView = function () {
             enddate:endDate.combo('getValue').replace(/-/gi,'')
         });
     });
-    
-    
 };
 
 /**

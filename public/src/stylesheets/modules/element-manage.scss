@@ -1,0 +1,62 @@
+
+#element-manage{
+    overflow: hidden;
+    .tablecontainer{
+        height:100%;
+    }
+
+    select{
+        width:100px;
+        vertical-align: middle;
+        border:1px solid #DDDDDD;
+        height:22px;
+        color: #3a3a3a;
+        outline:none;
+    }
+
+    .datagrid-btable{
+        font-family:Verdana, Arial, Helvetica, AppleGothic, sans-serif;
+    }
+
+    .nav{
+        height:70px;
+        background-color: #9AA7AF;
+        position: relative;
+    }
+    .nav h2{
+        font-size: 22px;
+        color: #FCFCFC;
+        line-height: 70px;
+        margin: 0 20px;
+        font-weight: normal;
+    }
+    .nav .logout{
+        position: absolute;
+        right: 50px;
+        bottom: 25px;
+        color: #FCFCFC;
+    }
+
+    .nav .logout>.link{
+        color: #D3D4DB;
+        cursor: pointer;
+    }
+    #exportFrame{
+        display: none;
+    }
+    .conditionitem{
+        width:180px;
+    }
+    .head-tools{
+        &:before{
+            content:'菜单列表';
+        }
+    }
+    .tree-container{
+        position: absolute;
+        top:30px;
+        left:0;
+        right:0;
+        bottom:0;
+    }
+}

@@ -18,6 +18,8 @@ var Events = require('./framework-events');
  */
 var _currentModel = null;
 
+var _fragmentCache = {};
+
 /**
  * websocket
  */
@@ -298,15 +300,23 @@ Framework.prototype = {
     /**
      * 加载页面片段
      * @param url
-     * @param _param
      * @param callback
      */
-    loadFragment:function(url,_param,callback){
+    loadFragment:function(url,callback){
         var $def = $.Deferred();
-        $.get(url,function(data){
-            callback&&callback(data);
-            $def.resolve(data);
-        });
+        if(_fragmentCache[url]){
+            setTimeout(function(){
+                callback&&callback(_fragmentCache[url]);
+                $def.resolve(_fragmentCache[url]);
+            });
+        }else{
+            $.get(url,function(data){
+                if(!_fragmentCache[url])
+                    _fragmentCache[url] = data;
+                callback&&callback(data);
+                $def.resolve(data);
+            });
+        }
         return $def.promise();
     },
     /**

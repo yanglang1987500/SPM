@@ -27,15 +27,22 @@ OrgManage.prototype.init = function (options) {
     that.setTitle('组织机构管理').setHeight(700).setWidth(780);
     frameworkBase.init.call(this, options);
     this.loadBaseView();
-    this.initOrgTree();
-    this.bindEvents();
+
 };
 
 OrgManage.prototype.loadBaseView = function () {
     var that = this;
-    var html = require('../../../../views/modules/org-manage.html');
-    this.render(html);
-    $('.tablecontainer',this.dom).height(this.dom.height()-55);
+    this.loadFragment('/views/modules/org-manage.html').then(function(html){
+        that.render(html);
+        $('.tablecontainer',that.dom).height(that.dom.height()-55);
+        that.initTable();
+        that.initOrgTree();
+        that.bindEvents();
+    });
+};
+
+OrgManage.prototype.initTable = function () {
+    var that = this;
     $('.easyui-linkbutton',this.dom).linkbutton();
     var columns = require('../../../../configs/modules/org-manage-Column.js');
     that.$table = $('#dataTable',this.dom).datagrid({
@@ -85,7 +92,7 @@ OrgManage.prototype.loadBaseView = function () {
         },
         onChange:function(date){
             Events.notify('onRefresh:org-manage');
-        } 
+        }
     });
 
     //订阅刷新消息

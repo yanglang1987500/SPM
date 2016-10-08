@@ -29,67 +29,69 @@ AttenceSearch.prototype.init = function (options) {
 
 AttenceSearch.prototype.loadBaseView = function () {
     var that = this;
-    var html = require('../../../../views/modules/attence-search.html');
-    this.render(html);
-    var columns = require('../../../../configs/modules/attence-search-Column.js');
-    var $table = $('#dataTable',that.dom).datagrid({
-        url: '/attence/search',
-        method: 'get',
-        columns: [columns],
-        pagination: true,
-        pageSize: 20,
-        ctrlSelect: true,
-        checkOnSelect: true,
-        selectOnCheck: true,
-        loadMsg: '正在查询，请稍候……',
-        striped: true,
-        fit: true,
-        fitColumns: true,
-        loadFilter: function (data) {
-            if(!data.success){
-                that.toast(data.message);
+    this.loadFragment('/views/modules/attence-search.html').then(function(html){
+        that.render(html);
+        var columns = require('../../../../configs/modules/attence-search-Column.js');
+        var $table = $('#dataTable',that.dom).datagrid({
+            url: '/attence/search',
+            method: 'get',
+            columns: [columns],
+            pagination: true,
+            pageSize: 20,
+            ctrlSelect: true,
+            checkOnSelect: true,
+            selectOnCheck: true,
+            loadMsg: '正在查询，请稍候……',
+            striped: true,
+            fit: true,
+            fitColumns: true,
+            loadFilter: function (data) {
+                if(!data.success){
+                    that.toast(data.message);
+                }
+                return data.data;
+            },
+            onDblClickRow: function (rowIndex, rowData) {
             }
-            return data.data;
-        },
-        onDblClickRow: function (rowIndex, rowData) {
-        }
-    });
+        });
 
-    var searchBox = $('#attence-search #home-easyui-searchbox',that.dom).searchbox({
-        searcher: function (value, name) {
-            Events.notify('onRefresh:attence-search');
-        },
-        menu:'#attence-type-select',
-        prompt: '请输关键字，如学生名字'
-    });
+        var searchBox = $('#attence-search #home-easyui-searchbox',that.dom).searchbox({
+            searcher: function (value, name) {
+                Events.notify('onRefresh:attence-search');
+            },
+            menu:'#attence-type-select',
+            prompt: '请输关键字，如学生名字'
+        });
 
-    var startDate = $("#startdate",that.dom).datetimebox({
-        editable:false ,
-        formatter: function (date) {
-            return Calendar.getInstance(date).format('yyyy-MM-dd HH:mm:ss');
-        },
-        onChange:function(date){
-            Events.notify('onRefresh:attence-search');
-        }
-    });
-    var endDate = $("#enddate",that.dom).datetimebox({
-        editable:false ,
-        formatter: function (date) {
-            return Calendar.getInstance(date).format('yyyy-MM-dd HH:mm:ss');
-        },
-        onChange:function(date){
-            Events.notify('onRefresh:attence-search');
-        }
-    });
+        var startDate = $("#startdate",that.dom).datetimebox({
+            editable:false ,
+            formatter: function (date) {
+                return Calendar.getInstance(date).format('yyyy-MM-dd HH:mm:ss');
+            },
+            onChange:function(date){
+                Events.notify('onRefresh:attence-search');
+            }
+        });
+        var endDate = $("#enddate",that.dom).datetimebox({
+            editable:false ,
+            formatter: function (date) {
+                return Calendar.getInstance(date).format('yyyy-MM-dd HH:mm:ss');
+            },
+            onChange:function(date){
+                Events.notify('onRefresh:attence-search');
+            }
+        });
 
-    Events.subscribe('onRefresh:attence-search',function(){
-        $table.datagrid('load',{
-            key:searchBox.searchbox('getValue'),
-            type:searchBox.searchbox('getName'),
-            startdate:startDate.combo('getValue').replace(/-/gi,''),
-            enddate:endDate.combo('getValue').replace(/-/gi,'')
+        Events.subscribe('onRefresh:attence-search',function(){
+            $table.datagrid('load',{
+                key:searchBox.searchbox('getValue'),
+                type:searchBox.searchbox('getName'),
+                startdate:startDate.combo('getValue').replace(/-/gi,''),
+                enddate:endDate.combo('getValue').replace(/-/gi,'')
+            });
         });
     });
+
 };
 
 /**

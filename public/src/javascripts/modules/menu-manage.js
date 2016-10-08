@@ -25,17 +25,23 @@ MenuManage.prototype.init = function (options) {
     that.setTitle('菜单管理').setHeight(700).setWidth(780);
     frameworkBase.init.call(this, options);
     this.loadBaseView();
-    this.bindEvents();
 };
 
 MenuManage.prototype.loadBaseView = function () {
     var that = this;
-    var html = require('../../../../views/modules/menu-manage.html');
-    this.render(html);
-    $('.tablecontainer',this.dom).height(this.dom.height()-55);
-    $('.easyui-linkbutton',this.dom).linkbutton();
+    this.loadFragment('/views/modules/menu-manage.html').then(function(html){
+        that.render(html);
+        $('.tablecontainer',that.dom).height(that.dom.height()-55);
+        that.initTable();
+        that.bindEvents();
+    });
+};
+
+MenuManage.prototype.initTable = function () {
+    var that = this;
+    $('.easyui-linkbutton',that.dom).linkbutton();
     var columns = require('../../../../configs/modules/menu-manage-Column.js');
-    that.$table = $('#dataTable',this.dom).datagrid({
+    that.$table = $('#dataTable',that.dom).datagrid({
         url: '/menu/list',
         method: 'get',
         columns: [columns],
@@ -68,10 +74,10 @@ MenuManage.prototype.loadBaseView = function () {
             Events.notify('onRefresh:menu-manage');
         },
         prompt: '请输关键字，如菜单标题、菜单url'
-    });  
+    });
 
     //绑定下拉框事件 通知刷新消息
-    $('#show_type,#menu_type',this.dom).on('change',function(){
+    $('#show_type,#menu_type',that.dom).on('change',function(){
         Events.notify('onRefresh:menu-manage');
     });
 
@@ -83,11 +89,7 @@ MenuManage.prototype.loadBaseView = function () {
             menu_type:$('#menu_type',that.dom).val()
         });
     });
-    
-    
 };
-
-
 /**
  * 绑定按钮点击事件
  */

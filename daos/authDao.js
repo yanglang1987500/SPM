@@ -97,7 +97,7 @@ module.exports = {
      * @param callback
      */
     queryRoleAuthority:function(callback){
-        var querySql = "select t1.role_id,t1.role_name,t2.auth_id,t2.auth_type,t2.resource_id,t4.* " +
+        var querySql = "select t1.role_id,t1.role_name,t2.auth_id,t2.auth_type,t2.resource_id,t4.menu_url,t4.menu_parent_id  " +
             "from sys_role t1,sys_auth t2,sys_auth_role t3,sys_menu t4 " +
             "where t1.role_id = t3.role_id and t3.auth_id = t2.auth_id "+
             " and t2.resource_id = t4.menu_id";
