@@ -81,7 +81,17 @@ router.post('/user/save', function (req, res, next) {
     }
 });
 
-
+/**
+ * 单个用户的修改密码功能
+ */
+router.post('/user/passwordmodify', function (req, res, next) {
+    var user_id = req.session.userInfo.userid;
+    var oldPassword = req.body.oldPassword;
+    var newPassword = req.body.newPassword;
+    userDao.passwordModify(user_id,oldPassword,newPassword,function(err,data){
+        res.json(utils.returns(arguments));
+    });
+});
 
 
 module.exports = router;

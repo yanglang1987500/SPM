@@ -40,7 +40,7 @@
                     <%
                     for(var i = 0;i<menuList.length;i++){
                     if(menuList[i].menu_type == '2'){
-                    if(menuList[i].show_type == '2'){
+                    if(menuList[i].show_type != '1'){
                     %>
                     <a href="javascript:void(0)" data-module="#<%=menuList[i].menu_url%>" data-showtype="<%=menuList[i].show_type%>"><li><i class="fa <%=menuList[i].menu_icon%>"></i><%=menuList[i].menu_title%></li></a>
                     <%

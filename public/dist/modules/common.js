@@ -903,6 +903,9 @@
 	                pop.parent().addClass('uk-animation-scale-up').next().addClass('uk-animation-scale-up');
 	                that.pop = pop;
 	                break;
+	            case 'NoUI':
+	                that.dom = null;
+	                break;
 	        }
 	        Events.notifyWith('onRendered',that, that.dom);
 	        Events.notify('onWindowResize');
@@ -964,7 +967,7 @@
 	        if (this.getShowType() === 'Pop') {
 	            if (this.pop != null)
 	                this._closeDialog();
-	            this.setCurrent.apply(_prevModule);
+	            _prevModule && this.setCurrent.apply(_prevModule);
 	        }
 	        Events.notifyWith('onFinished',this);
 

@@ -131,6 +131,38 @@ module.exports = {
         });
     },
     /**
+     * 修改单个用户密码
+     * @param userId 用户id
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     * @param callback 回调
+     */
+    passwordModify:function(userId,oldPassword,newPassword,callback){
+        var selectSql = "select * from "+table+" where user_password = '"+utils.md5(oldPassword)+"' and user_id = '"+userId+"'";
+        mySqlPool.getConnection(function(connection){
+            connection.query(selectSql,function(err,result){
+                if(err){
+                    callback && callback(err);
+                    return;
+                }
+                if(result.length>0){
+                    var updateSql = "update "+table+" set user_password = '"+utils.md5(newPassword)+"' where user_id = '"+userId+"' ";
+                    connection.query(updateSql, function (err, result) {
+                        if(err){
+                            callback && callback(err);
+                            return;
+                        }
+                        callback && callback(false,result);
+                        connection.release();
+                    });
+                }else{
+                    callback && callback({message:'原始密码不正确'});
+                    connection.release();
+                }
+            });
+        });
+    },
+    /**
      * 删除用户
      * @param user_id 用户id
      * @param callback

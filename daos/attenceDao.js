@@ -56,7 +56,7 @@ module.exports = {
 
         condition = condition.join(' and ');
 
-        var caseSql = 'case when substr(t2.create_time,10,8)'+(params.type==1?'>':'<')+'(select value from t_dim t3 where t3.group_id = 1 and t3.id='+(params.type==1?1:2)+') then 1 else 0 end isout ';
+        var caseSql = 'case when substr(t2.create_time,10,8)'+(params.type==1?'>':'<')+'(select dim_value from t_dim t3 where t3.group_id = 1 and t3.dim_id='+(params.type==1?1:2)+') then 1 else 0 end isout ';
 
         var selectSql = 'SELECT count(1) cnt,t2.type'+(needDate?',substr(t2.create_time,1,8) date':'')+', '+caseSql,
             fromSql = 'from t_student t1,t_rflog t2 where '+condition+' group by t2.type,isout'+(needDate?',date':'')+'',

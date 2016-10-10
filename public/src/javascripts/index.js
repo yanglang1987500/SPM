@@ -74,17 +74,22 @@ $(function(){
     $('#nextBtn').click(function(){
         window.history.go(1);
     });
-
+    var showTypes = {
+        1:'Normal',
+        2:'Pop',
+        3:'NoUI'
+    };
     $('body').on('click','a[data-module]',function(){
         var module = $(this).attr('data-module');
         var showType = $(this).attr('data-showtype');
-        $('#menu>li').removeClass('actived');
-        if(showType != '2'){
+        $('#menu>li').removeClass('actived'); 
+        if(showType == '1'){
+            //只有Normal类型的模块需要进行hash定位，弹窗以及无界面模块不需要
             location.href = module;
             return;
         }
         module = module.replace('#','.');
-        Events.notify('onSelectMenu',module).require(module).init({showType:'Pop'});
+        Events.notify('onSelectMenu',module).require(module).init({showType:showTypes[showType]});
     });
 
     Events.subscribe('websocket:message-publish-new',function(data){

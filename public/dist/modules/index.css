@@ -5495,6 +5495,123 @@ ul.ztree.zTreeDragUL {margin:0; padding:0; position:absolute; width:auto; height
   border-radius: 50%;
   font-size: 20px;
   line-height: 40px; }
+.dim-add-modify {
+  box-sizing: border-box; }
+  .dim-add-modify * {
+    font-family: "MicroSoft Yahei"; }
+  .dim-add-modify .panel-body {
+    padding: 20px 20px;
+    border: 0; }
+  .dim-add-modify fieldset {
+    border: 0; }
+  .dim-add-modify .form-group {
+    margin-bottom: 15px;
+    line-height: 30px;
+    height: 30px;
+    overflow: hidden; }
+    .dim-add-modify .form-group label {
+      width: 28%;
+      float: left;
+      line-height: 30px;
+      vertical-align: middle;
+      text-align: right;
+      padding-right: 10px; }
+  .dim-add-modify .form-control {
+    vertical-align: middle;
+    line-height: 20px;
+    width: 72%;
+    float: left;
+    padding: 3px 10px;
+    font-size: 12px;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s; }
+  .dim-add-modify .form-control:focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6); }
+  .dim-add-modify .checkbox, .dim-add-modify .radio {
+    position: relative;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px; }
+  .dim-add-modify .checkbox label, .dim-add-modify .radio label {
+    min-height: 20px;
+    padding-left: 20px;
+    margin-bottom: 0;
+    font-weight: 400;
+    cursor: pointer; }
+  .dim-add-modify .checkbox input[type=checkbox], .dim-add-modify .checkbox-inline input[type=checkbox], .dim-add-modify .radio input[type=radio], .dim-add-modify .radio-inline input[type=radio] {
+    position: absolute;
+    margin-top: 4px \9;
+    margin-left: -20px; }
+  .dim-add-modify input[type=checkbox], .dim-add-modify input[type=radio] {
+    margin: 2px 0 0;
+    margin-top: 1px \9;
+    line-height: normal; }
+  .dim-add-modify .btn-wrap {
+    text-align: right; }
+
+#dim_tree_panel {
+  overflow: auto;
+  display: none;
+  position: fixed;
+  width: 300px;
+  height: 200px;
+  left: -9999px;
+  top: -9999px;
+  z-index: 999999;
+  background: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); }
+#dim-manage .tablecontainer {
+  height: 100%; }
+
+#dim-manage select {
+  width: 100px;
+  vertical-align: middle;
+  border: 1px solid #DDDDDD;
+  height: 22px;
+  color: #3a3a3a;
+  outline: none; }
+
+#dim-manage .datagrid-btable {
+  font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif; }
+
+#dim-manage .nav {
+  height: 70px;
+  background-color: #9AA7AF;
+  position: relative; }
+
+#dim-manage .nav h2 {
+  font-size: 22px;
+  color: #FCFCFC;
+  line-height: 70px;
+  margin: 0 20px;
+  font-weight: normal; }
+
+#dim-manage .nav .logout {
+  position: absolute;
+  right: 50px;
+  bottom: 25px;
+  color: #FCFCFC; }
+
+#dim-manage .nav .logout > .link {
+  color: #D3D4DB;
+  cursor: pointer; }
+
+#dim-manage #exportFrame {
+  display: none; }
+
+#dim-manage .conditionitem {
+  width: 180px; }
 .element-add-modify {
   box-sizing: border-box; }
   .element-add-modify * {

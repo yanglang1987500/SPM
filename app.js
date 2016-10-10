@@ -9,6 +9,9 @@ var rd = require('rd');
 var guid = require('guid');
 var bodyParser = require('body-parser');
 
+/**== 标签处理 ==**/
+var tagProcessor = require('./framework/tag-processor');
+tagProcessor.init();
 
 var ejs = require('ejs');
 
@@ -34,7 +37,7 @@ app.engine('html', function(){
   ejs.renderFile.apply(this,[].slice.call(arguments,0,2).concat([function(err,data){
     if(args.length==3){
       var sessionUserInfo = sessionUtil.createUserInfo(args[1].session.userInfo);
-      args[2].apply(this,[null,authority.parse(data,sessionUserInfo)]);
+      args[2].apply(this,[null,tagProcessor.parse(data,sessionUserInfo)]);
     }
   }]));
 });

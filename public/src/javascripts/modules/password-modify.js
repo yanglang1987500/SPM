@@ -1,12 +1,12 @@
 
 var frameworkBase = require('../framework/framework-base');
-require('../../stylesheets/modules/passwordmodify.scss');
+require('../../stylesheets/modules/password-modify.scss');
 require('../../stylesheets/easyui.css');
 var PasswordModify = function(){ };
 
 //继承自框架基类
 PasswordModify.prototype = $.extend({},frameworkBase);
-PasswordModify.prototype.id = 'passwordModify';
+PasswordModify.prototype.id = 'password-modify';
 
 
 /**
@@ -24,7 +24,7 @@ PasswordModify.prototype.init = function(options){
 };
 
 PasswordModify.prototype.loadBaseView = function(options){
-    var html = require('../../../../views/modules/passwordmodify.html');
+    var html = require('../../../../views/modules/password-modify.html');
     this.render(html);
 };
 
@@ -54,7 +54,7 @@ PasswordModify.prototype.bindEvents = function(){
                 swal("成功", '修改成功', "success");
                 that.finish();
             }else{
-                swal("抱歉", data.data.message, "error");
+                swal("抱歉", data.message, "error");
             }
         });
 

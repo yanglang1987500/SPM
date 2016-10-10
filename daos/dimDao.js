@@ -1,17 +1,17 @@
 /**
- * 菜单Dao
+ * 字典Dao
  */
 var Calendar = require('../libs/calendar');
 var mySqlPool = require('../database/mysqlpool');
 var utils = require('../libs/utils');
-var table = 'sys_menu', mainKey = 'menu_id';
+var table = 't_dim', mainKey = 'id';
 
 module.exports = {
     /**
-     * 菜单列表查询
+     * 字典列表查询
      * @param callback 回调
      */
-    menuSearch:function(params,callback){
+    dimSearch:function(params,callback){
         
         var condition = [] , _params, _callback;
         if(Object.prototype.toString.call(params) == '[object Function]'){
@@ -24,13 +24,12 @@ module.exports = {
         condition.push(' 1=1 ');
         if(_params)
             with(_params){
-                key && condition.push(' (t1.menu_title like \'%'+key+'%\' or t1.menu_url like \'%'+key+'%\') ');
-                (show_type && show_type!= '0') && condition.push(' t1.show_type = ' + show_type);
-                (menu_type && menu_type!= '0') && condition.push(' t1.menu_type = ' + menu_type);
+                key && condition.push(' (t1.dim_name like \'%'+key+'%\' or t1.dim_value like \'%'+key+'%\') ');
+                (group_id && group_id!= '0') && condition.push(' t1.group_id = ' + group_id);
             }
 
         condition = condition.join(' and ');
-        var selectSql = 'select t1.*,ifnull(t2.menu_title,\'根菜单\') menu_parent_title ',fromSql = 'from '+table+' t1 left join '+table+' t2 on t1.menu_parent_id=t2.menu_id where '+condition+' order by t1.menu_order asc';
+        var selectSql = 'select t1.* ',fromSql = 'from '+table+' t1  where '+condition+' order by t1.group_id asc';
 
         mySqlPool.getConnection(function(connection){
             connection.query(selectSql+fromSql,function(err,result){
@@ -45,12 +44,12 @@ module.exports = {
 
     },
     /**
-     * 根据菜单id查询菜单
-     * @param menu_id 菜单id
+     * 根据字典id查询字典项
+     * @param id 字典id
      * @param callback 回调
      */
-    menuSearchById:function(menu_id,callback){
-        var selectSql = "select t1.*,ifnull(t2.menu_title,\'根菜单\') menu_parent_title from "+table+" t1 left join "+table+" t2 on t1.menu_parent_id=t2.menu_id where t1."+mainKey+" = '"+menu_id+"'";
+    dimSearchById:function(id,callback){
+        var selectSql = "select t1.* from "+table+" t1  where t1."+mainKey+" = '"+id+"'";
         mySqlPool.getConnection(function(connection){
             connection.query(selectSql,function(err,result){
                 if(err){
@@ -61,26 +60,54 @@ module.exports = {
                 connection.release();
             });
         });
-
     },
     /**
-     * 添加菜单
+     * 根据字典分组id查询字典项
+     * @param group_id 字典分组id
+     * @param callback 回调
+     */
+    dimSearchByGroupId:function(group_id,callback){
+        var selectSql = "select t1.* from "+table+" t1  where t1.group_id = '"+group_id+"'";
+        mySqlPool.getConnection(function(connection){
+            connection.query(selectSql,function(err,result){
+                if(err){
+                    callback && callback(err);
+                    return;
+                }
+                callback && callback(false,result);
+                connection.release();
+            });
+        });
+    },
+    /**
+     * 查询所有分组
+     * @param callback 回调
+     */
+    dimGroupSearch:function(callback){
+        var selectSql = "select distinct t1.group_id,t1.group_name from "+table+" t1  ";
+        mySqlPool.getConnection(function(connection){
+            connection.query(selectSql,function(err,result){
+                if(err){
+                    callback && callback(err);
+                    return;
+                }
+                callback && callback(false,result);
+                connection.release();
+            });
+        });
+    },
+    /**
+     * 添加字典
      * 同时写入sys_auth权限表
      * @param params
      * @param callback
      */
-    addMenu:function(params,callback){
+    addDim:function(params,callback){
         params[mainKey] = utils.guid();
-        params['menu_order'] = utils.generatorOrder();
         var insertSql = 'INSERT INTO '+table+' set ?';
 
         var execArr = [
-            {sql:insertSql,params:params},
-            {sql:"insert into sys_auth set ?",params:{
-                auth_id:utils.guid(),
-                auth_type:'menu',
-                resource_id:params[mainKey]
-            }}];
+            {sql:insertSql,params:params}];
         mySqlPool.execTrans(execArr,function(err,result){
             if(err){
                 console.log(err);
@@ -91,11 +118,11 @@ module.exports = {
         });
     },
     /**
-     * 修改菜单数据
+     * 修改字典数据
      * @param params 参数包
      * @param callback 回调
      */
-    modifyMenu:function(params,callback){
+    modifyDim:function(params,callback){
         var sql = 'update '+table+' set ', condition = [], pArr = [];
         for(var key in params){
             if(key == mainKey)
@@ -118,14 +145,13 @@ module.exports = {
         });
     },
     /**
-     * 删除菜单
-     * @param menu_id 菜单id
+     * 删除字典
+     * @param id 字典id
      * @param callback
      */
-    removeMenu:function(menu_id,callback){
+    removeDim:function(id,callback){
         var execArr = [
-            {sql:"DELETE FROM "+table+" WHERE "+mainKey+" = '"+menu_id+"'"},
-            {sql:"DELETE FROM sys_auth WHERE resource_id = '"+menu_id+"'"}];
+            {sql:"DELETE FROM "+table+" WHERE "+mainKey+" = '"+id+"'"}];
         mySqlPool.execTrans(execArr,function(err,result){
             if(err){
                 console.log(err);
