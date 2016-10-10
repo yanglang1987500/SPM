@@ -1,4 +1,6 @@
-
+/**
+ * 菜单新增修改模块
+ */
 var frameworkBase = require('../framework/framework-base');
 require('../../stylesheets/modules/menu-add-modify.scss');
 require('../../stylesheets/easyui.css');

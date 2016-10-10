@@ -55,7 +55,7 @@ router.post('/publish/save', function (req, res, next) {
             var publish_title = req.body.publish_title,
                 publish_content = req.body.publish_content,
                 publish_content_pure = req.body.publish_content_pure,
-                userCode = req.session.userInfo.usercode;
+                userCode = req.session.userInfo.userid;
             publishDao.addPublish({
                 publish_title:publish_title,
                 publish_content:publish_content,

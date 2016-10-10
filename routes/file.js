@@ -9,7 +9,7 @@ var updateTempDir = './public/files/temp';
 var updateDir = './public/files/';
 var utils = require('../libs/utils');
 /**
- * 学校信息发布查询
+ * 文件上传
  */
 router.post('/file/upload', function (req, res, next) {
     //生成multiparty对象，并配置上传目标路径

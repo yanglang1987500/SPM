@@ -1,4 +1,6 @@
-
+/**
+ * 字典项新增或修改模块
+ */
 var frameworkBase = require('../framework/framework-base');
 require('../../stylesheets/modules/dim-add-modify.scss');
 require('../../stylesheets/easyui.css');

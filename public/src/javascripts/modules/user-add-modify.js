@@ -1,4 +1,6 @@
-
+/**
+ * 新增修改用户模块
+ */
 var frameworkBase = require('../framework/framework-base');
 require('../../stylesheets/modules/user-add-modify.scss');
 var UserAddModify = function(){ };

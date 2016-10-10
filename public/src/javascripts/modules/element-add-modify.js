@@ -1,4 +1,6 @@
-
+/**
+ * 元素新增修改模块
+ */
 var frameworkBase = require('../framework/framework-base');
 require('../../stylesheets/modules/element-add-modify.scss');
 require('../../stylesheets/easyui.css');

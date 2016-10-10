@@ -1,4 +1,6 @@
-
+/**
+ * 组织机构新增修改模块
+ */
 var frameworkBase = require('../framework/framework-base');
 require('../../stylesheets/modules/org-add-modify.scss');
 require('../../stylesheets/easyui.css');

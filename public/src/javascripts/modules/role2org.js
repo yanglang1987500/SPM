@@ -1,4 +1,6 @@
-
+/**
+ * 给组织机构赋角色模块
+ */
 var frameworkBase = require('../framework/framework-base');
 require('../../stylesheets/modules/role2org.scss');
 var Role2User = function(){ };

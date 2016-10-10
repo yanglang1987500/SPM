@@ -1,6 +1,6 @@
 /**
  * Created by yanglang on 2016/4/13.
- * 角色管理
+ * 角色管理模块
  */
 
 var frameworkBase = require('../framework/framework-base');

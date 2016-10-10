@@ -48,7 +48,7 @@ router.get('/report/search-id', function (req, res, next) {
 
 var MODIFYCOLUMNS = ['report_id','report_title','report_content','is_handle'];
 /**
- * 信息保存
+ * 报修信息保存
  */
 router.post('/report/save', function (req, res, next) {
         var action = req.body.action;

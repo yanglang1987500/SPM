@@ -1,4 +1,6 @@
-
+/**
+ * 给用户赋角色模块
+ */
 var frameworkBase = require('../framework/framework-base');
 require('../../stylesheets/modules/role2user.scss');
 var Role2User = function(){ };

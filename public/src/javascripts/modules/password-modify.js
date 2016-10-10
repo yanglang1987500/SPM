@@ -1,4 +1,6 @@
-
+/**
+ * 修改密码模块
+ */
 var frameworkBase = require('../framework/framework-base');
 require('../../stylesheets/modules/password-modify.scss');
 require('../../stylesheets/easyui.css');
