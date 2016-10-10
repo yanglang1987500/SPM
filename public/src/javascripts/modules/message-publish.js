@@ -89,6 +89,7 @@ MessagePublish.prototype.bindEvents = function () {
  */
 MessagePublish.prototype.finish = function () {
     try{
+        this.dom && this.dom.hide();
         this.um.destroy();
         frameworkBase.finish.apply(this,arguments);
     }catch(e){

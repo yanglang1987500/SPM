@@ -27,7 +27,7 @@ router.get('/dim/list', function (req, res, next) {
 
 var MODIFYCOLUMNS = ['id','dim_id','dim_name','dim_value','group_id','group_name'];
 /**
- * 菜单保存
+ * 字典保存
  */
 router.post('/dim/save', function (req, res, next) {
     if (req.session.isLogin) {
@@ -73,7 +73,7 @@ router.post('/dim/save', function (req, res, next) {
 });
 
 /**
- * 根据菜单id菜单查询
+ * 根据字典项id字典项查询
  */
 router.get('/dim/search/:id', function (req, res, next) {
     var id = req.params.id;

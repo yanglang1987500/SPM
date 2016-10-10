@@ -1,5 +1,5 @@
 /**
- * 菜单列表查询路由
+ * 组织机构列表查询路由
  */
 var express = require('express');
 var router = express.Router();

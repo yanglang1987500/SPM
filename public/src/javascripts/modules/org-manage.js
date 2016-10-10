@@ -73,7 +73,7 @@ OrgManage.prototype.initTable = function () {
         searcher: function (value, name) {
             Events.notify('onRefresh:org-manage');
         },
-        prompt: '请输关键字，如组织机构名'
+        prompt: '请输关键字，如用户名'
     });
 
     var startDate = $("#startdate",that.dom).datebox({

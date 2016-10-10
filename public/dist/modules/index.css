@@ -6134,7 +6134,7 @@ article.content {
   #org-manage .conditionitem {
     width: 180px; }
   #org-manage .head-tools:before {
-    content: '\7EC4\7EC7\673A\6784\5217\8868'; }
+    content: '\7EC4\7EC7\673A\6784'; }
   #org-manage .tree-container {
     position: absolute;
     top: 30px;
@@ -6319,7 +6319,8 @@ article.content {
     text-align: center; }
   #role2org .panel-flow-wrap {
     height: 100%;
-    overflow: auto; }
+    overflow: auto;
+    background: #fbfbfb; }
     #role2org .panel-flow-wrap .list-panel {
       list-style: none;
       margin: 0;
@@ -6343,7 +6344,8 @@ article.content {
     text-align: center; }
   #role2user .panel-flow-wrap {
     height: 100%;
-    overflow: auto; }
+    overflow: auto;
+    background: #fbfbfb; }
     #role2user .panel-flow-wrap .list-panel {
       list-style: none;
       margin: 0;
@@ -6472,7 +6474,8 @@ article.content {
     text-align: center; }
   #user2org .panel-flow-wrap {
     height: 100%;
-    overflow: auto; }
+    overflow: auto;
+    background: #fbfbfb; }
     #user2org .panel-flow-wrap .list-panel {
       list-style: none;
       margin: 0;
@@ -6496,7 +6499,8 @@ article.content {
     text-align: center; }
   #user2role .panel-flow-wrap {
     height: 100%;
-    overflow: auto; }
+    overflow: auto;
+    background: #fbfbfb; }
     #user2role .panel-flow-wrap .list-panel {
       list-style: none;
       margin: 0;
