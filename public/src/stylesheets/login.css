@@ -8,12 +8,43 @@ html{
 }
 body{
     height:100%;
-    background-image: url('../images/framework/bg.jpg');
+    background-image: url('../images/framework/caoyuan.jpg');
     background-size: 100% 100%;
     background-repeat:no-repeat;
     font-size: 14px;
     font-family:"宋体";
     color:#333333;
+}
+.bg-img-num1{
+    background: url('../images/framework/bg/bg_num1.jpg') left top repeat-x #082648;
+}
+.bg-img-num2{
+    background: url('../images/framework/bg/bg_num3.jpg') left top repeat-x #082648;
+}
+.bg-img-num3{
+    background: url('../images/framework/bg/splash_white.png') center center no-repeat #000E17;
+}
+.bg-img-num4{
+    background: url('../images/framework/bg/splash_white.png') center center no-repeat #111111;
+}
+.bg-img-num5{
+    background: url('../images/framework/bg/splash_white.png') center center no-repeat #003729;
+}
+.wall-num1{
+    background: url('../images/framework/bg/wall_num1.jpg') center top no-repeat fixed #000000;
+}
+.wall-num2{
+    background: url('../images/framework/bg/wall_num7.jpg') center top no-repeat fixed #000000;
+}
+.wall-num3{
+    background: url('../images/framework/bg/wall_num4.jpg') center top no-repeat fixed #000000;
+    background-size: 100% 100%;
+}
+.wall-num4{
+    background: url('../images/framework/bg/wall_num9.jpg') center top no-repeat fixed #000000;
+}
+.wall-num5{
+    background: url('../images/framework/bg/wall_num15.jpg') center top no-repeat fixed #000000;
 }
 p{
     margin: 0 0 10px;
@@ -22,7 +53,7 @@ p{
     width:360px;
     position: absolute;
     left:50%;
-    top:40%;
+    top:35%;
     margin-left:-180px;
     margin-top:-70px;
     border: 1px solid transparent;
@@ -30,6 +61,7 @@ p{
     box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
 }
 .panel-heading{
+    height:60px;
     background-color: #F5F5F5;
     padding: 10px 15px;
     border-bottom: 1px solid transparent;
@@ -37,6 +69,9 @@ p{
     border-top-right-radius: 3px;
     color: #333;
     border-color: #ddd;
+    background-image: url('../images/framework/logo.png');
+    background-position: left center;
+    background-repeat: no-repeat;
 }
 .panel-title{
     font-weight:normal;
@@ -48,9 +83,7 @@ p{
     line-height:1.5;
 }
 .login-panel{
-    border: 8px solid rgba(0, 0, 0, 0.09);
-    -webkit-animation-name: uk-fade-slide-top;
-    animation-name: uk-fade-slide-top;
+    border: 8px solid rgba(255, 255, 255, 0.3);
     -webkit-animation-duration: 0.6s;
     animation-delay: .1s;
     -webkit-animation-delay: .2s;
@@ -59,11 +92,13 @@ p{
     animation-timing-function: ease-out;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
+    box-shadow:0px 2px 5px rgba(0,0,0,0.3);
 }
+
 @-webkit-keyframes uk-fade-slide-top {
     0% {
         opacity: 0;
-        -webkit-transform: translateY(-30%);
+        -webkit-transform: translateY(30%);
     }
     100% {
         opacity: 1;
@@ -132,8 +167,8 @@ fieldset{
 }
 .btn-success {
     color: #fff;
-    background-color: #678997;
-    border-color: #678997;
+    background-color: #27A9E3;
+    border-color: #27A9E3;
 }
 .btn {
     display: inline-block;

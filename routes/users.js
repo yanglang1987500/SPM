@@ -40,10 +40,12 @@ router.post('/user/save', function (req, res, next) {
         var action = req.body.action;
         if(action == '001'){//新增
             var user_name = req.body.user_name,
-                user_password = req.body.user_password;
+                user_password = req.body.user_password
+                org_id = req.body.org_id;
             userDao.addUser({
                 user_name:user_name,
-                user_password:utils.md5(user_password)
+                user_password:utils.md5(user_password),
+                org_id:org_id
             },function(err,data){
                 res.json(utils.returns(arguments));
             });

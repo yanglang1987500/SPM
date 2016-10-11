@@ -189,16 +189,5 @@ module.exports = {
             }
             callback && callback(false,result);
         });
-
-        mySqlPool.getConnection(function(connection){
-            connection.query("", function (err, result) {
-                if(err){
-                    callback && callback(err);
-                    return;
-                }
-                callback && callback(false,result);
-                connection.release();
-            });
-        });
     }
 };

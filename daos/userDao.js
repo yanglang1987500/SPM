@@ -90,16 +90,24 @@ module.exports = {
         params.create_time = Calendar.getInstance().format('yyyyMMdd HH:mm:ss');
         params.update_time = Calendar.getInstance().format('yyyyMMdd HH:mm:ss');
         params[mainKey] = utils.guid();
+        var org_id = params.org_id;
+        delete params.org_id;
+
         var insertSql = 'INSERT INTO '+table+' set ?';
-        mySqlPool.getConnection(function(connection){
-            connection.query(insertSql,params,function(err,result){
-                if(err){
-                    callback && callback(err);
-                    return;
-                }
-                callback && callback(false,result);
-                connection.release();
-            });
+
+        var execArr = [
+            {sql:insertSql,params:params}];
+        if(org_id){
+            execArr.push({sql:'INSERT INTO sys_org_user set ?',params:{id:utils.guid(),org_id:org_id,user_id:params[mainKey]}});
+        }
+
+        mySqlPool.execTrans(execArr,function(err,result){
+            if(err){
+                console.log(err.message);
+                callback && callback(err);
+                return;
+            }
+            callback && callback(false,result);
         });
     },
     /**

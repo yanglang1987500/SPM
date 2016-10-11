@@ -10,17 +10,22 @@
     <link rel="stylesheet" type="text/css" href="/src/stylesheets/login.css">
     <link rel="stylesheet" type="text/css" href="/src/stylesheets/animation.css">
 </head>
-
 <body>
+    <script>
+        var theme = '';
+        if(theme = localStorage.getItem('_THEME_KEY')){
+            document.body.className = theme;
+        }
+    </script>
     <div class="container">
         <div class="login-panel panel panel-default">
+            <div class="logo"></div>
             <div class="panel-heading">
-                <h3 class="panel-title">请登录</h3>
+            </div>
+            <div class="panel-body">
                 <% if(typeof error != 'undefined'){ %>
                 <p class="text-danger"><%= error %></p>
                 <% } %>
-            </div>
-            <div class="panel-body">
                 <form role="form" action="/login" method="post">
                   <input type="hidden" value="" name="from">
                     <fieldset>

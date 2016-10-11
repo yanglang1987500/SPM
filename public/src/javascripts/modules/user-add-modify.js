@@ -10,7 +10,7 @@ UserAddModify.prototype = $.extend({},frameworkBase);
 UserAddModify.prototype.id = 'user-add-modify';
 
 var ACTIONS = {
-    '001':{title:'添加用户',height:240},
+    '001':{title:'添加用户',height:200},
     '002':{title:'编辑用户',height:150},
     '003':{title:'修改密码',height:240}
 };
@@ -45,17 +45,12 @@ UserAddModify.prototype.bindEvents = function(){
     $('#confirmBtn',this.dom).click(function(){
         var user_name = $('#user_name',that.dom).val();
         var user_password = $('#user_password',that.dom).val();
-        var user_repassword = $('#user_repassword',that.dom).val();
         if($.trim(user_name) === '' ){
             swal("提示", "请输入用户名!", "warning");
             return;
         }
         if($.trim(user_password) === '' && that.options.action!='002' ){
             swal("提示", "请输入密码!", "warning");
-            return;
-        }
-        if(user_password != user_repassword && that.options.action!='002'){
-            swal("提示", "请确认两次密码是否一致!", "warning");
             return;
         }
         var params = {
@@ -68,6 +63,8 @@ UserAddModify.prototype.bindEvents = function(){
             //修改用户名不需要改动密码
             delete params.user_password;
         }
+        //新增用户时，判断一下是否给了org_id，如果有的话，则创建组织机构与此用户的关系
+        (that.options.org_id && that.options.action=='001') && (params.org_id = that.options.org_id);
         that.save('/user/save',params,function(data){
             if(!data.success){
                 that.toast(data.message);

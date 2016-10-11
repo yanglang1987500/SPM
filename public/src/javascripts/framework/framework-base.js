@@ -510,6 +510,8 @@ Framework.prototype = {
         }
         Events.notifyWith('onRendered',that, that.dom);
         Events.notify('onWindowResize');
+        var $input = $('input[autofocus]',that.dom);
+        $input.length>0&&$input[0].focus();
         return that.dom;
     },
     _closeDialog:function(){

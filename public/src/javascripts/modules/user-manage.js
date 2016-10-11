@@ -110,14 +110,14 @@ UserManage.prototype.initTable = function () {
  */
 UserManage.prototype.bindEvents = function () {
     var that = this;
-    //添加信息
+    //添加用户
     $('#add_user_btn',this.dom).click(function(){
         Events.require('user-add-modify').addCallback(function(flag){
             if(flag)
                 Events.notify('onRefresh:user-manage');
         }).init({showType:'Pop'});
     });
-    //修改信息
+    //修改用户
     $('#modify_user_btn',this.dom).click(function(){
         var rowData;
         if(!(rowData = getSelectRow()))
@@ -137,7 +137,7 @@ UserManage.prototype.bindEvents = function () {
                 Events.notify('onRefresh:user-manage');
         }).init({showType:'Pop',action:'003',user_id:rowData.user_id});
     });
-    //删除信息
+    //删除用户
     $('#delete_user_btn',this.dom).click(function(){
         var rowData;
         if(!(rowData = getSelectRow()))

@@ -108,14 +108,26 @@ OrgManage.prototype.initTable = function () {
 
 var ztreeObj = null, selectOrgId, firstRefresh = false;
 OrgManage.prototype.initOrgTree = function(){
+    var that = this;
     firstRefresh = false;
     var setting = {
-
         async:{
             enable:true,
             url:'/org/listbypid',
             autoParam:['org_id'],
             type:'get'
+        },
+        edit:{
+            enable:true,
+            showRemoveBtn:false,
+            showRenameBtn:false,
+            drag:{
+                prev:false,
+                next:false,
+                inner:true,
+                isMove:true,
+                isCopy:false
+            }
         },
         data:{
             key:{
@@ -142,6 +154,18 @@ OrgManage.prototype.initOrgTree = function(){
                 ztreeObj.selectNode(ztreeObj.getNodes()[0], false, false);
                 Events.notify('onRefresh:org-manage');
                 firstRefresh = true;
+            },
+            onDrop:function(event, treeId, treeNodes, targetNode, moveType){
+                that.save('/org/save',{
+                    action:'002',
+                    org_id:treeNodes[0].org_id,
+                    org_parent_id:targetNode?targetNode.org_id:'0'
+                },function(data){
+                    if(!data.success){
+                        that.toast(data.message);
+                        return;
+                    }
+                });
             }
         }
     };
@@ -236,7 +260,64 @@ OrgManage.prototype.bindEvents = function () {
         }).init({showType:'Pop',org_id:nodes[0].org_id});
     });
 
-   
+    //添加用户
+    $('#add_user_btn',this.dom).click(function(){
+        var nodes = ztreeObj.getSelectedNodes();
+        if (nodes.length == 0) {
+            swal("提示", "请先选择组织机构数据!", "warning");
+            return;
+        }
+        Events.require('user-add-modify').addCallback(function(flag){
+            if(flag)
+                Events.notify('onRefresh:org-manage');
+        }).init({showType:'Pop',org_id:nodes[0].org_id});
+    });
+    //修改信息
+    $('#modify_user_btn',this.dom).click(function(){
+        var rowData;
+        if(!(rowData = getSelectRow()))
+            return;
+        Events.require('user-add-modify').addCallback(function(flag){
+            if(flag)
+                Events.notify('onRefresh:org-manage');
+        }).init({showType:'Pop',action:'002',user_id:rowData.user_id});
+    });
+    //修改密码
+    $('#modify_password_btn',this.dom).click(function(){
+        var rowData;
+        if(!(rowData = getSelectRow()))
+            return;
+        Events.require('user-add-modify').addCallback(function(flag){
+            if(flag)
+                Events.notify('onRefresh:org-manage');
+        }).init({showType:'Pop',action:'003',user_id:rowData.user_id});
+    });
+    //删除信息
+    $('#delete_user_btn',this.dom).click(function(){
+        var rowData;
+        if(!(rowData = getSelectRow()))
+            return;
+        swal({
+            title: "确认",
+            text: "删除该用户将会清空此用户所属于组织机构以及其所拥有的角色关联数据，确认删除吗？",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "删除",
+            cancelButtonText: "取消",
+            closeOnConfirm: true
+        }, function () {
+            that.save('/user/save',{action:'004',user_id:rowData.user_id},function(data){
+                if(data.success){
+                    that.toast("删除用户成功!");
+                    Events.notify('onRefresh:org-manage');
+                }else{
+                    that.toast(data.message);
+                }
+            });
+        });
+    });
+
     /**
      * 为用户分配角色
      */

@@ -92,7 +92,7 @@ ReportList.prototype.initTable = function () {
         searcher: function (value, name) {
             Events.notify('onRefresh:report-list');
         },
-        prompt: '请输关键字，如公告标题'
+        prompt: '请输关键字，如报修标题'
     });
 
     var startDate = $("#startdate",that.dom).datebox({

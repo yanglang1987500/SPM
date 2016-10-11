@@ -104,12 +104,14 @@ router.post('/org/save', function (req, res, next) {
                 }
                 if(data.length>0){
                     res.json(utils.returnJson(false,'该组织机构存在子组织机构，不能删除。'));
+                    return;
                 }else{
                     orgDao.removeOrg(org_id,function(err,data){
                         res.json(utils.returns(arguments));
                     });
                 }
             });
+            return;
         }
     }
 });

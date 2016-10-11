@@ -32,11 +32,12 @@ var websocket = require('./framework/websocket');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', function(){
-  //处理权限标签
+  //处理自定义标签解析
   var args = arguments;
   ejs.renderFile.apply(this,[].slice.call(arguments,0,2).concat([function(err,data){
     if(args.length==3){
       var sessionUserInfo = sessionUtil.createUserInfo(args[1].session.userInfo);
+      //此处如有标签需要实时从数据库异步取数，可能要加入promise
       args[2].apply(this,[null,tagProcessor.parse(data,sessionUserInfo)]);
     }
   }]));
