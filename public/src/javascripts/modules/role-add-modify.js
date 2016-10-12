@@ -1,7 +1,7 @@
 /**
  * 新增修改角色模块
  */
-var frameworkBase = require('../framework/framework-base');
+var frameworkBase = require('./framework/framework-base');
 require('../../stylesheets/modules/role-add-modify.scss');
 var RoleAddModify = function(){ };
 

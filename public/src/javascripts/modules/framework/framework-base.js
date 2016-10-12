@@ -7,7 +7,7 @@
  * @module framework-base
  */
 
-require('../libs/utils');
+require('../../libs/utils');
 var Events = require('./framework-events');
 
 

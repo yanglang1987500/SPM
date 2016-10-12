@@ -2,7 +2,7 @@
  * 通过正则表达式获取url参数
  * 支持锚点#与自定义参数分割形式
  */
-require('./jquery.min');
+
 $.getUrlParamArray = function(external,split){
     var reg = /^.*\?{1}(.*)/;
     var result = [];

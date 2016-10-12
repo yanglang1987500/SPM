@@ -1,7 +1,7 @@
 /**
  * 分配用户到组织机构模块
  */
-var frameworkBase = require('../framework/framework-base');
+var frameworkBase = require('./framework/framework-base');
 require('../../stylesheets/modules/user2org.scss');
 var User2Org = function(){ };
 

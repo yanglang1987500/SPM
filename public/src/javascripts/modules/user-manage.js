@@ -3,7 +3,7 @@
  * 用户管理模块
  */
 
-var frameworkBase = require('../framework/framework-base');
+var frameworkBase = require('./framework/framework-base');
 require('../libs/easyui-lang-zh_CN.js');
 require('../../stylesheets/modules/user-manage.scss');
 require('../../stylesheets/easyui.css');

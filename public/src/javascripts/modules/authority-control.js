@@ -3,7 +3,7 @@
  * @author yanglang
  * @type {Framework}
  */
-var frameworkBase = require('../framework/framework-base');
+var frameworkBase = require('./framework/framework-base');
 require('../../stylesheets/modules/authority-control.scss');
 require('../../stylesheets/easyui.css');
 require('../libs/ztree/jquery.ztree.all.min');

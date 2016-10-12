@@ -1,7 +1,7 @@
 /**
  * 设置属于角色的用户模块
  */
-var frameworkBase = require('../framework/framework-base');
+var frameworkBase = require('./framework/framework-base');
 require('../../stylesheets/modules/user2role.scss');
 var User2Role = function(){ };
 

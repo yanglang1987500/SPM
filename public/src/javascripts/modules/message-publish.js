@@ -3,7 +3,7 @@
  * @author yanglang
  * @type {Framework}
  */
-var frameworkBase = require('../framework/framework-base');
+var frameworkBase = require('./framework/framework-base');
 require('../../stylesheets/modules/message-publish.scss');
 require('../libs/umeditor/themes/default/css/umeditor.min.css');
 require('../libs/umeditor/umeditor.config');
@@ -24,7 +24,7 @@ MessagePublish.prototype.id = 'message-publish';
 MessagePublish.prototype.init = function(options){
     var that = this;
     this.options = $.extend({action:'001'},options);
-    that.setTitle('学校信息发布').setHeight(600).setWidth(780);
+    that.setTitle('学校信息发布').setHeight(610).setWidth(780);
     frameworkBase.init.call(this,options);
     this.loadBaseView();
     this.bindEvents();

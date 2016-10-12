@@ -3,7 +3,7 @@
  * 学校信息发布列表维护 
  */
 
-var frameworkBase = require('../framework/framework-base');
+var frameworkBase = require('./framework/framework-base');
 require('../libs/easyui-lang-zh_CN.js');
 require('../../stylesheets/modules/message-publish-list.scss');
 require('../../stylesheets/easyui.css');

@@ -3,7 +3,7 @@
  * 无界面模块，只负责同步数据，右下角可以弹信息框或者在屏幕中间弹进度框进行显示当前进度。
  * 不影响其它模块的运行，在进行数据同步时其它模块可以照常切换与运行。
  */
-var frameworkBase = require('../framework/framework-base');
+var frameworkBase = require('./framework/framework-base');
 var AsyncData = function(){ };
 
 //继承自框架基类

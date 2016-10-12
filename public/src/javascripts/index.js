@@ -1,7 +1,6 @@
 /**
  * Created by yanglang on 2016/4/13.
  */
-require('./libs/jquery.min.js');
 require('./libs/calendar.js');
 require('./libs/sweetalert.min');
 require('../stylesheets/sweetalert.css');
@@ -11,21 +10,17 @@ window.toastr = require('./libs/toastr');
 require('../stylesheets/toastr.scss');
 require('./libs/utils');
 var prefix = './modules/';
-var Events = require('./framework/framework-events');
-var Router = require('./framework/framework-route');
+var Events = require('./modules/framework/framework-events');
+var Router = require('./modules/framework/framework-route');
 Router.init();
+require('./modules/webpack-base');
 var theme,_THEME_KEY_ = '_THEME_KEY';
 
 if(theme = localStorage.getItem(_THEME_KEY_)){
     $('#colorMenu>li.'+theme+'').addClass('actived');
     $('body').addClass(theme);
 }
-Events.addMethod('require',function(moduleId,options){
-    if(moduleId.indexOf(prefix)=='-1'){
-        moduleId = prefix + moduleId;
-    }
-    return require(moduleId);
-}).subscribe('onSelectMenu',function(moduleId){
+Events.subscribe('onSelectMenu',function(moduleId){
     $('#menu>li').removeClass('actived');
     if(moduleId.indexOf(prefix)=='-1'){
         moduleId = prefix + moduleId;
@@ -59,7 +54,6 @@ location.href = init;
 toastr.options.timeOut = 10000;
 toastr.options.positionClass = 'toast-bottom-right';
 
- 
 $(function(){
     $('#colorMenu>li').click(function(){
         var $this = $(this);

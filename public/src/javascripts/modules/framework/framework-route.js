@@ -5,7 +5,7 @@
  * @module historycontrol-base
  */
 
-var Router = require('../libs/director.min').Router;
+var Router = require('../../libs/director.min').Router;
 var Events = require('../framework/framework-events');
 var frameworkBase = require('../framework/framework-base');
 

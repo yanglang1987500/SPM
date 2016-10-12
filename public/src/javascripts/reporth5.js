@@ -1,7 +1,7 @@
 require('./libs/jquery.min');
 require('./libs/artEditor');
 require('../stylesheets/reporth5.css');
-var frameworkBase = require('./framework/framework-base');
+var frameworkBase = require('./modules/framework/framework-base');
 var FastClick = require('./libs/fastclick');
 
 $(function() {

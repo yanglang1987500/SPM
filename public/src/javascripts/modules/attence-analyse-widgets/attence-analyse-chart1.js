@@ -4,8 +4,8 @@
  */
 
 var AttenceAnalyse = require('./../attence-analyse');
-var echarts = require('../../libs/echarts/echarts.min.js');
-var chartConfig = require('../../framework/framework-chartconfig');
+
+var chartConfig = require('../framework/framework-chartconfig');
 var AttenceAnalyseModule1 = function () {};
 
 //继承自作业分析类

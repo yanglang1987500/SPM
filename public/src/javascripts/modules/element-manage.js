@@ -3,7 +3,7 @@
  * 页面元素管理
  */
 
-var frameworkBase = require('../framework/framework-base');
+var frameworkBase = require('./framework/framework-base');
 require('../libs/easyui-lang-zh_CN.js');
 require('../libs/ztree/jquery.ztree.all.min');
 require('../libs/ztree/css/zTreeStyle/zTreeStyle.css');

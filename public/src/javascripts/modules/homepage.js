@@ -3,7 +3,7 @@
  * homepage首页聚合模块
  */
 
-var frameworkBase = require('../framework/framework-base');
+var frameworkBase = require('./framework/framework-base');
 require('../../stylesheets/modules/homepage.scss');
 var HomePage = function(){ };
 

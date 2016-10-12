@@ -3,7 +3,7 @@
  * 学生考勤查询
  */
 
-var frameworkBase = require('../framework/framework-base');
+var frameworkBase = require('./framework/framework-base');
 require('../libs/easyui-lang-zh_CN.js');
 require('../../stylesheets/modules/attence-search.scss');
 require('../../stylesheets/easyui.css');

@@ -1,5 +1,5 @@
 
-var frameworkBase = require('../framework/framework-base');
+var frameworkBase = require('./framework/framework-base');
 require('../../stylesheets/modules/aboutus.scss');
 var AboutUs = function(){ };
 
@@ -13,7 +13,7 @@ AboutUs.prototype.id = 'aboutus';
  * @method init
  * @param options 参数对象
  */
-AboutUs.prototype.init = function(options){
+AboutUs.prototype.init = function(options){ 
     var that = this;
     this.options = $.extend({},options);
     that.setTitle('关于我们').setHeight(700).setWidth(780);
