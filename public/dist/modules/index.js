@@ -19974,6 +19974,10 @@ webpackJsonp([0],[
 	            return data.data;
 	        },
 	        onDblClickRow: function (rowIndex, rowData) {
+	            Events.require('user-add-modify').addCallback(function(flag){
+	                if(flag)
+	                    Events.notify('onRefresh:org-manage');
+	            }).init({showType:'Pop',action:'002',user_id:rowData.user_id});
 	        },
 	        toolbar: '#org-manage-toolbar'
 	    });
