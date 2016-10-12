@@ -14471,10 +14471,11 @@ webpackJsonp([0],[
 	 */
 
 	Events.addMethod('require',function(moduleId,options){
-	    var arr = moduleId.match(/^\.\/modules\/(.*)$/);
-	    return __webpack_require__(31)("./"+arr[1]);
+	    //此处有两种可能，一种是菜单，会传进来配置的./modules/aboutus（比如），另一种是直接引用模块，比如aboutus，需要判断格式
+	    var flag = /^\.\/modules\/(.*)$/.test(moduleId);
+	    return __webpack_require__(31)(flag?'./'+RegExp.$1:'./'+moduleId);
 	});
-	module.exports = {};   
+	module.exports = {};
 
 /***/ },
 /* 31 */
