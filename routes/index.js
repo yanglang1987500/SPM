@@ -9,13 +9,13 @@ var menuDao = require('../daos/menuDao');
 var authDao = require('../daos/authDao');
 var sessionUtil = require('../framework/sessionUtil');
 
-function test() {
+/*function test() {
     fs.readFile('../views/index.html', 'utf-8', function (err, data) {
         var data = ejs.render('index');
     });
 
 }
-//test();
+//test();*/
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -32,8 +32,7 @@ router.get('/', function (req, res, next) {
             res.render('index', {menuList:data});
 
         });
-    }
-    else
+    }else
         res.redirect('/login');
 });
 
@@ -41,5 +40,11 @@ router.get('/reporth5', function (req, res, next) {
     res.render('reporth5');
 });
 
+router.get('/h5', function (req, res, next) {
+    if (req.session.isLogin) {
+        res.render('h5');
+    }else
+        res.redirect('/h5/login');
+});
 
 module.exports = router;

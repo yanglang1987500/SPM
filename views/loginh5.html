@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html data-use-rem="750">
+<head>
+    <title>学校物业管理平台</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <!-- 强制让文档的宽度与设备的宽度保持1:1，并且文档最大的宽度比例是1.0，且不允许用户点击屏幕放大浏览 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <!-- iphone设备中的safari私有meta标签，它表示：允许全屏模式浏览 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel='stylesheet' href='/src/stylesheets/loginh5.css'/>
+    <link rel='stylesheet' href='/dist/font-awesome-4.6.3/css/font-awesome.css'/>
+    <style>
+
+    </style>
+</head>
+<body>
+<% include h5layout.html%>
+<div class="login-panel">
+    <div class="panel-heading">
+    </div>
+    <div class="panel-body">
+        <% if(typeof error != 'undefined'){ %>
+        <p class="text-danger"><%= error %></p>
+        <% } %>
+        <form role="form" action="/h5/login" method="post">
+            <input type="hidden" value="" name="from">
+            <fieldset>
+                <div class="form-group">
+                    <input class="form-control" placeholder="用户名" name="username" type="text" autofocus>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" placeholder="密码" name="password" type="password" value="">
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input name="remember" type="checkbox" value="Remember Me">记住我
+                    </label>
+                </div>
+                <button class="btn btn-lg btn-success btn-block">登 录</button>
+            </fieldset>
+        </form>
+    </div>
+</div>
+</body>
+</html>

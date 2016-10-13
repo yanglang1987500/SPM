@@ -5,7 +5,6 @@ require('./libs/calendar.js');
 require('./libs/sweetalert.min');
 require('../stylesheets/sweetalert.css');
 require('../stylesheets/index.scss');
-require('./libs/jquery.easyui.min.js');
 window.toastr = require('./libs/toastr');
 require('../stylesheets/toastr.scss');
 require('./libs/utils');
@@ -15,7 +14,7 @@ var Router = require('./modules/framework/framework-route');
 Router.init();
 require('./modules/webpack-base');
 var theme,_THEME_KEY_ = '_THEME_KEY';
-
+ 
 if(theme = localStorage.getItem(_THEME_KEY_)){
     $('#colorMenu>li.'+theme+'').addClass('actived');
     $('body').addClass(theme);

@@ -1,0 +1,33 @@
+
+*{
+  box-sizing: border-box;
+  padding:0;
+  margin:0;
+}
+html,body{
+  height:100%;
+}
+#h5app{
+  font-family: MicroSoft Yahei;
+  height:100%;
+  color: #7b7b7b;
+  .router-view{
+    height: 100%;
+    width:100%;
+    position: fixed;
+    left:0;
+    top:0;
+    padding-top:1rem;
+    background-color: #F5F5F5;
+  }
+}
+
+.fadeInLeft-enter-active,.fadeInLeft-leave-active,.fadeOutLeft-enter-active, .fadeOutLeft-leave-active{
+  transition: transform .3s ease-in-out;
+}
+.fadeInLeft-enter, .fadeInLeft-leave-active {
+  transform: translateX(100%);
+}
+.fadeOutLeft-enter, .fadeOutLeft-leave-active {
+  transform: translateX(-100%);
+}

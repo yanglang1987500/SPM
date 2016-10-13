@@ -54,6 +54,10 @@
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
+    "vue": "^2.0.2",
+    "vue-loader": "^9.5.3",
+    "vue-router": "^2.0.0",
+    "vue-style-loader": "^1.0.0",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.14.1",
     "when": "^3.7.7"

@@ -1,0 +1,39 @@
+.router-view{
+    padding:0 !important;
+    background-image: url('../../images/framework/bg/h5bg.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+.homepage-menu-list{
+    list-style: none;
+    overflow: hidden;
+    a{
+        color:#fff !important;
+        text-decoration: none;
+    }
+    .menu-list-item{
+        margin-left: .17rem;
+        margin-top:.17rem;
+        width:3.5rem;
+        height:3.5rem;
+        float:left;
+        position: relative;
+        background-color: rgba(25, 86, 131, 0.6);
+        color:#fff;
+        font-size:1rem;
+        vertical-align: middle;
+        line-height: 3rem;
+        box-shadow:0 0 .5rem rgba(0,0,0,.2);
+        span{
+            position: absolute;
+            bottom:.3rem;
+            left:0;
+            font-size: .3rem;
+            line-height: 1.5;
+            width:100%;
+            text-align: center;
+        }
+        text-align: center;
+        word-wrap:break-word;
+    }
+}
