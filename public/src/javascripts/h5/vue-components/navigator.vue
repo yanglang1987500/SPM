@@ -40,7 +40,7 @@
         padding:0 1rem;
         top:0;
         height:1rem;
-        background-color: rgba(255,255,255,.6);
+        background-color: rgba(255, 255, 255, 0.89);
         box-shadow:0 .05rem .1rem rgba(0,0,0,.2);
         h1{
             text-align: center;

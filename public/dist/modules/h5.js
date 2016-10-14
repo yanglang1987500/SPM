@@ -10275,13 +10275,13 @@ webpackJsonp([0],[
 	                return;
 	            }
 	            var menuList = data.data;
-	            arr.push({path:'/',component:__webpack_require__(29)});
+	            arr.push({path:'/',component:__webpack_require__(10)});
 	            for(var i = 0,len = menuList.length;i<len;i++){
 	                if(menuList[i].menu_device == '1')
 	                    continue;
 	                var flag = /\/h5\/(.*)/.test(menuList[i]['menu_url']);
 	                if(flag){
-	                    var mod = __webpack_require__(10)("./"+RegExp.$1+'.vue');
+	                    var mod = __webpack_require__(24)("./"+RegExp.$1+'.vue');
 	                    arr.push({path:mod.module,component:mod});
 	                    menuList[i].path = '/'+RegExp.$1;
 	                    menu.push(menuList[i]);
@@ -10304,36 +10304,10 @@ webpackJsonp([0],[
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var map = {
-		"./attence-analyse.vue": 11,
-		"./attence-search.vue": 24,
-		"./homepage.vue": 29,
-		"./navigator.vue": 16,
-		"./password-modify.vue": 35,
-		"./repair-report.vue": 40
-	};
-	function webpackContext(req) {
-		return __webpack_require__(webpackContextResolve(req));
-	};
-	function webpackContextResolve(req) {
-		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
-	};
-	webpackContext.keys = function webpackContextKeys() {
-		return Object.keys(map);
-	};
-	webpackContext.resolve = webpackContextResolve;
-	module.exports = webpackContext;
-	webpackContext.id = 10;
-
-
-/***/ },
-/* 11 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var __vue_exports__, __vue_options__
 
 	/* styles */
-	__webpack_require__(12)
+	__webpack_require__(11)
 
 	/* script */
 	__vue_exports__ = __webpack_require__(15)
@@ -10351,11 +10325,11 @@ webpackJsonp([0],[
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.name = __vue_options__.name || "attence-analyse"
-	__vue_options__.__file = "D:\\workspace\\SPM\\public\\src\\javascripts\\h5\\vue-components\\attence-analyse.vue"
+	__vue_options__.name = __vue_options__.name || "homepage"
+	__vue_options__.__file = "D:\\workspace\\SPM\\public\\src\\javascripts\\h5\\vue-components\\homepage.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-	__vue_options__._scopeId = "data-v-16561188"
+	__vue_options__._scopeId = "data-v-0a89d298"
 
 	/* hot reload */
 	if (false) {(function () {
@@ -10364,23 +10338,24 @@ webpackJsonp([0],[
 	  if (!hotAPI.compatible) return
 	  module.hot.accept()
 	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-16561188", __vue_options__)
+	    hotAPI.createRecord("data-v-0a89d298", __vue_options__)
 	  } else {
-	    hotAPI.reload("data-v-16561188", __vue_options__)
+	    hotAPI.reload("data-v-0a89d298", __vue_options__)
 	  }
 	})()}
-	if (__vue_options__.functional) {console.error("[vue-loader] attence-analyse.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+	if (__vue_options__.functional) {console.error("[vue-loader] homepage.vue: functional components are not supported and should be defined in plain js files using render functions.")}
 
 	module.exports = __vue_exports__
 
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
+/* 12 */,
 /* 13 */,
 /* 14 */,
 /* 15 */
@@ -10400,25 +10375,28 @@ webpackJsonp([0],[
 	//
 	//
 	//
+	//
+	//
+	//
+	//
 
 	var navigator = __webpack_require__(16);
+
 	var animationUtil = __webpack_require__(21);
-	var methods = {
-	    onNavigatorRightBtnClick: function () {
-	        Router.push('/attence-search');
-	    }
-	};
-	animationUtil.process(methods);
+	var methods = {};
+	animationUtil.processHomepage(methods);
+
+	var loader = __webpack_require__(9);
+
 	module.exports = {
-	    module: '/attence-analyse',
+	    module: '/',
 	    data: function () {
-	        return {};
+	        return {
+	            menus: loader.getMenu()
+	        };
 	    },
 	    methods: methods,
-	    components: { navigator: navigator },
-	    activate: function () {
-	        console.log('aaa');
-	    }
+	    components: { navigator: navigator }
 	};
 
 /***/ },
@@ -10550,7 +10528,7 @@ webpackJsonp([0],[
 
 	/**
 	 * Created by 杨浪 on 2016/10/14.
-	 * 目前路由动画只支持三级能来回切换 大于3级时会导致动画错乱
+	 * 目前路由动画只支持三级后退
 	 */
 
 	var Velocity = __webpack_require__(22);
@@ -10562,6 +10540,7 @@ webpackJsonp([0],[
 	var fns = {
 	    beforeEnter:function(el){
 	        console.log(prePath);
+	        debugger;
 	        if(prePath == this.$route.matched[0].path){
 	            isReturn = true;
 	            setTimeout(function(){
@@ -10590,7 +10569,7 @@ webpackJsonp([0],[
 	        prePath = '';
 	        currentPath = '';
 	        $(el).css('z-index','0');
-	        //Velocity(el, { translateX: '0%' }, { duration: 0 });
+	        Velocity(el, { translateX: '0%' }, { duration: 0 });
 	    },
 	    enter:function(el,done){
 	        Velocity(el, { translateX: '0%' ,duration: 0},{complete:done});
@@ -10635,6 +10614,169 @@ webpackJsonp([0],[
 	    }
 	  }, [_h('div', {
 	    staticClass: "router-view"
+	  }, [_h('ul', {
+	    staticClass: "homepage-menu-list"
+	  }, [_l((menus), function(item) {
+	    return [_h('router-link', {
+	      attrs: {
+	        "to": item.path
+	      }
+	    }, [_h('li', {
+	      class: 'menu-list-item fa ' + item.menu_icon
+	    }, [_h('span', [_s(item.menu_title)])])])]
+	  }), " ", _m(0)])])])
+	}},staticRenderFns: [function (){with(this) {
+	  return _h('a', {
+	    attrs: {
+	      "href": "/h5/logout"
+	    }
+	  }, [_h('li', {
+	    staticClass: "menu-list-item fa fa-power-off"
+	  }, [_h('span', ["注销"])])])
+	}}]}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-0a89d298", module.exports)
+	  }
+	}
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var map = {
+		"./attence-analyse.vue": 25,
+		"./attence-search.vue": 30,
+		"./homepage.vue": 10,
+		"./navigator.vue": 16,
+		"./password-modify.vue": 35,
+		"./repair-report.vue": 40
+	};
+	function webpackContext(req) {
+		return __webpack_require__(webpackContextResolve(req));
+	};
+	function webpackContextResolve(req) {
+		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
+	};
+	webpackContext.keys = function webpackContextKeys() {
+		return Object.keys(map);
+	};
+	webpackContext.resolve = webpackContextResolve;
+	module.exports = webpackContext;
+	webpackContext.id = 24;
+
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_exports__, __vue_options__
+
+	/* styles */
+	__webpack_require__(26)
+
+	/* script */
+	__vue_exports__ = __webpack_require__(28)
+
+	/* template */
+	var __vue_template__ = __webpack_require__(29)
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+	if (
+	  typeof __vue_exports__.default === "object" ||
+	  typeof __vue_exports__.default === "function"
+	) {
+	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+	__vue_options__ = __vue_exports__ = __vue_exports__.default
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options
+	}
+	__vue_options__.name = __vue_options__.name || "attence-analyse"
+	__vue_options__.__file = "D:\\workspace\\SPM\\public\\src\\javascripts\\h5\\vue-components\\attence-analyse.vue"
+	__vue_options__.render = __vue_template__.render
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+	__vue_options__._scopeId = "data-v-16561188"
+
+	/* hot reload */
+	if (false) {(function () {
+	  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  module.hot.accept()
+	  if (!module.hot.data) {
+	    hotAPI.createRecord("data-v-16561188", __vue_options__)
+	  } else {
+	    hotAPI.reload("data-v-16561188", __vue_options__)
+	  }
+	})()}
+	if (__vue_options__.functional) {console.error("[vue-loader] attence-analyse.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+	module.exports = __vue_exports__
+
+
+/***/ },
+/* 26 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 27 */,
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
+	var navigator = __webpack_require__(16);
+	var animationUtil = __webpack_require__(21);
+	var methods = {
+	    onNavigatorRightBtnClick: function () {
+	        Router.push('/attence-search');
+	    }
+	};
+	animationUtil.process(methods);
+	module.exports = {
+	    module: '/attence-analyse',
+	    data: function () {
+	        return {};
+	    },
+	    methods: methods,
+	    components: { navigator: navigator },
+	    activate: function () {
+	        console.log('aaa');
+	    }
+	};
+
+/***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('transition', {
+	    attrs: {
+	      "css": false
+	    },
+	    on: {
+	      "before-enter": beforeEnter,
+	      "enter": enter,
+	      "leave": leave
+	    }
+	  }, [_h('div', {
+	    staticClass: "router-view"
 	  }, [_h('navigator', {
 	    attrs: {
 	      "navigator-title": "学生考勤分析",
@@ -10659,19 +10801,19 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 24 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 
 	/* styles */
-	__webpack_require__(25)
+	__webpack_require__(31)
 
 	/* script */
-	__vue_exports__ = __webpack_require__(27)
+	__vue_exports__ = __webpack_require__(33)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(28)
+	var __vue_template__ = __webpack_require__(34)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -10707,16 +10849,21 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 25 */
+/* 31 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 26 */,
-/* 27 */
+/* 32 */,
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
+	//
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -10741,140 +10888,18 @@ webpackJsonp([0],[
 	module.exports = {
 	    module: '/attence-search',
 	    data: function () {
-	        return {};
-	    },
-	    methods: methods,
-	    components: { navigator: navigator },
-	    activate: function () {
-	        console.log('aaa');
-	    }
-	};
-
-/***/ },
-/* 28 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
-	    attrs: {
-	      "css": false
-	    },
-	    on: {
-	      "before-enter": beforeEnter,
-	      "enter": enter,
-	      "leave": leave
-	    }
-	  }, [_h('div', {
-	    staticClass: "router-view"
-	  }, [_h('navigator', {
-	    attrs: {
-	      "navigator-title": "学生考勤查询"
-	    }
-	  })])])
-	}},staticRenderFns: []}
-	if (false) {
-	  module.hot.accept()
-	  if (module.hot.data) {
-	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-58819f22", module.exports)
-	  }
-	}
-
-/***/ },
-/* 29 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_exports__, __vue_options__
-
-	/* styles */
-	__webpack_require__(30)
-
-	/* script */
-	__vue_exports__ = __webpack_require__(33)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(34)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-	__vue_options__.name = __vue_options__.name || "homepage"
-	__vue_options__.__file = "D:\\workspace\\SPM\\public\\src\\javascripts\\h5\\vue-components\\homepage.vue"
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-	__vue_options__._scopeId = "data-v-0a89d298"
-
-	/* hot reload */
-	if (false) {(function () {
-	  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
-	  hotAPI.install(require("vue"), false)
-	  if (!hotAPI.compatible) return
-	  module.hot.accept()
-	  if (!module.hot.data) {
-	    hotAPI.createRecord("data-v-0a89d298", __vue_options__)
-	  } else {
-	    hotAPI.reload("data-v-0a89d298", __vue_options__)
-	  }
-	})()}
-	if (__vue_options__.functional) {console.error("[vue-loader] homepage.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-	module.exports = __vue_exports__
-
-
-/***/ },
-/* 30 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 31 */,
-/* 32 */,
-/* 33 */
-/***/ function(module, exports, __webpack_require__) {
-
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-
-	var navigator = __webpack_require__(16);
-
-	var animationUtil = __webpack_require__(21);
-	var methods = {};
-	animationUtil.processHomepage(methods);
-
-	var loader = __webpack_require__(9);
-
-	module.exports = {
-	    module: '/',
-	    data: function () {
 	        return {
-	            menus: loader.getMenu()
+	            items: []
 	        };
 	    },
 	    methods: methods,
-	    components: { navigator: navigator }
+	    components: { navigator: navigator },
+	    created: function () {
+	        var that = this;
+	        $.get('/attence/search', function (data) {
+	            that.items = data.data.rows;
+	        });
+	    }
 	};
 
 /***/ },
@@ -10893,30 +10918,22 @@ webpackJsonp([0],[
 	    }
 	  }, [_h('div', {
 	    staticClass: "router-view"
-	  }, [_h('ul', {
-	    staticClass: "homepage-menu-list"
-	  }, [_l((menus), function(item) {
-	    return [_h('router-link', {
-	      attrs: {
-	        "to": item.path
-	      }
-	    }, [_h('li', {
-	      class: 'menu-list-item fa ' + item.menu_icon
-	    }, [_h('span', [_s(item.menu_title)])])])]
-	  }), " ", _m(0)])])])
-	}},staticRenderFns: [function (){with(this) {
-	  return _h('a', {
+	  }, [_h('navigator', {
 	    attrs: {
-	      "href": "/h5/logout"
+	      "navigator-title": "学生考勤查询"
 	    }
-	  }, [_h('li', {
-	    staticClass: "menu-list-item fa fa-power-off"
-	  }, [_h('span', ["注销"])])])
-	}}]}
+	  }), " ", _h('div', {
+	    attrs: {
+	      "style": "    height: 100%;    overflow: auto;"
+	    }
+	  }, [_h('ul', [_l((items), function(item) {
+	    return _h('li', [_s(item.stu_name)])
+	  })])])])])
+	}},staticRenderFns: []}
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
-	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-0a89d298", module.exports)
+	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-58819f22", module.exports)
 	  }
 	}
 

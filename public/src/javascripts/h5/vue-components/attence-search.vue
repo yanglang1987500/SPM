@@ -5,6 +5,11 @@
                 v-bind:css="false">
     <div class="router-view"  >
         <navigator navigator-title="学生考勤查询" ></navigator>
+        <div style="    height: 100%;    overflow: auto;">
+            <ul>
+                <li v-for="item in items">{{item.stu_name}}</li>
+            </ul>
+        </div>
     </div>
     </transition>
 </template>
@@ -23,12 +28,16 @@
         module:'/attence-search',
         data:function(){
             return {
+                items:[]
             }
         },
         methods:methods,
         components:{navigator:navigator},
-        activate:function(){
-            console.log('aaa');
+        created :function(){
+            var that = this;
+            $.get('/attence/search',function(data){
+                that.items = data.data.rows;
+            });
         }
     };
 </script>

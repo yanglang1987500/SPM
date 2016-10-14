@@ -7,8 +7,8 @@ var utils = require('../libs/utils');
 
 router.get('/attence/search', function (req, res, next) {
     if (req.session.isLogin) {
-        var page = req.query.page,
-            rows = req.query.rows,
+        var page = req.query.page || 1,
+            rows = req.query.rows || 20,
             key = req.query.key,
             type = req.query.type,
             startdate = req.query.startdate,

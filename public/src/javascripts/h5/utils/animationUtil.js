@@ -1,6 +1,6 @@
 /**
  * Created by 杨浪 on 2016/10/14.
- * 目前路由动画只支持三级能来回切换 大于3级时会导致动画错乱
+ * 目前路由动画只支持三级后退
  */
 
 var Velocity = require('../../libs/velocity.min');
@@ -12,6 +12,7 @@ var count = 1, prePath = '',currentPath = '';
 var fns = {
     beforeEnter:function(el){
         console.log(prePath);
+        debugger;
         if(prePath == this.$route.matched[0].path){
             isReturn = true;
             setTimeout(function(){
@@ -40,7 +41,7 @@ var fns_homepage = {
         prePath = '';
         currentPath = '';
         $(el).css('z-index','0');
-        //Velocity(el, { translateX: '0%' }, { duration: 0 });
+        Velocity(el, { translateX: '0%' }, { duration: 0 });
     },
     enter:function(el,done){
         Velocity(el, { translateX: '0%' ,duration: 0},{complete:done});
