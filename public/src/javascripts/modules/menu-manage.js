@@ -77,7 +77,7 @@ MenuManage.prototype.initTable = function () {
     });
 
     //绑定下拉框事件 通知刷新菜单
-    $('#show_type,#menu_type',that.dom).on('change',function(){
+    $('#show_type,#menu_type,#menu_device',that.dom).on('change',function(){
         Events.notify('onRefresh:menu-manage');
     });
 
@@ -86,6 +86,7 @@ MenuManage.prototype.initTable = function () {
         that.$table.datagrid('load',{
             key:searchBox.searchbox('getValue'),
             show_type:$('#show_type',that.dom).val(),
+            menu_device:$('#menu_device',that.dom).val(),
             menu_type:$('#menu_type',that.dom).val()
         });
     });

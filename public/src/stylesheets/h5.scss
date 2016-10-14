@@ -6,12 +6,15 @@
 }
 html,body{
   height:100%;
+  overflow: hidden;
 }
 #h5app{
   font-family: MicroSoft Yahei;
   height:100%;
   color: #7b7b7b;
+  overflow: hidden;
   .router-view{
+    overflow: auto;
     height: 100%;
     width:100%;
     position: fixed;
@@ -22,12 +25,3 @@ html,body{
   }
 }
 
-.fadeInLeft-enter-active,.fadeInLeft-leave-active,.fadeOutLeft-enter-active, .fadeOutLeft-leave-active{
-  transition: transform .3s ease-in-out;
-}
-.fadeInLeft-enter, .fadeInLeft-leave-active {
-  transform: translateX(100%);
-}
-.fadeOutLeft-enter, .fadeOutLeft-leave-active {
-  transform: translateX(-100%);
-}

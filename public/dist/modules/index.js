@@ -1,22 +1,22 @@
-webpackJsonp([0,1],[
+webpackJsonp([1],[
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by yanglang on 2016/4/13.
 	 */
-	__webpack_require__(1);
-	__webpack_require__(2);
-	__webpack_require__(3);
-	__webpack_require__(7);
-	window.toastr = __webpack_require__(19);
-	__webpack_require__(22);
-	__webpack_require__(24);
+	__webpack_require__(45);
+	__webpack_require__(46);
+	__webpack_require__(47);
+	__webpack_require__(49);
+	window.toastr = __webpack_require__(61);
+	__webpack_require__(64);
+	__webpack_require__(66);
 	var prefix = './modules/';
-	var Events = __webpack_require__(25);
-	var Router = __webpack_require__(26);
+	var Events = __webpack_require__(8);
+	var Router = __webpack_require__(67);
 	Router.init();
-	__webpack_require__(29);
+	__webpack_require__(70);
 	var theme,_THEME_KEY_ = '_THEME_KEY';
 	 
 	if(theme = localStorage.getItem(_THEME_KEY_)){
@@ -105,7 +105,51 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 1 */
+/* 1 */,
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */,
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */,
+/* 15 */,
+/* 16 */,
+/* 17 */,
+/* 18 */,
+/* 19 */,
+/* 20 */,
+/* 21 */,
+/* 22 */,
+/* 23 */,
+/* 24 */,
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */,
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */
 /***/ function(module, exports) {
 
 	/**
@@ -286,39 +330,37 @@ webpackJsonp([0,1],[
 	})();
 
 /***/ },
-/* 2 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var require;var require;var __WEBPACK_AMD_DEFINE_RESULT__;!function(e,t,n){"use strict";!function o(e,t,n){function a(s,l){if(!t[s]){if(!e[s]){var i="function"==typeof require&&require;if(!l&&i)return require(s,!0);if(r)return r(s,!0);var u=new Error("Cannot find module '"+s+"'");throw u.code="MODULE_NOT_FOUND",u}var c=t[s]={exports:{}};e[s][0].call(c.exports,function(t){var n=e[s][1][t];return a(n?n:t)},c,c.exports,o,e,t,n)}return t[s].exports}for(var r="function"==typeof require&&require,s=0;s<n.length;s++)a(n[s]);return a}({1:[function(o,a,r){var s=function(e){return e&&e.__esModule?e:{"default":e}};Object.defineProperty(r,"__esModule",{value:!0});var l,i,u,c,d=o("./modules/handle-dom"),f=o("./modules/utils"),p=o("./modules/handle-swal-dom"),m=o("./modules/handle-click"),v=o("./modules/handle-key"),y=s(v),h=o("./modules/default-params"),b=s(h),g=o("./modules/set-params"),w=s(g);r["default"]=u=c=function(){function o(e){var t=a;return t[e]===n?b["default"][e]:t[e]}var a=arguments[0];if(d.addClass(t.body,"stop-scrolling"),p.resetInput(),a===n)return f.logStr("SweetAlert expects at least 1 attribute!"),!1;var r=f.extend({},b["default"]);switch(typeof a){case"string":r.title=a,r.text=arguments[1]||"",r.type=arguments[2]||"";break;case"object":if(a.title===n)return f.logStr('Missing "title" argument!'),!1;r.title=a.title;for(var s in b["default"])r[s]=o(s);r.confirmButtonText=r.showCancelButton?"Confirm":b["default"].confirmButtonText,r.confirmButtonText=o("confirmButtonText"),r.doneFunction=arguments[1]||null;break;default:return f.logStr('Unexpected type of argument! Expected "string" or "object", got '+typeof a),!1}w["default"](r),p.fixVerticalPosition(),p.openModal(arguments[1]);for(var u=p.getModal(),v=u.querySelectorAll("button"),h=["onclick","onmouseover","onmouseout","onmousedown","onmouseup","onfocus"],g=function(e){return m.handleButton(e,r,u)},C=0;C<v.length;C++)for(var S=0;S<h.length;S++){var x=h[S];v[C][x]=g}p.getOverlay().onclick=g,l=e.onkeydown;var k=function(e){return y["default"](e,r,u)};e.onkeydown=k,e.onfocus=function(){setTimeout(function(){i!==n&&(i.focus(),i=n)},0)},c.enableButtons()},u.setDefaults=c.setDefaults=function(e){if(!e)throw new Error("userParams is required");if("object"!=typeof e)throw new Error("userParams has to be a object");f.extend(b["default"],e)},u.close=c.close=function(){var o=p.getModal();d.fadeOut(p.getOverlay(),5),d.fadeOut(o,5),d.removeClass(o,"showSweetAlert"),d.addClass(o,"hideSweetAlert"),d.removeClass(o,"visible");var a=o.querySelector(".sa-icon.sa-success");d.removeClass(a,"animate"),d.removeClass(a.querySelector(".sa-tip"),"animateSuccessTip"),d.removeClass(a.querySelector(".sa-long"),"animateSuccessLong");var r=o.querySelector(".sa-icon.sa-error");d.removeClass(r,"animateErrorIcon"),d.removeClass(r.querySelector(".sa-x-mark"),"animateXMark");var s=o.querySelector(".sa-icon.sa-warning");return d.removeClass(s,"pulseWarning"),d.removeClass(s.querySelector(".sa-body"),"pulseWarningIns"),d.removeClass(s.querySelector(".sa-dot"),"pulseWarningIns"),setTimeout(function(){var e=o.getAttribute("data-custom-class");d.removeClass(o,e)},300),d.removeClass(t.body,"stop-scrolling"),e.onkeydown=l,e.previousActiveElement&&e.previousActiveElement.focus(),i=n,clearTimeout(o.timeout),!0},u.showInputError=c.showInputError=function(e){var t=p.getModal(),n=t.querySelector(".sa-input-error");d.addClass(n,"show");var o=t.querySelector(".sa-error-container");d.addClass(o,"show"),o.querySelector("p").innerHTML=e,setTimeout(function(){u.enableButtons()},1),t.querySelector("input").focus()},u.resetInputError=c.resetInputError=function(e){if(e&&13===e.keyCode)return!1;var t=p.getModal(),n=t.querySelector(".sa-input-error");d.removeClass(n,"show");var o=t.querySelector(".sa-error-container");d.removeClass(o,"show")},u.disableButtons=c.disableButtons=function(){var e=p.getModal(),t=e.querySelector("button.confirm"),n=e.querySelector("button.cancel");t.disabled=!0,n.disabled=!0},u.enableButtons=c.enableButtons=function(){var e=p.getModal(),t=e.querySelector("button.confirm"),n=e.querySelector("button.cancel");t.disabled=!1,n.disabled=!1},"undefined"!=typeof e?e.sweetAlert=e.swal=u:f.logStr("SweetAlert is a frontend module!"),a.exports=r["default"]},{"./modules/default-params":2,"./modules/handle-click":3,"./modules/handle-dom":4,"./modules/handle-key":5,"./modules/handle-swal-dom":6,"./modules/set-params":8,"./modules/utils":9}],2:[function(e,t,n){Object.defineProperty(n,"__esModule",{value:!0});var o={title:"",text:"",type:null,allowOutsideClick:!1,showConfirmButton:!0,showCancelButton:!1,closeOnConfirm:!0,closeOnCancel:!0,confirmButtonText:"OK",confirmButtonColor:"#8CD4F5",cancelButtonText:"Cancel",imageUrl:null,imageSize:null,timer:null,customClass:"",html:!1,animation:!0,allowEscapeKey:!0,inputType:"text",inputPlaceholder:"",inputValue:"",showLoaderOnConfirm:!1};n["default"]=o,t.exports=n["default"]},{}],3:[function(t,n,o){Object.defineProperty(o,"__esModule",{value:!0});var a=t("./utils"),r=(t("./handle-swal-dom"),t("./handle-dom")),s=function(t,n,o){function s(e){m&&n.confirmButtonColor&&(p.style.backgroundColor=e)}var u,c,d,f=t||e.event,p=f.target||f.srcElement,m=-1!==p.className.indexOf("confirm"),v=-1!==p.className.indexOf("sweet-overlay"),y=r.hasClass(o,"visible"),h=n.doneFunction&&"true"===o.getAttribute("data-has-done-function");switch(m&&n.confirmButtonColor&&(u=n.confirmButtonColor,c=a.colorLuminance(u,-.04),d=a.colorLuminance(u,-.14)),f.type){case"mouseover":s(c);break;case"mouseout":s(u);break;case"mousedown":s(d);break;case"mouseup":s(c);break;case"focus":var b=o.querySelector("button.confirm"),g=o.querySelector("button.cancel");m?g.style.boxShadow="none":b.style.boxShadow="none";break;case"click":var w=o===p,C=r.isDescendant(o,p);if(!w&&!C&&y&&!n.allowOutsideClick)break;m&&h&&y?l(o,n):h&&y||v?i(o,n):r.isDescendant(o,p)&&"BUTTON"===p.tagName&&sweetAlert.close()}},l=function(e,t){var n=!0;r.hasClass(e,"show-input")&&(n=e.querySelector("input").value,n||(n="")),t.doneFunction(n),t.closeOnConfirm&&sweetAlert.close(),t.showLoaderOnConfirm&&sweetAlert.disableButtons()},i=function(e,t){var n=String(t.doneFunction).replace(/\s/g,""),o="function("===n.substring(0,9)&&")"!==n.substring(9,10);o&&t.doneFunction(!1),t.closeOnCancel&&sweetAlert.close()};o["default"]={handleButton:s,handleConfirm:l,handleCancel:i},n.exports=o["default"]},{"./handle-dom":4,"./handle-swal-dom":6,"./utils":9}],4:[function(n,o,a){Object.defineProperty(a,"__esModule",{value:!0});var r=function(e,t){return new RegExp(" "+t+" ").test(" "+e.className+" ")},s=function(e,t){r(e,t)||(e.className+=" "+t)},l=function(e,t){var n=" "+e.className.replace(/[\t\r\n]/g," ")+" ";if(r(e,t)){for(;n.indexOf(" "+t+" ")>=0;)n=n.replace(" "+t+" "," ");e.className=n.replace(/^\s+|\s+$/g,"")}},i=function(e){var n=t.createElement("div");return n.appendChild(t.createTextNode(e)),n.innerHTML},u=function(e){e.style.opacity="",e.style.display="block"},c=function(e){if(e&&!e.length)return u(e);for(var t=0;t<e.length;++t)u(e[t])},d=function(e){e.style.opacity="",e.style.display="none"},f=function(e){if(e&&!e.length)return d(e);for(var t=0;t<e.length;++t)d(e[t])},p=function(e,t){for(var n=t.parentNode;null!==n;){if(n===e)return!0;n=n.parentNode}return!1},m=function(e){e.style.left="-9999px",e.style.display="block";var t,n=e.clientHeight;return t="undefined"!=typeof getComputedStyle?parseInt(getComputedStyle(e).getPropertyValue("padding-top"),10):parseInt(e.currentStyle.padding),e.style.left="",e.style.display="none","-"+parseInt((n+t)/2)+"px"},v=function(e,t){if(+e.style.opacity<1){t=t||16,e.style.opacity=0,e.style.display="block";var n=+new Date,o=function(e){function t(){return e.apply(this,arguments)}return t.toString=function(){return e.toString()},t}(function(){e.style.opacity=+e.style.opacity+(new Date-n)/100,n=+new Date,+e.style.opacity<1&&setTimeout(o,t)});o()}e.style.display="block"},y=function(e,t){t=t||16,e.style.opacity=1;var n=+new Date,o=function(e){function t(){return e.apply(this,arguments)}return t.toString=function(){return e.toString()},t}(function(){e.style.opacity=+e.style.opacity-(new Date-n)/100,n=+new Date,+e.style.opacity>0?setTimeout(o,t):e.style.display="none"});o()},h=function(n){if("function"==typeof MouseEvent){var o=new MouseEvent("click",{view:e,bubbles:!1,cancelable:!0});n.dispatchEvent(o)}else if(t.createEvent){var a=t.createEvent("MouseEvents");a.initEvent("click",!1,!1),n.dispatchEvent(a)}else t.createEventObject?n.fireEvent("onclick"):"function"==typeof n.onclick&&n.onclick()},b=function(t){"function"==typeof t.stopPropagation?(t.stopPropagation(),t.preventDefault()):e.event&&e.event.hasOwnProperty("cancelBubble")&&(e.event.cancelBubble=!0)};a.hasClass=r,a.addClass=s,a.removeClass=l,a.escapeHtml=i,a._show=u,a.show=c,a._hide=d,a.hide=f,a.isDescendant=p,a.getTopMargin=m,a.fadeIn=v,a.fadeOut=y,a.fireClick=h,a.stopEventPropagation=b},{}],5:[function(t,o,a){Object.defineProperty(a,"__esModule",{value:!0});var r=t("./handle-dom"),s=t("./handle-swal-dom"),l=function(t,o,a){var l=t||e.event,i=l.keyCode||l.which,u=a.querySelector("button.confirm"),c=a.querySelector("button.cancel"),d=a.querySelectorAll("button[tabindex]");if(-1!==[9,13,32,27].indexOf(i)){for(var f=l.target||l.srcElement,p=-1,m=0;m<d.length;m++)if(f===d[m]){p=m;break}9===i?(f=-1===p?u:p===d.length-1?d[0]:d[p+1],r.stopEventPropagation(l),f.focus(),o.confirmButtonColor&&s.setFocusStyle(f,o.confirmButtonColor)):13===i?("INPUT"===f.tagName&&(f=u,u.focus()),f=-1===p?u:n):27===i&&o.allowEscapeKey===!0?(f=c,r.fireClick(f,l)):f=n}};a["default"]=l,o.exports=a["default"]},{"./handle-dom":4,"./handle-swal-dom":6}],6:[function(n,o,a){var r=function(e){return e&&e.__esModule?e:{"default":e}};Object.defineProperty(a,"__esModule",{value:!0});var s=n("./utils"),l=n("./handle-dom"),i=n("./default-params"),u=r(i),c=n("./injected-html"),d=r(c),f=".sweet-alert",p=".sweet-overlay",m=function(){var e=t.createElement("div");for(e.innerHTML=d["default"];e.firstChild;)t.body.appendChild(e.firstChild)},v=function(e){function t(){return e.apply(this,arguments)}return t.toString=function(){return e.toString()},t}(function(){var e=t.querySelector(f);return e||(m(),e=v()),e}),y=function(){var e=v();return e?e.querySelector("input"):void 0},h=function(){return t.querySelector(p)},b=function(e,t){var n=s.hexToRgb(t);e.style.boxShadow="0 0 2px rgba("+n+", 0.8), inset 0 0 0 1px rgba(0, 0, 0, 0.05)"},g=function(n){var o=v();l.fadeIn(h(),10),l.show(o),l.addClass(o,"showSweetAlert"),l.removeClass(o,"hideSweetAlert"),e.previousActiveElement=t.activeElement;var a=o.querySelector("button.confirm");a.focus(),setTimeout(function(){l.addClass(o,"visible")},500);var r=o.getAttribute("data-timer");if("null"!==r&&""!==r){var s=n;o.timeout=setTimeout(function(){var e=(s||null)&&"true"===o.getAttribute("data-has-done-function");e?s(null):sweetAlert.close()},r)}},w=function(){var e=v(),t=y();l.removeClass(e,"show-input"),t.value=u["default"].inputValue,t.setAttribute("type",u["default"].inputType),t.setAttribute("placeholder",u["default"].inputPlaceholder),C()},C=function(e){if(e&&13===e.keyCode)return!1;var t=v(),n=t.querySelector(".sa-input-error");l.removeClass(n,"show");var o=t.querySelector(".sa-error-container");l.removeClass(o,"show")},S=function(){var e=v();e.style.marginTop=l.getTopMargin(v())};a.sweetAlertInitialize=m,a.getModal=v,a.getOverlay=h,a.getInput=y,a.setFocusStyle=b,a.openModal=g,a.resetInput=w,a.resetInputError=C,a.fixVerticalPosition=S},{"./default-params":2,"./handle-dom":4,"./injected-html":7,"./utils":9}],7:[function(e,t,n){Object.defineProperty(n,"__esModule",{value:!0});var o='<div class="sweet-overlay" tabIndex="-1"></div><div class="sweet-alert"><div class="sa-icon sa-error">\n      <span class="sa-x-mark">\n        <span class="sa-line sa-left"></span>\n        <span class="sa-line sa-right"></span>\n      </span>\n    </div><div class="sa-icon sa-warning">\n      <span class="sa-body"></span>\n      <span class="sa-dot"></span>\n    </div><div class="sa-icon sa-info"></div><div class="sa-icon sa-success">\n      <span class="sa-line sa-tip"></span>\n      <span class="sa-line sa-long"></span>\n\n      <div class="sa-placeholder"></div>\n      <div class="sa-fix"></div>\n    </div><div class="sa-icon sa-custom"></div><h2>Title</h2>\n    <p>Text</p>\n    <fieldset>\n      <input type="text" tabIndex="3" />\n      <div class="sa-input-error"></div>\n    </fieldset><div class="sa-error-container">\n      <div class="icon">!</div>\n      <p>Not valid!</p>\n    </div><div class="sa-button-container">\n      <button class="cancel" tabIndex="2">Cancel</button>\n      <div class="sa-confirm-button-container">\n        <button class="confirm" tabIndex="1">OK</button><div class="la-ball-fall">\n          <div></div>\n          <div></div>\n          <div></div>\n        </div>\n      </div>\n    </div></div>';n["default"]=o,t.exports=n["default"]},{}],8:[function(e,t,o){Object.defineProperty(o,"__esModule",{value:!0});var a=e("./utils"),r=e("./handle-swal-dom"),s=e("./handle-dom"),l=["error","warning","info","success","input","prompt"],i=function(e){var t=r.getModal(),o=t.querySelector("h2"),i=t.querySelector("p"),u=t.querySelector("button.cancel"),c=t.querySelector("button.confirm");if(o.innerHTML=e.html?e.title:s.escapeHtml(e.title).split("\n").join("<br>"),i.innerHTML=e.html?e.text:s.escapeHtml(e.text||"").split("\n").join("<br>"),e.text&&s.show(i),e.customClass)s.addClass(t,e.customClass),t.setAttribute("data-custom-class",e.customClass);else{var d=t.getAttribute("data-custom-class");s.removeClass(t,d),t.setAttribute("data-custom-class","")}if(s.hide(t.querySelectorAll(".sa-icon")),e.type&&!a.isIE8()){var f=function(){for(var o=!1,a=0;a<l.length;a++)if(e.type===l[a]){o=!0;break}if(!o)return logStr("Unknown alert type: "+e.type),{v:!1};var i=["success","error","warning","info"],u=n;-1!==i.indexOf(e.type)&&(u=t.querySelector(".sa-icon.sa-"+e.type),s.show(u));var c=r.getInput();switch(e.type){case"success":s.addClass(u,"animate"),s.addClass(u.querySelector(".sa-tip"),"animateSuccessTip"),s.addClass(u.querySelector(".sa-long"),"animateSuccessLong");break;case"error":s.addClass(u,"animateErrorIcon"),s.addClass(u.querySelector(".sa-x-mark"),"animateXMark");break;case"warning":s.addClass(u,"pulseWarning"),s.addClass(u.querySelector(".sa-body"),"pulseWarningIns"),s.addClass(u.querySelector(".sa-dot"),"pulseWarningIns");break;case"input":case"prompt":c.setAttribute("type",e.inputType),c.value=e.inputValue,c.setAttribute("placeholder",e.inputPlaceholder),s.addClass(t,"show-input"),setTimeout(function(){c.focus(),c.addEventListener("keyup",swal.resetInputError)},400)}}();if("object"==typeof f)return f.v}if(e.imageUrl){var p=t.querySelector(".sa-icon.sa-custom");p.style.backgroundImage="url("+e.imageUrl+")",s.show(p);var m=80,v=80;if(e.imageSize){var y=e.imageSize.toString().split("x"),h=y[0],b=y[1];h&&b?(m=h,v=b):logStr("Parameter imageSize expects value with format WIDTHxHEIGHT, got "+e.imageSize)}p.setAttribute("style",p.getAttribute("style")+"width:"+m+"px; height:"+v+"px")}t.setAttribute("data-has-cancel-button",e.showCancelButton),e.showCancelButton?u.style.display="inline-block":s.hide(u),t.setAttribute("data-has-confirm-button",e.showConfirmButton),e.showConfirmButton?c.style.display="inline-block":s.hide(c),e.cancelButtonText&&(u.innerHTML=s.escapeHtml(e.cancelButtonText)),e.confirmButtonText&&(c.innerHTML=s.escapeHtml(e.confirmButtonText)),e.confirmButtonColor&&(c.style.backgroundColor=e.confirmButtonColor,c.style.borderLeftColor=e.confirmLoadingButtonColor,c.style.borderRightColor=e.confirmLoadingButtonColor,r.setFocusStyle(c,e.confirmButtonColor)),t.setAttribute("data-allow-outside-click",e.allowOutsideClick);var g=e.doneFunction?!0:!1;t.setAttribute("data-has-done-function",g),e.animation?"string"==typeof e.animation?t.setAttribute("data-animation",e.animation):t.setAttribute("data-animation","pop"):t.setAttribute("data-animation","none"),t.setAttribute("data-timer",e.timer)};o["default"]=i,t.exports=o["default"]},{"./handle-dom":4,"./handle-swal-dom":6,"./utils":9}],9:[function(t,n,o){Object.defineProperty(o,"__esModule",{value:!0});var a=function(e,t){for(var n in t)t.hasOwnProperty(n)&&(e[n]=t[n]);return e},r=function(e){var t=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(e);return t?parseInt(t[1],16)+", "+parseInt(t[2],16)+", "+parseInt(t[3],16):null},s=function(){return e.attachEvent&&!e.addEventListener},l=function(t){e.console&&e.console.log("SweetAlert: "+t)},i=function(e,t){e=String(e).replace(/[^0-9a-f]/gi,""),e.length<6&&(e=e[0]+e[0]+e[1]+e[1]+e[2]+e[2]),t=t||0;var n,o,a="#";for(o=0;3>o;o++)n=parseInt(e.substr(2*o,2),16),n=Math.round(Math.min(Math.max(0,n+n*t),255)).toString(16),a+=("00"+n).substr(n.length);return a};o.extend=a,o.hexToRgb=r,o.isIE8=s,o.logStr=l,o.colorLuminance=i},{}]},{},[1]), true?!(__WEBPACK_AMD_DEFINE_RESULT__ = function(){return sweetAlert}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):"undefined"!=typeof module&&module.exports&&(module.exports=sweetAlert)}(window,document);
 
 /***/ },
-/* 3 */
+/* 47 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */
+/* 48 */,
+/* 49 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */,
-/* 13 */,
-/* 14 */,
-/* 15 */,
-/* 16 */,
-/* 17 */,
-/* 18 */,
-/* 19 */
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -335,7 +377,7 @@ webpackJsonp([0,1],[
 	 */
 	/* global define */
 	(function (define) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(20)], __WEBPACK_AMD_DEFINE_RESULT__ = function ($) {
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(62)], __WEBPACK_AMD_DEFINE_RESULT__ = function ($) {
 	        return (function () {
 	            var $container;
 	            var listener;
@@ -790,31 +832,31 @@ webpackJsonp([0,1],[
 
 	        })();
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(21)));
+	}(__webpack_require__(63)));
 
 
 /***/ },
-/* 20 */
+/* 62 */
 /***/ function(module, exports) {
 
 	module.exports = jQuery;
 
 /***/ },
-/* 21 */
+/* 63 */
 /***/ function(module, exports) {
 
 	module.exports = function() { throw new Error("define cannot be used indirect"); };
 
 
 /***/ },
-/* 22 */
+/* 64 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 23 */,
-/* 24 */
+/* 65 */,
+/* 66 */
 /***/ function(module, exports) {
 
 	/**
@@ -906,171 +948,7 @@ webpackJsonp([0,1],[
 	};
 
 /***/ },
-/* 25 */
-/***/ function(module, exports) {
-
-	/** ========================提供事件订阅机制=========================== **/
-	var __Events = {},
-	    toBeNotify = [],
-	    toBeCall = [],
-	    isCalling = false,
-	    windowLoaded = false,
-	    QUEUE_TIMEOUT = 30,//队列执行间隔时长
-	    EVENT_PREFIX = 'TEMPORARYEVENT';//临时事件名称前缀，后缀为_+时间缀
-	typeof window == 'undefined'?(window ={}):'';
-
-	var Events = window.Events = {
-	    EVENT_PREFIX:EVENT_PREFIX,
-	    addMethod:function(methodName,method){
-	        var that = this;
-	        if(typeof method === 'function' && this[methodName] == undefined){
-	            this[methodName] = function(){
-	                return method.apply(that,toBeNotify.slice.call(arguments,0));
-	            };
-	        }
-	        return this;
-	    },
-	    /**
-	     * 触发一个事件
-	     * @method notify
-	     * @param eventName 事件名称
-	     * @param data 事件数据 PS：现在支持变参，除了eventName,data以外还可以添加任意参数
-	     * @returns {Events}
-	     */
-	    notify:function(eventName,data){
-	        var eventNames = eventName.split(' '),result = {};
-	        for(var key in eventNames){
-	            var _eventName = eventNames[key];
-	            result[_eventName] = [];
-	            var eventList = __Events[_eventName],i = 0;
-	            if(eventList){
-	                var len = eventList.length;
-	                for(;i < len;i++ ){
-	                    eventList[i].apply(this,toBeNotify.slice.call(arguments,1));
-	                }
-	            }else{
-	                toBeNotify.push({
-	                    eventName:_eventName,
-	                    data:toBeNotify.slice.call(arguments,1),
-	                    scope:this
-	                });//暂时存入待触发列表
-	            }
-	            //若为临时事件，则通知一次之后马上注销
-	            if(new RegExp('^'+EVENT_PREFIX+'(_\\d+)$').test(_eventName))
-	                this.unsubscribe(_eventName);
-	        }
-
-	        return this;
-	    },
-	    /**
-	     * 给定作用域触发一个事件
-	     * @param eventName 事件名称
-	     * @param scope 作用域
-	     * @param data 事件数据，支持变参
-	     */
-	    notifyWith:function(eventName,scope,data){
-	        if (arguments.length<2)
-	            throw new TypeError('按作用域触发事件请提供事件名称与作用域');
-	        this.notify.apply(scope, [eventName].concat(toBeNotify.slice.call(arguments,2)));
-	    },
-	    /**
-	     * 订阅一个事件
-	     * @method subscribe
-	     * @param eventName 事件名称
-	     * @param callback 事件回调
-	     */
-	    subscribe: function (eventName, callback) {
-	        var i = 0,len = toBeNotify.length;
-	        if (arguments.length<2)
-	            throw new TypeError('订阅事件请提供事件名称与事件回调');
-
-	        var eventList = __Events[eventName]?__Events[eventName]:(__Events[eventName]=[]);
-	        eventList = Object.prototype.toString.call(callback) === '[object Array]'?eventList.concat(callback):eventList.push(callback);
-	        for(;i<len;i++){
-	            if(toBeNotify[i].eventName === eventName){
-	                //移除并触发之前已准备触发的事件
-	                this.notify.apply(toBeNotify[i].scope , [eventName].concat(toBeNotify[i].data));
-	                toBeNotify.splice(i,1);
-	                break;
-	            }
-	        }
-	        return this;
-	    },
-	    /**
-	     * 取消订阅事件
-	     * @method unsubscribe
-	     * @param eventName 事件名称
-	     */
-	    unsubscribe: function(eventName,callback){
-	        if(callback){
-	            var callbacks = __Events[eventName];
-	            for(var i = 0; i< callbacks.length ; i++){
-	                if(callbacks[i] === callback){
-	                    callbacks.splice(i--,1);
-	                }
-	            }
-	        }else
-	            delete __Events[eventName];
-	        return this;
-	    },
-	    /**
-	     * 列队执行 无参时代表调起队列开始执行
-	     * @param callback 回调方法
-	     */
-	    queue:function(callback){
-	        if(arguments.length == 0 && !isCalling){
-	            _reCall();
-	            return this;
-	        }
-	        if(isCalling || !windowLoaded){
-	            toBeCall.push(callback);
-	            return this;
-	        }
-
-	        isCalling = true;
-	        callback();
-
-	        setTimeout(_reCall,QUEUE_TIMEOUT);
-	        function _reCall(){
-	            var flag = false;
-	            for(var i = 0;i < toBeCall.length;i++) {
-	                flag = true;
-	                toBeCall[i].call();
-	                setTimeout(arguments.callee,QUEUE_TIMEOUT);
-	                toBeCall.splice(i,1);
-	                break;
-	            }
-	            isCalling = flag;
-	        }
-	        return this;
-	    },
-	    isIOS9:(navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i)) && Boolean(navigator.userAgent.match(/OS [9]_\d[_\d]* like Mac OS X/i)),
-	    isMobile:/Mobile/g.test(navigator.userAgent),
-	    isIOS:(navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i)),
-	    ORIENTATION_LANDSCAPE:1,//横屏
-	    ORIENTATION_PORTRAIT:0,//竖屏
-	    orientation:0
-	};
-	//APP内 或 APP外且非IOS9
-	if(!Events.isBrowser || (Events.isBrowser && !Events.isIOS9) ){
-	    //app内直接设置为true不需要缓冲
-	    windowLoaded = true;
-	}else{
-	    if(document.readyState === 'complete'){
-	        windowLoaded = true;
-	    }else{
-	        window.addEventListener('load',function(){
-	            windowLoaded = true;
-	            Events.queue();
-	        });
-	    }
-	}
-	/** =================================================== **/
-
-	module.exports = Events;
-
-/***/ },
-/* 26 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1080,9 +958,9 @@ webpackJsonp([0,1],[
 	 * @module historycontrol-base
 	 */
 
-	var Router = __webpack_require__(27).Router;
-	var Events = __webpack_require__(25);
-	var frameworkBase = __webpack_require__(28);
+	var Router = __webpack_require__(68).Router;
+	var Events = __webpack_require__(8);
+	var frameworkBase = __webpack_require__(69);
 
 
 	function load(_module,showType){
@@ -1110,7 +988,7 @@ webpackJsonp([0,1],[
 	};
 
 /***/ },
-/* 27 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -1122,7 +1000,7 @@ webpackJsonp([0,1],[
 	(function(a){function k(a,b,c,d){var e=0,f=0,g=0,c=(c||"(").toString(),d=(d||")").toString(),h;for(h=0;h<a.length;h++){var i=a[h];if(i.indexOf(c,e)>i.indexOf(d,e)||~i.indexOf(c,e)&&!~i.indexOf(d,e)||!~i.indexOf(c,e)&&~i.indexOf(d,e)){f=i.indexOf(c,e),g=i.indexOf(d,e);if(~f&&!~g||!~f&&~g){var j=a.slice(0,(h||1)+1).join(b);a=[j].concat(a.slice((h||1)+1))}e=(g>f?g:f)+1,h=0}else e=0}return a}function j(a,b){var c,d=0,e="";while(c=a.substr(d).match(/[^\w\d\- %@&]*\*[^\w\d\- %@&]*/))d=c.index+c[0].length,c[0]=c[0].replace(/^\*/,"([_.()!\\ %@&a-zA-Z0-9-]+)"),e+=a.substr(0,c.index)+c[0];a=e+=a.substr(d);var f=a.match(/:([^\/]+)/ig),g,h;if(f){h=f.length;for(var j=0;j<h;j++)g=f[j],g.slice(0,2)==="::"?a=g.slice(1):a=a.replace(g,i(g,b))}return a}function i(a,b,c){c=a;for(var d in b)if(b.hasOwnProperty(d)){c=b[d](a);if(c!==a)break}return c===a?"([._a-zA-Z0-9-%()]+)":c}function h(a,b,c){if(!a.length)return c();var d=0;(function e(){b(a[d],function(b){b||b===!1?(c(b),c=function(){}):(d+=1,d===a.length?c():e())})})()}function g(a){var b=[];for(var c=0,d=a.length;c<d;c++)b=b.concat(a[c]);return b}function f(a,b){for(var c=0;c<a.length;c+=1)if(b(a[c],c,a)===!1)return}function c(){return b.hash===""||b.hash==="#"}var b=document.location,d={mode:"modern",hash:b.hash,history:!1,check:function(){var a=b.hash;a!=this.hash&&(this.hash=a,this.onHashChanged())},fire:function(){this.mode==="modern"?this.history===!0?window.onpopstate():window.onhashchange():this.onHashChanged()},init:function(a,b){function d(a){for(var b=0,c=e.listeners.length;b<c;b++)e.listeners[b](a)}var c=this;this.history=b,e.listeners||(e.listeners=[]);if("onhashchange"in window&&(document.documentMode===undefined||document.documentMode>7))this.history===!0?setTimeout(function(){window.onpopstate=d},500):window.onhashchange=d,this.mode="modern";else{var f=document.createElement("iframe");f.id="state-frame",f.style.display="none",document.body.appendChild(f),this.writeFrame(""),"onpropertychange"in document&&"attachEvent"in document&&document.attachEvent("onpropertychange",function(){event.propertyName==="location"&&c.check()}),window.setInterval(function(){c.check()},50),this.onHashChanged=d,this.mode="legacy"}e.listeners.push(a);return this.mode},destroy:function(a){if(!!e&&!!e.listeners){var b=e.listeners;for(var c=b.length-1;c>=0;c--)b[c]===a&&b.splice(c,1)}},setHash:function(a){this.mode==="legacy"&&this.writeFrame(a),this.history===!0?(window.history.pushState({},document.title,a),this.fire()):b.hash=a[0]==="/"?a:"/"+a;return this},writeFrame:function(a){var b=document.getElementById("state-frame"),c=b.contentDocument||b.contentWindow.document;c.open(),c.write("<script>_hash = '"+a+"'; onload = parent.listener.syncHash;<script>"),c.close()},syncHash:function(){var a=this._hash;a!=b.hash&&(b.hash=a);return this},onHashChanged:function(){}},e=a.Router=function(a){if(this instanceof e)this.params={},this.routes={},this.methods=["on","once","after","before"],this.scope=[],this._methods={},this._insert=this.insert,this.insert=this.insertEx,this.historySupport=(window.history!=null?window.history.pushState:null)!=null,this.configure(),this.mount(a||{});else return new e(a)};e.prototype.init=function(a){var e=this,f;this.handler=function(a){var b=a&&a.newURL||window.location.hash,c=e.history===!0?e.getPath():b.replace(/.*#/,"");e.dispatch("on",c.charAt(0)==="/"?c:"/"+c)},d.init(this.handler,this.history),this.history===!1?c()&&a?b.hash=a:c()||e.dispatch("on","/"+b.hash.replace(/^(#\/|#|\/)/,"")):(this.convert_hash_in_init?(f=c()&&a?a:c()?null:b.hash.replace(/^#/,""),f&&window.history.replaceState({},document.title,f)):f=this.getPath(),(f||this.run_in_init===!0)&&this.handler());return this},e.prototype.explode=function(){var a=this.history===!0?this.getPath():b.hash;a.charAt(1)==="/"&&(a=a.slice(1));return a.slice(1,a.length).split("/")},e.prototype.setRoute=function(a,b,c){var e=this.explode();typeof a=="number"&&typeof b=="string"?e[a]=b:typeof c=="string"?e.splice(a,b,s):e=[a],d.setHash(e.join("/"));return e},e.prototype.insertEx=function(a,b,c,d){a==="once"&&(a="on",c=function(a){var b=!1;return function(){if(!b){b=!0;return a.apply(this,arguments)}}}(c));return this._insert(a,b,c,d)},e.prototype.getRoute=function(a){var b=a;if(typeof a=="number")b=this.explode()[a];else if(typeof a=="string"){var c=this.explode();b=c.indexOf(a)}else b=this.explode();return b},e.prototype.destroy=function(){d.destroy(this.handler);return this},e.prototype.getPath=function(){var a=window.location.pathname;a.substr(0,1)!=="/"&&(a="/"+a);return a};var l=/\?.*/;e.prototype.configure=function(a){a=a||{};for(var b=0;b<this.methods.length;b++)this._methods[this.methods[b]]=!0;this.recurse=a.recurse||this.recurse||!1,this.async=a.async||!1,this.delimiter=a.delimiter||"/",this.strict=typeof a.strict=="undefined"?!0:a.strict,this.notfound=a.notfound,this.resource=a.resource,this.history=a.html5history&&this.historySupport||!1,this.run_in_init=this.history===!0&&a.run_handler_in_init!==!1,this.convert_hash_in_init=this.history===!0&&a.convert_hash_in_init!==!1,this.every={after:a.after||null,before:a.before||null,on:a.on||null};return this},e.prototype.param=function(a,b){a[0]!==":"&&(a=":"+a);var c=new RegExp(a,"g");this.params[a]=function(a){return a.replace(c,b.source||b)};return this},e.prototype.on=e.prototype.route=function(a,b,c){var d=this;!c&&typeof b=="function"&&(c=b,b=a,a="on");if(Array.isArray(b))return b.forEach(function(b){d.on(a,b,c)});b.source&&(b=b.source.replace(/\\\//ig,"/"));if(Array.isArray(a))return a.forEach(function(a){d.on(a.toLowerCase(),b,c)});b=b.split(new RegExp(this.delimiter)),b=k(b,this.delimiter),this.insert(a,this.scope.concat(b),c)},e.prototype.path=function(a,b){var c=this,d=this.scope.length;a.source&&(a=a.source.replace(/\\\//ig,"/")),a=a.split(new RegExp(this.delimiter)),a=k(a,this.delimiter),this.scope=this.scope.concat(a),b.call(this,this),this.scope.splice(d,a.length)},e.prototype.dispatch=function(a,b,c){function h(){d.last=e.after,d.invoke(d.runlist(e),d,c)}var d=this,e=this.traverse(a,b.replace(l,""),this.routes,""),f=this._invoked,g;this._invoked=!0;if(!e||e.length===0){this.last=[],typeof this.notfound=="function"&&this.invoke([this.notfound],{method:a,path:b},c);return!1}this.recurse==="forward"&&(e=e.reverse()),g=this.every&&this.every.after?[this.every.after].concat(this.last):[this.last];if(g&&g.length>0&&f){this.async?this.invoke(g,this,h):(this.invoke(g,this),h());return!0}h();return!0},e.prototype.invoke=function(a,b,c){var d=this,e;this.async?(e=function(c,d){if(Array.isArray(c))return h(c,e,d);typeof c=="function"&&c.apply(b,(a.captures||[]).concat(d))},h(a,e,function(){c&&c.apply(b,arguments)})):(e=function(c){if(Array.isArray(c))return f(c,e);if(typeof c=="function")return c.apply(b,a.captures||[]);typeof c=="string"&&d.resource&&d.resource[c].apply(b,a.captures||[])},f(a,e))},e.prototype.traverse=function(a,b,c,d,e){function l(a){function c(a){for(var b=a.length-1;b>=0;b--)Array.isArray(a[b])?(c(a[b]),a[b].length===0&&a.splice(b,1)):e(a[b])||a.splice(b,1)}function b(a){var c=[];for(var d=0;d<a.length;d++)c[d]=Array.isArray(a[d])?b(a[d]):a[d];return c}if(!e)return a;var d=b(a);d.matched=a.matched,d.captures=a.captures,d.after=a.after.filter(e),c(d);return d}var f=[],g,h,i,j,k;if(b===this.delimiter&&c[a]){j=[[c.before,c[a]].filter(Boolean)],j.after=[c.after].filter(Boolean),j.matched=!0,j.captures=[];return l(j)}for(var m in c)if(c.hasOwnProperty(m)&&(!this._methods[m]||this._methods[m]&&typeof c[m]=="object"&&!Array.isArray(c[m]))){g=h=d+this.delimiter+m,this.strict||(h+="["+this.delimiter+"]?"),i=b.match(new RegExp("^"+h));if(!i)continue;if(i[0]&&i[0]==b&&c[m][a]){j=[[c[m].before,c[m][a]].filter(Boolean)],j.after=[c[m].after].filter(Boolean),j.matched=!0,j.captures=i.slice(1),this.recurse&&c===this.routes&&(j.push([c.before,c.on].filter(Boolean)),j.after=j.after.concat([c.after].filter(Boolean)));return l(j)}j=this.traverse(a,b,c[m],g);if(j.matched){j.length>0&&(f=f.concat(j)),this.recurse&&(f.push([c[m].before,c[m].on].filter(Boolean)),j.after=j.after.concat([c[m].after].filter(Boolean)),c===this.routes&&(f.push([c.before,c.on].filter(Boolean)),j.after=j.after.concat([c.after].filter(Boolean)))),f.matched=!0,f.captures=j.captures,f.after=j.after;return l(f)}}return!1},e.prototype.insert=function(a,b,c,d){var e,f,g,h,i;b=b.filter(function(a){return a&&a.length>0}),d=d||this.routes,i=b.shift(),/\:|\*/.test(i)&&!/\\d|\\w/.test(i)&&(i=j(i,this.params));if(b.length>0){d[i]=d[i]||{};return this.insert(a,b,c,d[i])}{if(!!i||!!b.length||d!==this.routes){f=typeof d[i],g=Array.isArray(d[i]);if(d[i]&&!g&&f=="object"){e=typeof d[i][a];switch(e){case"function":d[i][a]=[d[i][a],c];return;case"object":d[i][a].push(c);return;case"undefined":d[i][a]=c;return}}else if(f=="undefined"){h={},h[a]=c,d[i]=h;return}throw new Error("Invalid route context: "+f)}e=typeof d[a];switch(e){case"function":d[a]=[d[a],c];return;case"object":d[a].push(c);return;case"undefined":d[a]=c;return}}},e.prototype.extend=function(a){function e(a){b._methods[a]=!0,b[a]=function(){var c=arguments.length===1?[a,""]:[a];b.on.apply(b,c.concat(Array.prototype.slice.call(arguments)))}}var b=this,c=a.length,d;for(d=0;d<c;d++)e(a[d])},e.prototype.runlist=function(a){var b=this.every&&this.every.before?[this.every.before].concat(g(a)):g(a);this.every&&this.every.on&&b.push(this.every.on),b.captures=a.captures,b.source=a.source;return b},e.prototype.mount=function(a,b){function d(b,d){var e=b,f=b.split(c.delimiter),g=typeof a[b],h=f[0]===""||!c._methods[f[0]],i=h?"on":e;h&&(e=e.slice((e.match(new RegExp("^"+c.delimiter))||[""])[0].length),f.shift());h&&g==="object"&&!Array.isArray(a[b])?(d=d.concat(f),c.mount(a[b],d)):(h&&(d=d.concat(e.split(c.delimiter)),d=k(d,c.delimiter)),c.insert(i,d,a[b]))}if(!!a&&typeof a=="object"&&!Array.isArray(a)){var c=this;b=b||[],Array.isArray(b)||(b=b.split(c.delimiter));for(var e in a)a.hasOwnProperty(e)&&d(e,b.slice(0))}}})( true?exports:window)
 
 /***/ },
-/* 28 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1134,8 +1012,8 @@ webpackJsonp([0,1],[
 	 * @module framework-base
 	 */
 
-	__webpack_require__(24);
-	var Events = __webpack_require__(25);
+	__webpack_require__(66);
+	var Events = __webpack_require__(8);
 
 
 	/**
@@ -1966,7 +1844,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 29 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1978,83 +1856,81 @@ webpackJsonp([0,1],[
 	Events.addMethod('require',function(moduleId,options){
 	    //此处有两种可能，一种是菜单，会传进来配置的./modules/aboutus（比如），另一种是直接引用模块，比如aboutus，需要判断格式
 	    var flag = /^\.\/modules\/(.*)$/.test(moduleId);
-	    return __webpack_require__(30)(flag?'./'+RegExp.$1:'./'+moduleId);
+	    return __webpack_require__(71)(flag?'./'+RegExp.$1:'./'+moduleId);
 	});
 	module.exports = {};
 
 /***/ },
-/* 30 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./aboutus": 31,
-		"./aboutus.js": 31,
-		"./async-data": 35,
-		"./async-data.js": 35,
-		"./attence-analyse": 36,
-		"./attence-analyse-widgets/attence-analyse-chart1": 59,
-		"./attence-analyse-widgets/attence-analyse-chart1.js": 59,
-		"./attence-analyse-widgets/attence-analyse-chart2": 61,
-		"./attence-analyse-widgets/attence-analyse-chart2.js": 61,
-		"./attence-analyse-widgets/attence-analyse-chart3": 62,
-		"./attence-analyse-widgets/attence-analyse-chart3.js": 62,
-		"./attence-analyse.js": 36,
-		"./attence-search": 63,
-		"./attence-search.js": 63,
-		"./authority-control": 70,
-		"./authority-control.js": 70,
-		"./dim-add-modify": 81,
-		"./dim-add-modify.js": 81,
-		"./dim-manage": 85,
-		"./dim-manage.js": 85,
-		"./element-add-modify": 89,
-		"./element-add-modify.js": 89,
-		"./element-manage": 93,
-		"./element-manage.js": 93,
-		"./framework/framework-base": 28,
-		"./framework/framework-base.js": 28,
-		"./framework/framework-chartconfig": 60,
-		"./framework/framework-chartconfig.js": 60,
-		"./framework/framework-events": 25,
-		"./framework/framework-events.js": 25,
-		"./framework/framework-route": 26,
-		"./framework/framework-route.js": 26,
-		"./homepage": 97,
-		"./homepage.js": 97,
-		"./menu-add-modify": 118,
-		"./menu-add-modify.js": 118,
-		"./menu-manage": 122,
-		"./menu-manage.js": 122,
-		"./message-publish": 126,
-		"./message-publish-list": 100,
-		"./message-publish-list.js": 100,
-		"./message-publish.js": 126,
-		"./org-add-modify": 141,
-		"./org-add-modify.js": 141,
-		"./org-manage": 145,
-		"./org-manage.js": 145,
-		"./password-modify": 149,
-		"./password-modify.js": 149,
-		"./report-list": 105,
-		"./report-list.js": 105,
-		"./role-add-modify": 153,
-		"./role-add-modify.js": 153,
-		"./role-manage": 157,
-		"./role-manage.js": 157,
-		"./role2org": 161,
-		"./role2org.js": 161,
-		"./role2user": 165,
-		"./role2user.js": 165,
-		"./user-add-modify": 169,
-		"./user-add-modify.js": 169,
-		"./user-manage": 173,
-		"./user-manage.js": 173,
-		"./user2org": 177,
-		"./user2org.js": 177,
-		"./user2role": 181,
-		"./user2role.js": 181,
-		"./webpack-base": 29,
-		"./webpack-base.js": 29
+		"./aboutus": 72,
+		"./aboutus.js": 72,
+		"./async-data": 76,
+		"./async-data.js": 76,
+		"./attence-analyse": 77,
+		"./attence-analyse-widgets/attence-analyse-chart1": 100,
+		"./attence-analyse-widgets/attence-analyse-chart1.js": 100,
+		"./attence-analyse-widgets/attence-analyse-chart2": 102,
+		"./attence-analyse-widgets/attence-analyse-chart2.js": 102,
+		"./attence-analyse-widgets/attence-analyse-chart3": 103,
+		"./attence-analyse-widgets/attence-analyse-chart3.js": 103,
+		"./attence-analyse.js": 77,
+		"./attence-search": 104,
+		"./attence-search.js": 104,
+		"./authority-control": 111,
+		"./authority-control.js": 111,
+		"./dim-add-modify": 122,
+		"./dim-add-modify.js": 122,
+		"./dim-manage": 126,
+		"./dim-manage.js": 126,
+		"./element-add-modify": 130,
+		"./element-add-modify.js": 130,
+		"./element-manage": 134,
+		"./element-manage.js": 134,
+		"./framework/framework-base": 69,
+		"./framework/framework-base.js": 69,
+		"./framework/framework-chartconfig": 101,
+		"./framework/framework-chartconfig.js": 101,
+		"./framework/framework-route": 67,
+		"./framework/framework-route.js": 67,
+		"./homepage": 138,
+		"./homepage.js": 138,
+		"./menu-add-modify": 159,
+		"./menu-add-modify.js": 159,
+		"./menu-manage": 163,
+		"./menu-manage.js": 163,
+		"./message-publish": 167,
+		"./message-publish-list": 141,
+		"./message-publish-list.js": 141,
+		"./message-publish.js": 167,
+		"./org-add-modify": 182,
+		"./org-add-modify.js": 182,
+		"./org-manage": 186,
+		"./org-manage.js": 186,
+		"./password-modify": 190,
+		"./password-modify.js": 190,
+		"./report-list": 146,
+		"./report-list.js": 146,
+		"./role-add-modify": 194,
+		"./role-add-modify.js": 194,
+		"./role-manage": 198,
+		"./role-manage.js": 198,
+		"./role2org": 202,
+		"./role2org.js": 202,
+		"./role2user": 206,
+		"./role2user.js": 206,
+		"./user-add-modify": 210,
+		"./user-add-modify.js": 210,
+		"./user-manage": 214,
+		"./user-manage.js": 214,
+		"./user2org": 218,
+		"./user2org.js": 218,
+		"./user2role": 222,
+		"./user2role.js": 222,
+		"./webpack-base": 70,
+		"./webpack-base.js": 70
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -2067,16 +1943,16 @@ webpackJsonp([0,1],[
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 30;
+	webpackContext.id = 71;
 
 
 /***/ },
-/* 31 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(32);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(73);
 	var AboutUs = function(){ };
 
 	//继承自框架基类
@@ -2098,27 +1974,27 @@ webpackJsonp([0,1],[
 	};
 
 	AboutUs.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(34);
+	    var html = __webpack_require__(75);
 	    this.render(html);
 	};
 
 	module.exports = new AboutUs();
 
 /***/ },
-/* 32 */
+/* 73 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 33 */,
-/* 34 */
+/* 74 */,
+/* 75 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"aboutus shadow-block\">\r\n    <H3>学校物业管理平台</H3>\r\n    <p>\r\n            该平台提供智能门禁与学生考勤系统、智能报修与投诉处理系统、学校信息发布与家校互通系统等功能\r\n    </p>\r\n</div>";
 
 /***/ },
-/* 35 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -2126,7 +2002,7 @@ webpackJsonp([0,1],[
 	 * 无界面模块，只负责同步数据，右下角可以弹信息框或者在屏幕中间弹进度框进行显示当前进度。
 	 * 不影响其它模块的运行，在进行数据同步时其它模块可以照常切换与运行。
 	 */
-	var frameworkBase = __webpack_require__(28);
+	var frameworkBase = __webpack_require__(69);
 	var AsyncData = function(){ };
 
 	//继承自框架基类
@@ -2156,7 +2032,7 @@ webpackJsonp([0,1],[
 	module.exports = new AsyncData();
 
 /***/ },
-/* 36 */
+/* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -2164,11 +2040,11 @@ webpackJsonp([0,1],[
 	 * 学生考勤统计
 	 */
 
-	var frameworkBase = __webpack_require__(28);
+	var frameworkBase = __webpack_require__(69);
 
-	__webpack_require__(37);
-	__webpack_require__(38);
-	__webpack_require__(40);
+	__webpack_require__(78);
+	__webpack_require__(79);
+	__webpack_require__(81);
 	var AttenceAnalyse = function(){ };
 
 	//继承自框架基类
@@ -2223,7 +2099,7 @@ webpackJsonp([0,1],[
 	    }else
 	        widgetArray = WIDGETS;
 	    for(var i = 0,len = widgetArray.length;i<len;i++){
-	        var widget = __webpack_require__(30)(widgetArray[i].module);
+	        var widget = __webpack_require__(71)(widgetArray[i].module);
 	        widget.init({container:$(widgetArray[i].container)});
 	        this.widgets.push(widget);
 	    }
@@ -2293,7 +2169,7 @@ webpackJsonp([0,1],[
 	module.exports = attenceAnalyse;
 
 /***/ },
-/* 37 */
+/* 78 */
 /***/ function(module, exports) {
 
 	if ($.fn.pagination){
@@ -2365,38 +2241,38 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 38 */
+/* 79 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 39 */,
-/* 40 */
+/* 80 */,
+/* 81 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 41 */,
-/* 42 */,
-/* 43 */,
-/* 44 */,
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */
+/* 82 */,
+/* 83 */,
+/* 84 */,
+/* 85 */,
+/* 86 */,
+/* 87 */,
+/* 88 */,
+/* 89 */,
+/* 90 */,
+/* 91 */,
+/* 92 */,
+/* 93 */,
+/* 94 */,
+/* 95 */,
+/* 96 */,
+/* 97 */,
+/* 98 */,
+/* 99 */,
+/* 100 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -2404,9 +2280,9 @@ webpackJsonp([0,1],[
 	 * 迟到分析 饼图 angle
 	 */
 
-	var AttenceAnalyse = __webpack_require__(36);
+	var AttenceAnalyse = __webpack_require__(77);
 
-	var chartConfig = __webpack_require__(60);
+	var chartConfig = __webpack_require__(101);
 	var AttenceAnalyseModule1 = function () {};
 
 	//继承自作业分析类
@@ -2499,7 +2375,7 @@ webpackJsonp([0,1],[
 	module.exports = attenceAnalyseModule1;
 
 /***/ },
-/* 60 */
+/* 101 */
 /***/ function(module, exports) {
 
 	/**
@@ -2522,7 +2398,7 @@ webpackJsonp([0,1],[
 	};
 
 /***/ },
-/* 61 */
+/* 102 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -2530,8 +2406,8 @@ webpackJsonp([0,1],[
 	 * 早退比例 饼图
 	 */
 
-	var AttenceAnalyse = __webpack_require__(36);
-	var chartConfig = __webpack_require__(60);
+	var AttenceAnalyse = __webpack_require__(77);
+	var chartConfig = __webpack_require__(101);
 	var AttenceAnalyseModule2 = function () {};
 
 	//继承自作业分析类
@@ -2622,7 +2498,7 @@ webpackJsonp([0,1],[
 	module.exports = attenceAnalyseModule1;
 
 /***/ },
-/* 62 */
+/* 103 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -2630,8 +2506,8 @@ webpackJsonp([0,1],[
 	 * 按时间段进行迟到早退统计分析 柱状图
 	 */
 
-	var AttenceAnalyse = __webpack_require__(36);
-	var chartConfig = __webpack_require__(60);
+	var AttenceAnalyse = __webpack_require__(77);
+	var chartConfig = __webpack_require__(101);
 	var AttenceAnalyseModule3 = function () {};
 
 	//继承自作业分析类
@@ -2776,7 +2652,7 @@ webpackJsonp([0,1],[
 	module.exports = attenceAnalyseModule1;
 
 /***/ },
-/* 63 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -2784,10 +2660,10 @@ webpackJsonp([0,1],[
 	 * 学生考勤查询
 	 */
 
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(37);
-	__webpack_require__(64);
-	__webpack_require__(40);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(78);
+	__webpack_require__(105);
+	__webpack_require__(81);
 	var AttenceSearch = function () {};
 
 	//继承自框架基类
@@ -2812,7 +2688,7 @@ webpackJsonp([0,1],[
 	    var that = this;
 	    this.loadFragment('/views/modules/attence-search.html').then(function(html){
 	        that.render(html);
-	        var columns = __webpack_require__(68);
+	        var columns = __webpack_require__(109);
 	        var $table = $('#dataTable',that.dom).datagrid({
 	            url: '/attence/search',
 	            method: 'get',
@@ -2894,19 +2770,19 @@ webpackJsonp([0,1],[
 	module.exports = attenceSearch;
 
 /***/ },
-/* 64 */
+/* 105 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 65 */,
-/* 66 */,
-/* 67 */,
-/* 68 */
+/* 106 */,
+/* 107 */,
+/* 108 */,
+/* 109 */
 /***/ function(module, exports, __webpack_require__) {
 
-	typeof window == 'undefined' && (Calendar = __webpack_require__(69));
+	typeof window == 'undefined' && (Calendar = __webpack_require__(110));
 	module.exports = [
 	    {field: 'stu_id', title: '学生id', width: 350},
 	    {field: 'stu_name', title: '学生姓名', width: 150},
@@ -2918,7 +2794,7 @@ webpackJsonp([0,1],[
 	];
 
 /***/ },
-/* 69 */
+/* 110 */
 /***/ function(module, exports) {
 
 	/**
@@ -3103,7 +2979,7 @@ webpackJsonp([0,1],[
 	})();
 
 /***/ },
-/* 70 */
+/* 111 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -3111,11 +2987,11 @@ webpackJsonp([0,1],[
 	 * @author yanglang
 	 * @type {Framework}
 	 */
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(71);
-	__webpack_require__(40);
-	__webpack_require__(73);
-	__webpack_require__(74);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(112);
+	__webpack_require__(81);
+	__webpack_require__(114);
+	__webpack_require__(115);
 	var AuthorityControl = function(){ };
 
 	//继承自框架基类
@@ -3141,7 +3017,7 @@ webpackJsonp([0,1],[
 	};
 
 	AuthorityControl.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(80);
+	    var html = __webpack_require__(121);
 	    this.render(html);
 	};
 
@@ -3299,14 +3175,14 @@ webpackJsonp([0,1],[
 	module.exports = authorityControl;
 
 /***/ },
-/* 71 */
+/* 112 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 72 */,
-/* 73 */
+/* 113 */,
+/* 114 */
 /***/ function(module, exports) {
 
 	
@@ -3475,34 +3351,34 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 74 */
+/* 115 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */,
-/* 79 */,
-/* 80 */
+/* 116 */,
+/* 117 */,
+/* 118 */,
+/* 119 */,
+/* 120 */,
+/* 121 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"authority-control\">\r\n    <ul class=\"ui-tabs\">\r\n        <li class=\"actived\">菜单权限</li>\r\n        <li>元素权限</li>\r\n    </ul>\r\n    <div class=\"ui-tabs-content\">\r\n        <div><ul class=\"ztree\" id=\"menuAuthorityTree\"></ul></div>\r\n        <div><ul class=\"ztree\" id=\"elementAuthorityTree\"></ul></div>\r\n    </div>\r\n    <span class=\"framework-button fa fa-save\" id=\"saveBtn\"></span>\r\n</div>";
 
 /***/ },
-/* 81 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 字典项新增或修改模块
 	 */
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(82);
-	__webpack_require__(40);
-	__webpack_require__(73);
-	__webpack_require__(74);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(123);
+	__webpack_require__(81);
+	__webpack_require__(114);
+	__webpack_require__(115);
 	var DimAddModify = function(){ };
 
 	//继承自框架基类
@@ -3529,7 +3405,7 @@ webpackJsonp([0,1],[
 
 	DimAddModify.prototype.loadBaseView = function(options){
 	    var that = this;
-	    var html = __webpack_require__(84);
+	    var html = __webpack_require__(125);
 	    this.render(html);
 	};
 
@@ -3610,20 +3486,20 @@ webpackJsonp([0,1],[
 	module.exports = new DimAddModify();
 
 /***/ },
-/* 82 */
+/* 123 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 83 */,
-/* 84 */
+/* 124 */,
+/* 125 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"dim-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>字典项id：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入字典项ID\" name=\"dim_id\" id=\"dim_id\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>字典项名称：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入字典项名称\" name=\"dim_name\" id=\"dim_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>字典项值：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入字典项值\" name=\"dim_value\" id=\"dim_value\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>分组id：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入分组id\" name=\"group_id\" id=\"group_id\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>分组名称：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入分组名称\" name=\"group_name\" id=\"group_name\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 85 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -3631,10 +3507,10 @@ webpackJsonp([0,1],[
 	 * 字典管理模块
 	 */
 
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(37);
-	__webpack_require__(86);
-	__webpack_require__(40);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(78);
+	__webpack_require__(127);
+	__webpack_require__(81);
 	var DimManage = function () {};
 
 	//继承自框架基类
@@ -3668,7 +3544,7 @@ webpackJsonp([0,1],[
 	DimManage.prototype.initTable = function () {
 	    var that = this;
 	    $('.easyui-linkbutton',that.dom).linkbutton();
-	    var columns = __webpack_require__(88);
+	    var columns = __webpack_require__(129);
 	    that.$table = $('#dataTable',that.dom).datagrid({
 	        url: '/dim/list',
 	        method: 'get',
@@ -3783,14 +3659,14 @@ webpackJsonp([0,1],[
 	module.exports = dimManage;
 
 /***/ },
-/* 86 */
+/* 127 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 87 */,
-/* 88 */
+/* 128 */,
+/* 129 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -3803,17 +3679,17 @@ webpackJsonp([0,1],[
 	];
 
 /***/ },
-/* 89 */
+/* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 元素新增修改模块
 	 */
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(90);
-	__webpack_require__(40);
-	__webpack_require__(73);
-	__webpack_require__(74);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(131);
+	__webpack_require__(81);
+	__webpack_require__(114);
+	__webpack_require__(115);
 	var ElementAddModify = function(){ };
 
 	//继承自框架基类
@@ -3838,7 +3714,7 @@ webpackJsonp([0,1],[
 
 	ElementAddModify.prototype.loadBaseView = function(options){
 	    var that = this;
-	    var html = __webpack_require__(92);
+	    var html = __webpack_require__(133);
 	    this.render(html);
 	};
 
@@ -3976,20 +3852,20 @@ webpackJsonp([0,1],[
 	module.exports = new ElementAddModify();
 
 /***/ },
-/* 90 */
+/* 131 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 91 */,
-/* 92 */
+/* 132 */,
+/* 133 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"element-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>元素名称：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入元素名称\" name=\"element_desc\" id=\"element_desc\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>元素编码：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入元素编码\" name=\"element_code\" id=\"element_code\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>所属菜单：</label>\r\n                <input class=\"form-control\" placeholder=\"请选择所属菜单\" readonly=\"true\" name=\"menu_id\" id=\"menu_id\" type=\"text\" data-pid=\"0\" value=\"根菜单\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 93 */
+/* 134 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -3997,12 +3873,12 @@ webpackJsonp([0,1],[
 	 * 页面元素管理
 	 */
 
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(37);
-	__webpack_require__(73);
-	__webpack_require__(74);
-	__webpack_require__(94);
-	__webpack_require__(40);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(78);
+	__webpack_require__(114);
+	__webpack_require__(115);
+	__webpack_require__(135);
+	__webpack_require__(81);
 	var ElementManage = function () {};
 
 	//继承自框架基类
@@ -4037,7 +3913,7 @@ webpackJsonp([0,1],[
 	ElementManage.prototype.initTable = function () {
 	    var that = this;
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(96);
+	    var columns = __webpack_require__(137);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '/element/list',
 	        method: 'get',
@@ -4202,14 +4078,14 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 94 */
+/* 135 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 95 */,
-/* 96 */
+/* 136 */,
+/* 137 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -4219,7 +4095,7 @@ webpackJsonp([0,1],[
 	];
 
 /***/ },
-/* 97 */
+/* 138 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -4227,8 +4103,8 @@ webpackJsonp([0,1],[
 	 * homepage首页聚合模块
 	 */
 
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(98);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(139);
 	var HomePage = function(){ };
 
 	//继承自框架基类
@@ -4264,9 +4140,9 @@ webpackJsonp([0,1],[
 
 	HomePage.prototype.loadWidgets = function(){
 	    this.widgets = [];
-	    this.widgets.push(__webpack_require__(36));
-	    this.widgets.push(__webpack_require__(100));
-	    this.widgets.push(__webpack_require__(105));
+	    this.widgets.push(__webpack_require__(77));
+	    this.widgets.push(__webpack_require__(141));
+	    this.widgets.push(__webpack_require__(146));
 	    this.widgets.forEach(function(widget){
 	        widget.loadWidgets(WIDGETS);
 	    });
@@ -4303,14 +4179,14 @@ webpackJsonp([0,1],[
 	module.exports = homePage;
 
 /***/ },
-/* 98 */
+/* 139 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 99 */,
-/* 100 */
+/* 140 */,
+/* 141 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -4318,11 +4194,11 @@ webpackJsonp([0,1],[
 	 * 学校信息发布列表维护 
 	 */
 
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(37);
-	__webpack_require__(101);
-	__webpack_require__(40);
-	var juicer = __webpack_require__(103);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(78);
+	__webpack_require__(142);
+	__webpack_require__(81);
+	var juicer = __webpack_require__(144);
 	var MessagePublishList = function () {};
 
 	//继承自框架基类
@@ -4367,7 +4243,7 @@ webpackJsonp([0,1],[
 	MessagePublishList.prototype.initTable = function () {
 	    var that = this;
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(104);
+	    var columns = __webpack_require__(145);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '/publish/search',
 	        method: 'get',
@@ -4592,14 +4468,14 @@ webpackJsonp([0,1],[
 	module.exports = messagePublishList;
 
 /***/ },
-/* 101 */
+/* 142 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 102 */,
-/* 103 */
+/* 143 */,
+/* 144 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/*
@@ -5185,10 +5061,10 @@ webpackJsonp([0,1],[
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 104 */
+/* 145 */
 /***/ function(module, exports, __webpack_require__) {
 
-	typeof window == 'undefined' && (Calendar = __webpack_require__(69));
+	typeof window == 'undefined' && (Calendar = __webpack_require__(110));
 	module.exports = [
 	    {field: 'publish_id', title: '信息ID', width: 350},
 	    {field: 'publish_title', title: '信息标题', width: 150},
@@ -5204,7 +5080,7 @@ webpackJsonp([0,1],[
 	];
 
 /***/ },
-/* 105 */
+/* 146 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -5212,14 +5088,14 @@ webpackJsonp([0,1],[
 	 * 报修信息列表维护 
 	 */
 
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(37);
-	__webpack_require__(106);
-	__webpack_require__(40);
-	var juicer = __webpack_require__(103);
-	__webpack_require__(108);
-	__webpack_require__(109);
-	__webpack_require__(110);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(78);
+	__webpack_require__(147);
+	__webpack_require__(81);
+	var juicer = __webpack_require__(144);
+	__webpack_require__(149);
+	__webpack_require__(150);
+	__webpack_require__(151);
 	var ReportList = function () {};
 
 	//继承自框架基类
@@ -5274,7 +5150,7 @@ webpackJsonp([0,1],[
 	ReportList.prototype.initTable = function () {
 	    var that = this;
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(117);
+	    var columns = __webpack_require__(158);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '/report/search',
 	        method: 'get',
@@ -5479,14 +5355,14 @@ webpackJsonp([0,1],[
 	module.exports = messagePublishList;
 
 /***/ },
-/* 106 */
+/* 147 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 107 */,
-/* 108 */
+/* 148 */,
+/* 149 */
 /***/ function(module, exports) {
 
 	/**
@@ -5578,7 +5454,7 @@ webpackJsonp([0,1],[
 	})(jQuery);
 
 /***/ },
-/* 109 */
+/* 150 */
 /***/ function(module, exports) {
 
 	/**
@@ -6004,22 +5880,22 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 110 */
+/* 151 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 111 */,
-/* 112 */,
-/* 113 */,
-/* 114 */,
-/* 115 */,
-/* 116 */,
-/* 117 */
+/* 152 */,
+/* 153 */,
+/* 154 */,
+/* 155 */,
+/* 156 */,
+/* 157 */,
+/* 158 */
 /***/ function(module, exports, __webpack_require__) {
 
-	typeof window == 'undefined' && (Calendar = __webpack_require__(69));
+	typeof window == 'undefined' && (Calendar = __webpack_require__(110));
 	module.exports = [
 	    {field: 'report_id', title: '信息ID', width: 350},
 	    {field: 'report_title', title: '信息标题', width: 150},
@@ -6032,17 +5908,17 @@ webpackJsonp([0,1],[
 	];
 
 /***/ },
-/* 118 */
+/* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 菜单新增修改模块
 	 */
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(119);
-	__webpack_require__(40);
-	__webpack_require__(73);
-	__webpack_require__(74);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(160);
+	__webpack_require__(81);
+	__webpack_require__(114);
+	__webpack_require__(115);
 	var MenuAddModify = function(){ };
 
 	//继承自框架基类
@@ -6058,7 +5934,7 @@ webpackJsonp([0,1],[
 	MenuAddModify.prototype.init = function(options){
 	    var that = this;
 	    this.options = $.extend({action:'001'},options);
-	    that.setTitle(this.options.action == '001'?'添加菜单':'编辑菜单').setHeight(380).setWidth(400);
+	    that.setTitle(this.options.action == '001'?'添加菜单':'编辑菜单').setHeight(420).setWidth(400);
 	    frameworkBase.init.call(this,options);
 	    this.loadBaseView();
 	    this.bindEvents();
@@ -6069,7 +5945,7 @@ webpackJsonp([0,1],[
 
 	MenuAddModify.prototype.loadBaseView = function(options){
 	    var that = this;
-	    var html = __webpack_require__(121);
+	    var html = __webpack_require__(162);
 	    this.render(html);
 
 
@@ -6093,6 +5969,7 @@ webpackJsonp([0,1],[
 	            show_type:$('#show_type',that.dom).val(),
 	            menu_type:$('#menu_type',that.dom).val(),
 	            menu_icon:$('#menu_icon',that.dom).val(),
+	            menu_device:$('#menu_device',that.dom).val(),
 	            menu_parent_id:$('#menu_parent_id',that.dom).attr('data-pid')
 	        },function(data){
 	            if(!data.success){
@@ -6188,6 +6065,7 @@ webpackJsonp([0,1],[
 	        $('#menu_icon',that.dom).val(data.menu_icon);
 	        $('#show_type',that.dom).val(data.show_type);
 	        $('#menu_type',that.dom).val(data.menu_type);
+	        $('#menu_device',that.dom).val(data.menu_device);
 	        $('#menu_parent_id',that.dom).val(data.menu_parent_title);
 	        $('#menu_parent_id',that.dom).attr('data-pid',data.menu_parent_id);
 	    });
@@ -6205,20 +6083,20 @@ webpackJsonp([0,1],[
 	module.exports = new MenuAddModify();
 
 /***/ },
-/* 119 */
+/* 160 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 120 */,
-/* 121 */
+/* 161 */,
+/* 162 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"menu-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>菜单标题：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入菜单标题\" name=\"menu_title\" id=\"menu_title\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>菜单url：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入菜单url\" name=\"menu_url\" id=\"menu_url\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>菜单icon：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入菜单icon样式名\" name=\"menu_icon\" id=\"menu_icon\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>展式形式：</label>\r\n                <select id=\"show_type\" class=\"form-control\">\r\n                    <option value=\"1\" selected>普通</option>\r\n                    <option value=\"2\">弹窗</option>\r\n                    <option value=\"3\">无界面</option>\r\n                </select>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>菜单位置：</label>\r\n                <select id=\"menu_type\" class=\"form-control\">\r\n                    <option value=\"1\" selected>左侧菜单</option>\r\n                    <option value=\"2\">设置下拉菜单</option>\r\n                </select>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>父级菜单：</label>\r\n                <input class=\"form-control\" placeholder=\"请选择父级菜单\" readonly=\"true\" name=\"menu_parent_id\" id=\"menu_parent_id\" type=\"text\" data-pid=\"0\" value=\"根菜单\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
+	module.exports = "<div class=\"menu-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>菜单标题：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入菜单标题\" name=\"menu_title\" id=\"menu_title\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>菜单url：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入菜单url\" name=\"menu_url\" id=\"menu_url\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>菜单icon：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入菜单icon样式名\" name=\"menu_icon\" id=\"menu_icon\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>展式形式：</label>\r\n                <select id=\"show_type\" class=\"form-control\">\r\n                    <option value=\"1\" selected>普通</option>\r\n                    <option value=\"2\">弹窗</option>\r\n                    <option value=\"3\">无界面</option>\r\n                </select>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>菜单位置：</label>\r\n                <select id=\"menu_type\" class=\"form-control\">\r\n                    <option value=\"1\" selected>左侧菜单</option>\r\n                    <option value=\"2\">设置下拉菜单</option>\r\n                </select>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>设备类型：</label>\r\n                <select id=\"menu_device\" class=\"form-control\">\r\n                    <option value=\"1\" selected>PC</option>\r\n                    <option value=\"2\">H5</option>\r\n                </select>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>父级菜单：</label>\r\n                <input class=\"form-control\" placeholder=\"请选择父级菜单\" readonly=\"true\" name=\"menu_parent_id\" id=\"menu_parent_id\" type=\"text\" data-pid=\"0\" value=\"根菜单\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 122 */
+/* 163 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -6226,10 +6104,10 @@ webpackJsonp([0,1],[
 	 * 菜单管理
 	 */
 
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(37);
-	__webpack_require__(123);
-	__webpack_require__(40);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(78);
+	__webpack_require__(164);
+	__webpack_require__(81);
 	var MenuManage = function () {};
 
 	//继承自框架基类
@@ -6263,7 +6141,7 @@ webpackJsonp([0,1],[
 	MenuManage.prototype.initTable = function () {
 	    var that = this;
 	    $('.easyui-linkbutton',that.dom).linkbutton();
-	    var columns = __webpack_require__(125);
+	    var columns = __webpack_require__(166);
 	    that.$table = $('#dataTable',that.dom).datagrid({
 	        url: '/menu/list',
 	        method: 'get',
@@ -6300,7 +6178,7 @@ webpackJsonp([0,1],[
 	    });
 
 	    //绑定下拉框事件 通知刷新菜单
-	    $('#show_type,#menu_type',that.dom).on('change',function(){
+	    $('#show_type,#menu_type,#menu_device',that.dom).on('change',function(){
 	        Events.notify('onRefresh:menu-manage');
 	    });
 
@@ -6309,6 +6187,7 @@ webpackJsonp([0,1],[
 	        that.$table.datagrid('load',{
 	            key:searchBox.searchbox('getValue'),
 	            show_type:$('#show_type',that.dom).val(),
+	            menu_device:$('#menu_device',that.dom).val(),
 	            menu_type:$('#menu_type',that.dom).val()
 	        });
 	    });
@@ -6379,14 +6258,14 @@ webpackJsonp([0,1],[
 	module.exports = menuManage;
 
 /***/ },
-/* 123 */
+/* 164 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 124 */,
-/* 125 */
+/* 165 */,
+/* 166 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -6399,12 +6278,15 @@ webpackJsonp([0,1],[
 	    {field: 'menu_type', title: '菜单位置', width: 80,formatter: function (val) {
 	        return val==1?'左侧菜单':val==2?'设置下拉菜单':'首页';
 	    }},
+	    {field: 'menu_device', title: '菜单用于设备', width: 80,formatter: function (val) {
+	        return val==1?'PC':'H5';
+	    }},
 	    {field: 'menu_icon', title: '菜单图标样式名称', width: 150},
 	    {field: 'menu_parent_title', title: '父菜单', width: 200}
 	];
 
 /***/ },
-/* 126 */
+/* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -6412,12 +6294,12 @@ webpackJsonp([0,1],[
 	 * @author yanglang
 	 * @type {Framework}
 	 */
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(127);
-	__webpack_require__(129);
-	__webpack_require__(137);
-	__webpack_require__(138);
-	__webpack_require__(139);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(168);
+	__webpack_require__(170);
+	__webpack_require__(178);
+	__webpack_require__(179);
+	__webpack_require__(180);
 	var MessagePublish = function(){ };
 
 	//继承自框架基类
@@ -6443,7 +6325,7 @@ webpackJsonp([0,1],[
 	};
 
 	MessagePublish.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(140);
+	    var html = __webpack_require__(181);
 	    this.render(html);
 	};
 
@@ -6525,27 +6407,27 @@ webpackJsonp([0,1],[
 	module.exports = messagePublish;
 
 /***/ },
-/* 127 */
+/* 168 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 128 */,
-/* 129 */
+/* 169 */,
+/* 170 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 130 */,
-/* 131 */,
-/* 132 */,
-/* 133 */,
-/* 134 */,
-/* 135 */,
-/* 136 */,
-/* 137 */
+/* 171 */,
+/* 172 */,
+/* 173 */,
+/* 174 */,
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */
 /***/ function(module, exports) {
 
 	/**
@@ -6800,7 +6682,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 138 */
+/* 179 */
 /***/ function(module, exports) {
 
 	(function(g){function G(a,b,c){var d;b=b.toLowerCase();return(d=a.__allListeners||c&&(a.__allListeners={}))&&(d[b]||c&&(d[b]=[]))}function H(a,b,c,d,e,f){d=d&&a[b];var h;for(!d&&(d=a[c]);!d&&(h=(h||a).parentNode);){if("BODY"==h.tagName||f&&!f(h))return null;d=h[c]}return d&&e&&!e(d)?H(d,b,c,!1,e):d}UMEDITOR_CONFIG=window.UMEDITOR_CONFIG||{};window.UM={plugins:{},commands:{},I18N:{},version:"1.2.2"};var B=UM.dom={},m=UM.browser=function(){var a=navigator.userAgent.toLowerCase(),b=window.opera,c={ie:/(msie\s|trident.*rv:)([\w.]+)/.test(a),
@@ -7070,7 +6952,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 139 */
+/* 180 */
 /***/ function(module, exports) {
 
 	/**
@@ -7225,23 +7107,23 @@ webpackJsonp([0,1],[
 	};
 
 /***/ },
-/* 140 */
+/* 181 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"message-publish shadow-block\">\r\n    <!--style给定宽度可以影响编辑器的最终宽度-->\r\n    <div>\r\n        <input id=\"title\" type=\"text\" placeholder=\"请输入信息标题\" autofocus/>\r\n    </div>\r\n    <script type=\"text/plain\" id=\"myEditor\" style=\"width:100%;height:400px;\"></script>\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"submitBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>";
 
 /***/ },
-/* 141 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 组织机构新增修改模块
 	 */
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(142);
-	__webpack_require__(40);
-	__webpack_require__(73);
-	__webpack_require__(74);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(183);
+	__webpack_require__(81);
+	__webpack_require__(114);
+	__webpack_require__(115);
 	var OrgAddModify = function(){ };
 
 	//继承自框架基类
@@ -7269,7 +7151,7 @@ webpackJsonp([0,1],[
 
 	OrgAddModify.prototype.loadBaseView = function(options){
 	    var that = this;
-	    var html = __webpack_require__(144);
+	    var html = __webpack_require__(185);
 	    this.render(html);
 	};
 
@@ -7396,20 +7278,20 @@ webpackJsonp([0,1],[
 	module.exports = new OrgAddModify();
 
 /***/ },
-/* 142 */
+/* 183 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 143 */,
-/* 144 */
+/* 184 */,
+/* 185 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"org-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>组织机构标题：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入组织机构名称\" name=\"org_title\" id=\"org_title\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>父级组织机构：</label>\r\n                <input class=\"form-control\" placeholder=\"请选择父级组织机构\" readonly=\"true\" name=\"org_parent_id\" id=\"org_parent_id\" type=\"text\" data-pid=\"0\" value=\"根节点\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 145 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -7417,12 +7299,12 @@ webpackJsonp([0,1],[
 	 * 组织机构管理
 	 */
 
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(37);
-	__webpack_require__(73);
-	__webpack_require__(74);
-	__webpack_require__(146);
-	__webpack_require__(40);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(78);
+	__webpack_require__(114);
+	__webpack_require__(115);
+	__webpack_require__(187);
+	__webpack_require__(81);
 	var OrgManage = function () {};
 
 	//继承自框架基类
@@ -7458,7 +7340,7 @@ webpackJsonp([0,1],[
 	OrgManage.prototype.initTable = function () {
 	    var that = this;
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(148);
+	    var columns = __webpack_require__(189);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '/org/orguser',
 	        method: 'get',
@@ -7787,14 +7669,14 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 146 */
+/* 187 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 147 */,
-/* 148 */
+/* 188 */,
+/* 189 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -7805,15 +7687,15 @@ webpackJsonp([0,1],[
 	];
 
 /***/ },
-/* 149 */
+/* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 修改密码模块
 	 */
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(150);
-	__webpack_require__(40);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(191);
+	__webpack_require__(81);
 	var PasswordModify = function(){ };
 
 	//继承自框架基类
@@ -7836,7 +7718,7 @@ webpackJsonp([0,1],[
 	};
 
 	PasswordModify.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(152);
+	    var html = __webpack_require__(193);
 	    this.render(html);
 	};
 
@@ -7880,27 +7762,27 @@ webpackJsonp([0,1],[
 	module.exports = new PasswordModify();
 
 /***/ },
-/* 150 */
+/* 191 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 151 */,
-/* 152 */
+/* 192 */,
+/* 193 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"passwordmodify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>旧密码：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入旧密码\" name=\"oldpassword\" id=\"oldpassword\" type=\"password\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>新密码：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入新密码\" name=\"newpassword\" id=\"newpassword\" type=\"password\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>确认密码：</label>\r\n                <input class=\"form-control\" placeholder=\"请确认密码\" name=\"repassword\" id=\"repassword\" type=\"password\" value=\"\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span id=\"confirmBtn\" class=\"framework-button\">确认</span>\r\n                <span id=\"cancelBtn\" class=\"framework-button\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 153 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 新增修改角色模块
 	 */
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(154);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(195);
 	var RoleAddModify = function(){ };
 
 	//继承自框架基类
@@ -7929,7 +7811,7 @@ webpackJsonp([0,1],[
 	};
 
 	RoleAddModify.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(156);
+	    var html = __webpack_require__(197);
 	    this.render(html);
 	};
 
@@ -7983,20 +7865,20 @@ webpackJsonp([0,1],[
 	module.exports = new RoleAddModify();
 
 /***/ },
-/* 154 */
+/* 195 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 155 */,
-/* 156 */
+/* 196 */,
+/* 197 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"role-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>角色名：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入角色名\" name=\"role_name\" id=\"role_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 157 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -8004,11 +7886,11 @@ webpackJsonp([0,1],[
 	 * 角色管理模块
 	 */
 
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(37);
-	__webpack_require__(158);
-	__webpack_require__(40);
-	var Calendar = __webpack_require__(1);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(78);
+	__webpack_require__(199);
+	__webpack_require__(81);
+	var Calendar = __webpack_require__(45);
 	var RoleManage = function () {};
 
 	//继承自框架基类
@@ -8042,7 +7924,7 @@ webpackJsonp([0,1],[
 	RoleManage.prototype.initTable = function () {
 	    var that = this;
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(160);
+	    var columns = __webpack_require__(201);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '/role/list',
 	        method: 'get',
@@ -8184,14 +8066,14 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 158 */
+/* 199 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 159 */,
-/* 160 */
+/* 200 */,
+/* 201 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -8200,14 +8082,14 @@ webpackJsonp([0,1],[
 	];
 
 /***/ },
-/* 161 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 给组织机构赋角色模块
 	 */
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(162);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(203);
 	var Role2User = function(){ };
 
 	//继承自框架基类
@@ -8230,7 +8112,7 @@ webpackJsonp([0,1],[
 	};
 
 	Role2User.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(164);
+	    var html = __webpack_require__(205);
 	    this.render(html);
 	};
 
@@ -8338,27 +8220,27 @@ webpackJsonp([0,1],[
 	module.exports = new Role2User();
 
 /***/ },
-/* 162 */
+/* 203 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 163 */,
-/* 164 */
+/* 204 */,
+/* 205 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"role2org\">\r\n    <div class=\"role2org_content_wrap\">\r\n        <div class=\"lr-choose-panel\">\r\n            <div class=\"left-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"roleList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n            <div class=\"center-operator-panel\">\r\n                <div class=\"operator-wrap\">\r\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllRole\"></span>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"right-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"mapList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 165 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 给用户赋角色模块
 	 */
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(166);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(207);
 	var Role2User = function(){ };
 
 	//继承自框架基类
@@ -8381,7 +8263,7 @@ webpackJsonp([0,1],[
 	};
 
 	Role2User.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(168);
+	    var html = __webpack_require__(209);
 	    this.render(html);
 	};
 
@@ -8489,27 +8371,27 @@ webpackJsonp([0,1],[
 	module.exports = new Role2User();
 
 /***/ },
-/* 166 */
+/* 207 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 167 */,
-/* 168 */
+/* 208 */,
+/* 209 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"role2user\">\r\n    <div class=\"role2user_content_wrap\">\r\n        <div class=\"lr-choose-panel\">\r\n            <div class=\"left-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"roleList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n            <div class=\"center-operator-panel\">\r\n                <div class=\"operator-wrap\">\r\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllRole\"></span>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"right-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"mapList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 169 */
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 新增修改用户模块
 	 */
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(170);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(211);
 	var UserAddModify = function(){ };
 
 	//继承自框架基类
@@ -8543,7 +8425,7 @@ webpackJsonp([0,1],[
 	};
 
 	UserAddModify.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(172);
+	    var html = __webpack_require__(213);
 	    this.render(html);
 	};
 
@@ -8609,20 +8491,20 @@ webpackJsonp([0,1],[
 	module.exports = new UserAddModify();
 
 /***/ },
-/* 170 */
+/* 211 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 171 */,
-/* 172 */
+/* 212 */,
+/* 213 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"user-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>用户名：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入用户名\" name=\"user_name\" id=\"user_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>密码：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入密码\" name=\"user_password\" id=\"user_password\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 173 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -8630,10 +8512,10 @@ webpackJsonp([0,1],[
 	 * 用户管理模块
 	 */
 
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(37);
-	__webpack_require__(174);
-	__webpack_require__(40);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(78);
+	__webpack_require__(215);
+	__webpack_require__(81);
 	var UserManage = function () {};
 
 	//继承自框架基类
@@ -8667,7 +8549,7 @@ webpackJsonp([0,1],[
 	UserManage.prototype.initTable = function () {
 	    var that = this;
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(176);
+	    var columns = __webpack_require__(217);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '/user/list',
 	        method: 'get',
@@ -8831,14 +8713,14 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 174 */
+/* 215 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 175 */,
-/* 176 */
+/* 216 */,
+/* 217 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -8849,14 +8731,14 @@ webpackJsonp([0,1],[
 	];
 
 /***/ },
-/* 177 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 分配用户到组织机构模块
 	 */
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(178);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(219);
 	var User2Org = function(){ };
 
 	//继承自框架基类
@@ -8879,7 +8761,7 @@ webpackJsonp([0,1],[
 	};
 
 	User2Org.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(180);
+	    var html = __webpack_require__(221);
 	    this.render(html);
 	};
 
@@ -8989,27 +8871,27 @@ webpackJsonp([0,1],[
 	module.exports = new User2Org();
 
 /***/ },
-/* 178 */
+/* 219 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 179 */,
-/* 180 */
+/* 220 */,
+/* 221 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"user2org\">\r\n    <div class=\"user2org_content_wrap\">\r\n        <div class=\"lr-choose-panel\">\r\n            <div class=\"left-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"userList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n            <div class=\"center-operator-panel\">\r\n                <div class=\"operator-wrap\">\r\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllUser\"></span>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"right-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"mapList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 181 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 设置属于角色的用户模块
 	 */
-	var frameworkBase = __webpack_require__(28);
-	__webpack_require__(182);
+	var frameworkBase = __webpack_require__(69);
+	__webpack_require__(223);
 	var User2Role = function(){ };
 
 	//继承自框架基类
@@ -9032,7 +8914,7 @@ webpackJsonp([0,1],[
 	};
 
 	User2Role.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(184);
+	    var html = __webpack_require__(225);
 	    this.render(html);
 	};
 
@@ -9142,14 +9024,14 @@ webpackJsonp([0,1],[
 	module.exports = new User2Role();
 
 /***/ },
-/* 182 */
+/* 223 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 183 */,
-/* 184 */
+/* 224 */,
+/* 225 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"user2role\">\r\n    <div class=\"user2role_content_wrap\">\r\n        <div class=\"lr-choose-panel\">\r\n            <div class=\"left-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"userList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n            <div class=\"center-operator-panel\">\r\n                <div class=\"operator-wrap\">\r\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllUser\"></span>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"right-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"mapList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>\r\n";

@@ -1,21 +1,31 @@
 <template>
     <nav class="navigator">
         <span class="navigator-btn" id="navigatorLeftBtn" v-on:click="doReturn">返回</span>
-        <h1>{{title}}</h1>
-        <span id="navigatorRightBtn"></span>
+        <h1>{{navigatorTitle}}</h1>
+        <span class="navigator-btn" id="navigatorRightBtn" v-on:click="rBtnClk">{{navigatorRightBtn}}</span>
     </nav>
 </template>
 
 <script>
     module.exports = {
+        props: {
+            navigatorTitle:{type:String,default:'标题'},
+            navigatorRightBtn:{type:String,default:''},
+            onNavigatorRightBtnClick:{type:Function,default:function(){}}
+        },
         data:function(){
-            return {
-                title:'ni hao'
-            }
+            return {};
         },
         methods:{
             doReturn:function(){
-                history.go(-1);
+                Events.notify('route:isReturn',true);
+                this.$router.back();
+                setTimeout(function(){
+                    Events.notify('route:isReturn',false);
+                },2);
+            },
+            rBtnClk:function(){
+                this.onNavigatorRightBtnClick();
             }
         }
     };

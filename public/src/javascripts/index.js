@@ -9,7 +9,7 @@ window.toastr = require('./libs/toastr');
 require('../stylesheets/toastr.scss');
 require('./libs/utils');
 var prefix = './modules/';
-var Events = require('./modules/framework/framework-events');
+var Events = require('./libs/framework-events');
 var Router = require('./modules/framework/framework-route');
 Router.init();
 require('./modules/webpack-base');

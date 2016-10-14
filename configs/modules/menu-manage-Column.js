@@ -8,6 +8,9 @@ module.exports = [
     {field: 'menu_type', title: '菜单位置', width: 80,formatter: function (val) {
         return val==1?'左侧菜单':val==2?'设置下拉菜单':'首页';
     }},
+    {field: 'menu_device', title: '菜单用于设备', width: 80,formatter: function (val) {
+        return val==1?'PC':'H5';
+    }},
     {field: 'menu_icon', title: '菜单图标样式名称', width: 150},
     {field: 'menu_parent_title', title: '父菜单', width: 200}
 ];

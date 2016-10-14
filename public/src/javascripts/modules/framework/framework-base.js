@@ -8,7 +8,7 @@
  */
 
 require('../../libs/utils');
-var Events = require('./framework-events');
+var Events = require('../../libs/framework-events');
 
 
 /**

@@ -17,10 +17,12 @@ router.get('/menu/list', function (req, res, next) {
     if (req.session.isLogin) {
         var key = req.query.key,
             show_type = req.query.show_type,
+            menu_device = req.query.menu_device,
             menu_type = req.query.menu_type;
         menuDao.menuSearch({
             key:key?key:null,
             show_type:show_type!=undefined?show_type:null,
+            menu_device:menu_device!=undefined?menu_device:'1',
             menu_type:menu_type!=undefined?menu_type:null
         },function(err,data){
             res.json(utils.returns(arguments));
@@ -29,7 +31,7 @@ router.get('/menu/list', function (req, res, next) {
 });
 
 
-var MODIFYCOLUMNS = ['menu_id','menu_title','menu_url','menu_icon','show_type','menu_type','menu_parent_id'];
+var MODIFYCOLUMNS = ['menu_id','menu_title','menu_url','menu_icon','show_type','menu_type','menu_device','menu_parent_id'];
 /**
  * 菜单保存
  */
@@ -42,6 +44,7 @@ router.post('/menu/save', function (req, res, next) {
                 menu_icon = req.body.menu_icon,
                 show_type = req.body.show_type,
                 menu_type = req.body.menu_type,
+                menu_device = req.body.menu_device,
                 menu_parent_id = req.body.menu_parent_id;
             menuDao.addMenu({
                 menu_title:menu_title,
@@ -49,6 +52,7 @@ router.post('/menu/save', function (req, res, next) {
                 menu_icon:menu_icon,
                 show_type:show_type,
                 menu_type:menu_type,
+                menu_device:menu_device,
                 menu_parent_id:menu_parent_id
             },function(err,data){
                 res.json(utils.returns(arguments));

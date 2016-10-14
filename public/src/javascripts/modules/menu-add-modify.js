@@ -21,7 +21,7 @@ MenuAddModify.prototype.id = 'menu-add-modify';
 MenuAddModify.prototype.init = function(options){
     var that = this;
     this.options = $.extend({action:'001'},options);
-    that.setTitle(this.options.action == '001'?'添加菜单':'编辑菜单').setHeight(380).setWidth(400);
+    that.setTitle(this.options.action == '001'?'添加菜单':'编辑菜单').setHeight(420).setWidth(400);
     frameworkBase.init.call(this,options);
     this.loadBaseView();
     this.bindEvents();
@@ -56,6 +56,7 @@ MenuAddModify.prototype.bindEvents = function(){
             show_type:$('#show_type',that.dom).val(),
             menu_type:$('#menu_type',that.dom).val(),
             menu_icon:$('#menu_icon',that.dom).val(),
+            menu_device:$('#menu_device',that.dom).val(),
             menu_parent_id:$('#menu_parent_id',that.dom).attr('data-pid')
         },function(data){
             if(!data.success){
@@ -151,6 +152,7 @@ MenuAddModify.prototype.restoreData = function() {
         $('#menu_icon',that.dom).val(data.menu_icon);
         $('#show_type',that.dom).val(data.show_type);
         $('#menu_type',that.dom).val(data.menu_type);
+        $('#menu_device',that.dom).val(data.menu_device);
         $('#menu_parent_id',that.dom).val(data.menu_parent_title);
         $('#menu_parent_id',that.dom).attr('data-pid',data.menu_parent_id);
     });

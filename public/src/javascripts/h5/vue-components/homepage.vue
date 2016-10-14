@@ -1,0 +1,43 @@
+<template>
+    <transition v-on:before-enter="beforeEnter"
+                v-on:enter="enter"
+                v-on:leave="leave"
+                v-bind:css="false">
+    <div class="router-view">
+        <ul class="homepage-menu-list">
+            <template v-for="item in menus">
+                <router-link v-bind:to="item.path"><li v-bind:class="'menu-list-item fa '+item.menu_icon"><span>{{item.menu_title}}</span></li></router-link>
+            </template>
+
+
+            <a href="/h5/logout"><li class="menu-list-item fa fa-power-off" ><span>注销</span></li></a>
+        </ul>
+    </div>
+    </transition>
+</template>
+
+<script>
+    var navigator = require('./navigator.vue');
+
+    var animationUtil = require('../utils/animationUtil');
+    var methods = {};
+    animationUtil.processHomepage(methods);
+
+    var loader = require('../vue-components-loader');
+
+    module.exports = {
+        module:'/',
+        data:function(){
+            return {
+                menus:loader.getMenu()
+            }
+        },
+        methods:methods,
+        components:{navigator:navigator}
+    };
+</script>
+
+<style lang="sass" scoped>
+    @import "../../../stylesheets/vue-styles/homepage.scss";
+
+</style>

@@ -22,12 +22,12 @@ module.exports = {
             _params = params;
         }
         condition.push(' 1=1 ');
-        if(_params)
-            with(_params){
-                key && condition.push(' (t1.menu_title like \'%'+key+'%\' or t1.menu_url like \'%'+key+'%\') ');
-                (show_type && show_type!= '0') && condition.push(' t1.show_type = ' + show_type);
-                (menu_type && menu_type!= '0') && condition.push(' t1.menu_type = ' + menu_type);
-            }
+        if(_params){
+            _params.key && condition.push(' (t1.menu_title like \'%'+_params.key+'%\' or t1.menu_url like \'%'+_params.key+'%\') ');
+            (_params.show_type && _params.show_type!= '0') && condition.push(' t1.show_type = ' + _params.show_type);
+            (_params.menu_type && _params.menu_type!= '0') && condition.push(' t1.menu_type = ' + _params.menu_type);
+            (_params.menu_device && _params.menu_device!= '0') && condition.push(' t1.menu_device = ' + _params.menu_device);
+        }
 
         condition = condition.join(' and ');
         var selectSql = 'select t1.*,ifnull(t2.menu_title,\'根菜单\') menu_parent_title ',fromSql = 'from '+table+' t1 left join '+table+' t2 on t1.menu_parent_id=t2.menu_id where '+condition+' order by t1.menu_order asc';

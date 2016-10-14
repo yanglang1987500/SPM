@@ -62,10 +62,12 @@ router.get('/auth/menu/list', function (req, res, next) {
     if (req.session.isLogin) {
         var key = req.query.key,
             show_type = req.query.show_type,
+            menu_device = req.query.menu_device,
             menu_type = req.query.menu_type;
         menuDao.menuSearch({
             key:key?key:null,
             show_type:show_type!=undefined?show_type:null,
+            menu_device:menu_device!=undefined?menu_device:null,
             menu_type:menu_type!=undefined?menu_type:null
         },function(err,data){
             var sessionUserInfo = sessionUtil.createUserInfo(req.session.userInfo);

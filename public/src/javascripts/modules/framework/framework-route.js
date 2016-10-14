@@ -6,7 +6,7 @@
  */
 
 var Router = require('../../libs/director.min').Router;
-var Events = require('../framework/framework-events');
+var Events = require('../../libs/framework-events');
 var frameworkBase = require('../framework/framework-base');
 
 
