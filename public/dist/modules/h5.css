@@ -20,24 +20,24 @@ html, body {
     left: 0;
     top: 0;
     padding-top: 1rem;
-    background-color: #F5F5F5; }
+    background-color: #fff; }
 
-.router-view[data-v-0a89d298] {
+.router-view[data-v-7a9a0706] {
   padding: 0 !important;
   background-image: url(./033d9b5a68f5dd1b5c3c9dde3fdc14d7.jpg);
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
-.homepage-menu-list[data-v-0a89d298] {
+.homepage-menu-list[data-v-7a9a0706] {
   padding-bottom: .17rem;
   list-style: none;
   overflow: hidden;
 }
-.homepage-menu-list a[data-v-0a89d298] {
+.homepage-menu-list a[data-v-7a9a0706] {
     color: #fff !important;
     text-decoration: none;
 }
-.homepage-menu-list .menu-list-item[data-v-0a89d298] {
+.homepage-menu-list .menu-list-item[data-v-7a9a0706] {
     margin-left: .17rem;
     margin-top: .17rem;
     width: 3.5rem;
@@ -53,7 +53,7 @@ html, body {
     text-align: center;
     word-wrap: break-word;
 }
-.homepage-menu-list .menu-list-item span[data-v-0a89d298] {
+.homepage-menu-list .menu-list-item span[data-v-7a9a0706] {
       position: absolute;
       bottom: .3rem;
       left: 0;
@@ -64,7 +64,7 @@ html, body {
       text-align: center;
 }
 
-nav.navigator[data-v-232a0401] {
+nav.navigator[data-v-5a2ed758] {
   position: fixed;
   font-size: .35rem;
   line-height: 1rem;
@@ -73,14 +73,14 @@ nav.navigator[data-v-232a0401] {
   top: 0;
   height: 1rem;
   background-color: rgba(255, 255, 255, 0.89);
-  box-shadow: 0 0.05rem 0.1rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.03rem 0.05rem rgba(0, 0, 0, 0.2);
 }
-nav.navigator h1[data-v-232a0401] {
+nav.navigator h1[data-v-5a2ed758] {
     text-align: center;
     font-weight: normal;
     font-size: .5rem;
 }
-nav.navigator .navigator-btn[data-v-232a0401] {
+nav.navigator .navigator-btn[data-v-5a2ed758] {
     position: absolute;
     left: 0;
     top: 0;
@@ -88,7 +88,19 @@ nav.navigator .navigator-btn[data-v-232a0401] {
     height: 1rem;
     text-align: center;
 }
-nav.navigator .navigator-btn#navigatorRightBtn[data-v-232a0401] {
+nav.navigator .navigator-btn#navigatorRightBtn[data-v-5a2ed758] {
       left: auto;
       right: 0;
+}
+
+.list-panel-container[data-v-023bdb78] {
+  height: 100%;
+  overflow: auto;
+}
+.list-panel-container .list-panel li[data-v-023bdb78] {
+    background: #F3F3F3;
+    margin-bottom: .3rem;
+    font-size: .3rem;
+    padding: .4rem .3rem;
+    box-shadow: 0 0.01rem 0.04rem rgba(0, 0, 0, 0.13);
 }
