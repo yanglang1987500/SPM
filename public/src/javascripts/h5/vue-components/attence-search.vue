@@ -1,5 +1,5 @@
 <template>
-    <transition v-on:before-enter="beforeEnter"
+    <transition v-on:before-enter="beforeEnter" v-on:after-enter="afterEnter"
                 v-on:enter="enter"
                 v-on:leave="leave"
                 v-bind:css="false">
@@ -14,21 +14,29 @@
                     <p>考勤时间：{{Calendar.getInstance(item.create_time).format('yyyy年MM月dd日 HH时mm分ss秒')}}</p>
                 </li>
             </ul>
+            <pagination :cur.sync="1" :all.sync="100" :on-pagination-callback="paginationCallback" ></pagination>
         </div>
     </div>
     </transition>
 </template>
 
 <script>
-    var navigator = require('./navigator.vue');
+    var navigator = require('./vue-navigator.vue');
+    var pagination = require('./vue-pagination.vue');
     require('../../libs/calendar');
     var animationUtil = require('../utils/animationUtil');
     var methods = {
         onNavigatorRightBtnClick:function(){
             Router.push('/foo');
+        },
+        paginationCallback:function(cur){
+            Events.notify('attence-search-refresh',{page:cur});
         }
     };
     animationUtil.process(methods);
+
+
+
     module.exports = {
         module:'/attence-search',
         data:function(){
@@ -38,12 +46,20 @@
             }
         },
         methods:methods,
-        components:{navigator:navigator},
+        components:{navigator:navigator,pagination:pagination},
         created :function(){
             var that = this;
-            $.get('/attence/search',function(data){
-                that.items = data.data.rows;
-            });
+            Events.subscribe('attence-search-refresh',function(param){
+                var _p = $.extend({},{page:1,rows:10},param);
+                $.loading();
+                $.get('/attence/search',_p,function(data){
+                    that.items = data.data.rows;
+                    $.unloading();
+                });
+            }).notify('attence-search-refresh');
+        },
+        destroyed:function(){
+            Events.unsubscribe('attence-search-refresh');
         }
     };
 </script>

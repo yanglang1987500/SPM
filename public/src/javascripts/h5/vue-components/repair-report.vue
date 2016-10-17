@@ -1,5 +1,5 @@
 <template>
-    <transition v-on:before-enter="beforeEnter"
+    <transition v-on:before-enter="beforeEnter" v-on:after-enter="afterEnter"
                 v-on:enter="enter"
                 v-on:leave="leave"
                 v-bind:css="false">
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-    var navigator = require('./navigator.vue');
+    var navigator = require('./vue-navigator.vue');
     var animationUtil = require('../utils/animationUtil');
     var methods = {
         onNavigatorRightBtnClick:function(){

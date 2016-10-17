@@ -5,19 +5,30 @@
   margin:0;
 }
 html,body{
-  height:100%;
-  overflow: hidden;
+  overflow: auto;
+
+}
+
+body{
+}
+body:before {
+    content: ' ';
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url('../images/framework/bg/h5bg.jpg') center 0 no-repeat;
+    background-size: cover;
 }
 #h5app{
   font-family: MicroSoft Yahei;
-  height:100%;
   color: #7b7b7b;
-  overflow: hidden;
+  overflow: auto;
   .router-view{
     overflow: auto;
-    height: 100%;
     width:100%;
-    position: fixed;
     left:0;
     top:0;
     padding-top:1rem;

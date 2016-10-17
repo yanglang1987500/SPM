@@ -13,6 +13,7 @@ var Events = require('./libs/framework-events');
 var Router = require('./modules/framework/framework-route');
 Router.init();
 require('./modules/webpack-base');
+var frameBase = require('./modules/framework/framework-base');
 var theme,_THEME_KEY_ = '_THEME_KEY';
  
 if(theme = localStorage.getItem(_THEME_KEY_)){
@@ -75,14 +76,21 @@ $(function(){
     $('body').on('click','a[data-module]',function(){
         var module = $(this).attr('data-module');
         var showType = $(this).attr('data-showtype');
-        $('#menu>li').removeClass('actived'); 
-        if(showType == '1'){
-            //只有Normal类型的模块需要进行hash定位，弹窗以及无界面模块不需要
-            location.href = module;
-            return;
+        $('#menu>li').removeClass('actived');
+        module = module.replace('#','');
+        if(Router.isPermission(module)){
+            if(showType == '2' || showType == '3'){
+                module = '.' + module;
+                Events.notify('onSelectMenu',module).require(module).init({showType:showTypes[showType]});
+            }else{
+                //只有Normal类型的模块需要进行hash定位，弹窗以及无界面模块不需要
+                location.href = '#'+module;
+                return;
+            }
+        }else{
+            frameBase.toast('您没有权限访问此资源');
         }
-        module = module.replace('#','.');
-        Events.notify('onSelectMenu',module).require(module).init({showType:showTypes[showType]});
+
     });
 
     Events.subscribe('websocket:message-publish-new',function(data){

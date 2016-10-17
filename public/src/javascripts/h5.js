@@ -8,14 +8,13 @@ var VueRouter = require('vue-router');
 Vue.use(VueRouter);
 var Events = require('./libs/framework-events');
 var loader = require('./h5/vue-components-loader');
-
+require('./libs/loading/loading.js');
 /**
  * 加载路由配置
  */
 var routes = [];
 var app;
 loader.load(function(data){
-    debugger;
     routes = data;
     const router = window.Router =  new VueRouter({
         routes:data
@@ -29,5 +28,6 @@ loader.load(function(data){
 });
 
 $(function(){
+    window.HEIGHT = $(window).height();
     FastClick.attach(document.body);
 });

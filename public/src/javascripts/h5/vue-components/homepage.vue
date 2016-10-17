@@ -1,9 +1,9 @@
 <template>
-    <transition v-on:before-enter="beforeEnter"
+    <transition v-on:before-enter="beforeEnter"  v-on:after-enter="afterEnter"
                 v-on:enter="enter"
                 v-on:leave="leave"
                 v-bind:css="false">
-    <div class="router-view">
+    <div class="router-view" >
         <ul class="homepage-menu-list">
             <template v-for="item in menus">
                 <router-link v-bind:to="item.path"><li v-bind:class="'menu-list-item fa '+item.menu_icon"><span>{{item.menu_title}}</span></li></router-link>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-    var navigator = require('./navigator.vue');
+    var navigator = require('./vue-navigator.vue');
 
     var animationUtil = require('../utils/animationUtil');
     var methods = {};
@@ -30,6 +30,11 @@
         data:function(){
             return {
                 menus:loader.getMenu()
+            }
+        },
+        computed:{
+            MINHEIGHT:function(){
+                return window.HEIGHT;
             }
         },
         methods:methods,

@@ -85,6 +85,9 @@ ReportList.prototype.initTable = function () {
             }
             return data.data;
         },
+        onDblClickRow: function (rowIndex, rowData) {
+            Events.require('report-view').init({showType:'Pop',report_id:rowData.report_id});
+        },
         toolbar: '#report-list-toolbar'
     });
 
@@ -137,6 +140,12 @@ ReportList.prototype.initTable = function () {
 ReportList.prototype.bindEvents = function () {
     var that = this;
 
+    $('#view_message_btn',this.dom).click(function(){
+        var rowData;
+        if(!(rowData = getSelectRow()))
+            return;
+        Events.require('report-view').init({showType:'Pop',report_id:rowData.report_id});
+    });
     //删除信息
     $('#delete_message_btn',this.dom).click(function(){
         var rowData;
@@ -196,22 +205,39 @@ ReportList.prototype.loadWidgets = function(temp){
     if(widget == null)
         return;
     var $dom = $(widget.container);
-    this.query('/report/search',{detail:true},function(ret){
-        if(!ret.success){
-            that.toast(ret.message);
-            return;
-        }
-        ret.data.rows.forEach(function(item){
-            if(item.photos == '')
-                item.photos = [];
+    if(widget.id){
+        this.query('/report/search-id',{report_id:widget.id},function(ret){
+            if(!ret.success){
+                that.toast(ret.message);
+                return;
+            }
+            if(ret.data.photos == '')
+                ret.data.photos = [];
             else
-                item.photos = item.photos.split(';');
+                ret.data.photos = ret.data.photos.split(';');
+            ret.data.host = $.getDomain();
+            var html = juicer(widgetTpl, {rows:[ret.data]});
+            $dom.html(html);
         });
-        ret.data.host = $.getDomain();
-        var html = juicer(widgetTpl, ret.data);
-        $dom.html(html);
+    }else{
+        this.query('/report/search',{detail:true},function(ret){
+            if(!ret.success){
+                that.toast(ret.message);
+                return;
+            }
+            ret.data.rows.forEach(function(item){
+                if(item.photos == '')
+                    item.photos = [];
+                else
+                    item.photos = item.photos.split(';');
+            });
+            ret.data.host = $.getDomain();
+            var html = juicer(widgetTpl, ret.data);
+            $dom.html(html);
 
-    });
+        });
+    }
+
     Events.subscribe('websocket:report-new',function(data){
         console.log(JSON.stringify(data));
         data.photos = data.photos?data.photos.split(';'):[];

@@ -12,7 +12,6 @@ var count = 1, prePath = '',currentPath = '';
 var fns = {
     beforeEnter:function(el){
         console.log(prePath);
-        debugger;
         if(prePath == this.$route.matched[0].path){
             isReturn = true;
             setTimeout(function(){
@@ -23,7 +22,18 @@ var fns = {
         }
         currentPath = this.$route.matched[0].path;
         !isReturn && $(el).css('z-index',count++);
+        $(el).css({
+            'position':'absolute',
+            'min-height':window.HEIGHT+'px'
+        });
         Velocity(el, { translateX: isReturn?'0%':'100%' }, { duration: 0 });
+    },
+    afterEnter:function(el){
+        $(el).css({
+            position:'static',
+            transform:null
+        });
+        $("body").scrollTop(0);
     },
     enter:function(el,done){
         Velocity(el, { translateX: '0%' ,duration: isReturn?0:600},{complete:done});
@@ -40,8 +50,18 @@ var fns_homepage = {
         },2);
         prePath = '';
         currentPath = '';
-        $(el).css('z-index','0');
+        $(el).css({
+            'z-index':'0',
+            'position':'absolute',
+            'min-height':window.HEIGHT+'px'
+        });
+        $("body").scrollTop(0);
         Velocity(el, { translateX: '0%' }, { duration: 0 });
+    },
+    afterEnter:function(el){
+        $(el).css({
+            position:'static'
+        });
     },
     enter:function(el,done){
         Velocity(el, { translateX: '0%' ,duration: 0},{complete:done});
