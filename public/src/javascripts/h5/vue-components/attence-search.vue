@@ -3,7 +3,7 @@
                 v-on:enter="enter"
                 v-on:leave="leave"
                 v-bind:css="false">
-    <div class="router-view"  >
+    <div class="router-view">
         <navigator navigator-title="学生考勤查询" ></navigator>
         <div class="list-panel-container">
             <ul class="list-panel">
@@ -14,7 +14,7 @@
                     <p>考勤时间：{{Calendar.getInstance(item.create_time).format('yyyy年MM月dd日 HH时mm分ss秒')}}</p>
                 </li>
             </ul>
-            <pagination :cur.sync="1" :all.sync="100" :on-pagination-callback="paginationCallback" ></pagination>
+            <pagination :cur="c" :all="a" :on-pagination-callback="paginationCallback" ></pagination>
         </div>
     </div>
     </transition>
@@ -27,7 +27,6 @@
     var animationUtil = require('../utils/animationUtil');
     var methods = {
         onNavigatorRightBtnClick:function(){
-            Router.push('/foo');
         },
         paginationCallback:function(cur){
             Events.notify('attence-search-refresh',{page:cur});
@@ -42,18 +41,22 @@
         data:function(){
             return {
                 items:[],
-                Calendar:Calendar
+                Calendar:Calendar,
+                c:1,
+                a:2
             }
         },
         methods:methods,
         components:{navigator:navigator,pagination:pagination},
-        created :function(){
+        mounted :function(){
             var that = this;
             Events.subscribe('attence-search-refresh',function(param){
                 var _p = $.extend({},{page:1,rows:10},param);
                 $.loading();
                 $.get('/attence/search',_p,function(data){
                     that.items = data.data.rows;
+                    that.c = _p.page;
+                    that.a = Math.ceil(data.data.total/10);
                     $.unloading();
                 });
             }).notify('attence-search-refresh');

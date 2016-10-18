@@ -45,6 +45,7 @@ UserManage.prototype.initTable = function () {
         url: '/user/list',
         method: 'get',
         columns: [columns],
+        cache:false,
         pagination: true,
         pageSize: 20,
         ctrlSelect: true,
@@ -196,7 +197,8 @@ var userManage = new UserManage();
 Events.subscribe('onWindowResize',function(){
     if(!userManage.dom)
         return;
-    $('.tablecontainer',userManage.dom).height(userManage.dom.height()-55);
+    $('.tablecontainer',userManage.dom).height(userManage.dom.height()-15-$('.condition-wrap',userManage.dom).height());
+    userManage.$table.datagrid('resize');
 });
 
 module.exports = userManage;

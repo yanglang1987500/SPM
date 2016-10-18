@@ -1,0 +1,125 @@
+#repair-view-container{
+  font-size:.25rem;
+
+  input[type="text"],
+  input[type="password"],
+  input[type="search"],
+  input[type="tel"],
+  textarea {
+    border: none;
+    font-size: .25rem;
+    height: 20px;
+    line-height: 20px;
+    padding: 5px;
+    color: #333333;
+    font-family: "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "宋体", Arial, Verdana, sans-serif;
+    outline: none;
+    -webkit-border-radius: none;
+    -moz-border-radius: none;
+    border-radius: none;
+  }
+  textarea {
+    outline: none;
+    border: none;
+    resize: none;
+    height: 90px;
+    width: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    /* Firefox */
+    -webkit-box-sizing: border-box;
+    /* Safari */
+  }
+  input[type=text]:active,
+  input[type=password]:active,
+  textarea:active,
+  input[type=text]:focus,
+  input[type=password]:focus,
+  textarea:focus {
+    border: none;
+    background: #ffffff;
+    outline: none;
+  }
+  ::-webkit-input-placeholder {
+    -webkit-text-fill-color: #bdbdbd;
+  }
+  ::-moz-placeholder {
+    color: #dddddd;
+  }
+  input:-ms-input-placeholder {
+    color: #dddddd;
+  }
+  textarea:-ms-input-placeholder {
+    color: #dddddd;
+  }
+
+  .publish-article-title {
+    padding: .2rem;
+    background: #fff;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #dadada;
+  }
+  .title-tips {
+    font-weight: bold;
+    margin-bottom: 3px;
+  }
+  .publish-article-content {
+    padding: .2rem;
+    background: #fff;
+    border-bottom: 1px solid #dadada;
+    .article-content {
+      height: 5rem;
+      border-bottom: 1px solid #ccc;
+      img{
+        width:2rem !important;
+      }
+    }
+    .footer-btn {
+       text-align: center;
+       padding-top: .3rem;
+      .upload-img {
+        display: inline-block;
+        vertical-align: bottom;
+        width: .5rem;
+        height: .4rem;
+        margin-right: .1rem;
+        background: url(../../../stylesheets/images/snapphoto.png) 0 no-repeat;
+        background-size: 100%;
+      }
+     }
+  }
+  #imageList{
+    list-style: none;
+    overflow: hidden;
+    padding:0rem;
+    -webkit-padding-start: 0px;
+    -webkit-padding-end: 0px;
+    font-size: 0;
+    img{
+      width:2rem;
+      vertical-align: middle;
+    }
+
+    li{
+      float:left;
+      width:2rem;
+      height:2rem;
+      margin: .15rem .11rem;
+      text-align: center;
+      line-height: 2rem;
+      border:1px solid #eee;
+      overflow:hidden;
+      position: relative;
+      .close{
+        position: absolute;
+        right: 0.02rem;
+        top: 0;
+        width: .5rem;
+        height: .5rem;
+        color: #ee2924;
+        font-size: .6rem;
+      }
+    }
+  }
+
+}

@@ -14,7 +14,7 @@ function load(_module,showType){
     _module = '.'+_module;
     Events.notify('onSelectMenu',_module).require(_module).init({from:'click',showType:showType == 2?'Pop':'Normal'});
 }
-var auth_menus = [];
+var auth_menus = [],router;
 
 module.exports = {
     init:function(){
@@ -29,7 +29,7 @@ module.exports = {
                 auth_menus.push(menuList[i]['menu_url'])
             }
 
-            var router = Router(routes);
+            router = Router(routes);
             router.init();
         });
     },

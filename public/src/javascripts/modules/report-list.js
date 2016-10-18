@@ -70,6 +70,7 @@ ReportList.prototype.initTable = function () {
         url: '/report/search',
         method: 'get',
         columns: [columns],
+        cache:false,
         pagination: true,
         pageSize: 20,
         ctrlSelect: true,
@@ -286,11 +287,12 @@ ReportList.prototype.finish = function () {
     frameworkBase.finish.apply(this,arguments);
 };
 
-var messagePublishList = new ReportList();
+var reportList = new ReportList();
 Events.subscribe('onWindowResize',function(){
-    if(!messagePublishList.dom)
+    if(!reportList.dom)
         return;
-    $('.tablecontainer',messagePublishList.dom).height(messagePublishList.dom.height()-55);
+    $('.tablecontainer',reportList.dom).height(reportList.dom.height()-15-$('.condition-wrap',reportList.dom).height());
+    reportList.$table.datagrid('resize');
 });
 
-module.exports = messagePublishList;
+module.exports = reportList;

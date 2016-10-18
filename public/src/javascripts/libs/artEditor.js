@@ -24,7 +24,6 @@ $.fn.extend({
 		_this._opt = $.extend(_this._opt, options);
 		try{
 			$(_this._opt.imgTar).on('change', function(e) {
-
 				if(_this._opt.showServer) {
 					_this.upload();
 				}else {

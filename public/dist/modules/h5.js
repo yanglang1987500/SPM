@@ -5,6 +5,7 @@ webpackJsonp([0],[
 	/**
 	 * Created by 杨浪 on 2016/10/13.
 	 */
+
 	__webpack_require__(1);
 	var FastClick = __webpack_require__(6);
 	var Vue = __webpack_require__(7);
@@ -12,7 +13,7 @@ webpackJsonp([0],[
 	Vue.use(VueRouter);
 	var Events = __webpack_require__(9);
 	var loader = __webpack_require__(10);
-	__webpack_require__(52);
+	__webpack_require__(56);
 	/**
 	 * 加载路由配置
 	 */
@@ -45,62 +46,7 @@ webpackJsonp([0],[
 
 /***/ },
 /* 2 */,
-/* 3 */
-/***/ function(module, exports) {
-
-	/*
-		MIT License http://www.opensource.org/licenses/mit-license.php
-		Author Tobias Koppers @sokra
-	*/
-	// css base code, injected by the css-loader
-	module.exports = function() {
-		var list = [];
-
-		// return the list of modules as css string
-		list.toString = function toString() {
-			var result = [];
-			for(var i = 0; i < this.length; i++) {
-				var item = this[i];
-				if(item[2]) {
-					result.push("@media " + item[2] + "{" + item[1] + "}");
-				} else {
-					result.push(item[1]);
-				}
-			}
-			return result.join("");
-		};
-
-		// import a list of modules into the list
-		list.i = function(modules, mediaQuery) {
-			if(typeof modules === "string")
-				modules = [[null, modules, ""]];
-			var alreadyImportedModules = {};
-			for(var i = 0; i < this.length; i++) {
-				var id = this[i][0];
-				if(typeof id === "number")
-					alreadyImportedModules[id] = true;
-			}
-			for(i = 0; i < modules.length; i++) {
-				var item = modules[i];
-				// skip already imported module
-				// this implementation is not 100% perfect for weird media query combinations
-				//  when a module is imported multiple times with different media queries.
-				//  I hope this will never occur (Hey this way we have smaller bundles)
-				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-					if(mediaQuery && !item[2]) {
-						item[2] = mediaQuery;
-					} else if(mediaQuery) {
-						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-					}
-					list.push(item);
-				}
-			}
-		};
-		return list;
-	};
-
-
-/***/ },
+/* 3 */,
 /* 4 */,
 /* 5 */,
 /* 6 */
@@ -10456,7 +10402,8 @@ webpackJsonp([0],[
 	        }
 	    },
 	    methods: methods,
-	    components: { navigator: navigator }
+	    components: { navigator: navigator },
+	    mounted: function () {}
 	};
 
 /***/ },
@@ -10545,7 +10492,7 @@ webpackJsonp([0],[
 	            }, 2);
 	        },
 	        rBtnClk: function () {
-	            this.onNavigatorRightBtnClick();
+	            this.onNavigatorRightBtnClick.apply(this, []);
 	        }
 	    }
 	};
@@ -10728,12 +10675,12 @@ webpackJsonp([0],[
 
 	var map = {
 		"./attence-analyse.vue": 25,
-		"./attence-search.vue": 30,
+		"./attence-search.vue": 32,
 		"./homepage.vue": 11,
-		"./password-modify.vue": 42,
-		"./repair-report.vue": 47,
+		"./password-modify.vue": 44,
+		"./repair-report.vue": 49,
 		"./vue-navigator.vue": 16,
-		"./vue-pagination.vue": 34
+		"./vue-pagination.vue": 36
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -10762,7 +10709,7 @@ webpackJsonp([0],[
 	__vue_exports__ = __webpack_require__(28)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(29)
+	var __vue_template__ = __webpack_require__(31)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -10822,13 +10769,14 @@ webpackJsonp([0],[
 	//
 	//
 	//
+	//
+	//
 
 	var navigator = __webpack_require__(16);
 	var animationUtil = __webpack_require__(21);
+	var chartConfig = __webpack_require__(29);
 	var methods = {
-	    onNavigatorRightBtnClick: function () {
-	        Router.push('/attence-search');
-	    }
+	    onNavigatorRightBtnClick: function () {}
 	};
 	animationUtil.process(methods);
 	module.exports = {
@@ -10838,13 +10786,281 @@ webpackJsonp([0],[
 	    },
 	    methods: methods,
 	    components: { navigator: navigator },
-	    activate: function () {
-	        console.log('aaa');
+	    mounted: function () {
+	        var that = this;
+	        $.loading();
+	        __webpack_require__.e/* nsure */(1, function () {
+	            var echarts = __webpack_require__(30);
+	            //图1
+	            that.chart1 = echarts.init($('#attence-analyse-chart1')[0]);
+	            $.get('/attence/analyse', { type: 1, action: '001' }, function (ret) {
+	                $.unloading();
+	                if (!ret.success) {
+	                    alert(ret.message);
+	                    return;
+	                }
+	                var results = ret.data,
+	                    data = [],
+	                    legends = [];
+	                for (var i = 0; i < results.length; i++) {
+	                    data.push({ value: results[i].cnt, name: results[i].isout == 1 ? '迟到' : '正常', isout: results[i].isout });
+	                    legends.push(results[i].isout == 1 ? '迟到' : '正常');
+	                }
+	                that.chart1.setOption({
+	                    color: ['#009587', '#FE5621'],
+	                    backgroundColor: chartConfig.BGCOLOR,
+	                    title: {
+	                        text: '迟到比例',
+	                        left: 'center',
+	                        top: 20,
+	                        textStyle: chartConfig.TITLE_STYLE
+	                    },
+	                    legend: {
+	                        orient: 'vertical',
+	                        x: '10',
+	                        y: '10',
+	                        data: legends,
+	                        textStyle: chartConfig.LEGEND_STYLE
+	                    },
+	                    tooltip: {
+	                        trigger: 'item',
+	                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+	                    },
+	                    series: [{
+	                        name: '迟到比例',
+	                        type: 'pie',
+	                        roseType: 'angle',
+	                        radius: '55%',
+	                        center: chartConfig.CHART_CENTER,
+	                        data: data.sort(function (a, b) {
+	                            return a.isout - b.isout;
+	                        }),
+	                        label: {
+	                            normal: {
+	                                textStyle: {
+	                                    color: '#ffffff'
+	                                }
+	                            }
+	                        },
+	                        labelLine: {
+	                            normal: {
+	                                lineStyle: {
+	                                    color: '#ffffff'
+	                                },
+	                                smooth: 0.2,
+	                                length: 10,
+	                                length2: 20
+	                            }
+	                        }
+	                    }]
+	                });
+	            });
+
+	            //图2
+	            that.chart2 = echarts.init($('#attence-analyse-chart2')[0]);
+	            $.get('/attence/analyse', { type: 0, action: '001' }, function (ret) {
+	                $.unloading();
+	                if (!ret.success) {
+	                    alert(ret.message);
+	                    return;
+	                }
+	                var results = ret.data,
+	                    data = [],
+	                    legends = [];
+	                for (var i = 0; i < results.length; i++) {
+	                    data.push({ value: results[i].cnt, name: results[i].isout == 1 ? '早退' : '正常', isout: results[i].isout });
+	                    legends.push(results[i].isout == 1 ? '早退' : '正常');
+	                }
+	                that.chart2.setOption({
+	                    color: ['#3498DB', '#E74C3C'],
+	                    backgroundColor: chartConfig.BGCOLOR,
+	                    title: {
+	                        text: '早退比例',
+	                        left: 'center',
+	                        top: 20,
+	                        textStyle: chartConfig.TITLE_STYLE
+	                    },
+	                    legend: {
+	                        orient: 'vertical',
+	                        x: '10',
+	                        y: '10',
+	                        data: legends,
+	                        textStyle: chartConfig.LEGEND_STYLE
+	                    },
+	                    tooltip: {
+	                        trigger: 'item',
+	                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+	                    },
+	                    series: [{
+	                        name: '早退比例',
+	                        type: 'pie',
+	                        radius: ['25%', '55%'],
+	                        center: chartConfig.CHART_CENTER,
+	                        data: data.sort(function (a, b) {
+	                            return a.isout - b.isout;
+	                        }),
+	                        label: {
+	                            normal: {
+	                                textStyle: {
+	                                    color: '#ffffff'
+	                                }
+	                            }
+	                        },
+	                        labelLine: {
+	                            normal: {
+	                                lineStyle: {
+	                                    color: '#ffffff'
+	                                },
+	                                smooth: 0.2,
+	                                length: 10,
+	                                length2: 20
+	                            }
+	                        }
+	                    }]
+	                });
+	            });
+
+	            //图3
+	            that.chart3 = echarts.init($('#attence-analyse-chart3')[0]);
+	            $.get('/attence/analyse', { action: '002' }, function (ret) {
+	                $.unloading();
+	                if (!ret.success) {
+	                    alert(ret.message);
+	                    return;
+	                }
+	                var results = ret.data,
+	                    dims = [],
+	                    chidaoData = [],
+	                    normal1Data = [],
+	                    zaotuiData = [],
+	                    normal2Data = [];
+	                for (var i = 0; i < results.length; i++) {
+	                    dims.push(results[i].date);
+	                    results[i].type == 1 && results[i].isout == 1 && chidaoData.push(results[i].cnt);
+	                    results[i].type == 1 && results[i].isout == 0 && normal1Data.push(results[i].cnt);
+	                    results[i].type == 0 && results[i].isout == 1 && zaotuiData.push(results[i].cnt);
+	                    results[i].type == 0 && results[i].isout == 0 && normal2Data.push(results[i].cnt);
+	                }
+	                that.chart3.setOption({
+	                    color: ['#3398DB', '#969696'],
+	                    backgroundColor: chartConfig.BGCOLOR,
+	                    title: {
+	                        text: '时间段迟到早退统计分析',
+	                        left: 'center',
+	                        top: 40,
+	                        textStyle: chartConfig.TITLE_STYLE
+	                    },
+	                    tooltip: {
+	                        trigger: 'axis',
+	                        axisPointer: { // 坐标轴指示器，坐标轴触发有效
+	                            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+	                        }
+	                    },
+	                    legend: {
+	                        top: 10,
+	                        x: 10,
+	                        y: 10,
+	                        data: ['迟到', '正常上学', '早退', '正常放学'],
+	                        textStyle: chartConfig.LEGEND_STYLE
+	                    },
+	                    grid: {
+	                        left: '0%',
+	                        right: '8%',
+	                        top: '30%',
+	                        bottom: '3%',
+	                        containLabel: true
+	                    },
+	                    xAxis: [{
+	                        type: 'category',
+	                        data: dims,
+	                        axisTick: {
+	                            alignWithLabel: true
+	                        },
+	                        axisLabel: {
+	                            textStyle: {
+	                                color: "#ffffff"
+
+	                            }
+	                        }
+	                    }],
+	                    yAxis: [{
+	                        type: 'value',
+	                        axisLabel: {
+	                            textStyle: {
+	                                color: "#ffffff"
+
+	                            }
+	                        }
+	                    }],
+	                    series: [{
+	                        name: '迟到',
+	                        type: 'bar',
+	                        data: chidaoData,
+	                        itemStyle: {
+	                            normal: {
+	                                color: '#FE5621'
+	                            }
+	                        }
+	                    }, {
+	                        name: '正常上学',
+	                        type: 'bar',
+	                        data: normal1Data,
+	                        itemStyle: {
+	                            normal: {
+	                                color: '#009587'
+	                            }
+	                        }
+	                    }, {
+	                        name: '早退',
+	                        type: 'bar',
+	                        data: zaotuiData,
+	                        itemStyle: {
+	                            normal: {
+	                                color: '#E74C3C'
+	                            }
+	                        }
+	                    }, {
+	                        name: '正常放学',
+	                        type: 'bar',
+	                        data: normal2Data,
+	                        itemStyle: {
+	                            normal: {
+	                                color: '#3498DB'
+	                            }
+	                        }
+	                    }]
+	                });
+	            });
+	        });
 	    }
 	};
 
 /***/ },
 /* 29 */
+/***/ function(module, exports) {
+
+	/**
+	 * Created by 杨浪 on 2016/9/20.
+	 */
+	module.exports = {
+	    TITLE_STYLE: {
+	        color: '#6F6F6F',
+	        fontWeight:'normal',
+	        fontSize:16
+	    },
+	    LEGEND_STYLE:{
+	        color: '#6F6F6F',
+	        fontWeight:'normal',
+	        fontSize:12
+	    },
+	    COLORS:['#009587','#FE5621'],
+	    BGCOLOR:'TRANSPARENT',
+	    CHART_CENTER:['50%', '60%']
+	};
+
+/***/ },
+/* 30 */,
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -10859,22 +11075,32 @@ webpackJsonp([0],[
 	      "leave": leave
 	    }
 	  }, [_h('div', {
-	    staticClass: "router-view"
+	    staticClass: "router-view",
+	    attrs: {
+	      "id": "attence-analyse"
+	    }
 	  }, [_h('navigator', {
 	    attrs: {
-	      "navigator-title": "学生考勤分析",
-	      "navigator-right-btn": "设置",
-	      "on-navigator-right-btn-click": onNavigatorRightBtnClick
+	      "navigator-title": "学生考勤分析"
 	    }
-	  }), " ", _h('div', [_h('router-link', {
-	    attrs: {
-	      "to": "/attence-search"
-	    }
-	  }, [_m(0)])])])])
+	  }), " ", _m(0)])])
 	}},staticRenderFns: [function (){with(this) {
-	  return _h('li', {
-	    staticClass: "menu-list-item fa fa-paw"
-	  }, [_h('span', ["学生考勤查询"])])
+	  return _h('div', [_h('div', {
+	    staticClass: "chart-container",
+	    attrs: {
+	      "id": "attence-analyse-chart1"
+	    }
+	  }), " ", _h('div', {
+	    staticClass: "chart-container",
+	    attrs: {
+	      "id": "attence-analyse-chart2"
+	    }
+	  }), " ", _h('div', {
+	    staticClass: "chart-container",
+	    attrs: {
+	      "id": "attence-analyse-chart3"
+	    }
+	  })])
 	}}]}
 	if (false) {
 	  module.hot.accept()
@@ -10884,19 +11110,19 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 30 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 
 	/* styles */
-	__webpack_require__(31)
+	__webpack_require__(33)
 
 	/* script */
-	__vue_exports__ = __webpack_require__(33)
+	__vue_exports__ = __webpack_require__(35)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(41)
+	var __vue_template__ = __webpack_require__(43)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -10932,14 +11158,14 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 31 */
+/* 33 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 32 */,
-/* 33 */
+/* 34 */,
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//
@@ -10966,13 +11192,11 @@ webpackJsonp([0],[
 	//
 
 	var navigator = __webpack_require__(16);
-	var pagination = __webpack_require__(34);
-	__webpack_require__(40);
+	var pagination = __webpack_require__(36);
+	__webpack_require__(42);
 	var animationUtil = __webpack_require__(21);
 	var methods = {
-	    onNavigatorRightBtnClick: function () {
-	        Router.push('/foo');
-	    },
+	    onNavigatorRightBtnClick: function () {},
 	    paginationCallback: function (cur) {
 	        Events.notify('attence-search-refresh', { page: cur });
 	    }
@@ -10984,18 +11208,22 @@ webpackJsonp([0],[
 	    data: function () {
 	        return {
 	            items: [],
-	            Calendar: Calendar
+	            Calendar: Calendar,
+	            c: 1,
+	            a: 2
 	        };
 	    },
 	    methods: methods,
 	    components: { navigator: navigator, pagination: pagination },
-	    created: function () {
+	    mounted: function () {
 	        var that = this;
 	        Events.subscribe('attence-search-refresh', function (param) {
 	            var _p = $.extend({}, { page: 1, rows: 10 }, param);
 	            $.loading();
 	            $.get('/attence/search', _p, function (data) {
 	                that.items = data.data.rows;
+	                that.c = _p.page;
+	                that.a = Math.ceil(data.data.total / 10);
 	                $.unloading();
 	            });
 	        }).notify('attence-search-refresh');
@@ -11006,19 +11234,19 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 34 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 
 	/* styles */
-	__webpack_require__(35)
+	__webpack_require__(37)
 
 	/* script */
-	__vue_exports__ = __webpack_require__(38)
+	__vue_exports__ = __webpack_require__(40)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(39)
+	var __vue_template__ = __webpack_require__(41)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -11053,16 +11281,16 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 35 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(36);
+	var content = __webpack_require__(38);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(37)(content, {});
+	var update = __webpack_require__(39)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -11079,7 +11307,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 36 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -11093,7 +11321,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 37 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -11315,7 +11543,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 38 */
+/* 40 */
 /***/ function(module, exports) {
 
 	//
@@ -11336,34 +11564,31 @@ webpackJsonp([0],[
 	        all: { type: Number, default: '1' },
 	        onPaginationCallback: { type: Function, default: function () {} }
 	    },
-	    data() {
-	        return {
-	            c: this.cur,
-	            a: this.all
-	        };
+	    data: function () {
+	        return {};
 	    },
 	    computed: {
 	        isFirst: function () {
-	            return this.c == 1;
+	            return this.cur == 1;
 	        },
 	        isLast: function () {
-	            return this.c == this.a;
+	            return this.cur == this.all;
 	        }
 	    },
 	    methods: {
-	        prevPage() {
-	            if (this.c == 1) return;
-	            this.onPaginationCallback(--this.c);
+	        prevPage: function () {
+	            if (this.cur == 1) return;
+	            this.onPaginationCallback(this.cur - 1);
 	        },
-	        nextPage() {
-	            if (this.c == this.a) return;
-	            this.onPaginationCallback(++this.c);
+	        nextPage: function () {
+	            if (this.cur == this.all) return;
+	            this.onPaginationCallback(this.cur + 1);
 	        }
 	    }
 	};
 
 /***/ },
-/* 39 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -11383,7 +11608,7 @@ webpackJsonp([0],[
 	    on: {
 	      "click": nextPage
 	    }
-	  }, ["下一页"])]), " ", _h('li', ["第" + _s(c) + "页"]), " ", _h('li', ["共" + _s(a) + "页"])])])
+	  }, ["下一页"])]), " ", _h('li', ["第" + _s(cur) + "页"]), " ", _h('li', ["共" + _s(all) + "页"])])])
 	}},staticRenderFns: []}
 	if (false) {
 	  module.hot.accept()
@@ -11393,8 +11618,8 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 40 */,
-/* 41 */
+/* 42 */,
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -11422,8 +11647,8 @@ webpackJsonp([0],[
 	    return _h('li', [_h('p', ["学生rfid：" + _s(item.rfid)]), " ", _h('p', ["学生姓名：" + _s(item.stu_name)]), " ", _h('p', ["考勤类型：" + _s(item.type == 1 ? '进校' : '出校')]), " ", _h('p', ["考勤时间：" + _s(Calendar.getInstance(item.create_time).format('yyyy年MM月dd日 HH时mm分ss秒'))])])
 	  })]), " ", _h('pagination', {
 	    attrs: {
-	      "cur": 1,
-	      "all": 100,
+	      "cur": c,
+	      "all": a,
 	      "on-pagination-callback": paginationCallback
 	    }
 	  })])])])
@@ -11436,19 +11661,19 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 42 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 
 	/* styles */
-	__webpack_require__(43)
+	__webpack_require__(45)
 
 	/* script */
-	__vue_exports__ = __webpack_require__(45)
+	__vue_exports__ = __webpack_require__(47)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(46)
+	var __vue_template__ = __webpack_require__(48)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -11484,16 +11709,24 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 43 */
+/* 45 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 44 */,
-/* 45 */
+/* 46 */,
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -11511,26 +11744,54 @@ webpackJsonp([0],[
 
 	var navigator = __webpack_require__(16);
 	var animationUtil = __webpack_require__(21);
+
 	var methods = {
 	    onNavigatorRightBtnClick: function () {
-	        Router.push('/attence-search');
+	        var that = this;
+	        var dom = $('#password-modify-container');
+	        var oldPassword = $('#oldpassword', dom).val();
+	        var newPassword = $('#newpassword', dom).val();
+	        var rePassword = $('#repassword', dom).val();
+	        if ($.trim(oldPassword) === '') {
+	            alert("请输入原始密码!");
+	            return;
+	        }
+	        if ($.trim(newPassword) === '') {
+	            alert("请输入新密码!");
+	            return;
+	        }
+	        if ($.trim(rePassword) !== $.trim(newPassword)) {
+	            alert("确认密码与新密码不一致!");
+	            return;
+	        }
+	        $.post('/user/passwordmodify', {
+	            oldPassword: oldPassword,
+	            newPassword: newPassword
+	        }, function (data) {
+	            if (data.success) {
+	                alert('修改成功');
+	                that.$router.back();
+	            } else {
+	                alert(data.message);
+	            }
+	        });
 	    }
 	};
 	animationUtil.process(methods);
 	module.exports = {
-	    module: '/attence-analyse',
+	    module: '/password-modify',
 	    data: function () {
-	        return {};
+	        return { WINHEIGHT: window.HEIGHT };
 	    },
 	    methods: methods,
 	    components: { navigator: navigator },
-	    activate: function () {
-	        console.log('aaa');
+	    mounted: function () {
+	        this.WINHEIGHT = window.HEIGHT;
 	    }
 	};
 
 /***/ },
-/* 46 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -11545,22 +11806,54 @@ webpackJsonp([0],[
 	      "leave": leave
 	    }
 	  }, [_h('div', {
-	    staticClass: "router-view"
+	    staticClass: "router-view",
+	    style: ('height:' + WINHEIGHT + 'px'),
+	    attrs: {
+	      "id": "password-modify-container"
+	    }
 	  }, [_h('navigator', {
 	    attrs: {
-	      "navigator-title": "学生考勤分析",
-	      "navigator-right-btn": "设置",
+	      "navigator-title": "修改密码",
+	      "navigator-right-btn": "保存",
 	      "on-navigator-right-btn-click": onNavigatorRightBtnClick
 	    }
-	  }), " ", _h('div', [_h('router-link', {
-	    attrs: {
-	      "to": "/attence-search"
-	    }
-	  }, [_m(0)])])])])
+	  }), " ", _m(0)])])
 	}},staticRenderFns: [function (){with(this) {
-	  return _h('li', {
-	    staticClass: "menu-list-item fa fa-paw"
-	  }, [_h('span', ["学生考勤查询"])])
+	  return _h('div', {
+	    staticClass: "panel-body"
+	  }, [_h('div', {
+	    staticClass: "form-group"
+	  }, [_h('input', {
+	    staticClass: "form-control",
+	    attrs: {
+	      "placeholder": "请输入旧密码",
+	      "name": "oldpassword",
+	      "id": "oldpassword",
+	      "type": "password"
+	    }
+	  })]), " ", _h('div', {
+	    staticClass: "form-group"
+	  }, [_h('input', {
+	    staticClass: "form-control",
+	    attrs: {
+	      "placeholder": "请输入新密码",
+	      "name": "newpassword",
+	      "id": "newpassword",
+	      "type": "password",
+	      "value": ""
+	    }
+	  })]), " ", _h('div', {
+	    staticClass: "form-group"
+	  }, [_h('input', {
+	    staticClass: "form-control",
+	    attrs: {
+	      "placeholder": "请确认密码",
+	      "name": "repassword",
+	      "id": "repassword",
+	      "type": "password",
+	      "value": ""
+	    }
+	  })])])
 	}}]}
 	if (false) {
 	  module.hot.accept()
@@ -11570,19 +11863,19 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 47 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 
 	/* styles */
-	__webpack_require__(48)
+	__webpack_require__(50)
 
 	/* script */
-	__vue_exports__ = __webpack_require__(50)
+	__vue_exports__ = __webpack_require__(53)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(51)
+	var __vue_template__ = __webpack_require__(55)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -11598,7 +11891,6 @@ webpackJsonp([0],[
 	__vue_options__.__file = "D:\\workspace\\SPM\\public\\src\\javascripts\\h5\\vue-components\\repair-report.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-	__vue_options__._scopeId = "data-v-10c6e19e"
 
 	/* hot reload */
 	if (false) {(function () {
@@ -11618,16 +11910,34 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 48 */
+/* 50 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 49 */,
-/* 50 */
+/* 51 */,
+/* 52 */,
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -11645,26 +11955,187 @@ webpackJsonp([0],[
 
 	var navigator = __webpack_require__(16);
 	var animationUtil = __webpack_require__(21);
+	__webpack_require__(54);
 	var methods = {
 	    onNavigatorRightBtnClick: function () {
-	        Router.push('/attence-search');
+	        var that = this;
+	        var title = $('#title').val(),
+	            content = $('#content').val();
+	        if ($.trim(title) == '') {
+	            alert('标题不能为空');
+	            return;
+	        }
+	        if ($.trim(content) == '') {
+	            alert('内容不能为空');
+	            return;
+	        }
+	        $.post('/report/save', {
+	            action: '001',
+	            report_title: $('#title').val(),
+	            report_content: $('#content').val(),
+	            photos: function () {
+	                var arr = [];
+	                $('#imageList img').each(function () {
+	                    arr.push($(this).attr('src'));
+	                });
+	                return arr.join(';');
+	            }()
+	        }, function (data) {
+	            if (!data.success) {
+	                alert(data.message);
+	                return;
+	            } else {
+	                alert('提交成功');
+	                that.$router.back();
+	            }
+	        });
 	    }
 	};
 	animationUtil.process(methods);
 	module.exports = {
-	    module: '/attence-analyse',
+	    module: '/repair-report',
 	    data: function () {
-	        return {};
+	        return { WINHEIGHT: window.HEIGHT };
 	    },
 	    methods: methods,
 	    components: { navigator: navigator },
-	    activate: function () {
-	        console.log('aaa');
+	    mounted: function () {
+	        this.WINHEIGHT = window.HEIGHT;
+	        $('#content').artEditor({
+	            imgTar: '#imageUpload',
+	            limitSize: 5, // 兆
+	            showServer: true,
+	            uploadUrl: '/file/upload',
+	            data: {},
+	            uploadField: 'upfile',
+	            placeholader: '<p>请输入文章正文内容</p>',
+	            validHtml: ["<br/>"],
+	            formInputId: 'target',
+	            uploadSuccess: function (res) {
+	                return 'file/' + res.url;
+	            },
+	            uploadError: function (res) {
+	                console.log(res);
+	            }
+	        });
+	        $('#imageList').on('click', '.close', function () {
+	            var $img = $(this).next();
+	            $.post('/file/remove/', { filename: $img.attr('src') }, function (data) {
+	                $img.parent().remove();
+	            });
+	        });
 	    }
+
 	};
 
 /***/ },
-/* 51 */
+/* 54 */
+/***/ function(module, exports) {
+
+	/**
+	 * 移动端富文本编辑器
+	 * @author ganzw@gmail.com
+	 * @url    https://github.com/baixuexiyang/artEditor
+	 */
+	$.fn.extend({
+		_opt: {
+			placeholader: '<p>请输入文章正文内容</p>',
+			validHtml: [],
+			limitSize: 3,
+			showServer: false
+		},
+		artEditor: function(options) {
+			var _this = this,
+				styles = {
+					"-webkit-user-select": "text",
+					"user-select": "text",
+					"overflow-y": "auto",
+					"text-break": "brak-all",
+					"outline": "none",
+					"cursor": "text"
+				};
+			$(this).css(styles).attr("contenteditable", true);
+			_this._opt = $.extend(_this._opt, options);
+			try{
+				$(_this._opt.imgTar).on('change', function(e) {
+					if(_this._opt.showServer) {
+						_this.upload();
+					}else {
+						var file  = e.target.files[0];
+						e.target.value = '';
+						if(Math.ceil(file.size/1024/1024) > _this._opt.limitSize) {
+							console.error('文件太大');
+							return;
+						}
+						var reader = new FileReader();
+						reader.readAsDataURL(file);
+						reader.onload = function (f) {
+							var img = '<img src="'+ f.target.result +'" style="width:90%;" />';
+							_this.insertImage(img);
+						};
+					}
+				});
+				_this.placeholderHandler();
+				_this.pasteHandler();
+			} catch(e) {
+				console.log(e);
+			}
+			if(_this._opt.formInputId && $('#'+_this._opt.formInputId)[0]) {
+				$(_this).on('input', function() {
+					$('#'+_this._opt.formInputId).val(_this.getValue());
+				});
+			}
+		},
+		upload: function(data) {
+			var _this = this;
+			$('<iframe name="up"  style="display: none"></iframe>').insertBefore($(_this._opt.imgTar)).on('load', function(){
+				var r = this.contentWindow.document.body.innerHTML;
+				if(r == '')return;
+				var res = JSON.parse(r);
+				var src = _this._opt.uploadSuccess(res);
+				if(src) {
+					var img = '<img src="'+ src +'"/>';
+					_this.insertImage(img);
+				} else {
+					_this._opt.uploadError(res);
+				}
+				$(_this._opt.imgTar).val('');
+			});
+			$('#edui-form')[0].submit();
+		},
+		insertImage: function(src) {
+			var $li = $('<li><i class="fa fa-times-circle-o close"></i></li>').append(src);
+		    $('#imageList').append($li);
+		},
+		pasteHandler: function() {
+			var _this = this;
+			$(this).on("paste", function(e) {
+				console.log(e.clipboardData.items);
+				var content = $(this).html();
+				console.log(content);
+				valiHTML = _this._opt.validHtml;
+				content = content.replace(/_moz_dirty=""/gi, "").replace(/\[/g, "[[-").replace(/\]/g, "-]]").replace(/<\/ ?tr[^>]*>/gi, "[br]").replace(/<\/ ?td[^>]*>/gi, "&nbsp;&nbsp;").replace(/<(ul|dl|ol)[^>]*>/gi, "[br]").replace(/<(li|dd)[^>]*>/gi, "[br]").replace(/<p [^>]*>/gi, "[br]").replace(new RegExp("<(/?(?:" + valiHTML.join("|") + ")[^>]*)>", "gi"), "[$1]").replace(new RegExp('<span([^>]*class="?at"?[^>]*)>', "gi"), "[span$1]").replace(/<[^>]*>/g, "").replace(/\[\[\-/g, "[").replace(/\-\]\]/g, "]").replace(new RegExp("\\[(/?(?:" + valiHTML.join("|") + "|img|span)[^\\]]*)\\]", "gi"), "<$1>");
+				if (!/firefox/.test(navigator.userAgent.toLowerCase())) {
+				    content = content.replace(/\r?\n/gi, "<br>");
+				}
+				$(this).html(content);
+			});
+		},
+		placeholderHandler: function() {
+			var _this = this;
+
+		},
+		getValue: function() {
+			return $(this).html();
+		},
+		setValue: function(str) {
+			$(this).html(str);
+		}
+	});
+
+
+/***/ },
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -11679,22 +12150,81 @@ webpackJsonp([0],[
 	      "leave": leave
 	    }
 	  }, [_h('div', {
-	    staticClass: "router-view"
+	    staticClass: "router-view",
+	    style: ('height:' + WINHEIGHT + 'px'),
+	    attrs: {
+	      "id": "repair-view-container"
+	    }
 	  }, [_h('navigator', {
 	    attrs: {
-	      "navigator-title": "学生考勤分析",
-	      "navigator-right-btn": "设置",
+	      "navigator-title": "上报修理",
+	      "navigator-right-btn": "提交",
 	      "on-navigator-right-btn-click": onNavigatorRightBtnClick
 	    }
-	  }), " ", _h('div', [_h('router-link', {
-	    attrs: {
-	      "to": "/attence-search"
-	    }
-	  }, [_m(0)])])])])
+	  }), " ", _m(0), " ", _m(1)])])
 	}},staticRenderFns: [function (){with(this) {
-	  return _h('li', {
-	    staticClass: "menu-list-item fa fa-paw"
-	  }, [_h('span', ["学生考勤查询"])])
+	  return _h('div', {
+	    staticClass: "publish-article-title"
+	  }, [_h('div', {
+	    staticClass: "title-tips"
+	  }, ["标题"]), " ", _h('input', {
+	    staticClass: "w100",
+	    attrs: {
+	      "type": "text",
+	      "id": "title",
+	      "placeholder": "上报标题"
+	    }
+	  })])
+	}},function (){with(this) {
+	  return _h('div', {
+	    staticClass: "publish-article-content"
+	  }, [_h('div', {
+	    staticClass: "title-tips"
+	  }, ["正文"]), " ", _h('input', {
+	    attrs: {
+	      "type": "hidden",
+	      "id": "target"
+	    }
+	  }), " ", _h('div', {
+	    staticClass: "article-content"
+	  }, [_h('textarea', {
+	    attrs: {
+	      "id": "content",
+	      "style": "width:100%;height: 100%;border:0",
+	      "placeholder": "请输入正文内容"
+	    }
+	  })]), " ", _h('ul', {
+	    attrs: {
+	      "id": "imageList"
+	    }
+	  }), " ", _h('div', {
+	    staticClass: "footer-btn g-image-upload-box"
+	  }, [_h('form', {
+	    staticClass: "edui-image-form",
+	    attrs: {
+	      "id": "edui-form",
+	      "method": "post",
+	      "action": "/file/upload",
+	      "enctype": "multipart/form-data",
+	      "target": "up"
+	    }
+	  }, [_h('div', {
+	    staticClass: "upload-button"
+	  }, [_h('span', {
+	    staticClass: "upload"
+	  }, [_h('i', {
+	    staticClass: "upload-img"
+	  }), "插入图片"]), " ", _h('input', {
+	    staticClass: "input-file",
+	    attrs: {
+	      "id": "imageUpload",
+	      "type": "file",
+	      "name": "upfile",
+	      "capture": "camera",
+	      "accept": "image/gif,image/jpeg,image/png,image/jpg,image/bmp",
+	      "style": "position:absolute;left:0;opacity:0;width:100%;"
+	    }
+	  })])])])])
 	}}]}
 	if (false) {
 	  module.hot.accept()
@@ -11704,11 +12234,11 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 52 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function(window){
-	    __webpack_require__(53);
+	    __webpack_require__(57);
 	    var tmp = '<div class="loading-wrap"><div class="loading-preloader">' +
 	        '        <span></span>' +
 	        '        <span></span>' +
@@ -11736,7 +12266,7 @@ webpackJsonp([0],[
 	})(window);
 
 /***/ },
-/* 53 */
+/* 57 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin

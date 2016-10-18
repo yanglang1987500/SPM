@@ -3,10 +3,18 @@
                 v-on:enter="enter"
                 v-on:leave="leave"
                 v-bind:css="false">
-    <div class="router-view"  >
-        <navigator navigator-title="学生考勤分析" navigator-right-btn="设置" :on-navigator-right-btn-click="onNavigatorRightBtnClick"></navigator>
-        <div>
-            <router-link to="/attence-search"><li class="menu-list-item fa fa-paw" ><span>学生考勤查询</span></li></router-link>
+    <div class="router-view" id="password-modify-container"  :style="'height:'+WINHEIGHT+'px'">
+        <navigator navigator-title="修改密码" navigator-right-btn="保存" :on-navigator-right-btn-click="onNavigatorRightBtnClick"></navigator>
+        <div class="panel-body">
+            <div class="form-group">
+                <input class="form-control" placeholder="请输入旧密码" name="oldpassword" id="oldpassword" type="password" >
+            </div>
+            <div class="form-group">
+                <input class="form-control" placeholder="请输入新密码" name="newpassword" id="newpassword" type="password" value="">
+            </div>
+            <div class="form-group">
+                <input class="form-control" placeholder="请确认密码" name="repassword" id="repassword" type="password" value="">
+            </div>
         </div>
     </div>
     </transition>
@@ -15,27 +23,94 @@
 <script>
     var navigator = require('./vue-navigator.vue');
     var animationUtil = require('../utils/animationUtil');
+
+
     var methods = {
         onNavigatorRightBtnClick:function(){
-            Router.push('/attence-search');
+            var that = this;
+            var dom = $('#password-modify-container');
+            var oldPassword = $('#oldpassword',dom).val();
+            var newPassword = $('#newpassword',dom).val();
+            var rePassword = $('#repassword',dom).val();
+            if($.trim(oldPassword) === '' ){
+                alert( "请输入原始密码!");
+                return;
+            }
+            if($.trim(newPassword) === '' ){
+                alert("请输入新密码!");
+                return;
+            }
+            if($.trim(rePassword) !== $.trim(newPassword) ){
+                alert("确认密码与新密码不一致!");
+                return;
+            }
+            $.post('/user/passwordmodify',{
+                oldPassword:oldPassword,
+                newPassword:newPassword
+            },function(data){
+                if(data.success){
+                    alert('修改成功');
+                    that.$router.back();
+                }else{
+                    alert(data.message);
+                }
+            });
         }
     };
     animationUtil.process(methods);
     module.exports = {
-        module:'/attence-analyse',
+        module:'/password-modify',
         data:function(){
-            return {
-            }
+            return {WINHEIGHT:window.HEIGHT};
         },
         methods:methods,
         components:{navigator:navigator},
-        activate:function(){
-            console.log('aaa');
+        mounted:function() {
+            this.WINHEIGHT = window.HEIGHT;
         }
     };
 </script>
 
 <style lang="sass" scoped>
-    .router-view{
+    #password-modify-container{
+        .panel-body{
+            padding:.2rem .2rem;
+            border:0;
+        }
+        fieldset{
+            border:0;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            line-height: 1rem;
+            height:1.2rem;
+            overflow: hidden;
+        }
+        .form-control{
+            vertical-align: middle;
+            line-height: 1rem;
+            height:1rem;
+            width: 100%;
+            padding: 3px 10px;
+            font-size: .3rem;
+            font-family: MicroSoft Yahei;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        }
+        .form-control:focus {
+            border-color: #66afe9;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+        }
     }
+
 </style>

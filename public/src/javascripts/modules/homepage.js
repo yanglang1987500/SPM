@@ -54,9 +54,10 @@ HomePage.prototype.loadWidgets = function(){
  */
 HomePage.prototype.finish = function () {
     try{
-        this.widgets.forEach(function(widget){
-            widget.destoryWidgets();
-        });
+        if(this.widgets && this.widgets.length)
+            this.widgets.forEach(function(widget){
+                widget.destoryWidgets();
+            });
         frameworkBase.finish.apply(this,arguments);
     }catch(e){
         console.log(e);

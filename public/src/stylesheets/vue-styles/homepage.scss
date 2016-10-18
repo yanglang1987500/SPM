@@ -6,16 +6,17 @@
     padding-bottom:.17rem;
     list-style: none;
     overflow: hidden;
+    font-size: 0;
     a{
         color:#fff !important;
         text-decoration: none;
+        display: inline-block;
     }
     .menu-list-item{
         margin-left: .17rem;
         margin-top:.17rem;
         width:3.5rem;
         height:3.5rem;
-        float:left;
         position: relative;
         background-color: rgba(255, 245, 238, 0.59);
         color:#be7d4c;

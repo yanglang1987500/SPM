@@ -310,6 +310,7 @@ Framework.prototype = {
                 $def.resolve(_fragmentCache[url]);
             });
         }else{
+            url += (/\?/g.test(url)?'&':'?')+(new Date().getTime());
             $.get(url,function(data){
                 if(!_fragmentCache[url])
                     _fragmentCache[url] = data;
@@ -416,6 +417,7 @@ Framework.prototype = {
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             async: async,
             data: param,
+            cache:false,
             success: function (json) {
                 if (callback)
                     callback(json);
@@ -444,6 +446,7 @@ Framework.prototype = {
             dataType: 'json',
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             async: async,
+            cache:false,
             data: param,
             success: function (json) {
                 if (callback)
@@ -509,7 +512,9 @@ Framework.prototype = {
                 break;
         }
         Events.notifyWith('onRendered',that, that.dom);
-        Events.notify('onWindowResize');
+        setTimeout(function(){
+            Events.notify('onWindowResize');
+        },100);
         var $input = $('input[autofocus]',that.dom);
         $input.length>0&&$input[0].focus();
         return that.dom;

@@ -57,6 +57,7 @@ MessagePublishList.prototype.initTable = function () {
         url: '/publish/search',
         method: 'get',
         columns: [columns],
+        cache:false,
         pagination: true,
         pageSize: 20,
         ctrlSelect: true,
@@ -132,7 +133,7 @@ MessagePublishList.prototype.bindEvents = function () {
     //添加信息
     $('#add_message_btn',this.dom).click(function(){
         Events.require('message-publish').addCallback(function(){
-            that.init();
+            Events.notify('onRefresh:message-publish-list');
         }).init({showType:'Pop'});
     });
     //修改信息
@@ -141,7 +142,7 @@ MessagePublishList.prototype.bindEvents = function () {
         if(!(rowData = getSelectRow()))
             return;
         Events.require('message-publish').addCallback(function(){
-            that.init();
+            Events.notify('onRefresh:message-publish-list');
         }).init({showType:'Pop',action:'002',publish_id:rowData.publish_id});
     });
     //删除信息
@@ -271,7 +272,8 @@ var messagePublishList = new MessagePublishList();
 Events.subscribe('onWindowResize',function(){
     if(!messagePublishList.dom)
         return;
-    $('.tablecontainer',messagePublishList.dom).height(messagePublishList.dom.height()-55);
+    $('.tablecontainer',messagePublishList.dom).height(messagePublishList.dom.height()-15-$('.condition-wrap',messagePublishList.dom).height());
+    messagePublishList.$table.datagrid('resize');
 });
 
 module.exports = messagePublishList;

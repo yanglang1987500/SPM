@@ -15,7 +15,8 @@ module.exports = {
     output: {
         path:  __dirname+'/public/dist/modules/',
         filename: '[name].js',
-        publicPath: './'
+        chunkFilename: 'chunk/[chunkhash:8].chunk.min.js',
+        publicPath: '/dist/modules/'
     },
     module: {
         //加载器配置
@@ -26,7 +27,8 @@ module.exports = {
             { test: /\.vue?$/, exclude:/mode_modules|libs\/[\w]+\.js/,loaders: ['vue']},
             { test: /\.scss$/, loader: ExtractTextPlugin.extract("style-loader", "css!sass?sourceMap")},
             { test: /\.(png|jpg|gif)$/, loader: 'url-loader?limit=1024'},
-            { test: /\.html$/, loader: 'html'}
+            { test: /\.html$/, loader: 'html'},
+            { test: /vux.src.*?js$/, loader: 'babel'}
         ],
         noParse:[/jquery.ztree.all.min/,/libs\/.*\.js/,/libs\/.*\/.*\.js/]
     },
@@ -42,7 +44,8 @@ module.exports = {
         alias: {
             'jquery':'./libs/echarts.min.js',
             'echarts':'./libs/echarts.min.js',
-            'vue$': 'vue/dist/vue.js'
+            'vue$': 'vue/dist/vue.js',
+            'vux-components': 'vux/src/components'
         }
     },
     externals:{

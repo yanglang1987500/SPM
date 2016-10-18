@@ -3,7 +3,7 @@
  */
 var Calendar = require('../libs/calendar');
 var mySqlPool = require('../database/mysqlpool');
-var guid = require('guid');
+var utils = require('../libs/utils');
 
 module.exports = {
     /**

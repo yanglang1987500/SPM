@@ -3,8 +3,8 @@
     <ul>
     <li><a v-bind:class="{'disable':(isFirst)}" v-on:click="prevPage">上一页</a></li>
     <li><a v-bind:class="{'disable':(isLast)}" v-on:click="nextPage">下一页</a></li>
-    <li>第{{c}}页</li>
-    <li>共{{a}}页</li>
+    <li>第{{cur}}页</li>
+    <li>共{{all}}页</li>
     </ul>
   </div>
 </template>
@@ -16,30 +16,28 @@ module.exports = {
         all:{type:Number,default:'1'},
         onPaginationCallback:{type:Function,default:function(){}}
     },
-    data(){
+    data:function(){
       return {
-          c:this.cur,
-          a:this.all
       }
     },
     computed:{
         isFirst:function(){
-            return this.c == 1;
+            return this.cur == 1;
          },
         isLast:function(){
-            return this.c == this.a;
+            return this.cur == this.all;
         }
     },
     methods: {
-        prevPage(){
-            if(this.c == 1)
+        prevPage:function(){
+            if(this.cur == 1)
                 return;
-            this.onPaginationCallback(--this.c);
+            this.onPaginationCallback(this.cur-1);
         },
-        nextPage(){
-            if(this.c == this.a)
+        nextPage:function(){
+            if(this.cur == this.all)
                 return;
-            this.onPaginationCallback(++this.c);
+            this.onPaginationCallback(this.cur+1);
         }
     }
 }

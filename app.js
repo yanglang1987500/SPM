@@ -69,7 +69,7 @@ app.use(function(req, res, next) {
 app.get('*', function(req,res,next){
 
   var url = req.originalUrl;
-  if(/^\/views\/(modules\/.*)\.html$/.test(url)){
+  if(/^\/views\/(modules\/[^?]*)\.html\?.*$/.test(url)){
     res.render(RegExp.$1);
   }else{
     next();

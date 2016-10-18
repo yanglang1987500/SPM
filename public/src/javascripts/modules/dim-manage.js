@@ -45,6 +45,7 @@ DimManage.prototype.initTable = function () {
         url: '/dim/list',
         method: 'get',
         columns: [columns],
+        cache:false,
         pagination: false,
         pageSize: 20,
         ctrlSelect: true,
@@ -149,7 +150,8 @@ var dimManage = new DimManage();
 Events.subscribe('onWindowResize',function(){
     if(!dimManage.dom)
         return;
-    $('.tablecontainer',dimManage.dom).height(dimManage.dom.height()-55);
+    $('.tablecontainer',dimManage.dom).height(dimManage.dom.height()-15-$('.condition-wrap',dimManage.dom).height());
+    dimManage.$table.datagrid('resize');
 });
 
 module.exports = dimManage;

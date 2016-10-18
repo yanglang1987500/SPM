@@ -49,6 +49,7 @@ OrgManage.prototype.initTable = function () {
         url: '/org/orguser',
         method: 'get',
         columns: [columns],
+        cache:false,
         pagination: true,
         pageSize: 20,
         ctrlSelect: true,
@@ -365,7 +366,8 @@ var orgManage = new OrgManage();
 Events.subscribe('onWindowResize',function(){
     if(!orgManage.dom)
         return;
-    $('.tablecontainer',orgManage.dom).height(orgManage.dom.height()-55);
+    $('.tablecontainer',orgManage.dom).height(orgManage.dom.height()-15-$('.condition-wrap',orgManage.dom).height());
+    orgManage.$table.datagrid('resize');
 });
 
 module.exports = orgManage;

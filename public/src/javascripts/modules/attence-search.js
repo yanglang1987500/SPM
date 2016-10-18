@@ -32,11 +32,12 @@ AttenceSearch.prototype.loadBaseView = function () {
     this.loadFragment('/views/modules/attence-search.html').then(function(html){
         that.render(html);
         var columns = require('../../../../configs/modules/attence-search-Column.js');
-        var $table = $('#dataTable',that.dom).datagrid({
+        var $table = that.$table = $('#dataTable',that.dom).datagrid({
             url: '/attence/search',
             method: 'get',
             columns: [columns],
             pagination: true,
+            cache:false,
             pageSize: 20,
             ctrlSelect: true,
             checkOnSelect: true,
@@ -107,7 +108,8 @@ var attenceSearch = new AttenceSearch();
 Events.subscribe('onWindowResize',function(){
     if(!attenceSearch.dom)
         return;
-    $('.tablecontainer',attenceSearch.dom).height(attenceSearch.dom.height()-55);
+    $('.tablecontainer',attenceSearch.dom).height(attenceSearch.dom.height()-15-$('.condition-wrap',attenceSearch.dom).height());
+    attenceSearch.$table.datagrid('resize');
 });
 
 module.exports = attenceSearch;

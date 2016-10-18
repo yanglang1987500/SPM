@@ -25,7 +25,7 @@
                 },2);
             },
             rBtnClk:function(){
-                this.onNavigatorRightBtnClick();
+                this.onNavigatorRightBtnClick.apply(this,[]);
             }
         }
     };
@@ -34,6 +34,7 @@
 <style lang="sass" scoped>
     nav.navigator{
         position: fixed;
+        z-index: 999;
         font-size: .35rem;
         line-height: 1rem;
         width:100%;

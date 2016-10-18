@@ -56,7 +56,7 @@ router.post('/report/save', function (req, res, next) {
             var report_title = req.body.report_title,
                 report_content = req.body.report_content,
                 photos = req.body.photos,
-                userCode = '001';
+                userCode = req.session.userInfo.usercode;
             reportDao.addReport({
                 report_title:report_title,
                 report_content:report_content,

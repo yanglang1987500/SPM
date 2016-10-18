@@ -48,6 +48,7 @@ ElementManage.prototype.initTable = function () {
         url: '/element/list',
         method: 'get',
         columns: [columns],
+        cache:false,
         pagination: false,
         pageSize: 20,
         ctrlSelect: true,
@@ -200,7 +201,8 @@ var elementManage = new ElementManage();
 Events.subscribe('onWindowResize',function(){
     if(!elementManage.dom)
         return;
-    $('.tablecontainer',elementManage.dom).height(elementManage.dom.height()-55);
+    $('.tablecontainer',elementManage.dom).height(elementManage.dom.height()-15-$('.condition-wrap',elementManage.dom).height());
+    elementManage.$table.datagrid('resize');
 });
 
 module.exports = elementManage;

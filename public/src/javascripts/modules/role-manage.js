@@ -46,6 +46,7 @@ RoleManage.prototype.initTable = function () {
         url: '/role/list',
         method: 'get',
         columns: [columns],
+        cache:false,
         pagination: false,
         pageSize: 20,
         ctrlSelect: true,
@@ -175,7 +176,8 @@ var roleManage = new RoleManage();
 Events.subscribe('onWindowResize',function(){
     if(!roleManage.dom)
         return;
-    $('.tablecontainer',roleManage.dom).height(roleManage.dom.height()-55);
+    $('.tablecontainer',roleManage.dom).height(roleManage.dom.height()-15-$('.condition-wrap',roleManage.dom).height());
+    roleManage.$table.datagrid('resize');
 });
 
 module.exports = roleManage;

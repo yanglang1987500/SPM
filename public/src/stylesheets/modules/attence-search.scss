@@ -2,46 +2,22 @@
 #attence-search{
     height:100%;
     .tablecontainer{
-        height:700px;
     }
 
     .datagrid-btable{
         font-family:Verdana, Arial, Helvetica, AppleGothic, sans-serif;
     }
 
-    .nav{
-        height:70px;
-        background-color: #9AA7AF;
-        position: relative;
-    }
-    .nav h2{
-        font-size: 22px;
-        color: #FCFCFC;
-        line-height: 70px;
-        margin: 0 20px;
-        font-weight: normal;
-    }
-    .nav .logout{
-        position: absolute;
-        right: 50px;
-        bottom: 25px;
-        color: #FCFCFC;
-    }
-
-    .nav .logout>.link{
-        color: #D3D4DB;
-        cursor: pointer;
-    }
     #exportFrame{
         display: none;
     }
+}
 
-    .icon-in{
-        background-image: url("../images/in.png");
-        background-repeat: no-repeat;
-    }
-    .icon-out{
-        background-image: url("../images/out.png");
-        background-repeat: no-repeat;
-    }
+.icon-in{
+    background-image: url("../images/in.png");
+    background-repeat: no-repeat;
+}
+.icon-out{
+    background-image: url("../images/out.png");
+    background-repeat: no-repeat;
 }

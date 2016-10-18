@@ -38,7 +38,9 @@
             }
         },
         methods:methods,
-        components:{navigator:navigator}
+        components:{navigator:navigator},
+        mounted:function(){
+        }
     };
 </script>
 

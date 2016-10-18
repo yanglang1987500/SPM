@@ -45,6 +45,7 @@ MenuManage.prototype.initTable = function () {
         url: '/menu/list',
         method: 'get',
         columns: [columns],
+        cache:false,
         pagination: false,
         pageSize: 20,
         ctrlSelect: true,
@@ -151,7 +152,8 @@ var menuManage = new MenuManage();
 Events.subscribe('onWindowResize',function(){
     if(!menuManage.dom)
         return;
-    $('.tablecontainer',menuManage.dom).height(menuManage.dom.height()-55);
+    $('.tablecontainer',menuManage.dom).height(menuManage.dom.height()-15-$('.condition-wrap',menuManage.dom).height());
+    menuManage.$table.datagrid('resize');
 });
 
 module.exports = menuManage;
