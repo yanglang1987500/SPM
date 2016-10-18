@@ -21,7 +21,7 @@
 </template>
 
 <script>
-    var navigator = require('./vue-navigator.vue');
+    import navigator from './vue-navigator.vue';
     var animationUtil = require('../utils/animationUtil');
 
 

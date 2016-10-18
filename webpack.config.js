@@ -24,7 +24,7 @@ module.exports = {
             { test: /\.css$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader") },
             { test: /\.json$/, exclude: /node_modules/, loader: 'json' },
             { test: /\.jsx?$/, exclude:/mode_modules|libs\/[\w]+\.js/,loaders: ['jsx?harmony']},
-            { test: /\.vue?$/, exclude:/mode_modules|libs\/[\w]+\.js/,loaders: ['vue']},
+            { test: /\.vue?$/, exclude:/mode_modules|libs\/[\w]+\.js/,loaders: ['babel','vue']},
             { test: /\.scss$/, loader: ExtractTextPlugin.extract("style-loader", "css!sass?sourceMap")},
             { test: /\.(png|jpg|gif)$/, loader: 'url-loader?limit=1024'},
             { test: /\.html$/, loader: 'html'},
@@ -36,6 +36,10 @@ module.exports = {
         loaders:{
             sass:ExtractTextPlugin.extract('vue-style-loader', 'css-loader!sass-loader')
         }
+    },
+    babel: {
+        presets: ['es2015'],
+        plugins: ['transform-runtime']
     },
     //其它解决方案配置
     resolve: {
