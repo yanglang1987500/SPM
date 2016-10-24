@@ -12,7 +12,7 @@ UserAddModify.prototype.id = 'user-add-modify';
 var ACTIONS = {
     '001':{title:'添加用户',height:200},
     '002':{title:'编辑用户',height:150},
-    '003':{title:'修改密码',height:240}
+    '003':{title:'修改密码',height:200}
 };
 /**
  * 模块初始化入口<br>

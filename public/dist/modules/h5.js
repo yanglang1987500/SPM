@@ -13,7 +13,7 @@ webpackJsonp([0],[
 	Vue.use(VueRouter);
 	var Events = __webpack_require__(9);
 	var loader = __webpack_require__(10);
-	__webpack_require__(128);
+	__webpack_require__(136);
 	/**
 	 * 加载路由配置
 	 */
@@ -46,7 +46,62 @@ webpackJsonp([0],[
 
 /***/ },
 /* 2 */,
-/* 3 */,
+/* 3 */
+/***/ function(module, exports) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	// css base code, injected by the css-loader
+	module.exports = function() {
+		var list = [];
+
+		// return the list of modules as css string
+		list.toString = function toString() {
+			var result = [];
+			for(var i = 0; i < this.length; i++) {
+				var item = this[i];
+				if(item[2]) {
+					result.push("@media " + item[2] + "{" + item[1] + "}");
+				} else {
+					result.push(item[1]);
+				}
+			}
+			return result.join("");
+		};
+
+		// import a list of modules into the list
+		list.i = function(modules, mediaQuery) {
+			if(typeof modules === "string")
+				modules = [[null, modules, ""]];
+			var alreadyImportedModules = {};
+			for(var i = 0; i < this.length; i++) {
+				var id = this[i][0];
+				if(typeof id === "number")
+					alreadyImportedModules[id] = true;
+			}
+			for(i = 0; i < modules.length; i++) {
+				var item = modules[i];
+				// skip already imported module
+				// this implementation is not 100% perfect for weird media query combinations
+				//  when a module is imported multiple times with different media queries.
+				//  I hope this will never occur (Hey this way we have smaller bundles)
+				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+					if(mediaQuery && !item[2]) {
+						item[2] = mediaQuery;
+					} else if(mediaQuery) {
+						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+					}
+					list.push(item);
+				}
+			}
+		};
+		return list;
+	};
+
+
+/***/ },
 /* 4 */,
 /* 5 */,
 /* 6 */
@@ -11896,7 +11951,7 @@ webpackJsonp([0],[
 
 	/**
 	 * Created by 杨浪 on 2016/10/14.
-	 * 目前路由动画只支持三级后退
+	 * 目前路由动画只支持浏览器原生后退三级 更多级目前不支持
 	 */
 
 	var Velocity = __webpack_require__(94);
@@ -11907,7 +11962,6 @@ webpackJsonp([0],[
 	var count = 1, prePath = '',currentPath = '';
 	var fns = {
 	    beforeEnter:function(el){
-	        console.log(prePath);
 	        if(prePath == this.$route.matched[0].path){
 	            isReturn = true;
 	            setTimeout(function(){
@@ -12036,12 +12090,13 @@ webpackJsonp([0],[
 
 	var map = {
 		"./attence-analyse.vue": 97,
-		"./attence-search.vue": 104,
+		"./attence-search.vue": 112,
 		"./homepage.vue": 11,
-		"./password-modify.vue": 116,
-		"./repair-report.vue": 121,
+		"./password-modify.vue": 124,
+		"./repair-report.vue": 129,
 		"./vue-navigator.vue": 88,
-		"./vue-pagination.vue": 108
+		"./vue-pagination.vue": 116,
+		"./vue-popup.vue": 104
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -12082,7 +12137,7 @@ webpackJsonp([0],[
 	__vue_exports__ = __webpack_require__(100);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(103);
+	var __vue_template__ = __webpack_require__(111);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -12150,345 +12205,352 @@ webpackJsonp([0],[
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	var navigator = __webpack_require__(88);
+	__webpack_require__(101);
+	__webpack_require__(102);
+	var popup = __webpack_require__(104);
 	var animationUtil = __webpack_require__(93);
-	var chartConfig = __webpack_require__(101);
+	var chartConfig = __webpack_require__(109);
+	var echarts = null;
 	var methods = {
-	    onNavigatorRightBtnClick: function onNavigatorRightBtnClick() {}
+	    onNavigatorRightBtnClick: function onNavigatorRightBtnClick() {
+	        this.show = true;
+	    },
+	    setShow: function setShow(flag) {
+	        this.show = flag;
+	    },
+	    doSearch: function doSearch() {
+	        var startdate = $('#startdate').val(),
+	            enddate = $('#enddate').val();
+	        this.startdate = startdate;
+	        this.enddate = enddate;
+
+	        initChart.apply(this, [{
+	            startdate: startdate.replace(/-/gi, ''),
+	            enddate: enddate.replace(/-/gi, '')
+	        }]);
+	        this.show = false;
+	    },
+	    doCancel: function doCancel() {
+	        this.show = false;
+	    }
 	};
 	animationUtil.process(methods);
 	module.exports = {
 	    module: '/attence-analyse',
 	    data: function data() {
-	        return {};
+	        return {
+	            show: false,
+	            startdate: Calendar.getInstance().add(Calendar.MONTH, -1).format('yyyy-MM-dd'),
+	            enddate: Calendar.getInstance().format('yyyy-MM-dd')
+	        };
 	    },
 	    methods: methods,
-	    components: { navigator: navigator },
+	    components: { navigator: navigator, popup: popup },
 	    mounted: function mounted() {
 	        var that = this;
 	        $.loading();
+	        var calendar = new LCalendar();
+	        calendar.init({
+	            'trigger': '#startdate', //标签id
+	            'type': 'date', //date 调出日期选择 datetime 调出日期时间选择 time 调出时间选择 ym 调出年月选择
+	            'minDate': '1900-1-1'
+	        });
+	        var calendar2 = new LCalendar();
+	        calendar2.init({
+	            'trigger': '#enddate', //标签id
+	            'type': 'date', //date 调出日期选择 datetime 调出日期时间选择 time 调出时间选择 ym 调出年月选择
+	            'minDate': '1900-1-1'
+	        });
 	        __webpack_require__.e/* nsure */(1, function () {
-	            var echarts = __webpack_require__(102);
-	            //图1
-	            that.chart1 = echarts.init($('#attence-analyse-chart1')[0]);
-	            $.get('/attence/analyse', { type: 1, action: '001' }, function (ret) {
-	                $.unloading();
-	                if (!ret.success) {
-	                    alert(ret.message);
-	                    return;
-	                }
-	                var results = ret.data,
-	                    data = [],
-	                    legends = [];
-	                for (var i = 0; i < results.length; i++) {
-	                    data.push({ value: results[i].cnt, name: results[i].isout == 1 ? '迟到' : '正常', isout: results[i].isout });
-	                    legends.push(results[i].isout == 1 ? '迟到' : '正常');
-	                }
-	                that.chart1.setOption({
-	                    color: ['#009587', '#FE5621'],
-	                    backgroundColor: chartConfig.BGCOLOR,
-	                    title: {
-	                        text: '迟到比例',
-	                        left: 'center',
-	                        top: 20,
-	                        textStyle: chartConfig.TITLE_STYLE
-	                    },
-	                    legend: {
-	                        orient: 'vertical',
-	                        x: '10',
-	                        y: '10',
-	                        data: legends,
-	                        textStyle: chartConfig.LEGEND_STYLE
-	                    },
-	                    tooltip: {
-	                        trigger: 'item',
-	                        formatter: "{a} <br/>{b} : {c} ({d}%)"
-	                    },
-	                    series: [{
-	                        name: '迟到比例',
-	                        type: 'pie',
-	                        roseType: 'angle',
-	                        radius: '55%',
-	                        center: chartConfig.CHART_CENTER,
-	                        data: data.sort(function (a, b) {
-	                            return a.isout - b.isout;
-	                        }),
-	                        label: {
-	                            normal: {
-	                                textStyle: {
-	                                    color: '#ffffff'
-	                                }
-	                            }
-	                        },
-	                        labelLine: {
-	                            normal: {
-	                                lineStyle: {
-	                                    color: '#ffffff'
-	                                },
-	                                smooth: 0.2,
-	                                length: 10,
-	                                length2: 20
-	                            }
-	                        }
-	                    }]
-	                });
-	            });
-
-	            //图2
-	            that.chart2 = echarts.init($('#attence-analyse-chart2')[0]);
-	            $.get('/attence/analyse', { type: 0, action: '001' }, function (ret) {
-	                $.unloading();
-	                if (!ret.success) {
-	                    alert(ret.message);
-	                    return;
-	                }
-	                var results = ret.data,
-	                    data = [],
-	                    legends = [];
-	                for (var i = 0; i < results.length; i++) {
-	                    data.push({ value: results[i].cnt, name: results[i].isout == 1 ? '早退' : '正常', isout: results[i].isout });
-	                    legends.push(results[i].isout == 1 ? '早退' : '正常');
-	                }
-	                that.chart2.setOption({
-	                    color: ['#3498DB', '#E74C3C'],
-	                    backgroundColor: chartConfig.BGCOLOR,
-	                    title: {
-	                        text: '早退比例',
-	                        left: 'center',
-	                        top: 20,
-	                        textStyle: chartConfig.TITLE_STYLE
-	                    },
-	                    legend: {
-	                        orient: 'vertical',
-	                        x: '10',
-	                        y: '10',
-	                        data: legends,
-	                        textStyle: chartConfig.LEGEND_STYLE
-	                    },
-	                    tooltip: {
-	                        trigger: 'item',
-	                        formatter: "{a} <br/>{b} : {c} ({d}%)"
-	                    },
-	                    series: [{
-	                        name: '早退比例',
-	                        type: 'pie',
-	                        radius: ['25%', '55%'],
-	                        center: chartConfig.CHART_CENTER,
-	                        data: data.sort(function (a, b) {
-	                            return a.isout - b.isout;
-	                        }),
-	                        label: {
-	                            normal: {
-	                                textStyle: {
-	                                    color: '#ffffff'
-	                                }
-	                            }
-	                        },
-	                        labelLine: {
-	                            normal: {
-	                                lineStyle: {
-	                                    color: '#ffffff'
-	                                },
-	                                smooth: 0.2,
-	                                length: 10,
-	                                length2: 20
-	                            }
-	                        }
-	                    }]
-	                });
-	            });
-
-	            //图3
-	            that.chart3 = echarts.init($('#attence-analyse-chart3')[0]);
-	            $.get('/attence/analyse', { action: '002' }, function (ret) {
-	                $.unloading();
-	                if (!ret.success) {
-	                    alert(ret.message);
-	                    return;
-	                }
-	                var results = ret.data,
-	                    dims = [],
-	                    chidaoData = [],
-	                    normal1Data = [],
-	                    zaotuiData = [],
-	                    normal2Data = [];
-	                for (var i = 0; i < results.length; i++) {
-	                    dims.push(results[i].date);
-	                    results[i].type == 1 && results[i].isout == 1 && chidaoData.push(results[i].cnt);
-	                    results[i].type == 1 && results[i].isout == 0 && normal1Data.push(results[i].cnt);
-	                    results[i].type == 0 && results[i].isout == 1 && zaotuiData.push(results[i].cnt);
-	                    results[i].type == 0 && results[i].isout == 0 && normal2Data.push(results[i].cnt);
-	                }
-	                that.chart3.setOption({
-	                    color: ['#3398DB', '#969696'],
-	                    backgroundColor: chartConfig.BGCOLOR,
-	                    title: {
-	                        text: '时间段迟到早退统计分析',
-	                        left: 'center',
-	                        top: 40,
-	                        textStyle: chartConfig.TITLE_STYLE
-	                    },
-	                    tooltip: {
-	                        trigger: 'axis',
-	                        axisPointer: { // 坐标轴指示器，坐标轴触发有效
-	                            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-	                        }
-	                    },
-	                    legend: {
-	                        top: 10,
-	                        x: 10,
-	                        y: 10,
-	                        data: ['迟到', '正常上学', '早退', '正常放学'],
-	                        textStyle: chartConfig.LEGEND_STYLE
-	                    },
-	                    grid: {
-	                        left: '0%',
-	                        right: '8%',
-	                        top: '30%',
-	                        bottom: '3%',
-	                        containLabel: true
-	                    },
-	                    xAxis: [{
-	                        type: 'category',
-	                        data: dims,
-	                        axisTick: {
-	                            alignWithLabel: true
-	                        },
-	                        axisLabel: {
-	                            textStyle: {
-	                                color: "#ffffff"
-
-	                            }
-	                        }
-	                    }],
-	                    yAxis: [{
-	                        type: 'value',
-	                        axisLabel: {
-	                            textStyle: {
-	                                color: "#ffffff"
-
-	                            }
-	                        }
-	                    }],
-	                    series: [{
-	                        name: '迟到',
-	                        type: 'bar',
-	                        data: chidaoData,
-	                        itemStyle: {
-	                            normal: {
-	                                color: '#FE5621'
-	                            }
-	                        }
-	                    }, {
-	                        name: '正常上学',
-	                        type: 'bar',
-	                        data: normal1Data,
-	                        itemStyle: {
-	                            normal: {
-	                                color: '#009587'
-	                            }
-	                        }
-	                    }, {
-	                        name: '早退',
-	                        type: 'bar',
-	                        data: zaotuiData,
-	                        itemStyle: {
-	                            normal: {
-	                                color: '#E74C3C'
-	                            }
-	                        }
-	                    }, {
-	                        name: '正常放学',
-	                        type: 'bar',
-	                        data: normal2Data,
-	                        itemStyle: {
-	                            normal: {
-	                                color: '#3498DB'
-	                            }
-	                        }
-	                    }]
-	                });
-	            });
+	            echarts = __webpack_require__(110);
+	            setTimeout(function () {
+	                initChart.apply(that, [{
+	                    startdate: that.startdate.replace(/-/gi, ''),
+	                    enddate: that.enddate.replace(/-/gi, '')
+	                }]);
+	            }, 500);
 	        });
 	    }
 	};
+
+	function initChart(params) {
+	    var that = this;
+	    params = params || {};
+
+	    //图1
+	    that.chart1 = echarts.init($('#attence-analyse-chart1')[0]);
+	    $.get('/attence/analyse', $.extend(params, { type: 1, action: '001' }), function (ret) {
+	        $.unloading();
+	        if (!ret.success) {
+	            alert(ret.message);
+	            return;
+	        }
+	        var results = ret.data,
+	            data = [],
+	            legends = [];
+	        for (var i = 0; i < results.length; i++) {
+	            data.push({ value: results[i].cnt, name: results[i].isout == 1 ? '迟到' : '正常', isout: results[i].isout });
+	            legends.push(results[i].isout == 1 ? '迟到' : '正常');
+	        }
+	        that.chart1.setOption({
+	            color: ['#009587', '#FE5621'],
+	            backgroundColor: chartConfig.BGCOLOR,
+	            title: {
+	                text: '迟到比例',
+	                left: 'center',
+	                top: 20,
+	                textStyle: chartConfig.TITLE_STYLE
+	            },
+	            legend: {
+	                orient: 'vertical',
+	                x: '10',
+	                y: '10',
+	                data: legends,
+	                textStyle: chartConfig.LEGEND_STYLE
+	            },
+	            tooltip: {
+	                trigger: 'item',
+	                formatter: "{a} <br/>{b} : {c} ({d}%)"
+	            },
+	            series: [{
+	                name: '迟到比例',
+	                type: 'pie',
+	                roseType: 'angle',
+	                radius: '55%',
+	                center: chartConfig.CHART_CENTER,
+	                data: data.sort(function (a, b) {
+	                    return a.isout - b.isout;
+	                }),
+	                label: {
+	                    normal: {
+	                        textStyle: {
+	                            color: '#ffffff'
+	                        }
+	                    }
+	                },
+	                labelLine: {
+	                    normal: {
+	                        lineStyle: {
+	                            color: '#ffffff'
+	                        },
+	                        smooth: 0.2,
+	                        length: 10,
+	                        length2: 20
+	                    }
+	                }
+	            }]
+	        });
+	    });
+
+	    //图2
+	    that.chart2 = echarts.init($('#attence-analyse-chart2')[0]);
+	    $.get('/attence/analyse', $.extend(params, { type: 0, action: '001' }), function (ret) {
+	        $.unloading();
+	        if (!ret.success) {
+	            alert(ret.message);
+	            return;
+	        }
+	        var results = ret.data,
+	            data = [],
+	            legends = [];
+	        for (var i = 0; i < results.length; i++) {
+	            data.push({ value: results[i].cnt, name: results[i].isout == 1 ? '早退' : '正常', isout: results[i].isout });
+	            legends.push(results[i].isout == 1 ? '早退' : '正常');
+	        }
+	        that.chart2.setOption({
+	            color: ['#3498DB', '#E74C3C'],
+	            backgroundColor: chartConfig.BGCOLOR,
+	            title: {
+	                text: '早退比例',
+	                left: 'center',
+	                top: 20,
+	                textStyle: chartConfig.TITLE_STYLE
+	            },
+	            legend: {
+	                orient: 'vertical',
+	                x: '10',
+	                y: '10',
+	                data: legends,
+	                textStyle: chartConfig.LEGEND_STYLE
+	            },
+	            tooltip: {
+	                trigger: 'item',
+	                formatter: "{a} <br/>{b} : {c} ({d}%)"
+	            },
+	            series: [{
+	                name: '早退比例',
+	                type: 'pie',
+	                radius: ['25%', '55%'],
+	                center: chartConfig.CHART_CENTER,
+	                data: data.sort(function (a, b) {
+	                    return a.isout - b.isout;
+	                }),
+	                label: {
+	                    normal: {
+	                        textStyle: {
+	                            color: '#ffffff'
+	                        }
+	                    }
+	                },
+	                labelLine: {
+	                    normal: {
+	                        lineStyle: {
+	                            color: '#ffffff'
+	                        },
+	                        smooth: 0.2,
+	                        length: 10,
+	                        length2: 20
+	                    }
+	                }
+	            }]
+	        });
+	    });
+
+	    //图3
+	    that.chart3 = echarts.init($('#attence-analyse-chart3')[0]);
+	    $.get('/attence/analyse', $.extend(params, { action: '002' }), function (ret) {
+	        $.unloading();
+	        if (!ret.success) {
+	            alert(ret.message);
+	            return;
+	        }
+	        var results = ret.data,
+	            dims = [],
+	            chidaoData = [],
+	            normal1Data = [],
+	            zaotuiData = [],
+	            normal2Data = [];
+	        for (var i = 0; i < results.length; i++) {
+	            dims.push(results[i].date);
+	            results[i].type == 1 && results[i].isout == 1 && chidaoData.push(results[i].cnt);
+	            results[i].type == 1 && results[i].isout == 0 && normal1Data.push(results[i].cnt);
+	            results[i].type == 0 && results[i].isout == 1 && zaotuiData.push(results[i].cnt);
+	            results[i].type == 0 && results[i].isout == 0 && normal2Data.push(results[i].cnt);
+	        }
+	        that.chart3.setOption({
+	            color: ['#3398DB', '#969696'],
+	            backgroundColor: chartConfig.BGCOLOR,
+	            title: {
+	                text: '时间段迟到早退统计分析',
+	                left: 'center',
+	                top: 40,
+	                textStyle: chartConfig.TITLE_STYLE
+	            },
+	            tooltip: {
+	                trigger: 'axis',
+	                axisPointer: { // 坐标轴指示器，坐标轴触发有效
+	                    type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+	                }
+	            },
+	            legend: {
+	                top: 10,
+	                x: 10,
+	                y: 10,
+	                data: ['迟到', '正常上学', '早退', '正常放学'],
+	                textStyle: chartConfig.LEGEND_STYLE
+	            },
+	            grid: {
+	                left: '0%',
+	                right: '8%',
+	                top: '30%',
+	                bottom: '3%',
+	                containLabel: true
+	            },
+	            xAxis: [{
+	                type: 'category',
+	                data: dims,
+	                axisTick: {
+	                    alignWithLabel: true
+	                },
+	                axisLabel: {
+	                    textStyle: {
+	                        color: "#ffffff"
+
+	                    }
+	                }
+	            }],
+	            yAxis: [{
+	                type: 'value',
+	                axisLabel: {
+	                    textStyle: {
+	                        color: "#ffffff"
+
+	                    }
+	                }
+	            }],
+	            series: [{
+	                name: '迟到',
+	                type: 'bar',
+	                data: chidaoData,
+	                itemStyle: {
+	                    normal: {
+	                        color: '#FE5621'
+	                    }
+	                }
+	            }, {
+	                name: '正常上学',
+	                type: 'bar',
+	                data: normal1Data,
+	                itemStyle: {
+	                    normal: {
+	                        color: '#009587'
+	                    }
+	                }
+	            }, {
+	                name: '早退',
+	                type: 'bar',
+	                data: zaotuiData,
+	                itemStyle: {
+	                    normal: {
+	                        color: '#E74C3C'
+	                    }
+	                }
+	            }, {
+	                name: '正常放学',
+	                type: 'bar',
+	                data: normal2Data,
+	                itemStyle: {
+	                    normal: {
+	                        color: '#3498DB'
+	                    }
+	                }
+	            }]
+	        });
+	    });
+	}
 
 /***/ },
 /* 101 */
 /***/ function(module, exports) {
 
-	/**
-	 * Created by 杨浪 on 2016/9/20.
-	 */
-	module.exports = {
-	    TITLE_STYLE: {
-	        color: '#6F6F6F',
-	        fontWeight:'normal',
-	        fontSize:16
-	    },
-	    LEGEND_STYLE:{
-	        color: '#6F6F6F',
-	        fontWeight:'normal',
-	        fontSize:12
-	    },
-	    COLORS:['#009587','#FE5621'],
-	    BGCOLOR:'TRANSPARENT',
-	    CHART_CENTER:['50%', '60%']
-	};
+	window.LCalendar=function(){var e=function(){this.gearDate,this.minY=1900,this.minM=1,this.minD=1,this.maxY=2099,this.maxM=12,this.maxD=31};return e.prototype={init:function(e){if(this.type=e.type,this.trigger=document.querySelector(e.trigger),null!=this.trigger.getAttribute("data-lcalendar")){var t=this.trigger.getAttribute("data-lcalendar").split(","),a=t[0].split("-");this.minY=~~a[0],this.minM=~~a[1],this.minD=~~a[2];var r=t[1].split("-");this.maxY=~~r[0],this.maxM=~~r[1],this.maxD=~~r[2]}if(e.minDate){var a=e.minDate.split("-");this.minY=~~a[0],this.minM=~~a[1],this.minD=~~a[2]}if(e.maxDate){var r=e.maxDate.split("-");this.maxY=~~r[0],this.maxM=~~r[1],this.maxD=~~r[2]}this.bindEvent(this.type)},bindEvent:function(e){function t(e){E.gearDate=document.createElement("div"),E.gearDate.className="gearDate",E.gearDate.innerHTML='<div class="date_ctrl slideInUp"><div class="date_btn_box"><div class="date_btn lcalendar_cancel">取消</div><div class="date_btn lcalendar_finish">确定</div></div><div class="date_roll_mask"><div class="date_roll"><div><div class="gear date_yy" data-datetype="date_yy"></div><div class="date_grid"><div>年</div></div></div><div><div class="gear date_mm" data-datetype="date_mm"></div><div class="date_grid"><div>月</div></div></div><div><div class="gear date_dd" data-datetype="date_dd"></div><div class="date_grid"><div>日</div></div></div></div></div></div>',document.body.appendChild(E.gearDate),a();var t=E.gearDate.querySelector(".lcalendar_cancel");t.addEventListener("touchstart",y);var r=E.gearDate.querySelector(".lcalendar_finish");r.addEventListener("touchstart",D);var d=E.gearDate.querySelector(".date_yy"),i=E.gearDate.querySelector(".date_mm"),n=E.gearDate.querySelector(".date_dd");d.addEventListener("touchstart",m),i.addEventListener("touchstart",m),n.addEventListener("touchstart",m),d.addEventListener("touchmove",u),i.addEventListener("touchmove",u),n.addEventListener("touchmove",u),d.addEventListener("touchend",g),i.addEventListener("touchend",g),n.addEventListener("touchend",g)}function a(){var e=new Date,t={yy:e.getFullYear(),mm:e.getMonth(),dd:e.getDate()-1};/^\d{4}-\d{1,2}-\d{1,2}$/.test(E.trigger.value)?(rs=E.trigger.value.match(/(^|-)\d{1,4}/g),t.yy=rs[0]-E.minY,t.mm=rs[1].replace(/-/g,"")-1,t.dd=rs[2].replace(/-/g,"")-1):t.yy=t.yy-E.minY,E.gearDate.querySelector(".date_yy").setAttribute("val",t.yy),E.gearDate.querySelector(".date_mm").setAttribute("val",t.mm),E.gearDate.querySelector(".date_dd").setAttribute("val",t.dd),l()}function r(e){E.gearDate=document.createElement("div"),E.gearDate.className="gearDate",E.gearDate.innerHTML='<div class="date_ctrl slideInUp"><div class="date_btn_box"><div class="date_btn lcalendar_cancel">取消</div><div class="date_btn lcalendar_finish">确定</div></div><div class="date_roll_mask"><div class="ym_roll"><div><div class="gear date_yy" data-datetype="date_yy"></div><div class="date_grid"><div>年</div></div></div><div><div class="gear date_mm" data-datetype="date_mm"></div><div class="date_grid"><div>月</div></div></div></div></div></div>',document.body.appendChild(E.gearDate),d();var t=E.gearDate.querySelector(".lcalendar_cancel");t.addEventListener("touchstart",y);var a=E.gearDate.querySelector(".lcalendar_finish");a.addEventListener("touchstart",b);var r=E.gearDate.querySelector(".date_yy"),i=E.gearDate.querySelector(".date_mm");r.addEventListener("touchstart",m),i.addEventListener("touchstart",m),r.addEventListener("touchmove",u),i.addEventListener("touchmove",u),r.addEventListener("touchend",g),i.addEventListener("touchend",g)}function d(){var e=new Date,t={yy:e.getFullYear(),mm:e.getMonth()};/^\d{4}-\d{1,2}$/.test(E.trigger.value)?(rs=E.trigger.value.match(/(^|-)\d{1,4}/g),t.yy=rs[0]-E.minY,t.mm=rs[1].replace(/-/g,"")-1):t.yy=t.yy-E.minY,E.gearDate.querySelector(".date_yy").setAttribute("val",t.yy),E.gearDate.querySelector(".date_mm").setAttribute("val",t.mm),l()}function i(e){E.gearDate=document.createElement("div"),E.gearDate.className="gearDatetime",E.gearDate.innerHTML='<div class="date_ctrl slideInUp"><div class="date_btn_box"><div class="date_btn lcalendar_cancel">取消</div><div class="date_btn lcalendar_finish">确定</div></div><div class="date_roll_mask"><div class="datetime_roll"><div><div class="gear date_yy" data-datetype="date_yy"></div><div class="date_grid"><div>年</div></div></div><div><div class="gear date_mm" data-datetype="date_mm"></div><div class="date_grid"><div>月</div></div></div><div><div class="gear date_dd" data-datetype="date_dd"></div><div class="date_grid"><div>日</div></div></div><div><div class="gear time_hh" data-datetype="time_hh"></div><div class="date_grid"><div>时</div></div></div><div><div class="gear time_mm" data-datetype="time_mm"></div><div class="date_grid"><div>分</div></div></div></div></div></div>',document.body.appendChild(E.gearDate),n();var t=E.gearDate.querySelector(".lcalendar_cancel");t.addEventListener("touchstart",y);var a=E.gearDate.querySelector(".lcalendar_finish");a.addEventListener("touchstart",p);var r=E.gearDate.querySelector(".date_yy"),d=E.gearDate.querySelector(".date_mm"),i=E.gearDate.querySelector(".date_dd"),s=E.gearDate.querySelector(".time_hh"),v=E.gearDate.querySelector(".time_mm");r.addEventListener("touchstart",m),d.addEventListener("touchstart",m),i.addEventListener("touchstart",m),s.addEventListener("touchstart",m),v.addEventListener("touchstart",m),r.addEventListener("touchmove",u),d.addEventListener("touchmove",u),i.addEventListener("touchmove",u),s.addEventListener("touchmove",u),v.addEventListener("touchmove",u),r.addEventListener("touchend",g),d.addEventListener("touchend",g),i.addEventListener("touchend",g),s.addEventListener("touchend",g),v.addEventListener("touchend",g)}function n(){var e=new Date,t={yy:e.getFullYear(),mm:e.getMonth(),dd:e.getDate()-1,hh:e.getHours(),mi:e.getMinutes()};/^\d{4}-\d{1,2}-\d{1,2}\s\d{2}:\d{2}$/.test(E.trigger.value)?(rs=E.trigger.value.match(/(^|-|\s|:)\d{1,4}/g),t.yy=rs[0]-E.minY,t.mm=rs[1].replace(/-/g,"")-1,t.dd=rs[2].replace(/-/g,"")-1,t.hh=parseInt(rs[3].replace(/\s0?/g,"")),t.mi=parseInt(rs[4].replace(/:0?/g,""))):t.yy=t.yy-E.minY,E.gearDate.querySelector(".date_yy").setAttribute("val",t.yy),E.gearDate.querySelector(".date_mm").setAttribute("val",t.mm),E.gearDate.querySelector(".date_dd").setAttribute("val",t.dd),l(),E.gearDate.querySelector(".time_hh").setAttribute("val",t.hh),E.gearDate.querySelector(".time_mm").setAttribute("val",t.mi),c()}function s(e){E.gearDate=document.createElement("div"),E.gearDate.className="gearDate",E.gearDate.innerHTML='<div class="date_ctrl slideInUp"><div class="date_btn_box"><div class="date_btn lcalendar_cancel">取消</div><div class="date_btn lcalendar_finish">确定</div></div><div class="date_roll_mask"><div class="time_roll"><div><div class="gear time_hh" data-datetype="time_hh"></div><div class="date_grid"><div>时</div></div></div><div><div class="gear time_mm" data-datetype="time_mm"></div><div class="date_grid"><div>分</div></div></div></div></div></div>',document.body.appendChild(E.gearDate),v();var t=E.gearDate.querySelector(".lcalendar_cancel");t.addEventListener("touchstart",y);var a=E.gearDate.querySelector(".lcalendar_finish");a.addEventListener("touchstart",f);var r=E.gearDate.querySelector(".time_hh"),d=E.gearDate.querySelector(".time_mm");r.addEventListener("touchstart",m),d.addEventListener("touchstart",m),r.addEventListener("touchmove",u),d.addEventListener("touchmove",u),r.addEventListener("touchend",g),d.addEventListener("touchend",g)}function v(){var e=new Date,t={hh:e.getHours(),mm:e.getMinutes()};/^\d{2}:\d{2}$/.test(E.trigger.value)&&(rs=E.trigger.value.match(/(^|:)\d{2}/g),t.hh=parseInt(rs[0].replace(/^0?/g,"")),t.mm=parseInt(rs[1].replace(/:0?/g,""))),E.gearDate.querySelector(".time_hh").setAttribute("val",t.hh),E.gearDate.querySelector(".time_mm").setAttribute("val",t.mm),c()}function l(){var e=E.maxY-E.minY+1,t=E.gearDate.querySelector(".date_yy"),a="";if(t&&t.getAttribute("val")){for(var r=parseInt(t.getAttribute("val")),d=0;e-1>=d;d++)a+="<div class='tooth'>"+(E.minY+d)+"</div>";t.innerHTML=a;var i=Math.floor(parseFloat(t.getAttribute("top")));if(isNaN(i))t.style["-webkit-transform"]="translate3d(0,"+(8-2*r)+"em,0)",t.setAttribute("top",8-2*r+"em");else{i%2==0?i=i:i+=1,i>8&&(i=8);var n=8-2*(e-1);n>i&&(i=n),t.style["-webkit-transform"]="translate3d(0,"+i+"em,0)",t.setAttribute("top",i+"em"),r=Math.abs(i-8)/2,t.setAttribute("val",r)}var s=E.gearDate.querySelector(".date_mm");if(s&&s.getAttribute("val")){a="";var v=parseInt(s.getAttribute("val")),l=11,c=0;r==e-1&&(l=E.maxM-1),0==r&&(c=E.minM-1);for(var d=0;l-c+1>d;d++)a+="<div class='tooth'>"+(c+d+1)+"</div>";s.innerHTML=a,v>l?(v=l,s.setAttribute("val",v)):c>v&&(v=l,s.setAttribute("val",v)),s.style["-webkit-transform"]="translate3d(0,"+(8-2*(v-c))+"em,0)",s.setAttribute("top",8-2*(v-c)+"em");var m=E.gearDate.querySelector(".date_dd");if(m&&m.getAttribute("val")){a="";var u=parseInt(m.getAttribute("val")),g=o(r,v),_=g-1,h=0;r==e-1&&E.maxM==v+1&&(_=E.maxD-1),0==r&&E.minM==v+1&&(h=E.minD-1);for(var d=0;_-h+1>d;d++)a+="<div class='tooth'>"+(h+d+1)+"</div>";m.innerHTML=a,u>_?(u=_,m.setAttribute("val",u)):h>u&&(u=h,m.setAttribute("val",u)),m.style["-webkit-transform"]="translate3d(0,"+(8-2*(u-h))+"em,0)",m.setAttribute("top",8-2*(u-h)+"em")}}}}function c(){var e=E.gearDate.querySelector(".time_hh");if(e&&e.getAttribute("val")){for(var t="",a=parseInt(e.getAttribute("val")),r=0;23>=r;r++)t+="<div class='tooth'>"+r+"</div>";e.innerHTML=t,e.style["-webkit-transform"]="translate3d(0,"+(8-2*a)+"em,0)",e.setAttribute("top",8-2*a+"em");var d=E.gearDate.querySelector(".time_mm");if(d&&d.getAttribute("val")){for(var t="",i=parseInt(d.getAttribute("val")),r=0;59>=r;r++)t+="<div class='tooth'>"+r+"</div>";d.innerHTML=t,d.style["-webkit-transform"]="translate3d(0,"+(8-2*i)+"em,0)",d.setAttribute("top",8-2*i+"em")}}}function o(e,t){return 1==t?(e+=E.minY,e%4==0&&e%100!=0||e%400==0&&e%4e3!=0?29:28):3==t||5==t||8==t||10==t?30:31}function m(e){e.preventDefault();for(var t=e.target;;){if(t.classList.contains("gear"))break;t=t.parentElement}clearInterval(t["int_"+t.id]),t["old_"+t.id]=e.targetTouches[0].screenY,t["o_t_"+t.id]=(new Date).getTime();var a=t.getAttribute("top");a?t["o_d_"+t.id]=parseFloat(a.replace(/em/g,"")):t["o_d_"+t.id]=0,t.style.webkitTransitionDuration=t.style.transitionDuration="0ms"}function u(e){e.preventDefault();for(var t=e.target;;){if(t.classList.contains("gear"))break;t=t.parentElement}t["new_"+t.id]=e.targetTouches[0].screenY,t["n_t_"+t.id]=(new Date).getTime();var a=30*(t["new_"+t.id]-t["old_"+t.id])/window.innerHeight;t["pos_"+t.id]=t["o_d_"+t.id]+a,t.style["-webkit-transform"]="translate3d(0,"+t["pos_"+t.id]+"em,0)",t.setAttribute("top",t["pos_"+t.id]+"em"),e.targetTouches[0].screenY<1&&g(e)}function g(e){e.preventDefault();for(var t=e.target;;){if(t.classList.contains("gear"))break;t=t.parentElement}var a=(t["new_"+t.id]-t["old_"+t.id])/(t["n_t_"+t.id]-t["o_t_"+t.id]);Math.abs(a)<=.2?t["spd_"+t.id]=0>a?-.08:.08:Math.abs(a)<=.5?t["spd_"+t.id]=0>a?-.16:.16:t["spd_"+t.id]=a/2,t["pos_"+t.id]||(t["pos_"+t.id]=0),_(t)}function _(e){function t(){e.style.webkitTransitionDuration=e.style.transitionDuration="200ms",r=!0}var a=0,r=!1,d=E.maxY-E.minY+1;clearInterval(e["int_"+e.id]),e["int_"+e.id]=setInterval(function(){var i=e["pos_"+e.id],n=e["spd_"+e.id]*Math.exp(-.03*a);if(i+=n,Math.abs(n)>.1);else{var s=2*Math.round(i/2);i=s,t()}switch(i>8&&(i=8,t()),e.dataset.datetype){case"date_yy":var v=8-2*(d-1);if(v>i&&(i=v,t()),r){var l=Math.abs(i-8)/2;h(e,l),clearInterval(e["int_"+e.id])}break;case"date_mm":var c=E.gearDate.querySelector(".date_yy"),m=parseInt(c.getAttribute("val")),u=11,g=0;m==d-1&&(u=E.maxM-1),0==m&&(g=E.minM-1);var v=8-2*(u-g);if(v>i&&(i=v,t()),r){var l=Math.abs(i-8)/2+g;h(e,l),clearInterval(e["int_"+e.id])}break;case"date_dd":var c=E.gearDate.querySelector(".date_yy"),_=E.gearDate.querySelector(".date_mm"),m=parseInt(c.getAttribute("val")),y=parseInt(_.getAttribute("val")),D=o(m,y),b=D-1,p=0;m==d-1&&E.maxM==y+1&&(b=E.maxD-1),0==m&&E.minM==y+1&&(p=E.minD-1);var v=8-2*(b-p);if(v>i&&(i=v,t()),r){var l=Math.abs(i-8)/2+p;h(e,l),clearInterval(e["int_"+e.id])}break;case"time_hh":if(-38>i&&(i=-38,t()),r){var l=Math.abs(i-8)/2;h(e,l),clearInterval(e["int_"+e.id])}break;case"time_mm":if(-110>i&&(i=-110,t()),r){var l=Math.abs(i-8)/2;h(e,l),clearInterval(e["int_"+e.id])}}e["pos_"+e.id]=i,e.style["-webkit-transform"]="translate3d(0,"+i+"em,0)",e.setAttribute("top",i+"em"),a++},30)}function h(e,t){t=Math.round(t),e.setAttribute("val",t),/date/.test(e.dataset.datetype)?l():c()}function y(e){e.preventDefault();var t;try{t=new CustomEvent("input")}catch(e){t=document.createEvent("Event"),t.initEvent("input",!0,!0)}E.trigger.dispatchEvent(t),document.body.removeChild(E.gearDate),E.gearDate=null}function D(e){var t=E.maxY-E.minY+1,a=parseInt(Math.round(E.gearDate.querySelector(".date_yy").getAttribute("val"))),r=parseInt(Math.round(E.gearDate.querySelector(".date_mm").getAttribute("val")))+1;r=r>9?r:"0"+r;var d=parseInt(Math.round(E.gearDate.querySelector(".date_dd").getAttribute("val")))+1;d=d>9?d:"0"+d,E.trigger.value=a%t+E.minY+"-"+r+"-"+d,y(e)}function b(e){var t=E.maxY-E.minY+1,a=parseInt(Math.round(E.gearDate.querySelector(".date_yy").getAttribute("val"))),r=parseInt(Math.round(E.gearDate.querySelector(".date_mm").getAttribute("val")))+1;r=r>9?r:"0"+r,E.trigger.value=a%t+E.minY+"-"+r,y(e)}function p(e){var t=E.maxY-E.minY+1,a=parseInt(Math.round(E.gearDate.querySelector(".date_yy").getAttribute("val"))),r=parseInt(Math.round(E.gearDate.querySelector(".date_mm").getAttribute("val")))+1;r=r>9?r:"0"+r;var d=parseInt(Math.round(E.gearDate.querySelector(".date_dd").getAttribute("val")))+1;d=d>9?d:"0"+d;var i=parseInt(Math.round(E.gearDate.querySelector(".time_hh").getAttribute("val")));i=i>9?i:"0"+i;var n=parseInt(Math.round(E.gearDate.querySelector(".time_mm").getAttribute("val")));n=n>9?n:"0"+n,E.trigger.value=a%t+E.minY+"-"+r+"-"+d+" "+(i.length<2?"0":"")+i+(n.length<2?":0":":")+n,y(e)}function f(e){var t=parseInt(Math.round(E.gearDate.querySelector(".time_hh").getAttribute("val")));t=t>9?t:"0"+t;var a=parseInt(Math.round(E.gearDate.querySelector(".time_mm").getAttribute("val")));a=a>9?a:"0"+a,E.trigger.value=(t.length<2?"0":"")+t+(a.length<2?":0":":")+a,y(e)}var E=this;E.trigger.addEventListener("click",{ym:r,date:t,datetime:i,time:s}[e])}},e}();
 
 /***/ },
-/* 102 */,
-/* 103 */
-/***/ function(module, exports, __webpack_require__) {
+/* 102 */
+/***/ function(module, exports) {
 
-	module.exports={render:function (){with(this) {
-	  return _h('transition', {
-	    attrs: {
-	      "css": false
-	    },
-	    on: {
-	      "before-enter": beforeEnter,
-	      "after-enter": afterEnter,
-	      "enter": enter,
-	      "leave": leave
-	    }
-	  }, [_h('div', {
-	    staticClass: "router-view",
-	    attrs: {
-	      "id": "attence-analyse"
-	    }
-	  }, [_h('navigator', {
-	    attrs: {
-	      "navigator-title": "学生考勤分析"
-	    }
-	  }), " ", _m(0)])])
-	}},staticRenderFns: [function (){with(this) {
-	  return _h('div', [_h('div', {
-	    staticClass: "chart-container",
-	    attrs: {
-	      "id": "attence-analyse-chart1"
-	    }
-	  }), " ", _h('div', {
-	    staticClass: "chart-container",
-	    attrs: {
-	      "id": "attence-analyse-chart2"
-	    }
-	  }), " ", _h('div', {
-	    staticClass: "chart-container",
-	    attrs: {
-	      "id": "attence-analyse-chart3"
-	    }
-	  })])
-	}}]}
-	if (false) {
-	  module.hot.accept()
-	  if (module.hot.data) {
-	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-16561188", module.exports)
-	  }
-	}
+	// removed by extract-text-webpack-plugin
 
 /***/ },
+/* 103 */,
 /* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -12513,7 +12575,284 @@ webpackJsonp([0],[
 	__vue_exports__ = __webpack_require__(107);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(115);
+	var __vue_template__ = __webpack_require__(108);
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
+	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
+	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
+	    return key !== "default" && key !== "__esModule";
+	  })) {
+	    console.error("named exports are not supported in *.vue files.");
+	  }
+	  __vue_options__ = __vue_exports__ = __vue_exports__.default;
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options;
+	}
+	__vue_options__.name = __vue_options__.name || "vue-popup";
+	__vue_options__.__file = "D:\\workspace\\SPM\\public\\src\\javascripts\\h5\\vue-components\\vue-popup.vue";
+	__vue_options__.render = __vue_template__.render;
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns;
+	__vue_options__._scopeId = "data-v-27fd144f";
+
+	/* hot reload */
+	if (false) {
+	  (function () {
+	    var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api");
+	    hotAPI.install(require("vue"), false);
+	    if (!hotAPI.compatible) return;
+	    module.hot.accept();
+	    if (!module.hot.data) {
+	      hotAPI.createRecord("data-v-27fd144f", __vue_options__);
+	    } else {
+	      hotAPI.reload("data-v-27fd144f", __vue_options__);
+	    }
+	  })();
+	}
+	if (__vue_options__.functional) {
+	  console.error("[vue-loader] vue-popup.vue: functional components are not supported and should be defined in plain js files using render functions.");
+	}
+
+	module.exports = __vue_exports__;
+
+/***/ },
+/* 105 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 106 */,
+/* 107 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
+	module.exports = {
+	    props: {
+	        show: {
+	            type: Boolean,
+	            twoWay: true,
+	            default: false
+	        }
+	    },
+	    watch: {
+	        show: function show(val) {
+	            var that = this;
+	            if (val) {
+	                $(this.$el).fadeIn(100);
+	                setTimeout(function () {
+	                    $('.popup', this.$el).addClass('show');
+	                }, 150);
+	            } else {
+	                $('.popup', this.$el).removeClass('show');
+	                setTimeout(function () {
+	                    $(that.$el).fadeOut(100);
+	                }, 150);
+	            }
+	        }
+	    },
+	    data: function data() {
+	        return {};
+	    },
+	    computed: {
+	        isShow: {
+	            get: function get() {
+	                return this.show;
+	            },
+	            set: function set(val) {
+	                this.show = val;
+	            }
+	        }
+	    },
+	    mounted: function mounted() {
+	        var that = this;
+	        $(this.$el).on('click', function () {
+	            that.$emit('show', false);
+	        });
+	        $('.popup', this.$el).on('click', function (e) {
+	            return false;
+	        });
+	    }
+	};
+
+/***/ },
+/* 108 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('div', {
+	    staticClass: "popup-wrap"
+	  }, [_h('div', {
+	    staticClass: "popup"
+	  }, [_t("default")])])
+	}},staticRenderFns: []}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-27fd144f", module.exports)
+	  }
+	}
+
+/***/ },
+/* 109 */
+/***/ function(module, exports) {
+
+	/**
+	 * Created by 杨浪 on 2016/9/20.
+	 */
+	module.exports = {
+	    TITLE_STYLE: {
+	        color: '#6F6F6F',
+	        fontWeight:'normal',
+	        fontSize:16
+	    },
+	    LEGEND_STYLE:{
+	        color: '#6F6F6F',
+	        fontWeight:'normal',
+	        fontSize:12
+	    },
+	    COLORS:['#009587','#FE5621'],
+	    BGCOLOR:'TRANSPARENT',
+	    CHART_CENTER:['50%', '60%']
+	};
+
+/***/ },
+/* 110 */,
+/* 111 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('transition', {
+	    attrs: {
+	      "css": false
+	    },
+	    on: {
+	      "before-enter": beforeEnter,
+	      "after-enter": afterEnter,
+	      "enter": enter,
+	      "leave": leave
+	    }
+	  }, [_h('div', {
+	    staticClass: "router-view",
+	    attrs: {
+	      "id": "attence-analyse"
+	    }
+	  }, [_h('navigator', {
+	    attrs: {
+	      "navigator-title": "学生考勤分析",
+	      "navigatorRightBtn": "过滤",
+	      "on-navigator-right-btn-click": onNavigatorRightBtnClick
+	    }
+	  }), " ", _m(0), " ", _h('popup', {
+	    attrs: {
+	      "show": show
+	    },
+	    on: {
+	      "show": setShow
+	    }
+	  }, [_h('div', {
+	    staticClass: "condition-wrap"
+	  }, [_h('div', {
+	    staticClass: "condition-form-group"
+	  }, [_m(1), " ", _h('input', {
+	    staticClass: "form-control",
+	    attrs: {
+	      "type": "text",
+	      "id": "startdate",
+	      "readonly": ""
+	    },
+	    domProps: {
+	      "value": startdate
+	    }
+	  })]), " ", _h('div', {
+	    staticClass: "condition-form-group"
+	  }, [_m(2), " ", _h('input', {
+	    staticClass: "form-control",
+	    attrs: {
+	      "type": "text",
+	      "id": "enddate",
+	      "readonly": ""
+	    },
+	    domProps: {
+	      "value": enddate
+	    }
+	  })]), " ", _h('div', {
+	    staticClass: "condition-form-btn-group"
+	  }, [_h('span', {
+	    staticClass: "condition-button",
+	    on: {
+	      "click": doSearch
+	    }
+	  }, ["确定"]), " ", _h('span', {
+	    staticClass: "condition-button",
+	    on: {
+	      "click": doCancel
+	    }
+	  }, ["取消"])])])])])])
+	}},staticRenderFns: [function (){with(this) {
+	  return _h('div', [_h('div', {
+	    staticClass: "chart-container",
+	    attrs: {
+	      "id": "attence-analyse-chart1"
+	    }
+	  }), " ", _h('div', {
+	    staticClass: "chart-container",
+	    attrs: {
+	      "id": "attence-analyse-chart2"
+	    }
+	  }), " ", _h('div', {
+	    staticClass: "chart-container",
+	    attrs: {
+	      "id": "attence-analyse-chart3"
+	    }
+	  })])
+	}},function (){with(this) {
+	  return _h('label', ["开始时间："])
+	}},function (){with(this) {
+	  return _h('label', ["结束时间："])
+	}}]}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-16561188", module.exports)
+	  }
+	}
+
+/***/ },
+/* 112 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _keys = __webpack_require__(12);
+
+	var _keys2 = _interopRequireDefault(_keys);
+
+	var _typeof2 = __webpack_require__(47);
+
+	var _typeof3 = _interopRequireDefault(_typeof2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var __vue_exports__, __vue_options__;
+
+	/* styles */
+	__webpack_require__(113);
+
+	/* script */
+	__vue_exports__ = __webpack_require__(115);
+
+	/* template */
+	var __vue_template__ = __webpack_require__(123);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -12553,14 +12892,14 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 105 */
+/* 113 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 106 */,
-/* 107 */
+/* 114 */,
+/* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12587,15 +12926,60 @@ webpackJsonp([0],[
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	var navigator = __webpack_require__(88);
-	var pagination = __webpack_require__(108);
-	__webpack_require__(114);
+	var pagination = __webpack_require__(116);
+	__webpack_require__(101);
+	__webpack_require__(102);
+	var popup = __webpack_require__(104);
+	__webpack_require__(122);
 	var animationUtil = __webpack_require__(93);
 	var methods = {
-	    onNavigatorRightBtnClick: function onNavigatorRightBtnClick() {},
+	    onNavigatorRightBtnClick: function onNavigatorRightBtnClick() {
+	        this.show = true;
+	    },
+	    setShow: function setShow(flag) {
+	        this.show = flag;
+	    },
 	    paginationCallback: function paginationCallback(cur) {
-	        Events.notify('attence-search-refresh', { page: cur });
+	        Events.notify('attence-search-refresh', { key: this.key, page: cur, startdate: Calendar.getInstance(this.starttime).format('yyyyMMdd HH:mm:ss'),
+	            enddate: Calendar.getInstance(this.endtime).format('yyyyMMdd HH:mm:ss') });
+	    },
+	    doSearch: function doSearch() {
+	        var starttime = $('#starttime').val(),
+	            endtime = $('#endtime').val();
+	        this.starttime = starttime;
+	        this.endtime = endtime;
+
+	        Events.notify('attence-search-refresh', {
+	            key: this.key,
+	            startdate: Calendar.getInstance(starttime).format('yyyyMMdd HH:mm:ss'),
+	            enddate: Calendar.getInstance(endtime).format('yyyyMMdd HH:mm:ss')
+	        });
+	        this.show = false;
+	    },
+	    doCancel: function doCancel() {
+	        this.show = false;
 	    }
 	};
 	animationUtil.process(methods);
@@ -12607,23 +12991,41 @@ webpackJsonp([0],[
 	            items: [],
 	            Calendar: Calendar,
 	            c: 1,
-	            a: 2
+	            a: 2,
+	            show: false,
+	            key: '',
+	            starttime: Calendar.getInstance().add(Calendar.MONTH, -1).format('yyyy-MM-dd 00:00:00'),
+	            endtime: Calendar.getInstance().format('yyyy-MM-dd 23:59:59')
 	        };
 	    },
 	    methods: methods,
-	    components: { navigator: navigator, pagination: pagination },
+	    components: { navigator: navigator, pagination: pagination, popup: popup },
 	    mounted: function mounted() {
 	        var that = this;
+	        $(this.$el).height($(window).height() + 'px');
+	        var calendar = new LCalendar();
+	        calendar.init({
+	            'trigger': '#starttime', //标签id
+	            'type': 'datetime', //date 调出日期选择 datetime 调出日期时间选择 time 调出时间选择 ym 调出年月选择
+	            'minDate': '1900-1-1'
+	        });
+	        var calendar2 = new LCalendar();
+	        calendar2.init({
+	            'trigger': '#endtime', //标签id
+	            'type': 'datetime', //date 调出日期选择 datetime 调出日期时间选择 time 调出时间选择 ym 调出年月选择
+	            'minDate': '1900-1-1'
+	        });
 	        Events.subscribe('attence-search-refresh', function (param) {
 	            var _p = $.extend({}, { page: 1, rows: 10 }, param);
 	            $.loading();
 	            $.get('/attence/search', _p, function (data) {
 	                that.items = data.data.rows;
 	                that.c = _p.page;
-	                that.a = Math.ceil(data.data.total / 10);
+	                that.a = data.data.total == 0 ? 1 : Math.ceil(data.data.total / 10);
 	                $.unloading();
 	            });
-	        }).notify('attence-search-refresh');
+	        }).notify('attence-search-refresh', { startdate: Calendar.getInstance(that.starttime).format('yyyyMMdd HH:mm:ss'),
+	            enddate: Calendar.getInstance(that.endtime).format('yyyyMMdd HH:mm:ss') });
 	    },
 	    destroyed: function destroyed() {
 	        Events.unsubscribe('attence-search-refresh');
@@ -12631,7 +13033,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 108 */
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -12649,13 +13051,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(109);
+	__webpack_require__(117);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(112);
+	__vue_exports__ = __webpack_require__(120);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(113);
+	var __vue_template__ = __webpack_require__(121);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -12694,16 +13096,16 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 109 */
+/* 117 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(110);
+	var content = __webpack_require__(118);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(111)(content, {});
+	var update = __webpack_require__(119)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -12720,7 +13122,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 110 */
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -12734,7 +13136,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 111 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -12956,7 +13358,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 112 */
+/* 120 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -13003,7 +13405,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 113 */
+/* 121 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -13033,8 +13435,8 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 114 */,
-/* 115 */
+/* 122 */,
+/* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -13052,7 +13454,9 @@ webpackJsonp([0],[
 	    staticClass: "router-view"
 	  }, [_h('navigator', {
 	    attrs: {
-	      "navigator-title": "学生考勤查询"
+	      "navigator-title": "学生考勤查询",
+	      "navigatorRightBtn": "过滤",
+	      "on-navigator-right-btn-click": onNavigatorRightBtnClick
 	    }
 	  }), " ", _h('div', {
 	    staticClass: "list-panel-container"
@@ -13066,8 +13470,82 @@ webpackJsonp([0],[
 	      "all": a,
 	      "on-pagination-callback": paginationCallback
 	    }
-	  })])])])
-	}},staticRenderFns: []}
+	  })]), " ", _h('popup', {
+	    attrs: {
+	      "show": show
+	    },
+	    on: {
+	      "show": setShow
+	    }
+	  }, [_h('div', {
+	    staticClass: "condition-wrap"
+	  }, [_h('div', {
+	    staticClass: "condition-form-group"
+	  }, [_m(0), " ", _h('input', {
+	    directives: [{
+	      name: "model",
+	      rawName: "v-model",
+	      value: (key),
+	      expression: "key"
+	    }],
+	    staticClass: "form-control",
+	    attrs: {
+	      "type": "text",
+	      "id": "key"
+	    },
+	    domProps: {
+	      "value": _s(key)
+	    },
+	    on: {
+	      "input": function($event) {
+	        if ($event.target.composing) return;
+	        key = $event.target.value
+	      }
+	    }
+	  })]), " ", _h('div', {
+	    staticClass: "condition-form-group"
+	  }, [_m(1), " ", _h('input', {
+	    staticClass: "form-control",
+	    attrs: {
+	      "type": "text",
+	      "id": "starttime",
+	      "readonly": ""
+	    },
+	    domProps: {
+	      "value": starttime
+	    }
+	  })]), " ", _h('div', {
+	    staticClass: "condition-form-group"
+	  }, [_m(2), " ", _h('input', {
+	    staticClass: "form-control",
+	    attrs: {
+	      "type": "text",
+	      "id": "endtime",
+	      "readonly": ""
+	    },
+	    domProps: {
+	      "value": endtime
+	    }
+	  })]), " ", _h('div', {
+	    staticClass: "condition-form-btn-group"
+	  }, [_h('span', {
+	    staticClass: "condition-button",
+	    on: {
+	      "click": doSearch
+	    }
+	  }, ["确定"]), " ", _h('span', {
+	    staticClass: "condition-button",
+	    on: {
+	      "click": doCancel
+	    }
+	  }, ["取消"])])])])])])
+	}},staticRenderFns: [function (){with(this) {
+	  return _h('label', ["关键字："])
+	}},function (){with(this) {
+	  return _h('label', ["开始时间："])
+	}},function (){with(this) {
+	  return _h('label', ["结束时间："])
+	}}]}
 	if (false) {
 	  module.hot.accept()
 	  if (module.hot.data) {
@@ -13076,7 +13554,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 116 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -13094,13 +13572,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(117);
+	__webpack_require__(125);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(119);
+	__vue_exports__ = __webpack_require__(127);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(120);
+	var __vue_template__ = __webpack_require__(128);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -13140,14 +13618,14 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 117 */
+/* 125 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 118 */,
-/* 119 */
+/* 126 */,
+/* 127 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13219,7 +13697,6 @@ webpackJsonp([0],[
 	    data: function data() {
 	        return { WINHEIGHT: window.HEIGHT };
 	    },
-
 	    methods: methods,
 	    components: { navigator: _vueNavigator2.default },
 	    mounted: function mounted() {
@@ -13228,7 +13705,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 120 */
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -13300,7 +13777,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 121 */
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -13318,13 +13795,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(122);
+	__webpack_require__(130);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(125);
+	__vue_exports__ = __webpack_require__(133);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(127);
+	var __vue_template__ = __webpack_require__(135);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -13363,15 +13840,15 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 122 */
+/* 130 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 123 */,
-/* 124 */,
-/* 125 */
+/* 131 */,
+/* 132 */,
+/* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13410,7 +13887,7 @@ webpackJsonp([0],[
 
 	var navigator = __webpack_require__(88);
 	var animationUtil = __webpack_require__(93);
-	__webpack_require__(126);
+	__webpack_require__(134);
 	var methods = {
 	    onNavigatorRightBtnClick: function onNavigatorRightBtnClick() {
 	        var that = this;
@@ -13484,7 +13961,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 126 */
+/* 134 */
 /***/ function(module, exports) {
 
 	/**
@@ -13590,7 +14067,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 127 */
+/* 135 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -13689,11 +14166,11 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 128 */
+/* 136 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function(window){
-	    __webpack_require__(129);
+	    __webpack_require__(137);
 	    var tmp = '<div class="loading-wrap"><div class="loading-preloader">' +
 	        '        <span></span>' +
 	        '        <span></span>' +
@@ -13721,7 +14198,7 @@ webpackJsonp([0],[
 	})(window);
 
 /***/ },
-/* 129 */
+/* 137 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin

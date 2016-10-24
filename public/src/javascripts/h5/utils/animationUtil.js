@@ -1,6 +1,6 @@
 /**
  * Created by 杨浪 on 2016/10/14.
- * 目前路由动画只支持三级后退
+ * 目前路由动画只支持浏览器原生后退三级 更多级目前不支持
  */
 
 var Velocity = require('../../libs/velocity.min');
@@ -11,7 +11,6 @@ Events.subscribe('route:isReturn',function(flag){
 var count = 1, prePath = '',currentPath = '';
 var fns = {
     beforeEnter:function(el){
-        console.log(prePath);
         if(prePath == this.$route.matched[0].path){
             isReturn = true;
             setTimeout(function(){
