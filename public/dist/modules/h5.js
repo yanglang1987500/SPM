@@ -12258,7 +12258,7 @@ webpackJsonp([0],[
 	    data: function data() {
 	        return {
 	            show: false,
-	            startdate: Calendar.getInstance().add(Calendar.MONTH, -1).format('yyyy-MM-dd'),
+	            startdate: Calendar.getInstance().add(Calendar.MONTH, -3).format('yyyy-MM-dd'),
 	            enddate: Calendar.getInstance().format('yyyy-MM-dd')
 	        };
 	    },
@@ -12994,7 +12994,7 @@ webpackJsonp([0],[
 	            a: 2,
 	            show: false,
 	            key: '',
-	            starttime: Calendar.getInstance().add(Calendar.MONTH, -1).format('yyyy-MM-dd 00:00:00'),
+	            starttime: Calendar.getInstance().add(Calendar.MONTH, -3).format('yyyy-MM-dd 00:00:00'),
 	            endtime: Calendar.getInstance().format('yyyy-MM-dd 23:59:59')
 	        };
 	    },
@@ -13002,7 +13002,7 @@ webpackJsonp([0],[
 	    components: { navigator: navigator, pagination: pagination, popup: popup },
 	    mounted: function mounted() {
 	        var that = this;
-	        $(this.$el).height($(window).height() + 'px');
+	        $(this.$el).css({ 'min-height': $(window).height() + 'px' });
 	        var calendar = new LCalendar();
 	        calendar.init({
 	            'trigger': '#starttime', //标签id

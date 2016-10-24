@@ -67,7 +67,7 @@
         data:function(){
             return {
                 show:false,
-                startdate:Calendar.getInstance().add(Calendar.MONTH,-1).format('yyyy-MM-dd'),
+                startdate:Calendar.getInstance().add(Calendar.MONTH,-3).format('yyyy-MM-dd'),
                 enddate:Calendar.getInstance().format('yyyy-MM-dd')
             }
         },
