@@ -11905,7 +11905,7 @@ webpackJsonp([0],[
 	            this.$router.back();
 	            setTimeout(function () {
 	                Events.notify('route:isReturn', false);
-	            }, 2);
+	            }, 100);
 	        },
 	        rBtnClk: function rBtnClk() {
 	            this.onNavigatorRightBtnClick.apply(this, []);
@@ -12189,6 +12189,7 @@ webpackJsonp([0],[
 
 	'use strict';
 
+	//
 	//
 	//
 	//
@@ -12752,7 +12753,11 @@ webpackJsonp([0],[
 	      "navigatorRightBtn": "过滤",
 	      "on-navigator-right-btn-click": onNavigatorRightBtnClick
 	    }
-	  }), " ", _m(0), " ", _h('popup', {
+	  }), " ", _m(0), " ", _h('router-link', {
+	    attrs: {
+	      "to": "/attence-search"
+	    }
+	  }, ["查询"]), " ", _h('popup', {
 	    attrs: {
 	      "show": show
 	    },
@@ -12904,6 +12909,7 @@ webpackJsonp([0],[
 
 	'use strict';
 
+	//
 	//
 	//
 	//
@@ -13470,7 +13476,11 @@ webpackJsonp([0],[
 	      "all": a,
 	      "on-pagination-callback": paginationCallback
 	    }
-	  })]), " ", _h('popup', {
+	  })]), " ", _h('router-link', {
+	    attrs: {
+	      "to": "/password-modify"
+	    }
+	  }, ["查询"]), " ", _h('popup', {
 	    attrs: {
 	      "show": show
 	    },

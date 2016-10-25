@@ -16,6 +16,7 @@
             </ul>
             <pagination :cur="c" :all="a" :on-pagination-callback="paginationCallback" ></pagination>
         </div>
+        <router-link to="/password-modify">查询</router-link>
         <popup :show="show" v-on:show="setShow">
             <div class="condition-wrap">
                 <div class="condition-form-group">

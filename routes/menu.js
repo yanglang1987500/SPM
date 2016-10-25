@@ -9,7 +9,6 @@ var utils = require('../libs/utils');
 var websocket = require('../framework/websocket');
 var Events = require('../framework/framework-events');
 var Calendar = require('../libs/calendar');
-
 /**
  * 菜单列表查询
  */

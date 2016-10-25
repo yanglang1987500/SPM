@@ -22,7 +22,7 @@
                 this.$router.back();
                 setTimeout(function(){
                     Events.notify('route:isReturn',false);
-                },2);
+                },100);
             },
             rBtnClk:function(){
                 this.onNavigatorRightBtnClick.apply(this,[]);

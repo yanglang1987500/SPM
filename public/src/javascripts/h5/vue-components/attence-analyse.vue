@@ -10,6 +10,7 @@
             <div class="chart-container" id="attence-analyse-chart2"></div>
             <div class="chart-container" id="attence-analyse-chart3"></div>
         </div>
+        <router-link to="/attence-search">查询</router-link>
         <popup :show="show" v-on:show="setShow">
             <div class="condition-wrap">
                 <div class="condition-form-group">
