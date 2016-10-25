@@ -37,10 +37,19 @@
                         <input name="remember" type="checkbox" value="Remember Me">记住我
                     </label>
                 </div>
-                <button class="btn btn-lg btn-success btn-block">登 录</button>
+                <button id="loginBtn" class="btn btn-lg btn-success btn-block">登 录</button>
             </fieldset>
         </form>
     </div>
 </div>
+<script src="/src/javascripts/libs/zepto.min.js"></script>
+<script>
+    $(function(){
+        $('#loginBtn').click(function(){
+            
+            return true;
+        });
+    });
+</script>
 </body>
 </html>

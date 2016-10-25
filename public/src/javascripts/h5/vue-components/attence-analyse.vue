@@ -10,7 +10,6 @@
             <div class="chart-container" id="attence-analyse-chart2"></div>
             <div class="chart-container" id="attence-analyse-chart3"></div>
         </div>
-        <router-link to="/attence-search">查询</router-link>
         <popup :show="show" v-on:show="setShow">
             <div class="condition-wrap">
                 <div class="condition-form-group">
@@ -36,7 +35,7 @@
     require('../../libs/lCalendar/LCalendar.min');
     require('../../libs/lCalendar/LCalendar.min.css');
     var popup = require('./vue-popup.vue');
-    var animationUtil = require('../utils/animationUtil');
+    var utils = require('../utils/utils');
     var chartConfig = require('../utils/framework-chartconfig');
     var echarts = null;
     var methods = {
@@ -62,7 +61,7 @@
             this.show = false;
         }
     };
-    animationUtil.process(methods);
+    utils.animation.process(methods);
     module.exports = {
         module:'/attence-analyse',
         data:function(){
@@ -107,7 +106,7 @@
 
         //图1
         that.chart1 = echarts.init($('#attence-analyse-chart1')[0]);
-        $.get('/attence/analyse', $.extend(params,{type:1,action:'001'}), function (ret) {
+        utils.ajax.query('/attence/analyse', $.extend(params,{type:1,action:'001'}), function (ret) {
             $.unloading();
             if(!ret.success){
                 alert(ret.message);
@@ -171,7 +170,7 @@
 
         //图2
         that.chart2 = echarts.init($('#attence-analyse-chart2')[0]);
-        $.get('/attence/analyse', $.extend(params,{type:0,action:'001'}), function (ret) {
+        utils.ajax.query('/attence/analyse', $.extend(params,{type:0,action:'001'}), function (ret) {
             $.unloading();
             if(!ret.success){
                 alert(ret.message);
@@ -234,7 +233,7 @@
 
         //图3
         that.chart3 = echarts.init($('#attence-analyse-chart3')[0]);
-        $.get('/attence/analyse', $.extend(params,{action:'002'}), function (ret) {
+        utils.ajax.query('/attence/analyse', $.extend(params,{action:'002'}), function (ret) {
             $.unloading();
             if(!ret.success){
                 alert(ret.message);

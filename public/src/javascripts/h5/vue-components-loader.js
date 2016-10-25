@@ -3,11 +3,12 @@
  */
 
 var menu = [];
+var utils = require('./utils/utils');
 
 module.exports = {
     load:function(callback){
         var arr = [];
-        $.get('/auth/menu/list',function(data){
+        utils.ajax.query('/auth/menu/list',function(data){
             if(!data.success){
                 return;
             }

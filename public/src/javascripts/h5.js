@@ -29,6 +29,7 @@ loader.load(function(data){
 });
 
 $(function(){
+    $('#msg_holder').remove();
     window.HEIGHT = $(window).height();
     FastClick.attach(document.body);
 });

@@ -16,7 +16,6 @@
             </ul>
             <pagination :cur="c" :all="a" :on-pagination-callback="paginationCallback" ></pagination>
         </div>
-        <router-link to="/password-modify">查询</router-link>
         <popup :show="show" v-on:show="setShow">
             <div class="condition-wrap">
                 <div class="condition-form-group">
@@ -48,7 +47,7 @@
     require('../../libs/lCalendar/LCalendar.min.css');
     var popup = require('./vue-popup.vue');
     require('../../libs/calendar');
-    var animationUtil = require('../utils/animationUtil');
+    var utils = require('../utils/utils');
     var methods = {
         onNavigatorRightBtnClick:function(){
             this.show = true;
@@ -77,7 +76,7 @@
             this.show = false;
         }
     };
-    animationUtil.process(methods);
+    utils.animation.process(methods);
 
     module.exports = {
         module:'/attence-search',
@@ -113,7 +112,7 @@
             Events.subscribe('attence-search-refresh',function(param){
                 var _p = $.extend({},{page:1,rows:10},param);
                 $.loading();
-                $.get('/attence/search',_p,function(data){
+                utils.ajax.query('/attence/search',_p,function(data){
                     that.items = data.data.rows;
                     that.c = _p.page;
                     that.a = data.data.total == 0?1:Math.ceil(data.data.total/10);

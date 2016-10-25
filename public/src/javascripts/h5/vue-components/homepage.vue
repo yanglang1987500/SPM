@@ -19,10 +19,9 @@
 <script>
     var navigator = require('./vue-navigator.vue');
 
-    var animationUtil = require('../utils/animationUtil');
+    var utils = require('../utils/utils');
     var methods = {};
-    animationUtil.processHomepage(methods);
-
+    utils.animation.processHomepage(methods);
     var loader = require('../vue-components-loader');
 
     module.exports = {

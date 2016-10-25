@@ -22,7 +22,7 @@
 
 <script>
     import navigator from './vue-navigator.vue';
-    var animationUtil = require('../utils/animationUtil');
+    var utils = require('../utils/utils');
 
 
     var methods = {
@@ -44,7 +44,7 @@
                 alert("确认密码与新密码不一致!");
                 return;
             }
-            $.post('/user/passwordmodify',{
+            utils.ajax.save('/user/passwordmodify',{
                 oldPassword:oldPassword,
                 newPassword:newPassword
             },function(data){
@@ -57,7 +57,7 @@
             });
         }
     };
-    animationUtil.process(methods);
+    utils.animation.process(methods);
     module.exports = {
         module:'/password-modify',
         data:function(){

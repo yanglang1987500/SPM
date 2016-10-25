@@ -31,7 +31,7 @@
 
 <script>
     var navigator = require('./vue-navigator.vue');
-    var animationUtil = require('../utils/animationUtil');
+    var utils = require('../utils/utils');
     require('../../libs/artEditor');
     var methods = {
         onNavigatorRightBtnClick:function(){
@@ -45,7 +45,7 @@
                 alert('内容不能为空');
                 return;
             }
-            $.post('/report/save',{
+            utils.ajax.save('/report/save',{
                 action:'001',
                 report_title:$('#title').val(),
                 report_content:$('#content').val(),
@@ -67,7 +67,7 @@
             });
         }
     };
-    animationUtil.process(methods);
+    utils.animation.process(methods);
     module.exports = {
         module:'/repair-report',
         data:function(){

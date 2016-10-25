@@ -15,18 +15,15 @@
 <body>
 <% include h5layout.html%>
 <div id="h5app">
+    <div id="msg_holder" class="loading-wrap"><div class="loading-preloader">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+             </div></div>
     <router-view></router-view>
 </div>
-<script>
-/*    window.onerror = function(msg, url, l){
-        txt = "There was an error on this page.    ";
-        txt += "   Error: " + msg + "    ";
-        txt += "   URL: " + url + "   ";
-        txt += "    Line: " + l + "    ";
-        txt += " Click OK to continue.   ";
-        alert(txt)
-    };*/
-</script>
+
 <script src="/src/javascripts/libs/zepto.min.js"></script>
 <script src="/dist/modules/common.js"></script>
 <script src="/dist/modules/h5.js"></script>
