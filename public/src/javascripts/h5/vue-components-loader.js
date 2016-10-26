@@ -13,17 +13,27 @@ module.exports = {
                 return;
             }
             var menuList = data.data;
+            //先将homepage路由加入
             arr.push({path:'/',component:require('./vue-components/homepage.vue')});
             for(var i = 0,len = menuList.length;i<len;i++){
                 if(menuList[i].menu_device == '1')
                     continue;
-                var flag = /\/h5\/(.*)/.test(menuList[i]['menu_url']);
-                if(flag){
-                    var mod = require('./vue-components/'+RegExp.$1+'.vue');
+                //H5模块的路由都要求是由h5/开头 如果是父级菜单则menu_url为空
+                if(menuList[i]['menu_url']){
+                    var flag = /\/h5\/(.*)/.test(menuList[i]['menu_url']);
+                    if(flag){
+                        var mod = require('./vue-components/'+RegExp.$1+'.vue');
+                        arr.push({path:mod.module,component:mod});
+                        menuList[i].path = '/'+RegExp.$1;
+                        menu.push(menuList[i]);
+                    }
+                }else{
+                    var mod = require('./vue-components/menu-second.vue');
                     arr.push({path:mod.module,component:mod});
-                    menuList[i].path = '/'+RegExp.$1;
+                    menuList[i].path = '/menu-second?menu_id='+menuList[i]['menu_id'];
                     menu.push(menuList[i]);
                 }
+
             }
             callback && callback(arr);
         });

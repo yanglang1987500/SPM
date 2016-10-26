@@ -2,6 +2,7 @@
     <transition v-on:before-enter="beforeEnter" v-on:after-enter="afterEnter"
                 v-on:enter="enter"
                 v-on:leave="leave"
+                v-on:before-leave="beforeLeave"
                 v-bind:css="false">
     <div class="router-view" id="attence-analyse" >
         <navigator navigator-title="学生考勤分析" navigatorRightBtn="过滤" :on-navigator-right-btn-click="onNavigatorRightBtnClick"></navigator>
@@ -75,7 +76,6 @@
         components:{navigator:navigator,popup:popup},
         mounted:function(){
             var that = this;
-            $.loading();
             var calendar = new LCalendar();
             calendar.init({
                 'trigger': '#startdate',//标签id
@@ -91,11 +91,12 @@
             require.ensure([],function(){
                 echarts = require('../../libs/echarts.min');
                 setTimeout(function(){
+                    $.loading();
                     initChart.apply(that,[{
                         startdate:that.startdate.replace(/-/gi,''),
                         enddate:that.enddate.replace(/-/gi,''),
                     }]);
-                },500);
+                },utils.animation.DURATION);
             });
         }
     };

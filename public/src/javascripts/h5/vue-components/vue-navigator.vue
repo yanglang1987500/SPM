@@ -34,7 +34,7 @@
 <style lang="sass" scoped>
     nav.navigator{
         position: fixed;
-        z-index: 999;
+        z-index: 99;
         font-size: .35rem;
         line-height: 1rem;
         width:100%;

@@ -87,13 +87,15 @@ MenuAddModify.prototype.bindEvents = function(){
     this.$treepanel.click(function(){
         return false;
     });
-    this.initMenuTree();
-
+    this.initMenuTree(1);
+    $('#menu_device',that.dom).on('change',function(){
+       that.initMenuTree($(this).val());
+    });
 };
 
-MenuAddModify.prototype.initMenuTree = function(){
+MenuAddModify.prototype.initMenuTree = function(type){
     var that = this;
-    this.query('/menu/list',function(data){
+    this.query('/menu/list',{menu_device:type},function(data){
         if(!data.success){
             that.toast(data.message);
             return;
@@ -120,6 +122,9 @@ MenuAddModify.prototype.initMenuTree = function(){
                 onClick:function(event, treeId, treeNode){
                     //包括自己在内，如果层级大于2则不让选
                     if(treeNode.getPath().length <3){
+                        //编辑模式下不让选择自己为自己的父节点 
+                        if(that.options.action == '002' && that.options.menu_id == treeNode.menu_id)
+                            return;
                         $('#menu_parent_id',that.dom).val(treeNode.menu_title);
                         $('#menu_parent_id',that.dom).attr('data-pid',treeNode.menu_id);
                         hidePanel();
@@ -153,6 +158,7 @@ MenuAddModify.prototype.restoreData = function() {
         $('#show_type',that.dom).val(data.show_type);
         $('#menu_type',that.dom).val(data.menu_type);
         $('#menu_device',that.dom).val(data.menu_device);
+        that.initMenuTree(data.menu_device);
         $('#menu_parent_id',that.dom).val(data.menu_parent_title);
         $('#menu_parent_id',that.dom).attr('data-pid',data.menu_parent_id);
     });

@@ -14,7 +14,7 @@ body:before {
   right: 0;
   bottom: 0;
   left: 0;
-  background: url(/dist/modules/033d9b5a68f5dd1b5c3c9dde3fdc14d7.jpg) center 0 no-repeat;
+  background: url(/dist/modules/592b1a8cd7638b71cb437bce1bd015ac.jpg) center 0 no-repeat;
   background-size: cover; }
 
 #h5app {
@@ -72,7 +72,7 @@ body:before {
 
 nav.navigator[data-v-6ddafa0c] {
   position: fixed;
-  z-index: 999;
+  z-index: 99;
   font-size: .35rem;
   line-height: 1rem;
   width: 100%;
@@ -328,6 +328,40 @@ nav.navigator .navigator-btn#navigatorRightBtn[data-v-6ddafa0c] {
     font-size: .3rem;
     padding: .4rem .3rem;
     box-shadow: 0 0.01rem 0.04rem rgba(0, 0, 0, 0.13);
+}
+
+#menu-second-view-container {
+  background-color: #f5f5f5 !important;
+}
+.second-menu-list {
+  list-style: none;
+  overflow: hidden;
+  background: #fff;
+  margin: .3rem 0 0 0;
+}
+.second-menu-list a {
+    text-decoration: none;
+    display: block;
+}
+.second-menu-list .menu-list-item {
+    height: 1.2rem;
+    position: relative;
+    border-bottom: 1px solid #eee;
+    color: #00abff;
+    font-size: .5rem;
+    line-height: 1.2rem;
+    display: block;
+    text-align: left;
+    padding: 0 .4rem;
+    word-wrap: break-word;
+}
+.second-menu-list .menu-list-item span {
+      font-size: .35rem;
+      color: #656565;
+      text-align: left;
+      vertical-align: top;
+      margin-left: .3rem;
+      font-family: MicroSoft Yahei;
 }
 
 #password-modify-container .panel-body[data-v-39b945d6] {

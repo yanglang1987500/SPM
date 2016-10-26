@@ -1,14 +1,12 @@
 /**
  * Created by 杨浪 on 2016/10/25.
  */
-var md5 = require('browser-md5');
 /**=======================================扩展加密解密===========================================**/
-module.exports = {
+window.Crypto = {
     cert:'spm',
     panEncrypt: function (str, pwd) {
         if (pwd == null || pwd.length <= 0) {
             pwd = this.cert;
-            return null;
         }
         var prand = "";
         for (var i = 0; i < pwd.length; i++) {
@@ -56,7 +54,6 @@ module.exports = {
         }
         if (pwd == null || pwd.length <= 0) {
             pwd = this.cert;
-            return;
         }
         var prand = "";
         for (var i = 0; i < pwd.length; i++) {

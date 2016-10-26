@@ -2,6 +2,7 @@
     <transition v-on:before-enter="beforeEnter" v-on:after-enter="afterEnter"
                 v-on:enter="enter"
                 v-on:leave="leave"
+                v-on:before-leave="beforeLeave"
                 v-bind:css="false">
     <div class="router-view" id="repair-view-container" :style="'height:'+WINHEIGHT+'px'">
         <navigator navigator-title="上报修理" navigator-right-btn="提交" :on-navigator-right-btn-click="onNavigatorRightBtnClick"></navigator>

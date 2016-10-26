@@ -30,7 +30,7 @@ router.post('/login', function (req, res, next) {
 
     
     function doCheck(userInfo){
-        if(username == userInfo.user_name && utils.md5(password) == userInfo.user_password){
+        if(username == userInfo.user_name && password == userInfo.user_password){
             var maxAge = 1000 * 60 * 60 * 2; //2小时
             if (remember) {
                 maxAge = 1000 * 60 * 60 * 24 * 7; // 一周
@@ -76,7 +76,7 @@ router.post('/h5/login', function (req, res, next) {
 
 
     function doCheck(userInfo){
-        if(username == userInfo.user_name && utils.md5(password) == userInfo.user_password){
+        if(username == userInfo.user_name && password == userInfo.user_password){
             var maxAge = 1000 * 60 * 60 * 2; //2小时
             if (remember) {
                 maxAge = 1000 * 60 * 60 * 24 * 7; // 一周

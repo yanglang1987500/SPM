@@ -12,9 +12,10 @@ var isReturn = false;
 Events.subscribe('route:isReturn',function(flag){
     isReturn = flag;
 });
-var count = 1, prePath = '',currentPath = '';
+var count = 999, prePath = '',currentPath = '',DURATION = 500;
 var fns = {
     beforeEnter:function(el){
+        debugger;
         if(prePath == this.$route.matched[0].path){
             isReturn = true;
             setTimeout(function(){
@@ -27,7 +28,8 @@ var fns = {
         !isReturn && $(el).css('z-index',count++);
         $(el).css({
             'position':'absolute',
-            'min-height':window.HEIGHT+'px'
+            'min-height':window.HEIGHT+'px',
+            'opacity':isReturn?1:0
         });
         Velocity(el, { translateX: isReturn?'0%':'100%' }, { duration: 0 });
     },
@@ -39,10 +41,22 @@ var fns = {
         $("body").scrollTop(0);
     },
     enter:function(el,done){
-        Velocity(el, { translateX: '0%' ,duration: isReturn?0:600},{complete:done});
+        setTimeout(function(){
+            $(el).css({
+                opacity:1
+            });
+        },50);
+        Velocity(el, { translateX: '0%' },{complete:done,duration: isReturn?0:DURATION});
     },
     leave:function(el,done){
-        Velocity(el, { translateX: isReturn?'100%':'0%' ,duration: isReturn?600:0},{complete:done});
+        Velocity(el, { translateX: isReturn?'100%':'0%' },{complete:done,duration: DURATION});
+    },
+    beforeLeave:function(el){
+        var $el = $(el);
+        $el.css({
+            position:'absolute',
+            transform:null
+        });
     }
 };
 var fns_homepage = {
@@ -62,15 +76,23 @@ var fns_homepage = {
         Velocity(el, { translateX: '0%' }, { duration: 0 });
     },
     afterEnter:function(el){
+        console.log('end');
         $(el).css({
             position:'static'
         });
     },
     enter:function(el,done){
-        Velocity(el, { translateX: '0%' ,duration: 0},{complete:done});
+        Velocity(el, { translateX: '0%' },{complete:done,duration: DURATION});
     },
     leave:function(el,done){
-        Velocity(el, { translateX: '0%' ,duration: 0},{complete:done});
+        Velocity(el, { translateX: '0%' },{complete:done,duration: DURATION});
+    },
+    beforeLeave:function(el){
+        var $el = $(el);
+        $el.css({
+            position:'absolute',
+            transform:null
+        });
     }
 };
 /**=======================================扩展动画===========================================**/
@@ -234,7 +256,8 @@ module.exports = {
         },
         processHomepage:function(methods){
             $.extend(methods,fns_homepage);
-        }
+        },
+        DURATION:DURATION
     },
     ajax:AJAX,
     crypto:Crypto

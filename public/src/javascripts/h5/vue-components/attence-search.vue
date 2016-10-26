@@ -2,6 +2,7 @@
     <transition v-on:before-enter="beforeEnter" v-on:after-enter="afterEnter"
                 v-on:enter="enter"
                 v-on:leave="leave"
+                v-on:before-leave="beforeLeave"
                 v-bind:css="false">
     <div class="router-view" >
         <navigator navigator-title="学生考勤查询" navigatorRightBtn="过滤" :on-navigator-right-btn-click="onNavigatorRightBtnClick"></navigator>
@@ -118,8 +119,13 @@
                     that.a = data.data.total == 0?1:Math.ceil(data.data.total/10);
                     $.unloading();
                 });
-            }).notify('attence-search-refresh',{startdate:Calendar.getInstance(that.starttime).format('yyyyMMdd HH:mm:ss'),
-                enddate:Calendar.getInstance(that.endtime).format('yyyyMMdd HH:mm:ss')});
+            });
+            setTimeout(function() {
+                Events.notify('attence-search-refresh', {
+                    startdate: Calendar.getInstance(that.starttime).format('yyyyMMdd HH:mm:ss'),
+                    enddate: Calendar.getInstance(that.endtime).format('yyyyMMdd HH:mm:ss')
+                });
+            },utils.animation.DURATION);
         },
         destroyed:function(){
             Events.unsubscribe('attence-search-refresh');

@@ -2,6 +2,7 @@
     <transition v-on:before-enter="beforeEnter"  v-on:after-enter="afterEnter"
                 v-on:enter="enter"
                 v-on:leave="leave"
+                v-on:before-leave="beforeLeave"
                 v-bind:css="false">
     <div class="router-view" >
         <ul class="homepage-menu-list">
@@ -23,12 +24,18 @@
     var methods = {};
     utils.animation.processHomepage(methods);
     var loader = require('../vue-components-loader');
-
     module.exports = {
         module:'/',
         data:function(){
             return {
-                menus:loader.getMenu()
+                menus:function(){
+                    var menus = loader.getMenu(), sub = [];
+                    menus.forEach(function(item){
+                        if(item['menu_parent_id'] == '0')
+                            sub.push(item);
+                    });
+                    return sub;
+                }()
             }
         },
         computed:{
