@@ -100,6 +100,15 @@ nav.navigator .navigator-btn#navigatorRightBtn[data-v-6ddafa0c] {
       right: 0;
 }
 
+#aboutus-container .content-wrap[data-v-d34721d6] {
+  padding: .5rem;
+}
+#aboutus-container .content-wrap p[data-v-d34721d6] {
+    font-size: .35rem;
+    line-height: 1.5;
+    text-indent: .3rem;
+}
+
 .condition-wrap[data-v-16561188] {
   font-size: .3rem;
   padding: .5rem 0 0 0;
@@ -354,6 +363,10 @@ nav.navigator .navigator-btn#navigatorRightBtn[data-v-6ddafa0c] {
     text-align: left;
     padding: 0 .4rem;
     word-wrap: break-word;
+}
+.second-menu-list .menu-list-item .fa {
+      width: .5rem;
+      text-align: center;
 }
 .second-menu-list .menu-list-item span {
       font-size: .35rem;

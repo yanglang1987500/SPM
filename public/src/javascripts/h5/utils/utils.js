@@ -12,7 +12,7 @@ var isReturn = false;
 Events.subscribe('route:isReturn',function(flag){
     isReturn = flag;
 });
-var count = 999, prePath = '',currentPath = '',DURATION = 500;
+var count = 999, prePath = '',currentPath = '',DURATION = 400;
 var fns = {
     beforeEnter:function(el){
         debugger;

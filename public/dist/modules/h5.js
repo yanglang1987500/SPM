@@ -10387,7 +10387,7 @@ webpackJsonp([0],[
 	Events.subscribe('route:isReturn',function(flag){
 	    isReturn = flag;
 	});
-	var count = 999, prePath = '',currentPath = '',DURATION = 500;
+	var count = 999, prePath = '',currentPath = '',DURATION = 400;
 	var fns = {
 	    beforeEnter:function(el){
 	        debugger;
@@ -12642,6 +12642,7 @@ webpackJsonp([0],[
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
+		"./aboutus.vue": 330,
 		"./attence-analyse.vue": 99,
 		"./attence-search.vue": 114,
 		"./homepage.vue": 15,
@@ -14277,8 +14278,10 @@ webpackJsonp([0],[
 	        "to": item.path
 	      }
 	    }, [_h('li', {
-	      class: 'menu-list-item fa ' + item.menu_icon
-	    }, [_h('span', [_s(item.menu_title)])])])]
+	      staticClass: "menu-list-item"
+	    }, [_h('i', {
+	      class: 'fa ' + item.menu_icon
+	    }), _h('span', [_s(item.menu_title)])])])]
 	  })])])])
 	}},staticRenderFns: []}
 	if (false) {
@@ -14941,6 +14944,343 @@ webpackJsonp([0],[
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 145 */,
+/* 146 */,
+/* 147 */,
+/* 148 */,
+/* 149 */,
+/* 150 */,
+/* 151 */,
+/* 152 */,
+/* 153 */,
+/* 154 */,
+/* 155 */,
+/* 156 */,
+/* 157 */,
+/* 158 */,
+/* 159 */,
+/* 160 */,
+/* 161 */,
+/* 162 */,
+/* 163 */,
+/* 164 */,
+/* 165 */,
+/* 166 */,
+/* 167 */,
+/* 168 */,
+/* 169 */,
+/* 170 */,
+/* 171 */,
+/* 172 */,
+/* 173 */,
+/* 174 */,
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */,
+/* 179 */,
+/* 180 */,
+/* 181 */,
+/* 182 */,
+/* 183 */,
+/* 184 */,
+/* 185 */,
+/* 186 */,
+/* 187 */,
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */,
+/* 193 */,
+/* 194 */,
+/* 195 */,
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */,
+/* 210 */,
+/* 211 */,
+/* 212 */,
+/* 213 */,
+/* 214 */,
+/* 215 */,
+/* 216 */,
+/* 217 */,
+/* 218 */,
+/* 219 */,
+/* 220 */,
+/* 221 */,
+/* 222 */,
+/* 223 */,
+/* 224 */,
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */,
+/* 230 */,
+/* 231 */,
+/* 232 */,
+/* 233 */,
+/* 234 */,
+/* 235 */,
+/* 236 */,
+/* 237 */,
+/* 238 */,
+/* 239 */,
+/* 240 */,
+/* 241 */,
+/* 242 */,
+/* 243 */,
+/* 244 */,
+/* 245 */,
+/* 246 */,
+/* 247 */,
+/* 248 */,
+/* 249 */,
+/* 250 */,
+/* 251 */,
+/* 252 */,
+/* 253 */,
+/* 254 */,
+/* 255 */,
+/* 256 */,
+/* 257 */,
+/* 258 */,
+/* 259 */,
+/* 260 */,
+/* 261 */,
+/* 262 */,
+/* 263 */,
+/* 264 */,
+/* 265 */,
+/* 266 */,
+/* 267 */,
+/* 268 */,
+/* 269 */,
+/* 270 */,
+/* 271 */,
+/* 272 */,
+/* 273 */,
+/* 274 */,
+/* 275 */,
+/* 276 */,
+/* 277 */,
+/* 278 */,
+/* 279 */,
+/* 280 */,
+/* 281 */,
+/* 282 */,
+/* 283 */,
+/* 284 */,
+/* 285 */,
+/* 286 */,
+/* 287 */,
+/* 288 */,
+/* 289 */,
+/* 290 */,
+/* 291 */,
+/* 292 */,
+/* 293 */,
+/* 294 */,
+/* 295 */,
+/* 296 */,
+/* 297 */,
+/* 298 */,
+/* 299 */,
+/* 300 */,
+/* 301 */,
+/* 302 */,
+/* 303 */,
+/* 304 */,
+/* 305 */,
+/* 306 */,
+/* 307 */,
+/* 308 */,
+/* 309 */,
+/* 310 */,
+/* 311 */,
+/* 312 */,
+/* 313 */,
+/* 314 */,
+/* 315 */,
+/* 316 */,
+/* 317 */,
+/* 318 */,
+/* 319 */,
+/* 320 */,
+/* 321 */,
+/* 322 */,
+/* 323 */,
+/* 324 */,
+/* 325 */,
+/* 326 */,
+/* 327 */,
+/* 328 */,
+/* 329 */,
+/* 330 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _keys = __webpack_require__(16);
+
+	var _keys2 = _interopRequireDefault(_keys);
+
+	var _typeof2 = __webpack_require__(51);
+
+	var _typeof3 = _interopRequireDefault(_typeof2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var __vue_exports__, __vue_options__;
+
+	/* styles */
+	__webpack_require__(331);
+
+	/* script */
+	__vue_exports__ = __webpack_require__(333);
+
+	/* template */
+	var __vue_template__ = __webpack_require__(334);
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
+	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
+	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
+	    return key !== "default" && key !== "__esModule";
+	  })) {
+	    console.error("named exports are not supported in *.vue files.");
+	  }
+	  __vue_options__ = __vue_exports__ = __vue_exports__.default;
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options;
+	}
+	__vue_options__.name = __vue_options__.name || "aboutus";
+	__vue_options__.__file = "D:\\workspace\\SPM\\public\\src\\javascripts\\h5\\vue-components\\aboutus.vue";
+	__vue_options__.render = __vue_template__.render;
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns;
+	__vue_options__._scopeId = "data-v-d34721d6";
+
+	/* hot reload */
+	if (false) {
+	  (function () {
+	    var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api");
+	    hotAPI.install(require("vue"), false);
+	    if (!hotAPI.compatible) return;
+	    module.hot.accept();
+	    if (!module.hot.data) {
+	      hotAPI.createRecord("data-v-d34721d6", __vue_options__);
+	    } else {
+	      hotAPI.reload("data-v-d34721d6", __vue_options__);
+	    }
+	  })();
+	}
+	if (__vue_options__.functional) {
+	  console.error("[vue-loader] aboutus.vue: functional components are not supported and should be defined in plain js files using render functions.");
+	}
+
+	module.exports = __vue_exports__;
+
+/***/ },
+/* 331 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 332 */,
+/* 333 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _vueNavigator = __webpack_require__(92);
+
+	var _vueNavigator2 = _interopRequireDefault(_vueNavigator);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var utils = __webpack_require__(11); //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
+	var methods = {};
+	utils.animation.process(methods);
+	module.exports = {
+	    module: '/aboutus',
+	    data: function data() {
+	        return { WINHEIGHT: window.HEIGHT };
+	    },
+	    methods: methods,
+	    components: { navigator: _vueNavigator2.default },
+	    mounted: function mounted() {
+	        this.WINHEIGHT = window.HEIGHT;
+	    }
+	};
+
+/***/ },
+/* 334 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('transition', {
+	    attrs: {
+	      "css": false
+	    },
+	    on: {
+	      "before-enter": beforeEnter,
+	      "after-enter": afterEnter,
+	      "enter": enter,
+	      "leave": leave,
+	      "before-leave": beforeLeave
+	    }
+	  }, [_h('div', {
+	    staticClass: "router-view",
+	    style: ('height:' + WINHEIGHT + 'px'),
+	    attrs: {
+	      "id": "aboutus-container"
+	    }
+	  }, [_h('navigator', {
+	    attrs: {
+	      "navigator-title": "关于我们"
+	    }
+	  }), " ", _m(0)])])
+	}},staticRenderFns: [function (){with(this) {
+	  return _h('div', {
+	    staticClass: "content-wrap"
+	  }, [_h('p', ["该平台提供智能门禁与学生考勤系统、智能报修与投诉处理系统、学校信息发布与家校互通系统等功能 "])])
+	}}]}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-d34721d6", module.exports)
+	  }
+	}
 
 /***/ }
 ]);

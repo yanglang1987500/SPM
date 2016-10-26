@@ -5,7 +5,7 @@ var Calendar = require('../libs/calendar');
 var mySqlPool = require('../database/mysqlpool');
 var utils = require('../libs/utils');
 var table = 'sys_menu', mainKey = 'menu_id';
-
+console.log(utils.generatorOrder());
 module.exports = {
     /**
      * 菜单列表查询
@@ -30,7 +30,7 @@ module.exports = {
         }
 
         condition = condition.join(' and ');
-        var selectSql = 'select t1.*,ifnull(t2.menu_title,\'根菜单\') menu_parent_title ',fromSql = 'from '+table+' t1 left join '+table+' t2 on t1.menu_parent_id=t2.menu_id where '+condition+' order by t1.menu_order asc';
+        var selectSql = 'select t1.*,ifnull(t2.menu_title,\'根菜单\') menu_parent_title ',fromSql = 'from '+table+' t1 left join '+table+' t2 on t1.menu_parent_id=t2.menu_id where '+condition+' order by t1.menu_order desc';
 
         mySqlPool.getConnection(function(connection){
             connection.query(selectSql+fromSql,function(err,result){

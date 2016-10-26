@@ -8,7 +8,7 @@
         <navigator :navigator-title="menu_title" ></navigator>
         <ul class="second-menu-list">
             <template v-for="item in menus">
-                <router-link v-bind:to="item.path"><li v-bind:class="'menu-list-item fa '+item.menu_icon"><span>{{item.menu_title}}</span></li></router-link>
+                <router-link v-bind:to="item.path"><li class="menu-list-item"><i v-bind:class="'fa '+item.menu_icon"></i><span>{{item.menu_title}}</span></li></router-link>
             </template>
         </ul>
     </div>

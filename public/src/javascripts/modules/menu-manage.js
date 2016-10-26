@@ -7,6 +7,7 @@ var frameworkBase = require('./framework/framework-base');
 require('../libs/easyui-lang-zh_CN.js');
 require('../../stylesheets/modules/menu-manage.scss');
 require('../../stylesheets/easyui.css');
+var Exchange = require('../libs/datagrid-exchange');
 var MenuManage = function () {};
 
 //继承自框架基类
@@ -128,7 +129,21 @@ MenuManage.prototype.bindEvents = function () {
             }
         });
     });
-    
+
+    $('#moveup_menu_btn',this.dom).click(function(){
+        var rowData;
+        if(!(rowData = getSelectRow()))
+            return;
+        Exchange.moveupRow(that.$table,rowData);
+    });
+
+    $('#movedown_menu_btn',this.dom).click(function(){
+        var rowData;
+        if(!(rowData = getSelectRow()))
+            return;
+        Exchange.movedownRow(that.$table,rowData);
+    });
+
     function getSelectRow(){
         var rowData = that.$table.datagrid('getSelected');
         if(!rowData){
