@@ -46,8 +46,8 @@
                 return;
             }
             utils.ajax.save('/user/passwordmodify',{
-                oldPassword:oldPassword,
-                newPassword:newPassword
+                oldPassword:utils.crypto.md5(oldPassword),
+                newPassword:utils.crypto.md5(newPassword)
             },function(data){
                 if(data.success){
                     alert('修改成功');

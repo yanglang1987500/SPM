@@ -27,7 +27,7 @@ var fns = {
         !isReturn && $(el).css('z-index',count++);
         $(el).css({
             'position':'absolute',
-            'min-height':window.HEIGHT+'px',
+            'height':'0px',
             'opacity':isReturn?1:0
         });
         Velocity(el, { translateX: isReturn?'-20%':'100%' }, { duration: 0 });
@@ -42,7 +42,9 @@ var fns = {
     enter:function(el,done){
         setTimeout(function(){
             $(el).css({
-                opacity:1
+                opacity:1,
+                'min-height':window.HEIGHT+'px',
+                'height':'auto',
             });
         },50);
         Velocity(el, { translateX: '0%' },{complete:done,duration: isReturn?DURATION:DURATION});
@@ -255,7 +257,7 @@ module.exports = {
         processHomepage:function(methods){
             $.extend(methods,fns_homepage);
         },
-        DURATION:DURATION
+        DURATION:DURATION+200
     },
     ajax:AJAX,
     crypto:Crypto

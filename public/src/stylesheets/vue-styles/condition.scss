@@ -15,6 +15,10 @@
       line-height: 1rem;
       color: #fff;
       font-size: .4rem;
+      border-right:1px solid #fff;
+      &:last-child{
+        border-right:0;
+      }
       &:hover{
         background:#0091f3;
       }
@@ -40,7 +44,7 @@
       width: 72%;
       float:left;
       padding: 3px 10px;
-      font-size: .2rem;
+      font-size: .3rem;
       color: #555;
       background-color: #fff;
       background-image: none;

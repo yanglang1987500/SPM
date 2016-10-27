@@ -146,7 +146,7 @@ module.exports = {
      * @param callback 回调
      */
     passwordModify:function(userId,oldPassword,newPassword,callback){
-        var selectSql = "select * from "+table+" where user_password = '"+utils.md5(oldPassword)+"' and user_id = '"+userId+"'";
+        var selectSql = "select * from "+table+" where user_password = '"+oldPassword+"' and user_id = '"+userId+"'";
         mySqlPool.getConnection(function(connection){
             connection.query(selectSql,function(err,result){
                 if(err){
@@ -154,7 +154,7 @@ module.exports = {
                     return;
                 }
                 if(result.length>0){
-                    var updateSql = "update "+table+" set user_password = '"+utils.md5(newPassword)+"' where user_id = '"+userId+"' ";
+                    var updateSql = "update "+table+" set user_password = '"+newPassword+"' where user_id = '"+userId+"' ";
                     connection.query(updateSql, function (err, result) {
                         if(err){
                             callback && callback(err);

@@ -46,7 +46,7 @@
         h1{
             text-align: center;
             font-weight: normal;
-            font-size:.5rem;
+            font-size:.4rem;
         }
         .navigator-btn{
             position: absolute;

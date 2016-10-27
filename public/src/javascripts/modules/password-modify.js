@@ -4,6 +4,7 @@
 var frameworkBase = require('./framework/framework-base');
 require('../../stylesheets/modules/password-modify.scss');
 require('../../stylesheets/easyui.css');
+var Crypto = require('../../../../libs/crypto');
 var PasswordModify = function(){ };
 
 //继承自框架基类
@@ -49,8 +50,8 @@ PasswordModify.prototype.bindEvents = function(){
             return;
         }
         that.save('/user/passwordmodify',{
-            oldPassword:oldPassword,
-            newPassword:newPassword
+            oldPassword:Crypto.md5(oldPassword),
+            newPassword:Crypto.md5(newPassword)
         },function(data){
             if(data.success){
                 swal("成功", '修改成功', "success");
