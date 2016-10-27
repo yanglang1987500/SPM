@@ -134,14 +134,16 @@ MenuManage.prototype.bindEvents = function () {
         var rowData;
         if(!(rowData = getSelectRow()))
             return;
-        Exchange.moveupRow(that.$table,rowData);
+        var exRow = Exchange.moveupRow(that.$table,rowData);
+        exchangeOrder(rowData,exRow);
     });
 
     $('#movedown_menu_btn',this.dom).click(function(){
         var rowData;
         if(!(rowData = getSelectRow()))
             return;
-        Exchange.movedownRow(that.$table,rowData);
+        var exRow = Exchange.movedownRow(that.$table,rowData);
+        exchangeOrder(rowData,exRow);
     });
 
     function getSelectRow(){
@@ -151,6 +153,32 @@ MenuManage.prototype.bindEvents = function () {
             return;
         }
         return rowData;
+    }
+
+    function exchangeOrder(rowData,rowData2){
+        var tmpOrder = rowData.menu_order;
+        rowData.menu_order = rowData2.menu_order;
+        rowData2.menu_order = tmpOrder;
+        that.save('/menu/save',{
+            action:'002',
+            menu_id:rowData.menu_id,
+            menu_order:rowData.menu_order,
+        },function(data){
+            if(!data.success){
+                that.toast(data.message);
+                return;
+            }
+        });
+        that.save('/menu/save',{
+            action:'002',
+            menu_id:rowData2.menu_id,
+            menu_order:rowData2.menu_order,
+        },function(data){
+            if(!data.success){
+                that.toast(data.message);
+                return;
+            }
+        });
     }
 };
 

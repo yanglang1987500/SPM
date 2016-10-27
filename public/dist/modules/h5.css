@@ -101,9 +101,11 @@ nav.navigator .navigator-btn#navigatorRightBtn[data-v-6ddafa0c] {
 }
 
 #aboutus-container .content-wrap[data-v-d34721d6] {
+  text-align: center;
   padding: .5rem;
 }
 #aboutus-container .content-wrap p[data-v-d34721d6] {
+    text-align: left;
     font-size: .35rem;
     line-height: 1.5;
     text-indent: .3rem;

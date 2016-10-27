@@ -10387,10 +10387,9 @@ webpackJsonp([0],[
 	Events.subscribe('route:isReturn',function(flag){
 	    isReturn = flag;
 	});
-	var count = 999, prePath = '',currentPath = '',DURATION = 400;
+	var count = 999, prePath = '',currentPath = '',DURATION = 300;
 	var fns = {
 	    beforeEnter:function(el){
-	        debugger;
 	        if(prePath == this.$route.matched[0].path){
 	            isReturn = true;
 	            setTimeout(function(){
@@ -10406,7 +10405,7 @@ webpackJsonp([0],[
 	            'min-height':window.HEIGHT+'px',
 	            'opacity':isReturn?1:0
 	        });
-	        Velocity(el, { translateX: isReturn?'0%':'100%' }, { duration: 0 });
+	        Velocity(el, { translateX: isReturn?'-20%':'100%' }, { duration: 0 });
 	    },
 	    afterEnter:function(el){
 	        $(el).css({
@@ -10421,10 +10420,10 @@ webpackJsonp([0],[
 	                opacity:1
 	            });
 	        },50);
-	        Velocity(el, { translateX: '0%' },{complete:done,duration: isReturn?0:DURATION});
+	        Velocity(el, { translateX: '0%' },{complete:done,duration: isReturn?DURATION:DURATION});
 	    },
 	    leave:function(el,done){
-	        Velocity(el, { translateX: isReturn?'100%':'0%' },{complete:done,duration: DURATION});
+	        Velocity(el, { translateX: isReturn?'100%':'-20%' },{complete:done,duration: DURATION});
 	    },
 	    beforeLeave:function(el){
 	        var $el = $(el);
@@ -10448,10 +10447,9 @@ webpackJsonp([0],[
 	            'min-height':window.HEIGHT+'px'
 	        });
 	        $("body").scrollTop(0);
-	        Velocity(el, { translateX: '0%' }, { duration: 0 });
+	        Velocity(el, { translateX: '-20%' }, { duration: 0 });
 	    },
 	    afterEnter:function(el){
-	        console.log('end');
 	        $(el).css({
 	            position:'static'
 	        });
@@ -10460,7 +10458,7 @@ webpackJsonp([0],[
 	        Velocity(el, { translateX: '0%' },{complete:done,duration: DURATION});
 	    },
 	    leave:function(el,done){
-	        Velocity(el, { translateX: '0%' },{complete:done,duration: DURATION});
+	        Velocity(el, { translateX: '-20%' },{complete:done,duration: DURATION});
 	    },
 	    beforeLeave:function(el){
 	        var $el = $(el);
@@ -15228,6 +15226,7 @@ webpackJsonp([0],[
 	//
 	//
 	//
+	//
 
 	var methods = {};
 	utils.animation.process(methods);
@@ -15273,7 +15272,11 @@ webpackJsonp([0],[
 	}},staticRenderFns: [function (){with(this) {
 	  return _h('div', {
 	    staticClass: "content-wrap"
-	  }, [_h('p', ["该平台提供智能门禁与学生考勤系统、智能报修与投诉处理系统、学校信息发布与家校互通系统等功能 "])])
+	  }, [_h('img', {
+	    attrs: {
+	      "src": __webpack_require__(336)
+	    }
+	  }), " ", _h('p', ["该平台提供智能门禁与学生考勤系统、智能报修与投诉处理系统、学校信息发布与家校互通系统等功能 "])])
 	}}]}
 	if (false) {
 	  module.hot.accept()
@@ -15281,6 +15284,13 @@ webpackJsonp([0],[
 	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-d34721d6", module.exports)
 	  }
 	}
+
+/***/ },
+/* 335 */,
+/* 336 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "5e583a50d06bccdb1e362fe2ee8462e8.png";
 
 /***/ }
 ]);

@@ -25,6 +25,8 @@ module.exports = {
             }
             var routes = {},menuList = data.data;
             for(var i = 0,len = menuList.length;i<len;i++){
+                if(menuList[i]['menu_device'] !=1 )
+                    continue;
                 routes[menuList[i]['menu_url']] = load.bind(null,menuList[i]['menu_url'],menuList[i]['show_type']);
                 auth_menus.push(menuList[i]['menu_url'])
             }

@@ -12,10 +12,9 @@ var isReturn = false;
 Events.subscribe('route:isReturn',function(flag){
     isReturn = flag;
 });
-var count = 999, prePath = '',currentPath = '',DURATION = 400;
+var count = 999, prePath = '',currentPath = '',DURATION = 300;
 var fns = {
     beforeEnter:function(el){
-        debugger;
         if(prePath == this.$route.matched[0].path){
             isReturn = true;
             setTimeout(function(){
@@ -31,7 +30,7 @@ var fns = {
             'min-height':window.HEIGHT+'px',
             'opacity':isReturn?1:0
         });
-        Velocity(el, { translateX: isReturn?'0%':'100%' }, { duration: 0 });
+        Velocity(el, { translateX: isReturn?'-20%':'100%' }, { duration: 0 });
     },
     afterEnter:function(el){
         $(el).css({
@@ -46,10 +45,10 @@ var fns = {
                 opacity:1
             });
         },50);
-        Velocity(el, { translateX: '0%' },{complete:done,duration: isReturn?0:DURATION});
+        Velocity(el, { translateX: '0%' },{complete:done,duration: isReturn?DURATION:DURATION});
     },
     leave:function(el,done){
-        Velocity(el, { translateX: isReturn?'100%':'0%' },{complete:done,duration: DURATION});
+        Velocity(el, { translateX: isReturn?'100%':'-20%' },{complete:done,duration: DURATION});
     },
     beforeLeave:function(el){
         var $el = $(el);
@@ -73,10 +72,9 @@ var fns_homepage = {
             'min-height':window.HEIGHT+'px'
         });
         $("body").scrollTop(0);
-        Velocity(el, { translateX: '0%' }, { duration: 0 });
+        Velocity(el, { translateX: '-20%' }, { duration: 0 });
     },
     afterEnter:function(el){
-        console.log('end');
         $(el).css({
             position:'static'
         });
@@ -85,7 +83,7 @@ var fns_homepage = {
         Velocity(el, { translateX: '0%' },{complete:done,duration: DURATION});
     },
     leave:function(el,done){
-        Velocity(el, { translateX: '0%' },{complete:done,duration: DURATION});
+        Velocity(el, { translateX: '-20%' },{complete:done,duration: DURATION});
     },
     beforeLeave:function(el){
         var $el = $(el);

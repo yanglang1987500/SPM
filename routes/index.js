@@ -21,7 +21,7 @@ var sessionUtil = require('../framework/sessionUtil');
 router.get('/', function (req, res, next) {
     if (req.session.isLogin) {
         var sessionUserInfo = sessionUtil.createUserInfo(req.session.userInfo);
-        menuDao.menuSearch(function (err, data) {
+        menuDao.menuSearch({menu_device:1},function (err, data) {
             if (err) {
                 console.log(err);
             }

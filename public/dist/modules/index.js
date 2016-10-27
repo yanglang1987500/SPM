@@ -906,6 +906,8 @@ webpackJsonp([2],[
 	            }
 	            var routes = {},menuList = data.data;
 	            for(var i = 0,len = menuList.length;i<len;i++){
+	                if(menuList[i]['menu_device'] !=1 )
+	                    continue;
 	                routes[menuList[i]['menu_url']] = load.bind(null,menuList[i]['menu_url'],menuList[i]['show_type']);
 	                auth_menus.push(menuList[i]['menu_url'])
 	            }
@@ -6224,14 +6226,16 @@ webpackJsonp([2],[
 	        var rowData;
 	        if(!(rowData = getSelectRow()))
 	            return;
-	        Exchange.moveupRow(that.$table,rowData);
+	        var exRow = Exchange.moveupRow(that.$table,rowData);
+	        exchangeOrder(rowData,exRow);
 	    });
 
 	    $('#movedown_menu_btn',this.dom).click(function(){
 	        var rowData;
 	        if(!(rowData = getSelectRow()))
 	            return;
-	        Exchange.movedownRow(that.$table,rowData);
+	        var exRow = Exchange.movedownRow(that.$table,rowData);
+	        exchangeOrder(rowData,exRow);
 	    });
 
 	    function getSelectRow(){
@@ -6241,6 +6245,32 @@ webpackJsonp([2],[
 	            return;
 	        }
 	        return rowData;
+	    }
+
+	    function exchangeOrder(rowData,rowData2){
+	        var tmpOrder = rowData.menu_order;
+	        rowData.menu_order = rowData2.menu_order;
+	        rowData2.menu_order = tmpOrder;
+	        that.save('/menu/save',{
+	            action:'002',
+	            menu_id:rowData.menu_id,
+	            menu_order:rowData.menu_order,
+	        },function(data){
+	            if(!data.success){
+	                that.toast(data.message);
+	                return;
+	            }
+	        });
+	        that.save('/menu/save',{
+	            action:'002',
+	            menu_id:rowData2.menu_id,
+	            menu_order:rowData2.menu_order,
+	        },function(data){
+	            if(!data.success){
+	                that.toast(data.message);
+	                return;
+	            }
+	        });
 	    }
 	};
 
@@ -9155,6 +9185,7 @@ webpackJsonp([2],[
 	     *
 	     * @param datagrid
 	     * @param row
+	     * @return row 与之交换的另一条数据对象
 	     */
 	    moveupRow: function (datagrid, row) {
 	        var index = datagrid.datagrid("getRowIndex", row);
@@ -9168,12 +9199,14 @@ webpackJsonp([2],[
 	            row: row
 	        });
 	        datagrid.datagrid("selectRow", index - 1);
+	        return datagrid.datagrid("getRows")[index];
 	    },
 	    /**
 	     * 向下移动一行
 	     *
 	     * @param datagrid
 	     * @param row
+	     * @return row 与之交换的另一条数据对象
 	     */
 	    movedownRow: function (datagrid, row) {
 	        var index = datagrid.datagrid("getRowIndex", row);
@@ -9187,6 +9220,7 @@ webpackJsonp([2],[
 	            row: row
 	        });
 	        datagrid.datagrid("selectRow", index + 1);
+	        return datagrid.datagrid("getRows")[index];
 
 	    },
 	    /**

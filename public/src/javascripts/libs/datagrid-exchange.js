@@ -7,6 +7,7 @@ module.exports = {
      *
      * @param datagrid
      * @param row
+     * @return row 与之交换的另一条数据对象
      */
     moveupRow: function (datagrid, row) {
         var index = datagrid.datagrid("getRowIndex", row);
@@ -20,12 +21,14 @@ module.exports = {
             row: row
         });
         datagrid.datagrid("selectRow", index - 1);
+        return datagrid.datagrid("getRows")[index];
     },
     /**
      * 向下移动一行
      *
      * @param datagrid
      * @param row
+     * @return row 与之交换的另一条数据对象
      */
     movedownRow: function (datagrid, row) {
         var index = datagrid.datagrid("getRowIndex", row);
@@ -39,6 +42,7 @@ module.exports = {
             row: row
         });
         datagrid.datagrid("selectRow", index + 1);
+        return datagrid.datagrid("getRows")[index];
 
     },
     /**

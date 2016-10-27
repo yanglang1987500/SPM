@@ -30,7 +30,7 @@ router.get('/menu/list', function (req, res, next) {
 });
 
 
-var MODIFYCOLUMNS = ['menu_id','menu_title','menu_url','menu_icon','show_type','menu_type','menu_device','menu_parent_id'];
+var MODIFYCOLUMNS = ['menu_id','menu_title','menu_url','menu_icon','show_type','menu_type','menu_device','menu_parent_id','menu_order'];
 /**
  * 菜单保存
  */
