@@ -70,14 +70,12 @@ module.exports = {
      */
     orgUserListSearchByOrgId:function(page,rows,org_id,params,callback){
         var condition = [];
-        with(params){
-            key && condition.push(' t2.user_name like \'%'+key+'%\' ');
-            startdate && condition.push(" t2.create_time >= '" + startdate+"' ");
-            enddate && condition.push(" t2.create_time <= '" + enddate+"' ");
-            condition.push(" t1.org_id = t3.org_id ");
-            condition.push(" t3.user_id = t2.user_id  ");
-            condition.push(" t1.org_id = '"+org_id+"' ");
-        }
+        params.key && condition.push(' t2.user_name like \'%'+params.key+'%\' ');
+        params.startdate && condition.push(" t2.create_time >= '" + params.startdate+"' ");
+        params.enddate && condition.push(" t2.create_time <= '" + params.enddate+"' ");
+        condition.push(" t1.org_id = t3.org_id ");
+        condition.push(" t3.user_id = t2.user_id  ");
+        condition.push(" t1.org_id = '"+org_id+"' ");
 
         condition = condition.join(' and ');
         var selectSql = "select t2.* ",fromSql = " from sys_org t1,sys_user t2,sys_org_user t3 WHERE " +condition,

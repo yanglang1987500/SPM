@@ -88,10 +88,12 @@
                 'type': 'date',//date 调出日期选择 datetime 调出日期时间选择 time 调出时间选择 ym 调出年月选择
                 'minDate':'1900-1-1'
             });
+            setTimeout(function(){
+                $.loading();
+            },utils.animation.DURATION);
             require.ensure([],function(){
                 echarts = require('../../libs/echarts.min');
                 setTimeout(function(){
-                    $.loading();
                     initChart.apply(that,[{
                         startdate:that.startdate.replace(/-/gi,''),
                         enddate:that.enddate.replace(/-/gi,''),

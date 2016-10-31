@@ -1,4 +1,5 @@
 module.exports = [
+    {field: 'checked', title: '选择', width: 20,checkbox:true},
     {field: 'user_id', title: '用户ID', width: 200},
     {field: 'user_name', title: '用户名', width: 150},
     {field: 'create_time', title: '创建时间', width: 150},

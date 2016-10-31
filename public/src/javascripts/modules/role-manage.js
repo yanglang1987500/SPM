@@ -127,12 +127,12 @@ RoleManage.prototype.bindEvents = function () {
     });
     //删除信息
     $('#delete_role_btn',this.dom).click(function(){
-        var rowData;
-        if(!(rowData = getSelectRow()))
+        var rows;
+        if(!(rows = getCheckRow()))
             return;
         swal({
             title: "确认",
-            text: "删除该角色将会清空此角色所关联的组织机构与用户关系，确认删除吗？",
+            text: "删除选中角色将会清空此角色所关联的组织机构与用户关系，确认删除吗？",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
@@ -140,7 +140,13 @@ RoleManage.prototype.bindEvents = function () {
             cancelButtonText: "取消",
             closeOnConfirm: true
         }, function () {
-            that.save('/role/save',{action:'003',role_id:rowData.role_id},function(data){
+            that.save('/role/save',{action:'003',role_id:function(){
+                var ids = [];
+                rows.forEach(function(item){
+                    ids.push(item.role_id);
+                });
+                return ids.join(',');
+            }()},function(data){
                 if(data.success){
                     that.toast("删除角色成功!");
                     Events.notify('onRefresh:role-manage');
@@ -160,6 +166,14 @@ RoleManage.prototype.bindEvents = function () {
             return;
         }
         return rowData;
+    }
+    function getCheckRow(){
+        var rows = that.$table.datagrid('getChecked');
+        if(rows.length == 0){
+            swal("提示", "请至少选择一条数据!", "warning");
+            return;
+        }
+        return rows;
     }
 };
 

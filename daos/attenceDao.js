@@ -11,13 +11,13 @@ module.exports = {
      */
     attenceSearch:function(page,rows,params,callback){
         var condition = [];
-        with(params){
-            key && condition.push(' t1.stu_name like \'%'+key+'%\' ');
-            (type=='0'||type=='1') && condition.push(' t2.type = ' + type);
-            startdate && condition.push(" t2.create_time >= '" + startdate+"' ");
-            enddate && condition.push(" t2.create_time <= '" + enddate+"' ");
-            condition.push(' t1.rfid = t2.rfid ');
-        }
+
+        params.key && condition.push(' t1.stu_name like \'%'+params.key+'%\' ');
+        (params.type=='0'||params.type=='1') && condition.push(' t2.type = ' + params.type);
+        params.startdate && condition.push(" t2.create_time >= '" + params.startdate+"' ");
+        params.enddate && condition.push(" t2.create_time <= '" + params.enddate+"' ");
+        condition.push(' t1.rfid = t2.rfid ');
+
         condition = condition.join(' and ');
         var selectSql = 'select t1.stu_id,t1.stu_name,t2.type,t1.rfid,t2.create_time  ',fromSql = 'from t_student t1,t_rflog t2 where '+condition+' order by t2.create_time asc,t1.stu_id',
             pageSql = selectSql+ fromSql + ' limit '+(page-1)*rows+','+rows,
@@ -47,12 +47,10 @@ module.exports = {
      */
     attenceAnalyse:function(params,needDate,callback){
         var condition = [];
-        with(params){
-            type && condition.push(' t2.type = ' + type);
-            startdate && condition.push(" t2.create_time >= '" + startdate+"' ");
-            enddate && condition.push(" t2.create_time <= '" + Calendar.getInstance(enddate).format('yyyyMMdd 23:59:59')+"' ");
-            condition.push(' t1.rfid = t2.rfid ');
-        }
+        params.type && condition.push(' t2.type = ' + params.type);
+        params.startdate && condition.push(" t2.create_time >= '" + params.startdate+"' ");
+        params.enddate && condition.push(" t2.create_time <= '" + Calendar.getInstance(params.enddate).format('yyyyMMdd 23:59:59')+"' ");
+        condition.push(' t1.rfid = t2.rfid ');
 
         condition = condition.join(' and ');
 

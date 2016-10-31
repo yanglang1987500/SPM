@@ -3,6 +3,7 @@
  */
 
 require('../stylesheets/h5.scss');
+require('../stylesheets/vue-styles/theme.scss');
 var FastClick = require('./libs/fastclick');
 var Vue = require('vue');
 var VueRouter = require('vue-router');
@@ -29,6 +30,11 @@ loader.load(function(data){
 });
 
 $(function(){
+    var theme;
+    if(theme = localStorage.getItem('_H5_THEME_KEY_')){
+        $('body')[0].className = (theme);
+    }
+
     $('#msg_holder').remove();
     window.HEIGHT = $(window).height();
     FastClick.attach(document.body);

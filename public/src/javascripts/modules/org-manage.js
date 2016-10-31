@@ -299,12 +299,12 @@ OrgManage.prototype.bindEvents = function () {
     });
     //删除信息
     $('#delete_user_btn',this.dom).click(function(){
-        var rowData;
-        if(!(rowData = getSelectRow()))
+        var rows;
+        if(!(rows = getCheckRow()))
             return;
         swal({
             title: "确认",
-            text: "删除该用户将会清空此用户所属于组织机构以及其所拥有的角色关联数据，确认删除吗？",
+            text: "删除选中用户将会清空此用户所属于组织机构以及其所拥有的角色关联数据，确认删除吗？",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
@@ -312,7 +312,13 @@ OrgManage.prototype.bindEvents = function () {
             cancelButtonText: "取消",
             closeOnConfirm: true
         }, function () {
-            that.save('/user/save',{action:'004',user_id:rowData.user_id},function(data){
+            that.save('/user/save',{action:'004',user_id:function(){
+                var ids = [];
+                rows.forEach(function(item){
+                    ids.push(item.user_id);
+                });
+                return ids.join(',');
+            }()},function(data){
                 if(data.success){
                     that.toast("删除用户成功!");
                     Events.notify('onRefresh:org-manage');
@@ -350,6 +356,14 @@ OrgManage.prototype.bindEvents = function () {
             return;
         }
         return rowData;
+    }
+    function getCheckRow(){
+        var rows = that.$table.datagrid('getChecked');
+        if(rows.length == 0){
+            swal("提示", "请至少选择一条数据!", "warning");
+            return;
+        }
+        return rows;
     }
 };
 

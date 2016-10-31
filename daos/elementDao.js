@@ -22,11 +22,10 @@ module.exports = {
             _params = params;
         }
         condition.push(' 1=1 ');
-        if(_params)
-            with(_params){
-                key && condition.push(' (t1.element_desc like \'%'+key+'%\' or t1.element_code like \'%'+key+'%\') ');
-                menu_id && condition.push(' t1.menu_id =\''+menu_id+'\' ');
-            }
+        if(_params){
+            params.key && condition.push(' (t1.element_desc like \'%'+params.key+'%\' or t1.element_code like \'%'+params.key+'%\') ');
+            params.menu_id && condition.push(' t1.menu_id =\''+params.menu_id+'\' ');
+        }
 
         condition = condition.join(' and ');
         var selectSql = 'select t1.*',fromSql = 'from '+table+' t1  where '+condition;
@@ -121,9 +120,11 @@ module.exports = {
      * @param callback
      */
     removeElement:function(element_id,callback){
+        //将id列表（id,id,id）替换成'id','id','id'便于使用in语句进行批量删除
+        element_id = element_id.replace(/([^,]{32})(,)?/gi,"'$1'$2");
         var execArr = [
-            {sql:"DELETE FROM "+table+" WHERE "+mainKey+" = '"+element_id+"'"},
-            {sql:"DELETE FROM sys_auth WHERE resource_id = '"+element_id+"'"}];
+            {sql:"DELETE FROM "+table+" WHERE "+mainKey+" in ("+element_id+")"},
+            {sql:"DELETE FROM sys_auth WHERE resource_id in ("+element_id+")"}];
         mySqlPool.execTrans(execArr,function(err,result){
             if(err){
                 console.log(err);

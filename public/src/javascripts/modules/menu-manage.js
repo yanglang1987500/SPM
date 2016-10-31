@@ -117,10 +117,16 @@ MenuManage.prototype.bindEvents = function () {
     });
     //删除菜单
     $('#delete_menu_btn',this.dom).click(function(){
-        var rowData;
-        if(!(rowData = getSelectRow()))
+        var rows;
+        if(!(rows = getCheckRow()))
             return;
-        that.save('/menu/save',{action:'003',menu_id:rowData.menu_id},function(data){
+        that.save('/menu/save',{action:'003',menu_id:function(){
+            var ids = [];
+            rows.forEach(function(item){
+                ids.push(item.menu_id);
+            });
+            return ids.join(',');
+        }()},function(data){
             if(data.success){
                 that.toast("删除菜单成功!");
                 Events.notify('onRefresh:menu-manage');
@@ -153,6 +159,14 @@ MenuManage.prototype.bindEvents = function () {
             return;
         }
         return rowData;
+    }
+    function getCheckRow(){
+        var rows = that.$table.datagrid('getChecked');
+        if(rows.length == 0){
+            swal("提示", "请至少选择一条数据!", "warning");
+            return;
+        }
+        return rows;
     }
 
     function exchangeOrder(rowData,rowData2){

@@ -1,4 +1,5 @@
 module.exports = [
+    {field: 'checked', title: '选择', width: 20,checkbox:true},
     {field: 'id', title: 'id', width: 200},
     {field: 'dim_id', title: '字典项id', width: 200},
     {field: 'dim_name', title: '字典项名称', width: 200},

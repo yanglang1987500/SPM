@@ -123,9 +123,11 @@ module.exports = {
      * @param callback
      */
     removeMenu:function(menu_id,callback){
+        //将id列表（id,id,id）替换成'id','id','id'便于使用in语句进行批量删除
+        menu_id = menu_id.replace(/([^,]{32})(,)?/gi,"'$1'$2");
         var execArr = [
-            {sql:"DELETE FROM "+table+" WHERE "+mainKey+" = '"+menu_id+"'"},
-            {sql:"DELETE FROM sys_auth WHERE resource_id = '"+menu_id+"'"}];
+            {sql:"DELETE FROM "+table+" WHERE "+mainKey+" in ("+menu_id+")"},
+            {sql:"DELETE FROM sys_auth WHERE resource_id in ("+menu_id+")"}];
         mySqlPool.execTrans(execArr,function(err,result){
             if(err){
                 console.log(err);

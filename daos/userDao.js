@@ -16,12 +16,10 @@ module.exports = {
      */
     userListSearch:function(page,rows,params,callback){
         var condition = [];
-        with(params){
-            condition.push(' 1=1 ');
-            key && condition.push(' user_name like \'%'+key+'%\' ');
-            startdate && condition.push(" create_time >= '" + startdate+"' ");
-            enddate && condition.push(" create_time <= '" + enddate+"' ");
-        }
+        condition.push(' 1=1 ');
+        params.key && condition.push(' user_name like \'%'+params.key+'%\' ');
+        params.startdate && condition.push(" create_time >= '" + params.startdate+"' ");
+        params.enddate && condition.push(" create_time <= '" + params.enddate+"' ");
 
         condition = condition.join(' and ');
         var selectSql = 'select * ',fromSql = ' from '+table+' where '+condition+' order by update_time desc',
@@ -176,10 +174,12 @@ module.exports = {
      * @param callback
      */
     removeUser:function(user_id,callback){
+        //将id列表（id,id,id）替换成'id','id','id'便于使用in语句进行批量删除
+        user_id = user_id.replace(/([^,]{32})(,)?/gi,"'$1'$2");
         var execArr = [
-            {sql:"DELETE FROM sys_org_user WHERE "+mainKey+" = '"+user_id+"'"},
-            {sql:"DELETE FROM sys_user_role WHERE "+mainKey+" = '"+user_id+"'"},
-            {sql:"DELETE FROM "+table+" WHERE "+mainKey+" = '"+user_id+"'"}];
+            {sql:"DELETE FROM sys_org_user WHERE "+mainKey+" in ("+user_id+") "},
+            {sql:"DELETE FROM sys_user_role WHERE "+mainKey+" in ("+user_id+") "},
+            {sql:"DELETE FROM "+table+" WHERE "+mainKey+" in ("+user_id+") "}];
         mySqlPool.execTrans(execArr,function(err,result){
             if(err){
                 console.log(err);

@@ -1,5 +1,6 @@
 typeof window == 'undefined' && (Calendar = require('../../libs/calendar'));
 module.exports = [
+    {field: 'checked', title: '选择', width: 20,checkbox:true},
     {field: 'report_id', title: '信息ID', width: 350},
     {field: 'report_title', title: '信息标题', width: 150},
     {field: 'report_content', title: '信息内容', width: 150},

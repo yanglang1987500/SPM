@@ -26,7 +26,7 @@ var fns = {
         currentPath = this.$route.matched[0].path;
         !isReturn && $(el).css('z-index',count++);
         $(el).css({
-            'position':'absolute',
+            'position':'fixed',
             'height':'0px',
             'opacity':isReturn?1:0
         });
@@ -55,9 +55,10 @@ var fns = {
     beforeLeave:function(el){
         var $el = $(el);
         $el.css({
-            position:'absolute',
+            position:'fixed',
             transform:null
         });
+        $("body").scrollTop(0);
     }
 };
 var fns_homepage = {
@@ -70,7 +71,7 @@ var fns_homepage = {
         currentPath = '';
         $(el).css({
             'z-index':'0',
-            'position':'absolute',
+            'position':'fixed',
             'min-height':window.HEIGHT+'px'
         });
         $("body").scrollTop(0);
@@ -90,7 +91,7 @@ var fns_homepage = {
     beforeLeave:function(el){
         var $el = $(el);
         $el.css({
-            position:'absolute',
+            position:'fixed',
             transform:null
         });
     }

@@ -147,10 +147,16 @@ MessagePublishList.prototype.bindEvents = function () {
     });
     //删除信息
     $('#delete_message_btn',this.dom).click(function(){
-        var rowData;
-        if(!(rowData = getSelectRow()))
+        var rows;
+        if(!(rows = getCheckRow()))
             return;
-        that.save('/publish/save',{action:'003',publish_id:rowData.publish_id},function(data){
+        that.save('/publish/save',{action:'003',publish_id:function(){
+            var ids = [];
+            rows.forEach(function(item){
+                ids.push(item.publish_id);
+            });
+            return ids.join(',');
+        }()},function(data){
             if(data.success){
                 that.toast("删除信息成功!");
                 Events.notify('onRefresh:message-publish-list');
@@ -221,6 +227,14 @@ MessagePublishList.prototype.bindEvents = function () {
             return;
         }
         return rowData;
+    }
+    function getCheckRow(){
+        var rows = that.$table.datagrid('getChecked');
+        if(rows.length == 0){
+            swal("提示", "请至少选择一条数据!", "warning");
+            return;
+        }
+        return rows;
     }
 };
 

@@ -9,7 +9,7 @@ html{
 body{
     font-family: MicroSoft Yahei;
     height:100%;
-    background-image: url('../images/framework/bg/h5bg.jpg');
+    background-image: url('../images/framework/bg/h5bg1.jpg');
     background-size: 100% 100%;
     background-repeat:no-repeat;
     font-size: 14px;
@@ -144,4 +144,24 @@ input[type=checkbox], input[type=radio] {
     font-size:.35rem;
     line-height: 1.3333333;
     border-radius: 6px;
+}
+
+
+body.theme1 {
+     background: url('../images/framework/bg/h5bg1.jpg') center 0 no-repeat;
+}
+body.theme2 {
+     background: url('../images/framework/bg/h5bg2.jpg') center 0 no-repeat;
+}
+body.theme3 {
+     background: url('../images/framework/bg/h5bg3.jpg') center 0 no-repeat;
+}
+body.theme4 {
+     background: url('../images/framework/bg/h5bg4.jpg') center 0 no-repeat;
+}
+body.theme5 {
+     background: url('../images/framework/bg/h5bg5.jpg') center 0 no-repeat;
+}
+body.theme6 {
+     background: url('../images/framework/bg/h5bg6.jpg') center 0 no-repeat;
 }

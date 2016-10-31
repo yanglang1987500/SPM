@@ -1,4 +1,5 @@
 module.exports = [
+    {field: 'checked', title: '选择', width: 20,checkbox:true},
     {field: 'menu_id', title: '菜单ID', width: 200},
     {field: 'menu_title', title: '菜单标题', width: 150},
     {field: 'menu_url', title: '菜单url', width: 150},

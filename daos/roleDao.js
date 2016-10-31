@@ -23,9 +23,8 @@ module.exports = {
         }
         condition.push(' 1=1 ');
         if(_params)
-            with(_params){
-                key && condition.push(' role_name like \'%'+key+'%\'  ');
-            }
+            params.key && condition.push(' role_name like \'%'+params.key+'%\'  ');
+
         condition = condition.join(' and ');
         var selectSql = 'select * ',fromSql = 'from '+table+'  where '+condition+' ';
 
@@ -237,10 +236,12 @@ module.exports = {
      * @param callback
      */
     removeRole:function(role_id,callback){
+        //将id列表（id,id,id）替换成'id','id','id'便于使用in语句进行批量删除
+        role_id = role_id.replace(/([^,]{32})(,)?/gi,"'$1'$2");
         var execArr = [
-            {sql:"DELETE FROM sys_org_role WHERE "+mainKey+" = '"+role_id+"'"},
-            {sql:"DELETE FROM sys_user_role WHERE "+mainKey+" = '"+role_id+"'"},
-            {sql:"DELETE FROM "+table+" WHERE "+mainKey+" = '"+role_id+"'"}];
+            {sql:"DELETE FROM sys_org_role WHERE "+mainKey+" in ("+role_id+") "},
+            {sql:"DELETE FROM sys_user_role WHERE "+mainKey+" in ("+role_id+") "},
+            {sql:"DELETE FROM "+table+" WHERE "+mainKey+" in ("+role_id+") "}]
         mySqlPool.execTrans(execArr,function(err,result){
             if(err){
                 console.log(err);

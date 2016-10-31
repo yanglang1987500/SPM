@@ -12,14 +12,12 @@ module.exports = {
      */
     publishSearch:function(page,rows,params,callback){
         var condition = [];
-        with(params){
-            condition.push(' 1=1 ');
-            key && condition.push(' publish_title like \'%'+key+'%\' ');
-            (is_show == '0'||is_show == '1') && condition.push(' is_show = ' + is_show);
-            (is_publish == '0'||is_publish == '1') && condition.push(' is_publish = ' + is_publish);
-            startdate && condition.push(" create_time >= '" + startdate+"' ");
-            enddate && condition.push(" create_time <= '" + enddate+"' ");
-        }
+        condition.push(' 1=1 ');
+        params.key && condition.push(' publish_title like \'%'+params.key+'%\' ');
+        (params.is_show == '0'||params.is_show == '1') && condition.push(' is_show = ' + params.is_show);
+        (params.is_publish == '0'||params.is_publish == '1') && condition.push(' is_publish = ' + params.is_publish);
+        params.startdate && condition.push(" create_time >= '" + params.startdate+"' ");
+        params.enddate && condition.push(" create_time <= '" + params.enddate+"' ");
 
         condition = condition.join(' and ');
         var selectSql = 'select publish_id,publish_title,substr(publish_content_pure,1,20) publish_content_pure'+(params.detail?',publish_content':'')+', user_id,create_time,update_time,is_show,is_publish ',fromSql = 'from t_publish where '+condition+' order by update_time desc',
@@ -118,8 +116,10 @@ module.exports = {
      * @param callback
      */
     removePublish:function(publish_id,callback){
+        //将id列表（id,id,id）替换成'id','id','id'便于使用in语句进行批量删除
+        publish_id = publish_id.replace(/([^,]{32})(,)?/gi,"'$1'$2");
         mySqlPool.getConnection(function(connection){
-            connection.query("DELETE FROM t_publish WHERE publish_id = '"+publish_id+"'", function (err, result) {
+            connection.query("DELETE FROM t_publish WHERE publish_id in ("+publish_id+") ", function (err, result) {
                 if(err){
                     callback && callback(err);
                     return;

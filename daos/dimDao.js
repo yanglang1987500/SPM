@@ -22,11 +22,10 @@ module.exports = {
             _params = params;
         }
         condition.push(' 1=1 ');
-        if(_params)
-            with(_params){
-                key && condition.push(' (t1.dim_name like \'%'+key+'%\' or t1.dim_value like \'%'+key+'%\') ');
-                (group_id && group_id!= '0') && condition.push(' t1.group_id = ' + group_id);
-            }
+        if(_params){
+            params.key && condition.push(' (t1.dim_name like \'%'+params.key+'%\' or t1.dim_value like \'%'+params.key+'%\') ');
+            (params.group_id && params.group_id!= '0') && condition.push(' t1.group_id = ' + params.group_id);
+        }
 
         condition = condition.join(' and ');
         var selectSql = 'select t1.* ',fromSql = 'from '+table+' t1  where '+condition+' order by t1.group_id asc';
@@ -150,8 +149,10 @@ module.exports = {
      * @param callback
      */
     removeDim:function(id,callback){
+        //将id列表（id,id,id）替换成'id','id','id'便于使用in语句进行批量删除
+        id = id.replace(/([^,]{32})(,)?/gi,"'$1'$2");
         var execArr = [
-            {sql:"DELETE FROM "+table+" WHERE "+mainKey+" = '"+id+"'"}];
+            {sql:"DELETE FROM "+table+" WHERE "+mainKey+" in ("+id+")"}];
         mySqlPool.execTrans(execArr,function(err,result){
             if(err){
                 console.log(err);

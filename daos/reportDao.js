@@ -15,13 +15,11 @@ module.exports = {
      */
     reportSearch:function(page,rows,params,callback){
         var condition = [];
-        with(params){
-            condition.push(' 1=1 ');
-            key && condition.push(' report_title like \'%'+key+'%\' ');
-            (is_handle == '0'||is_handle == '1') && condition.push(' is_handle = ' + is_handle);
-            startdate && condition.push(" create_time >= '" + startdate+"' ");
-            enddate && condition.push(" create_time <= '" + enddate+"' ");
-        }
+        condition.push(' 1=1 ');
+        params.key && condition.push(' report_title like \'%'+params.key+'%\' ');
+        (params.is_handle == '0'||params.is_handle == '1') && condition.push(' is_handle = ' + params.is_handle);
+        params.startdate && condition.push(" create_time >= '" + params.startdate+"' ");
+        params.enddate && condition.push(" create_time <= '" + params.enddate+"' ");
 
         condition = condition.join(' and ');
         var selectSql = 'select report_id,report_title ,report_content, user_id,photos,create_time,update_time,is_handle ',fromSql = ' from t_report where '+condition+' order by update_time desc',
@@ -120,8 +118,10 @@ module.exports = {
      * @param callback
      */
     removeReport:function(report_id,callback){
+        //将id列表（id,id,id）替换成'id','id','id'便于使用in语句进行批量删除
+        report_id = report_id.replace(/([^,]{32})(,)?/gi,"'$1'$2");
         mySqlPool.getConnection(function(connection){
-            connection.query("DELETE FROM t_report WHERE report_id = '"+report_id+"'", function (err, result) {
+            connection.query("DELETE FROM t_report WHERE report_id in ("+report_id+") ", function (err, result) {
                 if(err){
                     callback && callback(err);
                     return;
