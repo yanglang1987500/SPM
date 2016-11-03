@@ -28,7 +28,7 @@ webpackJsonp([0],[
 	    router.beforeEach(function(to, from, next)  {
 	        var flag = false;
 	        data.every(function(item){
-	            if((new RegExp('^'+item.path,'g')).test(to.fullPath)){
+	            if((new RegExp('^'+item.path+'(\\?.*)?$','g')).test(to.fullPath)){
 	                flag = true;
 	                return false;
 	            }
