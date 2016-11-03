@@ -133,6 +133,10 @@ ElementManage.prototype.initMenuTree = function(){
             tree:that.ztreeObj,
             titleField:'element_desc',
             callback:function(list,treeNode,isCopy){
+                var nodes = that.ztreeObj.getSelectedNodes();
+                if(treeNode == nodes[0]){
+                    return;
+                }
                 if(treeNode.menu_parent_id == null){
                     that.toast("根节点下不允许配置元素!");
                     return;
