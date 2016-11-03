@@ -116,7 +116,8 @@ module.exports = {
     },
     /**
      * 修改元素数据所属菜单
-     * @param params 参数包
+     * @param element_id 元素id列表
+     * @param menu_id 菜单id
      * @param callback 回调
      */
     modifyElementMenu:function(element_id,menu_id,callback){
@@ -132,6 +133,42 @@ module.exports = {
                 }
                 callback && callback(false,result);
                 connection.release();
+            });
+        });
+    },
+    /**
+     * 复制元素数据到另一个菜单
+     * @param element_id 元素id列表
+     * @param menu_id 菜单id
+     * @param callback 回调
+     */
+    copyElementMenu:function(element_id,menu_id,callback){
+        //将id列表（id,id,id）替换成'id','id','id'便于使用in语句进行批量修改
+        element_id = element_id.replace(/([^,]{32})(,)?/gi,"'$1'$2");
+        var selectSql = "select t1.* from "+table+" t1  where t1."+mainKey+" in ("+element_id+")";
+        mySqlPool.getConnection(function(connection){
+            connection.query(selectSql,function(err,result){
+                if(err){
+                    callback && callback(err);
+                    return;
+                }
+                var arr = [];
+                for(var i = 0;i<result.length;i++){
+                    arr.push([utils.guid(),
+                        result[i].element_code,
+                        result[i].element_desc,
+                        menu_id]);
+                }
+
+                var insertSql = 'INSERT INTO '+table+'(element_id,element_code,element_desc,menu_id) VALUES ?';
+                connection.query(insertSql,[arr],function(err,result){
+                    if(err){
+                        callback && callback(err);
+                        return;
+                    }
+                    callback && callback(false,result[0]);
+                    connection.release();
+                });
             });
         });
     },

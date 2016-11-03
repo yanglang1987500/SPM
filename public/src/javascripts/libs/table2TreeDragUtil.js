@@ -5,7 +5,7 @@
  *  table easyui datagrid表格对象
  *  tree ztree树对象
  *  titleField 表格上显示标题的列名
- *  callback 在树上松开鼠标时的回调方法
+ *  callback 在树上松开鼠标时的回调方法 list 表格拖拽记录列表 treeNode ztree目标节点 isCopy 是否为复制
  * }
  */
 var options = {table:null,tree:null,titleField:'',callback:$.noop};
@@ -42,6 +42,7 @@ var dragUtil = {
         }
     },
     mouseMove:function(e){
+
         if(!dragUtil.curDom && !(dragUtil.offset.clientX == e.clientX && dragUtil.offset.clientY == e.clientY)){
             //生成
             dragUtil.curDom = $("<div class='dom_tmp domBtn' style='border:1px solid #afbfd9;background:#deedff;padding:5px 10px;font-size:12px;box-shadow:1px 1px 5px rgba(0,0,0,.3);position: absolute;'>"+function(){
@@ -102,7 +103,7 @@ module.exports = {
         options.tree.setting.callback.onMouseUp = function(e, treeId, treeNode){
             if(treeNode && dragUtil.list.length>0){
                 dragUtil.giveup = false;
-                options.callback(dragUtil.list,treeNode);
+                options.callback(dragUtil.list,treeNode,e.ctrlKey);
             }else{
                 dragUtil.giveup = true;
             }

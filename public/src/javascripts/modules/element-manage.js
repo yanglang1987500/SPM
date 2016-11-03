@@ -132,12 +132,12 @@ ElementManage.prototype.initMenuTree = function(){
             table:that.$table,
             tree:that.ztreeObj,
             titleField:'element_desc',
-            callback:function(list,treeNode){
+            callback:function(list,treeNode,isCopy){
                 if(treeNode.menu_parent_id == null){
                     that.toast("根节点下不允许配置元素!");
                     return;
                 }
-                that.save('/element/save',{action:'004',menu_id:treeNode.menu_id,element_id:function(){
+                that.save('/element/save',{action:'004',is_copy:isCopy,menu_id:treeNode.menu_id,element_id:function(){
                     var ids = [];
                     list.forEach(function(item){
                         ids.push(item.element_id);
@@ -145,7 +145,7 @@ ElementManage.prototype.initMenuTree = function(){
                     return ids.join(',');
                 }()},function(data){
                     if(data.success){
-                        that.toast("修改信息成功!");
+                        that.toast("元素已"+(isCopy?'复制':'移动')+"到【"+treeNode.menu_title+"】下。");
                         Events.notify('onRefresh:element-manage');
                     }else{
                         that.toast(data.message);
