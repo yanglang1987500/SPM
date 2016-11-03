@@ -60,6 +60,12 @@ router.post('/element/save', function (req, res, next) {
             elementDao.removeElement(element_id,function(err,data){
                 res.json(utils.returns(arguments));
             });
+        }else if(action == '004'){//批量修改所属菜单
+            var element_id = req.body.element_id;
+            var menu_id = req.body.menu_id;
+            elementDao.modifyElementMenu(element_id,menu_id,function(err,data){
+                res.json(utils.returns(arguments));
+            });
         }
     }
 });

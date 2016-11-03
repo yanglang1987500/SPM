@@ -5,7 +5,7 @@
 
 module.exports = {
     resolve:function($,sessionUserInfo){
-        $('sec-authorize').each(function (i, item) {
+        $('sec-authorize').each(function () {
             var url = $(this).attr('url');
             //鉴权
             var ret = sessionUserInfo.getRoles().isPermission(url);

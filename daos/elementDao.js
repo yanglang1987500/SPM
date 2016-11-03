@@ -115,6 +115,27 @@ module.exports = {
         });
     },
     /**
+     * 修改元素数据所属菜单
+     * @param params 参数包
+     * @param callback 回调
+     */
+    modifyElementMenu:function(element_id,menu_id,callback){
+        //将id列表（id,id,id）替换成'id','id','id'便于使用in语句进行批量修改
+        element_id = element_id.replace(/([^,]{32})(,)?/gi,"'$1'$2");
+        var sql = 'update '+table+' set menu_id=? where '+mainKey+' in ('+element_id+')';
+        var pArr = [menu_id];
+        mySqlPool.getConnection(function(connection) {
+            connection.query(sql, pArr, function (err, result) {
+                if(err){
+                    callback && callback(err);
+                    return;
+                }
+                callback && callback(false,result);
+                connection.release();
+            });
+        });
+    },
+    /**
      * 删除元素
      * @param element_id 元素id
      * @param callback

@@ -1026,9 +1026,9 @@ webpackJsonp([2],[
 	 * 所有模块都应继承自它<br>
 	 * 此基础模块将会接管所有子模块的展现工作<br>
 	 * 只需设置showType类型，就可以多种形态进行展现<br>
-	 * 目前支持弹窗与账户中心嵌入两种形式，日后有需要可以随时增加<br>
+	 * 目前支持弹窗与普通展现、无界面三种形式<br>
 	 * 此套架构的优点在于：解耦目前所有模块，功能上各模块互相提供API接口进行调用，各模块API由各自统一进行维护。<br>
-	 * 此外，由于采用AMD模式架构，所以理论上支持无限量模块数目进行加载，浏览器的加载速度仍然飞快，扩展性非常好。<br>
+	 * 此外，由于采用CMD模式架构，所以理论上支持无限量模块数目进行加载，浏览器的加载速度仍然飞快，扩展性非常好。<br>
 	 * @version 1.0
 	 * @author 杨浪
 	 * @class Framework
@@ -1992,6 +1992,9 @@ webpackJsonp([2],[
 	    this.options = $.extend({},options);
 	    frameworkBase.init.call(this,options);
 	    var count = 10;
+	    this.wsListen('websocket:async-data',{},function(){
+	            
+	    });
 	    window.setTimeout(function(){
 	        console.log('同步数据。。。'+count);
 	        count--;
@@ -3870,6 +3873,7 @@ webpackJsonp([2],[
 	__webpack_require__(239);
 	__webpack_require__(259);
 	__webpack_require__(205);
+	var table2TreeDragUtil = __webpack_require__(355);
 	var ElementManage = function () {};
 
 	//继承自框架基类
@@ -3988,6 +3992,31 @@ webpackJsonp([2],[
 	        that.ztreeObj.expandNode(that.ztreeObj.getNodes()[0], true, false, true);
 	        selectMenuId = that.ztreeObj.getNodes()[0].menu_id;
 	        that.ztreeObj.selectNode(that.ztreeObj.getNodes()[0], false, false);
+	        table2TreeDragUtil.init({
+	            table:that.$table,
+	            tree:that.ztreeObj,
+	            titleField:'element_desc',
+	            callback:function(list,treeNode){
+	                if(treeNode.menu_parent_id == null){
+	                    that.toast("根节点下不允许配置元素!");
+	                    return;
+	                }
+	                that.save('/element/save',{action:'004',menu_id:treeNode.menu_id,element_id:function(){
+	                    var ids = [];
+	                    list.forEach(function(item){
+	                        ids.push(item.element_id);
+	                    });
+	                    return ids.join(',');
+	                }()},function(data){
+	                    if(data.success){
+	                        that.toast("修改信息成功!");
+	                        Events.notify('onRefresh:element-manage');
+	                    }else{
+	                        that.toast(data.message);
+	                    }
+	                });
+	            }
+	        });
 	        Events.notify('onRefresh:element-manage');
 	    });
 	};
@@ -9394,6 +9423,127 @@ webpackJsonp([2],[
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"user2role\">\r\n    <div class=\"user2role_content_wrap\">\r\n        <div class=\"lr-choose-panel\">\r\n            <div class=\"left-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"userList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n            <div class=\"center-operator-panel\">\r\n                <div class=\"operator-wrap\">\r\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllUser\"></span>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"right-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"mapList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>\r\n";
+
+/***/ },
+/* 355 */
+/***/ function(module, exports) {
+
+	/**
+	 * Created by 杨浪 on 2016/11/2.
+	 * table2TreeDragUtil 表格拖拽到树工具
+	 * init{
+	 *  table easyui datagrid表格对象
+	 *  tree ztree树对象
+	 *  titleField 表格上显示标题的列名
+	 *  callback 在树上松开鼠标时的回调方法
+	 * }
+	 */
+	var options = {table:null,tree:null,titleField:'',callback:$.noop};
+	var dragUtil = {
+	    dragging:true,
+	    giveup:true,
+	    list:[],
+	    curDom:null,
+	    docSelect:function(){
+	        return false;
+	    },
+	    mouseDown:function(e){
+	        var $this = $(this),multi = false;
+
+	        if($this.hasClass('datagrid-row-checked'))
+	            multi = true;
+	        dragUtil.dragging = true;
+	        dragUtil.giveup = true;
+	        dragUtil.offset = dragUtil.origin = {
+	            clientX:e.clientX,
+	            clientY:e.clientY
+	        };
+
+	        //获取表格要拖拽的数据
+	        dragUtil.list = multi ? options.table.datagrid('getChecked'):[options.table.datagrid('getRows')[parseInt($this.attr('datagrid-row-index'))]];
+	        var doc = $(document);
+	        doc.bind("mousemove", dragUtil.mouseMove);
+	        doc.bind("mouseup", dragUtil.mouseUp);
+	        doc.bind("selectstart", dragUtil.docSelect);
+
+
+	        if(e.preventDefault) {
+	            e.preventDefault();
+	        }
+	    },
+	    mouseMove:function(e){
+	        if(!dragUtil.curDom && !(dragUtil.offset.clientX == e.clientX && dragUtil.offset.clientY == e.clientY)){
+	            //生成
+	            dragUtil.curDom = $("<div class='dom_tmp domBtn' style='border:1px solid #afbfd9;background:#deedff;padding:5px 10px;font-size:12px;box-shadow:1px 1px 5px rgba(0,0,0,.3);position: absolute;'>"+function(){
+	                    var html = '',count = 0;
+	                    dragUtil.list.every(function(item){
+	                        if(count == 5){
+	                            html += '<p>……</p><p>等'+dragUtil.list.length+'条记录</p>';
+	                            return false;
+	                        }
+	                        html += '<p>'+item[options.titleField]+'</p>';
+	                        count++;
+	                        return true;
+	                    });
+	                    return html;
+	                }()+"</div>");
+	            dragUtil.curDom.appendTo("body");
+	        }
+	        dragUtil.curDom && dragUtil.curDom.css({
+	            "top": (e.clientY  + 3) + "px",
+	            "left": (e.clientX  + 3) + "px"
+	        });
+
+	    },
+	    mouseUp:function(){
+	        var doc = $(document);
+	        doc.unbind("mousemove", dragUtil.mouseMove);
+	        doc.unbind("mouseup", dragUtil.mouseUp);
+	        doc.unbind("selectstart", dragUtil.docSelect);
+
+
+	        dragUtil.list = [];
+	        dragUtil.dragging = false;
+	        if(dragUtil.giveup){
+	            setTimeout(function(){
+	                if(dragUtil.curDom){
+	                    dragUtil.curDom.animate({left:dragUtil.origin.clientX,top:dragUtil.origin.clientY,opacity:.3},300,function(){
+	                        dragUtil.curDom.remove();
+	                        dragUtil.curDom = null;
+	                    });
+	                }
+	            },10);
+	        }else{
+	            dragUtil.curDom.remove();
+	            dragUtil.curDom = null;
+	        }
+
+	    }
+	};
+
+	module.exports = {
+	    init:function(_options){
+	        options = $.extend(options,_options);
+	        if(!options.table || !options.tree){
+	            throw new TypeError('请提供table与tree实例对象。');
+	            return;
+	        }
+
+	        options.tree.setting.callback.onMouseUp = function(e, treeId, treeNode){
+	            if(treeNode && dragUtil.list.length>0){
+	                dragUtil.giveup = false;
+	                options.callback(dragUtil.list,treeNode);
+	            }else{
+	                dragUtil.giveup = true;
+	            }
+	        };
+	        options.tree.setting.callback.onDragMove = function(e, treeId, treeNode){
+	            return false;
+	        };
+	        options.table.parent().on('mousedown','tr.datagrid-row',dragUtil.mouseDown);
+	    }
+
+	};
 
 /***/ }
 ]);

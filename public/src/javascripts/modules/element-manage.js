@@ -9,6 +9,7 @@ require('../libs/ztree/jquery.ztree.all.min');
 require('../libs/ztree/css/zTreeStyle/zTreeStyle.css');
 require('../../stylesheets/modules/element-manage.scss');
 require('../../stylesheets/easyui.css');
+var table2TreeDragUtil = require('../libs/table2TreeDragUtil');
 var ElementManage = function () {};
 
 //继承自框架基类
@@ -127,6 +128,31 @@ ElementManage.prototype.initMenuTree = function(){
         that.ztreeObj.expandNode(that.ztreeObj.getNodes()[0], true, false, true);
         selectMenuId = that.ztreeObj.getNodes()[0].menu_id;
         that.ztreeObj.selectNode(that.ztreeObj.getNodes()[0], false, false);
+        table2TreeDragUtil.init({
+            table:that.$table,
+            tree:that.ztreeObj,
+            titleField:'element_desc',
+            callback:function(list,treeNode){
+                if(treeNode.menu_parent_id == null){
+                    that.toast("根节点下不允许配置元素!");
+                    return;
+                }
+                that.save('/element/save',{action:'004',menu_id:treeNode.menu_id,element_id:function(){
+                    var ids = [];
+                    list.forEach(function(item){
+                        ids.push(item.element_id);
+                    });
+                    return ids.join(',');
+                }()},function(data){
+                    if(data.success){
+                        that.toast("修改信息成功!");
+                        Events.notify('onRefresh:element-manage');
+                    }else{
+                        that.toast(data.message);
+                    }
+                });
+            }
+        });
         Events.notify('onRefresh:element-manage');
     });
 };

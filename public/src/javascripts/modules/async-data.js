@@ -21,6 +21,9 @@ AsyncData.prototype.init = function(options){
     this.options = $.extend({},options);
     frameworkBase.init.call(this,options);
     var count = 10;
+    this.wsListen('websocket:async-data',{},function(){
+            
+    });
     window.setTimeout(function(){
         console.log('同步数据。。。'+count);
         count--;
