@@ -6,9 +6,9 @@
 var frameworkBase = require('./framework/framework-base');
 require('../../stylesheets/modules/message-publish.scss');
 require('../libs/umeditor/themes/default/css/umeditor.min.css');
+
 require('../libs/umeditor/umeditor.config');
-require('../libs/umeditor/umeditor.min');
-require('../libs/umeditor/lang/zh-cn/zh-cn');
+
 var MessagePublish = function(){ };
 
 //继承自框架基类
@@ -28,12 +28,22 @@ MessagePublish.prototype.init = function(options){
     frameworkBase.init.call(this,options);
     this.loadBaseView();
     this.bindEvents();
-    if(this.options.action == '002'){
-        this.restoreData();
-    }
+
+    var that = this;
+    require.ensure([],function(){
+        require('../libs/umeditor/umeditor.min');
+        require('../libs/umeditor/lang/zh-cn/zh-cn');
+        //实例化编辑器
+        that.um = UM.getEditor('myEditor');
+        if(that.options.action == '002'){
+            that.restoreData();
+        }
+    });
+
+
 };
 
-MessagePublish.prototype.loadBaseView = function(options){
+MessagePublish.prototype.loadBaseView = function(){
     var html = require('../../../../views/modules/message-publish.html');
     this.render(html);
 };
@@ -54,9 +64,7 @@ MessagePublish.prototype.restoreData = function () {
 
 MessagePublish.prototype.bindEvents = function () {
     var that = this;
-    //实例化编辑器
-    that.um = UM.getEditor('myEditor');
-    
+
     $('#submitBtn',this.dom).click(function(){
         var content = that.um.getContent(), title = $('#title',that.dom).val();
         if($.trim(content) == ''){
@@ -88,6 +96,7 @@ MessagePublish.prototype.bindEvents = function () {
  * 由框架调用，主要用于销毁订阅的事件
  */
 MessagePublish.prototype.finish = function () {
+    debugger;
     try{
         this.dom && this.dom.hide();
         this.um.destroy();
