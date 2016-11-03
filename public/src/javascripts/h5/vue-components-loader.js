@@ -35,6 +35,7 @@ module.exports = {
                 }
 
             }
+            arr.push({path:'*',component:require('./vue-components/homepage.vue')});
             callback && callback(arr);
         });
   /*      modules.forEach(function(item){

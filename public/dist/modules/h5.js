@@ -25,7 +25,7 @@ webpackJsonp([0],[
 	    const router = window.Router =  new VueRouter({
 	        routes:data
 	    });
-	    router.beforeEach(function(to, from, next)  {
+	   /* router.beforeEach((to, from, next) => {
 	        var flag = false;
 	        data.every(function(item){
 	            if((new RegExp('^'+item.path+'(\\?.*)?$','g')).test(to.fullPath)){
@@ -35,7 +35,7 @@ webpackJsonp([0],[
 	            return true;
 	        });
 	        !flag?next({path: '/'}):next();
-	    });
+	    });*/
 	    app = new Vue({
 	        router:router,
 	        data:{
@@ -10385,6 +10385,7 @@ webpackJsonp([0],[
 	                }
 
 	            }
+	            arr.push({path:'*',component:__webpack_require__(22)});
 	            callback && callback(arr);
 	        });
 	  /*      modules.forEach(function(item){
