@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var rd = require('rd');
 var guid = require('guid');
 var bodyParser = require('body-parser');
+var parseUserAgent = require("user-agent-parser");
 
 /**== 标签处理 ==**/
 var tagProcessor = require('./framework/tag-processor');
@@ -67,7 +68,6 @@ app.use(function(req, res, next) {
  * 此处如果不拦截进行特殊处理的话，这个目录下的静态资源是不对外开放的。
  */
 app.get('*', function(req,res,next){
-
   var url = req.originalUrl;
   if(/^\/views\/(modules\/[^?]*)\.html\?.*$/.test(url)){
     res.render(RegExp.$1);

@@ -64,5 +64,8 @@ module.exports = {
     },
     guid:function(){
         return guid.raw().replace(/-/gi,'');
+    },
+    isMobile:function(req){
+        return /Mobile/g.test(req.headers["user-agent"]);
     }
 };

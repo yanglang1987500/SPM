@@ -5,7 +5,6 @@ var Calendar = require('../libs/calendar');
 var mySqlPool = require('../database/mysqlpool');
 var utils = require('../libs/utils');
 var table = 'sys_menu', mainKey = 'menu_id';
-console.log(utils.generatorOrder());
 module.exports = {
     /**
      * 菜单列表查询

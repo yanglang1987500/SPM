@@ -21,6 +21,17 @@ loader.load(function(data){
     const router = window.Router =  new VueRouter({
         routes:data
     });
+    router.beforeEach((to, from, next) => {
+        var flag = false;
+        data.every(function(item){
+            if((new RegExp('^'+item.path,'g')).test(to.fullPath)){
+                flag = true;
+                return false;
+            }
+            return true;
+        });
+        !flag?next({path: '/'}):next();
+    });
     app = new Vue({
         router:router,
         data:{

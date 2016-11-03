@@ -9,6 +9,9 @@ var authority = require('../framework/authority');
 
 /* GET home page. */
 router.get('/login', function (req, res, next) {
+    if(utils.isMobile(req)){
+        res.redirect('/h5/login');
+    }
     if(req.session.isLogin){
         res.redirect('/');
     }
@@ -55,6 +58,9 @@ router.post('/login', function (req, res, next) {
  * h5登陆
  */
 router.get('/h5/login', function (req, res, next) {
+    if(!utils.isMobile(req)){
+        res.redirect('/login');
+    }
     if(req.session.isLogin){
         res.redirect('/h5');
     }

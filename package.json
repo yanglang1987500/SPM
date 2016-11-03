@@ -59,6 +59,7 @@
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
+    "user-agent-parser": "^0.6.0",
     "vue": "^2.0.2",
     "vue-loader": "^9.5.3",
     "vue-router": "^2.0.0",
