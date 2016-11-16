@@ -9,9 +9,26 @@ var pool  = mysql.createPool({
     database : 'spm'
 });
 
+var pool4Kernal  = mysql.createPool({
+    host     : 'localhost',
+    port:'3306',
+    user     : 'root',
+    password : '',
+    database : 'db_user'
+});
+
 module.exports = {
     getConnection:function(callback){
         pool.getConnection(function(err,connection){
+            if(err){
+                console.log(err);
+                return;
+            }
+            callback && callback(connection);
+        });
+    },
+    getConnection4Kernal:function(callback){
+        pool4Kernal.getConnection(function(err,connection){
             if(err){
                 console.log(err);
                 return;
@@ -26,6 +43,7 @@ module.exports = {
             }
             connection.beginTransaction(function (err) {
                 if (err) {
+                    connection.release();
                     return callback(err, null);
                 }
                 console.log("开始执行transaction，共执行" + sqlparamsEntities.length + "条数据");
@@ -38,7 +56,7 @@ module.exports = {
                             if (tErr) {
                                 connection.rollback(function () {
                                     console.log("事务失败，" + sql_param + "，ERROR：" + tErr);
-                                    throw tErr;
+                                    return cb(tErr,null);
                                 });
                             } else {
                                 return cb(null, 'ok');
@@ -51,8 +69,7 @@ module.exports = {
                 async.series(funcAry, function (err, result) {
                     console.log("transaction error: " + err);
                     if (err) {
-                        connection.rollback(function (err) {
-                            console.log("transaction error: " + err);
+                        connection.rollback(function (err2) {
                             connection.release();
                             return callback(err, null);
                         });

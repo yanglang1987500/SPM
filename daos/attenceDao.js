@@ -26,11 +26,13 @@ module.exports = {
             connection.query(pageSql,function(err,result){
                 if(err){
                     callback && callback(err);
+                    connection.release();
                     return;
                 }
                 connection.query(countSql,function(err2,sum){
                     if(err2){
                         callback && callback(err2);
+                        connection.release();
                         return;
                     }
                     callback && callback(false,{rows:result,total:sum[0]['cnt']});
@@ -63,8 +65,9 @@ module.exports = {
             connection.query(sumSql,function(err,result){
                 if(err){
                     callback && callback(err);
-                return;
-            }
+                    connection.release();
+                    return;
+                }
                 callback && callback(false,result);
                 connection.release();
             });

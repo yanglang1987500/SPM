@@ -1,0 +1,32 @@
+<div id="customer-manage">
+    <div class="lr-panel-wrap">
+        <div class="lr-panel-left">
+            <ul class="head-tools">
+                <li id="queryKernalTime" title="查询核时"><span class="fa fa-clock-o"></span></li>
+                <li id="removeCompanyBtn" title="删除公司"><span class="fa fa-remove"></span></li>
+                <li id="modifyCompanyBtn" title="编辑公司"><span class="fa fa-pencil"></span></li>
+                <li id="addCompanyBtn" title="添加公司"><span class="fa fa-plus"></span></li>
+            </ul>
+            <div class="tree-container">
+                <ul id="companyTree" class="ztree"></ul>
+            </div>
+        </div>
+        <div class="lr-panel-right">
+            <div class="condition-wrap shadow-block">
+                <input id="home-easyui-searchbox" style="width:200px"/>
+            </div>
+            <div class="tablecontainer shadow-block">
+                <div class="tablecontainer">
+                    <table id="dataTable"></table>
+                </div>
+                <div id="customer-manage-toolbar">
+                    <a href="javascript:void(0)" class="easyui-linkbutton" id="add_customer_btn" data-options="iconCls:'fa fa-plus icon-datagrid',plain:true">添加客户</a>
+                    <div class="datagrid-btn-separator"></div>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" id="modify_customer_btn" data-options="iconCls:'fa fa-pencil icon-datagrid',plain:true">编辑客户</a>
+                    <div class="datagrid-btn-separator"></div>
+                    <a hrxef="javascript:void(0)" class="easyui-linkbutton" id="delete_customer_btn" data-options="iconCls:'fa fa-remove icon-datagrid',plain:true">删除客户</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,16 +1,16 @@
 /**
- * 菜单Dao
+ * 公司Dao
  */
 var Calendar = require('../libs/calendar');
 var mySqlPool = require('../database/mysqlpool');
 var utils = require('../libs/utils');
-var table = 'sys_menu', mainKey = 'menu_id';
+var table = 't_company', mainKey = 'company_id';
 module.exports = {
     /**
-     * 菜单列表查询
+     * 公司列表查询
      * @param callback 回调
      */
-    menuSearch:function(params,callback){
+    companySearch:function(params,callback){
         
         var condition = [] , _params, _callback;
         if(Object.prototype.toString.call(params) == '[object Function]'){
@@ -21,15 +21,9 @@ module.exports = {
             _params = params;
         }
         condition.push(' 1=1 ');
-        if(_params){
-            _params.key && condition.push(' (t1.menu_title like \'%'+_params.key+'%\' or t1.menu_url like \'%'+_params.key+'%\') ');
-            (_params.show_type && _params.show_type!= '0') && condition.push(' t1.show_type = ' + _params.show_type);
-            (_params.menu_type && _params.menu_type!= '0') && condition.push(' t1.menu_type = ' + _params.menu_type);
-            (_params.menu_device && _params.menu_device!= '0') && condition.push(' t1.menu_device = ' + _params.menu_device);
-        }
 
         condition = condition.join(' and ');
-        var selectSql = 'select t1.*,ifnull(t2.menu_title,\'根菜单\') menu_parent_title ',fromSql = 'from '+table+' t1 left join '+table+' t2 on t1.menu_parent_id=t2.menu_id where '+condition+' order by t1.menu_order desc';
+        var selectSql = 'select t1.*, 0 as pId ',fromSql = 'from '+table+' t1  order by t1.create_time desc';
 
         mySqlPool.getConnection(function(connection){
             connection.query(selectSql+fromSql,function(err,result){
@@ -45,12 +39,12 @@ module.exports = {
 
     },
     /**
-     * 根据菜单id查询菜单
-     * @param menu_id 菜单id
+     * 根据公司id查询公司
+     * @param company_id 公司id
      * @param callback 回调
      */
-    menuSearchById:function(menu_id,callback){
-        var selectSql = "select t1.*,ifnull(t2.menu_title,\'根菜单\') menu_parent_title from "+table+" t1 left join "+table+" t2 on t1.menu_parent_id=t2.menu_id where t1."+mainKey+" = '"+menu_id+"'";
+    companySearchById:function(company_id,callback){
+        var selectSql = "select t1.* from "+table+" t1  where t1."+mainKey+" = '"+company_id+"'";
         mySqlPool.getConnection(function(connection){
             connection.query(selectSql,function(err,result){
                 if(err){
@@ -65,23 +59,18 @@ module.exports = {
 
     },
     /**
-     * 添加菜单
-     * 同时写入sys_auth权限表
+     * 添加公司
      * @param params
      * @param callback
      */
-    addMenu:function(params,callback){
+    addCompany:function(params,callback){
         params[mainKey] = utils.guid();
-        params['menu_order'] = utils.generatorOrder();
+        params.create_time = Calendar.getInstance().format('yyyyMMdd HH:mm:ss');
+        params.update_time = Calendar.getInstance().format('yyyyMMdd HH:mm:ss');
         var insertSql = 'INSERT INTO '+table+' set ?';
 
         var execArr = [
-            {sql:insertSql,params:params},
-            {sql:"insert into sys_auth set ?",params:{
-                auth_id:utils.guid(),
-                auth_type:'menu',
-                resource_id:params[mainKey]
-            }}];
+            {sql:insertSql,params:params}];
         mySqlPool.execTrans(execArr,function(err,result){
             if(err){
                 console.log(err);
@@ -92,11 +81,11 @@ module.exports = {
         });
     },
     /**
-     * 修改菜单数据
+     * 修改公司数据
      * @param params 参数包
      * @param callback 回调
      */
-    modifyMenu:function(params,callback){
+    modifyCompany:function(params,callback){
         var sql = 'update '+table+' set ', condition = [], pArr = [];
         for(var key in params){
             if(key == mainKey)
@@ -120,16 +109,17 @@ module.exports = {
         });
     },
     /**
-     * 删除菜单
-     * @param menu_id 菜单id
+     * 删除公司
+     * 并删除相关的客户
+     * @param company_id 公司id
      * @param callback
      */
-    removeMenu:function(menu_id,callback){
+    removeCompany:function(company_id,callback){
         //将id列表（id,id,id）替换成'id','id','id'便于使用in语句进行批量删除
-        menu_id = menu_id.replace(/([^,]{32})(,)?/gi,"'$1'$2");
+        company_id = company_id.replace(/([^,]{32})(,)?/gi,"'$1'$2");
         var execArr = [
-            {sql:"DELETE FROM "+table+" WHERE "+mainKey+" in ("+menu_id+")"},
-            {sql:"DELETE FROM sys_auth WHERE resource_id in ("+menu_id+")"}];
+            {sql:"DELETE FROM "+table+" WHERE "+mainKey+" in ("+company_id+")"},
+            {sql:"DELETE FROM t_customer WHERE "+mainKey+" in ("+company_id+")"}];
         mySqlPool.execTrans(execArr,function(err,result){
             if(err){
                 console.log(err);
@@ -137,6 +127,34 @@ module.exports = {
                 return;
             }
             callback && callback(false,result);
+        });
+    },
+    /**
+     * 查询核时数据
+     * @param company_id 公司id
+     * @param callback
+     */
+    queryKernal:function(company_id,callback){
+        this.companySearchById(company_id,function(error,data){
+            mySqlPool.getConnection4Kernal(function(connection){
+                connection.query("select * from userinfo where username = '"+data.render_username+"' ",function(err,result){
+                    if(err){
+                        callback && callback(err);
+                        connection.release();
+                        return;
+                    }
+                    if(result.length==0){
+                        callback && callback({message:'未查询到核时记录'});
+                        connection.release();
+                        return;
+                    }
+                    callback && callback(false,{
+                        kernal:result[0].ReKernelHours,
+                        price:data.render_price
+                    });
+                    connection.release();
+                });
+            });
         });
     }
 };

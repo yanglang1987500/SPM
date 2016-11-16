@@ -27,11 +27,13 @@ module.exports = {
             connection.query(pageSql,function(err,result){
                 if(err){
                     callback && callback(err);
+                    connection.release();
                     return;
                 }
                 connection.query(countSql,function(err2,sum){
                     if(err2){
                         callback && callback(err2);
+                        connection.release();
                         return;
                     }
                     callback && callback(false,{rows:result,total:sum[0]['cnt']});
@@ -52,6 +54,7 @@ module.exports = {
             connection.query(selectSql,function(err,result){
                 if(err){
                     callback && callback(err);
+                    connection.release();
                     return;
                 }
                 callback && callback(false,result[0]);
@@ -74,6 +77,7 @@ module.exports = {
             connection.query(insertSql,params,function(err,result){
                 if(err){
                     callback && callback(err);
+                    connection.release();
                     return;
                 }
                 callback && callback(false,result);
@@ -103,6 +107,7 @@ module.exports = {
             connection.query(sql, pArr, function (err, result) {
                 if(err){
                     callback && callback(err);
+                    connection.release();
                     return;
                 }
                 callback && callback(false,result);
@@ -122,6 +127,7 @@ module.exports = {
             connection.query("DELETE FROM t_publish WHERE publish_id in ("+publish_id+") ", function (err, result) {
                 if(err){
                     callback && callback(err);
+                    connection.release();
                     return;
                 }
                 callback && callback(false,result);

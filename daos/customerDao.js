@@ -1,17 +1,17 @@
 /**
- * 元素Dao
+ * 客户Dao
  */
 var Calendar = require('../libs/calendar');
 var mySqlPool = require('../database/mysqlpool');
 var utils = require('../libs/utils');
-var table = 'sys_element', mainKey = 'element_id';
+var table = 't_customer', mainKey = 'customer_id';
 
 module.exports = {
     /**
-     * 元素列表查询
+     * 客户列表查询
      * @param callback 回调
      */
-    elementSearch:function(params,callback){
+    customerSearch:function(params,callback){
         
         var condition = [] , _params, _callback;
         if(Object.prototype.toString.call(params) == '[object Function]'){
@@ -23,8 +23,8 @@ module.exports = {
         }
         condition.push(' 1=1 ');
         if(_params){
-            params.key && condition.push(' (t1.element_desc like \'%'+params.key+'%\' or t1.element_code like \'%'+params.key+'%\') ');
-            params.menu_id && condition.push(' t1.menu_id =\''+params.menu_id+'\' ');
+            params.key && condition.push(' (t1.customer_name like \'%'+params.key+'%\' or t1.customer_job like \'%'+params.key+'%\' or t1.customer_code like \'%'+params.key+'%\') ');
+            params.company_id && condition.push(' t1.company_id =\''+params.company_id+'\' ');
         }
 
         condition = condition.join(' and ');
@@ -44,12 +44,12 @@ module.exports = {
 
     },
     /**
-     * 根据元素id查询元素
-     * @param element_id 元素id
+     * 根据客户id查询客户
+     * @param customer_id 客户id
      * @param callback 回调
      */
-    elementSearchById:function(element_id,callback){
-        var selectSql = "select t1.* from "+table+" t1  where t1."+mainKey+" = '"+element_id+"'";
+    customerSearchById:function(customer_id,callback){
+        var selectSql = "select t1.* from "+table+" t1  where t1."+mainKey+" = '"+customer_id+"'";
         mySqlPool.getConnection(function(connection){
             connection.query(selectSql,function(err,result){
                 if(err){
@@ -64,22 +64,19 @@ module.exports = {
 
     },
     /**
-     * 添加元素
+     * 添加客户
      * 同时写入sys_auth权限表
      * @param params
      * @param callback
      */
-    addElement:function(params,callback){
+    addCustomer:function(params,callback){
         params[mainKey] = utils.guid();
+        params.create_time = Calendar.getInstance().format('yyyyMMdd HH:mm:ss');
+        params.update_time = Calendar.getInstance().format('yyyyMMdd HH:mm:ss');
         var insertSql = 'INSERT INTO '+table+' set ?';
 
         var execArr = [
-            {sql:insertSql,params:params},
-            {sql:"insert into sys_auth set ?",params:{
-                auth_id:utils.guid(),
-                auth_type:'element',
-                resource_id:params[mainKey]
-            }}];
+            {sql:insertSql,params:params}];
         mySqlPool.execTrans(execArr,function(err,result){
             if(err){
                 console.log(err);
@@ -90,11 +87,11 @@ module.exports = {
         });
     },
     /**
-     * 修改元素数据
+     * 修改客户数据
      * @param params 参数包
      * @param callback 回调
      */
-    modifyElement:function(params,callback){
+    modifyCustomer:function(params,callback){
         var sql = 'update '+table+' set ', condition = [], pArr = [];
         for(var key in params){
             if(key == mainKey)
@@ -102,6 +99,7 @@ module.exports = {
             condition.push(' '+key+' = ? ');
             pArr.push(params[key]);
         }
+        condition.push(" update_time = '"+Calendar.getInstance().format('yyyyMMdd HH:mm:ss')+"' ");
         sql += condition.join(',');
         sql += ' where '+mainKey+' = ? ';
         pArr.push(params[mainKey]);
@@ -118,16 +116,16 @@ module.exports = {
         });
     },
     /**
-     * 修改元素数据所属菜单
-     * @param element_id 元素id列表
-     * @param menu_id 菜单id
+     * 修改客户数据所属公司
+     * @param customer_id 客户id列表
+     * @param company_id 公司id
      * @param callback 回调
      */
-    modifyElementMenu:function(element_id,menu_id,callback){
+    modifyCustomerCompany:function(customer_id,company_id,callback){
         //将id列表（id,id,id）替换成'id','id','id'便于使用in语句进行批量修改
-        element_id = element_id.replace(/([^,]{32})(,)?/gi,"'$1'$2");
-        var sql = 'update '+table+' set menu_id=? where '+mainKey+' in ('+element_id+')';
-        var pArr = [menu_id];
+        customer_id = customer_id.replace(/([^,]{32})(,)?/gi,"'$1'$2");
+        var sql = 'update '+table+' set company_id=? where '+mainKey+' in ('+customer_id+')';
+        var pArr = [company_id];
         mySqlPool.getConnection(function(connection) {
             connection.query(sql, pArr, function (err, result) {
                 if(err){
@@ -141,15 +139,15 @@ module.exports = {
         });
     },
     /**
-     * 复制元素数据到另一个菜单
-     * @param element_id 元素id列表
-     * @param menu_id 菜单id
+     * 复制客户数据到另一个菜单
+     * @param customer_id 客户id列表
+     * @param company_id 公司id
      * @param callback 回调
      */
-    copyElementMenu:function(element_id,menu_id,callback){
+    copyCustomerCompany:function(customer_id,company_id,callback){
         //将id列表（id,id,id）替换成'id','id','id'便于使用in语句进行批量修改
-        element_id = element_id.replace(/([^,]{32})(,)?/gi,"'$1'$2");
-        var selectSql = "select t1.* from "+table+" t1  where t1."+mainKey+" in ("+element_id+")";
+        customer_id = customer_id.replace(/([^,]{32})(,)?/gi,"'$1'$2");
+        var selectSql = "select t1.* from "+table+" t1  where t1."+mainKey+" in ("+customer_id+")";
         mySqlPool.getConnection(function(connection){
             connection.query(selectSql,function(err,result){
                 if(err){
@@ -160,12 +158,19 @@ module.exports = {
                 var arr = [];
                 for(var i = 0;i<result.length;i++){
                     arr.push([utils.guid(),
-                        result[i].element_code,
-                        result[i].element_desc,
-                        menu_id]);
+                        result[i].customer_code,
+                        result[i].customer_name,
+                        result[i].customer_job,
+                        result[i].tel,
+                        result[i].qq,
+                        result[i].mail,
+                        result[i].customer_mark,
+                        company_id,
+                        Calendar.getInstance().format('yyyyMMdd HH:mm:ss'),
+                        Calendar.getInstance().format('yyyyMMdd HH:mm:ss')]);
                 }
 
-                var insertSql = 'INSERT INTO '+table+'(element_id,element_code,element_desc,menu_id) VALUES ?';
+                var insertSql = 'INSERT INTO '+table+'(customer_id,customer_code,customer_name,customer_job,tel,qq,mail,customer_mark,company_id,create_time,update_time) VALUES ?';
                 connection.query(insertSql,[arr],function(err,result){
                     if(err){
                         callback && callback(err);
@@ -179,16 +184,15 @@ module.exports = {
         });
     },
     /**
-     * 删除元素
-     * @param element_id 元素id
+     * 删除客户
+     * @param customer_id 客户id
      * @param callback
      */
-    removeElement:function(element_id,callback){
+    removeCustomer:function(customer_id,callback){
         //将id列表（id,id,id）替换成'id','id','id'便于使用in语句进行批量删除
-        element_id = element_id.replace(/([^,]{32})(,)?/gi,"'$1'$2");
+        customer_id = customer_id.replace(/([^,]{32})(,)?/gi,"'$1'$2");
         var execArr = [
-            {sql:"DELETE FROM "+table+" WHERE "+mainKey+" in ("+element_id+")"},
-            {sql:"DELETE FROM sys_auth WHERE resource_id in ("+element_id+")"}];
+            {sql:"DELETE FROM "+table+" WHERE "+mainKey+" in ("+customer_id+")"}];
         mySqlPool.execTrans(execArr,function(err,result){
             if(err){
                 console.log(err);

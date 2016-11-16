@@ -1389,7 +1389,7 @@ body, html {
 .lr-panel-wrap {
   height: 100%; }
   .lr-panel-wrap .lr-panel-left {
-    width: 200px;
+    width: 250px;
     height: 100%;
     position: absolute;
     background: rgba(255, 255, 255, 0.8);
@@ -1419,7 +1419,7 @@ body, html {
         display: inline; }
   .lr-panel-wrap .lr-panel-right {
     height: 100%;
-    padding-left: 210px; }
+    padding-left: 260px; }
 
 /*=====================定制滚动条样式====================*/
 ::-webkit-scrollbar {
@@ -4583,7 +4583,197 @@ ul.ztree.zTreeDragUL {margin:0; padding:0; position:absolute; width:auto; height
 .ztree li ul.level0 {
 	padding:0;
 	background:none;
-}*/.dim-add-modify {
+}*/.company-add-modify {
+  box-sizing: border-box; }
+  .company-add-modify * {
+    font-family: "MicroSoft Yahei"; }
+  .company-add-modify .panel-body {
+    padding: 20px 20px;
+    border: 0; }
+  .company-add-modify fieldset {
+    border: 0; }
+  .company-add-modify .form-group {
+    margin-bottom: 15px;
+    line-height: 30px;
+    height: 30px;
+    overflow: hidden; }
+    .company-add-modify .form-group label {
+      width: 28%;
+      float: left;
+      line-height: 30px;
+      vertical-align: middle;
+      text-align: right;
+      padding-right: 10px; }
+  .company-add-modify .form-control {
+    vertical-align: middle;
+    line-height: 20px;
+    width: 72%;
+    float: left;
+    padding: 3px 10px;
+    font-size: 12px;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s; }
+  .company-add-modify textarea {
+    height: 100px;
+    resize: none; }
+  .company-add-modify .form-control:focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6); }
+  .company-add-modify .checkbox, .company-add-modify .radio {
+    position: relative;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px; }
+  .company-add-modify .checkbox label, .company-add-modify .radio label {
+    min-height: 20px;
+    padding-left: 20px;
+    margin-bottom: 0;
+    font-weight: 400;
+    cursor: pointer; }
+  .company-add-modify .checkbox input[type=checkbox], .company-add-modify .checkbox-inline input[type=checkbox], .company-add-modify .radio input[type=radio], .company-add-modify .radio-inline input[type=radio] {
+    position: absolute;
+    margin-top: 4px \9;
+    margin-left: -20px; }
+  .company-add-modify input[type=checkbox], .company-add-modify input[type=radio] {
+    margin: 2px 0 0;
+    margin-top: 1px \9;
+    line-height: normal; }
+  .company-add-modify .btn-wrap {
+    text-align: right; }
+.customer-add-modify {
+  box-sizing: border-box; }
+  .customer-add-modify * {
+    font-family: "MicroSoft Yahei"; }
+  .customer-add-modify .panel-body {
+    padding: 20px 20px;
+    border: 0; }
+  .customer-add-modify fieldset {
+    border: 0; }
+  .customer-add-modify .form-group {
+    margin-bottom: 15px;
+    line-height: 30px;
+    height: 30px;
+    overflow: hidden; }
+    .customer-add-modify .form-group label {
+      width: 28%;
+      float: left;
+      line-height: 30px;
+      vertical-align: middle;
+      text-align: right;
+      padding-right: 10px; }
+  .customer-add-modify .form-control {
+    vertical-align: middle;
+    line-height: 20px;
+    width: 72%;
+    float: left;
+    padding: 3px 10px;
+    font-size: 12px;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s; }
+  .customer-add-modify textarea {
+    height: 100px;
+    resize: none; }
+  .customer-add-modify .form-control:focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6); }
+  .customer-add-modify .checkbox, .customer-add-modify .radio {
+    position: relative;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px; }
+  .customer-add-modify .checkbox label, .customer-add-modify .radio label {
+    min-height: 20px;
+    padding-left: 20px;
+    margin-bottom: 0;
+    font-weight: 400;
+    cursor: pointer; }
+  .customer-add-modify .checkbox input[type=checkbox], .customer-add-modify .checkbox-inline input[type=checkbox], .customer-add-modify .radio input[type=radio], .customer-add-modify .radio-inline input[type=radio] {
+    position: absolute;
+    margin-top: 4px \9;
+    margin-left: -20px; }
+  .customer-add-modify input[type=checkbox], .customer-add-modify input[type=radio] {
+    margin: 2px 0 0;
+    margin-top: 1px \9;
+    line-height: normal; }
+  .customer-add-modify .btn-wrap {
+    text-align: right; }
+
+#menu_tree_panel {
+  overflow: auto;
+  display: none;
+  position: fixed;
+  width: 300px;
+  height: 200px;
+  left: -9999px;
+  top: -9999px;
+  z-index: 999999;
+  background: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); }
+@charset "UTF-8";
+#customer-manage {
+  overflow: hidden; }
+  #customer-manage .tablecontainer {
+    height: 100%; }
+  #customer-manage select {
+    width: 100px;
+    vertical-align: middle;
+    border: 1px solid #DDDDDD;
+    height: 22px;
+    color: #3a3a3a;
+    outline: none; }
+  #customer-manage .datagrid-btable {
+    font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif; }
+  #customer-manage .nav {
+    height: 70px;
+    background-color: #9AA7AF;
+    position: relative; }
+  #customer-manage .nav h2 {
+    font-size: 22px;
+    color: #FCFCFC;
+    line-height: 70px;
+    margin: 0 20px;
+    font-weight: normal; }
+  #customer-manage .nav .logout {
+    position: absolute;
+    right: 50px;
+    bottom: 25px;
+    color: #FCFCFC; }
+  #customer-manage .nav .logout > .link {
+    color: #D3D4DB;
+    cursor: pointer; }
+  #customer-manage #exportFrame {
+    display: none; }
+  #customer-manage .conditionitem {
+    width: 180px; }
+  #customer-manage .head-tools:before {
+    content: '\516C\53F8\5217\8868'; }
+  #customer-manage .tree-container {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    right: 0;
+    bottom: 0; }
+.dim-add-modify {
   box-sizing: border-box; }
   .dim-add-modify * {
     font-family: "MicroSoft Yahei"; }

@@ -1,0 +1,96 @@
+.customer-add-modify{
+    box-sizing: border-box;
+    *{
+        font-family: "MicroSoft Yahei";
+    }
+    .panel-body{
+        padding:20px 20px;
+        border:0;
+    }
+    fieldset{
+        border:0;
+    }
+    .form-group {
+        margin-bottom: 15px;
+        line-height: 30px;
+        height:30px;
+        overflow: hidden;
+        label{
+            width:28%;
+            float:left;
+            line-height: 30px;
+            vertical-align: middle;
+            text-align: right;
+            padding-right:10px;
+        }
+    }
+    .form-control{
+        vertical-align: middle;
+        line-height: 20px;
+        width: 72%;
+        float:left;
+        padding: 3px 10px;
+        font-size: 12px;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+
+    textarea{
+        height:100px;
+        resize: none;
+    }
+    .form-control:focus {
+        border-color: #66afe9;
+        outline: 0;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    }
+    .checkbox, .radio {
+        position: relative;
+        display: block;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .checkbox label, .radio label {
+        min-height: 20px;
+        padding-left: 20px;
+        margin-bottom: 0;
+        font-weight: 400;
+        cursor: pointer;
+    }
+
+    .checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio input[type=radio], .radio-inline input[type=radio] {
+        position: absolute;
+        margin-top: 4px \9;
+        margin-left: -20px;
+    }
+    input[type=checkbox], input[type=radio] {
+        margin: 2px 0 0;
+        margin-top: 1px \9;
+        line-height: normal;
+    }
+    .btn-wrap{
+        text-align:right;
+    }
+
+}
+#menu_tree_panel{
+    overflow:auto;
+    display: none;
+    position:fixed;
+    width:300px;
+    height:200px;
+    left:-9999px;
+    top:-9999px;
+    z-index:999999;
+    background: #fff;
+    box-shadow: 0 0 5px rgba(0,0,0,.5);
+}

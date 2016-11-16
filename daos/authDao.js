@@ -5,7 +5,6 @@ var Calendar = require('../libs/calendar');
 var mySqlPool = require('../database/mysqlpool');
 var utils = require('../libs/utils');
 var table = 'sys_auth', mainKey = 'auth_id';
-
 module.exports = {
     /**
      * 权限菜单列表查询
@@ -39,6 +38,7 @@ module.exports = {
             connection.query(selectSql,function(err,result){
                 if(err){
                     callback && callback(err);
+                    connection.release();
                     return;
                 }
                 callback && callback(false,result);
@@ -104,6 +104,7 @@ module.exports = {
             connection.query(querySql,function(err,result){
                 if(err){
                     callback && callback(err);
+                    connection.release();
                     return;
                 }
                 callback && callback(false,result);
@@ -129,6 +130,7 @@ module.exports = {
             if(err){
                 console.log(err);
                 callback && callback(err);
+                connection.release();
                 return;
             }
             callback && callback(false,result);
@@ -152,6 +154,7 @@ module.exports = {
             if(err){
                 console.log(err);
                 callback && callback(err);
+                connection.release();
                 return;
             }
             callback && callback(false,result);
@@ -173,6 +176,7 @@ module.exports = {
             connection.query(querySql,function(err,result){
                 if(err){
                     callback && callback(err);
+                    connection.release();
                     return;
                 }
                 callback && callback(false,result);
@@ -229,6 +233,7 @@ module.exports = {
             connection.query(querySql,function(err,result){
                 if(err){
                     callback && callback(err);
+                    connection.release();
                     return;
                 }
                 callback && callback(false,result);

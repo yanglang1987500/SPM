@@ -34,6 +34,7 @@ module.exports = {
             connection.query(selectSql+fromSql,function(err,result){
                 if(err){
                     _callback && _callback(err);
+                    connection.release();
                     return;
                 }
                 _callback && _callback(false,result);
@@ -53,6 +54,7 @@ module.exports = {
             connection.query(selectSql,function(err,result){
                 if(err){
                     callback && callback(err);
+                    connection.release();
                     return;
                 }
                 callback && callback(false,result[0]);
@@ -71,6 +73,7 @@ module.exports = {
             connection.query(selectSql,function(err,result){
                 if(err){
                     callback && callback(err);
+                    connection.release();
                     return;
                 }
                 callback && callback(false,result);
@@ -88,6 +91,7 @@ module.exports = {
             connection.query(selectSql,function(err,result){
                 if(err){
                     callback && callback(err);
+                    connection.release();
                     return;
                 }
                 callback && callback(false,result);
@@ -136,6 +140,7 @@ module.exports = {
             connection.query(sql, pArr, function (err, result) {
                 if(err){
                     callback && callback(err);
+                    connection.release();
                     return;
                 }
                 callback && callback(false,result);

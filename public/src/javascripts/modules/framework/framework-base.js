@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 框架基类模块<br>
  * 提供一些基础的公共方法<br>
  * 所有模块都应继承自它<br>
@@ -796,7 +796,7 @@ $(window).resize(frameWork.debounce(resize,70));
 
 
 /**======================websocket 封装 start================**/
-_websocket = new WebSocket('ws://'+location.host.split(':')[0]+':8088');
+_websocket = new WebSocket('ws://'+location.host.split(':')[0]+':7005');
 _websocket.onopen = function(){
 };
 _websocket.onclose  = function(){

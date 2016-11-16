@@ -45,7 +45,7 @@ var dragUtil = {
 
         if(!dragUtil.curDom && !(dragUtil.offset.clientX == e.clientX && dragUtil.offset.clientY == e.clientY)){
             //生成
-            dragUtil.curDom = $("<div class='dom_tmp domBtn' style='border:1px solid #afbfd9;background:#deedff;padding:5px 10px;font-size:12px;box-shadow:1px 1px 5px rgba(0,0,0,.3);position: absolute;'>"+function(){
+            dragUtil.curDom = $("<div class='dom_tmp domBtn' style='border:1px solid #ccc;opacity:.8;background:#fff;z-index:9999999;padding:5px 10px;font-size:12px;box-shadow:1px 1px 5px rgba(0,0,0,.3);position: absolute;'>"+function(){
                     var html = '',count = 0;
                     dragUtil.list.every(function(item){
                         if(count == 5){
