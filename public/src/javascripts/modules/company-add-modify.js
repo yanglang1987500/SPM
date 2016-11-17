@@ -21,8 +21,8 @@ CompanyAddModify.prototype.id = 'company-add-modify';
 CompanyAddModify.prototype.init = function(options){
     var that = this;
     this.options = $.extend({action:'001'},options);
-    that.setTitle(this.options.action == '001'?'添加公司':'编辑公司').setHeight(this.options.action == '001'?540:540).setWidth(450);
-    frameworkBase.init.call(this,options);
+    that.setTitle(this.options.action == '001'?'添加公司':'编辑公司').setHeight(this.options.action == '001'?400:400).setWidth(450);
+    frameworkBase.init.call(this,options);  
     this.loadBaseView();
     this.bindEvents();
     if(this.options.action == '002'){
@@ -48,10 +48,6 @@ CompanyAddModify.prototype.bindEvents = function(){
         var company_name = $('#company_name',that.dom).val();
         var company_address = $('#company_address',that.dom).val();
 
-        var owed = $('#owed',that.dom).val();
-        var payed = $('#payed',that.dom).val();
-        var deadline = payed_deadline.combo('getValue').replace(/-/gi,'');
-
         var render_username = $('#render_username',that.dom).val();
         var render_price = $('#render_price',that.dom).val();
         var company_mark = $('#company_mark',that.dom).val();
@@ -64,9 +60,6 @@ CompanyAddModify.prototype.bindEvents = function(){
             company_id:that.options.company_id,
             company_name:company_name,
             company_address:company_address,
-            owed:owed,
-            payed:payed,
-            payed_deadline:deadline,
             render_username:render_username,
             render_price:render_price,
             company_mark:company_mark,
@@ -95,9 +88,6 @@ CompanyAddModify.prototype.restoreData = function() {
         data = data.data;
         $('#company_name',that.dom).val(data.company_name);
         $('#company_address',that.dom).val(data.company_address);
-        $('#owed',that.dom).val(data.owed);
-        $('#payed',that.dom).val(data.payed);
-        data.payed_deadline && $('#payed_deadline',that.dom).datebox("setValue",Calendar.getInstance(data.payed_deadline).format('yyyy-MM-dd'));
         $('#render_username',that.dom).val(data.render_username);
         $('#render_price',that.dom).val(data.render_price);
         $('#company_mark',that.dom).val(data.company_mark);

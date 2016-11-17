@@ -65,7 +65,6 @@ module.exports = {
     },
     /**
      * 添加客户
-     * 同时写入sys_auth权限表
      * @param params
      * @param callback
      */

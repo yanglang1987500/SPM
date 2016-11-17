@@ -1,6 +1,6 @@
 /**
  * Created by yanglang on 2016/4/13.
- * 客户管理
+ * 账目管理
  */
 
 var frameworkBase = require('./framework/framework-base');
@@ -8,14 +8,13 @@ require('../libs/easyui-lang-zh_CN.js');
 require('../libs/ztree/jquery.ztree.all.min');
 require('../libs/ztree/jquery.ztree.exhide.min');
 require('../libs/ztree/css/zTreeStyle/zTreeStyle.css');
-require('../../stylesheets/modules/customer-manage.scss');
+require('../../stylesheets/modules/account-manage.scss');
 require('../../stylesheets/easyui.css');
-var table2TreeDragUtil = require('../libs/table2TreeDragUtil');
-var CustomerManage = function () {};
+var AccountManage = function () {};
 
 //继承自框架基类
-CustomerManage.prototype = $.extend({}, frameworkBase);
-CustomerManage.prototype.id = 'customer-manage';
+AccountManage.prototype = $.extend({}, frameworkBase);
+AccountManage.prototype.id = 'account-manage';
 
 
 /**
@@ -23,17 +22,17 @@ CustomerManage.prototype.id = 'customer-manage';
  * @method init
  * @param options 参数对象
  */
-CustomerManage.prototype.init = function (options) {
+AccountManage.prototype.init = function (options) {
     var that = this;
     this.options = $.extend({}, options);
-    that.setTitle('客户管理').setHeight(700).setWidth(780);
+    that.setTitle('账目管理').setHeight(700).setWidth(780);
     frameworkBase.init.call(this, options);
     this.loadBaseView();
 };
 
-CustomerManage.prototype.loadBaseView = function () {
+AccountManage.prototype.loadBaseView = function () {
     var that = this;
-    this.loadFragment('/views/modules/customer-manage.html').then(function(html){
+    this.loadFragment('/views/modules/account-manage.html').then(function(html){
         that.render(html);
         $('.tablecontainer',that.dom).height(that.dom.height()-55);
         that.initTable();
@@ -42,12 +41,12 @@ CustomerManage.prototype.loadBaseView = function () {
     });
 };
 
-CustomerManage.prototype.initTable = function () {
+AccountManage.prototype.initTable = function () {
     var that = this;
     $('.easyui-linkbutton',this.dom).linkbutton();
-    var columns = require('../../../../configs/modules/customer-manage-Column.js');
+    var columns = require('../../../../configs/modules/account-manage-Column.js');
     that.$table = $('#dataTable',this.dom).datagrid({
-        url: '/customer/list',
+        url: '/account/list',
         method: 'get',
         columns: [columns],
         cache:false,
@@ -68,38 +67,70 @@ CustomerManage.prototype.initTable = function () {
             return {rows: data.data, total: data.data.length};
         },
         onDblClickRow: function (rowIndex, rowData) {
-            Events.require('customer-add-modify').addCallback(function(flag){
+            Events.require('account-add-modify').addCallback(function(flag){
                 if(flag)
-                    Events.notify('onRefresh:customer-manage');
-            }).init({showType:'Pop',action:'002',customer_id:rowData.customer_id});
+                    Events.notify('onRefresh:account-manage');
+            }).init({showType:'Pop',action:'002',account_id:rowData.account_id});
         },
-        toolbar: '#customer-manage-toolbar'
+        toolbar: '#account-manage-toolbar'
     });
 
-    var searchBox = $('#customer-manage #home-easyui-searchbox',that.dom).searchbox({
+    var searchBox = $('#account-manage #home-easyui-searchbox',that.dom).searchbox({
         searcher: function (value, name) {
-            Events.notify('onRefresh:customer-manage');
+            Events.notify('onRefresh:account-manage');
         },
-        prompt: '请输入关键字，如客户姓名、职位或编号'
+        prompt: '请输入关键字，如账目名称'
     });
-    var companySearchBox = $('#customer-manage #company-searchbox',that.dom).searchbox({
+    var companySearchBox = $('#account-manage #company-searchbox',that.dom).searchbox({
         searcher: function (value, name) {
-            Events.notify('onRefresh:customer-manage-company',value);
+            Events.notify('onRefresh:account-manage-company',value);
         },
         prompt: '请输入关键字，如公司名称或渲染用户名'
     });
 
+    
+
+    var startDate = $("#startdate",that.dom).datebox({
+        editable:false ,
+        formatter: function (date) {
+            return Calendar.getInstance(date).format('yyyy-MM-dd');
+        },
+        onChange:function(date) {
+            Events.notify('onRefresh:account-manage', {
+                company_id:selectCompanyId,
+                key:searchBox.searchbox('getValue'),
+                startdate: startDate.combo('getValue').replace(/-/gi, ''),
+                enddate: endDate.combo('getValue').replace(/-/gi, '')
+            });
+        }
+    });
+    var endDate = $("#enddate",that.dom).datebox({
+        editable:false ,
+        formatter: function (date) {
+            return Calendar.getInstance(date).format('yyyy-MM-dd');
+        },
+        onChange:function(date) {
+            Events.notify('onRefresh:account-manage', {
+                company_id:selectCompanyId,
+                key:searchBox.searchbox('getValue'),
+                startdate: startDate.combo('getValue').replace(/-/gi, ''),
+                enddate: endDate.combo('getValue').replace(/-/gi, '')
+            });
+        }
+    });
+    
     //订阅刷新消息
-    Events.subscribe('onRefresh:customer-manage',function(){
+    Events.subscribe('onRefresh:account-manage',function(){
         that.$table.datagrid('load',{
             company_id:selectCompanyId,
-            key:searchBox.searchbox('getValue')
+            key:searchBox.searchbox('getValue'),
+            startdate:startDate.combo('getValue').replace(/-/gi,''),
+            enddate:endDate.combo('getValue').replace(/-/gi,'')
         });
     });
-
-
+    
     //订阅公司树刷新
-    Events.subscribe('onRefresh:customer-manage-company',function(value){
+    Events.subscribe('onRefresh:account-manage-company',function(value){
         var nodes = that.ztreeObj.getNodes();
         //先将全部节点隐藏
         that.ztreeObj.hideNodes(nodes);
@@ -113,7 +144,7 @@ CustomerManage.prototype.initTable = function () {
 };
 
 var selectCompanyId, firstRefresh = false;
-CustomerManage.prototype.initCompanyTree = function(){
+AccountManage.prototype.initCompanyTree = function(){
     var that = this;
     firstRefresh = false;
     var setting = {
@@ -144,7 +175,7 @@ CustomerManage.prototype.initCompanyTree = function(){
         callback:{
             onClick:function(event, treeId, treeNode){
                 selectCompanyId = treeNode.company_id;
-                Events.notify('onRefresh:customer-manage');
+                Events.notify('onRefresh:account-manage');
             },
             onAsyncSuccess:function(){
                 if(firstRefresh)
@@ -153,44 +184,18 @@ CustomerManage.prototype.initCompanyTree = function(){
 
                 selectCompanyId = that.ztreeObj.getNodes()[0].company_id;
                 that.ztreeObj.selectNode(that.ztreeObj.getNodes()[0], false, false);
-                Events.notify('onRefresh:customer-manage');
+                Events.notify('onRefresh:account-manage');
                 firstRefresh = true;
             }
         }
     };
     that.ztreeObj = $.fn.zTree.init($("#companyTree",that.dom), setting);
-    table2TreeDragUtil.init({
-        table:that.$table,
-        tree:that.ztreeObj,
-        titleField:'customer_name',
-        callback:function(list,treeNode,isCopy){
-            var nodes = that.ztreeObj.getSelectedNodes();
-            if(treeNode == nodes[0]){
-                return;
-            }
-            that.save('/customer/save',{action:'004',is_copy:isCopy,company_id:treeNode.company_id,customer_id:function(){
-                var ids = [];
-                list.forEach(function(item){
-                    ids.push(item.customer_id);
-                });
-                return ids.join(',');
-            }()},function(data){
-                if(data.success){
-                    that.toast("客户已"+(isCopy?'复制':'移动')+"到【"+treeNode.company_name+"】下。");
-                    Events.notify('onRefresh:customer-manage');
-                }else{
-                    that.toast(data.message);
-                }
-            });
-        }
-    });
-
 };
 
 /**
  * 绑定按钮点击事件
  */
-CustomerManage.prototype.bindEvents = function () {
+AccountManage.prototype.bindEvents = function () {
     var that = this;
 
     //添加公司
@@ -227,7 +232,7 @@ CustomerManage.prototype.bindEvents = function () {
         }
         swal({
             title: "确认",
-            text: "删除该公司将会清空下面所有客户数据，确认删除吗？",
+            text: "删除该公司将会清空下面所有账目数据，确认删除吗？",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
@@ -243,7 +248,7 @@ CustomerManage.prototype.bindEvents = function () {
                 that.ztreeObj.removeNode(nodes[0]);
                 selectCompanyId = that.ztreeObj.getNodes()[0].company_id;
                 that.ztreeObj.selectNode(that.ztreeObj.getNodes()[0], false, false);
-                Events.notify('onRefresh:customer-manage');
+                Events.notify('onRefresh:account-manage');
                 that.toast('删除成功！');
             });
         });
@@ -260,7 +265,7 @@ CustomerManage.prototype.bindEvents = function () {
             return;
         }
         if(!nodes[0].render_username){
-            swal("提示", "请先配置该公司的渲染客户端用户名!", "warning");
+            swal("提示", "请先配置该公司的渲染账目端用户名!", "warning");
             return;
         }
         that.query('/company/kernal/'+company_id,function(data){
@@ -275,43 +280,93 @@ CustomerManage.prototype.bindEvents = function () {
     });
     
     
-    //添加客户
-    $('#add_customer_btn',this.dom).click(function(){
+    //添加账目
+    $('#add_account_btn',this.dom).click(function(){
         var nodes = that.ztreeObj.getSelectedNodes();
         if(nodes.length == 0){
             swal("提示", "请先选择一个公司!", "warning");
             return;
         }
-        Events.require('customer-add-modify').addCallback(function(flag){
+        Events.require('account-add-modify').addCallback(function(flag){
             if(flag)
-                Events.notify('onRefresh:customer-manage');
+                Events.notify('onRefresh:account-manage');
         }).init({showType:'Pop',company_id:nodes[0].company_id});
     });
-    //修改客户
-    $('#modify_customer_btn',this.dom).click(function(){
+    //修改账目
+    $('#modify_account_btn',this.dom).click(function(){
         var rowData;
         if(!(rowData = getSelectRow()))
             return;
-        Events.require('customer-add-modify').addCallback(function(flag){
+        if(rowData.is_encased){
+            swal("提示", "账目已封存，不能修改，请联系管理员!", "warning");
+            return;
+        }
+        Events.require('account-add-modify').addCallback(function(flag){
             if(flag)
-                Events.notify('onRefresh:customer-manage');
-        }).init({showType:'Pop',action:'002',customer_id:rowData.customer_id});
+                Events.notify('onRefresh:account-manage');
+        }).init({showType:'Pop',action:'002',account_id:rowData.account_id});
     });
-    //删除客户
-    $('#delete_customer_btn',this.dom).click(function(){
+    //删除账目
+    $('#delete_account_btn',this.dom).click(function(){
         var rows;
         if(!(rows = getCheckRow()))
             return;
-        that.save('/customer/save',{action:'003',customer_id:function(){
+        for(var i = 0;i<rows.length;i++){
+            if(rows[i].is_encased){
+                swal("提示", "存在已封存账目，不能删除，请联系管理员!", "warning");
+                return;
+            }
+        }
+        that.save('/account/save',{action:'003',account_id:function(){
             var ids = [];
             rows.forEach(function(item){
-                ids.push(item.customer_id);
+                ids.push(item.account_id);
             });
             return ids.join(',');
         }()},function(data){
             if(data.success){
                 that.toast("删除信息成功!");
-                Events.notify('onRefresh:customer-manage');
+                Events.notify('onRefresh:account-manage');
+            }else{
+                that.toast(data.message);
+            }
+        });
+    });
+    //封存账目
+    $('#encase_account_btn',this.dom).click(function(){
+        var rows;
+        if(!(rows = getCheckRow()))
+            return;
+        that.save('/account/save',{action:'004',account_id:function(){
+            var ids = [];
+            rows.forEach(function(item){
+                ids.push(item.account_id);
+            });
+            return ids.join(',');
+        }()},function(data){
+            if(data.success){
+                that.toast("封存账目成功!");
+                Events.notify('onRefresh:account-manage');
+            }else{
+                that.toast(data.message);
+            }
+        });
+    });
+    //解除封存账目
+    $('#unencase_account_btn',this.dom).click(function(){
+        var rows;
+        if(!(rows = getCheckRow()))
+            return;
+        that.save('/account/save',{action:'005',account_id:function(){
+            var ids = [];
+            rows.forEach(function(item){
+                ids.push(item.account_id);
+            });
+            return ids.join(',');
+        }()},function(data){
+            if(data.success){
+                that.toast("解除封存账目成功!");
+                Events.notify('onRefresh:account-manage');
             }else{
                 that.toast(data.message);
             }
@@ -340,18 +395,18 @@ CustomerManage.prototype.bindEvents = function () {
  * 销毁方法
  * 由框架调用，主要用于销毁订阅的事件
  */
-CustomerManage.prototype.finish = function () {
-    Events.unsubscribe('onRefresh:customer-manage');
+AccountManage.prototype.finish = function () {
+    Events.unsubscribe('onRefresh:account-manage');
     frameworkBase.finish.apply(this,arguments);
 };
 
-var customerManage = new CustomerManage();
+var accountManage = new AccountManage();
 Events.subscribe('onWindowResize',function(){
-    if(!customerManage.dom)
+    if(!accountManage.dom)
         return;
-    $('.tablecontainer',customerManage.dom).height(customerManage.dom.height()-15-$('.condition-wrap',customerManage.dom).height());
-    customerManage.$table.datagrid('resize');
+    $('.tablecontainer',accountManage.dom).height(accountManage.dom.height()-15-$('.condition-wrap',accountManage.dom).height());
+    accountManage.$table.datagrid('resize');
 });
 
-module.exports = customerManage;
+module.exports = accountManage;
 

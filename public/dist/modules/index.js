@@ -1837,78 +1837,82 @@ webpackJsonp([2],[
 	var map = {
 		"./aboutus": 196,
 		"./aboutus.js": 196,
-		"./async-data": 200,
-		"./async-data.js": 200,
-		"./attence-analyse": 201,
-		"./attence-analyse-widgets/attence-analyse-chart1": 224,
-		"./attence-analyse-widgets/attence-analyse-chart1.js": 224,
-		"./attence-analyse-widgets/attence-analyse-chart2": 226,
-		"./attence-analyse-widgets/attence-analyse-chart2.js": 226,
-		"./attence-analyse-widgets/attence-analyse-chart3": 227,
-		"./attence-analyse-widgets/attence-analyse-chart3.js": 227,
-		"./attence-analyse.js": 201,
-		"./attence-search": 228,
-		"./attence-search.js": 228,
-		"./authority-control": 235,
-		"./authority-control.js": 235,
-		"./company-add-modify": 246,
-		"./company-add-modify.js": 246,
-		"./company-manage": 250,
-		"./company-manage.js": 250,
-		"./customer-add-modify": 255,
-		"./customer-add-modify.js": 255,
-		"./customer-manage": 259,
-		"./customer-manage.js": 259,
-		"./dim-add-modify": 266,
-		"./dim-add-modify.js": 266,
-		"./dim-manage": 270,
-		"./dim-manage.js": 270,
-		"./element-add-modify": 274,
-		"./element-add-modify.js": 274,
-		"./element-manage": 278,
-		"./element-manage.js": 278,
+		"./account-add-modify": 200,
+		"./account-add-modify.js": 200,
+		"./account-manage": 230,
+		"./account-manage.js": 230,
+		"./async-data": 237,
+		"./async-data.js": 237,
+		"./attence-analyse": 238,
+		"./attence-analyse-widgets/attence-analyse-chart1": 241,
+		"./attence-analyse-widgets/attence-analyse-chart1.js": 241,
+		"./attence-analyse-widgets/attence-analyse-chart2": 243,
+		"./attence-analyse-widgets/attence-analyse-chart2.js": 243,
+		"./attence-analyse-widgets/attence-analyse-chart3": 244,
+		"./attence-analyse-widgets/attence-analyse-chart3.js": 244,
+		"./attence-analyse.js": 238,
+		"./attence-search": 245,
+		"./attence-search.js": 245,
+		"./authority-control": 252,
+		"./authority-control.js": 252,
+		"./company-add-modify": 256,
+		"./company-add-modify.js": 256,
+		"./company-manage": 260,
+		"./company-manage.js": 260,
+		"./customer-add-modify": 265,
+		"./customer-add-modify.js": 265,
+		"./customer-manage": 269,
+		"./customer-manage.js": 269,
+		"./dim-add-modify": 274,
+		"./dim-add-modify.js": 274,
+		"./dim-manage": 278,
+		"./dim-manage.js": 278,
+		"./element-add-modify": 282,
+		"./element-add-modify.js": 282,
+		"./element-manage": 286,
+		"./element-manage.js": 286,
 		"./framework/framework-base": 193,
 		"./framework/framework-base.js": 193,
-		"./framework/framework-chartconfig": 225,
-		"./framework/framework-chartconfig.js": 225,
+		"./framework/framework-chartconfig": 242,
+		"./framework/framework-chartconfig.js": 242,
 		"./framework/framework-route": 191,
 		"./framework/framework-route.js": 191,
-		"./homepage": 282,
-		"./homepage.js": 282,
-		"./menu-add-modify": 303,
-		"./menu-add-modify.js": 303,
-		"./menu-manage": 307,
-		"./menu-manage.js": 307,
-		"./message-publish": 311,
-		"./message-publish-list": 285,
-		"./message-publish-list.js": 285,
-		"./message-publish.js": 311,
-		"./org-add-modify": 326,
-		"./org-add-modify.js": 326,
-		"./org-manage": 330,
-		"./org-manage.js": 330,
-		"./password-modify": 334,
-		"./password-modify.js": 334,
-		"./report-list": 290,
-		"./report-list.js": 290,
-		"./report-view": 338,
-		"./report-view.js": 338,
-		"./role-add-modify": 342,
-		"./role-add-modify.js": 342,
-		"./role-manage": 346,
-		"./role-manage.js": 346,
-		"./role2org": 350,
-		"./role2org.js": 350,
-		"./role2user": 354,
-		"./role2user.js": 354,
-		"./user-add-modify": 358,
-		"./user-add-modify.js": 358,
-		"./user-manage": 362,
-		"./user-manage.js": 362,
-		"./user2org": 366,
-		"./user2org.js": 366,
-		"./user2role": 370,
-		"./user2role.js": 370,
+		"./homepage": 290,
+		"./homepage.js": 290,
+		"./menu-add-modify": 311,
+		"./menu-add-modify.js": 311,
+		"./menu-manage": 315,
+		"./menu-manage.js": 315,
+		"./message-publish": 319,
+		"./message-publish-list": 293,
+		"./message-publish-list.js": 293,
+		"./message-publish.js": 319,
+		"./org-add-modify": 334,
+		"./org-add-modify.js": 334,
+		"./org-manage": 338,
+		"./org-manage.js": 338,
+		"./password-modify": 342,
+		"./password-modify.js": 342,
+		"./report-list": 298,
+		"./report-list.js": 298,
+		"./report-view": 346,
+		"./report-view.js": 346,
+		"./role-add-modify": 350,
+		"./role-add-modify.js": 350,
+		"./role-manage": 354,
+		"./role-manage.js": 354,
+		"./role2org": 358,
+		"./role2org.js": 358,
+		"./role2user": 362,
+		"./role2user.js": 362,
+		"./user-add-modify": 366,
+		"./user-add-modify.js": 366,
+		"./user-manage": 370,
+		"./user-manage.js": 370,
+		"./user2org": 374,
+		"./user2org.js": 374,
+		"./user2role": 378,
+		"./user2role.js": 378,
 		"./webpack-base": 194,
 		"./webpack-base.js": 194
 	};
@@ -1978,6 +1982,883 @@ webpackJsonp([2],[
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
+	 * 账目新增修改模块
+	 */
+	var frameworkBase = __webpack_require__(193);
+	__webpack_require__(201);
+	__webpack_require__(203);
+	__webpack_require__(222);
+	__webpack_require__(223);
+	var AccountAddModify = function(){ };
+
+	//继承自框架基类
+	AccountAddModify.prototype = $.extend({},frameworkBase);
+	AccountAddModify.prototype.id = 'account-add-modify';
+
+
+	/**
+	 * 模块初始化入口<br>
+	 * @method init
+	 * @param options 参数对象
+	 */
+	AccountAddModify.prototype.init = function(options){
+	    var that = this;
+	    this.options = $.extend({action:'001'},options);
+	    that.setTitle(this.options.action == '001'?'添加账目':'编辑账目').setHeight(330).setWidth(400);
+	    frameworkBase.init.call(this,options);
+	    this.loadBaseView();
+	    this.bindEvents();
+	    if(that.options.action == '002'){
+	        that.restoreData();
+	    }
+	};
+
+	AccountAddModify.prototype.loadBaseView = function(options){
+	    var that = this;
+	    var html = __webpack_require__(229);
+	    this.render(html);
+	};
+
+	AccountAddModify.prototype.bindEvents = function(){
+	    var that = this;
+	    var account_startdate = $("#account_startdate",that.dom).datebox({
+	        editable:false ,
+	        formatter: function (date) {
+	            return Calendar.getInstance(date).format('yyyy-MM-dd');
+	        }
+	    });
+	    var account_enddate = $("#account_enddate",that.dom).datebox({
+	        editable:false ,
+	        formatter: function (date) {
+	            return Calendar.getInstance(date).format('yyyy-MM-dd');
+	        }
+	    });
+	    $('#confirmBtn',this.dom).click(function(){
+	        var account_name = $('#account_name',that.dom).val();
+	        var payed = $('#payed',that.dom).val();
+	        var owed = $('#owed',that.dom).val();
+	        var startdate = account_startdate.combo('getValue').replace(/-/gi,'');
+	        var enddate = account_enddate.combo('getValue').replace(/-/gi,'');
+	        if($.trim(account_name) === '' ){
+	            swal("提示", "请输入账目名称!", "warning");
+	            return;
+	        }
+	        that.save('/account/save',{
+	            action:that.options.action,
+	            account_id:that.options.account_id,
+	            account_name:account_name,
+	            payed:payed,
+	            owed:owed,
+	            account_startdate:startdate,
+	            account_enddate:enddate,
+	            company_id:that.options.company_id
+	        },function(data){
+	            if(!data.success){
+	                that.toast(data.message);
+	                return;
+	            }
+	            that.finish(true);
+	        });
+
+	    });
+	    $('#cancelBtn',this.dom).click(function(){
+	        that.finish(false);
+	    });
+	};
+
+
+	AccountAddModify.prototype.restoreData = function() {
+	    var that = this;
+	    this.query('/account/search/'+this.options.account_id,function(data){
+	        if(!data.success){
+	            that.toast(data.message);
+	            return;
+	        }
+	        data = data.data;
+	        $('#account_name',that.dom).val(data.account_name);
+	        data.account_startdate && $('#account_startdate',that.dom).datebox("setValue",Calendar.getInstance(data.account_startdate).format('yyyy-MM-dd'));
+	        data.account_enddate && $('#account_enddate',that.dom).datebox("setValue",Calendar.getInstance(data.account_enddate).format('yyyy-MM-dd'));
+	        $('#payed',that.dom).val(data.payed);
+	        $('#owed',that.dom).val(data.owed);
+	    });
+	};
+
+	/**
+	 * 销毁方法
+	 * 由框架调用，主要用于销毁订阅的事件
+	 */
+	AccountAddModify.prototype.finish = function () {
+	    frameworkBase.finish.apply(this,arguments);
+	};
+
+	module.exports = new AccountAddModify();
+
+/***/ },
+/* 201 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 202 */,
+/* 203 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 204 */,
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */,
+/* 210 */,
+/* 211 */,
+/* 212 */,
+/* 213 */,
+/* 214 */,
+/* 215 */,
+/* 216 */,
+/* 217 */,
+/* 218 */,
+/* 219 */,
+/* 220 */,
+/* 221 */,
+/* 222 */
+/***/ function(module, exports) {
+
+	
+	/*
+	 * JQuery zTree core v3.5.24
+	 * http://zTree.me/
+	 *
+	 * Copyright (c) 2010 Hunter.z
+	 *
+	 * Licensed same as jquery - MIT License
+	 * http://www.opensource.org/licenses/mit-license.php
+	 *
+	 * email: hunter.z@263.net
+	 * Date: 2016-06-06
+	 */
+	(function(q){var I,J,K,L,M,N,v,s={},w={},x={},O={treeId:"",treeObj:null,view:{addDiyDom:null,autoCancelSelected:!0,dblClickExpand:!0,expandSpeed:"fast",fontCss:{},nameIsHTML:!1,selectedMulti:!0,showIcon:!0,showLine:!0,showTitle:!0,txtSelectedEnable:!1},data:{key:{children:"children",name:"name",title:"",url:"url",icon:"icon"},simpleData:{enable:!1,idKey:"id",pIdKey:"pId",rootPId:null},keep:{parent:!1,leaf:!1}},async:{enable:!1,contentType:"application/x-www-form-urlencoded",type:"post",dataType:"text",
+	url:"",autoParam:[],otherParam:[],dataFilter:null},callback:{beforeAsync:null,beforeClick:null,beforeDblClick:null,beforeRightClick:null,beforeMouseDown:null,beforeMouseUp:null,beforeExpand:null,beforeCollapse:null,beforeRemove:null,onAsyncError:null,onAsyncSuccess:null,onNodeCreated:null,onClick:null,onDblClick:null,onRightClick:null,onMouseDown:null,onMouseUp:null,onExpand:null,onCollapse:null,onRemove:null}},y=[function(b){var a=b.treeObj,c=f.event;a.bind(c.NODECREATED,function(a,c,g){j.apply(b.callback.onNodeCreated,
+	[a,c,g])});a.bind(c.CLICK,function(a,c,g,m,h){j.apply(b.callback.onClick,[c,g,m,h])});a.bind(c.EXPAND,function(a,c,g){j.apply(b.callback.onExpand,[a,c,g])});a.bind(c.COLLAPSE,function(a,c,g){j.apply(b.callback.onCollapse,[a,c,g])});a.bind(c.ASYNC_SUCCESS,function(a,c,g,m){j.apply(b.callback.onAsyncSuccess,[a,c,g,m])});a.bind(c.ASYNC_ERROR,function(a,c,g,m,h,f){j.apply(b.callback.onAsyncError,[a,c,g,m,h,f])});a.bind(c.REMOVE,function(a,c,g){j.apply(b.callback.onRemove,[a,c,g])});a.bind(c.SELECTED,
+	function(a,c,g){j.apply(b.callback.onSelected,[c,g])});a.bind(c.UNSELECTED,function(a,c,g){j.apply(b.callback.onUnSelected,[c,g])})}],z=[function(b){var a=f.event;b.treeObj.unbind(a.NODECREATED).unbind(a.CLICK).unbind(a.EXPAND).unbind(a.COLLAPSE).unbind(a.ASYNC_SUCCESS).unbind(a.ASYNC_ERROR).unbind(a.REMOVE).unbind(a.SELECTED).unbind(a.UNSELECTED)}],A=[function(b){var a=h.getCache(b);a||(a={},h.setCache(b,a));a.nodes=[];a.doms=[]}],B=[function(b,a,c,d,e,g){if(c){var m=h.getRoot(b),f=b.data.key.children;
+	c.level=a;c.tId=b.treeId+"_"+ ++m.zId;c.parentTId=d?d.tId:null;c.open=typeof c.open=="string"?j.eqs(c.open,"true"):!!c.open;c[f]&&c[f].length>0?(c.isParent=!0,c.zAsync=!0):(c.isParent=typeof c.isParent=="string"?j.eqs(c.isParent,"true"):!!c.isParent,c.open=c.isParent&&!b.async.enable?c.open:!1,c.zAsync=!c.isParent);c.isFirstNode=e;c.isLastNode=g;c.getParentNode=function(){return h.getNodeCache(b,c.parentTId)};c.getPreNode=function(){return h.getPreNode(b,c)};c.getNextNode=function(){return h.getNextNode(b,
+	c)};c.getIndex=function(){return h.getNodeIndex(b,c)};c.getPath=function(){return h.getNodePath(b,c)};c.isAjaxing=!1;h.fixPIdKeyValue(b,c)}}],u=[function(b){var a=b.target,c=h.getSetting(b.data.treeId),d="",e=null,g="",m="",i=null,n=null,k=null;if(j.eqs(b.type,"mousedown"))m="mousedown";else if(j.eqs(b.type,"mouseup"))m="mouseup";else if(j.eqs(b.type,"contextmenu"))m="contextmenu";else if(j.eqs(b.type,"click"))if(j.eqs(a.tagName,"span")&&a.getAttribute("treeNode"+f.id.SWITCH)!==null)d=j.getNodeMainDom(a).id,
+	g="switchNode";else{if(k=j.getMDom(c,a,[{tagName:"a",attrName:"treeNode"+f.id.A}]))d=j.getNodeMainDom(k).id,g="clickNode"}else if(j.eqs(b.type,"dblclick")&&(m="dblclick",k=j.getMDom(c,a,[{tagName:"a",attrName:"treeNode"+f.id.A}])))d=j.getNodeMainDom(k).id,g="switchNode";if(m.length>0&&d.length==0&&(k=j.getMDom(c,a,[{tagName:"a",attrName:"treeNode"+f.id.A}])))d=j.getNodeMainDom(k).id;if(d.length>0)switch(e=h.getNodeCache(c,d),g){case "switchNode":e.isParent?j.eqs(b.type,"click")||j.eqs(b.type,"dblclick")&&
+	j.apply(c.view.dblClickExpand,[c.treeId,e],c.view.dblClickExpand)?i=I:g="":g="";break;case "clickNode":i=J}switch(m){case "mousedown":n=K;break;case "mouseup":n=L;break;case "dblclick":n=M;break;case "contextmenu":n=N}return{stop:!1,node:e,nodeEventType:g,nodeEventCallback:i,treeEventType:m,treeEventCallback:n}}],C=[function(b){var a=h.getRoot(b);a||(a={},h.setRoot(b,a));a[b.data.key.children]=[];a.expandTriggerFlag=!1;a.curSelectedList=[];a.noSelection=!0;a.createdNodes=[];a.zId=0;a._ver=(new Date).getTime()}],
+	D=[],E=[],F=[],G=[],H=[],h={addNodeCache:function(b,a){h.getCache(b).nodes[h.getNodeCacheId(a.tId)]=a},getNodeCacheId:function(b){return b.substring(b.lastIndexOf("_")+1)},addAfterA:function(b){E.push(b)},addBeforeA:function(b){D.push(b)},addInnerAfterA:function(b){G.push(b)},addInnerBeforeA:function(b){F.push(b)},addInitBind:function(b){y.push(b)},addInitUnBind:function(b){z.push(b)},addInitCache:function(b){A.push(b)},addInitNode:function(b){B.push(b)},addInitProxy:function(b,a){a?u.splice(0,0,
+	b):u.push(b)},addInitRoot:function(b){C.push(b)},addNodesData:function(b,a,c,d){var e=b.data.key.children;a[e]?c>=a[e].length&&(c=-1):(a[e]=[],c=-1);if(a[e].length>0&&c===0)a[e][0].isFirstNode=!1,i.setNodeLineIcos(b,a[e][0]);else if(a[e].length>0&&c<0)a[e][a[e].length-1].isLastNode=!1,i.setNodeLineIcos(b,a[e][a[e].length-1]);a.isParent=!0;c<0?a[e]=a[e].concat(d):(b=[c,0].concat(d),a[e].splice.apply(a[e],b))},addSelectedNode:function(b,a){var c=h.getRoot(b);h.isSelectedNode(b,a)||c.curSelectedList.push(a)},
+	addCreatedNode:function(b,a){(b.callback.onNodeCreated||b.view.addDiyDom)&&h.getRoot(b).createdNodes.push(a)},addZTreeTools:function(b){H.push(b)},exSetting:function(b){q.extend(!0,O,b)},fixPIdKeyValue:function(b,a){b.data.simpleData.enable&&(a[b.data.simpleData.pIdKey]=a.parentTId?a.getParentNode()[b.data.simpleData.idKey]:b.data.simpleData.rootPId)},getAfterA:function(b,a,c){for(var d=0,e=E.length;d<e;d++)E[d].apply(this,arguments)},getBeforeA:function(b,a,c){for(var d=0,e=D.length;d<e;d++)D[d].apply(this,
+	arguments)},getInnerAfterA:function(b,a,c){for(var d=0,e=G.length;d<e;d++)G[d].apply(this,arguments)},getInnerBeforeA:function(b,a,c){for(var d=0,e=F.length;d<e;d++)F[d].apply(this,arguments)},getCache:function(b){return x[b.treeId]},getNodeIndex:function(b,a){if(!a)return null;for(var c=b.data.key.children,d=a.parentTId?a.getParentNode():h.getRoot(b),e=0,g=d[c].length-1;e<=g;e++)if(d[c][e]===a)return e;return-1},getNextNode:function(b,a){if(!a)return null;for(var c=b.data.key.children,d=a.parentTId?
+	a.getParentNode():h.getRoot(b),e=0,g=d[c].length-1;e<=g;e++)if(d[c][e]===a)return e==g?null:d[c][e+1];return null},getNodeByParam:function(b,a,c,d){if(!a||!c)return null;for(var e=b.data.key.children,g=0,m=a.length;g<m;g++){if(a[g][c]==d)return a[g];var f=h.getNodeByParam(b,a[g][e],c,d);if(f)return f}return null},getNodeCache:function(b,a){if(!a)return null;var c=x[b.treeId].nodes[h.getNodeCacheId(a)];return c?c:null},getNodeName:function(b,a){return""+a[b.data.key.name]},getNodePath:function(b,a){if(!a)return null;
+	var c;(c=a.parentTId?a.getParentNode().getPath():[])&&c.push(a);return c},getNodeTitle:function(b,a){return""+a[b.data.key.title===""?b.data.key.name:b.data.key.title]},getNodes:function(b){return h.getRoot(b)[b.data.key.children]},getNodesByParam:function(b,a,c,d){if(!a||!c)return[];for(var e=b.data.key.children,g=[],f=0,i=a.length;f<i;f++)a[f][c]==d&&g.push(a[f]),g=g.concat(h.getNodesByParam(b,a[f][e],c,d));return g},getNodesByParamFuzzy:function(b,a,c,d){if(!a||!c)return[];for(var e=b.data.key.children,
+	g=[],d=d.toLowerCase(),f=0,i=a.length;f<i;f++)typeof a[f][c]=="string"&&a[f][c].toLowerCase().indexOf(d)>-1&&g.push(a[f]),g=g.concat(h.getNodesByParamFuzzy(b,a[f][e],c,d));return g},getNodesByFilter:function(b,a,c,d,e){if(!a)return d?null:[];for(var g=b.data.key.children,f=d?null:[],i=0,n=a.length;i<n;i++){if(j.apply(c,[a[i],e],!1)){if(d)return a[i];f.push(a[i])}var k=h.getNodesByFilter(b,a[i][g],c,d,e);if(d&&k)return k;f=d?k:f.concat(k)}return f},getPreNode:function(b,a){if(!a)return null;for(var c=
+	b.data.key.children,d=a.parentTId?a.getParentNode():h.getRoot(b),e=0,g=d[c].length;e<g;e++)if(d[c][e]===a)return e==0?null:d[c][e-1];return null},getRoot:function(b){return b?w[b.treeId]:null},getRoots:function(){return w},getSetting:function(b){return s[b]},getSettings:function(){return s},getZTreeTools:function(b){return(b=this.getRoot(this.getSetting(b)))?b.treeTools:null},initCache:function(b){for(var a=0,c=A.length;a<c;a++)A[a].apply(this,arguments)},initNode:function(b,a,c,d,e,g){for(var f=
+	0,h=B.length;f<h;f++)B[f].apply(this,arguments)},initRoot:function(b){for(var a=0,c=C.length;a<c;a++)C[a].apply(this,arguments)},isSelectedNode:function(b,a){for(var c=h.getRoot(b),d=0,e=c.curSelectedList.length;d<e;d++)if(a===c.curSelectedList[d])return!0;return!1},removeNodeCache:function(b,a){var c=b.data.key.children;if(a[c])for(var d=0,e=a[c].length;d<e;d++)h.removeNodeCache(b,a[c][d]);h.getCache(b).nodes[h.getNodeCacheId(a.tId)]=null},removeSelectedNode:function(b,a){for(var c=h.getRoot(b),
+	d=0,e=c.curSelectedList.length;d<e;d++)if(a===c.curSelectedList[d]||!h.getNodeCache(b,c.curSelectedList[d].tId))c.curSelectedList.splice(d,1),b.treeObj.trigger(f.event.UNSELECTED,[b.treeId,a]),d--,e--},setCache:function(b,a){x[b.treeId]=a},setRoot:function(b,a){w[b.treeId]=a},setZTreeTools:function(b,a){for(var c=0,d=H.length;c<d;c++)H[c].apply(this,arguments)},transformToArrayFormat:function(b,a){if(!a)return[];var c=b.data.key.children,d=[];if(j.isArray(a))for(var e=0,g=a.length;e<g;e++)d.push(a[e]),
+	a[e][c]&&(d=d.concat(h.transformToArrayFormat(b,a[e][c])));else d.push(a),a[c]&&(d=d.concat(h.transformToArrayFormat(b,a[c])));return d},transformTozTreeFormat:function(b,a){var c,d,e=b.data.simpleData.idKey,g=b.data.simpleData.pIdKey,f=b.data.key.children;if(!e||e==""||!a)return[];if(j.isArray(a)){var h=[],i={};for(c=0,d=a.length;c<d;c++)i[a[c][e]]=a[c];for(c=0,d=a.length;c<d;c++)i[a[c][g]]&&a[c][e]!=a[c][g]?(i[a[c][g]][f]||(i[a[c][g]][f]=[]),i[a[c][g]][f].push(a[c])):h.push(a[c]);return h}else return[a]}},
+	l={bindEvent:function(b){for(var a=0,c=y.length;a<c;a++)y[a].apply(this,arguments)},unbindEvent:function(b){for(var a=0,c=z.length;a<c;a++)z[a].apply(this,arguments)},bindTree:function(b){var a={treeId:b.treeId},c=b.treeObj;b.view.txtSelectedEnable||c.bind("selectstart",v).css({"-moz-user-select":"-moz-none"});c.bind("click",a,l.proxy);c.bind("dblclick",a,l.proxy);c.bind("mouseover",a,l.proxy);c.bind("mouseout",a,l.proxy);c.bind("mousedown",a,l.proxy);c.bind("mouseup",a,l.proxy);c.bind("contextmenu",
+	a,l.proxy)},unbindTree:function(b){b.treeObj.unbind("selectstart",v).unbind("click",l.proxy).unbind("dblclick",l.proxy).unbind("mouseover",l.proxy).unbind("mouseout",l.proxy).unbind("mousedown",l.proxy).unbind("mouseup",l.proxy).unbind("contextmenu",l.proxy)},doProxy:function(b){for(var a=[],c=0,d=u.length;c<d;c++){var e=u[c].apply(this,arguments);a.push(e);if(e.stop)break}return a},proxy:function(b){var a=h.getSetting(b.data.treeId);if(!j.uCanDo(a,b))return!0;for(var a=l.doProxy(b),c=!0,d=0,e=a.length;d<
+	e;d++){var g=a[d];g.nodeEventCallback&&(c=g.nodeEventCallback.apply(g,[b,g.node])&&c);g.treeEventCallback&&(c=g.treeEventCallback.apply(g,[b,g.node])&&c)}return c}};I=function(b,a){var c=h.getSetting(b.data.treeId);if(a.open){if(j.apply(c.callback.beforeCollapse,[c.treeId,a],!0)==!1)return!0}else if(j.apply(c.callback.beforeExpand,[c.treeId,a],!0)==!1)return!0;h.getRoot(c).expandTriggerFlag=!0;i.switchNode(c,a);return!0};J=function(b,a){var c=h.getSetting(b.data.treeId),d=c.view.autoCancelSelected&&
+	(b.ctrlKey||b.metaKey)&&h.isSelectedNode(c,a)?0:c.view.autoCancelSelected&&(b.ctrlKey||b.metaKey)&&c.view.selectedMulti?2:1;if(j.apply(c.callback.beforeClick,[c.treeId,a,d],!0)==!1)return!0;d===0?i.cancelPreSelectedNode(c,a):i.selectNode(c,a,d===2);c.treeObj.trigger(f.event.CLICK,[b,c.treeId,a,d]);return!0};K=function(b,a){var c=h.getSetting(b.data.treeId);j.apply(c.callback.beforeMouseDown,[c.treeId,a],!0)&&j.apply(c.callback.onMouseDown,[b,c.treeId,a]);return!0};L=function(b,a){var c=h.getSetting(b.data.treeId);
+	j.apply(c.callback.beforeMouseUp,[c.treeId,a],!0)&&j.apply(c.callback.onMouseUp,[b,c.treeId,a]);return!0};M=function(b,a){var c=h.getSetting(b.data.treeId);j.apply(c.callback.beforeDblClick,[c.treeId,a],!0)&&j.apply(c.callback.onDblClick,[b,c.treeId,a]);return!0};N=function(b,a){var c=h.getSetting(b.data.treeId);j.apply(c.callback.beforeRightClick,[c.treeId,a],!0)&&j.apply(c.callback.onRightClick,[b,c.treeId,a]);return typeof c.callback.onRightClick!="function"};v=function(b){b=b.originalEvent.srcElement.nodeName.toLowerCase();
+	return b==="input"||b==="textarea"};var j={apply:function(b,a,c){return typeof b=="function"?b.apply(P,a?a:[]):c},canAsync:function(b,a){var c=b.data.key.children;return b.async.enable&&a&&a.isParent&&!(a.zAsync||a[c]&&a[c].length>0)},clone:function(b){if(b===null)return null;var a=j.isArray(b)?[]:{},c;for(c in b)a[c]=b[c]instanceof Date?new Date(b[c].getTime()):typeof b[c]==="object"?j.clone(b[c]):b[c];return a},eqs:function(b,a){return b.toLowerCase()===a.toLowerCase()},isArray:function(b){return Object.prototype.toString.apply(b)===
+	"[object Array]"},$:function(b,a,c){a&&typeof a!="string"&&(c=a,a="");return typeof b=="string"?q(b,c?c.treeObj.get(0).ownerDocument:null):q("#"+b.tId+a,c?c.treeObj:null)},getMDom:function(b,a,c){if(!a)return null;for(;a&&a.id!==b.treeId;){for(var d=0,e=c.length;a.tagName&&d<e;d++)if(j.eqs(a.tagName,c[d].tagName)&&a.getAttribute(c[d].attrName)!==null)return a;a=a.parentNode}return null},getNodeMainDom:function(b){return q(b).parent("li").get(0)||q(b).parentsUntil("li").parent().get(0)},isChildOrSelf:function(b,
+	a){return q(b).closest("#"+a).length>0},uCanDo:function(){return!0}},i={addNodes:function(b,a,c,d,e){if(!b.data.keep.leaf||!a||a.isParent)if(j.isArray(d)||(d=[d]),b.data.simpleData.enable&&(d=h.transformTozTreeFormat(b,d)),a){var g=k(a,f.id.SWITCH,b),m=k(a,f.id.ICON,b),o=k(a,f.id.UL,b);if(!a.open)i.replaceSwitchClass(a,g,f.folder.CLOSE),i.replaceIcoClass(a,m,f.folder.CLOSE),a.open=!1,o.css({display:"none"});h.addNodesData(b,a,c,d);i.createNodes(b,a.level+1,d,a,c);e||i.expandCollapseParentNode(b,a,
+	!0)}else h.addNodesData(b,h.getRoot(b),c,d),i.createNodes(b,0,d,null,c)},appendNodes:function(b,a,c,d,e,g,f){if(!c)return[];var j=[],k=b.data.key.children,l=(d?d:h.getRoot(b))[k],r,Q;if(!l||e>=l.length)e=-1;for(var t=0,q=c.length;t<q;t++){var p=c[t];g&&(r=(e===0||l.length==c.length)&&t==0,Q=e<0&&t==c.length-1,h.initNode(b,a,p,d,r,Q,f),h.addNodeCache(b,p));r=[];p[k]&&p[k].length>0&&(r=i.appendNodes(b,a+1,p[k],p,-1,g,f&&p.open));f&&(i.makeDOMNodeMainBefore(j,b,p),i.makeDOMNodeLine(j,b,p),h.getBeforeA(b,
+	p,j),i.makeDOMNodeNameBefore(j,b,p),h.getInnerBeforeA(b,p,j),i.makeDOMNodeIcon(j,b,p),h.getInnerAfterA(b,p,j),i.makeDOMNodeNameAfter(j,b,p),h.getAfterA(b,p,j),p.isParent&&p.open&&i.makeUlHtml(b,p,j,r.join("")),i.makeDOMNodeMainAfter(j,b,p),h.addCreatedNode(b,p))}return j},appendParentULDom:function(b,a){var c=[],d=k(a,b);!d.get(0)&&a.parentTId&&(i.appendParentULDom(b,a.getParentNode()),d=k(a,b));var e=k(a,f.id.UL,b);e.get(0)&&e.remove();e=i.appendNodes(b,a.level+1,a[b.data.key.children],a,-1,!1,!0);
+	i.makeUlHtml(b,a,c,e.join(""));d.append(c.join(""))},asyncNode:function(b,a,c,d){var e,g;if(a&&!a.isParent)return j.apply(d),!1;else if(a&&a.isAjaxing)return!1;else if(j.apply(b.callback.beforeAsync,[b.treeId,a],!0)==!1)return j.apply(d),!1;if(a)a.isAjaxing=!0,k(a,f.id.ICON,b).attr({style:"","class":f.className.BUTTON+" "+f.className.ICO_LOADING});var m={};for(e=0,g=b.async.autoParam.length;a&&e<g;e++){var o=b.async.autoParam[e].split("="),n=o;o.length>1&&(n=o[1],o=o[0]);m[n]=a[o]}if(j.isArray(b.async.otherParam))for(e=
+	0,g=b.async.otherParam.length;e<g;e+=2)m[b.async.otherParam[e]]=b.async.otherParam[e+1];else for(var l in b.async.otherParam)m[l]=b.async.otherParam[l];var r=h.getRoot(b)._ver;q.ajax({contentType:b.async.contentType,cache:!1,type:b.async.type,url:j.apply(b.async.url,[b.treeId,a],b.async.url),data:m,dataType:b.async.dataType,success:function(e){if(r==h.getRoot(b)._ver){var g=[];try{g=!e||e.length==0?[]:typeof e=="string"?eval("("+e+")"):e}catch(m){g=e}if(a)a.isAjaxing=null,a.zAsync=!0;i.setNodeLineIcos(b,
+	a);g&&g!==""?(g=j.apply(b.async.dataFilter,[b.treeId,a,g],g),i.addNodes(b,a,-1,g?j.clone(g):[],!!c)):i.addNodes(b,a,-1,[],!!c);b.treeObj.trigger(f.event.ASYNC_SUCCESS,[b.treeId,a,e]);j.apply(d)}},error:function(c,d,e){if(r==h.getRoot(b)._ver){if(a)a.isAjaxing=null;i.setNodeLineIcos(b,a);b.treeObj.trigger(f.event.ASYNC_ERROR,[b.treeId,a,c,d,e])}}});return!0},cancelPreSelectedNode:function(b,a,c){var d=h.getRoot(b).curSelectedList,e,g;for(e=d.length-1;e>=0;e--)if(g=d[e],a===g||!a&&(!c||c!==g))if(k(g,
+	f.id.A,b).removeClass(f.node.CURSELECTED),a){h.removeSelectedNode(b,a);break}else d.splice(e,1),b.treeObj.trigger(f.event.UNSELECTED,[b.treeId,g])},createNodeCallback:function(b){if(b.callback.onNodeCreated||b.view.addDiyDom)for(var a=h.getRoot(b);a.createdNodes.length>0;){var c=a.createdNodes.shift();j.apply(b.view.addDiyDom,[b.treeId,c]);b.callback.onNodeCreated&&b.treeObj.trigger(f.event.NODECREATED,[b.treeId,c])}},createNodes:function(b,a,c,d,e){if(c&&c.length!=0){var g=h.getRoot(b),j=b.data.key.children,
+	j=!d||d.open||!!k(d[j][0],b).get(0);g.createdNodes=[];var a=i.appendNodes(b,a,c,d,e,!0,j),o,n;d?(d=k(d,f.id.UL,b),d.get(0)&&(o=d)):o=b.treeObj;o&&(e>=0&&(n=o.children()[e]),e>=0&&n?q(n).before(a.join("")):o.append(a.join("")));i.createNodeCallback(b)}},destroy:function(b){b&&(h.initCache(b),h.initRoot(b),l.unbindTree(b),l.unbindEvent(b),b.treeObj.empty(),delete s[b.treeId])},expandCollapseNode:function(b,a,c,d,e){var g=h.getRoot(b),m=b.data.key.children,o;if(a){if(g.expandTriggerFlag)o=e,e=function(){o&&
+	o();a.open?b.treeObj.trigger(f.event.EXPAND,[b.treeId,a]):b.treeObj.trigger(f.event.COLLAPSE,[b.treeId,a])},g.expandTriggerFlag=!1;if(!a.open&&a.isParent&&(!k(a,f.id.UL,b).get(0)||a[m]&&a[m].length>0&&!k(a[m][0],b).get(0)))i.appendParentULDom(b,a),i.createNodeCallback(b);if(a.open==c)j.apply(e,[]);else{var c=k(a,f.id.UL,b),g=k(a,f.id.SWITCH,b),n=k(a,f.id.ICON,b);a.isParent?(a.open=!a.open,a.iconOpen&&a.iconClose&&n.attr("style",i.makeNodeIcoStyle(b,a)),a.open?(i.replaceSwitchClass(a,g,f.folder.OPEN),
+	i.replaceIcoClass(a,n,f.folder.OPEN),d==!1||b.view.expandSpeed==""?(c.show(),j.apply(e,[])):a[m]&&a[m].length>0?c.slideDown(b.view.expandSpeed,e):(c.show(),j.apply(e,[]))):(i.replaceSwitchClass(a,g,f.folder.CLOSE),i.replaceIcoClass(a,n,f.folder.CLOSE),d==!1||b.view.expandSpeed==""||!(a[m]&&a[m].length>0)?(c.hide(),j.apply(e,[])):c.slideUp(b.view.expandSpeed,e))):j.apply(e,[])}}else j.apply(e,[])},expandCollapseParentNode:function(b,a,c,d,e){a&&(a.parentTId?(i.expandCollapseNode(b,a,c,d),a.parentTId&&
+	i.expandCollapseParentNode(b,a.getParentNode(),c,d,e)):i.expandCollapseNode(b,a,c,d,e))},expandCollapseSonNode:function(b,a,c,d,e){var g=h.getRoot(b),f=b.data.key.children,g=a?a[f]:g[f],f=a?!1:d,j=h.getRoot(b).expandTriggerFlag;h.getRoot(b).expandTriggerFlag=!1;if(g)for(var k=0,l=g.length;k<l;k++)g[k]&&i.expandCollapseSonNode(b,g[k],c,f);h.getRoot(b).expandTriggerFlag=j;i.expandCollapseNode(b,a,c,d,e)},isSelectedNode:function(b,a){if(!a)return!1;var c=h.getRoot(b).curSelectedList,d;for(d=c.length-
+	1;d>=0;d--)if(a===c[d])return!0;return!1},makeDOMNodeIcon:function(b,a,c){var d=h.getNodeName(a,c),d=a.view.nameIsHTML?d:d.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");b.push("<span id='",c.tId,f.id.ICON,"' title='' treeNode",f.id.ICON," class='",i.makeNodeIcoClass(a,c),"' style='",i.makeNodeIcoStyle(a,c),"'></span><span id='",c.tId,f.id.SPAN,"' class='",f.className.NAME,"'>",d,"</span>")},makeDOMNodeLine:function(b,a,c){b.push("<span id='",c.tId,f.id.SWITCH,"' title='' class='",
+	i.makeNodeLineClass(a,c),"' treeNode",f.id.SWITCH,"></span>")},makeDOMNodeMainAfter:function(b){b.push("</li>")},makeDOMNodeMainBefore:function(b,a,c){b.push("<li id='",c.tId,"' class='",f.className.LEVEL,c.level,"' tabindex='0' hidefocus='true' treenode>")},makeDOMNodeNameAfter:function(b){b.push("</a>")},makeDOMNodeNameBefore:function(b,a,c){var d=h.getNodeTitle(a,c),e=i.makeNodeUrl(a,c),g=i.makeNodeFontCss(a,c),m=[],k;for(k in g)m.push(k,":",g[k],";");b.push("<a id='",c.tId,f.id.A,"' class='",
+	f.className.LEVEL,c.level,"' treeNode",f.id.A,' onclick="',c.click||"",'" ',e!=null&&e.length>0?"href='"+e+"'":""," target='",i.makeNodeTarget(c),"' style='",m.join(""),"'");j.apply(a.view.showTitle,[a.treeId,c],a.view.showTitle)&&d&&b.push("title='",d.replace(/'/g,"&#39;").replace(/</g,"&lt;").replace(/>/g,"&gt;"),"'");b.push(">")},makeNodeFontCss:function(b,a){var c=j.apply(b.view.fontCss,[b.treeId,a],b.view.fontCss);return c&&typeof c!="function"?c:{}},makeNodeIcoClass:function(b,a){var c=["ico"];
+	a.isAjaxing||(c[0]=(a.iconSkin?a.iconSkin+"_":"")+c[0],a.isParent?c.push(a.open?f.folder.OPEN:f.folder.CLOSE):c.push(f.folder.DOCU));return f.className.BUTTON+" "+c.join("_")},makeNodeIcoStyle:function(b,a){var c=[];if(!a.isAjaxing){var d=a.isParent&&a.iconOpen&&a.iconClose?a.open?a.iconOpen:a.iconClose:a[b.data.key.icon];d&&c.push("background:url(",d,") 0 0 no-repeat;");(b.view.showIcon==!1||!j.apply(b.view.showIcon,[b.treeId,a],!0))&&c.push("width:0px;height:0px;")}return c.join("")},makeNodeLineClass:function(b,
+	a){var c=[];b.view.showLine?a.level==0&&a.isFirstNode&&a.isLastNode?c.push(f.line.ROOT):a.level==0&&a.isFirstNode?c.push(f.line.ROOTS):a.isLastNode?c.push(f.line.BOTTOM):c.push(f.line.CENTER):c.push(f.line.NOLINE);a.isParent?c.push(a.open?f.folder.OPEN:f.folder.CLOSE):c.push(f.folder.DOCU);return i.makeNodeLineClassEx(a)+c.join("_")},makeNodeLineClassEx:function(b){return f.className.BUTTON+" "+f.className.LEVEL+b.level+" "+f.className.SWITCH+" "},makeNodeTarget:function(b){return b.target||"_blank"},
+	makeNodeUrl:function(b,a){var c=b.data.key.url;return a[c]?a[c]:null},makeUlHtml:function(b,a,c,d){c.push("<ul id='",a.tId,f.id.UL,"' class='",f.className.LEVEL,a.level," ",i.makeUlLineClass(b,a),"' style='display:",a.open?"block":"none","'>");c.push(d);c.push("</ul>")},makeUlLineClass:function(b,a){return b.view.showLine&&!a.isLastNode?f.line.LINE:""},removeChildNodes:function(b,a){if(a){var c=b.data.key.children,d=a[c];if(d){for(var e=0,g=d.length;e<g;e++)h.removeNodeCache(b,d[e]);h.removeSelectedNode(b);
+	delete a[c];b.data.keep.parent?k(a,f.id.UL,b).empty():(a.isParent=!1,a.open=!1,c=k(a,f.id.SWITCH,b),d=k(a,f.id.ICON,b),i.replaceSwitchClass(a,c,f.folder.DOCU),i.replaceIcoClass(a,d,f.folder.DOCU),k(a,f.id.UL,b).remove())}}},scrollIntoView:function(b){if(b)if(b.scrollIntoViewIfNeeded)b.scrollIntoViewIfNeeded();else if(b.scrollIntoView)b.scrollIntoView(!1);else try{b.focus().blur()}catch(a){}},setFirstNode:function(b,a){var c=b.data.key.children;if(a[c].length>0)a[c][0].isFirstNode=!0},setLastNode:function(b,
+	a){var c=b.data.key.children,d=a[c].length;if(d>0)a[c][d-1].isLastNode=!0},removeNode:function(b,a){var c=h.getRoot(b),d=b.data.key.children,e=a.parentTId?a.getParentNode():c;a.isFirstNode=!1;a.isLastNode=!1;a.getPreNode=function(){return null};a.getNextNode=function(){return null};if(h.getNodeCache(b,a.tId)){k(a,b).remove();h.removeNodeCache(b,a);h.removeSelectedNode(b,a);for(var g=0,j=e[d].length;g<j;g++)if(e[d][g].tId==a.tId){e[d].splice(g,1);break}i.setFirstNode(b,e);i.setLastNode(b,e);var o,
+	g=e[d].length;if(!b.data.keep.parent&&g==0)e.isParent=!1,e.open=!1,g=k(e,f.id.UL,b),j=k(e,f.id.SWITCH,b),o=k(e,f.id.ICON,b),i.replaceSwitchClass(e,j,f.folder.DOCU),i.replaceIcoClass(e,o,f.folder.DOCU),g.css("display","none");else if(b.view.showLine&&g>0){var n=e[d][g-1],g=k(n,f.id.UL,b),j=k(n,f.id.SWITCH,b);o=k(n,f.id.ICON,b);e==c?e[d].length==1?i.replaceSwitchClass(n,j,f.line.ROOT):(c=k(e[d][0],f.id.SWITCH,b),i.replaceSwitchClass(e[d][0],c,f.line.ROOTS),i.replaceSwitchClass(n,j,f.line.BOTTOM)):i.replaceSwitchClass(n,
+	j,f.line.BOTTOM);g.removeClass(f.line.LINE)}}},replaceIcoClass:function(b,a,c){if(a&&!b.isAjaxing&&(b=a.attr("class"),b!=void 0)){b=b.split("_");switch(c){case f.folder.OPEN:case f.folder.CLOSE:case f.folder.DOCU:b[b.length-1]=c}a.attr("class",b.join("_"))}},replaceSwitchClass:function(b,a,c){if(a){var d=a.attr("class");if(d!=void 0){d=d.split("_");switch(c){case f.line.ROOT:case f.line.ROOTS:case f.line.CENTER:case f.line.BOTTOM:case f.line.NOLINE:d[0]=i.makeNodeLineClassEx(b)+c;break;case f.folder.OPEN:case f.folder.CLOSE:case f.folder.DOCU:d[1]=
+	c}a.attr("class",d.join("_"));c!==f.folder.DOCU?a.removeAttr("disabled"):a.attr("disabled","disabled")}}},selectNode:function(b,a,c){c||i.cancelPreSelectedNode(b,null,a);k(a,f.id.A,b).addClass(f.node.CURSELECTED);h.addSelectedNode(b,a);b.treeObj.trigger(f.event.SELECTED,[b.treeId,a])},setNodeFontCss:function(b,a){var c=k(a,f.id.A,b),d=i.makeNodeFontCss(b,a);d&&c.css(d)},setNodeLineIcos:function(b,a){if(a){var c=k(a,f.id.SWITCH,b),d=k(a,f.id.UL,b),e=k(a,f.id.ICON,b),g=i.makeUlLineClass(b,a);g.length==
+	0?d.removeClass(f.line.LINE):d.addClass(g);c.attr("class",i.makeNodeLineClass(b,a));a.isParent?c.removeAttr("disabled"):c.attr("disabled","disabled");e.removeAttr("style");e.attr("style",i.makeNodeIcoStyle(b,a));e.attr("class",i.makeNodeIcoClass(b,a))}},setNodeName:function(b,a){var c=h.getNodeTitle(b,a),d=k(a,f.id.SPAN,b);d.empty();b.view.nameIsHTML?d.html(h.getNodeName(b,a)):d.text(h.getNodeName(b,a));j.apply(b.view.showTitle,[b.treeId,a],b.view.showTitle)&&k(a,f.id.A,b).attr("title",!c?"":c)},
+	setNodeTarget:function(b,a){k(a,f.id.A,b).attr("target",i.makeNodeTarget(a))},setNodeUrl:function(b,a){var c=k(a,f.id.A,b),d=i.makeNodeUrl(b,a);d==null||d.length==0?c.removeAttr("href"):c.attr("href",d)},switchNode:function(b,a){a.open||!j.canAsync(b,a)?i.expandCollapseNode(b,a,!a.open):b.async.enable?i.asyncNode(b,a)||i.expandCollapseNode(b,a,!a.open):a&&i.expandCollapseNode(b,a,!a.open)}};q.fn.zTree={consts:{className:{BUTTON:"button",LEVEL:"level",ICO_LOADING:"ico_loading",SWITCH:"switch",NAME:"node_name"},
+	event:{NODECREATED:"ztree_nodeCreated",CLICK:"ztree_click",EXPAND:"ztree_expand",COLLAPSE:"ztree_collapse",ASYNC_SUCCESS:"ztree_async_success",ASYNC_ERROR:"ztree_async_error",REMOVE:"ztree_remove",SELECTED:"ztree_selected",UNSELECTED:"ztree_unselected"},id:{A:"_a",ICON:"_ico",SPAN:"_span",SWITCH:"_switch",UL:"_ul"},line:{ROOT:"root",ROOTS:"roots",CENTER:"center",BOTTOM:"bottom",NOLINE:"noline",LINE:"line"},folder:{OPEN:"open",CLOSE:"close",DOCU:"docu"},node:{CURSELECTED:"curSelectedNode"}},_z:{tools:j,
+	view:i,event:l,data:h},getZTreeObj:function(b){return(b=h.getZTreeTools(b))?b:null},destroy:function(b){if(b&&b.length>0)i.destroy(h.getSetting(b));else for(var a in s)i.destroy(s[a])},init:function(b,a,c){var d=j.clone(O);q.extend(!0,d,a);d.treeId=b.attr("id");d.treeObj=b;d.treeObj.empty();s[d.treeId]=d;if(typeof document.body.style.maxHeight==="undefined")d.view.expandSpeed="";h.initRoot(d);b=h.getRoot(d);a=d.data.key.children;c=c?j.clone(j.isArray(c)?c:[c]):[];b[a]=d.data.simpleData.enable?h.transformTozTreeFormat(d,
+	c):c;h.initCache(d);l.unbindTree(d);l.bindTree(d);l.unbindEvent(d);l.bindEvent(d);c={setting:d,addNodes:function(a,b,c,f){function h(){i.addNodes(d,a,b,l,f==!0)}a||(a=null);if(a&&!a.isParent&&d.data.keep.leaf)return null;var k=parseInt(b,10);isNaN(k)?(f=!!c,c=b,b=-1):b=k;if(!c)return null;var l=j.clone(j.isArray(c)?c:[c]);j.canAsync(d,a)?i.asyncNode(d,a,f,h):h();return l},cancelSelectedNode:function(a){i.cancelPreSelectedNode(d,a)},destroy:function(){i.destroy(d)},expandAll:function(a){a=!!a;i.expandCollapseSonNode(d,
+	null,a,!0);return a},expandNode:function(a,b,c,f,n){function l(){var b=k(a,d).get(0);b&&f!==!1&&i.scrollIntoView(b)}if(!a||!a.isParent)return null;b!==!0&&b!==!1&&(b=!a.open);if((n=!!n)&&b&&j.apply(d.callback.beforeExpand,[d.treeId,a],!0)==!1)return null;else if(n&&!b&&j.apply(d.callback.beforeCollapse,[d.treeId,a],!0)==!1)return null;b&&a.parentTId&&i.expandCollapseParentNode(d,a.getParentNode(),b,!1);if(b===a.open&&!c)return null;h.getRoot(d).expandTriggerFlag=n;!j.canAsync(d,a)&&c?i.expandCollapseSonNode(d,
+	a,b,!0,l):(a.open=!b,i.switchNode(this.setting,a),l());return b},getNodes:function(){return h.getNodes(d)},getNodeByParam:function(a,b,c){return!a?null:h.getNodeByParam(d,c?c[d.data.key.children]:h.getNodes(d),a,b)},getNodeByTId:function(a){return h.getNodeCache(d,a)},getNodesByParam:function(a,b,c){return!a?null:h.getNodesByParam(d,c?c[d.data.key.children]:h.getNodes(d),a,b)},getNodesByParamFuzzy:function(a,b,c){return!a?null:h.getNodesByParamFuzzy(d,c?c[d.data.key.children]:h.getNodes(d),a,b)},
+	getNodesByFilter:function(a,b,c,f){b=!!b;return!a||typeof a!="function"?b?null:[]:h.getNodesByFilter(d,c?c[d.data.key.children]:h.getNodes(d),a,b,f)},getNodeIndex:function(a){if(!a)return null;for(var b=d.data.key.children,c=a.parentTId?a.getParentNode():h.getRoot(d),f=0,i=c[b].length;f<i;f++)if(c[b][f]==a)return f;return-1},getSelectedNodes:function(){for(var a=[],b=h.getRoot(d).curSelectedList,c=0,f=b.length;c<f;c++)a.push(b[c]);return a},isSelectedNode:function(a){return h.isSelectedNode(d,a)},
+	reAsyncChildNodes:function(a,b,c){if(this.setting.async.enable){var j=!a;j&&(a=h.getRoot(d));if(b=="refresh"){for(var b=this.setting.data.key.children,l=0,q=a[b]?a[b].length:0;l<q;l++)h.removeNodeCache(d,a[b][l]);h.removeSelectedNode(d);a[b]=[];j?this.setting.treeObj.empty():k(a,f.id.UL,d).empty()}i.asyncNode(this.setting,j?null:a,!!c)}},refresh:function(){this.setting.treeObj.empty();var a=h.getRoot(d),b=a[d.data.key.children];h.initRoot(d);a[d.data.key.children]=b;h.initCache(d);i.createNodes(d,
+	0,a[d.data.key.children],null,-1)},removeChildNodes:function(a){if(!a)return null;var b=a[d.data.key.children];i.removeChildNodes(d,a);return b?b:null},removeNode:function(a,b){a&&(b=!!b,b&&j.apply(d.callback.beforeRemove,[d.treeId,a],!0)==!1||(i.removeNode(d,a),b&&this.setting.treeObj.trigger(f.event.REMOVE,[d.treeId,a])))},selectNode:function(a,b,c){function f(){if(!c){var b=k(a,d).get(0);i.scrollIntoView(b)}}if(a&&j.uCanDo(d)){b=d.view.selectedMulti&&b;if(a.parentTId)i.expandCollapseParentNode(d,
+	a.getParentNode(),!0,!1,f);else if(!c)try{k(a,d).focus().blur()}catch(h){}i.selectNode(d,a,b)}},transformTozTreeNodes:function(a){return h.transformTozTreeFormat(d,a)},transformToArray:function(a){return h.transformToArrayFormat(d,a)},updateNode:function(a){a&&k(a,d).get(0)&&j.uCanDo(d)&&(i.setNodeName(d,a),i.setNodeTarget(d,a),i.setNodeUrl(d,a),i.setNodeLineIcos(d,a),i.setNodeFontCss(d,a))}};b.treeTools=c;h.setZTreeTools(d,c);b[a]&&b[a].length>0?i.createNodes(d,0,b[a],null,-1):d.async.enable&&d.async.url&&
+	d.async.url!==""&&i.asyncNode(d);return c}};var P=q.fn.zTree,k=j.$,f=P.consts})(jQuery);
+
+	/*
+	 * JQuery zTree excheck v3.5.24
+	 * http://zTree.me/
+	 *
+	 * Copyright (c) 2010 Hunter.z
+	 *
+	 * Licensed same as jquery - MIT License
+	 * http://www.opensource.org/licenses/mit-license.php
+	 *
+	 * email: hunter.z@263.net
+	 * Date: 2016-06-06
+	 */
+	(function(m){var p,q,r,o={event:{CHECK:"ztree_check"},id:{CHECK:"_check"},checkbox:{STYLE:"checkbox",DEFAULT:"chk",DISABLED:"disable",FALSE:"false",TRUE:"true",FULL:"full",PART:"part",FOCUS:"focus"},radio:{STYLE:"radio",TYPE_ALL:"all",TYPE_LEVEL:"level"}},v={check:{enable:!1,autoCheckTrigger:!1,chkStyle:o.checkbox.STYLE,nocheckInherit:!1,chkDisabledInherit:!1,radioType:o.radio.TYPE_LEVEL,chkboxType:{Y:"ps",N:"ps"}},data:{key:{checked:"checked"}},callback:{beforeCheck:null,onCheck:null}};p=function(c,
+	a){if(a.chkDisabled===!0)return!1;var b=g.getSetting(c.data.treeId),d=b.data.key.checked;if(k.apply(b.callback.beforeCheck,[b.treeId,a],!0)==!1)return!0;a[d]=!a[d];e.checkNodeRelation(b,a);d=n(a,j.id.CHECK,b);e.setChkClass(b,d,a);e.repairParentChkClassWithSelf(b,a);b.treeObj.trigger(j.event.CHECK,[c,b.treeId,a]);return!0};q=function(c,a){if(a.chkDisabled===!0)return!1;var b=g.getSetting(c.data.treeId),d=n(a,j.id.CHECK,b);a.check_Focus=!0;e.setChkClass(b,d,a);return!0};r=function(c,a){if(a.chkDisabled===
+	!0)return!1;var b=g.getSetting(c.data.treeId),d=n(a,j.id.CHECK,b);a.check_Focus=!1;e.setChkClass(b,d,a);return!0};m.extend(!0,m.fn.zTree.consts,o);m.extend(!0,m.fn.zTree._z,{tools:{},view:{checkNodeRelation:function(c,a){var b,d,h,i=c.data.key.children,l=c.data.key.checked;b=j.radio;if(c.check.chkStyle==b.STYLE){var f=g.getRadioCheckedList(c);if(a[l])if(c.check.radioType==b.TYPE_ALL){for(d=f.length-1;d>=0;d--)b=f[d],b[l]&&b!=a&&(b[l]=!1,f.splice(d,1),e.setChkClass(c,n(b,j.id.CHECK,c),b),b.parentTId!=
+	a.parentTId&&e.repairParentChkClassWithSelf(c,b));f.push(a)}else{f=a.parentTId?a.getParentNode():g.getRoot(c);for(d=0,h=f[i].length;d<h;d++)b=f[i][d],b[l]&&b!=a&&(b[l]=!1,e.setChkClass(c,n(b,j.id.CHECK,c),b))}else if(c.check.radioType==b.TYPE_ALL)for(d=0,h=f.length;d<h;d++)if(a==f[d]){f.splice(d,1);break}}else a[l]&&(!a[i]||a[i].length==0||c.check.chkboxType.Y.indexOf("s")>-1)&&e.setSonNodeCheckBox(c,a,!0),!a[l]&&(!a[i]||a[i].length==0||c.check.chkboxType.N.indexOf("s")>-1)&&e.setSonNodeCheckBox(c,
+	a,!1),a[l]&&c.check.chkboxType.Y.indexOf("p")>-1&&e.setParentNodeCheckBox(c,a,!0),!a[l]&&c.check.chkboxType.N.indexOf("p")>-1&&e.setParentNodeCheckBox(c,a,!1)},makeChkClass:function(c,a){var b=c.data.key.checked,d=j.checkbox,h=j.radio,i="",i=a.chkDisabled===!0?d.DISABLED:a.halfCheck?d.PART:c.check.chkStyle==h.STYLE?a.check_Child_State<1?d.FULL:d.PART:a[b]?a.check_Child_State===2||a.check_Child_State===-1?d.FULL:d.PART:a.check_Child_State<1?d.FULL:d.PART,b=c.check.chkStyle+"_"+(a[b]?d.TRUE:d.FALSE)+
+	"_"+i,b=a.check_Focus&&a.chkDisabled!==!0?b+"_"+d.FOCUS:b;return j.className.BUTTON+" "+d.DEFAULT+" "+b},repairAllChk:function(c,a){if(c.check.enable&&c.check.chkStyle===j.checkbox.STYLE)for(var b=c.data.key.checked,d=c.data.key.children,h=g.getRoot(c),i=0,l=h[d].length;i<l;i++){var f=h[d][i];f.nocheck!==!0&&f.chkDisabled!==!0&&(f[b]=a);e.setSonNodeCheckBox(c,f,a)}},repairChkClass:function(c,a){if(a&&(g.makeChkFlag(c,a),a.nocheck!==!0)){var b=n(a,j.id.CHECK,c);e.setChkClass(c,b,a)}},repairParentChkClass:function(c,
+	a){if(a&&a.parentTId){var b=a.getParentNode();e.repairChkClass(c,b);e.repairParentChkClass(c,b)}},repairParentChkClassWithSelf:function(c,a){if(a){var b=c.data.key.children;a[b]&&a[b].length>0?e.repairParentChkClass(c,a[b][0]):e.repairParentChkClass(c,a)}},repairSonChkDisabled:function(c,a,b,d){if(a){var h=c.data.key.children;if(a.chkDisabled!=b)a.chkDisabled=b;e.repairChkClass(c,a);if(a[h]&&d)for(var i=0,l=a[h].length;i<l;i++)e.repairSonChkDisabled(c,a[h][i],b,d)}},repairParentChkDisabled:function(c,
+	a,b,d){if(a){if(a.chkDisabled!=b&&d)a.chkDisabled=b;e.repairChkClass(c,a);e.repairParentChkDisabled(c,a.getParentNode(),b,d)}},setChkClass:function(c,a,b){a&&(b.nocheck===!0?a.hide():a.show(),a.attr("class",e.makeChkClass(c,b)))},setParentNodeCheckBox:function(c,a,b,d){var h=c.data.key.children,i=c.data.key.checked,l=n(a,j.id.CHECK,c);d||(d=a);g.makeChkFlag(c,a);a.nocheck!==!0&&a.chkDisabled!==!0&&(a[i]=b,e.setChkClass(c,l,a),c.check.autoCheckTrigger&&a!=d&&c.treeObj.trigger(j.event.CHECK,[null,c.treeId,
+	a]));if(a.parentTId){l=!0;if(!b)for(var h=a.getParentNode()[h],f=0,k=h.length;f<k;f++)if(h[f].nocheck!==!0&&h[f].chkDisabled!==!0&&h[f][i]||(h[f].nocheck===!0||h[f].chkDisabled===!0)&&h[f].check_Child_State>0){l=!1;break}l&&e.setParentNodeCheckBox(c,a.getParentNode(),b,d)}},setSonNodeCheckBox:function(c,a,b,d){if(a){var h=c.data.key.children,i=c.data.key.checked,l=n(a,j.id.CHECK,c);d||(d=a);var f=!1;if(a[h])for(var k=0,m=a[h].length;k<m;k++){var o=a[h][k];e.setSonNodeCheckBox(c,o,b,d);o.chkDisabled===
+	!0&&(f=!0)}if(a!=g.getRoot(c)&&a.chkDisabled!==!0){f&&a.nocheck!==!0&&g.makeChkFlag(c,a);if(a.nocheck!==!0&&a.chkDisabled!==!0){if(a[i]=b,!f)a.check_Child_State=a[h]&&a[h].length>0?b?2:0:-1}else a.check_Child_State=-1;e.setChkClass(c,l,a);c.check.autoCheckTrigger&&a!=d&&a.nocheck!==!0&&a.chkDisabled!==!0&&c.treeObj.trigger(j.event.CHECK,[null,c.treeId,a])}}}},event:{},data:{getRadioCheckedList:function(c){for(var a=g.getRoot(c).radioCheckedList,b=0,d=a.length;b<d;b++)g.getNodeCache(c,a[b].tId)||(a.splice(b,
+	1),b--,d--);return a},getCheckStatus:function(c,a){if(!c.check.enable||a.nocheck||a.chkDisabled)return null;var b=c.data.key.checked;return{checked:a[b],half:a.halfCheck?a.halfCheck:c.check.chkStyle==j.radio.STYLE?a.check_Child_State===2:a[b]?a.check_Child_State>-1&&a.check_Child_State<2:a.check_Child_State>0}},getTreeCheckedNodes:function(c,a,b,d){if(!a)return[];for(var h=c.data.key.children,i=c.data.key.checked,e=b&&c.check.chkStyle==j.radio.STYLE&&c.check.radioType==j.radio.TYPE_ALL,d=!d?[]:d,
+	f=0,k=a.length;f<k;f++){if(a[f].nocheck!==!0&&a[f].chkDisabled!==!0&&a[f][i]==b&&(d.push(a[f]),e))break;g.getTreeCheckedNodes(c,a[f][h],b,d);if(e&&d.length>0)break}return d},getTreeChangeCheckedNodes:function(c,a,b){if(!a)return[];for(var d=c.data.key.children,h=c.data.key.checked,b=!b?[]:b,i=0,e=a.length;i<e;i++)a[i].nocheck!==!0&&a[i].chkDisabled!==!0&&a[i][h]!=a[i].checkedOld&&b.push(a[i]),g.getTreeChangeCheckedNodes(c,a[i][d],b);return b},makeChkFlag:function(c,a){if(a){var b=c.data.key.children,
+	d=c.data.key.checked,h=-1;if(a[b])for(var i=0,e=a[b].length;i<e;i++){var f=a[b][i],g=-1;if(c.check.chkStyle==j.radio.STYLE)if(g=f.nocheck===!0||f.chkDisabled===!0?f.check_Child_State:f.halfCheck===!0?2:f[d]?2:f.check_Child_State>0?2:0,g==2){h=2;break}else g==0&&(h=0);else if(c.check.chkStyle==j.checkbox.STYLE)if(g=f.nocheck===!0||f.chkDisabled===!0?f.check_Child_State:f.halfCheck===!0?1:f[d]?f.check_Child_State===-1||f.check_Child_State===2?2:1:f.check_Child_State>0?1:0,g===1){h=1;break}else if(g===
+	2&&h>-1&&i>0&&g!==h){h=1;break}else if(h===2&&g>-1&&g<2){h=1;break}else g>-1&&(h=g)}a.check_Child_State=h}}}});var m=m.fn.zTree,k=m._z.tools,j=m.consts,e=m._z.view,g=m._z.data,n=k.$;g.exSetting(v);g.addInitBind(function(c){c.treeObj.bind(j.event.CHECK,function(a,b,d,h){a.srcEvent=b;k.apply(c.callback.onCheck,[a,d,h])})});g.addInitUnBind(function(c){c.treeObj.unbind(j.event.CHECK)});g.addInitCache(function(){});g.addInitNode(function(c,a,b,d){if(b){a=c.data.key.checked;typeof b[a]=="string"&&(b[a]=
+	k.eqs(b[a],"true"));b[a]=!!b[a];b.checkedOld=b[a];if(typeof b.nocheck=="string")b.nocheck=k.eqs(b.nocheck,"true");b.nocheck=!!b.nocheck||c.check.nocheckInherit&&d&&!!d.nocheck;if(typeof b.chkDisabled=="string")b.chkDisabled=k.eqs(b.chkDisabled,"true");b.chkDisabled=!!b.chkDisabled||c.check.chkDisabledInherit&&d&&!!d.chkDisabled;if(typeof b.halfCheck=="string")b.halfCheck=k.eqs(b.halfCheck,"true");b.halfCheck=!!b.halfCheck;b.check_Child_State=-1;b.check_Focus=!1;b.getCheckStatus=function(){return g.getCheckStatus(c,
+	b)};c.check.chkStyle==j.radio.STYLE&&c.check.radioType==j.radio.TYPE_ALL&&b[a]&&g.getRoot(c).radioCheckedList.push(b)}});g.addInitProxy(function(c){var a=c.target,b=g.getSetting(c.data.treeId),d="",h=null,e="",l=null;if(k.eqs(c.type,"mouseover")){if(b.check.enable&&k.eqs(a.tagName,"span")&&a.getAttribute("treeNode"+j.id.CHECK)!==null)d=k.getNodeMainDom(a).id,e="mouseoverCheck"}else if(k.eqs(c.type,"mouseout")){if(b.check.enable&&k.eqs(a.tagName,"span")&&a.getAttribute("treeNode"+j.id.CHECK)!==null)d=
+	k.getNodeMainDom(a).id,e="mouseoutCheck"}else if(k.eqs(c.type,"click")&&b.check.enable&&k.eqs(a.tagName,"span")&&a.getAttribute("treeNode"+j.id.CHECK)!==null)d=k.getNodeMainDom(a).id,e="checkNode";if(d.length>0)switch(h=g.getNodeCache(b,d),e){case "checkNode":l=p;break;case "mouseoverCheck":l=q;break;case "mouseoutCheck":l=r}return{stop:e==="checkNode",node:h,nodeEventType:e,nodeEventCallback:l,treeEventType:"",treeEventCallback:null}},!0);g.addInitRoot(function(c){g.getRoot(c).radioCheckedList=[]});
+	g.addBeforeA(function(c,a,b){c.check.enable&&(g.makeChkFlag(c,a),b.push("<span ID='",a.tId,j.id.CHECK,"' class='",e.makeChkClass(c,a),"' treeNode",j.id.CHECK,a.nocheck===!0?" style='display:none;'":"","></span>"))});g.addZTreeTools(function(c,a){a.checkNode=function(a,b,c,g){var f=this.setting.data.key.checked;if(a.chkDisabled!==!0&&(b!==!0&&b!==!1&&(b=!a[f]),g=!!g,(a[f]!==b||c)&&!(g&&k.apply(this.setting.callback.beforeCheck,[this.setting.treeId,a],!0)==!1)&&k.uCanDo(this.setting)&&this.setting.check.enable&&
+	a.nocheck!==!0))a[f]=b,b=n(a,j.id.CHECK,this.setting),(c||this.setting.check.chkStyle===j.radio.STYLE)&&e.checkNodeRelation(this.setting,a),e.setChkClass(this.setting,b,a),e.repairParentChkClassWithSelf(this.setting,a),g&&this.setting.treeObj.trigger(j.event.CHECK,[null,this.setting.treeId,a])};a.checkAllNodes=function(a){e.repairAllChk(this.setting,!!a)};a.getCheckedNodes=function(a){var b=this.setting.data.key.children;return g.getTreeCheckedNodes(this.setting,g.getRoot(this.setting)[b],a!==!1)};
+	a.getChangeCheckedNodes=function(){var a=this.setting.data.key.children;return g.getTreeChangeCheckedNodes(this.setting,g.getRoot(this.setting)[a])};a.setChkDisabled=function(a,b,c,g){b=!!b;c=!!c;e.repairSonChkDisabled(this.setting,a,b,!!g);e.repairParentChkDisabled(this.setting,a.getParentNode(),b,c)};var b=a.updateNode;a.updateNode=function(c,g){b&&b.apply(a,arguments);if(c&&this.setting.check.enable&&n(c,this.setting).get(0)&&k.uCanDo(this.setting)){var i=n(c,j.id.CHECK,this.setting);(g==!0||this.setting.check.chkStyle===
+	j.radio.STYLE)&&e.checkNodeRelation(this.setting,c);e.setChkClass(this.setting,i,c);e.repairParentChkClassWithSelf(this.setting,c)}}});var s=e.createNodes;e.createNodes=function(c,a,b,d,g){s&&s.apply(e,arguments);b&&e.repairParentChkClassWithSelf(c,d)};var t=e.removeNode;e.removeNode=function(c,a){var b=a.getParentNode();t&&t.apply(e,arguments);a&&b&&(e.repairChkClass(c,b),e.repairParentChkClass(c,b))};var u=e.appendNodes;e.appendNodes=function(c,a,b,d,h,i,j){var f="";u&&(f=u.apply(e,arguments));
+	d&&g.makeChkFlag(c,d);return f}})(jQuery);
+
+	/*
+	 * JQuery zTree exedit v3.5.24
+	 * http://zTree.me/
+	 *
+	 * Copyright (c) 2010 Hunter.z
+	 *
+	 * Licensed same as jquery - MIT License
+	 * http://www.opensource.org/licenses/mit-license.php
+	 *
+	 * email: hunter.z@263.net
+	 * Date: 2016-06-06
+	 */
+	(function(v){var J={event:{DRAG:"ztree_drag",DROP:"ztree_drop",RENAME:"ztree_rename",DRAGMOVE:"ztree_dragmove"},id:{EDIT:"_edit",INPUT:"_input",REMOVE:"_remove"},move:{TYPE_INNER:"inner",TYPE_PREV:"prev",TYPE_NEXT:"next"},node:{CURSELECTED_EDIT:"curSelectedNode_Edit",TMPTARGET_TREE:"tmpTargetzTree",TMPTARGET_NODE:"tmpTargetNode"}},x={onHoverOverNode:function(b,a){var c=m.getSetting(b.data.treeId),d=m.getRoot(c);if(d.curHoverNode!=a)x.onHoverOutNode(b);d.curHoverNode=a;f.addHoverDom(c,a)},onHoverOutNode:function(b){var b=
+	m.getSetting(b.data.treeId),a=m.getRoot(b);if(a.curHoverNode&&!m.isSelectedNode(b,a.curHoverNode))f.removeTreeDom(b,a.curHoverNode),a.curHoverNode=null},onMousedownNode:function(b,a){function c(b){if(B.dragFlag==0&&Math.abs(O-b.clientX)<e.edit.drag.minMoveSize&&Math.abs(P-b.clientY)<e.edit.drag.minMoveSize)return!0;var a,c,n,k,i;i=e.data.key.children;M.css("cursor","pointer");if(B.dragFlag==0){if(g.apply(e.callback.beforeDrag,[e.treeId,l],!0)==!1)return r(b),!0;for(a=0,c=l.length;a<c;a++){if(a==0)B.dragNodeShowBefore=
+	[];n=l[a];n.isParent&&n.open?(f.expandCollapseNode(e,n,!n.open),B.dragNodeShowBefore[n.tId]=!0):B.dragNodeShowBefore[n.tId]=!1}B.dragFlag=1;t.showHoverDom=!1;g.showIfameMask(e,!0);n=!0;k=-1;if(l.length>1){var j=l[0].parentTId?l[0].getParentNode()[i]:m.getNodes(e);i=[];for(a=0,c=j.length;a<c;a++)if(B.dragNodeShowBefore[j[a].tId]!==void 0&&(n&&k>-1&&k+1!==a&&(n=!1),i.push(j[a]),k=a),l.length===i.length){l=i;break}}n&&(I=l[0].getPreNode(),R=l[l.length-1].getNextNode());D=o("<ul class='zTreeDragUL'></ul>",
+	e);for(a=0,c=l.length;a<c;a++)n=l[a],n.editNameFlag=!1,f.selectNode(e,n,a>0),f.removeTreeDom(e,n),a>e.edit.drag.maxShowNodeNum-1||(k=o("<li id='"+n.tId+"_tmp'></li>",e),k.append(o(n,d.id.A,e).clone()),k.css("padding","0"),k.children("#"+n.tId+d.id.A).removeClass(d.node.CURSELECTED),D.append(k),a==e.edit.drag.maxShowNodeNum-1&&(k=o("<li id='"+n.tId+"_moretmp'><a>  ...  </a></li>",e),D.append(k)));D.attr("id",l[0].tId+d.id.UL+"_tmp");D.addClass(e.treeObj.attr("class"));D.appendTo(M);A=o("<span class='tmpzTreeMove_arrow'></span>",
+	e);A.attr("id","zTreeMove_arrow_tmp");A.appendTo(M);e.treeObj.trigger(d.event.DRAG,[b,e.treeId,l])}if(B.dragFlag==1){s&&A.attr("id")==b.target.id&&u&&b.clientX+G.scrollLeft()+2>v("#"+u+d.id.A,s).offset().left?(n=v("#"+u+d.id.A,s),b.target=n.length>0?n.get(0):b.target):s&&(s.removeClass(d.node.TMPTARGET_TREE),u&&v("#"+u+d.id.A,s).removeClass(d.node.TMPTARGET_NODE+"_"+d.move.TYPE_PREV).removeClass(d.node.TMPTARGET_NODE+"_"+J.move.TYPE_NEXT).removeClass(d.node.TMPTARGET_NODE+"_"+J.move.TYPE_INNER));
+	u=s=null;K=!1;h=e;n=m.getSettings();for(var y in n)if(n[y].treeId&&n[y].edit.enable&&n[y].treeId!=e.treeId&&(b.target.id==n[y].treeId||v(b.target).parents("#"+n[y].treeId).length>0))K=!0,h=n[y];y=G.scrollTop();k=G.scrollLeft();i=h.treeObj.offset();a=h.treeObj.get(0).scrollHeight;n=h.treeObj.get(0).scrollWidth;c=b.clientY+y-i.top;var p=h.treeObj.height()+i.top-b.clientY-y,q=b.clientX+k-i.left,H=h.treeObj.width()+i.left-b.clientX-k;i=c<e.edit.drag.borderMax&&c>e.edit.drag.borderMin;var j=p<e.edit.drag.borderMax&&
+	p>e.edit.drag.borderMin,F=q<e.edit.drag.borderMax&&q>e.edit.drag.borderMin,x=H<e.edit.drag.borderMax&&H>e.edit.drag.borderMin,p=c>e.edit.drag.borderMin&&p>e.edit.drag.borderMin&&q>e.edit.drag.borderMin&&H>e.edit.drag.borderMin,q=i&&h.treeObj.scrollTop()<=0,H=j&&h.treeObj.scrollTop()+h.treeObj.height()+10>=a,N=F&&h.treeObj.scrollLeft()<=0,Q=x&&h.treeObj.scrollLeft()+h.treeObj.width()+10>=n;if(b.target&&g.isChildOrSelf(b.target,h.treeId)){for(var E=b.target;E&&E.tagName&&!g.eqs(E.tagName,"li")&&E.id!=
+	h.treeId;)E=E.parentNode;var S=!0;for(a=0,c=l.length;a<c;a++)if(n=l[a],E.id===n.tId){S=!1;break}else if(o(n,e).find("#"+E.id).length>0){S=!1;break}if(S&&b.target&&g.isChildOrSelf(b.target,E.id+d.id.A))s=v(E),u=E.id}n=l[0];if(p&&g.isChildOrSelf(b.target,h.treeId)){if(!s&&(b.target.id==h.treeId||q||H||N||Q)&&(K||!K&&n.parentTId))s=h.treeObj;i?h.treeObj.scrollTop(h.treeObj.scrollTop()-10):j&&h.treeObj.scrollTop(h.treeObj.scrollTop()+10);F?h.treeObj.scrollLeft(h.treeObj.scrollLeft()-10):x&&h.treeObj.scrollLeft(h.treeObj.scrollLeft()+
+	10);s&&s!=h.treeObj&&s.offset().left<h.treeObj.offset().left&&h.treeObj.scrollLeft(h.treeObj.scrollLeft()+s.offset().left-h.treeObj.offset().left)}D.css({top:b.clientY+y+3+"px",left:b.clientX+k+3+"px"});c=a=0;if(s&&s.attr("id")!=h.treeId){var z=u==null?null:m.getNodeCache(h,u);i=(b.ctrlKey||b.metaKey)&&e.edit.drag.isMove&&e.edit.drag.isCopy||!e.edit.drag.isMove&&e.edit.drag.isCopy;k=!!(I&&u===I.tId);F=!!(R&&u===R.tId);j=n.parentTId&&n.parentTId==u;n=(i||!F)&&g.apply(h.edit.drag.prev,[h.treeId,l,z],
+	!!h.edit.drag.prev);k=(i||!k)&&g.apply(h.edit.drag.next,[h.treeId,l,z],!!h.edit.drag.next);i=(i||!j)&&!(h.data.keep.leaf&&!z.isParent)&&g.apply(h.edit.drag.inner,[h.treeId,l,z],!!h.edit.drag.inner);j=function(){s=null;u="";w=d.move.TYPE_INNER;A.css({display:"none"});if(window.zTreeMoveTimer)clearTimeout(window.zTreeMoveTimer),window.zTreeMoveTargetNodeTId=null};if(!n&&!k&&!i)j();else if(F=v("#"+u+d.id.A,s),x=z.isLastNode?null:v("#"+z.getNextNode().tId+d.id.A,s.next()),p=F.offset().top,q=F.offset().left,
+	H=n?i?0.25:k?0.5:1:-1,N=k?i?0.75:n?0.5:0:-1,y=(b.clientY+y-p)/F.height(),(H==1||y<=H&&y>=-0.2)&&n?(a=1-A.width(),c=p-A.height()/2,w=d.move.TYPE_PREV):(N==0||y>=N&&y<=1.2)&&k?(a=1-A.width(),c=x==null||z.isParent&&z.open?p+F.height()-A.height()/2:x.offset().top-A.height()/2,w=d.move.TYPE_NEXT):i?(a=5-A.width(),c=p,w=d.move.TYPE_INNER):j(),s){A.css({display:"block",top:c+"px",left:q+a+"px"});F.addClass(d.node.TMPTARGET_NODE+"_"+w);if(T!=u||U!=w)L=(new Date).getTime();if(z&&z.isParent&&w==d.move.TYPE_INNER&&
+	(y=!0,window.zTreeMoveTimer&&window.zTreeMoveTargetNodeTId!==z.tId?(clearTimeout(window.zTreeMoveTimer),window.zTreeMoveTargetNodeTId=null):window.zTreeMoveTimer&&window.zTreeMoveTargetNodeTId===z.tId&&(y=!1),y))window.zTreeMoveTimer=setTimeout(function(){w==d.move.TYPE_INNER&&z&&z.isParent&&!z.open&&(new Date).getTime()-L>h.edit.drag.autoOpenTime&&g.apply(h.callback.beforeDragOpen,[h.treeId,z],!0)&&(f.switchNode(h,z),h.edit.drag.autoExpandTrigger&&h.treeObj.trigger(d.event.EXPAND,[h.treeId,z]))},
+	h.edit.drag.autoOpenTime+50),window.zTreeMoveTargetNodeTId=z.tId}}else if(w=d.move.TYPE_INNER,s&&g.apply(h.edit.drag.inner,[h.treeId,l,null],!!h.edit.drag.inner)?s.addClass(d.node.TMPTARGET_TREE):s=null,A.css({display:"none"}),window.zTreeMoveTimer)clearTimeout(window.zTreeMoveTimer),window.zTreeMoveTargetNodeTId=null;T=u;U=w;e.treeObj.trigger(d.event.DRAGMOVE,[b,e.treeId,l])}return!1}function r(b){if(window.zTreeMoveTimer)clearTimeout(window.zTreeMoveTimer),window.zTreeMoveTargetNodeTId=null;U=T=
+	null;G.unbind("mousemove",c);G.unbind("mouseup",r);G.unbind("selectstart",k);M.css("cursor","auto");s&&(s.removeClass(d.node.TMPTARGET_TREE),u&&v("#"+u+d.id.A,s).removeClass(d.node.TMPTARGET_NODE+"_"+d.move.TYPE_PREV).removeClass(d.node.TMPTARGET_NODE+"_"+J.move.TYPE_NEXT).removeClass(d.node.TMPTARGET_NODE+"_"+J.move.TYPE_INNER));g.showIfameMask(e,!1);t.showHoverDom=!0;if(B.dragFlag!=0){B.dragFlag=0;var a,i,j;for(a=0,i=l.length;a<i;a++)j=l[a],j.isParent&&B.dragNodeShowBefore[j.tId]&&!j.open&&(f.expandCollapseNode(e,
+	j,!j.open),delete B.dragNodeShowBefore[j.tId]);D&&D.remove();A&&A.remove();var p=(b.ctrlKey||b.metaKey)&&e.edit.drag.isMove&&e.edit.drag.isCopy||!e.edit.drag.isMove&&e.edit.drag.isCopy;!p&&s&&u&&l[0].parentTId&&u==l[0].parentTId&&w==d.move.TYPE_INNER&&(s=null);if(s){var q=u==null?null:m.getNodeCache(h,u);if(g.apply(e.callback.beforeDrop,[h.treeId,l,q,w,p],!0)==!1)f.selectNodes(x,l);else{var C=p?g.clone(l):l;a=function(){if(K){if(!p)for(var a=0,c=l.length;a<c;a++)f.removeNode(e,l[a]);w==d.move.TYPE_INNER?
+	f.addNodes(h,q,-1,C):f.addNodes(h,q.getParentNode(),w==d.move.TYPE_PREV?q.getIndex():q.getIndex()+1,C)}else if(p&&w==d.move.TYPE_INNER)f.addNodes(h,q,-1,C);else if(p)f.addNodes(h,q.getParentNode(),w==d.move.TYPE_PREV?q.getIndex():q.getIndex()+1,C);else if(w!=d.move.TYPE_NEXT)for(a=0,c=C.length;a<c;a++)f.moveNode(h,q,C[a],w,!1);else for(a=-1,c=C.length-1;a<c;c--)f.moveNode(h,q,C[c],w,!1);f.selectNodes(h,C);a=o(C[0],e).get(0);f.scrollIntoView(a);e.treeObj.trigger(d.event.DROP,[b,h.treeId,C,q,w,p])};
+	w==d.move.TYPE_INNER&&g.canAsync(h,q)?f.asyncNode(h,q,!1,a):a()}}else f.selectNodes(x,l),e.treeObj.trigger(d.event.DROP,[b,e.treeId,l,null,null,null])}}function k(){return!1}var i,j,e=m.getSetting(b.data.treeId),B=m.getRoot(e),t=m.getRoots();if(b.button==2||!e.edit.enable||!e.edit.drag.isCopy&&!e.edit.drag.isMove)return!0;var p=b.target,q=m.getRoot(e).curSelectedList,l=[];if(m.isSelectedNode(e,a))for(i=0,j=q.length;i<j;i++){if(q[i].editNameFlag&&g.eqs(p.tagName,"input")&&p.getAttribute("treeNode"+
+	d.id.INPUT)!==null)return!0;l.push(q[i]);if(l[0].parentTId!==q[i].parentTId){l=[a];break}}else l=[a];f.editNodeBlur=!0;f.cancelCurEditNode(e);var G=v(e.treeObj.get(0).ownerDocument),M=v(e.treeObj.get(0).ownerDocument.body),D,A,s,K=!1,h=e,x=e,I,R,T=null,U=null,u=null,w=d.move.TYPE_INNER,O=b.clientX,P=b.clientY,L=(new Date).getTime();g.uCanDo(e)&&G.bind("mousemove",c);G.bind("mouseup",r);G.bind("selectstart",k);b.preventDefault&&b.preventDefault();return!0}};v.extend(!0,v.fn.zTree.consts,J);v.extend(!0,
+	v.fn.zTree._z,{tools:{getAbs:function(b){b=b.getBoundingClientRect();return[b.left+(document.body.scrollLeft+document.documentElement.scrollLeft),b.top+(document.body.scrollTop+document.documentElement.scrollTop)]},inputFocus:function(b){b.get(0)&&(b.focus(),g.setCursorPosition(b.get(0),b.val().length))},inputSelect:function(b){b.get(0)&&(b.focus(),b.select())},setCursorPosition:function(b,a){if(b.setSelectionRange)b.focus(),b.setSelectionRange(a,a);else if(b.createTextRange){var c=b.createTextRange();
+	c.collapse(!0);c.moveEnd("character",a);c.moveStart("character",a);c.select()}},showIfameMask:function(b,a){for(var c=m.getRoot(b);c.dragMaskList.length>0;)c.dragMaskList[0].remove(),c.dragMaskList.shift();if(a)for(var d=o("iframe",b),f=0,i=d.length;f<i;f++){var j=d.get(f),e=g.getAbs(j),j=o("<div id='zTreeMask_"+f+"' class='zTreeMask' style='top:"+e[1]+"px; left:"+e[0]+"px; width:"+j.offsetWidth+"px; height:"+j.offsetHeight+"px;'></div>",b);j.appendTo(o("body",b));c.dragMaskList.push(j)}}},view:{addEditBtn:function(b,
+	a){if(!(a.editNameFlag||o(a,d.id.EDIT,b).length>0)&&g.apply(b.edit.showRenameBtn,[b.treeId,a],b.edit.showRenameBtn)){var c=o(a,d.id.A,b),r="<span class='"+d.className.BUTTON+" edit' id='"+a.tId+d.id.EDIT+"' title='"+g.apply(b.edit.renameTitle,[b.treeId,a],b.edit.renameTitle)+"' treeNode"+d.id.EDIT+" style='display:none;'></span>";c.append(r);o(a,d.id.EDIT,b).bind("click",function(){if(!g.uCanDo(b)||g.apply(b.callback.beforeEditName,[b.treeId,a],!0)==!1)return!1;f.editNode(b,a);return!1}).show()}},
+	addRemoveBtn:function(b,a){if(!(a.editNameFlag||o(a,d.id.REMOVE,b).length>0)&&g.apply(b.edit.showRemoveBtn,[b.treeId,a],b.edit.showRemoveBtn)){var c=o(a,d.id.A,b),r="<span class='"+d.className.BUTTON+" remove' id='"+a.tId+d.id.REMOVE+"' title='"+g.apply(b.edit.removeTitle,[b.treeId,a],b.edit.removeTitle)+"' treeNode"+d.id.REMOVE+" style='display:none;'></span>";c.append(r);o(a,d.id.REMOVE,b).bind("click",function(){if(!g.uCanDo(b)||g.apply(b.callback.beforeRemove,[b.treeId,a],!0)==!1)return!1;f.removeNode(b,
+	a);b.treeObj.trigger(d.event.REMOVE,[b.treeId,a]);return!1}).bind("mousedown",function(){return!0}).show()}},addHoverDom:function(b,a){if(m.getRoots().showHoverDom)a.isHover=!0,b.edit.enable&&(f.addEditBtn(b,a),f.addRemoveBtn(b,a)),g.apply(b.view.addHoverDom,[b.treeId,a])},cancelCurEditNode:function(b,a,c){var r=m.getRoot(b),k=b.data.key.name,i=r.curEditNode;if(i){var j=r.curEditInput,a=a?a:c?i[k]:j.val();if(g.apply(b.callback.beforeRename,[b.treeId,i,a,c],!0)===!1)return!1;i[k]=a;o(i,d.id.A,b).removeClass(d.node.CURSELECTED_EDIT);
+	j.unbind();f.setNodeName(b,i);i.editNameFlag=!1;r.curEditNode=null;r.curEditInput=null;f.selectNode(b,i,!1);b.treeObj.trigger(d.event.RENAME,[b.treeId,i,c])}return r.noSelection=!0},editNode:function(b,a){var c=m.getRoot(b);f.editNodeBlur=!1;if(m.isSelectedNode(b,a)&&c.curEditNode==a&&a.editNameFlag)setTimeout(function(){g.inputFocus(c.curEditInput)},0);else{var r=b.data.key.name;a.editNameFlag=!0;f.removeTreeDom(b,a);f.cancelCurEditNode(b);f.selectNode(b,a,!1);o(a,d.id.SPAN,b).html("<input type=text class='rename' id='"+
+	a.tId+d.id.INPUT+"' treeNode"+d.id.INPUT+" >");var k=o(a,d.id.INPUT,b);k.attr("value",a[r]);b.edit.editNameSelectAll?g.inputSelect(k):g.inputFocus(k);k.bind("blur",function(){f.editNodeBlur||f.cancelCurEditNode(b)}).bind("keydown",function(a){a.keyCode=="13"?(f.editNodeBlur=!0,f.cancelCurEditNode(b)):a.keyCode=="27"&&f.cancelCurEditNode(b,null,!0)}).bind("click",function(){return!1}).bind("dblclick",function(){return!1});o(a,d.id.A,b).addClass(d.node.CURSELECTED_EDIT);c.curEditInput=k;c.noSelection=
+	!1;c.curEditNode=a}},moveNode:function(b,a,c,r,k,i){var j=m.getRoot(b),e=b.data.key.children;if(a!=c&&(!b.data.keep.leaf||!a||a.isParent||r!=d.move.TYPE_INNER)){var g=c.parentTId?c.getParentNode():j,t=a===null||a==j;t&&a===null&&(a=j);if(t)r=d.move.TYPE_INNER;j=a.parentTId?a.getParentNode():j;if(r!=d.move.TYPE_PREV&&r!=d.move.TYPE_NEXT)r=d.move.TYPE_INNER;if(r==d.move.TYPE_INNER)if(t)c.parentTId=null;else{if(!a.isParent)a.isParent=!0,a.open=!!a.open,f.setNodeLineIcos(b,a);c.parentTId=a.tId}var p;
+	t?p=t=b.treeObj:(!i&&r==d.move.TYPE_INNER?f.expandCollapseNode(b,a,!0,!1):i||f.expandCollapseNode(b,a.getParentNode(),!0,!1),t=o(a,b),p=o(a,d.id.UL,b),t.get(0)&&!p.get(0)&&(p=[],f.makeUlHtml(b,a,p,""),t.append(p.join(""))),p=o(a,d.id.UL,b));var q=o(c,b);q.get(0)?t.get(0)||q.remove():q=f.appendNodes(b,c.level,[c],null,-1,!1,!0).join("");p.get(0)&&r==d.move.TYPE_INNER?p.append(q):t.get(0)&&r==d.move.TYPE_PREV?t.before(q):t.get(0)&&r==d.move.TYPE_NEXT&&t.after(q);var l=-1,v=0,x=null,t=null,D=c.level;
+	if(c.isFirstNode){if(l=0,g[e].length>1)x=g[e][1],x.isFirstNode=!0}else if(c.isLastNode)l=g[e].length-1,x=g[e][l-1],x.isLastNode=!0;else for(p=0,q=g[e].length;p<q;p++)if(g[e][p].tId==c.tId){l=p;break}l>=0&&g[e].splice(l,1);if(r!=d.move.TYPE_INNER)for(p=0,q=j[e].length;p<q;p++)j[e][p].tId==a.tId&&(v=p);if(r==d.move.TYPE_INNER){a[e]||(a[e]=[]);if(a[e].length>0)t=a[e][a[e].length-1],t.isLastNode=!1;a[e].splice(a[e].length,0,c);c.isLastNode=!0;c.isFirstNode=a[e].length==1}else a.isFirstNode&&r==d.move.TYPE_PREV?
+	(j[e].splice(v,0,c),t=a,t.isFirstNode=!1,c.parentTId=a.parentTId,c.isFirstNode=!0,c.isLastNode=!1):a.isLastNode&&r==d.move.TYPE_NEXT?(j[e].splice(v+1,0,c),t=a,t.isLastNode=!1,c.parentTId=a.parentTId,c.isFirstNode=!1,c.isLastNode=!0):(r==d.move.TYPE_PREV?j[e].splice(v,0,c):j[e].splice(v+1,0,c),c.parentTId=a.parentTId,c.isFirstNode=!1,c.isLastNode=!1);m.fixPIdKeyValue(b,c);m.setSonNodeLevel(b,c.getParentNode(),c);f.setNodeLineIcos(b,c);f.repairNodeLevelClass(b,c,D);!b.data.keep.parent&&g[e].length<
+	1?(g.isParent=!1,g.open=!1,a=o(g,d.id.UL,b),r=o(g,d.id.SWITCH,b),e=o(g,d.id.ICON,b),f.replaceSwitchClass(g,r,d.folder.DOCU),f.replaceIcoClass(g,e,d.folder.DOCU),a.css("display","none")):x&&f.setNodeLineIcos(b,x);t&&f.setNodeLineIcos(b,t);b.check&&b.check.enable&&f.repairChkClass&&(f.repairChkClass(b,g),f.repairParentChkClassWithSelf(b,g),g!=c.parent&&f.repairParentChkClassWithSelf(b,c));i||f.expandCollapseParentNode(b,c.getParentNode(),!0,k)}},removeEditBtn:function(b,a){o(a,d.id.EDIT,b).unbind().remove()},
+	removeRemoveBtn:function(b,a){o(a,d.id.REMOVE,b).unbind().remove()},removeTreeDom:function(b,a){a.isHover=!1;f.removeEditBtn(b,a);f.removeRemoveBtn(b,a);g.apply(b.view.removeHoverDom,[b.treeId,a])},repairNodeLevelClass:function(b,a,c){if(c!==a.level){var f=o(a,b),g=o(a,d.id.A,b),b=o(a,d.id.UL,b),c=d.className.LEVEL+c,a=d.className.LEVEL+a.level;f.removeClass(c);f.addClass(a);g.removeClass(c);g.addClass(a);b.removeClass(c);b.addClass(a)}},selectNodes:function(b,a){for(var c=0,d=a.length;c<d;c++)f.selectNode(b,
+	a[c],c>0)}},event:{},data:{setSonNodeLevel:function(b,a,c){if(c){var d=b.data.key.children;c.level=a?a.level+1:0;if(c[d])for(var a=0,f=c[d].length;a<f;a++)c[d][a]&&m.setSonNodeLevel(b,c,c[d][a])}}}});var I=v.fn.zTree,g=I._z.tools,d=I.consts,f=I._z.view,m=I._z.data,o=g.$;m.exSetting({edit:{enable:!1,editNameSelectAll:!1,showRemoveBtn:!0,showRenameBtn:!0,removeTitle:"remove",renameTitle:"rename",drag:{autoExpandTrigger:!1,isCopy:!0,isMove:!0,prev:!0,next:!0,inner:!0,minMoveSize:5,borderMax:10,borderMin:-5,
+	maxShowNodeNum:5,autoOpenTime:500}},view:{addHoverDom:null,removeHoverDom:null},callback:{beforeDrag:null,beforeDragOpen:null,beforeDrop:null,beforeEditName:null,beforeRename:null,onDrag:null,onDragMove:null,onDrop:null,onRename:null}});m.addInitBind(function(b){var a=b.treeObj,c=d.event;a.bind(c.RENAME,function(a,c,d,f){g.apply(b.callback.onRename,[a,c,d,f])});a.bind(c.DRAG,function(a,c,d,f){g.apply(b.callback.onDrag,[c,d,f])});a.bind(c.DRAGMOVE,function(a,c,d,f){g.apply(b.callback.onDragMove,[c,
+	d,f])});a.bind(c.DROP,function(a,c,d,f,e,m,o){g.apply(b.callback.onDrop,[c,d,f,e,m,o])})});m.addInitUnBind(function(b){var b=b.treeObj,a=d.event;b.unbind(a.RENAME);b.unbind(a.DRAG);b.unbind(a.DRAGMOVE);b.unbind(a.DROP)});m.addInitCache(function(){});m.addInitNode(function(b,a,c){if(c)c.isHover=!1,c.editNameFlag=!1});m.addInitProxy(function(b){var a=b.target,c=m.getSetting(b.data.treeId),f=b.relatedTarget,k="",i=null,j="",e=null,o=null;if(g.eqs(b.type,"mouseover")){if(o=g.getMDom(c,a,[{tagName:"a",
+	attrName:"treeNode"+d.id.A}]))k=g.getNodeMainDom(o).id,j="hoverOverNode"}else if(g.eqs(b.type,"mouseout"))o=g.getMDom(c,f,[{tagName:"a",attrName:"treeNode"+d.id.A}]),o||(k="remove",j="hoverOutNode");else if(g.eqs(b.type,"mousedown")&&(o=g.getMDom(c,a,[{tagName:"a",attrName:"treeNode"+d.id.A}])))k=g.getNodeMainDom(o).id,j="mousedownNode";if(k.length>0)switch(i=m.getNodeCache(c,k),j){case "mousedownNode":e=x.onMousedownNode;break;case "hoverOverNode":e=x.onHoverOverNode;break;case "hoverOutNode":e=
+	x.onHoverOutNode}return{stop:!1,node:i,nodeEventType:j,nodeEventCallback:e,treeEventType:"",treeEventCallback:null}});m.addInitRoot(function(b){var b=m.getRoot(b),a=m.getRoots();b.curEditNode=null;b.curEditInput=null;b.curHoverNode=null;b.dragFlag=0;b.dragNodeShowBefore=[];b.dragMaskList=[];a.showHoverDom=!0});m.addZTreeTools(function(b,a){a.cancelEditName=function(a){m.getRoot(this.setting).curEditNode&&f.cancelCurEditNode(this.setting,a?a:null,!0)};a.copyNode=function(a,b,k,i){if(!b)return null;
+	if(a&&!a.isParent&&this.setting.data.keep.leaf&&k===d.move.TYPE_INNER)return null;var j=this,e=g.clone(b);if(!a)a=null,k=d.move.TYPE_INNER;k==d.move.TYPE_INNER?(b=function(){f.addNodes(j.setting,a,-1,[e],i)},g.canAsync(this.setting,a)?f.asyncNode(this.setting,a,i,b):b()):(f.addNodes(this.setting,a.parentNode,-1,[e],i),f.moveNode(this.setting,a,e,k,!1,i));return e};a.editName=function(a){a&&a.tId&&a===m.getNodeCache(this.setting,a.tId)&&(a.parentTId&&f.expandCollapseParentNode(this.setting,a.getParentNode(),
+	!0),f.editNode(this.setting,a))};a.moveNode=function(a,b,k,i){function j(){f.moveNode(e.setting,a,b,k,!1,i)}if(!b)return b;if(a&&!a.isParent&&this.setting.data.keep.leaf&&k===d.move.TYPE_INNER)return null;else if(a&&(b.parentTId==a.tId&&k==d.move.TYPE_INNER||o(b,this.setting).find("#"+a.tId).length>0))return null;else a||(a=null);var e=this;g.canAsync(this.setting,a)&&k===d.move.TYPE_INNER?f.asyncNode(this.setting,a,i,j):j();return b};a.setEditable=function(a){this.setting.edit.enable=a;return this.refresh()}});
+	var O=f.cancelPreSelectedNode;f.cancelPreSelectedNode=function(b,a){for(var c=m.getRoot(b).curSelectedList,d=0,g=c.length;d<g;d++)if(!a||a===c[d])if(f.removeTreeDom(b,c[d]),a)break;O&&O.apply(f,arguments)};var P=f.createNodes;f.createNodes=function(b,a,c,d,g){P&&P.apply(f,arguments);c&&f.repairParentChkClassWithSelf&&f.repairParentChkClassWithSelf(b,d)};var W=f.makeNodeUrl;f.makeNodeUrl=function(b,a){return b.edit.enable?null:W.apply(f,arguments)};var L=f.removeNode;f.removeNode=function(b,a){var c=
+	m.getRoot(b);if(c.curEditNode===a)c.curEditNode=null;L&&L.apply(f,arguments)};var Q=f.selectNode;f.selectNode=function(b,a,c){var d=m.getRoot(b);if(m.isSelectedNode(b,a)&&d.curEditNode==a&&a.editNameFlag)return!1;Q&&Q.apply(f,arguments);f.addHoverDom(b,a);return!0};var V=g.uCanDo;g.uCanDo=function(b,a){var c=m.getRoot(b);if(a&&(g.eqs(a.type,"mouseover")||g.eqs(a.type,"mouseout")||g.eqs(a.type,"mousedown")||g.eqs(a.type,"mouseup")))return!0;if(c.curEditNode)f.editNodeBlur=!1,c.curEditInput.focus();
+	return!c.curEditNode&&(V?V.apply(f,arguments):!0)}})(jQuery);
+
+
+
+/***/ },
+/* 223 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 224 */,
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"account-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>账目名称：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入账目名称\" name=\"account_name\" id=\"account_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>已结款项：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入已结款项\" name=\"payed\" id=\"payed\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>未结款项：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入未结款项\" name=\"owed\" id=\"owed\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>开始日期：</label>\r\n                <div style=\"width: 72%;float: left;\">\r\n                    <input style=\"width:100%\"  placeholder=\"请输入项目开始日期\" name=\"account_startdate\" id=\"account_startdate\" type=\"text\" value=\"\">\r\n                </div>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>结束日期：</label>\r\n                <div style=\"width: 72%;float: left;\">\r\n                    <input style=\"width:100%\"  placeholder=\"请输入项目结束日期\" name=\"account_enddate\" id=\"account_enddate\" type=\"text\" value=\"\">\r\n                </div>\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
+
+/***/ },
+/* 230 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Created by yanglang on 2016/4/13.
+	 * 账目管理
+	 */
+
+	var frameworkBase = __webpack_require__(193);
+	__webpack_require__(231);
+	__webpack_require__(222);
+	__webpack_require__(232);
+	__webpack_require__(223);
+	__webpack_require__(233);
+	__webpack_require__(203);
+	var AccountManage = function () {};
+
+	//继承自框架基类
+	AccountManage.prototype = $.extend({}, frameworkBase);
+	AccountManage.prototype.id = 'account-manage';
+
+
+	/**
+	 * 模块初始化入口<br>
+	 * @method init
+	 * @param options 参数对象
+	 */
+	AccountManage.prototype.init = function (options) {
+	    var that = this;
+	    this.options = $.extend({}, options);
+	    that.setTitle('账目管理').setHeight(700).setWidth(780);
+	    frameworkBase.init.call(this, options);
+	    this.loadBaseView();
+	};
+
+	AccountManage.prototype.loadBaseView = function () {
+	    var that = this;
+	    this.loadFragment('/views/modules/account-manage.html').then(function(html){
+	        that.render(html);
+	        $('.tablecontainer',that.dom).height(that.dom.height()-55);
+	        that.initTable();
+	        that.initCompanyTree();
+	        that.bindEvents();
+	    });
+	};
+
+	AccountManage.prototype.initTable = function () {
+	    var that = this;
+	    $('.easyui-linkbutton',this.dom).linkbutton();
+	    var columns = __webpack_require__(236);
+	    that.$table = $('#dataTable',this.dom).datagrid({
+	        url: '/account/list',
+	        method: 'get',
+	        columns: [columns],
+	        cache:false,
+	        pagination: false,
+	        pageSize: 20,
+	        ctrlSelect: true,
+	        checkOnSelect: true,
+	        selectOnCheck: true,
+	        loadMsg: '正在查询，请稍候……',
+	        striped: true,
+	        fit: true,
+	        fitColumns: true,
+	        loadFilter: function (data) {
+	            if(!data.success){
+	                that.toast(data.message);
+	            }
+
+	            return {rows: data.data, total: data.data.length};
+	        },
+	        onDblClickRow: function (rowIndex, rowData) {
+	            Events.require('account-add-modify').addCallback(function(flag){
+	                if(flag)
+	                    Events.notify('onRefresh:account-manage');
+	            }).init({showType:'Pop',action:'002',account_id:rowData.account_id});
+	        },
+	        toolbar: '#account-manage-toolbar'
+	    });
+
+	    var searchBox = $('#account-manage #home-easyui-searchbox',that.dom).searchbox({
+	        searcher: function (value, name) {
+	            Events.notify('onRefresh:account-manage');
+	        },
+	        prompt: '请输入关键字，如账目名称'
+	    });
+	    var companySearchBox = $('#account-manage #company-searchbox',that.dom).searchbox({
+	        searcher: function (value, name) {
+	            Events.notify('onRefresh:account-manage-company',value);
+	        },
+	        prompt: '请输入关键字，如公司名称或渲染用户名'
+	    });
+
+	    
+
+	    var startDate = $("#startdate",that.dom).datebox({
+	        editable:false ,
+	        formatter: function (date) {
+	            return Calendar.getInstance(date).format('yyyy-MM-dd');
+	        },
+	        onChange:function(date) {
+	            Events.notify('onRefresh:account-manage', {
+	                company_id:selectCompanyId,
+	                key:searchBox.searchbox('getValue'),
+	                startdate: startDate.combo('getValue').replace(/-/gi, ''),
+	                enddate: endDate.combo('getValue').replace(/-/gi, '')
+	            });
+	        }
+	    });
+	    var endDate = $("#enddate",that.dom).datebox({
+	        editable:false ,
+	        formatter: function (date) {
+	            return Calendar.getInstance(date).format('yyyy-MM-dd');
+	        },
+	        onChange:function(date) {
+	            Events.notify('onRefresh:account-manage', {
+	                company_id:selectCompanyId,
+	                key:searchBox.searchbox('getValue'),
+	                startdate: startDate.combo('getValue').replace(/-/gi, ''),
+	                enddate: endDate.combo('getValue').replace(/-/gi, '')
+	            });
+	        }
+	    });
+	    
+	    //订阅刷新消息
+	    Events.subscribe('onRefresh:account-manage',function(){
+	        that.$table.datagrid('load',{
+	            company_id:selectCompanyId,
+	            key:searchBox.searchbox('getValue'),
+	            startdate:startDate.combo('getValue').replace(/-/gi,''),
+	            enddate:endDate.combo('getValue').replace(/-/gi,'')
+	        });
+	    });
+	    
+	    //订阅公司树刷新
+	    Events.subscribe('onRefresh:account-manage-company',function(value){
+	        var nodes = that.ztreeObj.getNodes();
+	        //先将全部节点隐藏
+	        that.ztreeObj.hideNodes(nodes);
+	        var _nodes = [];
+	        $.each(nodes,function(index,node){
+	            if(node.company_name.indexOf(value)!=-1 || (node.render_username && node.render_username.indexOf(value)!=-1))
+	                _nodes.push(node);
+	        });
+	        that.ztreeObj.showNodes(_nodes);
+	    });
+	};
+
+	var selectCompanyId, firstRefresh = false;
+	AccountManage.prototype.initCompanyTree = function(){
+	    var that = this;
+	    firstRefresh = false;
+	    var setting = {
+	        async:{
+	            enable:true,
+	            url:'/company/list',
+	            type:'get',
+	            dataFilter: function(treeId, parentNode, responseData){
+	                $.each(responseData,function(index,item){
+	                    item.iconSkin = 'icon01';
+	                });
+	                return responseData;
+	            }
+	        },
+	        data:{
+	            key:{
+	                name:'company_name',
+	                title:'company_name'
+	            },
+	            simpleData:{
+	                idKey:'company_id',
+	                pIdKey:'pId'
+	            },
+	            keep:{
+	                parent:true
+	            }
+	        },
+	        callback:{
+	            onClick:function(event, treeId, treeNode){
+	                selectCompanyId = treeNode.company_id;
+	                Events.notify('onRefresh:account-manage');
+	            },
+	            onAsyncSuccess:function(){
+	                if(firstRefresh)
+	                    return;
+
+
+	                selectCompanyId = that.ztreeObj.getNodes()[0].company_id;
+	                that.ztreeObj.selectNode(that.ztreeObj.getNodes()[0], false, false);
+	                Events.notify('onRefresh:account-manage');
+	                firstRefresh = true;
+	            }
+	        }
+	    };
+	    that.ztreeObj = $.fn.zTree.init($("#companyTree",that.dom), setting);
+	};
+
+	/**
+	 * 绑定按钮点击事件
+	 */
+	AccountManage.prototype.bindEvents = function () {
+	    var that = this;
+
+	    //添加公司
+	    $('#addCompanyBtn',this.dom).click(function(){
+	        Events.require('company-add-modify').addCallback(function(flag){
+	            if(flag){
+	                that.ztreeObj.reAsyncChildNodes(null, "refresh");
+	                that.toast('保存成功！');
+	            }
+	        }).init({showType:'Pop'});
+	    });
+	    //编辑公司
+	    $('#modifyCompanyBtn',this.dom).click(function(){
+	        var nodes = that.ztreeObj.getSelectedNodes(),company_id;
+	        if(nodes.length>0){
+	            company_id = nodes[0].company_id;
+	        }else{
+	            swal("提示", "请先选择一条数据!", "warning");
+	            return;
+	        }
+	        Events.require('company-add-modify').addCallback(function(flag){
+	            if(flag){
+	                that.ztreeObj.reAsyncChildNodes(null, "refresh");
+	                that.toast('保存成功！');
+	            }
+	        }).init({showType:'Pop',action:'002',company_id:company_id});
+	    });
+	    //删除公司
+	    $('#removeCompanyBtn', this.dom).click(function () {
+	        var nodes = that.ztreeObj.getSelectedNodes();
+	        if (nodes.length == 0) {
+	            swal("提示", "请先选择一条数据!", "warning");
+	            return;
+	        }
+	        swal({
+	            title: "确认",
+	            text: "删除该公司将会清空下面所有账目数据，确认删除吗？",
+	            type: "warning",
+	            showCancelButton: true,
+	            confirmButtonColor: "#DD6B55",
+	            confirmButtonText: "删除",
+	            cancelButtonText: "取消",
+	            closeOnConfirm: true
+	        }, function () {
+	            that.save('/company/save', {action:'003',company_id: nodes[0].company_id}, function (data) {
+	                if (!data.success) {
+	                    that.toast(data.message);
+	                    return;
+	                }
+	                that.ztreeObj.removeNode(nodes[0]);
+	                selectCompanyId = that.ztreeObj.getNodes()[0].company_id;
+	                that.ztreeObj.selectNode(that.ztreeObj.getNodes()[0], false, false);
+	                Events.notify('onRefresh:account-manage');
+	                that.toast('删除成功！');
+	            });
+	        });
+
+	    });
+
+	    //查询公司核时
+	    $('#queryKernalTime',this.dom).click(function(){
+	        var nodes = that.ztreeObj.getSelectedNodes(),company_id;
+	        if(nodes.length>0){
+	            company_id = nodes[0].company_id;
+	        }else{
+	            swal("提示", "请先选择公司!", "warning");
+	            return;
+	        }
+	        if(!nodes[0].render_username){
+	            swal("提示", "请先配置该公司的渲染账目端用户名!", "warning");
+	            return;
+	        }
+	        that.query('/company/kernal/'+company_id,function(data){
+	            if(!data.success){
+	                swal("核时查询", data.message);
+	                return;
+	            }
+	            data = data.data;
+	            swal("核时查询", '【'+nodes[0].company_name+'】的核时数为：'+data.kernal+'，单价为：'+data.price+'元/核时，总价为：'+(data.kernal*data.price).toFixed(2)+'元');
+	        });
+
+	    });
+	    
+	    
+	    //添加账目
+	    $('#add_account_btn',this.dom).click(function(){
+	        var nodes = that.ztreeObj.getSelectedNodes();
+	        if(nodes.length == 0){
+	            swal("提示", "请先选择一个公司!", "warning");
+	            return;
+	        }
+	        Events.require('account-add-modify').addCallback(function(flag){
+	            if(flag)
+	                Events.notify('onRefresh:account-manage');
+	        }).init({showType:'Pop',company_id:nodes[0].company_id});
+	    });
+	    //修改账目
+	    $('#modify_account_btn',this.dom).click(function(){
+	        var rowData;
+	        if(!(rowData = getSelectRow()))
+	            return;
+	        if(rowData.is_encased){
+	            swal("提示", "账目已封存，不能修改，请联系管理员!", "warning");
+	            return;
+	        }
+	        Events.require('account-add-modify').addCallback(function(flag){
+	            if(flag)
+	                Events.notify('onRefresh:account-manage');
+	        }).init({showType:'Pop',action:'002',account_id:rowData.account_id});
+	    });
+	    //删除账目
+	    $('#delete_account_btn',this.dom).click(function(){
+	        var rows;
+	        if(!(rows = getCheckRow()))
+	            return;
+	        for(var i = 0;i<rows.length;i++){
+	            if(rows[i].is_encased){
+	                swal("提示", "存在已封存账目，不能删除，请联系管理员!", "warning");
+	                return;
+	            }
+	        }
+	        that.save('/account/save',{action:'003',account_id:function(){
+	            var ids = [];
+	            rows.forEach(function(item){
+	                ids.push(item.account_id);
+	            });
+	            return ids.join(',');
+	        }()},function(data){
+	            if(data.success){
+	                that.toast("删除信息成功!");
+	                Events.notify('onRefresh:account-manage');
+	            }else{
+	                that.toast(data.message);
+	            }
+	        });
+	    });
+	    //封存账目
+	    $('#encase_account_btn',this.dom).click(function(){
+	        var rows;
+	        if(!(rows = getCheckRow()))
+	            return;
+	        that.save('/account/save',{action:'004',account_id:function(){
+	            var ids = [];
+	            rows.forEach(function(item){
+	                ids.push(item.account_id);
+	            });
+	            return ids.join(',');
+	        }()},function(data){
+	            if(data.success){
+	                that.toast("封存账目成功!");
+	                Events.notify('onRefresh:account-manage');
+	            }else{
+	                that.toast(data.message);
+	            }
+	        });
+	    });
+	    //解除封存账目
+	    $('#unencase_account_btn',this.dom).click(function(){
+	        var rows;
+	        if(!(rows = getCheckRow()))
+	            return;
+	        that.save('/account/save',{action:'005',account_id:function(){
+	            var ids = [];
+	            rows.forEach(function(item){
+	                ids.push(item.account_id);
+	            });
+	            return ids.join(',');
+	        }()},function(data){
+	            if(data.success){
+	                that.toast("解除封存账目成功!");
+	                Events.notify('onRefresh:account-manage');
+	            }else{
+	                that.toast(data.message);
+	            }
+	        });
+	    });
+
+	    function getSelectRow(){
+	        var rowData = that.$table.datagrid('getSelected');
+	        if(!rowData){
+	            swal("提示", "请先选择一条数据!", "warning");
+	            return;
+	        }
+	        return rowData;
+	    }
+	    function getCheckRow(){
+	        var rows = that.$table.datagrid('getChecked');
+	        if(rows.length == 0){
+	            swal("提示", "请至少选择一条数据!", "warning");
+	            return;
+	        }
+	        return rows;
+	    }
+	};
+
+	/**
+	 * 销毁方法
+	 * 由框架调用，主要用于销毁订阅的事件
+	 */
+	AccountManage.prototype.finish = function () {
+	    Events.unsubscribe('onRefresh:account-manage');
+	    frameworkBase.finish.apply(this,arguments);
+	};
+
+	var accountManage = new AccountManage();
+	Events.subscribe('onWindowResize',function(){
+	    if(!accountManage.dom)
+	        return;
+	    $('.tablecontainer',accountManage.dom).height(accountManage.dom.height()-15-$('.condition-wrap',accountManage.dom).height());
+	    accountManage.$table.datagrid('resize');
+	});
+
+	module.exports = accountManage;
+
+
+
+/***/ },
+/* 231 */
+/***/ function(module, exports) {
+
+	if ($.fn.pagination){
+		$.fn.pagination.defaults.beforePageText = '第';
+		$.fn.pagination.defaults.afterPageText = '共{pages}页';
+		$.fn.pagination.defaults.displayMsg = '显示{from}到{to},共{total}记录';
+	}
+	if ($.fn.datagrid){
+		$.fn.datagrid.defaults.loadMsg = '正在处理，请稍待。。。';
+	}
+	if ($.fn.treegrid && $.fn.datagrid){
+		$.fn.treegrid.defaults.loadMsg = $.fn.datagrid.defaults.loadMsg;
+	}
+	if ($.messager){
+		$.messager.defaults.ok = '确定';
+		$.messager.defaults.cancel = '取消';
+	}
+	$.map(['validatebox','textbox','passwordbox','filebox','searchbox',
+			'combo','combobox','combogrid','combotree',
+			'datebox','datetimebox','numberbox',
+			'spinner','numberspinner','timespinner','datetimespinner'], function(plugin){
+		if ($.fn[plugin]){
+			$.fn[plugin].defaults.missingMessage = '该输入项为必输项';
+		}
+	});
+	if ($.fn.validatebox){
+		$.fn.validatebox.defaults.rules.email.message = '请输入有效的电子邮件地址';
+		$.fn.validatebox.defaults.rules.url.message = '请输入有效的URL地址';
+		$.fn.validatebox.defaults.rules.length.message = '输入内容长度必须介于{0}和{1}之间';
+		$.fn.validatebox.defaults.rules.remote.message = '请修正该字段';
+	}
+	if ($.fn.calendar){
+		$.fn.calendar.defaults.weeks = ['日','一','二','三','四','五','六'];
+		$.fn.calendar.defaults.months = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+	}
+	if ($.fn.datebox){
+		$.fn.datebox.defaults.currentText = '今天';
+		$.fn.datebox.defaults.closeText = '关闭';
+		$.fn.datebox.defaults.okText = '确定';
+		$.fn.datebox.defaults.formatter = function(date){
+			var y = date.getFullYear();
+			var m = date.getMonth()+1;
+			var d = date.getDate();
+			return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
+		};
+		$.fn.datebox.defaults.parser = function(s){
+			if (!s) return new Date();
+			var ss = s.split('-');
+			var y = parseInt(ss[0],10);
+			var m = parseInt(ss[1],10);
+			var d = parseInt(ss[2],10);
+			if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
+				return new Date(y,m-1,d);
+			} else {
+				return new Date();
+			}
+		};
+	}
+	if ($.fn.datetimebox && $.fn.datebox){
+		$.extend($.fn.datetimebox.defaults,{
+			currentText: $.fn.datebox.defaults.currentText,
+			closeText: $.fn.datebox.defaults.closeText,
+			okText: $.fn.datebox.defaults.okText
+		});
+	}
+	if ($.fn.datetimespinner){
+		$.fn.datetimespinner.defaults.selections = [[0,4],[5,7],[8,10],[11,13],[14,16],[17,19]]
+	}
+
+
+/***/ },
+/* 232 */
+/***/ function(module, exports) {
+
+	/*
+	 * JQuery zTree exHideNodes v3.5.25
+	 * http://zTree.me/
+	 *
+	 * Copyright (c) 2010 Hunter.z
+	 *
+	 * Licensed same as jquery - MIT License
+	 * http://www.opensource.org/licenses/mit-license.php
+	 *
+	 * email: hunter.z@263.net
+	 * Date: 2016-09-27
+	 */
+	(function(i){i.extend(!0,i.fn.zTree._z,{view:{clearOldFirstNode:function(c,a){for(var b=a.getNextNode();b;){if(b.isFirstNode){b.isFirstNode=!1;d.setNodeLineIcos(c,b);break}if(b.isLastNode)break;b=b.getNextNode()}},clearOldLastNode:function(c,a,b){for(a=a.getPreNode();a;){if(a.isLastNode){a.isLastNode=!1;b&&d.setNodeLineIcos(c,a);break}if(a.isFirstNode)break;a=a.getPreNode()}},makeDOMNodeMainBefore:function(c,a,b){c.push("<li ",b.isHidden?"style='display:none;' ":"","id='",b.tId,"' class='",l.className.LEVEL,
+	b.level,"' tabindex='0' hidefocus='true' treenode>")},showNode:function(c,a){a.isHidden=!1;f.initShowForExCheck(c,a);j(a,c).show()},showNodes:function(c,a,b){if(a&&a.length!=0){var e={},g,k;for(g=0,k=a.length;g<k;g++){var h=a[g];if(!e[h.parentTId]){var i=h.getParentNode();e[h.parentTId]=i===null?f.getRoot(c):h.getParentNode()}d.showNode(c,h,b)}for(var j in e)a=e[j][c.data.key.children],d.setFirstNodeForShow(c,a),d.setLastNodeForShow(c,a)}},hideNode:function(c,a){a.isHidden=!0;a.isFirstNode=!1;a.isLastNode=
+	!1;f.initHideForExCheck(c,a);d.cancelPreSelectedNode(c,a);j(a,c).hide()},hideNodes:function(c,a,b){if(a&&a.length!=0){var e={},g,k;for(g=0,k=a.length;g<k;g++){var h=a[g];if((h.isFirstNode||h.isLastNode)&&!e[h.parentTId]){var i=h.getParentNode();e[h.parentTId]=i===null?f.getRoot(c):h.getParentNode()}d.hideNode(c,h,b)}for(var j in e)a=e[j][c.data.key.children],d.setFirstNodeForHide(c,a),d.setLastNodeForHide(c,a)}},setFirstNode:function(c,a){var b=c.data.key.children,e=a[b].length;e>0&&!a[b][0].isHidden?
+	a[b][0].isFirstNode=!0:e>0&&d.setFirstNodeForHide(c,a[b])},setLastNode:function(c,a){var b=c.data.key.children,e=a[b].length;e>0&&!a[b][0].isHidden?a[b][e-1].isLastNode=!0:e>0&&d.setLastNodeForHide(c,a[b])},setFirstNodeForHide:function(c,a){var b,e,g;for(e=0,g=a.length;e<g;e++){b=a[e];if(b.isFirstNode)break;if(!b.isHidden&&!b.isFirstNode){b.isFirstNode=!0;d.setNodeLineIcos(c,b);break}else b=null}return b},setFirstNodeForShow:function(c,a){var b,e,g,f,h;for(e=0,g=a.length;e<g;e++)if(b=a[e],!f&&!b.isHidden&&
+	b.isFirstNode){f=b;break}else if(!f&&!b.isHidden&&!b.isFirstNode)b.isFirstNode=!0,f=b,d.setNodeLineIcos(c,b);else if(f&&b.isFirstNode){b.isFirstNode=!1;h=b;d.setNodeLineIcos(c,b);break}return{"new":f,old:h}},setLastNodeForHide:function(c,a){var b,e;for(e=a.length-1;e>=0;e--){b=a[e];if(b.isLastNode)break;if(!b.isHidden&&!b.isLastNode){b.isLastNode=!0;d.setNodeLineIcos(c,b);break}else b=null}return b},setLastNodeForShow:function(c,a){var b,e,g,f;for(e=a.length-1;e>=0;e--)if(b=a[e],!g&&!b.isHidden&&
+	b.isLastNode){g=b;break}else if(!g&&!b.isHidden&&!b.isLastNode)b.isLastNode=!0,g=b,d.setNodeLineIcos(c,b);else if(g&&b.isLastNode){b.isLastNode=!1;f=b;d.setNodeLineIcos(c,b);break}return{"new":g,old:f}}},data:{initHideForExCheck:function(c,a){if(a.isHidden&&c.check&&c.check.enable){if(typeof a._nocheck=="undefined")a._nocheck=!!a.nocheck,a.nocheck=!0;a.check_Child_State=-1;d.repairParentChkClassWithSelf&&d.repairParentChkClassWithSelf(c,a)}},initShowForExCheck:function(c,a){if(!a.isHidden&&c.check&&
+	c.check.enable){if(typeof a._nocheck!="undefined")a.nocheck=a._nocheck,delete a._nocheck;if(d.setChkClass){var b=j(a,l.id.CHECK,c);d.setChkClass(c,b,a)}d.repairParentChkClassWithSelf&&d.repairParentChkClassWithSelf(c,a)}}}});var i=i.fn.zTree,m=i._z.tools,l=i.consts,d=i._z.view,f=i._z.data,j=m.$;f.addInitNode(function(c,a,b){if(typeof b.isHidden=="string")b.isHidden=m.eqs(b.isHidden,"true");b.isHidden=!!b.isHidden;f.initHideForExCheck(c,b)});f.addBeforeA(function(){});f.addZTreeTools(function(c,a){a.showNodes=
+	function(a,b){d.showNodes(c,a,b)};a.showNode=function(a,b){a&&d.showNodes(c,[a],b)};a.hideNodes=function(a,b){d.hideNodes(c,a,b)};a.hideNode=function(a,b){a&&d.hideNodes(c,[a],b)};var b=a.checkNode;if(b)a.checkNode=function(c,d,f,h){(!c||!c.isHidden)&&b.apply(a,arguments)}});var n=f.initNode;f.initNode=function(c,a,b,e,g,i,h){var j=(e?e:f.getRoot(c))[c.data.key.children];f.tmpHideFirstNode=d.setFirstNodeForHide(c,j);f.tmpHideLastNode=d.setLastNodeForHide(c,j);h&&(d.setNodeLineIcos(c,f.tmpHideFirstNode),
+	d.setNodeLineIcos(c,f.tmpHideLastNode));g=f.tmpHideFirstNode===b;i=f.tmpHideLastNode===b;n&&n.apply(f,arguments);h&&i&&d.clearOldLastNode(c,b,h)};var o=f.makeChkFlag;if(o)f.makeChkFlag=function(c,a){(!a||!a.isHidden)&&o.apply(f,arguments)};var p=f.getTreeCheckedNodes;if(p)f.getTreeCheckedNodes=function(c,a,b,e){if(a&&a.length>0){var d=a[0].getParentNode();if(d&&d.isHidden)return[]}return p.apply(f,arguments)};var q=f.getTreeChangeCheckedNodes;if(q)f.getTreeChangeCheckedNodes=function(c,a,b){if(a&&
+	a.length>0){var d=a[0].getParentNode();if(d&&d.isHidden)return[]}return q.apply(f,arguments)};var r=d.expandCollapseSonNode;if(r)d.expandCollapseSonNode=function(c,a,b,e,f){(!a||!a.isHidden)&&r.apply(d,arguments)};var s=d.setSonNodeCheckBox;if(s)d.setSonNodeCheckBox=function(c,a,b,e){(!a||!a.isHidden)&&s.apply(d,arguments)};var t=d.repairParentChkClassWithSelf;if(t)d.repairParentChkClassWithSelf=function(c,a){(!a||!a.isHidden)&&t.apply(d,arguments)}})(jQuery);
+
+
+/***/ },
+/* 233 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 234 */,
+/* 235 */,
+/* 236 */
+/***/ function(module, exports) {
+
+	module.exports = [
+	    {field: 'checked', title: '选择', width: 20,checkbox:true},
+	    {field: 'account_name', title: '账目名称', width: 200},
+	    {field: 'payed', title: '已结款项', width: 150},
+	    {field: 'owed', title: '未结款项', width: 150},
+	    {field: 'account_startdate', title: '账目开始日期', width: 150},
+	    {field: 'account_enddate', title: '账目结束日期', width: 150},
+	    {field: 'is_encased', title: '是否封存', width: 150,formatter:function(val){
+	        return val==1?'已封存':'未封存';
+	    }},
+	    {field: 'create_time', title: '创建时间', width: 150},
+	    {field: 'update_time', title: '修改时间', width: 150}
+	];
+
+/***/ },
+/* 237 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
 	 * 数据同步
 	 * 无界面模块，只负责同步数据，右下角可以弹信息框或者在屏幕中间弹进度框进行显示当前进度。
 	 * 不影响其它模块的运行，在进行数据同步时其它模块可以照常切换与运行。
@@ -2015,7 +2896,7 @@ webpackJsonp([2],[
 	module.exports = new AsyncData();
 
 /***/ },
-/* 201 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -2025,9 +2906,9 @@ webpackJsonp([2],[
 
 	var frameworkBase = __webpack_require__(193);
 
-	__webpack_require__(202);
+	__webpack_require__(231);
+	__webpack_require__(239);
 	__webpack_require__(203);
-	__webpack_require__(205);
 	var AttenceAnalyse = function(){ };
 
 	//继承自框架基类
@@ -2152,110 +3033,14 @@ webpackJsonp([2],[
 	module.exports = attenceAnalyse;
 
 /***/ },
-/* 202 */
-/***/ function(module, exports) {
-
-	if ($.fn.pagination){
-		$.fn.pagination.defaults.beforePageText = '第';
-		$.fn.pagination.defaults.afterPageText = '共{pages}页';
-		$.fn.pagination.defaults.displayMsg = '显示{from}到{to},共{total}记录';
-	}
-	if ($.fn.datagrid){
-		$.fn.datagrid.defaults.loadMsg = '正在处理，请稍待。。。';
-	}
-	if ($.fn.treegrid && $.fn.datagrid){
-		$.fn.treegrid.defaults.loadMsg = $.fn.datagrid.defaults.loadMsg;
-	}
-	if ($.messager){
-		$.messager.defaults.ok = '确定';
-		$.messager.defaults.cancel = '取消';
-	}
-	$.map(['validatebox','textbox','passwordbox','filebox','searchbox',
-			'combo','combobox','combogrid','combotree',
-			'datebox','datetimebox','numberbox',
-			'spinner','numberspinner','timespinner','datetimespinner'], function(plugin){
-		if ($.fn[plugin]){
-			$.fn[plugin].defaults.missingMessage = '该输入项为必输项';
-		}
-	});
-	if ($.fn.validatebox){
-		$.fn.validatebox.defaults.rules.email.message = '请输入有效的电子邮件地址';
-		$.fn.validatebox.defaults.rules.url.message = '请输入有效的URL地址';
-		$.fn.validatebox.defaults.rules.length.message = '输入内容长度必须介于{0}和{1}之间';
-		$.fn.validatebox.defaults.rules.remote.message = '请修正该字段';
-	}
-	if ($.fn.calendar){
-		$.fn.calendar.defaults.weeks = ['日','一','二','三','四','五','六'];
-		$.fn.calendar.defaults.months = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
-	}
-	if ($.fn.datebox){
-		$.fn.datebox.defaults.currentText = '今天';
-		$.fn.datebox.defaults.closeText = '关闭';
-		$.fn.datebox.defaults.okText = '确定';
-		$.fn.datebox.defaults.formatter = function(date){
-			var y = date.getFullYear();
-			var m = date.getMonth()+1;
-			var d = date.getDate();
-			return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
-		};
-		$.fn.datebox.defaults.parser = function(s){
-			if (!s) return new Date();
-			var ss = s.split('-');
-			var y = parseInt(ss[0],10);
-			var m = parseInt(ss[1],10);
-			var d = parseInt(ss[2],10);
-			if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
-				return new Date(y,m-1,d);
-			} else {
-				return new Date();
-			}
-		};
-	}
-	if ($.fn.datetimebox && $.fn.datebox){
-		$.extend($.fn.datetimebox.defaults,{
-			currentText: $.fn.datebox.defaults.currentText,
-			closeText: $.fn.datebox.defaults.closeText,
-			okText: $.fn.datebox.defaults.okText
-		});
-	}
-	if ($.fn.datetimespinner){
-		$.fn.datetimespinner.defaults.selections = [[0,4],[5,7],[8,10],[11,13],[14,16],[17,19]]
-	}
-
-
-/***/ },
-/* 203 */
+/* 239 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 204 */,
-/* 205 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 206 */,
-/* 207 */,
-/* 208 */,
-/* 209 */,
-/* 210 */,
-/* 211 */,
-/* 212 */,
-/* 213 */,
-/* 214 */,
-/* 215 */,
-/* 216 */,
-/* 217 */,
-/* 218 */,
-/* 219 */,
-/* 220 */,
-/* 221 */,
-/* 222 */,
-/* 223 */,
-/* 224 */
+/* 240 */,
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -2263,9 +3048,9 @@ webpackJsonp([2],[
 	 * 迟到分析 饼图 angle
 	 */
 
-	var AttenceAnalyse = __webpack_require__(201);
+	var AttenceAnalyse = __webpack_require__(238);
 
-	var chartConfig = __webpack_require__(225);
+	var chartConfig = __webpack_require__(242);
 	var AttenceAnalyseModule1 = function () {};
 
 	//继承自作业分析类
@@ -2358,7 +3143,7 @@ webpackJsonp([2],[
 	module.exports = attenceAnalyseModule1;
 
 /***/ },
-/* 225 */
+/* 242 */
 /***/ function(module, exports) {
 
 	/**
@@ -2381,7 +3166,7 @@ webpackJsonp([2],[
 	};
 
 /***/ },
-/* 226 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -2389,8 +3174,8 @@ webpackJsonp([2],[
 	 * 早退比例 饼图
 	 */
 
-	var AttenceAnalyse = __webpack_require__(201);
-	var chartConfig = __webpack_require__(225);
+	var AttenceAnalyse = __webpack_require__(238);
+	var chartConfig = __webpack_require__(242);
 	var AttenceAnalyseModule2 = function () {};
 
 	//继承自作业分析类
@@ -2481,7 +3266,7 @@ webpackJsonp([2],[
 	module.exports = attenceAnalyseModule1;
 
 /***/ },
-/* 227 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -2489,8 +3274,8 @@ webpackJsonp([2],[
 	 * 按时间段进行迟到早退统计分析 柱状图
 	 */
 
-	var AttenceAnalyse = __webpack_require__(201);
-	var chartConfig = __webpack_require__(225);
+	var AttenceAnalyse = __webpack_require__(238);
+	var chartConfig = __webpack_require__(242);
 	var AttenceAnalyseModule3 = function () {};
 
 	//继承自作业分析类
@@ -2635,7 +3420,7 @@ webpackJsonp([2],[
 	module.exports = attenceAnalyseModule1;
 
 /***/ },
-/* 228 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -2644,9 +3429,9 @@ webpackJsonp([2],[
 	 */
 
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(202);
-	__webpack_require__(229);
-	__webpack_require__(205);
+	__webpack_require__(231);
+	__webpack_require__(246);
+	__webpack_require__(203);
 	var AttenceSearch = function () {};
 
 	//继承自框架基类
@@ -2671,7 +3456,7 @@ webpackJsonp([2],[
 	    var that = this;
 	    this.loadFragment('/views/modules/attence-search.html').then(function(html){
 	        that.render(html);
-	        var columns = __webpack_require__(233);
+	        var columns = __webpack_require__(250);
 	        var $table = that.$table = $('#dataTable',that.dom).datagrid({
 	            url: '/attence/search',
 	            method: 'get',
@@ -2755,19 +3540,19 @@ webpackJsonp([2],[
 	module.exports = attenceSearch;
 
 /***/ },
-/* 229 */
+/* 246 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 230 */,
-/* 231 */,
-/* 232 */,
-/* 233 */
+/* 247 */,
+/* 248 */,
+/* 249 */,
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
-	typeof window == 'undefined' && (Calendar = __webpack_require__(234));
+	typeof window == 'undefined' && (Calendar = __webpack_require__(251));
 	module.exports = [
 	    {field: 'stu_id', title: '学生id', width: 350},
 	    {field: 'stu_name', title: '学生姓名', width: 150},
@@ -2779,7 +3564,7 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 234 */
+/* 251 */
 /***/ function(module, exports) {
 
 	/**
@@ -2964,7 +3749,7 @@ webpackJsonp([2],[
 	})();
 
 /***/ },
-/* 235 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -2973,10 +3758,10 @@ webpackJsonp([2],[
 	 * @type {Framework}
 	 */
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(236);
-	__webpack_require__(205);
-	__webpack_require__(238);
-	__webpack_require__(239);
+	__webpack_require__(253);
+	__webpack_require__(203);
+	__webpack_require__(222);
+	__webpack_require__(223);
 	var AuthorityControl = function(){ };
 
 	//继承自框架基类
@@ -3002,7 +3787,7 @@ webpackJsonp([2],[
 	};
 
 	AuthorityControl.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(245);
+	    var html = __webpack_require__(255);
 	    this.render(html);
 	};
 
@@ -3167,210 +3952,30 @@ webpackJsonp([2],[
 	module.exports = authorityControl;
 
 /***/ },
-/* 236 */
+/* 253 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 237 */,
-/* 238 */
-/***/ function(module, exports) {
-
-	
-	/*
-	 * JQuery zTree core v3.5.24
-	 * http://zTree.me/
-	 *
-	 * Copyright (c) 2010 Hunter.z
-	 *
-	 * Licensed same as jquery - MIT License
-	 * http://www.opensource.org/licenses/mit-license.php
-	 *
-	 * email: hunter.z@263.net
-	 * Date: 2016-06-06
-	 */
-	(function(q){var I,J,K,L,M,N,v,s={},w={},x={},O={treeId:"",treeObj:null,view:{addDiyDom:null,autoCancelSelected:!0,dblClickExpand:!0,expandSpeed:"fast",fontCss:{},nameIsHTML:!1,selectedMulti:!0,showIcon:!0,showLine:!0,showTitle:!0,txtSelectedEnable:!1},data:{key:{children:"children",name:"name",title:"",url:"url",icon:"icon"},simpleData:{enable:!1,idKey:"id",pIdKey:"pId",rootPId:null},keep:{parent:!1,leaf:!1}},async:{enable:!1,contentType:"application/x-www-form-urlencoded",type:"post",dataType:"text",
-	url:"",autoParam:[],otherParam:[],dataFilter:null},callback:{beforeAsync:null,beforeClick:null,beforeDblClick:null,beforeRightClick:null,beforeMouseDown:null,beforeMouseUp:null,beforeExpand:null,beforeCollapse:null,beforeRemove:null,onAsyncError:null,onAsyncSuccess:null,onNodeCreated:null,onClick:null,onDblClick:null,onRightClick:null,onMouseDown:null,onMouseUp:null,onExpand:null,onCollapse:null,onRemove:null}},y=[function(b){var a=b.treeObj,c=f.event;a.bind(c.NODECREATED,function(a,c,g){j.apply(b.callback.onNodeCreated,
-	[a,c,g])});a.bind(c.CLICK,function(a,c,g,m,h){j.apply(b.callback.onClick,[c,g,m,h])});a.bind(c.EXPAND,function(a,c,g){j.apply(b.callback.onExpand,[a,c,g])});a.bind(c.COLLAPSE,function(a,c,g){j.apply(b.callback.onCollapse,[a,c,g])});a.bind(c.ASYNC_SUCCESS,function(a,c,g,m){j.apply(b.callback.onAsyncSuccess,[a,c,g,m])});a.bind(c.ASYNC_ERROR,function(a,c,g,m,h,f){j.apply(b.callback.onAsyncError,[a,c,g,m,h,f])});a.bind(c.REMOVE,function(a,c,g){j.apply(b.callback.onRemove,[a,c,g])});a.bind(c.SELECTED,
-	function(a,c,g){j.apply(b.callback.onSelected,[c,g])});a.bind(c.UNSELECTED,function(a,c,g){j.apply(b.callback.onUnSelected,[c,g])})}],z=[function(b){var a=f.event;b.treeObj.unbind(a.NODECREATED).unbind(a.CLICK).unbind(a.EXPAND).unbind(a.COLLAPSE).unbind(a.ASYNC_SUCCESS).unbind(a.ASYNC_ERROR).unbind(a.REMOVE).unbind(a.SELECTED).unbind(a.UNSELECTED)}],A=[function(b){var a=h.getCache(b);a||(a={},h.setCache(b,a));a.nodes=[];a.doms=[]}],B=[function(b,a,c,d,e,g){if(c){var m=h.getRoot(b),f=b.data.key.children;
-	c.level=a;c.tId=b.treeId+"_"+ ++m.zId;c.parentTId=d?d.tId:null;c.open=typeof c.open=="string"?j.eqs(c.open,"true"):!!c.open;c[f]&&c[f].length>0?(c.isParent=!0,c.zAsync=!0):(c.isParent=typeof c.isParent=="string"?j.eqs(c.isParent,"true"):!!c.isParent,c.open=c.isParent&&!b.async.enable?c.open:!1,c.zAsync=!c.isParent);c.isFirstNode=e;c.isLastNode=g;c.getParentNode=function(){return h.getNodeCache(b,c.parentTId)};c.getPreNode=function(){return h.getPreNode(b,c)};c.getNextNode=function(){return h.getNextNode(b,
-	c)};c.getIndex=function(){return h.getNodeIndex(b,c)};c.getPath=function(){return h.getNodePath(b,c)};c.isAjaxing=!1;h.fixPIdKeyValue(b,c)}}],u=[function(b){var a=b.target,c=h.getSetting(b.data.treeId),d="",e=null,g="",m="",i=null,n=null,k=null;if(j.eqs(b.type,"mousedown"))m="mousedown";else if(j.eqs(b.type,"mouseup"))m="mouseup";else if(j.eqs(b.type,"contextmenu"))m="contextmenu";else if(j.eqs(b.type,"click"))if(j.eqs(a.tagName,"span")&&a.getAttribute("treeNode"+f.id.SWITCH)!==null)d=j.getNodeMainDom(a).id,
-	g="switchNode";else{if(k=j.getMDom(c,a,[{tagName:"a",attrName:"treeNode"+f.id.A}]))d=j.getNodeMainDom(k).id,g="clickNode"}else if(j.eqs(b.type,"dblclick")&&(m="dblclick",k=j.getMDom(c,a,[{tagName:"a",attrName:"treeNode"+f.id.A}])))d=j.getNodeMainDom(k).id,g="switchNode";if(m.length>0&&d.length==0&&(k=j.getMDom(c,a,[{tagName:"a",attrName:"treeNode"+f.id.A}])))d=j.getNodeMainDom(k).id;if(d.length>0)switch(e=h.getNodeCache(c,d),g){case "switchNode":e.isParent?j.eqs(b.type,"click")||j.eqs(b.type,"dblclick")&&
-	j.apply(c.view.dblClickExpand,[c.treeId,e],c.view.dblClickExpand)?i=I:g="":g="";break;case "clickNode":i=J}switch(m){case "mousedown":n=K;break;case "mouseup":n=L;break;case "dblclick":n=M;break;case "contextmenu":n=N}return{stop:!1,node:e,nodeEventType:g,nodeEventCallback:i,treeEventType:m,treeEventCallback:n}}],C=[function(b){var a=h.getRoot(b);a||(a={},h.setRoot(b,a));a[b.data.key.children]=[];a.expandTriggerFlag=!1;a.curSelectedList=[];a.noSelection=!0;a.createdNodes=[];a.zId=0;a._ver=(new Date).getTime()}],
-	D=[],E=[],F=[],G=[],H=[],h={addNodeCache:function(b,a){h.getCache(b).nodes[h.getNodeCacheId(a.tId)]=a},getNodeCacheId:function(b){return b.substring(b.lastIndexOf("_")+1)},addAfterA:function(b){E.push(b)},addBeforeA:function(b){D.push(b)},addInnerAfterA:function(b){G.push(b)},addInnerBeforeA:function(b){F.push(b)},addInitBind:function(b){y.push(b)},addInitUnBind:function(b){z.push(b)},addInitCache:function(b){A.push(b)},addInitNode:function(b){B.push(b)},addInitProxy:function(b,a){a?u.splice(0,0,
-	b):u.push(b)},addInitRoot:function(b){C.push(b)},addNodesData:function(b,a,c,d){var e=b.data.key.children;a[e]?c>=a[e].length&&(c=-1):(a[e]=[],c=-1);if(a[e].length>0&&c===0)a[e][0].isFirstNode=!1,i.setNodeLineIcos(b,a[e][0]);else if(a[e].length>0&&c<0)a[e][a[e].length-1].isLastNode=!1,i.setNodeLineIcos(b,a[e][a[e].length-1]);a.isParent=!0;c<0?a[e]=a[e].concat(d):(b=[c,0].concat(d),a[e].splice.apply(a[e],b))},addSelectedNode:function(b,a){var c=h.getRoot(b);h.isSelectedNode(b,a)||c.curSelectedList.push(a)},
-	addCreatedNode:function(b,a){(b.callback.onNodeCreated||b.view.addDiyDom)&&h.getRoot(b).createdNodes.push(a)},addZTreeTools:function(b){H.push(b)},exSetting:function(b){q.extend(!0,O,b)},fixPIdKeyValue:function(b,a){b.data.simpleData.enable&&(a[b.data.simpleData.pIdKey]=a.parentTId?a.getParentNode()[b.data.simpleData.idKey]:b.data.simpleData.rootPId)},getAfterA:function(b,a,c){for(var d=0,e=E.length;d<e;d++)E[d].apply(this,arguments)},getBeforeA:function(b,a,c){for(var d=0,e=D.length;d<e;d++)D[d].apply(this,
-	arguments)},getInnerAfterA:function(b,a,c){for(var d=0,e=G.length;d<e;d++)G[d].apply(this,arguments)},getInnerBeforeA:function(b,a,c){for(var d=0,e=F.length;d<e;d++)F[d].apply(this,arguments)},getCache:function(b){return x[b.treeId]},getNodeIndex:function(b,a){if(!a)return null;for(var c=b.data.key.children,d=a.parentTId?a.getParentNode():h.getRoot(b),e=0,g=d[c].length-1;e<=g;e++)if(d[c][e]===a)return e;return-1},getNextNode:function(b,a){if(!a)return null;for(var c=b.data.key.children,d=a.parentTId?
-	a.getParentNode():h.getRoot(b),e=0,g=d[c].length-1;e<=g;e++)if(d[c][e]===a)return e==g?null:d[c][e+1];return null},getNodeByParam:function(b,a,c,d){if(!a||!c)return null;for(var e=b.data.key.children,g=0,m=a.length;g<m;g++){if(a[g][c]==d)return a[g];var f=h.getNodeByParam(b,a[g][e],c,d);if(f)return f}return null},getNodeCache:function(b,a){if(!a)return null;var c=x[b.treeId].nodes[h.getNodeCacheId(a)];return c?c:null},getNodeName:function(b,a){return""+a[b.data.key.name]},getNodePath:function(b,a){if(!a)return null;
-	var c;(c=a.parentTId?a.getParentNode().getPath():[])&&c.push(a);return c},getNodeTitle:function(b,a){return""+a[b.data.key.title===""?b.data.key.name:b.data.key.title]},getNodes:function(b){return h.getRoot(b)[b.data.key.children]},getNodesByParam:function(b,a,c,d){if(!a||!c)return[];for(var e=b.data.key.children,g=[],f=0,i=a.length;f<i;f++)a[f][c]==d&&g.push(a[f]),g=g.concat(h.getNodesByParam(b,a[f][e],c,d));return g},getNodesByParamFuzzy:function(b,a,c,d){if(!a||!c)return[];for(var e=b.data.key.children,
-	g=[],d=d.toLowerCase(),f=0,i=a.length;f<i;f++)typeof a[f][c]=="string"&&a[f][c].toLowerCase().indexOf(d)>-1&&g.push(a[f]),g=g.concat(h.getNodesByParamFuzzy(b,a[f][e],c,d));return g},getNodesByFilter:function(b,a,c,d,e){if(!a)return d?null:[];for(var g=b.data.key.children,f=d?null:[],i=0,n=a.length;i<n;i++){if(j.apply(c,[a[i],e],!1)){if(d)return a[i];f.push(a[i])}var k=h.getNodesByFilter(b,a[i][g],c,d,e);if(d&&k)return k;f=d?k:f.concat(k)}return f},getPreNode:function(b,a){if(!a)return null;for(var c=
-	b.data.key.children,d=a.parentTId?a.getParentNode():h.getRoot(b),e=0,g=d[c].length;e<g;e++)if(d[c][e]===a)return e==0?null:d[c][e-1];return null},getRoot:function(b){return b?w[b.treeId]:null},getRoots:function(){return w},getSetting:function(b){return s[b]},getSettings:function(){return s},getZTreeTools:function(b){return(b=this.getRoot(this.getSetting(b)))?b.treeTools:null},initCache:function(b){for(var a=0,c=A.length;a<c;a++)A[a].apply(this,arguments)},initNode:function(b,a,c,d,e,g){for(var f=
-	0,h=B.length;f<h;f++)B[f].apply(this,arguments)},initRoot:function(b){for(var a=0,c=C.length;a<c;a++)C[a].apply(this,arguments)},isSelectedNode:function(b,a){for(var c=h.getRoot(b),d=0,e=c.curSelectedList.length;d<e;d++)if(a===c.curSelectedList[d])return!0;return!1},removeNodeCache:function(b,a){var c=b.data.key.children;if(a[c])for(var d=0,e=a[c].length;d<e;d++)h.removeNodeCache(b,a[c][d]);h.getCache(b).nodes[h.getNodeCacheId(a.tId)]=null},removeSelectedNode:function(b,a){for(var c=h.getRoot(b),
-	d=0,e=c.curSelectedList.length;d<e;d++)if(a===c.curSelectedList[d]||!h.getNodeCache(b,c.curSelectedList[d].tId))c.curSelectedList.splice(d,1),b.treeObj.trigger(f.event.UNSELECTED,[b.treeId,a]),d--,e--},setCache:function(b,a){x[b.treeId]=a},setRoot:function(b,a){w[b.treeId]=a},setZTreeTools:function(b,a){for(var c=0,d=H.length;c<d;c++)H[c].apply(this,arguments)},transformToArrayFormat:function(b,a){if(!a)return[];var c=b.data.key.children,d=[];if(j.isArray(a))for(var e=0,g=a.length;e<g;e++)d.push(a[e]),
-	a[e][c]&&(d=d.concat(h.transformToArrayFormat(b,a[e][c])));else d.push(a),a[c]&&(d=d.concat(h.transformToArrayFormat(b,a[c])));return d},transformTozTreeFormat:function(b,a){var c,d,e=b.data.simpleData.idKey,g=b.data.simpleData.pIdKey,f=b.data.key.children;if(!e||e==""||!a)return[];if(j.isArray(a)){var h=[],i={};for(c=0,d=a.length;c<d;c++)i[a[c][e]]=a[c];for(c=0,d=a.length;c<d;c++)i[a[c][g]]&&a[c][e]!=a[c][g]?(i[a[c][g]][f]||(i[a[c][g]][f]=[]),i[a[c][g]][f].push(a[c])):h.push(a[c]);return h}else return[a]}},
-	l={bindEvent:function(b){for(var a=0,c=y.length;a<c;a++)y[a].apply(this,arguments)},unbindEvent:function(b){for(var a=0,c=z.length;a<c;a++)z[a].apply(this,arguments)},bindTree:function(b){var a={treeId:b.treeId},c=b.treeObj;b.view.txtSelectedEnable||c.bind("selectstart",v).css({"-moz-user-select":"-moz-none"});c.bind("click",a,l.proxy);c.bind("dblclick",a,l.proxy);c.bind("mouseover",a,l.proxy);c.bind("mouseout",a,l.proxy);c.bind("mousedown",a,l.proxy);c.bind("mouseup",a,l.proxy);c.bind("contextmenu",
-	a,l.proxy)},unbindTree:function(b){b.treeObj.unbind("selectstart",v).unbind("click",l.proxy).unbind("dblclick",l.proxy).unbind("mouseover",l.proxy).unbind("mouseout",l.proxy).unbind("mousedown",l.proxy).unbind("mouseup",l.proxy).unbind("contextmenu",l.proxy)},doProxy:function(b){for(var a=[],c=0,d=u.length;c<d;c++){var e=u[c].apply(this,arguments);a.push(e);if(e.stop)break}return a},proxy:function(b){var a=h.getSetting(b.data.treeId);if(!j.uCanDo(a,b))return!0;for(var a=l.doProxy(b),c=!0,d=0,e=a.length;d<
-	e;d++){var g=a[d];g.nodeEventCallback&&(c=g.nodeEventCallback.apply(g,[b,g.node])&&c);g.treeEventCallback&&(c=g.treeEventCallback.apply(g,[b,g.node])&&c)}return c}};I=function(b,a){var c=h.getSetting(b.data.treeId);if(a.open){if(j.apply(c.callback.beforeCollapse,[c.treeId,a],!0)==!1)return!0}else if(j.apply(c.callback.beforeExpand,[c.treeId,a],!0)==!1)return!0;h.getRoot(c).expandTriggerFlag=!0;i.switchNode(c,a);return!0};J=function(b,a){var c=h.getSetting(b.data.treeId),d=c.view.autoCancelSelected&&
-	(b.ctrlKey||b.metaKey)&&h.isSelectedNode(c,a)?0:c.view.autoCancelSelected&&(b.ctrlKey||b.metaKey)&&c.view.selectedMulti?2:1;if(j.apply(c.callback.beforeClick,[c.treeId,a,d],!0)==!1)return!0;d===0?i.cancelPreSelectedNode(c,a):i.selectNode(c,a,d===2);c.treeObj.trigger(f.event.CLICK,[b,c.treeId,a,d]);return!0};K=function(b,a){var c=h.getSetting(b.data.treeId);j.apply(c.callback.beforeMouseDown,[c.treeId,a],!0)&&j.apply(c.callback.onMouseDown,[b,c.treeId,a]);return!0};L=function(b,a){var c=h.getSetting(b.data.treeId);
-	j.apply(c.callback.beforeMouseUp,[c.treeId,a],!0)&&j.apply(c.callback.onMouseUp,[b,c.treeId,a]);return!0};M=function(b,a){var c=h.getSetting(b.data.treeId);j.apply(c.callback.beforeDblClick,[c.treeId,a],!0)&&j.apply(c.callback.onDblClick,[b,c.treeId,a]);return!0};N=function(b,a){var c=h.getSetting(b.data.treeId);j.apply(c.callback.beforeRightClick,[c.treeId,a],!0)&&j.apply(c.callback.onRightClick,[b,c.treeId,a]);return typeof c.callback.onRightClick!="function"};v=function(b){b=b.originalEvent.srcElement.nodeName.toLowerCase();
-	return b==="input"||b==="textarea"};var j={apply:function(b,a,c){return typeof b=="function"?b.apply(P,a?a:[]):c},canAsync:function(b,a){var c=b.data.key.children;return b.async.enable&&a&&a.isParent&&!(a.zAsync||a[c]&&a[c].length>0)},clone:function(b){if(b===null)return null;var a=j.isArray(b)?[]:{},c;for(c in b)a[c]=b[c]instanceof Date?new Date(b[c].getTime()):typeof b[c]==="object"?j.clone(b[c]):b[c];return a},eqs:function(b,a){return b.toLowerCase()===a.toLowerCase()},isArray:function(b){return Object.prototype.toString.apply(b)===
-	"[object Array]"},$:function(b,a,c){a&&typeof a!="string"&&(c=a,a="");return typeof b=="string"?q(b,c?c.treeObj.get(0).ownerDocument:null):q("#"+b.tId+a,c?c.treeObj:null)},getMDom:function(b,a,c){if(!a)return null;for(;a&&a.id!==b.treeId;){for(var d=0,e=c.length;a.tagName&&d<e;d++)if(j.eqs(a.tagName,c[d].tagName)&&a.getAttribute(c[d].attrName)!==null)return a;a=a.parentNode}return null},getNodeMainDom:function(b){return q(b).parent("li").get(0)||q(b).parentsUntil("li").parent().get(0)},isChildOrSelf:function(b,
-	a){return q(b).closest("#"+a).length>0},uCanDo:function(){return!0}},i={addNodes:function(b,a,c,d,e){if(!b.data.keep.leaf||!a||a.isParent)if(j.isArray(d)||(d=[d]),b.data.simpleData.enable&&(d=h.transformTozTreeFormat(b,d)),a){var g=k(a,f.id.SWITCH,b),m=k(a,f.id.ICON,b),o=k(a,f.id.UL,b);if(!a.open)i.replaceSwitchClass(a,g,f.folder.CLOSE),i.replaceIcoClass(a,m,f.folder.CLOSE),a.open=!1,o.css({display:"none"});h.addNodesData(b,a,c,d);i.createNodes(b,a.level+1,d,a,c);e||i.expandCollapseParentNode(b,a,
-	!0)}else h.addNodesData(b,h.getRoot(b),c,d),i.createNodes(b,0,d,null,c)},appendNodes:function(b,a,c,d,e,g,f){if(!c)return[];var j=[],k=b.data.key.children,l=(d?d:h.getRoot(b))[k],r,Q;if(!l||e>=l.length)e=-1;for(var t=0,q=c.length;t<q;t++){var p=c[t];g&&(r=(e===0||l.length==c.length)&&t==0,Q=e<0&&t==c.length-1,h.initNode(b,a,p,d,r,Q,f),h.addNodeCache(b,p));r=[];p[k]&&p[k].length>0&&(r=i.appendNodes(b,a+1,p[k],p,-1,g,f&&p.open));f&&(i.makeDOMNodeMainBefore(j,b,p),i.makeDOMNodeLine(j,b,p),h.getBeforeA(b,
-	p,j),i.makeDOMNodeNameBefore(j,b,p),h.getInnerBeforeA(b,p,j),i.makeDOMNodeIcon(j,b,p),h.getInnerAfterA(b,p,j),i.makeDOMNodeNameAfter(j,b,p),h.getAfterA(b,p,j),p.isParent&&p.open&&i.makeUlHtml(b,p,j,r.join("")),i.makeDOMNodeMainAfter(j,b,p),h.addCreatedNode(b,p))}return j},appendParentULDom:function(b,a){var c=[],d=k(a,b);!d.get(0)&&a.parentTId&&(i.appendParentULDom(b,a.getParentNode()),d=k(a,b));var e=k(a,f.id.UL,b);e.get(0)&&e.remove();e=i.appendNodes(b,a.level+1,a[b.data.key.children],a,-1,!1,!0);
-	i.makeUlHtml(b,a,c,e.join(""));d.append(c.join(""))},asyncNode:function(b,a,c,d){var e,g;if(a&&!a.isParent)return j.apply(d),!1;else if(a&&a.isAjaxing)return!1;else if(j.apply(b.callback.beforeAsync,[b.treeId,a],!0)==!1)return j.apply(d),!1;if(a)a.isAjaxing=!0,k(a,f.id.ICON,b).attr({style:"","class":f.className.BUTTON+" "+f.className.ICO_LOADING});var m={};for(e=0,g=b.async.autoParam.length;a&&e<g;e++){var o=b.async.autoParam[e].split("="),n=o;o.length>1&&(n=o[1],o=o[0]);m[n]=a[o]}if(j.isArray(b.async.otherParam))for(e=
-	0,g=b.async.otherParam.length;e<g;e+=2)m[b.async.otherParam[e]]=b.async.otherParam[e+1];else for(var l in b.async.otherParam)m[l]=b.async.otherParam[l];var r=h.getRoot(b)._ver;q.ajax({contentType:b.async.contentType,cache:!1,type:b.async.type,url:j.apply(b.async.url,[b.treeId,a],b.async.url),data:m,dataType:b.async.dataType,success:function(e){if(r==h.getRoot(b)._ver){var g=[];try{g=!e||e.length==0?[]:typeof e=="string"?eval("("+e+")"):e}catch(m){g=e}if(a)a.isAjaxing=null,a.zAsync=!0;i.setNodeLineIcos(b,
-	a);g&&g!==""?(g=j.apply(b.async.dataFilter,[b.treeId,a,g],g),i.addNodes(b,a,-1,g?j.clone(g):[],!!c)):i.addNodes(b,a,-1,[],!!c);b.treeObj.trigger(f.event.ASYNC_SUCCESS,[b.treeId,a,e]);j.apply(d)}},error:function(c,d,e){if(r==h.getRoot(b)._ver){if(a)a.isAjaxing=null;i.setNodeLineIcos(b,a);b.treeObj.trigger(f.event.ASYNC_ERROR,[b.treeId,a,c,d,e])}}});return!0},cancelPreSelectedNode:function(b,a,c){var d=h.getRoot(b).curSelectedList,e,g;for(e=d.length-1;e>=0;e--)if(g=d[e],a===g||!a&&(!c||c!==g))if(k(g,
-	f.id.A,b).removeClass(f.node.CURSELECTED),a){h.removeSelectedNode(b,a);break}else d.splice(e,1),b.treeObj.trigger(f.event.UNSELECTED,[b.treeId,g])},createNodeCallback:function(b){if(b.callback.onNodeCreated||b.view.addDiyDom)for(var a=h.getRoot(b);a.createdNodes.length>0;){var c=a.createdNodes.shift();j.apply(b.view.addDiyDom,[b.treeId,c]);b.callback.onNodeCreated&&b.treeObj.trigger(f.event.NODECREATED,[b.treeId,c])}},createNodes:function(b,a,c,d,e){if(c&&c.length!=0){var g=h.getRoot(b),j=b.data.key.children,
-	j=!d||d.open||!!k(d[j][0],b).get(0);g.createdNodes=[];var a=i.appendNodes(b,a,c,d,e,!0,j),o,n;d?(d=k(d,f.id.UL,b),d.get(0)&&(o=d)):o=b.treeObj;o&&(e>=0&&(n=o.children()[e]),e>=0&&n?q(n).before(a.join("")):o.append(a.join("")));i.createNodeCallback(b)}},destroy:function(b){b&&(h.initCache(b),h.initRoot(b),l.unbindTree(b),l.unbindEvent(b),b.treeObj.empty(),delete s[b.treeId])},expandCollapseNode:function(b,a,c,d,e){var g=h.getRoot(b),m=b.data.key.children,o;if(a){if(g.expandTriggerFlag)o=e,e=function(){o&&
-	o();a.open?b.treeObj.trigger(f.event.EXPAND,[b.treeId,a]):b.treeObj.trigger(f.event.COLLAPSE,[b.treeId,a])},g.expandTriggerFlag=!1;if(!a.open&&a.isParent&&(!k(a,f.id.UL,b).get(0)||a[m]&&a[m].length>0&&!k(a[m][0],b).get(0)))i.appendParentULDom(b,a),i.createNodeCallback(b);if(a.open==c)j.apply(e,[]);else{var c=k(a,f.id.UL,b),g=k(a,f.id.SWITCH,b),n=k(a,f.id.ICON,b);a.isParent?(a.open=!a.open,a.iconOpen&&a.iconClose&&n.attr("style",i.makeNodeIcoStyle(b,a)),a.open?(i.replaceSwitchClass(a,g,f.folder.OPEN),
-	i.replaceIcoClass(a,n,f.folder.OPEN),d==!1||b.view.expandSpeed==""?(c.show(),j.apply(e,[])):a[m]&&a[m].length>0?c.slideDown(b.view.expandSpeed,e):(c.show(),j.apply(e,[]))):(i.replaceSwitchClass(a,g,f.folder.CLOSE),i.replaceIcoClass(a,n,f.folder.CLOSE),d==!1||b.view.expandSpeed==""||!(a[m]&&a[m].length>0)?(c.hide(),j.apply(e,[])):c.slideUp(b.view.expandSpeed,e))):j.apply(e,[])}}else j.apply(e,[])},expandCollapseParentNode:function(b,a,c,d,e){a&&(a.parentTId?(i.expandCollapseNode(b,a,c,d),a.parentTId&&
-	i.expandCollapseParentNode(b,a.getParentNode(),c,d,e)):i.expandCollapseNode(b,a,c,d,e))},expandCollapseSonNode:function(b,a,c,d,e){var g=h.getRoot(b),f=b.data.key.children,g=a?a[f]:g[f],f=a?!1:d,j=h.getRoot(b).expandTriggerFlag;h.getRoot(b).expandTriggerFlag=!1;if(g)for(var k=0,l=g.length;k<l;k++)g[k]&&i.expandCollapseSonNode(b,g[k],c,f);h.getRoot(b).expandTriggerFlag=j;i.expandCollapseNode(b,a,c,d,e)},isSelectedNode:function(b,a){if(!a)return!1;var c=h.getRoot(b).curSelectedList,d;for(d=c.length-
-	1;d>=0;d--)if(a===c[d])return!0;return!1},makeDOMNodeIcon:function(b,a,c){var d=h.getNodeName(a,c),d=a.view.nameIsHTML?d:d.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");b.push("<span id='",c.tId,f.id.ICON,"' title='' treeNode",f.id.ICON," class='",i.makeNodeIcoClass(a,c),"' style='",i.makeNodeIcoStyle(a,c),"'></span><span id='",c.tId,f.id.SPAN,"' class='",f.className.NAME,"'>",d,"</span>")},makeDOMNodeLine:function(b,a,c){b.push("<span id='",c.tId,f.id.SWITCH,"' title='' class='",
-	i.makeNodeLineClass(a,c),"' treeNode",f.id.SWITCH,"></span>")},makeDOMNodeMainAfter:function(b){b.push("</li>")},makeDOMNodeMainBefore:function(b,a,c){b.push("<li id='",c.tId,"' class='",f.className.LEVEL,c.level,"' tabindex='0' hidefocus='true' treenode>")},makeDOMNodeNameAfter:function(b){b.push("</a>")},makeDOMNodeNameBefore:function(b,a,c){var d=h.getNodeTitle(a,c),e=i.makeNodeUrl(a,c),g=i.makeNodeFontCss(a,c),m=[],k;for(k in g)m.push(k,":",g[k],";");b.push("<a id='",c.tId,f.id.A,"' class='",
-	f.className.LEVEL,c.level,"' treeNode",f.id.A,' onclick="',c.click||"",'" ',e!=null&&e.length>0?"href='"+e+"'":""," target='",i.makeNodeTarget(c),"' style='",m.join(""),"'");j.apply(a.view.showTitle,[a.treeId,c],a.view.showTitle)&&d&&b.push("title='",d.replace(/'/g,"&#39;").replace(/</g,"&lt;").replace(/>/g,"&gt;"),"'");b.push(">")},makeNodeFontCss:function(b,a){var c=j.apply(b.view.fontCss,[b.treeId,a],b.view.fontCss);return c&&typeof c!="function"?c:{}},makeNodeIcoClass:function(b,a){var c=["ico"];
-	a.isAjaxing||(c[0]=(a.iconSkin?a.iconSkin+"_":"")+c[0],a.isParent?c.push(a.open?f.folder.OPEN:f.folder.CLOSE):c.push(f.folder.DOCU));return f.className.BUTTON+" "+c.join("_")},makeNodeIcoStyle:function(b,a){var c=[];if(!a.isAjaxing){var d=a.isParent&&a.iconOpen&&a.iconClose?a.open?a.iconOpen:a.iconClose:a[b.data.key.icon];d&&c.push("background:url(",d,") 0 0 no-repeat;");(b.view.showIcon==!1||!j.apply(b.view.showIcon,[b.treeId,a],!0))&&c.push("width:0px;height:0px;")}return c.join("")},makeNodeLineClass:function(b,
-	a){var c=[];b.view.showLine?a.level==0&&a.isFirstNode&&a.isLastNode?c.push(f.line.ROOT):a.level==0&&a.isFirstNode?c.push(f.line.ROOTS):a.isLastNode?c.push(f.line.BOTTOM):c.push(f.line.CENTER):c.push(f.line.NOLINE);a.isParent?c.push(a.open?f.folder.OPEN:f.folder.CLOSE):c.push(f.folder.DOCU);return i.makeNodeLineClassEx(a)+c.join("_")},makeNodeLineClassEx:function(b){return f.className.BUTTON+" "+f.className.LEVEL+b.level+" "+f.className.SWITCH+" "},makeNodeTarget:function(b){return b.target||"_blank"},
-	makeNodeUrl:function(b,a){var c=b.data.key.url;return a[c]?a[c]:null},makeUlHtml:function(b,a,c,d){c.push("<ul id='",a.tId,f.id.UL,"' class='",f.className.LEVEL,a.level," ",i.makeUlLineClass(b,a),"' style='display:",a.open?"block":"none","'>");c.push(d);c.push("</ul>")},makeUlLineClass:function(b,a){return b.view.showLine&&!a.isLastNode?f.line.LINE:""},removeChildNodes:function(b,a){if(a){var c=b.data.key.children,d=a[c];if(d){for(var e=0,g=d.length;e<g;e++)h.removeNodeCache(b,d[e]);h.removeSelectedNode(b);
-	delete a[c];b.data.keep.parent?k(a,f.id.UL,b).empty():(a.isParent=!1,a.open=!1,c=k(a,f.id.SWITCH,b),d=k(a,f.id.ICON,b),i.replaceSwitchClass(a,c,f.folder.DOCU),i.replaceIcoClass(a,d,f.folder.DOCU),k(a,f.id.UL,b).remove())}}},scrollIntoView:function(b){if(b)if(b.scrollIntoViewIfNeeded)b.scrollIntoViewIfNeeded();else if(b.scrollIntoView)b.scrollIntoView(!1);else try{b.focus().blur()}catch(a){}},setFirstNode:function(b,a){var c=b.data.key.children;if(a[c].length>0)a[c][0].isFirstNode=!0},setLastNode:function(b,
-	a){var c=b.data.key.children,d=a[c].length;if(d>0)a[c][d-1].isLastNode=!0},removeNode:function(b,a){var c=h.getRoot(b),d=b.data.key.children,e=a.parentTId?a.getParentNode():c;a.isFirstNode=!1;a.isLastNode=!1;a.getPreNode=function(){return null};a.getNextNode=function(){return null};if(h.getNodeCache(b,a.tId)){k(a,b).remove();h.removeNodeCache(b,a);h.removeSelectedNode(b,a);for(var g=0,j=e[d].length;g<j;g++)if(e[d][g].tId==a.tId){e[d].splice(g,1);break}i.setFirstNode(b,e);i.setLastNode(b,e);var o,
-	g=e[d].length;if(!b.data.keep.parent&&g==0)e.isParent=!1,e.open=!1,g=k(e,f.id.UL,b),j=k(e,f.id.SWITCH,b),o=k(e,f.id.ICON,b),i.replaceSwitchClass(e,j,f.folder.DOCU),i.replaceIcoClass(e,o,f.folder.DOCU),g.css("display","none");else if(b.view.showLine&&g>0){var n=e[d][g-1],g=k(n,f.id.UL,b),j=k(n,f.id.SWITCH,b);o=k(n,f.id.ICON,b);e==c?e[d].length==1?i.replaceSwitchClass(n,j,f.line.ROOT):(c=k(e[d][0],f.id.SWITCH,b),i.replaceSwitchClass(e[d][0],c,f.line.ROOTS),i.replaceSwitchClass(n,j,f.line.BOTTOM)):i.replaceSwitchClass(n,
-	j,f.line.BOTTOM);g.removeClass(f.line.LINE)}}},replaceIcoClass:function(b,a,c){if(a&&!b.isAjaxing&&(b=a.attr("class"),b!=void 0)){b=b.split("_");switch(c){case f.folder.OPEN:case f.folder.CLOSE:case f.folder.DOCU:b[b.length-1]=c}a.attr("class",b.join("_"))}},replaceSwitchClass:function(b,a,c){if(a){var d=a.attr("class");if(d!=void 0){d=d.split("_");switch(c){case f.line.ROOT:case f.line.ROOTS:case f.line.CENTER:case f.line.BOTTOM:case f.line.NOLINE:d[0]=i.makeNodeLineClassEx(b)+c;break;case f.folder.OPEN:case f.folder.CLOSE:case f.folder.DOCU:d[1]=
-	c}a.attr("class",d.join("_"));c!==f.folder.DOCU?a.removeAttr("disabled"):a.attr("disabled","disabled")}}},selectNode:function(b,a,c){c||i.cancelPreSelectedNode(b,null,a);k(a,f.id.A,b).addClass(f.node.CURSELECTED);h.addSelectedNode(b,a);b.treeObj.trigger(f.event.SELECTED,[b.treeId,a])},setNodeFontCss:function(b,a){var c=k(a,f.id.A,b),d=i.makeNodeFontCss(b,a);d&&c.css(d)},setNodeLineIcos:function(b,a){if(a){var c=k(a,f.id.SWITCH,b),d=k(a,f.id.UL,b),e=k(a,f.id.ICON,b),g=i.makeUlLineClass(b,a);g.length==
-	0?d.removeClass(f.line.LINE):d.addClass(g);c.attr("class",i.makeNodeLineClass(b,a));a.isParent?c.removeAttr("disabled"):c.attr("disabled","disabled");e.removeAttr("style");e.attr("style",i.makeNodeIcoStyle(b,a));e.attr("class",i.makeNodeIcoClass(b,a))}},setNodeName:function(b,a){var c=h.getNodeTitle(b,a),d=k(a,f.id.SPAN,b);d.empty();b.view.nameIsHTML?d.html(h.getNodeName(b,a)):d.text(h.getNodeName(b,a));j.apply(b.view.showTitle,[b.treeId,a],b.view.showTitle)&&k(a,f.id.A,b).attr("title",!c?"":c)},
-	setNodeTarget:function(b,a){k(a,f.id.A,b).attr("target",i.makeNodeTarget(a))},setNodeUrl:function(b,a){var c=k(a,f.id.A,b),d=i.makeNodeUrl(b,a);d==null||d.length==0?c.removeAttr("href"):c.attr("href",d)},switchNode:function(b,a){a.open||!j.canAsync(b,a)?i.expandCollapseNode(b,a,!a.open):b.async.enable?i.asyncNode(b,a)||i.expandCollapseNode(b,a,!a.open):a&&i.expandCollapseNode(b,a,!a.open)}};q.fn.zTree={consts:{className:{BUTTON:"button",LEVEL:"level",ICO_LOADING:"ico_loading",SWITCH:"switch",NAME:"node_name"},
-	event:{NODECREATED:"ztree_nodeCreated",CLICK:"ztree_click",EXPAND:"ztree_expand",COLLAPSE:"ztree_collapse",ASYNC_SUCCESS:"ztree_async_success",ASYNC_ERROR:"ztree_async_error",REMOVE:"ztree_remove",SELECTED:"ztree_selected",UNSELECTED:"ztree_unselected"},id:{A:"_a",ICON:"_ico",SPAN:"_span",SWITCH:"_switch",UL:"_ul"},line:{ROOT:"root",ROOTS:"roots",CENTER:"center",BOTTOM:"bottom",NOLINE:"noline",LINE:"line"},folder:{OPEN:"open",CLOSE:"close",DOCU:"docu"},node:{CURSELECTED:"curSelectedNode"}},_z:{tools:j,
-	view:i,event:l,data:h},getZTreeObj:function(b){return(b=h.getZTreeTools(b))?b:null},destroy:function(b){if(b&&b.length>0)i.destroy(h.getSetting(b));else for(var a in s)i.destroy(s[a])},init:function(b,a,c){var d=j.clone(O);q.extend(!0,d,a);d.treeId=b.attr("id");d.treeObj=b;d.treeObj.empty();s[d.treeId]=d;if(typeof document.body.style.maxHeight==="undefined")d.view.expandSpeed="";h.initRoot(d);b=h.getRoot(d);a=d.data.key.children;c=c?j.clone(j.isArray(c)?c:[c]):[];b[a]=d.data.simpleData.enable?h.transformTozTreeFormat(d,
-	c):c;h.initCache(d);l.unbindTree(d);l.bindTree(d);l.unbindEvent(d);l.bindEvent(d);c={setting:d,addNodes:function(a,b,c,f){function h(){i.addNodes(d,a,b,l,f==!0)}a||(a=null);if(a&&!a.isParent&&d.data.keep.leaf)return null;var k=parseInt(b,10);isNaN(k)?(f=!!c,c=b,b=-1):b=k;if(!c)return null;var l=j.clone(j.isArray(c)?c:[c]);j.canAsync(d,a)?i.asyncNode(d,a,f,h):h();return l},cancelSelectedNode:function(a){i.cancelPreSelectedNode(d,a)},destroy:function(){i.destroy(d)},expandAll:function(a){a=!!a;i.expandCollapseSonNode(d,
-	null,a,!0);return a},expandNode:function(a,b,c,f,n){function l(){var b=k(a,d).get(0);b&&f!==!1&&i.scrollIntoView(b)}if(!a||!a.isParent)return null;b!==!0&&b!==!1&&(b=!a.open);if((n=!!n)&&b&&j.apply(d.callback.beforeExpand,[d.treeId,a],!0)==!1)return null;else if(n&&!b&&j.apply(d.callback.beforeCollapse,[d.treeId,a],!0)==!1)return null;b&&a.parentTId&&i.expandCollapseParentNode(d,a.getParentNode(),b,!1);if(b===a.open&&!c)return null;h.getRoot(d).expandTriggerFlag=n;!j.canAsync(d,a)&&c?i.expandCollapseSonNode(d,
-	a,b,!0,l):(a.open=!b,i.switchNode(this.setting,a),l());return b},getNodes:function(){return h.getNodes(d)},getNodeByParam:function(a,b,c){return!a?null:h.getNodeByParam(d,c?c[d.data.key.children]:h.getNodes(d),a,b)},getNodeByTId:function(a){return h.getNodeCache(d,a)},getNodesByParam:function(a,b,c){return!a?null:h.getNodesByParam(d,c?c[d.data.key.children]:h.getNodes(d),a,b)},getNodesByParamFuzzy:function(a,b,c){return!a?null:h.getNodesByParamFuzzy(d,c?c[d.data.key.children]:h.getNodes(d),a,b)},
-	getNodesByFilter:function(a,b,c,f){b=!!b;return!a||typeof a!="function"?b?null:[]:h.getNodesByFilter(d,c?c[d.data.key.children]:h.getNodes(d),a,b,f)},getNodeIndex:function(a){if(!a)return null;for(var b=d.data.key.children,c=a.parentTId?a.getParentNode():h.getRoot(d),f=0,i=c[b].length;f<i;f++)if(c[b][f]==a)return f;return-1},getSelectedNodes:function(){for(var a=[],b=h.getRoot(d).curSelectedList,c=0,f=b.length;c<f;c++)a.push(b[c]);return a},isSelectedNode:function(a){return h.isSelectedNode(d,a)},
-	reAsyncChildNodes:function(a,b,c){if(this.setting.async.enable){var j=!a;j&&(a=h.getRoot(d));if(b=="refresh"){for(var b=this.setting.data.key.children,l=0,q=a[b]?a[b].length:0;l<q;l++)h.removeNodeCache(d,a[b][l]);h.removeSelectedNode(d);a[b]=[];j?this.setting.treeObj.empty():k(a,f.id.UL,d).empty()}i.asyncNode(this.setting,j?null:a,!!c)}},refresh:function(){this.setting.treeObj.empty();var a=h.getRoot(d),b=a[d.data.key.children];h.initRoot(d);a[d.data.key.children]=b;h.initCache(d);i.createNodes(d,
-	0,a[d.data.key.children],null,-1)},removeChildNodes:function(a){if(!a)return null;var b=a[d.data.key.children];i.removeChildNodes(d,a);return b?b:null},removeNode:function(a,b){a&&(b=!!b,b&&j.apply(d.callback.beforeRemove,[d.treeId,a],!0)==!1||(i.removeNode(d,a),b&&this.setting.treeObj.trigger(f.event.REMOVE,[d.treeId,a])))},selectNode:function(a,b,c){function f(){if(!c){var b=k(a,d).get(0);i.scrollIntoView(b)}}if(a&&j.uCanDo(d)){b=d.view.selectedMulti&&b;if(a.parentTId)i.expandCollapseParentNode(d,
-	a.getParentNode(),!0,!1,f);else if(!c)try{k(a,d).focus().blur()}catch(h){}i.selectNode(d,a,b)}},transformTozTreeNodes:function(a){return h.transformTozTreeFormat(d,a)},transformToArray:function(a){return h.transformToArrayFormat(d,a)},updateNode:function(a){a&&k(a,d).get(0)&&j.uCanDo(d)&&(i.setNodeName(d,a),i.setNodeTarget(d,a),i.setNodeUrl(d,a),i.setNodeLineIcos(d,a),i.setNodeFontCss(d,a))}};b.treeTools=c;h.setZTreeTools(d,c);b[a]&&b[a].length>0?i.createNodes(d,0,b[a],null,-1):d.async.enable&&d.async.url&&
-	d.async.url!==""&&i.asyncNode(d);return c}};var P=q.fn.zTree,k=j.$,f=P.consts})(jQuery);
-
-	/*
-	 * JQuery zTree excheck v3.5.24
-	 * http://zTree.me/
-	 *
-	 * Copyright (c) 2010 Hunter.z
-	 *
-	 * Licensed same as jquery - MIT License
-	 * http://www.opensource.org/licenses/mit-license.php
-	 *
-	 * email: hunter.z@263.net
-	 * Date: 2016-06-06
-	 */
-	(function(m){var p,q,r,o={event:{CHECK:"ztree_check"},id:{CHECK:"_check"},checkbox:{STYLE:"checkbox",DEFAULT:"chk",DISABLED:"disable",FALSE:"false",TRUE:"true",FULL:"full",PART:"part",FOCUS:"focus"},radio:{STYLE:"radio",TYPE_ALL:"all",TYPE_LEVEL:"level"}},v={check:{enable:!1,autoCheckTrigger:!1,chkStyle:o.checkbox.STYLE,nocheckInherit:!1,chkDisabledInherit:!1,radioType:o.radio.TYPE_LEVEL,chkboxType:{Y:"ps",N:"ps"}},data:{key:{checked:"checked"}},callback:{beforeCheck:null,onCheck:null}};p=function(c,
-	a){if(a.chkDisabled===!0)return!1;var b=g.getSetting(c.data.treeId),d=b.data.key.checked;if(k.apply(b.callback.beforeCheck,[b.treeId,a],!0)==!1)return!0;a[d]=!a[d];e.checkNodeRelation(b,a);d=n(a,j.id.CHECK,b);e.setChkClass(b,d,a);e.repairParentChkClassWithSelf(b,a);b.treeObj.trigger(j.event.CHECK,[c,b.treeId,a]);return!0};q=function(c,a){if(a.chkDisabled===!0)return!1;var b=g.getSetting(c.data.treeId),d=n(a,j.id.CHECK,b);a.check_Focus=!0;e.setChkClass(b,d,a);return!0};r=function(c,a){if(a.chkDisabled===
-	!0)return!1;var b=g.getSetting(c.data.treeId),d=n(a,j.id.CHECK,b);a.check_Focus=!1;e.setChkClass(b,d,a);return!0};m.extend(!0,m.fn.zTree.consts,o);m.extend(!0,m.fn.zTree._z,{tools:{},view:{checkNodeRelation:function(c,a){var b,d,h,i=c.data.key.children,l=c.data.key.checked;b=j.radio;if(c.check.chkStyle==b.STYLE){var f=g.getRadioCheckedList(c);if(a[l])if(c.check.radioType==b.TYPE_ALL){for(d=f.length-1;d>=0;d--)b=f[d],b[l]&&b!=a&&(b[l]=!1,f.splice(d,1),e.setChkClass(c,n(b,j.id.CHECK,c),b),b.parentTId!=
-	a.parentTId&&e.repairParentChkClassWithSelf(c,b));f.push(a)}else{f=a.parentTId?a.getParentNode():g.getRoot(c);for(d=0,h=f[i].length;d<h;d++)b=f[i][d],b[l]&&b!=a&&(b[l]=!1,e.setChkClass(c,n(b,j.id.CHECK,c),b))}else if(c.check.radioType==b.TYPE_ALL)for(d=0,h=f.length;d<h;d++)if(a==f[d]){f.splice(d,1);break}}else a[l]&&(!a[i]||a[i].length==0||c.check.chkboxType.Y.indexOf("s")>-1)&&e.setSonNodeCheckBox(c,a,!0),!a[l]&&(!a[i]||a[i].length==0||c.check.chkboxType.N.indexOf("s")>-1)&&e.setSonNodeCheckBox(c,
-	a,!1),a[l]&&c.check.chkboxType.Y.indexOf("p")>-1&&e.setParentNodeCheckBox(c,a,!0),!a[l]&&c.check.chkboxType.N.indexOf("p")>-1&&e.setParentNodeCheckBox(c,a,!1)},makeChkClass:function(c,a){var b=c.data.key.checked,d=j.checkbox,h=j.radio,i="",i=a.chkDisabled===!0?d.DISABLED:a.halfCheck?d.PART:c.check.chkStyle==h.STYLE?a.check_Child_State<1?d.FULL:d.PART:a[b]?a.check_Child_State===2||a.check_Child_State===-1?d.FULL:d.PART:a.check_Child_State<1?d.FULL:d.PART,b=c.check.chkStyle+"_"+(a[b]?d.TRUE:d.FALSE)+
-	"_"+i,b=a.check_Focus&&a.chkDisabled!==!0?b+"_"+d.FOCUS:b;return j.className.BUTTON+" "+d.DEFAULT+" "+b},repairAllChk:function(c,a){if(c.check.enable&&c.check.chkStyle===j.checkbox.STYLE)for(var b=c.data.key.checked,d=c.data.key.children,h=g.getRoot(c),i=0,l=h[d].length;i<l;i++){var f=h[d][i];f.nocheck!==!0&&f.chkDisabled!==!0&&(f[b]=a);e.setSonNodeCheckBox(c,f,a)}},repairChkClass:function(c,a){if(a&&(g.makeChkFlag(c,a),a.nocheck!==!0)){var b=n(a,j.id.CHECK,c);e.setChkClass(c,b,a)}},repairParentChkClass:function(c,
-	a){if(a&&a.parentTId){var b=a.getParentNode();e.repairChkClass(c,b);e.repairParentChkClass(c,b)}},repairParentChkClassWithSelf:function(c,a){if(a){var b=c.data.key.children;a[b]&&a[b].length>0?e.repairParentChkClass(c,a[b][0]):e.repairParentChkClass(c,a)}},repairSonChkDisabled:function(c,a,b,d){if(a){var h=c.data.key.children;if(a.chkDisabled!=b)a.chkDisabled=b;e.repairChkClass(c,a);if(a[h]&&d)for(var i=0,l=a[h].length;i<l;i++)e.repairSonChkDisabled(c,a[h][i],b,d)}},repairParentChkDisabled:function(c,
-	a,b,d){if(a){if(a.chkDisabled!=b&&d)a.chkDisabled=b;e.repairChkClass(c,a);e.repairParentChkDisabled(c,a.getParentNode(),b,d)}},setChkClass:function(c,a,b){a&&(b.nocheck===!0?a.hide():a.show(),a.attr("class",e.makeChkClass(c,b)))},setParentNodeCheckBox:function(c,a,b,d){var h=c.data.key.children,i=c.data.key.checked,l=n(a,j.id.CHECK,c);d||(d=a);g.makeChkFlag(c,a);a.nocheck!==!0&&a.chkDisabled!==!0&&(a[i]=b,e.setChkClass(c,l,a),c.check.autoCheckTrigger&&a!=d&&c.treeObj.trigger(j.event.CHECK,[null,c.treeId,
-	a]));if(a.parentTId){l=!0;if(!b)for(var h=a.getParentNode()[h],f=0,k=h.length;f<k;f++)if(h[f].nocheck!==!0&&h[f].chkDisabled!==!0&&h[f][i]||(h[f].nocheck===!0||h[f].chkDisabled===!0)&&h[f].check_Child_State>0){l=!1;break}l&&e.setParentNodeCheckBox(c,a.getParentNode(),b,d)}},setSonNodeCheckBox:function(c,a,b,d){if(a){var h=c.data.key.children,i=c.data.key.checked,l=n(a,j.id.CHECK,c);d||(d=a);var f=!1;if(a[h])for(var k=0,m=a[h].length;k<m;k++){var o=a[h][k];e.setSonNodeCheckBox(c,o,b,d);o.chkDisabled===
-	!0&&(f=!0)}if(a!=g.getRoot(c)&&a.chkDisabled!==!0){f&&a.nocheck!==!0&&g.makeChkFlag(c,a);if(a.nocheck!==!0&&a.chkDisabled!==!0){if(a[i]=b,!f)a.check_Child_State=a[h]&&a[h].length>0?b?2:0:-1}else a.check_Child_State=-1;e.setChkClass(c,l,a);c.check.autoCheckTrigger&&a!=d&&a.nocheck!==!0&&a.chkDisabled!==!0&&c.treeObj.trigger(j.event.CHECK,[null,c.treeId,a])}}}},event:{},data:{getRadioCheckedList:function(c){for(var a=g.getRoot(c).radioCheckedList,b=0,d=a.length;b<d;b++)g.getNodeCache(c,a[b].tId)||(a.splice(b,
-	1),b--,d--);return a},getCheckStatus:function(c,a){if(!c.check.enable||a.nocheck||a.chkDisabled)return null;var b=c.data.key.checked;return{checked:a[b],half:a.halfCheck?a.halfCheck:c.check.chkStyle==j.radio.STYLE?a.check_Child_State===2:a[b]?a.check_Child_State>-1&&a.check_Child_State<2:a.check_Child_State>0}},getTreeCheckedNodes:function(c,a,b,d){if(!a)return[];for(var h=c.data.key.children,i=c.data.key.checked,e=b&&c.check.chkStyle==j.radio.STYLE&&c.check.radioType==j.radio.TYPE_ALL,d=!d?[]:d,
-	f=0,k=a.length;f<k;f++){if(a[f].nocheck!==!0&&a[f].chkDisabled!==!0&&a[f][i]==b&&(d.push(a[f]),e))break;g.getTreeCheckedNodes(c,a[f][h],b,d);if(e&&d.length>0)break}return d},getTreeChangeCheckedNodes:function(c,a,b){if(!a)return[];for(var d=c.data.key.children,h=c.data.key.checked,b=!b?[]:b,i=0,e=a.length;i<e;i++)a[i].nocheck!==!0&&a[i].chkDisabled!==!0&&a[i][h]!=a[i].checkedOld&&b.push(a[i]),g.getTreeChangeCheckedNodes(c,a[i][d],b);return b},makeChkFlag:function(c,a){if(a){var b=c.data.key.children,
-	d=c.data.key.checked,h=-1;if(a[b])for(var i=0,e=a[b].length;i<e;i++){var f=a[b][i],g=-1;if(c.check.chkStyle==j.radio.STYLE)if(g=f.nocheck===!0||f.chkDisabled===!0?f.check_Child_State:f.halfCheck===!0?2:f[d]?2:f.check_Child_State>0?2:0,g==2){h=2;break}else g==0&&(h=0);else if(c.check.chkStyle==j.checkbox.STYLE)if(g=f.nocheck===!0||f.chkDisabled===!0?f.check_Child_State:f.halfCheck===!0?1:f[d]?f.check_Child_State===-1||f.check_Child_State===2?2:1:f.check_Child_State>0?1:0,g===1){h=1;break}else if(g===
-	2&&h>-1&&i>0&&g!==h){h=1;break}else if(h===2&&g>-1&&g<2){h=1;break}else g>-1&&(h=g)}a.check_Child_State=h}}}});var m=m.fn.zTree,k=m._z.tools,j=m.consts,e=m._z.view,g=m._z.data,n=k.$;g.exSetting(v);g.addInitBind(function(c){c.treeObj.bind(j.event.CHECK,function(a,b,d,h){a.srcEvent=b;k.apply(c.callback.onCheck,[a,d,h])})});g.addInitUnBind(function(c){c.treeObj.unbind(j.event.CHECK)});g.addInitCache(function(){});g.addInitNode(function(c,a,b,d){if(b){a=c.data.key.checked;typeof b[a]=="string"&&(b[a]=
-	k.eqs(b[a],"true"));b[a]=!!b[a];b.checkedOld=b[a];if(typeof b.nocheck=="string")b.nocheck=k.eqs(b.nocheck,"true");b.nocheck=!!b.nocheck||c.check.nocheckInherit&&d&&!!d.nocheck;if(typeof b.chkDisabled=="string")b.chkDisabled=k.eqs(b.chkDisabled,"true");b.chkDisabled=!!b.chkDisabled||c.check.chkDisabledInherit&&d&&!!d.chkDisabled;if(typeof b.halfCheck=="string")b.halfCheck=k.eqs(b.halfCheck,"true");b.halfCheck=!!b.halfCheck;b.check_Child_State=-1;b.check_Focus=!1;b.getCheckStatus=function(){return g.getCheckStatus(c,
-	b)};c.check.chkStyle==j.radio.STYLE&&c.check.radioType==j.radio.TYPE_ALL&&b[a]&&g.getRoot(c).radioCheckedList.push(b)}});g.addInitProxy(function(c){var a=c.target,b=g.getSetting(c.data.treeId),d="",h=null,e="",l=null;if(k.eqs(c.type,"mouseover")){if(b.check.enable&&k.eqs(a.tagName,"span")&&a.getAttribute("treeNode"+j.id.CHECK)!==null)d=k.getNodeMainDom(a).id,e="mouseoverCheck"}else if(k.eqs(c.type,"mouseout")){if(b.check.enable&&k.eqs(a.tagName,"span")&&a.getAttribute("treeNode"+j.id.CHECK)!==null)d=
-	k.getNodeMainDom(a).id,e="mouseoutCheck"}else if(k.eqs(c.type,"click")&&b.check.enable&&k.eqs(a.tagName,"span")&&a.getAttribute("treeNode"+j.id.CHECK)!==null)d=k.getNodeMainDom(a).id,e="checkNode";if(d.length>0)switch(h=g.getNodeCache(b,d),e){case "checkNode":l=p;break;case "mouseoverCheck":l=q;break;case "mouseoutCheck":l=r}return{stop:e==="checkNode",node:h,nodeEventType:e,nodeEventCallback:l,treeEventType:"",treeEventCallback:null}},!0);g.addInitRoot(function(c){g.getRoot(c).radioCheckedList=[]});
-	g.addBeforeA(function(c,a,b){c.check.enable&&(g.makeChkFlag(c,a),b.push("<span ID='",a.tId,j.id.CHECK,"' class='",e.makeChkClass(c,a),"' treeNode",j.id.CHECK,a.nocheck===!0?" style='display:none;'":"","></span>"))});g.addZTreeTools(function(c,a){a.checkNode=function(a,b,c,g){var f=this.setting.data.key.checked;if(a.chkDisabled!==!0&&(b!==!0&&b!==!1&&(b=!a[f]),g=!!g,(a[f]!==b||c)&&!(g&&k.apply(this.setting.callback.beforeCheck,[this.setting.treeId,a],!0)==!1)&&k.uCanDo(this.setting)&&this.setting.check.enable&&
-	a.nocheck!==!0))a[f]=b,b=n(a,j.id.CHECK,this.setting),(c||this.setting.check.chkStyle===j.radio.STYLE)&&e.checkNodeRelation(this.setting,a),e.setChkClass(this.setting,b,a),e.repairParentChkClassWithSelf(this.setting,a),g&&this.setting.treeObj.trigger(j.event.CHECK,[null,this.setting.treeId,a])};a.checkAllNodes=function(a){e.repairAllChk(this.setting,!!a)};a.getCheckedNodes=function(a){var b=this.setting.data.key.children;return g.getTreeCheckedNodes(this.setting,g.getRoot(this.setting)[b],a!==!1)};
-	a.getChangeCheckedNodes=function(){var a=this.setting.data.key.children;return g.getTreeChangeCheckedNodes(this.setting,g.getRoot(this.setting)[a])};a.setChkDisabled=function(a,b,c,g){b=!!b;c=!!c;e.repairSonChkDisabled(this.setting,a,b,!!g);e.repairParentChkDisabled(this.setting,a.getParentNode(),b,c)};var b=a.updateNode;a.updateNode=function(c,g){b&&b.apply(a,arguments);if(c&&this.setting.check.enable&&n(c,this.setting).get(0)&&k.uCanDo(this.setting)){var i=n(c,j.id.CHECK,this.setting);(g==!0||this.setting.check.chkStyle===
-	j.radio.STYLE)&&e.checkNodeRelation(this.setting,c);e.setChkClass(this.setting,i,c);e.repairParentChkClassWithSelf(this.setting,c)}}});var s=e.createNodes;e.createNodes=function(c,a,b,d,g){s&&s.apply(e,arguments);b&&e.repairParentChkClassWithSelf(c,d)};var t=e.removeNode;e.removeNode=function(c,a){var b=a.getParentNode();t&&t.apply(e,arguments);a&&b&&(e.repairChkClass(c,b),e.repairParentChkClass(c,b))};var u=e.appendNodes;e.appendNodes=function(c,a,b,d,h,i,j){var f="";u&&(f=u.apply(e,arguments));
-	d&&g.makeChkFlag(c,d);return f}})(jQuery);
-
-	/*
-	 * JQuery zTree exedit v3.5.24
-	 * http://zTree.me/
-	 *
-	 * Copyright (c) 2010 Hunter.z
-	 *
-	 * Licensed same as jquery - MIT License
-	 * http://www.opensource.org/licenses/mit-license.php
-	 *
-	 * email: hunter.z@263.net
-	 * Date: 2016-06-06
-	 */
-	(function(v){var J={event:{DRAG:"ztree_drag",DROP:"ztree_drop",RENAME:"ztree_rename",DRAGMOVE:"ztree_dragmove"},id:{EDIT:"_edit",INPUT:"_input",REMOVE:"_remove"},move:{TYPE_INNER:"inner",TYPE_PREV:"prev",TYPE_NEXT:"next"},node:{CURSELECTED_EDIT:"curSelectedNode_Edit",TMPTARGET_TREE:"tmpTargetzTree",TMPTARGET_NODE:"tmpTargetNode"}},x={onHoverOverNode:function(b,a){var c=m.getSetting(b.data.treeId),d=m.getRoot(c);if(d.curHoverNode!=a)x.onHoverOutNode(b);d.curHoverNode=a;f.addHoverDom(c,a)},onHoverOutNode:function(b){var b=
-	m.getSetting(b.data.treeId),a=m.getRoot(b);if(a.curHoverNode&&!m.isSelectedNode(b,a.curHoverNode))f.removeTreeDom(b,a.curHoverNode),a.curHoverNode=null},onMousedownNode:function(b,a){function c(b){if(B.dragFlag==0&&Math.abs(O-b.clientX)<e.edit.drag.minMoveSize&&Math.abs(P-b.clientY)<e.edit.drag.minMoveSize)return!0;var a,c,n,k,i;i=e.data.key.children;M.css("cursor","pointer");if(B.dragFlag==0){if(g.apply(e.callback.beforeDrag,[e.treeId,l],!0)==!1)return r(b),!0;for(a=0,c=l.length;a<c;a++){if(a==0)B.dragNodeShowBefore=
-	[];n=l[a];n.isParent&&n.open?(f.expandCollapseNode(e,n,!n.open),B.dragNodeShowBefore[n.tId]=!0):B.dragNodeShowBefore[n.tId]=!1}B.dragFlag=1;t.showHoverDom=!1;g.showIfameMask(e,!0);n=!0;k=-1;if(l.length>1){var j=l[0].parentTId?l[0].getParentNode()[i]:m.getNodes(e);i=[];for(a=0,c=j.length;a<c;a++)if(B.dragNodeShowBefore[j[a].tId]!==void 0&&(n&&k>-1&&k+1!==a&&(n=!1),i.push(j[a]),k=a),l.length===i.length){l=i;break}}n&&(I=l[0].getPreNode(),R=l[l.length-1].getNextNode());D=o("<ul class='zTreeDragUL'></ul>",
-	e);for(a=0,c=l.length;a<c;a++)n=l[a],n.editNameFlag=!1,f.selectNode(e,n,a>0),f.removeTreeDom(e,n),a>e.edit.drag.maxShowNodeNum-1||(k=o("<li id='"+n.tId+"_tmp'></li>",e),k.append(o(n,d.id.A,e).clone()),k.css("padding","0"),k.children("#"+n.tId+d.id.A).removeClass(d.node.CURSELECTED),D.append(k),a==e.edit.drag.maxShowNodeNum-1&&(k=o("<li id='"+n.tId+"_moretmp'><a>  ...  </a></li>",e),D.append(k)));D.attr("id",l[0].tId+d.id.UL+"_tmp");D.addClass(e.treeObj.attr("class"));D.appendTo(M);A=o("<span class='tmpzTreeMove_arrow'></span>",
-	e);A.attr("id","zTreeMove_arrow_tmp");A.appendTo(M);e.treeObj.trigger(d.event.DRAG,[b,e.treeId,l])}if(B.dragFlag==1){s&&A.attr("id")==b.target.id&&u&&b.clientX+G.scrollLeft()+2>v("#"+u+d.id.A,s).offset().left?(n=v("#"+u+d.id.A,s),b.target=n.length>0?n.get(0):b.target):s&&(s.removeClass(d.node.TMPTARGET_TREE),u&&v("#"+u+d.id.A,s).removeClass(d.node.TMPTARGET_NODE+"_"+d.move.TYPE_PREV).removeClass(d.node.TMPTARGET_NODE+"_"+J.move.TYPE_NEXT).removeClass(d.node.TMPTARGET_NODE+"_"+J.move.TYPE_INNER));
-	u=s=null;K=!1;h=e;n=m.getSettings();for(var y in n)if(n[y].treeId&&n[y].edit.enable&&n[y].treeId!=e.treeId&&(b.target.id==n[y].treeId||v(b.target).parents("#"+n[y].treeId).length>0))K=!0,h=n[y];y=G.scrollTop();k=G.scrollLeft();i=h.treeObj.offset();a=h.treeObj.get(0).scrollHeight;n=h.treeObj.get(0).scrollWidth;c=b.clientY+y-i.top;var p=h.treeObj.height()+i.top-b.clientY-y,q=b.clientX+k-i.left,H=h.treeObj.width()+i.left-b.clientX-k;i=c<e.edit.drag.borderMax&&c>e.edit.drag.borderMin;var j=p<e.edit.drag.borderMax&&
-	p>e.edit.drag.borderMin,F=q<e.edit.drag.borderMax&&q>e.edit.drag.borderMin,x=H<e.edit.drag.borderMax&&H>e.edit.drag.borderMin,p=c>e.edit.drag.borderMin&&p>e.edit.drag.borderMin&&q>e.edit.drag.borderMin&&H>e.edit.drag.borderMin,q=i&&h.treeObj.scrollTop()<=0,H=j&&h.treeObj.scrollTop()+h.treeObj.height()+10>=a,N=F&&h.treeObj.scrollLeft()<=0,Q=x&&h.treeObj.scrollLeft()+h.treeObj.width()+10>=n;if(b.target&&g.isChildOrSelf(b.target,h.treeId)){for(var E=b.target;E&&E.tagName&&!g.eqs(E.tagName,"li")&&E.id!=
-	h.treeId;)E=E.parentNode;var S=!0;for(a=0,c=l.length;a<c;a++)if(n=l[a],E.id===n.tId){S=!1;break}else if(o(n,e).find("#"+E.id).length>0){S=!1;break}if(S&&b.target&&g.isChildOrSelf(b.target,E.id+d.id.A))s=v(E),u=E.id}n=l[0];if(p&&g.isChildOrSelf(b.target,h.treeId)){if(!s&&(b.target.id==h.treeId||q||H||N||Q)&&(K||!K&&n.parentTId))s=h.treeObj;i?h.treeObj.scrollTop(h.treeObj.scrollTop()-10):j&&h.treeObj.scrollTop(h.treeObj.scrollTop()+10);F?h.treeObj.scrollLeft(h.treeObj.scrollLeft()-10):x&&h.treeObj.scrollLeft(h.treeObj.scrollLeft()+
-	10);s&&s!=h.treeObj&&s.offset().left<h.treeObj.offset().left&&h.treeObj.scrollLeft(h.treeObj.scrollLeft()+s.offset().left-h.treeObj.offset().left)}D.css({top:b.clientY+y+3+"px",left:b.clientX+k+3+"px"});c=a=0;if(s&&s.attr("id")!=h.treeId){var z=u==null?null:m.getNodeCache(h,u);i=(b.ctrlKey||b.metaKey)&&e.edit.drag.isMove&&e.edit.drag.isCopy||!e.edit.drag.isMove&&e.edit.drag.isCopy;k=!!(I&&u===I.tId);F=!!(R&&u===R.tId);j=n.parentTId&&n.parentTId==u;n=(i||!F)&&g.apply(h.edit.drag.prev,[h.treeId,l,z],
-	!!h.edit.drag.prev);k=(i||!k)&&g.apply(h.edit.drag.next,[h.treeId,l,z],!!h.edit.drag.next);i=(i||!j)&&!(h.data.keep.leaf&&!z.isParent)&&g.apply(h.edit.drag.inner,[h.treeId,l,z],!!h.edit.drag.inner);j=function(){s=null;u="";w=d.move.TYPE_INNER;A.css({display:"none"});if(window.zTreeMoveTimer)clearTimeout(window.zTreeMoveTimer),window.zTreeMoveTargetNodeTId=null};if(!n&&!k&&!i)j();else if(F=v("#"+u+d.id.A,s),x=z.isLastNode?null:v("#"+z.getNextNode().tId+d.id.A,s.next()),p=F.offset().top,q=F.offset().left,
-	H=n?i?0.25:k?0.5:1:-1,N=k?i?0.75:n?0.5:0:-1,y=(b.clientY+y-p)/F.height(),(H==1||y<=H&&y>=-0.2)&&n?(a=1-A.width(),c=p-A.height()/2,w=d.move.TYPE_PREV):(N==0||y>=N&&y<=1.2)&&k?(a=1-A.width(),c=x==null||z.isParent&&z.open?p+F.height()-A.height()/2:x.offset().top-A.height()/2,w=d.move.TYPE_NEXT):i?(a=5-A.width(),c=p,w=d.move.TYPE_INNER):j(),s){A.css({display:"block",top:c+"px",left:q+a+"px"});F.addClass(d.node.TMPTARGET_NODE+"_"+w);if(T!=u||U!=w)L=(new Date).getTime();if(z&&z.isParent&&w==d.move.TYPE_INNER&&
-	(y=!0,window.zTreeMoveTimer&&window.zTreeMoveTargetNodeTId!==z.tId?(clearTimeout(window.zTreeMoveTimer),window.zTreeMoveTargetNodeTId=null):window.zTreeMoveTimer&&window.zTreeMoveTargetNodeTId===z.tId&&(y=!1),y))window.zTreeMoveTimer=setTimeout(function(){w==d.move.TYPE_INNER&&z&&z.isParent&&!z.open&&(new Date).getTime()-L>h.edit.drag.autoOpenTime&&g.apply(h.callback.beforeDragOpen,[h.treeId,z],!0)&&(f.switchNode(h,z),h.edit.drag.autoExpandTrigger&&h.treeObj.trigger(d.event.EXPAND,[h.treeId,z]))},
-	h.edit.drag.autoOpenTime+50),window.zTreeMoveTargetNodeTId=z.tId}}else if(w=d.move.TYPE_INNER,s&&g.apply(h.edit.drag.inner,[h.treeId,l,null],!!h.edit.drag.inner)?s.addClass(d.node.TMPTARGET_TREE):s=null,A.css({display:"none"}),window.zTreeMoveTimer)clearTimeout(window.zTreeMoveTimer),window.zTreeMoveTargetNodeTId=null;T=u;U=w;e.treeObj.trigger(d.event.DRAGMOVE,[b,e.treeId,l])}return!1}function r(b){if(window.zTreeMoveTimer)clearTimeout(window.zTreeMoveTimer),window.zTreeMoveTargetNodeTId=null;U=T=
-	null;G.unbind("mousemove",c);G.unbind("mouseup",r);G.unbind("selectstart",k);M.css("cursor","auto");s&&(s.removeClass(d.node.TMPTARGET_TREE),u&&v("#"+u+d.id.A,s).removeClass(d.node.TMPTARGET_NODE+"_"+d.move.TYPE_PREV).removeClass(d.node.TMPTARGET_NODE+"_"+J.move.TYPE_NEXT).removeClass(d.node.TMPTARGET_NODE+"_"+J.move.TYPE_INNER));g.showIfameMask(e,!1);t.showHoverDom=!0;if(B.dragFlag!=0){B.dragFlag=0;var a,i,j;for(a=0,i=l.length;a<i;a++)j=l[a],j.isParent&&B.dragNodeShowBefore[j.tId]&&!j.open&&(f.expandCollapseNode(e,
-	j,!j.open),delete B.dragNodeShowBefore[j.tId]);D&&D.remove();A&&A.remove();var p=(b.ctrlKey||b.metaKey)&&e.edit.drag.isMove&&e.edit.drag.isCopy||!e.edit.drag.isMove&&e.edit.drag.isCopy;!p&&s&&u&&l[0].parentTId&&u==l[0].parentTId&&w==d.move.TYPE_INNER&&(s=null);if(s){var q=u==null?null:m.getNodeCache(h,u);if(g.apply(e.callback.beforeDrop,[h.treeId,l,q,w,p],!0)==!1)f.selectNodes(x,l);else{var C=p?g.clone(l):l;a=function(){if(K){if(!p)for(var a=0,c=l.length;a<c;a++)f.removeNode(e,l[a]);w==d.move.TYPE_INNER?
-	f.addNodes(h,q,-1,C):f.addNodes(h,q.getParentNode(),w==d.move.TYPE_PREV?q.getIndex():q.getIndex()+1,C)}else if(p&&w==d.move.TYPE_INNER)f.addNodes(h,q,-1,C);else if(p)f.addNodes(h,q.getParentNode(),w==d.move.TYPE_PREV?q.getIndex():q.getIndex()+1,C);else if(w!=d.move.TYPE_NEXT)for(a=0,c=C.length;a<c;a++)f.moveNode(h,q,C[a],w,!1);else for(a=-1,c=C.length-1;a<c;c--)f.moveNode(h,q,C[c],w,!1);f.selectNodes(h,C);a=o(C[0],e).get(0);f.scrollIntoView(a);e.treeObj.trigger(d.event.DROP,[b,h.treeId,C,q,w,p])};
-	w==d.move.TYPE_INNER&&g.canAsync(h,q)?f.asyncNode(h,q,!1,a):a()}}else f.selectNodes(x,l),e.treeObj.trigger(d.event.DROP,[b,e.treeId,l,null,null,null])}}function k(){return!1}var i,j,e=m.getSetting(b.data.treeId),B=m.getRoot(e),t=m.getRoots();if(b.button==2||!e.edit.enable||!e.edit.drag.isCopy&&!e.edit.drag.isMove)return!0;var p=b.target,q=m.getRoot(e).curSelectedList,l=[];if(m.isSelectedNode(e,a))for(i=0,j=q.length;i<j;i++){if(q[i].editNameFlag&&g.eqs(p.tagName,"input")&&p.getAttribute("treeNode"+
-	d.id.INPUT)!==null)return!0;l.push(q[i]);if(l[0].parentTId!==q[i].parentTId){l=[a];break}}else l=[a];f.editNodeBlur=!0;f.cancelCurEditNode(e);var G=v(e.treeObj.get(0).ownerDocument),M=v(e.treeObj.get(0).ownerDocument.body),D,A,s,K=!1,h=e,x=e,I,R,T=null,U=null,u=null,w=d.move.TYPE_INNER,O=b.clientX,P=b.clientY,L=(new Date).getTime();g.uCanDo(e)&&G.bind("mousemove",c);G.bind("mouseup",r);G.bind("selectstart",k);b.preventDefault&&b.preventDefault();return!0}};v.extend(!0,v.fn.zTree.consts,J);v.extend(!0,
-	v.fn.zTree._z,{tools:{getAbs:function(b){b=b.getBoundingClientRect();return[b.left+(document.body.scrollLeft+document.documentElement.scrollLeft),b.top+(document.body.scrollTop+document.documentElement.scrollTop)]},inputFocus:function(b){b.get(0)&&(b.focus(),g.setCursorPosition(b.get(0),b.val().length))},inputSelect:function(b){b.get(0)&&(b.focus(),b.select())},setCursorPosition:function(b,a){if(b.setSelectionRange)b.focus(),b.setSelectionRange(a,a);else if(b.createTextRange){var c=b.createTextRange();
-	c.collapse(!0);c.moveEnd("character",a);c.moveStart("character",a);c.select()}},showIfameMask:function(b,a){for(var c=m.getRoot(b);c.dragMaskList.length>0;)c.dragMaskList[0].remove(),c.dragMaskList.shift();if(a)for(var d=o("iframe",b),f=0,i=d.length;f<i;f++){var j=d.get(f),e=g.getAbs(j),j=o("<div id='zTreeMask_"+f+"' class='zTreeMask' style='top:"+e[1]+"px; left:"+e[0]+"px; width:"+j.offsetWidth+"px; height:"+j.offsetHeight+"px;'></div>",b);j.appendTo(o("body",b));c.dragMaskList.push(j)}}},view:{addEditBtn:function(b,
-	a){if(!(a.editNameFlag||o(a,d.id.EDIT,b).length>0)&&g.apply(b.edit.showRenameBtn,[b.treeId,a],b.edit.showRenameBtn)){var c=o(a,d.id.A,b),r="<span class='"+d.className.BUTTON+" edit' id='"+a.tId+d.id.EDIT+"' title='"+g.apply(b.edit.renameTitle,[b.treeId,a],b.edit.renameTitle)+"' treeNode"+d.id.EDIT+" style='display:none;'></span>";c.append(r);o(a,d.id.EDIT,b).bind("click",function(){if(!g.uCanDo(b)||g.apply(b.callback.beforeEditName,[b.treeId,a],!0)==!1)return!1;f.editNode(b,a);return!1}).show()}},
-	addRemoveBtn:function(b,a){if(!(a.editNameFlag||o(a,d.id.REMOVE,b).length>0)&&g.apply(b.edit.showRemoveBtn,[b.treeId,a],b.edit.showRemoveBtn)){var c=o(a,d.id.A,b),r="<span class='"+d.className.BUTTON+" remove' id='"+a.tId+d.id.REMOVE+"' title='"+g.apply(b.edit.removeTitle,[b.treeId,a],b.edit.removeTitle)+"' treeNode"+d.id.REMOVE+" style='display:none;'></span>";c.append(r);o(a,d.id.REMOVE,b).bind("click",function(){if(!g.uCanDo(b)||g.apply(b.callback.beforeRemove,[b.treeId,a],!0)==!1)return!1;f.removeNode(b,
-	a);b.treeObj.trigger(d.event.REMOVE,[b.treeId,a]);return!1}).bind("mousedown",function(){return!0}).show()}},addHoverDom:function(b,a){if(m.getRoots().showHoverDom)a.isHover=!0,b.edit.enable&&(f.addEditBtn(b,a),f.addRemoveBtn(b,a)),g.apply(b.view.addHoverDom,[b.treeId,a])},cancelCurEditNode:function(b,a,c){var r=m.getRoot(b),k=b.data.key.name,i=r.curEditNode;if(i){var j=r.curEditInput,a=a?a:c?i[k]:j.val();if(g.apply(b.callback.beforeRename,[b.treeId,i,a,c],!0)===!1)return!1;i[k]=a;o(i,d.id.A,b).removeClass(d.node.CURSELECTED_EDIT);
-	j.unbind();f.setNodeName(b,i);i.editNameFlag=!1;r.curEditNode=null;r.curEditInput=null;f.selectNode(b,i,!1);b.treeObj.trigger(d.event.RENAME,[b.treeId,i,c])}return r.noSelection=!0},editNode:function(b,a){var c=m.getRoot(b);f.editNodeBlur=!1;if(m.isSelectedNode(b,a)&&c.curEditNode==a&&a.editNameFlag)setTimeout(function(){g.inputFocus(c.curEditInput)},0);else{var r=b.data.key.name;a.editNameFlag=!0;f.removeTreeDom(b,a);f.cancelCurEditNode(b);f.selectNode(b,a,!1);o(a,d.id.SPAN,b).html("<input type=text class='rename' id='"+
-	a.tId+d.id.INPUT+"' treeNode"+d.id.INPUT+" >");var k=o(a,d.id.INPUT,b);k.attr("value",a[r]);b.edit.editNameSelectAll?g.inputSelect(k):g.inputFocus(k);k.bind("blur",function(){f.editNodeBlur||f.cancelCurEditNode(b)}).bind("keydown",function(a){a.keyCode=="13"?(f.editNodeBlur=!0,f.cancelCurEditNode(b)):a.keyCode=="27"&&f.cancelCurEditNode(b,null,!0)}).bind("click",function(){return!1}).bind("dblclick",function(){return!1});o(a,d.id.A,b).addClass(d.node.CURSELECTED_EDIT);c.curEditInput=k;c.noSelection=
-	!1;c.curEditNode=a}},moveNode:function(b,a,c,r,k,i){var j=m.getRoot(b),e=b.data.key.children;if(a!=c&&(!b.data.keep.leaf||!a||a.isParent||r!=d.move.TYPE_INNER)){var g=c.parentTId?c.getParentNode():j,t=a===null||a==j;t&&a===null&&(a=j);if(t)r=d.move.TYPE_INNER;j=a.parentTId?a.getParentNode():j;if(r!=d.move.TYPE_PREV&&r!=d.move.TYPE_NEXT)r=d.move.TYPE_INNER;if(r==d.move.TYPE_INNER)if(t)c.parentTId=null;else{if(!a.isParent)a.isParent=!0,a.open=!!a.open,f.setNodeLineIcos(b,a);c.parentTId=a.tId}var p;
-	t?p=t=b.treeObj:(!i&&r==d.move.TYPE_INNER?f.expandCollapseNode(b,a,!0,!1):i||f.expandCollapseNode(b,a.getParentNode(),!0,!1),t=o(a,b),p=o(a,d.id.UL,b),t.get(0)&&!p.get(0)&&(p=[],f.makeUlHtml(b,a,p,""),t.append(p.join(""))),p=o(a,d.id.UL,b));var q=o(c,b);q.get(0)?t.get(0)||q.remove():q=f.appendNodes(b,c.level,[c],null,-1,!1,!0).join("");p.get(0)&&r==d.move.TYPE_INNER?p.append(q):t.get(0)&&r==d.move.TYPE_PREV?t.before(q):t.get(0)&&r==d.move.TYPE_NEXT&&t.after(q);var l=-1,v=0,x=null,t=null,D=c.level;
-	if(c.isFirstNode){if(l=0,g[e].length>1)x=g[e][1],x.isFirstNode=!0}else if(c.isLastNode)l=g[e].length-1,x=g[e][l-1],x.isLastNode=!0;else for(p=0,q=g[e].length;p<q;p++)if(g[e][p].tId==c.tId){l=p;break}l>=0&&g[e].splice(l,1);if(r!=d.move.TYPE_INNER)for(p=0,q=j[e].length;p<q;p++)j[e][p].tId==a.tId&&(v=p);if(r==d.move.TYPE_INNER){a[e]||(a[e]=[]);if(a[e].length>0)t=a[e][a[e].length-1],t.isLastNode=!1;a[e].splice(a[e].length,0,c);c.isLastNode=!0;c.isFirstNode=a[e].length==1}else a.isFirstNode&&r==d.move.TYPE_PREV?
-	(j[e].splice(v,0,c),t=a,t.isFirstNode=!1,c.parentTId=a.parentTId,c.isFirstNode=!0,c.isLastNode=!1):a.isLastNode&&r==d.move.TYPE_NEXT?(j[e].splice(v+1,0,c),t=a,t.isLastNode=!1,c.parentTId=a.parentTId,c.isFirstNode=!1,c.isLastNode=!0):(r==d.move.TYPE_PREV?j[e].splice(v,0,c):j[e].splice(v+1,0,c),c.parentTId=a.parentTId,c.isFirstNode=!1,c.isLastNode=!1);m.fixPIdKeyValue(b,c);m.setSonNodeLevel(b,c.getParentNode(),c);f.setNodeLineIcos(b,c);f.repairNodeLevelClass(b,c,D);!b.data.keep.parent&&g[e].length<
-	1?(g.isParent=!1,g.open=!1,a=o(g,d.id.UL,b),r=o(g,d.id.SWITCH,b),e=o(g,d.id.ICON,b),f.replaceSwitchClass(g,r,d.folder.DOCU),f.replaceIcoClass(g,e,d.folder.DOCU),a.css("display","none")):x&&f.setNodeLineIcos(b,x);t&&f.setNodeLineIcos(b,t);b.check&&b.check.enable&&f.repairChkClass&&(f.repairChkClass(b,g),f.repairParentChkClassWithSelf(b,g),g!=c.parent&&f.repairParentChkClassWithSelf(b,c));i||f.expandCollapseParentNode(b,c.getParentNode(),!0,k)}},removeEditBtn:function(b,a){o(a,d.id.EDIT,b).unbind().remove()},
-	removeRemoveBtn:function(b,a){o(a,d.id.REMOVE,b).unbind().remove()},removeTreeDom:function(b,a){a.isHover=!1;f.removeEditBtn(b,a);f.removeRemoveBtn(b,a);g.apply(b.view.removeHoverDom,[b.treeId,a])},repairNodeLevelClass:function(b,a,c){if(c!==a.level){var f=o(a,b),g=o(a,d.id.A,b),b=o(a,d.id.UL,b),c=d.className.LEVEL+c,a=d.className.LEVEL+a.level;f.removeClass(c);f.addClass(a);g.removeClass(c);g.addClass(a);b.removeClass(c);b.addClass(a)}},selectNodes:function(b,a){for(var c=0,d=a.length;c<d;c++)f.selectNode(b,
-	a[c],c>0)}},event:{},data:{setSonNodeLevel:function(b,a,c){if(c){var d=b.data.key.children;c.level=a?a.level+1:0;if(c[d])for(var a=0,f=c[d].length;a<f;a++)c[d][a]&&m.setSonNodeLevel(b,c,c[d][a])}}}});var I=v.fn.zTree,g=I._z.tools,d=I.consts,f=I._z.view,m=I._z.data,o=g.$;m.exSetting({edit:{enable:!1,editNameSelectAll:!1,showRemoveBtn:!0,showRenameBtn:!0,removeTitle:"remove",renameTitle:"rename",drag:{autoExpandTrigger:!1,isCopy:!0,isMove:!0,prev:!0,next:!0,inner:!0,minMoveSize:5,borderMax:10,borderMin:-5,
-	maxShowNodeNum:5,autoOpenTime:500}},view:{addHoverDom:null,removeHoverDom:null},callback:{beforeDrag:null,beforeDragOpen:null,beforeDrop:null,beforeEditName:null,beforeRename:null,onDrag:null,onDragMove:null,onDrop:null,onRename:null}});m.addInitBind(function(b){var a=b.treeObj,c=d.event;a.bind(c.RENAME,function(a,c,d,f){g.apply(b.callback.onRename,[a,c,d,f])});a.bind(c.DRAG,function(a,c,d,f){g.apply(b.callback.onDrag,[c,d,f])});a.bind(c.DRAGMOVE,function(a,c,d,f){g.apply(b.callback.onDragMove,[c,
-	d,f])});a.bind(c.DROP,function(a,c,d,f,e,m,o){g.apply(b.callback.onDrop,[c,d,f,e,m,o])})});m.addInitUnBind(function(b){var b=b.treeObj,a=d.event;b.unbind(a.RENAME);b.unbind(a.DRAG);b.unbind(a.DRAGMOVE);b.unbind(a.DROP)});m.addInitCache(function(){});m.addInitNode(function(b,a,c){if(c)c.isHover=!1,c.editNameFlag=!1});m.addInitProxy(function(b){var a=b.target,c=m.getSetting(b.data.treeId),f=b.relatedTarget,k="",i=null,j="",e=null,o=null;if(g.eqs(b.type,"mouseover")){if(o=g.getMDom(c,a,[{tagName:"a",
-	attrName:"treeNode"+d.id.A}]))k=g.getNodeMainDom(o).id,j="hoverOverNode"}else if(g.eqs(b.type,"mouseout"))o=g.getMDom(c,f,[{tagName:"a",attrName:"treeNode"+d.id.A}]),o||(k="remove",j="hoverOutNode");else if(g.eqs(b.type,"mousedown")&&(o=g.getMDom(c,a,[{tagName:"a",attrName:"treeNode"+d.id.A}])))k=g.getNodeMainDom(o).id,j="mousedownNode";if(k.length>0)switch(i=m.getNodeCache(c,k),j){case "mousedownNode":e=x.onMousedownNode;break;case "hoverOverNode":e=x.onHoverOverNode;break;case "hoverOutNode":e=
-	x.onHoverOutNode}return{stop:!1,node:i,nodeEventType:j,nodeEventCallback:e,treeEventType:"",treeEventCallback:null}});m.addInitRoot(function(b){var b=m.getRoot(b),a=m.getRoots();b.curEditNode=null;b.curEditInput=null;b.curHoverNode=null;b.dragFlag=0;b.dragNodeShowBefore=[];b.dragMaskList=[];a.showHoverDom=!0});m.addZTreeTools(function(b,a){a.cancelEditName=function(a){m.getRoot(this.setting).curEditNode&&f.cancelCurEditNode(this.setting,a?a:null,!0)};a.copyNode=function(a,b,k,i){if(!b)return null;
-	if(a&&!a.isParent&&this.setting.data.keep.leaf&&k===d.move.TYPE_INNER)return null;var j=this,e=g.clone(b);if(!a)a=null,k=d.move.TYPE_INNER;k==d.move.TYPE_INNER?(b=function(){f.addNodes(j.setting,a,-1,[e],i)},g.canAsync(this.setting,a)?f.asyncNode(this.setting,a,i,b):b()):(f.addNodes(this.setting,a.parentNode,-1,[e],i),f.moveNode(this.setting,a,e,k,!1,i));return e};a.editName=function(a){a&&a.tId&&a===m.getNodeCache(this.setting,a.tId)&&(a.parentTId&&f.expandCollapseParentNode(this.setting,a.getParentNode(),
-	!0),f.editNode(this.setting,a))};a.moveNode=function(a,b,k,i){function j(){f.moveNode(e.setting,a,b,k,!1,i)}if(!b)return b;if(a&&!a.isParent&&this.setting.data.keep.leaf&&k===d.move.TYPE_INNER)return null;else if(a&&(b.parentTId==a.tId&&k==d.move.TYPE_INNER||o(b,this.setting).find("#"+a.tId).length>0))return null;else a||(a=null);var e=this;g.canAsync(this.setting,a)&&k===d.move.TYPE_INNER?f.asyncNode(this.setting,a,i,j):j();return b};a.setEditable=function(a){this.setting.edit.enable=a;return this.refresh()}});
-	var O=f.cancelPreSelectedNode;f.cancelPreSelectedNode=function(b,a){for(var c=m.getRoot(b).curSelectedList,d=0,g=c.length;d<g;d++)if(!a||a===c[d])if(f.removeTreeDom(b,c[d]),a)break;O&&O.apply(f,arguments)};var P=f.createNodes;f.createNodes=function(b,a,c,d,g){P&&P.apply(f,arguments);c&&f.repairParentChkClassWithSelf&&f.repairParentChkClassWithSelf(b,d)};var W=f.makeNodeUrl;f.makeNodeUrl=function(b,a){return b.edit.enable?null:W.apply(f,arguments)};var L=f.removeNode;f.removeNode=function(b,a){var c=
-	m.getRoot(b);if(c.curEditNode===a)c.curEditNode=null;L&&L.apply(f,arguments)};var Q=f.selectNode;f.selectNode=function(b,a,c){var d=m.getRoot(b);if(m.isSelectedNode(b,a)&&d.curEditNode==a&&a.editNameFlag)return!1;Q&&Q.apply(f,arguments);f.addHoverDom(b,a);return!0};var V=g.uCanDo;g.uCanDo=function(b,a){var c=m.getRoot(b);if(a&&(g.eqs(a.type,"mouseover")||g.eqs(a.type,"mouseout")||g.eqs(a.type,"mousedown")||g.eqs(a.type,"mouseup")))return!0;if(c.curEditNode)f.editNodeBlur=!1,c.curEditInput.focus();
-	return!c.curEditNode&&(V?V.apply(f,arguments):!0)}})(jQuery);
-
-
-
-/***/ },
-/* 239 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 240 */,
-/* 241 */,
-/* 242 */,
-/* 243 */,
-/* 244 */,
-/* 245 */
+/* 254 */,
+/* 255 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"authority-control\">\r\n    <ul class=\"ui-tabs\">\r\n        <li class=\"actived\">菜单权限</li>\r\n        <li>元素权限</li>\r\n    </ul>\r\n    <div class=\"ui-tabs-content\">\r\n        <div><ul class=\"ztree\" id=\"menuAuthorityTree\"></ul></div>\r\n        <div><ul class=\"ztree\" id=\"elementAuthorityTree\"></ul></div>\r\n    </div>\r\n    <span class=\"framework-button fa fa-save\" id=\"saveBtn\"></span>\r\n</div>";
 
 /***/ },
-/* 246 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 公司新增修改模块
 	 */
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(247);
-	__webpack_require__(205);
-	__webpack_require__(238);
-	__webpack_require__(239);
+	__webpack_require__(257);
+	__webpack_require__(203);
+	__webpack_require__(222);
+	__webpack_require__(223);
 	var CompanyAddModify = function(){ };
 
 	//继承自框架基类
@@ -3386,8 +3991,8 @@ webpackJsonp([2],[
 	CompanyAddModify.prototype.init = function(options){
 	    var that = this;
 	    this.options = $.extend({action:'001'},options);
-	    that.setTitle(this.options.action == '001'?'添加公司':'编辑公司').setHeight(this.options.action == '001'?540:540).setWidth(450);
-	    frameworkBase.init.call(this,options);
+	    that.setTitle(this.options.action == '001'?'添加公司':'编辑公司').setHeight(this.options.action == '001'?400:400).setWidth(450);
+	    frameworkBase.init.call(this,options);  
 	    this.loadBaseView();
 	    this.bindEvents();
 	    if(this.options.action == '002'){
@@ -3397,7 +4002,7 @@ webpackJsonp([2],[
 
 	CompanyAddModify.prototype.loadBaseView = function(options){
 	    var that = this;
-	    var html = __webpack_require__(249);
+	    var html = __webpack_require__(259);
 	    this.render(html);
 	};
 
@@ -3413,10 +4018,6 @@ webpackJsonp([2],[
 	        var company_name = $('#company_name',that.dom).val();
 	        var company_address = $('#company_address',that.dom).val();
 
-	        var owed = $('#owed',that.dom).val();
-	        var payed = $('#payed',that.dom).val();
-	        var deadline = payed_deadline.combo('getValue').replace(/-/gi,'');
-
 	        var render_username = $('#render_username',that.dom).val();
 	        var render_price = $('#render_price',that.dom).val();
 	        var company_mark = $('#company_mark',that.dom).val();
@@ -3429,9 +4030,6 @@ webpackJsonp([2],[
 	            company_id:that.options.company_id,
 	            company_name:company_name,
 	            company_address:company_address,
-	            owed:owed,
-	            payed:payed,
-	            payed_deadline:deadline,
 	            render_username:render_username,
 	            render_price:render_price,
 	            company_mark:company_mark,
@@ -3460,9 +4058,6 @@ webpackJsonp([2],[
 	        data = data.data;
 	        $('#company_name',that.dom).val(data.company_name);
 	        $('#company_address',that.dom).val(data.company_address);
-	        $('#owed',that.dom).val(data.owed);
-	        $('#payed',that.dom).val(data.payed);
-	        data.payed_deadline && $('#payed_deadline',that.dom).datebox("setValue",Calendar.getInstance(data.payed_deadline).format('yyyy-MM-dd'));
 	        $('#render_username',that.dom).val(data.render_username);
 	        $('#render_price',that.dom).val(data.render_price);
 	        $('#company_mark',that.dom).val(data.company_mark);
@@ -3480,20 +4075,20 @@ webpackJsonp([2],[
 	module.exports = new CompanyAddModify();
 
 /***/ },
-/* 247 */
+/* 257 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 248 */,
-/* 249 */
+/* 258 */,
+/* 259 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"company-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>公司名称：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入公司名称\" name=\"company_name\" id=\"company_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>公司地址：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入公司地址\" name=\"company_address\" id=\"company_address\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>未结款项：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入未结款项\" name=\"owed\" id=\"owed\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>已结款项：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入已结款项\" name=\"payed\" id=\"payed\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>结款日期：</label>\r\n                <div style=\"width: 72%;float: left;\">\r\n                    <input style=\"width:100%\"  placeholder=\"请输入结款日期\" name=\"payed_deadline\" id=\"payed_deadline\" type=\"text\" value=\"\">\r\n                </div>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>渲染用户名：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入渲染客户端用户名\" name=\"render_username\" id=\"render_username\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>渲染单价：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入渲染单价\" name=\"render_price\" id=\"render_price\" type=\"text\" value=\"0.3\">\r\n            </div>\r\n            <div class=\"form-group\" style=\"height:100px;\">\r\n                <label>备注：</label>\r\n                <textarea  class=\"form-control\" placeholder=\"请输入公司备注\" name=\"company_mark\" id=\"company_mark\" ></textarea>\r\n            </div>\r\n\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
+	module.exports = "<div class=\"company-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>公司名称：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入公司名称\" name=\"company_name\" id=\"company_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>公司地址：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入公司地址\" name=\"company_address\" id=\"company_address\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>渲染用户名：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入渲染客户端用户名\" name=\"render_username\" id=\"render_username\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>渲染单价：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入渲染单价\" name=\"render_price\" id=\"render_price\" type=\"text\" value=\"0.3\">\r\n            </div>\r\n            <div class=\"form-group\" style=\"height:100px;\">\r\n                <label>备注：</label>\r\n                <textarea  class=\"form-control\" placeholder=\"请输入公司备注\" name=\"company_mark\" id=\"company_mark\" ></textarea>\r\n            </div>\r\n\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 250 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -3502,10 +4097,10 @@ webpackJsonp([2],[
 	 */
 
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(202);
-	__webpack_require__(251);
-	__webpack_require__(205);
-	var Exchange = __webpack_require__(253);
+	__webpack_require__(231);
+	__webpack_require__(261);
+	__webpack_require__(203);
+	var Exchange = __webpack_require__(263);
 	var CompanyManage = function () {};
 
 	//继承自框架基类
@@ -3539,7 +4134,7 @@ webpackJsonp([2],[
 	CompanyManage.prototype.initTable = function () {
 	    var that = this;
 	    $('.easyui-linkbutton',that.dom).linkbutton();
-	    var columns = __webpack_require__(254);
+	    var columns = __webpack_require__(264);
 	    that.$table = $('#dataTable',that.dom).datagrid({
 	        url: '/company/list',
 	        method: 'get',
@@ -3670,14 +4265,14 @@ webpackJsonp([2],[
 	module.exports = companyManage;
 
 /***/ },
-/* 251 */
+/* 261 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 252 */,
-/* 253 */
+/* 262 */,
+/* 263 */
 /***/ function(module, exports) {
 
 	/**
@@ -3760,16 +4355,13 @@ webpackJsonp([2],[
 
 
 /***/ },
-/* 254 */
+/* 264 */
 /***/ function(module, exports) {
 
 	module.exports = [
 	    {field: 'checked', title: '选择', width: 20,checkbox:true},
 	    {field: 'company_name', title: '公司名称', width: 200},
 	    {field: 'company_address', title: '公司地址', width: 150},
-	    {field: 'owed', title: '未结款项', width: 150},
-	    {field: 'payed', title: '已结款项', width: 150},
-	    {field: 'payed_deadline', title: '结款日期', width: 150},
 	    {field: 'company_mark', title: '备注', width: 150},
 	    {field: 'render_username', title: '渲染客户端用户名', width: 150},
 	    {field: 'render_price', title: '渲染单价', width: 150},
@@ -3778,17 +4370,17 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 255 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 客户新增修改模块
 	 */
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(256);
-	__webpack_require__(205);
-	__webpack_require__(238);
-	__webpack_require__(239);
+	__webpack_require__(266);
+	__webpack_require__(203);
+	__webpack_require__(222);
+	__webpack_require__(223);
 	var CustomerAddModify = function(){ };
 
 	//继承自框架基类
@@ -3815,7 +4407,7 @@ webpackJsonp([2],[
 
 	CustomerAddModify.prototype.loadBaseView = function(options){
 	    var that = this;
-	    var html = __webpack_require__(258);
+	    var html = __webpack_require__(268);
 	    this.render(html);
 	};
 
@@ -3888,20 +4480,20 @@ webpackJsonp([2],[
 	module.exports = new CustomerAddModify();
 
 /***/ },
-/* 256 */
+/* 266 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 257 */,
-/* 258 */
+/* 267 */,
+/* 268 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"customer-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>客户编号：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户编号\" name=\"customer_code\" id=\"customer_code\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>客户姓名：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户姓名\" name=\"customer_name\" id=\"customer_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>客户职位：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户职位\" name=\"customer_job\" id=\"customer_job\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>联系电话：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户联系电话\" name=\"tel\" id=\"tel\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>QQ：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户QQ\" name=\"qq\" id=\"qq\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>客户邮箱：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户邮箱\" name=\"mail\" id=\"mail\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\" style=\"height:100px;\">\r\n                <label>备注：</label>\r\n                    <textarea  class=\"form-control\" placeholder=\"请输入备注\" name=\"customer_mark\" id=\"customer_mark\" ></textarea>\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 259 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -3910,13 +4502,13 @@ webpackJsonp([2],[
 	 */
 
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(202);
-	__webpack_require__(238);
-	__webpack_require__(260);
-	__webpack_require__(239);
-	__webpack_require__(261);
-	__webpack_require__(205);
-	var table2TreeDragUtil = __webpack_require__(264);
+	__webpack_require__(231);
+	__webpack_require__(222);
+	__webpack_require__(232);
+	__webpack_require__(223);
+	__webpack_require__(270);
+	__webpack_require__(203);
+	var table2TreeDragUtil = __webpack_require__(272);
 	var CustomerManage = function () {};
 
 	//继承自框架基类
@@ -3943,7 +4535,7 @@ webpackJsonp([2],[
 	        that.render(html);
 	        $('.tablecontainer',that.dom).height(that.dom.height()-55);
 	        that.initTable();
-	        that.initMenuTree();
+	        that.initCompanyTree();
 	        that.bindEvents();
 	    });
 	};
@@ -3951,7 +4543,7 @@ webpackJsonp([2],[
 	CustomerManage.prototype.initTable = function () {
 	    var that = this;
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(265);
+	    var columns = __webpack_require__(273);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '/customer/list',
 	        method: 'get',
@@ -4019,7 +4611,7 @@ webpackJsonp([2],[
 	};
 
 	var selectCompanyId, firstRefresh = false;
-	CustomerManage.prototype.initMenuTree = function(){
+	CustomerManage.prototype.initCompanyTree = function(){
 	    var that = this;
 	    firstRefresh = false;
 	    var setting = {
@@ -4264,43 +4856,14 @@ webpackJsonp([2],[
 
 
 /***/ },
-/* 260 */
-/***/ function(module, exports) {
-
-	/*
-	 * JQuery zTree exHideNodes v3.5.25
-	 * http://zTree.me/
-	 *
-	 * Copyright (c) 2010 Hunter.z
-	 *
-	 * Licensed same as jquery - MIT License
-	 * http://www.opensource.org/licenses/mit-license.php
-	 *
-	 * email: hunter.z@263.net
-	 * Date: 2016-09-27
-	 */
-	(function(i){i.extend(!0,i.fn.zTree._z,{view:{clearOldFirstNode:function(c,a){for(var b=a.getNextNode();b;){if(b.isFirstNode){b.isFirstNode=!1;d.setNodeLineIcos(c,b);break}if(b.isLastNode)break;b=b.getNextNode()}},clearOldLastNode:function(c,a,b){for(a=a.getPreNode();a;){if(a.isLastNode){a.isLastNode=!1;b&&d.setNodeLineIcos(c,a);break}if(a.isFirstNode)break;a=a.getPreNode()}},makeDOMNodeMainBefore:function(c,a,b){c.push("<li ",b.isHidden?"style='display:none;' ":"","id='",b.tId,"' class='",l.className.LEVEL,
-	b.level,"' tabindex='0' hidefocus='true' treenode>")},showNode:function(c,a){a.isHidden=!1;f.initShowForExCheck(c,a);j(a,c).show()},showNodes:function(c,a,b){if(a&&a.length!=0){var e={},g,k;for(g=0,k=a.length;g<k;g++){var h=a[g];if(!e[h.parentTId]){var i=h.getParentNode();e[h.parentTId]=i===null?f.getRoot(c):h.getParentNode()}d.showNode(c,h,b)}for(var j in e)a=e[j][c.data.key.children],d.setFirstNodeForShow(c,a),d.setLastNodeForShow(c,a)}},hideNode:function(c,a){a.isHidden=!0;a.isFirstNode=!1;a.isLastNode=
-	!1;f.initHideForExCheck(c,a);d.cancelPreSelectedNode(c,a);j(a,c).hide()},hideNodes:function(c,a,b){if(a&&a.length!=0){var e={},g,k;for(g=0,k=a.length;g<k;g++){var h=a[g];if((h.isFirstNode||h.isLastNode)&&!e[h.parentTId]){var i=h.getParentNode();e[h.parentTId]=i===null?f.getRoot(c):h.getParentNode()}d.hideNode(c,h,b)}for(var j in e)a=e[j][c.data.key.children],d.setFirstNodeForHide(c,a),d.setLastNodeForHide(c,a)}},setFirstNode:function(c,a){var b=c.data.key.children,e=a[b].length;e>0&&!a[b][0].isHidden?
-	a[b][0].isFirstNode=!0:e>0&&d.setFirstNodeForHide(c,a[b])},setLastNode:function(c,a){var b=c.data.key.children,e=a[b].length;e>0&&!a[b][0].isHidden?a[b][e-1].isLastNode=!0:e>0&&d.setLastNodeForHide(c,a[b])},setFirstNodeForHide:function(c,a){var b,e,g;for(e=0,g=a.length;e<g;e++){b=a[e];if(b.isFirstNode)break;if(!b.isHidden&&!b.isFirstNode){b.isFirstNode=!0;d.setNodeLineIcos(c,b);break}else b=null}return b},setFirstNodeForShow:function(c,a){var b,e,g,f,h;for(e=0,g=a.length;e<g;e++)if(b=a[e],!f&&!b.isHidden&&
-	b.isFirstNode){f=b;break}else if(!f&&!b.isHidden&&!b.isFirstNode)b.isFirstNode=!0,f=b,d.setNodeLineIcos(c,b);else if(f&&b.isFirstNode){b.isFirstNode=!1;h=b;d.setNodeLineIcos(c,b);break}return{"new":f,old:h}},setLastNodeForHide:function(c,a){var b,e;for(e=a.length-1;e>=0;e--){b=a[e];if(b.isLastNode)break;if(!b.isHidden&&!b.isLastNode){b.isLastNode=!0;d.setNodeLineIcos(c,b);break}else b=null}return b},setLastNodeForShow:function(c,a){var b,e,g,f;for(e=a.length-1;e>=0;e--)if(b=a[e],!g&&!b.isHidden&&
-	b.isLastNode){g=b;break}else if(!g&&!b.isHidden&&!b.isLastNode)b.isLastNode=!0,g=b,d.setNodeLineIcos(c,b);else if(g&&b.isLastNode){b.isLastNode=!1;f=b;d.setNodeLineIcos(c,b);break}return{"new":g,old:f}}},data:{initHideForExCheck:function(c,a){if(a.isHidden&&c.check&&c.check.enable){if(typeof a._nocheck=="undefined")a._nocheck=!!a.nocheck,a.nocheck=!0;a.check_Child_State=-1;d.repairParentChkClassWithSelf&&d.repairParentChkClassWithSelf(c,a)}},initShowForExCheck:function(c,a){if(!a.isHidden&&c.check&&
-	c.check.enable){if(typeof a._nocheck!="undefined")a.nocheck=a._nocheck,delete a._nocheck;if(d.setChkClass){var b=j(a,l.id.CHECK,c);d.setChkClass(c,b,a)}d.repairParentChkClassWithSelf&&d.repairParentChkClassWithSelf(c,a)}}}});var i=i.fn.zTree,m=i._z.tools,l=i.consts,d=i._z.view,f=i._z.data,j=m.$;f.addInitNode(function(c,a,b){if(typeof b.isHidden=="string")b.isHidden=m.eqs(b.isHidden,"true");b.isHidden=!!b.isHidden;f.initHideForExCheck(c,b)});f.addBeforeA(function(){});f.addZTreeTools(function(c,a){a.showNodes=
-	function(a,b){d.showNodes(c,a,b)};a.showNode=function(a,b){a&&d.showNodes(c,[a],b)};a.hideNodes=function(a,b){d.hideNodes(c,a,b)};a.hideNode=function(a,b){a&&d.hideNodes(c,[a],b)};var b=a.checkNode;if(b)a.checkNode=function(c,d,f,h){(!c||!c.isHidden)&&b.apply(a,arguments)}});var n=f.initNode;f.initNode=function(c,a,b,e,g,i,h){var j=(e?e:f.getRoot(c))[c.data.key.children];f.tmpHideFirstNode=d.setFirstNodeForHide(c,j);f.tmpHideLastNode=d.setLastNodeForHide(c,j);h&&(d.setNodeLineIcos(c,f.tmpHideFirstNode),
-	d.setNodeLineIcos(c,f.tmpHideLastNode));g=f.tmpHideFirstNode===b;i=f.tmpHideLastNode===b;n&&n.apply(f,arguments);h&&i&&d.clearOldLastNode(c,b,h)};var o=f.makeChkFlag;if(o)f.makeChkFlag=function(c,a){(!a||!a.isHidden)&&o.apply(f,arguments)};var p=f.getTreeCheckedNodes;if(p)f.getTreeCheckedNodes=function(c,a,b,e){if(a&&a.length>0){var d=a[0].getParentNode();if(d&&d.isHidden)return[]}return p.apply(f,arguments)};var q=f.getTreeChangeCheckedNodes;if(q)f.getTreeChangeCheckedNodes=function(c,a,b){if(a&&
-	a.length>0){var d=a[0].getParentNode();if(d&&d.isHidden)return[]}return q.apply(f,arguments)};var r=d.expandCollapseSonNode;if(r)d.expandCollapseSonNode=function(c,a,b,e,f){(!a||!a.isHidden)&&r.apply(d,arguments)};var s=d.setSonNodeCheckBox;if(s)d.setSonNodeCheckBox=function(c,a,b,e){(!a||!a.isHidden)&&s.apply(d,arguments)};var t=d.repairParentChkClassWithSelf;if(t)d.repairParentChkClassWithSelf=function(c,a){(!a||!a.isHidden)&&t.apply(d,arguments)}})(jQuery);
-
-
-/***/ },
-/* 261 */
+/* 270 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 262 */,
-/* 263 */,
-/* 264 */
+/* 271 */,
+/* 272 */
 /***/ function(module, exports) {
 
 	/**
@@ -4422,7 +4985,7 @@ webpackJsonp([2],[
 	};
 
 /***/ },
-/* 265 */
+/* 273 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -4439,17 +5002,17 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 266 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 字典项新增或修改模块
 	 */
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(267);
-	__webpack_require__(205);
-	__webpack_require__(238);
-	__webpack_require__(239);
+	__webpack_require__(275);
+	__webpack_require__(203);
+	__webpack_require__(222);
+	__webpack_require__(223);
 	var DimAddModify = function(){ };
 
 	//继承自框架基类
@@ -4476,7 +5039,7 @@ webpackJsonp([2],[
 
 	DimAddModify.prototype.loadBaseView = function(options){
 	    var that = this;
-	    var html = __webpack_require__(269);
+	    var html = __webpack_require__(277);
 	    this.render(html);
 	};
 
@@ -4557,20 +5120,20 @@ webpackJsonp([2],[
 	module.exports = new DimAddModify();
 
 /***/ },
-/* 267 */
+/* 275 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 268 */,
-/* 269 */
+/* 276 */,
+/* 277 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"dim-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>字典项id：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入字典项ID\" name=\"dim_id\" id=\"dim_id\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>字典项名称：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入字典项名称\" name=\"dim_name\" id=\"dim_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>字典项值：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入字典项值\" name=\"dim_value\" id=\"dim_value\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>分组id：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入分组id\" name=\"group_id\" id=\"group_id\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>分组名称：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入分组名称\" name=\"group_name\" id=\"group_name\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 270 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -4579,9 +5142,9 @@ webpackJsonp([2],[
 	 */
 
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(202);
-	__webpack_require__(271);
-	__webpack_require__(205);
+	__webpack_require__(231);
+	__webpack_require__(279);
+	__webpack_require__(203);
 	var DimManage = function () {};
 
 	//继承自框架基类
@@ -4615,7 +5178,7 @@ webpackJsonp([2],[
 	DimManage.prototype.initTable = function () {
 	    var that = this;
 	    $('.easyui-linkbutton',that.dom).linkbutton();
-	    var columns = __webpack_require__(273);
+	    var columns = __webpack_require__(281);
 	    that.$table = $('#dataTable',that.dom).datagrid({
 	        url: '/dim/list',
 	        method: 'get',
@@ -4746,14 +5309,14 @@ webpackJsonp([2],[
 	module.exports = dimManage;
 
 /***/ },
-/* 271 */
+/* 279 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 272 */,
-/* 273 */
+/* 280 */,
+/* 281 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -4767,17 +5330,17 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 274 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 元素新增修改模块
 	 */
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(275);
-	__webpack_require__(205);
-	__webpack_require__(238);
-	__webpack_require__(239);
+	__webpack_require__(283);
+	__webpack_require__(203);
+	__webpack_require__(222);
+	__webpack_require__(223);
 	var ElementAddModify = function(){ };
 
 	//继承自框架基类
@@ -4802,7 +5365,7 @@ webpackJsonp([2],[
 
 	ElementAddModify.prototype.loadBaseView = function(options){
 	    var that = this;
-	    var html = __webpack_require__(277);
+	    var html = __webpack_require__(285);
 	    this.render(html);
 	};
 
@@ -4940,20 +5503,20 @@ webpackJsonp([2],[
 	module.exports = new ElementAddModify();
 
 /***/ },
-/* 275 */
+/* 283 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 276 */,
-/* 277 */
+/* 284 */,
+/* 285 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"element-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>元素名称：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入元素名称\" name=\"element_desc\" id=\"element_desc\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>元素编码：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入元素编码\" name=\"element_code\" id=\"element_code\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>所属菜单：</label>\r\n                <input class=\"form-control\" placeholder=\"请选择所属菜单\" readonly=\"true\" name=\"menu_id\" id=\"menu_id\" type=\"text\" data-pid=\"0\" value=\"根菜单\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 278 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -4962,12 +5525,12 @@ webpackJsonp([2],[
 	 */
 
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(202);
-	__webpack_require__(238);
-	__webpack_require__(239);
-	__webpack_require__(279);
-	__webpack_require__(205);
-	var table2TreeDragUtil = __webpack_require__(264);
+	__webpack_require__(231);
+	__webpack_require__(222);
+	__webpack_require__(223);
+	__webpack_require__(287);
+	__webpack_require__(203);
+	var table2TreeDragUtil = __webpack_require__(272);
 	var ElementManage = function () {};
 
 	//继承自框架基类
@@ -5002,7 +5565,7 @@ webpackJsonp([2],[
 	ElementManage.prototype.initTable = function () {
 	    var that = this;
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(281);
+	    var columns = __webpack_require__(289);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '/element/list',
 	        method: 'get',
@@ -5212,14 +5775,14 @@ webpackJsonp([2],[
 
 
 /***/ },
-/* 279 */
+/* 287 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 280 */,
-/* 281 */
+/* 288 */,
+/* 289 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -5230,7 +5793,7 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 282 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -5239,7 +5802,7 @@ webpackJsonp([2],[
 	 */
 
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(283);
+	__webpack_require__(291);
 	var HomePage = function(){ };
 
 	//继承自框架基类
@@ -5275,9 +5838,9 @@ webpackJsonp([2],[
 
 	HomePage.prototype.loadWidgets = function(){
 	    this.widgets = [];
-	    this.widgets.push(__webpack_require__(201));
-	    this.widgets.push(__webpack_require__(285));
-	    this.widgets.push(__webpack_require__(290));
+	    this.widgets.push(__webpack_require__(238));
+	    this.widgets.push(__webpack_require__(293));
+	    this.widgets.push(__webpack_require__(298));
 	    this.widgets.forEach(function(widget){
 	        widget.loadWidgets(WIDGETS);
 	    });
@@ -5315,14 +5878,14 @@ webpackJsonp([2],[
 	module.exports = homePage;
 
 /***/ },
-/* 283 */
+/* 291 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 284 */,
-/* 285 */
+/* 292 */,
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -5331,10 +5894,10 @@ webpackJsonp([2],[
 	 */
 
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(202);
-	__webpack_require__(286);
-	__webpack_require__(205);
-	var juicer = __webpack_require__(288);
+	__webpack_require__(231);
+	__webpack_require__(294);
+	__webpack_require__(203);
+	var juicer = __webpack_require__(296);
 	var MessagePublishList = function () {};
 
 	//继承自框架基类
@@ -5379,7 +5942,7 @@ webpackJsonp([2],[
 	MessagePublishList.prototype.initTable = function () {
 	    var that = this;
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(289);
+	    var columns = __webpack_require__(297);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '/publish/search',
 	        method: 'get',
@@ -5620,14 +6183,14 @@ webpackJsonp([2],[
 	module.exports = messagePublishList;
 
 /***/ },
-/* 286 */
+/* 294 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 287 */,
-/* 288 */
+/* 295 */,
+/* 296 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/*
@@ -6213,10 +6776,10 @@ webpackJsonp([2],[
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 289 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
-	typeof window == 'undefined' && (Calendar = __webpack_require__(234));
+	typeof window == 'undefined' && (Calendar = __webpack_require__(251));
 	module.exports = [
 	    {field: 'checked', title: '选择', width: 20,checkbox:true},
 	    {field: 'publish_id', title: '信息ID', width: 350},
@@ -6233,7 +6796,7 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 290 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -6242,13 +6805,13 @@ webpackJsonp([2],[
 	 */
 
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(202);
-	__webpack_require__(291);
-	__webpack_require__(205);
-	var juicer = __webpack_require__(288);
-	__webpack_require__(293);
-	__webpack_require__(294);
-	__webpack_require__(295);
+	__webpack_require__(231);
+	__webpack_require__(299);
+	__webpack_require__(203);
+	var juicer = __webpack_require__(296);
+	__webpack_require__(301);
+	__webpack_require__(302);
+	__webpack_require__(303);
 	var ReportList = function () {};
 
 	//继承自框架基类
@@ -6303,7 +6866,7 @@ webpackJsonp([2],[
 	ReportList.prototype.initTable = function () {
 	    var that = this;
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(302);
+	    var columns = __webpack_require__(310);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '/report/search',
 	        method: 'get',
@@ -6550,14 +7113,14 @@ webpackJsonp([2],[
 	module.exports = reportList;
 
 /***/ },
-/* 291 */
+/* 299 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 292 */,
-/* 293 */
+/* 300 */,
+/* 301 */
 /***/ function(module, exports) {
 
 	/**
@@ -6649,7 +7212,7 @@ webpackJsonp([2],[
 	})(jQuery);
 
 /***/ },
-/* 294 */
+/* 302 */
 /***/ function(module, exports) {
 
 	/**
@@ -7075,22 +7638,22 @@ webpackJsonp([2],[
 
 
 /***/ },
-/* 295 */
+/* 303 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 296 */,
-/* 297 */,
-/* 298 */,
-/* 299 */,
-/* 300 */,
-/* 301 */,
-/* 302 */
+/* 304 */,
+/* 305 */,
+/* 306 */,
+/* 307 */,
+/* 308 */,
+/* 309 */,
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
-	typeof window == 'undefined' && (Calendar = __webpack_require__(234));
+	typeof window == 'undefined' && (Calendar = __webpack_require__(251));
 	module.exports = [
 	    {field: 'checked', title: '选择', width: 20,checkbox:true},
 	    {field: 'report_id', title: '信息ID', width: 350},
@@ -7104,17 +7667,17 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 303 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 菜单新增修改模块
 	 */
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(304);
-	__webpack_require__(205);
-	__webpack_require__(238);
-	__webpack_require__(239);
+	__webpack_require__(312);
+	__webpack_require__(203);
+	__webpack_require__(222);
+	__webpack_require__(223);
 	var MenuAddModify = function(){ };
 
 	//继承自框架基类
@@ -7141,7 +7704,7 @@ webpackJsonp([2],[
 
 	MenuAddModify.prototype.loadBaseView = function(options){
 	    var that = this;
-	    var html = __webpack_require__(306);
+	    var html = __webpack_require__(314);
 	    this.render(html);
 
 
@@ -7285,20 +7848,20 @@ webpackJsonp([2],[
 	module.exports = new MenuAddModify();
 
 /***/ },
-/* 304 */
+/* 312 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 305 */,
-/* 306 */
+/* 313 */,
+/* 314 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"menu-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>菜单标题：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入菜单标题\" name=\"menu_title\" id=\"menu_title\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>菜单url：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入菜单url\" name=\"menu_url\" id=\"menu_url\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>菜单icon：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入菜单icon样式名\" name=\"menu_icon\" id=\"menu_icon\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>展式形式：</label>\r\n                <select id=\"show_type\" class=\"form-control\">\r\n                    <option value=\"1\" selected>普通</option>\r\n                    <option value=\"2\">弹窗</option>\r\n                    <option value=\"3\">无界面</option>\r\n                </select>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>菜单位置：</label>\r\n                <select id=\"menu_type\" class=\"form-control\">\r\n                    <option value=\"1\" selected>左侧菜单</option>\r\n                    <option value=\"2\">设置下拉菜单</option>\r\n                </select>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>设备类型：</label>\r\n                <select id=\"menu_device\" class=\"form-control\">\r\n                    <option value=\"1\" selected>PC</option>\r\n                    <option value=\"2\">H5</option>\r\n                </select>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>父级菜单：</label>\r\n                <input class=\"form-control\" placeholder=\"请选择父级菜单\" readonly=\"true\" name=\"menu_parent_id\" id=\"menu_parent_id\" type=\"text\" data-pid=\"0\" value=\"根菜单\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 307 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -7307,10 +7870,10 @@ webpackJsonp([2],[
 	 */
 
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(202);
-	__webpack_require__(308);
-	__webpack_require__(205);
-	var Exchange = __webpack_require__(253);
+	__webpack_require__(231);
+	__webpack_require__(316);
+	__webpack_require__(203);
+	var Exchange = __webpack_require__(263);
 	var MenuManage = function () {};
 
 	//继承自框架基类
@@ -7344,7 +7907,7 @@ webpackJsonp([2],[
 	MenuManage.prototype.initTable = function () {
 	    var that = this;
 	    $('.easyui-linkbutton',that.dom).linkbutton();
-	    var columns = __webpack_require__(310);
+	    var columns = __webpack_require__(318);
 	    that.$table = $('#dataTable',that.dom).datagrid({
 	        url: '/menu/list',
 	        method: 'get',
@@ -7523,14 +8086,14 @@ webpackJsonp([2],[
 	module.exports = menuManage;
 
 /***/ },
-/* 308 */
+/* 316 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 309 */,
-/* 310 */
+/* 317 */,
+/* 318 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -7552,7 +8115,7 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 311 */
+/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -7561,10 +8124,10 @@ webpackJsonp([2],[
 	 * @type {Framework}
 	 */
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(312);
-	__webpack_require__(314);
-
+	__webpack_require__(320);
 	__webpack_require__(322);
+
+	__webpack_require__(330);
 
 	var MessagePublish = function(){ };
 
@@ -7588,8 +8151,8 @@ webpackJsonp([2],[
 
 	    var that = this;
 	    __webpack_require__.e/* nsure */(3, function(){
-	        __webpack_require__(324);
-	        __webpack_require__(325);
+	        __webpack_require__(332);
+	        __webpack_require__(333);
 	        //实例化编辑器
 	        that.um = UM.getEditor('myEditor');
 	        if(that.options.action == '002'){
@@ -7601,7 +8164,7 @@ webpackJsonp([2],[
 	};
 
 	MessagePublish.prototype.loadBaseView = function(){
-	    var html = __webpack_require__(323);
+	    var html = __webpack_require__(331);
 	    this.render(html);
 	};
 
@@ -7682,27 +8245,27 @@ webpackJsonp([2],[
 	module.exports = messagePublish;
 
 /***/ },
-/* 312 */
+/* 320 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 313 */,
-/* 314 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 315 */,
-/* 316 */,
-/* 317 */,
-/* 318 */,
-/* 319 */,
-/* 320 */,
 /* 321 */,
 /* 322 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 323 */,
+/* 324 */,
+/* 325 */,
+/* 326 */,
+/* 327 */,
+/* 328 */,
+/* 329 */,
+/* 330 */
 /***/ function(module, exports) {
 
 	/**
@@ -7957,25 +8520,25 @@ webpackJsonp([2],[
 
 
 /***/ },
-/* 323 */
+/* 331 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"message-publish shadow-block\">\r\n    <!--style给定宽度可以影响编辑器的最终宽度-->\r\n    <div>\r\n        <input id=\"title\" type=\"text\" placeholder=\"请输入信息标题\" autofocus/>\r\n    </div>\r\n    <script type=\"text/plain\" id=\"myEditor\" style=\"width:100%;height:400px;\"></script>\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"submitBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>";
 
 /***/ },
-/* 324 */,
-/* 325 */,
-/* 326 */
+/* 332 */,
+/* 333 */,
+/* 334 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 组织机构新增修改模块
 	 */
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(327);
-	__webpack_require__(205);
-	__webpack_require__(238);
-	__webpack_require__(239);
+	__webpack_require__(335);
+	__webpack_require__(203);
+	__webpack_require__(222);
+	__webpack_require__(223);
 	var OrgAddModify = function(){ };
 
 	//继承自框架基类
@@ -8003,7 +8566,7 @@ webpackJsonp([2],[
 
 	OrgAddModify.prototype.loadBaseView = function(options){
 	    var that = this;
-	    var html = __webpack_require__(329);
+	    var html = __webpack_require__(337);
 	    this.render(html);
 	};
 
@@ -8130,20 +8693,20 @@ webpackJsonp([2],[
 	module.exports = new OrgAddModify();
 
 /***/ },
-/* 327 */
+/* 335 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 328 */,
-/* 329 */
+/* 336 */,
+/* 337 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"org-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>组织机构标题：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入组织机构名称\" name=\"org_title\" id=\"org_title\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>父级组织机构：</label>\r\n                <input class=\"form-control\" placeholder=\"请选择父级组织机构\" readonly=\"true\" name=\"org_parent_id\" id=\"org_parent_id\" type=\"text\" data-pid=\"0\" value=\"根节点\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 330 */
+/* 338 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -8152,11 +8715,11 @@ webpackJsonp([2],[
 	 */
 
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(202);
-	__webpack_require__(238);
-	__webpack_require__(239);
-	__webpack_require__(331);
-	__webpack_require__(205);
+	__webpack_require__(231);
+	__webpack_require__(222);
+	__webpack_require__(223);
+	__webpack_require__(339);
+	__webpack_require__(203);
 	var OrgManage = function () {};
 
 	//继承自框架基类
@@ -8192,7 +8755,7 @@ webpackJsonp([2],[
 	OrgManage.prototype.initTable = function () {
 	    var that = this;
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(333);
+	    var columns = __webpack_require__(341);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '/org/orguser',
 	        method: 'get',
@@ -8537,14 +9100,14 @@ webpackJsonp([2],[
 
 
 /***/ },
-/* 331 */
+/* 339 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 332 */,
-/* 333 */
+/* 340 */,
+/* 341 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -8556,15 +9119,15 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 334 */
+/* 342 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 修改密码模块
 	 */
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(335);
-	__webpack_require__(205);
+	__webpack_require__(343);
+	__webpack_require__(203);
 	var Crypto = __webpack_require__(20);
 	var PasswordModify = function(){ };
 
@@ -8588,7 +9151,7 @@ webpackJsonp([2],[
 	};
 
 	PasswordModify.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(337);
+	    var html = __webpack_require__(345);
 	    this.render(html);
 	};
 
@@ -8632,20 +9195,20 @@ webpackJsonp([2],[
 	module.exports = new PasswordModify();
 
 /***/ },
-/* 335 */
+/* 343 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 336 */,
-/* 337 */
+/* 344 */,
+/* 345 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"passwordmodify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>旧密码：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入旧密码\" name=\"oldpassword\" id=\"oldpassword\" type=\"password\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>新密码：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入新密码\" name=\"newpassword\" id=\"newpassword\" type=\"password\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>确认密码：</label>\r\n                <input class=\"form-control\" placeholder=\"请确认密码\" name=\"repassword\" id=\"repassword\" type=\"password\" value=\"\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span id=\"confirmBtn\" class=\"framework-button\">确认</span>\r\n                <span id=\"cancelBtn\" class=\"framework-button\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 338 */
+/* 346 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -8657,7 +9220,7 @@ webpackJsonp([2],[
 	    {container:'#report-view-container',module:'report-list',id:''}];
 
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(339);
+	__webpack_require__(347);
 	var ReportView = function(){ };
 
 	//继承自框架基类
@@ -8681,9 +9244,9 @@ webpackJsonp([2],[
 	};
 
 	ReportView.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(341);
+	    var html = __webpack_require__(349);
 	    this.render(html);
-	    var reportList = __webpack_require__(290);
+	    var reportList = __webpack_require__(298);
 	    WIDGETS[0].id = this.options.report_id;
 	    reportList.loadWidgets(WIDGETS);
 	};
@@ -8721,27 +9284,27 @@ webpackJsonp([2],[
 	module.exports = messagePublish;
 
 /***/ },
-/* 339 */
+/* 347 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 340 */,
-/* 341 */
+/* 348 */,
+/* 349 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"report-view shadow-block\">\r\n    <!--style给定宽度可以影响编辑器的最终宽度-->\r\n    <div id=\"report-view-container\">\r\n    </div>\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"closeBtn\">关闭</span>\r\n    </div>\r\n</div>";
 
 /***/ },
-/* 342 */
+/* 350 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 新增修改角色模块
 	 */
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(343);
+	__webpack_require__(351);
 	var RoleAddModify = function(){ };
 
 	//继承自框架基类
@@ -8770,7 +9333,7 @@ webpackJsonp([2],[
 	};
 
 	RoleAddModify.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(345);
+	    var html = __webpack_require__(353);
 	    this.render(html);
 	};
 
@@ -8824,20 +9387,20 @@ webpackJsonp([2],[
 	module.exports = new RoleAddModify();
 
 /***/ },
-/* 343 */
+/* 351 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 344 */,
-/* 345 */
+/* 352 */,
+/* 353 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"role-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>角色名：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入角色名\" name=\"role_name\" id=\"role_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 346 */
+/* 354 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -8846,9 +9409,9 @@ webpackJsonp([2],[
 	 */
 
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(202);
-	__webpack_require__(347);
-	__webpack_require__(205);
+	__webpack_require__(231);
+	__webpack_require__(355);
+	__webpack_require__(203);
 	var Calendar = __webpack_require__(137);
 	var RoleManage = function () {};
 
@@ -8883,7 +9446,7 @@ webpackJsonp([2],[
 	RoleManage.prototype.initTable = function () {
 	    var that = this;
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(349);
+	    var columns = __webpack_require__(357);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '/role/list',
 	        method: 'get',
@@ -9041,14 +9604,14 @@ webpackJsonp([2],[
 
 
 /***/ },
-/* 347 */
+/* 355 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 348 */,
-/* 349 */
+/* 356 */,
+/* 357 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -9058,14 +9621,14 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 350 */
+/* 358 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 给组织机构赋角色模块
 	 */
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(351);
+	__webpack_require__(359);
 	var Role2User = function(){ };
 
 	//继承自框架基类
@@ -9088,7 +9651,7 @@ webpackJsonp([2],[
 	};
 
 	Role2User.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(353);
+	    var html = __webpack_require__(361);
 	    this.render(html);
 	};
 
@@ -9196,27 +9759,27 @@ webpackJsonp([2],[
 	module.exports = new Role2User();
 
 /***/ },
-/* 351 */
+/* 359 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 352 */,
-/* 353 */
+/* 360 */,
+/* 361 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"role2org\">\r\n    <div class=\"role2org_content_wrap\">\r\n        <div class=\"lr-choose-panel\">\r\n            <div class=\"left-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"roleList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n            <div class=\"center-operator-panel\">\r\n                <div class=\"operator-wrap\">\r\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllRole\"></span>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"right-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"mapList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 354 */
+/* 362 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 给用户赋角色模块
 	 */
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(355);
+	__webpack_require__(363);
 	var Role2User = function(){ };
 
 	//继承自框架基类
@@ -9239,7 +9802,7 @@ webpackJsonp([2],[
 	};
 
 	Role2User.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(357);
+	    var html = __webpack_require__(365);
 	    this.render(html);
 	};
 
@@ -9347,27 +9910,27 @@ webpackJsonp([2],[
 	module.exports = new Role2User();
 
 /***/ },
-/* 355 */
+/* 363 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 356 */,
-/* 357 */
+/* 364 */,
+/* 365 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"role2user\">\r\n    <div class=\"role2user_content_wrap\">\r\n        <div class=\"lr-choose-panel\">\r\n            <div class=\"left-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"roleList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n            <div class=\"center-operator-panel\">\r\n                <div class=\"operator-wrap\">\r\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllRole\"></span>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"right-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"mapList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 358 */
+/* 366 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 新增修改用户模块
 	 */
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(359);
+	__webpack_require__(367);
 	var UserAddModify = function(){ };
 
 	//继承自框架基类
@@ -9401,7 +9964,7 @@ webpackJsonp([2],[
 	};
 
 	UserAddModify.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(361);
+	    var html = __webpack_require__(369);
 	    this.render(html);
 	};
 
@@ -9467,20 +10030,20 @@ webpackJsonp([2],[
 	module.exports = new UserAddModify();
 
 /***/ },
-/* 359 */
+/* 367 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 360 */,
-/* 361 */
+/* 368 */,
+/* 369 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"user-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>用户名：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入用户名\" name=\"user_name\" id=\"user_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>密码：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入密码\" name=\"user_password\" id=\"user_password\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 362 */
+/* 370 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -9489,9 +10052,9 @@ webpackJsonp([2],[
 	 */
 
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(202);
-	__webpack_require__(363);
-	__webpack_require__(205);
+	__webpack_require__(231);
+	__webpack_require__(371);
+	__webpack_require__(203);
 	var UserManage = function () {};
 
 	//继承自框架基类
@@ -9525,7 +10088,7 @@ webpackJsonp([2],[
 	UserManage.prototype.initTable = function () {
 	    var that = this;
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(365);
+	    var columns = __webpack_require__(373);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '/user/list',
 	        method: 'get',
@@ -9705,14 +10268,14 @@ webpackJsonp([2],[
 
 
 /***/ },
-/* 363 */
+/* 371 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 364 */,
-/* 365 */
+/* 372 */,
+/* 373 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -9724,14 +10287,14 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 366 */
+/* 374 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 分配用户到组织机构模块
 	 */
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(367);
+	__webpack_require__(375);
 	var User2Org = function(){ };
 
 	//继承自框架基类
@@ -9754,7 +10317,7 @@ webpackJsonp([2],[
 	};
 
 	User2Org.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(369);
+	    var html = __webpack_require__(377);
 	    this.render(html);
 	};
 
@@ -9864,27 +10427,27 @@ webpackJsonp([2],[
 	module.exports = new User2Org();
 
 /***/ },
-/* 367 */
+/* 375 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 368 */,
-/* 369 */
+/* 376 */,
+/* 377 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"user2org\">\r\n    <div class=\"user2org_content_wrap\">\r\n        <div class=\"lr-choose-panel\">\r\n            <div class=\"left-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"userList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n            <div class=\"center-operator-panel\">\r\n                <div class=\"operator-wrap\">\r\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllUser\"></span>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"right-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"mapList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 370 */
+/* 378 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 设置属于角色的用户模块
 	 */
 	var frameworkBase = __webpack_require__(193);
-	__webpack_require__(371);
+	__webpack_require__(379);
 	var User2Role = function(){ };
 
 	//继承自框架基类
@@ -9907,7 +10470,7 @@ webpackJsonp([2],[
 	};
 
 	User2Role.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(373);
+	    var html = __webpack_require__(381);
 	    this.render(html);
 	};
 
@@ -10017,14 +10580,14 @@ webpackJsonp([2],[
 	module.exports = new User2Role();
 
 /***/ },
-/* 371 */
+/* 379 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 372 */,
-/* 373 */
+/* 380 */,
+/* 381 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"user2role\">\r\n    <div class=\"user2role_content_wrap\">\r\n        <div class=\"lr-choose-panel\">\r\n            <div class=\"left-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"userList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n            <div class=\"center-operator-panel\">\r\n                <div class=\"operator-wrap\">\r\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllUser\"></span>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"right-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"mapList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>\r\n";

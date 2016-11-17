@@ -25,7 +25,7 @@ router.get('/customer/list', function (req, res, next) {
     }
 });
 
-var MODIFYCOLUMNS = ['customer_id','customer_code','customer_name','customer_job','tel','qq','mail','customer_mark','company_id','create_date','update_date'];
+var MODIFYCOLUMNS = ['customer_id','customer_code','customer_name','customer_job','tel','qq','mail','customer_mark','company_id','create_time','update_time'];
 /**
  * 客户保存
  */

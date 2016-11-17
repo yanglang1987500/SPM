@@ -21,7 +21,7 @@ router.get('/company/list', function (req, res, next) {
     }
 });
 
-var MODIFYCOLUMNS = ['company_id','company_name','company_mark','company_address','owed','payed','payed_deadline','render_username','render_price','create_date','update_date'];
+var MODIFYCOLUMNS = ['company_id','company_name','company_mark','company_address','render_username','render_price','create_time','update_time'];
 /**
  * 公司保存
  */
