@@ -55,6 +55,9 @@ AuthorityControl.prototype.initMenuAuthority = function () {
             that.toast(data.message);
             return;
         }
+        $.each(data.data,function(index,item){
+           item.full_name = item.menu_title+'【'+(item.menu_device == '1'?'PC':'H5')+'】';
+        });
         var setting = {
             check:{
                 enable:true,
@@ -72,15 +75,14 @@ AuthorityControl.prototype.initMenuAuthority = function () {
                     rootPId:null
                 },
                 key:{
-                    name:'menu_title',
-                    title:'menu_title'
+                    name:'full_name'
                 }
             },
             callback:{
 
             }
         };
-        data.data.push({'menu_id':'0','menu_parent_id':null,'menu_title':'根节点','menu_url':''});
+        data.data.push({'menu_id':'0','menu_parent_id':null,'menu_title':'根节点','full_name':'根节点','menu_url':''});
         that.menuAuthorityTree = $.fn.zTree.init($("#menuAuthorityTree",this.dom), setting,data.data);
         that.menuAuthorityTree.expandNode(that.menuAuthorityTree.getNodes()[0], true, false, true);
     });
@@ -96,6 +98,12 @@ AuthorityControl.prototype.initElementAuthority = function () {
             that.toast(data.message);
             return;
         }
+        $.each(data.data,function(index,item){
+            if(item.node_type == 'menu')
+                item.full_name = '菜单：'+item.node_title+'【'+(item.node_device == '1'?'PC':'H5')+'】';
+            else
+                item.full_name = '元素：'+item.node_title;
+        });
         var setting = {
             check:{
                 enable:true,
@@ -113,15 +121,14 @@ AuthorityControl.prototype.initElementAuthority = function () {
                     rootPId:null
                 },
                 key:{
-                    name:'node_title',
-                    title:'node_title'
+                    name:'full_name'
                 }
             },
             callback:{
 
             }
         };
-        data.data.push({'node_id':'0','parent_id':null,'node_title':'根节点','node_value':'','node_type':'menu'});
+        data.data.push({'node_id':'0','parent_id':null,'node_title':'根节点','full_name':'根节点','node_value':'','node_type':'menu'});
         that.elementAuthorityTree = $.fn.zTree.init($("#elementAuthorityTree",this.dom), setting,data.data);
         that.elementAuthorityTree.expandNode(that.elementAuthorityTree.getNodes()[0], true, false, true);
     });

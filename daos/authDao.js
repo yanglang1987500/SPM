@@ -53,7 +53,7 @@ module.exports = {
      */
     elementAuthTreeSearch:function(role_id,callback){
         var querySql = "SELECT";
-        querySql += "	t1.element_id node_id,t1.element_code node_value,t1.element_desc node_title,'element' node_type,t1.menu_id parent_id, t0.auth_id,";
+        querySql += "	t1.element_id node_id,t1.element_code node_value,t1.element_desc node_title,'element' node_type,'' node_device,t1.menu_id parent_id, t0.auth_id,";
         querySql += " IF (t2.auth_id IS NULL, 0, 1) AS checked ";
         querySql += " FROM ";
         querySql += "	sys_auth t0,";
@@ -78,7 +78,7 @@ module.exports = {
         querySql += " union ";
         querySql += "";
         querySql += " SELECT ";
-        querySql += "	t1.menu_id node_id,t1.menu_url node_value,t1.menu_title node_title,'menu' node_type,t1.menu_parent_id parent_id, t0.auth_id,";
+        querySql += "	t1.menu_id node_id,t1.menu_url node_value,t1.menu_title node_title,'menu' node_type,t1.menu_device node_device,t1.menu_parent_id parent_id, t0.auth_id,";
         querySql += "";
         querySql += "IF (t2.auth_id IS NULL, 0, 1) AS checked ";
         querySql += " FROM ";

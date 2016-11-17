@@ -6,6 +6,7 @@
 var frameworkBase = require('./framework/framework-base');
 require('../libs/easyui-lang-zh_CN.js');
 require('../libs/ztree/jquery.ztree.all.min');
+require('../libs/ztree/jquery.ztree.exhide.min');
 require('../libs/ztree/css/zTreeStyle/zTreeStyle.css');
 require('../../stylesheets/modules/customer-manage.scss');
 require('../../stylesheets/easyui.css');
@@ -63,6 +64,7 @@ CustomerManage.prototype.initTable = function () {
             if(!data.success){
                 that.toast(data.message);
             }
+
             return {rows: data.data, total: data.data.length};
         },
         onDblClickRow: function (rowIndex, rowData) {
@@ -78,27 +80,53 @@ CustomerManage.prototype.initTable = function () {
         searcher: function (value, name) {
             Events.notify('onRefresh:customer-manage');
         },
-        prompt: '请输关键字，如客户姓名或职位'
+        prompt: '请输入关键字，如客户姓名、职位或编号'
+    });
+    var companySearchBox = $('#customer-manage #company-searchbox',that.dom).searchbox({
+        searcher: function (value, name) {
+            Events.notify('onRefresh:customer-manage-company',value);
+        },
+        prompt: '请输入关键字，如公司名称或渲染用户名'
     });
 
     //订阅刷新消息
-    Events.subscribe('onRefresh:customer-manage',function(menu_id){
+    Events.subscribe('onRefresh:customer-manage',function(){
         that.$table.datagrid('load',{
             company_id:selectCompanyId,
             key:searchBox.searchbox('getValue')
         });
+    });
+
+
+    //订阅公司树刷新
+    Events.subscribe('onRefresh:customer-manage-company',function(value){
+        var nodes = that.ztreeObj.getNodes();
+        //先将全部节点隐藏
+        that.ztreeObj.hideNodes(nodes);
+        var _nodes = [];
+        $.each(nodes,function(index,node){
+            if(node.company_name.indexOf(value)!=-1 || (node.render_username && node.render_username.indexOf(value)!=-1))
+                _nodes.push(node);
+        });
+        that.ztreeObj.showNodes(_nodes);
     });
 };
 
 var selectCompanyId, firstRefresh = false;
 CustomerManage.prototype.initMenuTree = function(){
     var that = this;
-
+    firstRefresh = false;
     var setting = {
         async:{
             enable:true,
             url:'/company/list',
-            type:'get'
+            type:'get',
+            dataFilter: function(treeId, parentNode, responseData){
+                $.each(responseData,function(index,item){
+                    item.iconSkin = 'icon01';
+                });
+                return responseData;
+            }
         },
         data:{
             key:{
@@ -121,6 +149,8 @@ CustomerManage.prototype.initMenuTree = function(){
             onAsyncSuccess:function(){
                 if(firstRefresh)
                     return;
+
+
                 selectCompanyId = that.ztreeObj.getNodes()[0].company_id;
                 that.ztreeObj.selectNode(that.ztreeObj.getNodes()[0], false, false);
                 Events.notify('onRefresh:customer-manage');

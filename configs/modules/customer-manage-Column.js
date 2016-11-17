@@ -7,6 +7,6 @@ module.exports = [
     {field: 'qq', title: 'QQ', width: 150},
     {field: 'mail', title: '邮箱', width: 150},
     {field: 'customer_mark', title: '备注', width: 150},
-    {field: 'create_date', title: '创建时间', width: 150},
-    {field: 'update_date', title: '修改时间', width: 150}
+    {field: 'create_time', title: '创建时间', width: 150},
+    {field: 'update_time', title: '修改时间', width: 150}
 ];

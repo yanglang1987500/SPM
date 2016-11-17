@@ -14,13 +14,14 @@ var Calendar = require('../libs/calendar');
  */
 router.get('/company/list', function (req, res, next) {
     if (req.session.isLogin) {
-        companyDao.companySearch(function(err,data){
+        var key = req.query.key;
+        companyDao.companySearch({key:key},function(err,data){
             res.json(data);
         });
     }
 });
 
-var MODIFYCOLUMNS = ['company_id','company_name','company_mark','company_address','render_username','render_price','create_date','update_date'];
+var MODIFYCOLUMNS = ['company_id','company_name','company_mark','company_address','owed','payed','payed_deadline','render_username','render_price','create_date','update_date'];
 /**
  * 公司保存
  */

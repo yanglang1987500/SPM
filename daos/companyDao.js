@@ -21,9 +21,12 @@ module.exports = {
             _params = params;
         }
         condition.push(' 1=1 ');
+        if(_params){
+            params.key && condition.push(' (t1.company_name like \'%'+params.key+'%\' or t1.render_username like \'%'+params.key+'%\') ');
+        }
 
         condition = condition.join(' and ');
-        var selectSql = 'select t1.*, 0 as pId ',fromSql = 'from '+table+' t1  order by t1.create_time desc';
+        var selectSql = 'select t1.*, 0 as pId ',fromSql = 'from '+table+' t1 where '+condition+'  order by t1.create_time desc';
 
         mySqlPool.getConnection(function(connection){
             connection.query(selectSql+fromSql,function(err,result){
