@@ -298,7 +298,8 @@ AccountManage.prototype.bindEvents = function () {
         if(!(rowData = getSelectRow()))
             return;
         if(rowData.is_encased){
-            swal("提示", "账目已封存，不能修改，请联系管理员!", "warning");
+            var msg = $('#encase_account_btn',this.dom).length>0?'账目已封存，请先解除封存再执行编辑操作!':'账目已封存，您没有权限修改，请联系管理员!';
+            swal("提示", msg, "warning");
             return;
         }
         Events.require('account-add-modify').addCallback(function(flag){
@@ -313,7 +314,9 @@ AccountManage.prototype.bindEvents = function () {
             return;
         for(var i = 0;i<rows.length;i++){
             if(rows[i].is_encased){
-                swal("提示", "存在已封存账目，不能删除，请联系管理员!", "warning");
+
+                var msg = $('#encase_account_btn',this.dom).length>0?'账目已封存，请先解除封存再执行删除操作!':'存在已封存账目，您没有权限删除，请联系管理员!';
+                swal("提示", msg, "warning");
                 return;
             }
         }
