@@ -1529,6 +1529,11 @@ header.head-block {
   height: 400px; }
 
 /**====================公共图表容器样式配置end====================**/
+.ztree li span.button.icon01_ico_open, .ztree li span.button.icon01_ico_close, .ztree li span.button.icon01_ico_docu {
+  margin-right: 2px;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAHfSURBVHjapJI/SNxgGIefCxjUWLiCZjhucCqC9EiHDOpw4CIIHW5oHYqdHHodnARPig6BkqMOgsMllA5SoZNeh4IgpR0KlUKFBGtADhQXDzGSDhpbSOHr0Nw113qtpT/4ht/3vu/z/XnfFLEMw6gAxdhar9TbxN76+ODWQy6REOKnMQxDBEEggiAQd5ZeCt12hBsJoduO0G2n0g4gJTd83+fJ+yMOu/qZn9D4cALzExpAsR2kBfDUC3lz9I3ZgsZ+AF++wn4As4X2kCbg07WbvDtJMT2usedDbwe8eO3S2wF7PkyPXw6RAHTbqRx29TM1quEdR/TJsLzhkpM/s7zh0ieDdxwxNfo7RIpNcXJ4kN36OZlOePbWJa9C5d4IefWHz3TCbv2cyeHBFogEFOfGchychmR7JFa3PEauRywWNGRZZrGgkVdhdcsj2yNxcBoyN5ZrtBgpujhbMTd3GMp2s7ZdI6/C0l295aMakLXtGkPZbszNHaKLs5VGXBlYqK7rtiNmqo74k2aqjtBtRwwsVNcBJTlIimmaLcmWZTVXUqZpCkD5dZDCdDrNVRTnhc0uCCFaZ/oKStZI/KdSwA2AUqn0SFGU+38rCMPweblcfhzfpJZKxDL/cHC98ZTvAwAfngtDTb26xgAAAABJRU5ErkJggg==) no-repeat scroll 0 0 transparent;
+  vertical-align: top;
+  *vertical-align: middle; }
 .toast-title {
   font-weight: bold; }
 
@@ -4606,11 +4611,6 @@ ul.ztree.zTreeDragUL {margin:0; padding:0; position:absolute; width:auto; height
     height: 22px;
     color: #3a3a3a;
     outline: none; }
-  #account-manage .ztree li span.button.icon01_ico_open, #account-manage .ztree li span.button.icon01_ico_close, #account-manage .ztree li span.button.icon01_ico_docu {
-    margin-right: 2px;
-    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAHfSURBVHjapJI/SNxgGIefCxjUWLiCZjhucCqC9EiHDOpw4CIIHW5oHYqdHHodnARPig6BkqMOgsMllA5SoZNeh4IgpR0KlUKFBGtADhQXDzGSDhpbSOHr0Nw113qtpT/4ht/3vu/z/XnfFLEMw6gAxdhar9TbxN76+ODWQy6REOKnMQxDBEEggiAQd5ZeCt12hBsJoduO0G2n0g4gJTd83+fJ+yMOu/qZn9D4cALzExpAsR2kBfDUC3lz9I3ZgsZ+AF++wn4As4X2kCbg07WbvDtJMT2usedDbwe8eO3S2wF7PkyPXw6RAHTbqRx29TM1quEdR/TJsLzhkpM/s7zh0ieDdxwxNfo7RIpNcXJ4kN36OZlOePbWJa9C5d4IefWHz3TCbv2cyeHBFogEFOfGchychmR7JFa3PEauRywWNGRZZrGgkVdhdcsj2yNxcBoyN5ZrtBgpujhbMTd3GMp2s7ZdI6/C0l295aMakLXtGkPZbszNHaKLs5VGXBlYqK7rtiNmqo74k2aqjtBtRwwsVNcBJTlIimmaLcmWZTVXUqZpCkD5dZDCdDrNVRTnhc0uCCFaZ/oKStZI/KdSwA2AUqn0SFGU+38rCMPweblcfhzfpJZKxDL/cHC98ZTvAwAfngtDTb26xgAAAABJRU5ErkJggg==) no-repeat scroll 0 0 transparent;
-    vertical-align: top;
-    *vertical-align: middle; }
   #account-manage .datagrid-btable {
     font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif; }
   #account-manage .nav {
@@ -4910,11 +4910,6 @@ ul.ztree.zTreeDragUL {margin:0; padding:0; position:absolute; width:auto; height
     height: 22px;
     color: #3a3a3a;
     outline: none; }
-  #customer-manage .ztree li span.button.icon01_ico_open, #customer-manage .ztree li span.button.icon01_ico_close, #customer-manage .ztree li span.button.icon01_ico_docu {
-    margin-right: 2px;
-    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAHfSURBVHjapJI/SNxgGIefCxjUWLiCZjhucCqC9EiHDOpw4CIIHW5oHYqdHHodnARPig6BkqMOgsMllA5SoZNeh4IgpR0KlUKFBGtADhQXDzGSDhpbSOHr0Nw113qtpT/4ht/3vu/z/XnfFLEMw6gAxdhar9TbxN76+ODWQy6REOKnMQxDBEEggiAQd5ZeCt12hBsJoduO0G2n0g4gJTd83+fJ+yMOu/qZn9D4cALzExpAsR2kBfDUC3lz9I3ZgsZ+AF++wn4As4X2kCbg07WbvDtJMT2usedDbwe8eO3S2wF7PkyPXw6RAHTbqRx29TM1quEdR/TJsLzhkpM/s7zh0ieDdxwxNfo7RIpNcXJ4kN36OZlOePbWJa9C5d4IefWHz3TCbv2cyeHBFogEFOfGchychmR7JFa3PEauRywWNGRZZrGgkVdhdcsj2yNxcBoyN5ZrtBgpujhbMTd3GMp2s7ZdI6/C0l295aMakLXtGkPZbszNHaKLs5VGXBlYqK7rtiNmqo74k2aqjtBtRwwsVNcBJTlIimmaLcmWZTVXUqZpCkD5dZDCdDrNVRTnhc0uCCFaZ/oKStZI/KdSwA2AUqn0SFGU+38rCMPweblcfhzfpJZKxDL/cHC98ZTvAwAfngtDTb26xgAAAABJRU5ErkJggg==) no-repeat scroll 0 0 transparent;
-    vertical-align: top;
-    *vertical-align: middle; }
   #customer-manage .datagrid-btable {
     font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif; }
   #customer-manage .nav {

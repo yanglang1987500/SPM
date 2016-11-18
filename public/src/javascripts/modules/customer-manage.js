@@ -76,7 +76,7 @@ CustomerManage.prototype.initTable = function () {
         toolbar: '#customer-manage-toolbar'
     });
 
-    var searchBox = $('#customer-manage #home-easyui-searchbox',that.dom).searchbox({
+    var searchBox = that.searchBox = $('#customer-manage #home-easyui-searchbox',that.dom).searchbox({
         searcher: function (value, name) {
             Events.notify('onRefresh:customer-manage');
         },
@@ -92,23 +92,24 @@ CustomerManage.prototype.initTable = function () {
     //订阅刷新消息
     Events.subscribe('onRefresh:customer-manage',function(){
         var opts = that.$table.datagrid("options");
-        opts.url = "/customer/list";
-        that.$table.datagrid('load',{
-            company_id:selectCompanyId,
-            key:searchBox.searchbox('getValue')
-        });
+        if(!opts.url)
+            opts.url = "/customer/list";
+        else
+            that.$table.datagrid('load',{
+                company_id:selectCompanyId,
+                key:searchBox.searchbox('getValue')
+            });
     });
 
 
     //订阅公司树刷新
     Events.subscribe('onRefresh:customer-manage-company',function(value){
-        var nodes = that.ztreeObj.getNodes();
-        //先将全部节点隐藏
-        that.ztreeObj.hideNodes(nodes);
-        var _nodes = [];
-        $.each(nodes,function(index,node){
+        var _nodes = that.ztreeObj.getNodesByFilter(function(node){
             if(node.company_name.indexOf(value)!=-1 || (node.render_username && node.render_username.indexOf(value)!=-1))
-                _nodes.push(node);
+                return true;
+            if(node.company_id == null)
+                return true;
+            that.ztreeObj.hideNode(node);
         });
         that.ztreeObj.showNodes(_nodes);
     });
@@ -151,16 +152,16 @@ CustomerManage.prototype.initCompanyTree = function(){
             onAsyncSuccess:function(){
                 if(firstRefresh)
                     return;
-
-
-                selectCompanyId = that.ztreeObj.getNodes()[0].company_id;
-                that.ztreeObj.selectNode(that.ztreeObj.getNodes()[0], false, false);
-                Events.notify('onRefresh:customer-manage');
                 firstRefresh = true;
             }
         }
     };
-    that.ztreeObj = $.fn.zTree.init($("#companyTree",that.dom), setting);
+    that.ztreeObj = $.fn.zTree.init($("#companyTree",that.dom), setting,[{company_id:null,company_name:'所有公司',pId:null,isParent:true}]);
+    var rootNode = that.ztreeObj.getNodes()[0];
+    that.ztreeObj.expandNode(rootNode,true,true,true);
+    selectCompanyId = that.ztreeObj.getNodes()[0].company_id;
+    that.ztreeObj.selectNode(rootNode, false, false);
+    Events.notify('onRefresh:customer-manage');
     table2TreeDragUtil.init({
         table:that.$table,
         tree:that.ztreeObj,
@@ -199,7 +200,8 @@ CustomerManage.prototype.bindEvents = function () {
     $('#addCompanyBtn',this.dom).click(function(){
         Events.require('company-add-modify').addCallback(function(flag){
             if(flag){
-                that.ztreeObj.reAsyncChildNodes(null, "refresh");
+                var nodes = that.ztreeObj.getSelectedNodes();
+                that.ztreeObj.reAsyncChildNodes(nodes[0], "refresh");
                 that.toast('保存成功！');
             }
         }).init({showType:'Pop'});
@@ -318,6 +320,9 @@ CustomerManage.prototype.bindEvents = function () {
                 that.toast(data.message);
             }
         });
+    });
+    $('#export_customer_btn',this.dom).on('click', function () {
+        $('#exportFrame').attr('src', '/customer/export?company_id=' + (selectCompanyId == null?'':selectCompanyId)+'&key='+encodeURIComponent(that.searchBox.searchbox('getValue')));
     });
 
     function getSelectRow(){

@@ -15,10 +15,19 @@ AttenceAnalyseModule3.prototype.init = function (options) {
     var that = this;
     this.options = $.extend({}, options);
     that.setTitle('按时间段进行迟到早退统计分析');
-    this.myChart = echarts.init(this.options.container[0]);
+    require.ensure([],function(){
+        var echarts = require('../../libs/echarts.min');
+        that.myChart = echarts.init(that.options.container[0]);
+    });
     Events.subscribe('onRefresh:attence-analyse',function(option){
         $.extend(option,{action:'002'});
-        that.refreshChart(option);
+        var callee = arguments.callee, context = this;
+        if(that.myChart)
+            that.refreshChart(option);
+        else
+            setTimeout(function(){
+                callee.call(context,option);
+            },100);
     });
 };
 
@@ -140,7 +149,7 @@ AttenceAnalyseModule3.prototype.refreshChart = function (option) {
 };
 
 AttenceAnalyseModule3.prototype.resize = function () {
-    this.myChart.resize();
+    this.myChart && this.myChart.resize();
 };
 
 var attenceAnalyseModule1 = new AttenceAnalyseModule3();

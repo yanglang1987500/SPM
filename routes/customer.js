@@ -9,6 +9,7 @@ var utils = require('../libs/utils');
 var websocket = require('../framework/websocket');
 var Events = require('../framework/framework-events');
 var Calendar = require('../libs/calendar');
+var xlsx = require('node-xlsx');
 /**
  * 客户列表查询
  */
@@ -92,6 +93,54 @@ router.get('/customer/search/:customer_id', function (req, res, next) {
     customerDao.customerSearchById(customer_id,function(){
         res.json(utils.returns(arguments));
     });
+});
+
+router.get('/customer/export', function (req, res, next) {
+    if (req.session.isLogin) {
+        var key = req.query.key,
+            company_id = req.query.company_id;
+        customerDao.customerSearch({
+            key:key?key:null,
+            company_id:company_id?company_id:null
+        },function(err,data){
+            if(err){
+                res.json(utils.returns(arguments));
+                return;
+            }
+
+            //加载表格列配置文件
+            var _columns = require('../configs/modules/customer-manage-Column');
+            var _columns2 = require('../configs/modules/company-manage-Column');
+            var columns = _columns.slice(1);
+            var columns2 = _columns2.slice(1);
+            columns = columns.concat(columns2);
+            var datas = [];
+            var titles = [];
+            columns.forEach(function (obj) {
+                titles.push(obj.title);
+            });
+            datas.push(titles);
+            for (var i = 0; i < data.length; i++) {
+                var row = [];
+                for (var j = 0; j < columns.length; j++) {
+                    var formatter = columns[j].formatter_back ? columns[j].formatter_back : columns[j].formatter;
+                    row.push(formatter ? formatter(data[i][columns[j].field],data[i]) : function(){
+                        if(columns[j].field.indexOf('.')!=-1){
+                            var tmps = columns[j].field.split('.');
+                            return data[i][tmps[0]][tmps[1]];
+                        }
+                        return data[i][columns[j].field];
+                    }());
+                }
+                datas.push(row);
+            }
+
+            res.setHeader('Content-Type', 'application/vnd.openxmlformats');
+            res.setHeader("Content-Disposition", "attachment; filename=customer_"+utils.guid()+".xlsx");
+            var buffer = xlsx.build([{name: "mySheetName", data: datas}]);
+            res.end(buffer, 'binary');
+        });
+    }
 });
 
 module.exports = router;

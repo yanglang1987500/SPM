@@ -21,13 +21,10 @@ CustomerAddModify.prototype.id = 'customer-add-modify';
 CustomerAddModify.prototype.init = function(options){
     var that = this;
     this.options = $.extend({action:'001'},options);
-    that.setTitle(this.options.action == '001'?'添加客户':'编辑客户').setHeight(500).setWidth(400);
+    that.setTitle(this.options.action == '001'?'添加客户':'编辑客户').setHeight(540).setWidth(400);
     frameworkBase.init.call(this,options);
     this.loadBaseView();
     this.bindEvents();
-    if(that.options.action == '002'){
-        that.restoreData();
-    }
 };
 
 CustomerAddModify.prototype.loadBaseView = function(options){
@@ -59,7 +56,7 @@ CustomerAddModify.prototype.bindEvents = function(){
             tel:tel,
             qq:qq,
             mail:mail,
-            company_id:that.options.company_id,
+            company_id:$('#company_id',that.dom).attr('data-company-id'),
             customer_mark:customer_mark
         },function(data){
             if(!data.success){
@@ -73,9 +70,85 @@ CustomerAddModify.prototype.bindEvents = function(){
     $('#cancelBtn',this.dom).click(function(){
         that.finish(false);
     });
+
+    this.$treepanel = $('<div id="menu_tree_panel" class="dropdown_panel"><ul id="menuPanelTree" class="ztree"></ul></div>').appendTo($('body'));
+    var $company_parent_id = $('#company_id',this.dom);
+
+    $company_parent_id.click(function(){
+        var offset = $company_parent_id.offset();
+        that.$treepanel.css({
+            left:offset.left,
+            top:offset.top+30,
+            width:$company_parent_id.outerWidth()
+        });
+        that.$treepanel.is(':visible')?(that.$treepanel.hide()):(that.$treepanel.show());
+        return false;
+    });
+    this.$treepanel.click(function(){
+        return false;
+    });
+    this.initCompanyTree();
 };
 
 
+CustomerAddModify.prototype.initCompanyTree = function(){
+    var that = this;
+    this.query('/company/list',function(data){
+        if(!data){
+            that.toast('查询公司出错');
+            return;
+        }
+        data.push({'company_id':0,'pId':null,'company_name':'根节点'});
+        $.each(data,function(index,item){
+            item.iconSkin = 'icon01';
+        });
+        var setting = {
+            data:{
+                keep:{
+                    parent:true,
+                    leaf:true
+                },
+                simpleData:{
+                    enable:true,
+                    idKey:'company_id',
+                    pIdKey:'pId',
+                    rootPId:null
+                },
+                key:{
+                    name:'company_name'
+                }
+            },
+            callback:{
+                onClick:function(event, treeId, treeNode){
+                    //根元素不让选
+                    if(treeNode.company_id != '0'){
+                        $('#company_id',that.dom).val(treeNode.company_name);
+                        $('#company_id',that.dom).attr('data-company-id',treeNode.company_id);
+                        hidePanel();
+                    }
+                }
+            }
+        };
+        that.ztreeObj = $.fn.zTree.init($("#menuPanelTree",that.$treepanel), setting, data);
+        that.ztreeObj.expandNode(that.ztreeObj.getNodes()[0], true, false, true);
+
+        if(that.options.action == '002'){
+            that.restoreData();
+        }else{
+            var node = that.ztreeObj.getNodesByParam('company_id',that.options.company_id,null)[0];
+            that.ztreeObj.selectNode(node);
+            $('#company_id',that.dom).val(node ? node.company_name : '');
+            $('#company_id',that.dom).attr('data-company-id',that.options.company_id);
+        }
+    });
+};
+
+function hidePanel(){
+    $('.dropdown_panel').hide();
+}
+$('body').on('click',function(){
+    hidePanel();
+});
 CustomerAddModify.prototype.restoreData = function() {
     var that = this;
     this.query('/customer/search/'+this.options.customer_id,function(data){
@@ -90,6 +163,9 @@ CustomerAddModify.prototype.restoreData = function() {
         $('#tel',that.dom).val(data.tel);
         $('#qq',that.dom).val(data.qq);
         $('#mail',that.dom).val(data.mail);
+        var node = that.ztreeObj.getNodesByParam('company_id',data.company_id,null)[0];
+        that.ztreeObj.selectNode(node);
+        $('#company_id',that.dom).val(node ? node.company_name:'');
         $('#customer_mark',that.dom).val(data.customer_mark);
     });
 };

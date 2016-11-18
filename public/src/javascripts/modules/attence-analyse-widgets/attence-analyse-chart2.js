@@ -15,10 +15,19 @@ AttenceAnalyseModule2.prototype.init = function (options) {
     var that = this;
     this.options = $.extend({}, options);
     that.setTitle('早退比例');
-    this.myChart = echarts.init(this.options.container[0]);
+    require.ensure([],function(){
+        var echarts = require('../../libs/echarts.min');
+        that.myChart = echarts.init(that.options.container[0]);
+    });
     Events.subscribe('onRefresh:attence-analyse',function(option){
         $.extend(option,{type:0,action:'001'});
-        that.refreshChart(option);
+        var callee = arguments.callee, context = this;
+        if(that.myChart)
+            that.refreshChart(option);
+        else
+            setTimeout(function(){
+                callee.call(context,option);
+            },100);
     });
 };
 
@@ -86,7 +95,7 @@ AttenceAnalyseModule2.prototype.refreshChart = function (option) {
 };
 
 AttenceAnalyseModule2.prototype.resize = function () {
-    this.myChart.resize();
+    this.myChart && this.myChart.resize();
 };
 
 var attenceAnalyseModule1 = new AttenceAnalyseModule2();

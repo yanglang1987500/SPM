@@ -44,6 +44,42 @@ module.exports = {
 
     },
     /**
+     * 客户列表查询(关联公司数据）
+     * @param callback 回调
+     */
+    customerSearch:function(params,callback){
+
+        var condition = [] , _params, _callback;
+        if(Object.prototype.toString.call(params) == '[object Function]'){
+            _callback = params;
+            _params = null;
+        }else{
+            _callback = callback;
+            _params = params;
+        }
+        condition.push(' t1.company_id=t2.company_id ');
+        if(_params){
+            params.key && condition.push(' (t1.customer_name like \'%'+params.key+'%\' or t1.customer_job like \'%'+params.key+'%\' or t1.customer_code like \'%'+params.key+'%\') ');
+            params.company_id && condition.push(' t1.company_id =\''+params.company_id+'\' ');
+        }
+
+        condition = condition.join(' and ');
+        var selectSql = 'select t1.*,t2.*',fromSql = 'from '+table+' t1, t_company t2  where '+condition;
+
+        mySqlPool.getConnection(function(connection){
+            connection.query(selectSql+fromSql,function(err,result){
+                if(err){
+                    _callback && _callback(err);
+                    connection.release();
+                    return;
+                }
+                _callback && _callback(false,result);
+                connection.release();
+            });
+        });
+
+    },
+    /**
      * 根据客户id查询客户
      * @param customer_id 客户id
      * @param callback 回调

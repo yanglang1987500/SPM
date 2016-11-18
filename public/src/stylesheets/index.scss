@@ -148,6 +148,7 @@ body,html{
     .tree-container{
         overflow:auto;
     }
+
     .topbar{
         position: fixed;
         background: url('../images/framework/bt_cubs.png') left top repeat;
@@ -717,6 +718,8 @@ header.head-block{
 #attence-analyse-chart3{
     height: 400px;
 }
-
 /**====================公共图表容器样式配置end====================**/
+.ztree li span.button.icon01_ico_open, .ztree li span.button.icon01_ico_close, .ztree li span.button.icon01_ico_docu{
+    margin-right:2px; background: url(../javascripts/libs/ztree/css/zTreeStyle/img/diy/1_close.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle
+}
 
