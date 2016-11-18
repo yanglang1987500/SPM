@@ -53,7 +53,8 @@
 
     document.getElementById('loginBtn').addEventListener('click',function(){
         var password = document.getElementById('password').value;
-        document.getElementById('password').value=(Crypto.md5(password));
+        if(password.length != 32)
+            document.getElementById('password').value=(Crypto.md5(password));
         return true;
     });
 </script>
