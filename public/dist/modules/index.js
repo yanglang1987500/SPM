@@ -2362,7 +2362,7 @@ webpackJsonp([2],[
 	    $('.easyui-linkbutton',this.dom).linkbutton();
 	    var columns = __webpack_require__(236);
 	    that.$table = $('#dataTable',this.dom).datagrid({
-	        url: '/account/list',
+	        url: '',
 	        method: 'get',
 	        columns: [columns],
 	        cache:false,
@@ -2437,6 +2437,8 @@ webpackJsonp([2],[
 	    
 	    //订阅刷新消息
 	    Events.subscribe('onRefresh:account-manage',function(){
+	        var opts = that.$table.datagrid("options");
+	        opts.url = "/account/list";
 	        that.$table.datagrid('load',{
 	            company_id:selectCompanyId,
 	            key:searchBox.searchbox('getValue'),
@@ -4139,7 +4141,7 @@ webpackJsonp([2],[
 	    $('.easyui-linkbutton',that.dom).linkbutton();
 	    var columns = __webpack_require__(264);
 	    that.$table = $('#dataTable',that.dom).datagrid({
-	        url: '/company/list',
+	        url: '',
 	        method: 'get',
 	        columns: [columns],
 	        cache:false,
@@ -4166,11 +4168,7 @@ webpackJsonp([2],[
 	        },
 	        toolbar: '#company-manage-toolbar'
 	    });
-	    that.$table.datagrid({
-	        onDrop:function(targetRow, sourceRow, point) {
-	            alert(sourceRow.company_title+'&'+targetRow.company_title);
-	        }
-	    })
+
 	    var searchBox = $('#company-manage #home-easyui-searchbox',that.dom).searchbox({
 	        searcher: function (value, name) {
 	            Events.notify('onRefresh:company-manage');
@@ -4181,10 +4179,12 @@ webpackJsonp([2],[
 
 	    //订阅刷新公司
 	    Events.subscribe('onRefresh:company-manage',function(){
+	        var opts = that.$table.datagrid("options");
+	        opts.url = "/company/list";
 	        that.$table.datagrid('load',{
 	            key:searchBox.searchbox('getValue')
 	        });
-	    });
+	    }).notify('onRefresh:company-manage');
 	};
 	/**
 	 * 绑定按钮点击事件
@@ -4548,7 +4548,7 @@ webpackJsonp([2],[
 	    $('.easyui-linkbutton',this.dom).linkbutton();
 	    var columns = __webpack_require__(273);
 	    that.$table = $('#dataTable',this.dom).datagrid({
-	        url: '/customer/list',
+	        url: '',
 	        method: 'get',
 	        columns: [columns],
 	        cache:false,
@@ -4592,6 +4592,8 @@ webpackJsonp([2],[
 
 	    //订阅刷新消息
 	    Events.subscribe('onRefresh:customer-manage',function(){
+	        var opts = that.$table.datagrid("options");
+	        opts.url = "/customer/list";
 	        that.$table.datagrid('load',{
 	            company_id:selectCompanyId,
 	            key:searchBox.searchbox('getValue')
@@ -5570,7 +5572,7 @@ webpackJsonp([2],[
 	    $('.easyui-linkbutton',this.dom).linkbutton();
 	    var columns = __webpack_require__(289);
 	    that.$table = $('#dataTable',this.dom).datagrid({
-	        url: '/element/list',
+	        url: '',
 	        method: 'get',
 	        columns: [columns],
 	        cache:false,
@@ -5607,6 +5609,8 @@ webpackJsonp([2],[
 
 	    //订阅刷新消息
 	    Events.subscribe('onRefresh:element-manage',function(menu_id){
+	        var opts = that.$table.datagrid("options");
+	        opts.url = "/element/list";
 	        that.$table.datagrid('load',{
 	            menu_id:selectMenuId,
 	            key:searchBox.searchbox('getValue')
@@ -7939,11 +7943,7 @@ webpackJsonp([2],[
 	        },
 	        toolbar: '#menu-manage-toolbar'
 	    });
-	    that.$table.datagrid({
-	        onDrop:function(targetRow, sourceRow, point) {
-	            alert(sourceRow.menu_title+'&'+targetRow.menu_title);
-	        }
-	    })
+	 
 	    var searchBox = $('#menu-manage #home-easyui-searchbox',that.dom).searchbox({
 	        searcher: function (value, name) {
 	            Events.notify('onRefresh:menu-manage');
@@ -8760,7 +8760,7 @@ webpackJsonp([2],[
 	    $('.easyui-linkbutton',this.dom).linkbutton();
 	    var columns = __webpack_require__(341);
 	    that.$table = $('#dataTable',this.dom).datagrid({
-	        url: '/org/orguser',
+	        url: '',
 	        method: 'get',
 	        columns: [columns],
 	        cache:false,
@@ -8816,6 +8816,8 @@ webpackJsonp([2],[
 
 	    //订阅刷新消息
 	    Events.subscribe('onRefresh:org-manage',function(org_id){
+	        var opts = that.$table.datagrid("options");
+	        opts.url = "/org/orguser";
 	        that.$table.datagrid('load',{
 	            org_id:selectOrgId,
 	            key:searchBox.searchbox('getValue'),

@@ -43,7 +43,7 @@ CompanyManage.prototype.initTable = function () {
     $('.easyui-linkbutton',that.dom).linkbutton();
     var columns = require('../../../../configs/modules/company-manage-Column.js');
     that.$table = $('#dataTable',that.dom).datagrid({
-        url: '/company/list',
+        url: '',
         method: 'get',
         columns: [columns],
         cache:false,
@@ -70,11 +70,7 @@ CompanyManage.prototype.initTable = function () {
         },
         toolbar: '#company-manage-toolbar'
     });
-    that.$table.datagrid({
-        onDrop:function(targetRow, sourceRow, point) {
-            alert(sourceRow.company_title+'&'+targetRow.company_title);
-        }
-    })
+
     var searchBox = $('#company-manage #home-easyui-searchbox',that.dom).searchbox({
         searcher: function (value, name) {
             Events.notify('onRefresh:company-manage');
@@ -85,10 +81,12 @@ CompanyManage.prototype.initTable = function () {
 
     //订阅刷新公司
     Events.subscribe('onRefresh:company-manage',function(){
+        var opts = that.$table.datagrid("options");
+        opts.url = "/company/list";
         that.$table.datagrid('load',{
             key:searchBox.searchbox('getValue')
         });
-    });
+    }).notify('onRefresh:company-manage');
 };
 /**
  * 绑定按钮点击事件

@@ -46,7 +46,7 @@ ElementManage.prototype.initTable = function () {
     $('.easyui-linkbutton',this.dom).linkbutton();
     var columns = require('../../../../configs/modules/element-manage-Column.js');
     that.$table = $('#dataTable',this.dom).datagrid({
-        url: '/element/list',
+        url: '',
         method: 'get',
         columns: [columns],
         cache:false,
@@ -83,6 +83,8 @@ ElementManage.prototype.initTable = function () {
 
     //订阅刷新消息
     Events.subscribe('onRefresh:element-manage',function(menu_id){
+        var opts = that.$table.datagrid("options");
+        opts.url = "/element/list";
         that.$table.datagrid('load',{
             menu_id:selectMenuId,
             key:searchBox.searchbox('getValue')

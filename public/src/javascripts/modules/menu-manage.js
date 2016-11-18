@@ -70,11 +70,7 @@ MenuManage.prototype.initTable = function () {
         },
         toolbar: '#menu-manage-toolbar'
     });
-    that.$table.datagrid({
-        onDrop:function(targetRow, sourceRow, point) {
-            alert(sourceRow.menu_title+'&'+targetRow.menu_title);
-        }
-    })
+ 
     var searchBox = $('#menu-manage #home-easyui-searchbox',that.dom).searchbox({
         searcher: function (value, name) {
             Events.notify('onRefresh:menu-manage');

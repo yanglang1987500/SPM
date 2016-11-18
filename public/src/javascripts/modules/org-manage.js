@@ -46,7 +46,7 @@ OrgManage.prototype.initTable = function () {
     $('.easyui-linkbutton',this.dom).linkbutton();
     var columns = require('../../../../configs/modules/org-manage-Column.js');
     that.$table = $('#dataTable',this.dom).datagrid({
-        url: '/org/orguser',
+        url: '',
         method: 'get',
         columns: [columns],
         cache:false,
@@ -102,6 +102,8 @@ OrgManage.prototype.initTable = function () {
 
     //订阅刷新消息
     Events.subscribe('onRefresh:org-manage',function(org_id){
+        var opts = that.$table.datagrid("options");
+        opts.url = "/org/orguser";
         that.$table.datagrid('load',{
             org_id:selectOrgId,
             key:searchBox.searchbox('getValue'),

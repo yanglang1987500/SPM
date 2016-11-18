@@ -47,7 +47,7 @@ CustomerManage.prototype.initTable = function () {
     $('.easyui-linkbutton',this.dom).linkbutton();
     var columns = require('../../../../configs/modules/customer-manage-Column.js');
     that.$table = $('#dataTable',this.dom).datagrid({
-        url: '/customer/list',
+        url: '',
         method: 'get',
         columns: [columns],
         cache:false,
@@ -91,6 +91,8 @@ CustomerManage.prototype.initTable = function () {
 
     //订阅刷新消息
     Events.subscribe('onRefresh:customer-manage',function(){
+        var opts = that.$table.datagrid("options");
+        opts.url = "/customer/list";
         that.$table.datagrid('load',{
             company_id:selectCompanyId,
             key:searchBox.searchbox('getValue')

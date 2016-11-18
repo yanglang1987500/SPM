@@ -46,7 +46,7 @@ AccountManage.prototype.initTable = function () {
     $('.easyui-linkbutton',this.dom).linkbutton();
     var columns = require('../../../../configs/modules/account-manage-Column.js');
     that.$table = $('#dataTable',this.dom).datagrid({
-        url: '/account/list',
+        url: '',
         method: 'get',
         columns: [columns],
         cache:false,
@@ -121,6 +121,8 @@ AccountManage.prototype.initTable = function () {
     
     //订阅刷新消息
     Events.subscribe('onRefresh:account-manage',function(){
+        var opts = that.$table.datagrid("options");
+        opts.url = "/account/list";
         that.$table.datagrid('load',{
             company_id:selectCompanyId,
             key:searchBox.searchbox('getValue'),
