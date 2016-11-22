@@ -21,7 +21,7 @@ router.get('/company/list', function (req, res, next) {
     }
 });
 
-var MODIFYCOLUMNS = ['company_id','company_name','company_mark','company_address','render_username','render_price','create_time','update_time'];
+var MODIFYCOLUMNS = ['company_id','company_code','company_name','company_mark','company_address','render_username','render_price','create_time','update_time'];
 /**
  * 公司保存
  */
@@ -29,12 +29,14 @@ router.post('/company/save', function (req, res, next) {
     if (req.session.isLogin) {
         var action = req.body.action;
         if(action == '001'){//新增
-            var company_name = req.body.company_name,
+            var company_code = req.body.company_code,
+                company_name = req.body.company_name,
                 company_mark = req.body.company_mark,
                 company_address = req.body.company_address,
                 render_username = req.body.render_username,
                 render_price = req.body.render_price;
             companyDao.addCompany({
+                company_code:company_code,
                 company_name:company_name,
                 company_mark:company_mark,
                 company_address:company_address,

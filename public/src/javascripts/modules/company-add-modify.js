@@ -21,7 +21,7 @@ CompanyAddModify.prototype.id = 'company-add-modify';
 CompanyAddModify.prototype.init = function(options){
     var that = this;
     this.options = $.extend({action:'001'},options);
-    that.setTitle(this.options.action == '001'?'添加公司':'编辑公司').setHeight(this.options.action == '001'?400:400).setWidth(450);
+    that.setTitle(this.options.action == '001'?'添加公司':'编辑公司').setHeight(this.options.action == '001'?450:450).setWidth(450);
     frameworkBase.init.call(this,options);  
     this.loadBaseView();
     this.bindEvents();
@@ -45,6 +45,7 @@ CompanyAddModify.prototype.bindEvents = function(){
         }
     });
     $('#confirmBtn',this.dom).click(function(){
+        var company_code = $('#company_code',that.dom).val();
         var company_name = $('#company_name',that.dom).val();
         var company_address = $('#company_address',that.dom).val();
 
@@ -58,6 +59,7 @@ CompanyAddModify.prototype.bindEvents = function(){
         that.save('/company/save',{
             action:that.options.action,
             company_id:that.options.company_id,
+            company_code:company_code,
             company_name:company_name,
             company_address:company_address,
             render_username:render_username,
@@ -86,6 +88,7 @@ CompanyAddModify.prototype.restoreData = function() {
             return;
         }
         data = data.data;
+        $('#company_code',that.dom).val(data.company_code);
         $('#company_name',that.dom).val(data.company_name);
         $('#company_address',that.dom).val(data.company_address);
         $('#render_username',that.dom).val(data.render_username);

@@ -1,5 +1,6 @@
 module.exports = [
     {field: 'checked', title: '选择', width: 20,checkbox:true},
+    {field: 'company_code', title: '公司编号', width: 200},
     {field: 'company_name', title: '公司名称', width: 200},
     {field: 'company_address', title: '公司地址', width: 150},
     {field: 'company_mark', title: '备注', width: 150},

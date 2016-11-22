@@ -20,21 +20,27 @@ body,html{
     font-family: MicroSoft Yahei;
     color:#242A38;
     font-size: 14px;
+    transition:background .5s ease;
 }
 /**===========================定义墙纸==============================**/
 .bg-img-num1{
+    transition: none;
     background: url('../images/framework/bg/bg_num1.jpg') left top repeat-x #082648;
 }
 .bg-img-num2{
+    transition: none;
     background: url('../images/framework/bg/bg_num3.jpg') left top repeat-x #082648;
 }
 .bg-img-num3{
+    transition: none;
     background: url('../images/framework/bg/splash_white.png') center center no-repeat #000E17;
 }
 .bg-img-num4{
+    transition: none;
     background: url('../images/framework/bg/splash_white.png') center center no-repeat #111111;
 }
 .bg-img-num5{
+    transition: none;
     background: url('../images/framework/bg/splash_white.png') center center no-repeat #003729;
     .container{
         .topbar{
@@ -108,7 +114,7 @@ body,html{
             .toolbar{
                 border-left:1px solid #031a1c;
                 border-right:1px solid #0b5b61;
-                &>.btn {
+                & .btn {
                     border-left: 1px solid #0b5b61;
                     border-right: 1px solid #031a1c;
                 }
@@ -124,9 +130,129 @@ body,html{
             .toolbar{
                 border-left:1px solid #001828;
                 border-right:1px solid #003559;
-                &>.btn {
+                & .btn {
                     border-left: 1px solid #003559;
                     border-right: 1px solid #001828;
+                }
+            }
+        }
+    }
+}
+.wall-num6{
+    background: url('../images/framework/bg/wall_num16.jpg') center top no-repeat fixed #3D3582;
+    background-size: 100% 100%;
+    .container{
+        .topbar{
+            background-color: #4C3D82;
+            .toolbar{
+                border-left:1px solid #392e61;
+                border-right:1px solid #5a489a;
+                & .btn {
+                    border-left: 1px solid #5a489a;
+                    border-right: 1px solid #392e61;
+                }
+            }
+        }
+    }
+}
+.wall-num7{
+    background: url('../images/framework/bg/wall_num17.jpg') center top no-repeat fixed #3A357F;
+    background-size: 100% 100%;
+    .container{
+        .topbar{
+            background-color: #2e2a65;
+            .toolbar{
+                border-left:1px solid #282457;
+                border-right:1px solid #4a43a2;
+                & .btn {
+                    border-left: 1px solid #4a43a2;
+                    border-right: 1px solid #282457;
+                }
+            }
+        }
+    }
+}
+.wall-num8{
+    background: url('../images/framework/bg/wall_num18.jpg') center top no-repeat fixed #3E7301;
+    background-size: 100% 100%;
+    .container{
+        .topbar{
+            background-color: #335e01;
+            .toolbar{
+                border-left:1px solid #284a01;
+                border-right:1px solid #559c02;
+                & .btn {
+                    border-left: 1px solid #559c02;
+                    border-right: 1px solid #284a01;
+                }
+            }
+        }
+    }
+}
+.wall-num9{
+    background: url('../images/framework/bg/wall_num19.jpg') center top no-repeat fixed #ab4b6a;
+    background-size: 100% 100%;
+    .container{
+        .topbar{
+            background-color: #8d3e57;
+            .toolbar{
+                border-left:1px solid #692e41;
+                border-right:1px solid #ab4b6a;
+                & .btn {
+                    border-left: 1px solid #ab4b6a;
+                    border-right: 1px solid #692e41;
+                }
+            }
+        }
+    }
+}
+.wall-num10{
+    background: url('../images/framework/bg/wall_num20.jpg') center top no-repeat fixed #293953;
+    background-size: 100% 100%;
+    .container{
+        .topbar{
+            background-color: #293953;
+            .toolbar{
+                border-left:1px solid #222f44;
+                border-right:1px solid #405981;
+                & .btn {
+                    border-left: 1px solid #405981;
+                    border-right: 1px solid #222f44;
+                }
+            }
+        }
+    }
+}
+.wall-num11{
+    background: url('../images/framework/bg/wall_num21.jpg') center top no-repeat fixed #D75DD4;
+    background-size: 100% 100%;
+    .container{
+        .topbar{
+            background-color: #783476;
+            .toolbar{
+                border-left:1px solid #592758;
+                border-right:1px solid #9b4398;
+                & .btn {
+                    border-left: 1px solid #9b4398;
+                    border-right: 1px solid #592758;
+                }
+            }
+        }
+    }
+}
+.wall-num12{
+    background: url('../images/framework/bg/wall_num22.jpg') center top no-repeat fixed #452B14;
+    background-size: 100% 100%;
+    .container{
+        .topbar{
+            background-color: #301e0e;
+            box-shadow: none;
+            .toolbar{
+                border-left:1px solid #24160b;
+                border-right:1px solid #794b24;
+                & .btn {
+                    border-left: 1px solid #794b24;
+                    border-right: 1px solid #24160b;
                 }
             }
         }
@@ -154,6 +280,7 @@ body,html{
         background: url('../images/framework/bt_cubs.png') left top repeat;
         background-color: #133959;
         box-shadow: $box-shadow;
+        transition:background .5s ease;
         padding-left: 200px;
         top:0;
         left:50px;

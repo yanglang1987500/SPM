@@ -322,20 +322,32 @@ AccountManage.prototype.bindEvents = function () {
                 return;
             }
         }
-        that.save('/account/save',{action:'003',account_id:function(){
-            var ids = [];
-            rows.forEach(function(item){
-                ids.push(item.account_id);
+        swal({
+            title: "确认",
+            text: "确认删除选中账目吗？",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "删除",
+            cancelButtonText: "取消",
+            closeOnConfirm: true
+        }, function () {
+            that.save('/account/save',{action:'003',account_id:function(){
+                var ids = [];
+                rows.forEach(function(item){
+                    ids.push(item.account_id);
+                });
+                return ids.join(',');
+            }()},function(data){
+                if(data.success){
+                    that.toast("删除成功!");
+                    Events.notify('onRefresh:account-manage');
+                }else{
+                    that.toast(data.message);
+                }
             });
-            return ids.join(',');
-        }()},function(data){
-            if(data.success){
-                that.toast("删除信息成功!");
-                Events.notify('onRefresh:account-manage');
-            }else{
-                that.toast(data.message);
-            }
         });
+
     });
     //封存账目
     $('#encase_account_btn',this.dom).click(function(){

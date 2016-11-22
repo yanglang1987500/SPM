@@ -115,20 +115,32 @@ CompanyManage.prototype.bindEvents = function () {
         var rows;
         if(!(rows = getCheckRow()))
             return;
-        that.save('/company/save',{action:'003',company_id:function(){
-            var ids = [];
-            rows.forEach(function(item){
-                ids.push(item.company_id);
+        swal({
+            title: "确认",
+            text: "删除该公司将会清空下面所有客户数据，确认删除吗？",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "删除",
+            cancelButtonText: "取消",
+            closeOnConfirm: true
+        }, function () {
+            that.save('/company/save',{action:'003',company_id:function(){
+                var ids = [];
+                rows.forEach(function(item){
+                    ids.push(item.company_id);
+                });
+                return ids.join(',');
+            }()},function(data){
+                if(data.success){
+                    that.toast("删除公司成功!");
+                    Events.notify('onRefresh:company-manage');
+                }else{
+                    that.toast(data.message);
+                }
             });
-            return ids.join(',');
-        }()},function(data){
-            if(data.success){
-                that.toast("删除公司成功!");
-                Events.notify('onRefresh:company-manage');
-            }else{
-                that.toast(data.message);
-            }
         });
+
     });
 
     function getSelectRow(){

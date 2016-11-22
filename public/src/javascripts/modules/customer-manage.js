@@ -306,20 +306,32 @@ CustomerManage.prototype.bindEvents = function () {
         var rows;
         if(!(rows = getCheckRow()))
             return;
-        that.save('/customer/save',{action:'003',customer_id:function(){
-            var ids = [];
-            rows.forEach(function(item){
-                ids.push(item.customer_id);
+        swal({
+            title: "确认",
+            text: "确认删除选中用户吗？",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "删除",
+            cancelButtonText: "取消",
+            closeOnConfirm: true
+        }, function () {
+            that.save('/customer/save',{action:'003',customer_id:function(){
+                var ids = [];
+                rows.forEach(function(item){
+                    ids.push(item.customer_id);
+                });
+                return ids.join(',');
+            }()},function(data){
+                if(data.success){
+                    that.toast("删除成功!");
+                    Events.notify('onRefresh:customer-manage');
+                }else{
+                    that.toast(data.message);
+                }
             });
-            return ids.join(',');
-        }()},function(data){
-            if(data.success){
-                that.toast("删除信息成功!");
-                Events.notify('onRefresh:customer-manage');
-            }else{
-                that.toast(data.message);
-            }
         });
+
     });
     $('#export_customer_btn',this.dom).on('click', function () {
         $('#exportFrame').attr('src', '/customer/export?company_id=' + (selectCompanyId == null?'':selectCompanyId)+'&key='+encodeURIComponent(that.searchBox.searchbox('getValue')));

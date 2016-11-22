@@ -950,22 +950,28 @@ body, html {
   overflow: hidden;
   font-family: MicroSoft Yahei;
   color: #242A38;
-  font-size: 14px; }
+  font-size: 14px;
+  transition: background .5s ease; }
 
 /**===========================定义墙纸==============================**/
 .bg-img-num1 {
+  transition: none;
   background: url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wgARCAToAAIDAREAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAgEDAAf/xAAXAQEBAQEAAAAAAAAAAAAAAAAAAQIF/9oADAMBAAIQAxAAAAHwDu8finFKIohCGiGaJpDrQ0jRNDU1NjU1TaGMcipjRQzQYhjRDGKEVVFVLRRYqoRZaKKtWwiyuOEtKKWyWXmuOljVjl5ZL0tWRy8vSxbEli8vL0vHTUOXpZLx0sXl4hmZ2Cs7BQM7BYDOwAoJnQsFmYLACs7MqyucrMrM7MkzsyoJnZnZmhsALAgQhsFRCkCSyBIckXk4/8QAGhABAQEAAwEAAAAAAAAAAAAAEQAQIDBAYP/aAAgBAQABBQLxGkRER8e6zxcehmdZnXz/AP/EABQRAQAAAAAAAAAAAAAAAAAAAHD/2gAIAQMBAT8BHf/EABQRAQAAAAAAAAAAAAAAAAAAAHD/2gAIAQIBAT8BHf/EABQQAQAAAAAAAAAAAAAAAAAAAHD/2gAIAQEABj8CHf/EABkQAQEBAQEBAAAAAAAAAAAAABEAECAwQP/aAAgBAQABPyHDCIjCIiIiIwR2ARGERERhERpEaRppwRhh5vBPyszhnRnHDhmZmZ4DPAZwzMzMzM64+H//2gAMAwEAAgADAAAAENltltodiyUbaRVJ6D+30/72/wAQZMkmTHPqkfZ+Umpdw8/bcy1I5Lv+2IlTRanXaailnp2tB9KCtE3bbf/EABoRAQEBAQEBAQAAAAAAAAAAABEQIAAhMED/2gAIAQMBAT8Q/Ed7l159DJkpTBohxgpCnGCGCHHF901y0+Tp0xrfdN//xAAbEQEAAwEBAQEAAAAAAAAAAAARABAgITABQP/aAAgBAgEBPxD3Jyu+T+Bp++DXcOuxo+ZcNtNMdOGmEcltGDBRGyFFmDJ4E7Gu6//EAB8QAAIDAAIDAQEAAAAAAAAAAAARARBxIIEhUWEw8P/aAAgBAQABPxD8gMGTHP7Jk/ngwL9MGRPUX5F9kaj39hfDI52MC+CjgOhWKLIUUQuAvlXJg8fRQIU26U+7Ic8BDkYopxbryOLcX4HIp4NPdHE9zTsKM7HY3TXB6N10Lw+hPc06VT3JuuztXVmjoMdHNHA45f/Z) left top repeat-x #082648; }
 
 .bg-img-num2 {
+  transition: none;
   background: url(/dist/modules/f77b155b6fb42dd6373556ff020b9aa7.jpg) left top repeat-x #082648; }
 
 .bg-img-num3 {
+  transition: none;
   background: url(/dist/modules/6b67763f45c709a3d2d59399a3c3c464.png) center center no-repeat #000E17; }
 
 .bg-img-num4 {
+  transition: none;
   background: url(/dist/modules/6b67763f45c709a3d2d59399a3c3c464.png) center center no-repeat #111111; }
 
 .bg-img-num5 {
+  transition: none;
   background: url(/dist/modules/6b67763f45c709a3d2d59399a3c3c464.png) center center no-repeat #003729; }
   .bg-img-num5 .container .topbar {
     background-color: #002a1f; }
@@ -1018,7 +1024,7 @@ body, html {
     .wall-num4 .container .topbar .toolbar {
       border-left: 1px solid #031a1c;
       border-right: 1px solid #0b5b61; }
-      .wall-num4 .container .topbar .toolbar > .btn {
+      .wall-num4 .container .topbar .toolbar .btn {
         border-left: 1px solid #0b5b61;
         border-right: 1px solid #031a1c; }
 
@@ -1029,9 +1035,94 @@ body, html {
     .wall-num5 .container .topbar .toolbar {
       border-left: 1px solid #001828;
       border-right: 1px solid #003559; }
-      .wall-num5 .container .topbar .toolbar > .btn {
+      .wall-num5 .container .topbar .toolbar .btn {
         border-left: 1px solid #003559;
         border-right: 1px solid #001828; }
+
+.wall-num6 {
+  background: url(/dist/modules/fbb1e326e7e5d6d23d91ceefa0f51d74.jpg) center top no-repeat fixed #3D3582;
+  background-size: 100% 100%; }
+  .wall-num6 .container .topbar {
+    background-color: #4C3D82; }
+    .wall-num6 .container .topbar .toolbar {
+      border-left: 1px solid #392e61;
+      border-right: 1px solid #5a489a; }
+      .wall-num6 .container .topbar .toolbar .btn {
+        border-left: 1px solid #5a489a;
+        border-right: 1px solid #392e61; }
+
+.wall-num7 {
+  background: url(/dist/modules/5caa583e54f739ab1554b37fc4520320.jpg) center top no-repeat fixed #3A357F;
+  background-size: 100% 100%; }
+  .wall-num7 .container .topbar {
+    background-color: #2e2a65; }
+    .wall-num7 .container .topbar .toolbar {
+      border-left: 1px solid #282457;
+      border-right: 1px solid #4a43a2; }
+      .wall-num7 .container .topbar .toolbar .btn {
+        border-left: 1px solid #4a43a2;
+        border-right: 1px solid #282457; }
+
+.wall-num8 {
+  background: url(/dist/modules/7a675256d188aad9d504e5d58cacc460.jpg) center top no-repeat fixed #3E7301;
+  background-size: 100% 100%; }
+  .wall-num8 .container .topbar {
+    background-color: #335e01; }
+    .wall-num8 .container .topbar .toolbar {
+      border-left: 1px solid #284a01;
+      border-right: 1px solid #559c02; }
+      .wall-num8 .container .topbar .toolbar .btn {
+        border-left: 1px solid #559c02;
+        border-right: 1px solid #284a01; }
+
+.wall-num9 {
+  background: url(/dist/modules/7e536d7010f5b25828ab8e5642865aea.jpg) center top no-repeat fixed #ab4b6a;
+  background-size: 100% 100%; }
+  .wall-num9 .container .topbar {
+    background-color: #8d3e57; }
+    .wall-num9 .container .topbar .toolbar {
+      border-left: 1px solid #692e41;
+      border-right: 1px solid #ab4b6a; }
+      .wall-num9 .container .topbar .toolbar .btn {
+        border-left: 1px solid #ab4b6a;
+        border-right: 1px solid #692e41; }
+
+.wall-num10 {
+  background: url(/dist/modules/0e10041eb93bb9dc55e5556f741ad0de.jpg) center top no-repeat fixed #293953;
+  background-size: 100% 100%; }
+  .wall-num10 .container .topbar {
+    background-color: #293953; }
+    .wall-num10 .container .topbar .toolbar {
+      border-left: 1px solid #222f44;
+      border-right: 1px solid #405981; }
+      .wall-num10 .container .topbar .toolbar .btn {
+        border-left: 1px solid #405981;
+        border-right: 1px solid #222f44; }
+
+.wall-num11 {
+  background: url(/dist/modules/6eab77eb90430ab988ee64eff9a12216.jpg) center top no-repeat fixed #D75DD4;
+  background-size: 100% 100%; }
+  .wall-num11 .container .topbar {
+    background-color: #783476; }
+    .wall-num11 .container .topbar .toolbar {
+      border-left: 1px solid #592758;
+      border-right: 1px solid #9b4398; }
+      .wall-num11 .container .topbar .toolbar .btn {
+        border-left: 1px solid #9b4398;
+        border-right: 1px solid #592758; }
+
+.wall-num12 {
+  background: url(/dist/modules/85871633ccb90e0e7d151b8952a35156.jpg) center top no-repeat fixed #452B14;
+  background-size: 100% 100%; }
+  .wall-num12 .container .topbar {
+    background-color: #301e0e;
+    box-shadow: none; }
+    .wall-num12 .container .topbar .toolbar {
+      border-left: 1px solid #24160b;
+      border-right: 1px solid #794b24; }
+      .wall-num12 .container .topbar .toolbar .btn {
+        border-left: 1px solid #794b24;
+        border-right: 1px solid #24160b; }
 
 /**===========================定义墙纸==============================**/
 .clearfix {
@@ -1053,6 +1144,7 @@ body, html {
     background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNAay06AAAAAWdEVYdENyZWF0aW9uIFRpbWUAMDgvMjAvMTPX4JqcAAAAGUlEQVQImQXBMQEAAAwCINxv/7gOsg16KDwwyQMbNDa0PwAAAABJRU5ErkJggg==) left top repeat;
     background-color: #133959;
     box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
+    transition: background .5s ease;
     padding-left: 200px;
     top: 0;
     left: 50px;

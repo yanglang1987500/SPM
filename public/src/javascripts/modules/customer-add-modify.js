@@ -43,8 +43,13 @@ CustomerAddModify.prototype.bindEvents = function(){
         var qq = $('#qq',that.dom).val();
         var mail = $('#mail',that.dom).val();
         var customer_mark = $('#customer_mark',that.dom).val();
+        var company_id = $('#company_id',that.dom).attr('data-company-id');
         if($.trim(customer_name) === '' ){
             swal("提示", "请输入客户姓名!", "warning");
+            return;
+        }
+        if(!company_id){
+            swal("提示", "请选择所属公司!", "warning");
             return;
         }
         that.save('/customer/save',{
@@ -56,7 +61,7 @@ CustomerAddModify.prototype.bindEvents = function(){
             tel:tel,
             qq:qq,
             mail:mail,
-            company_id:$('#company_id',that.dom).attr('data-company-id'),
+            company_id:company_id,
             customer_mark:customer_mark
         },function(data){
             if(!data.success){

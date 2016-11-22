@@ -46,6 +46,35 @@ body{
 .wall-num5{
     background: url('../images/framework/bg/wall_num15.jpg') center top no-repeat fixed #000000;
 }
+.wall-num6{
+    background: url('../images/framework/bg/wall_num16.jpg') center top no-repeat fixed #000000;
+    background-size: 100% 100%;
+}
+.wall-num7{
+    background: url('../images/framework/bg/wall_num17.jpg') center top no-repeat fixed #000000;
+    background-size: 100% 100%;
+}
+.wall-num8{
+    background: url('../images/framework/bg/wall_num18.jpg') center top no-repeat fixed #000000;
+    background-size: 100% 100%;
+}
+.wall-num9{
+    background: url('../images/framework/bg/wall_num19.jpg') center top no-repeat fixed #000000;
+    background-size: 100% 100%;
+}
+.wall-num10{
+    background: url('../images/framework/bg/wall_num20.jpg') center top no-repeat fixed #000000;
+    background-size: 100% 100%;
+}
+.wall-num11{
+    background: url('../images/framework/bg/wall_num21.jpg') center top no-repeat fixed #000000;
+    background-size: 100% 100%;
+}
+.wall-num12{
+    background: url('../images/framework/bg/wall_num22.jpg') center top no-repeat fixed #000000;
+    background-size: 100% 100%;
+}
+
 p{
     margin: 0 0 10px;
 }

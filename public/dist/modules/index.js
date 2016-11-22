@@ -2639,20 +2639,32 @@ webpackJsonp([2],[
 	                return;
 	            }
 	        }
-	        that.save('/account/save',{action:'003',account_id:function(){
-	            var ids = [];
-	            rows.forEach(function(item){
-	                ids.push(item.account_id);
+	        swal({
+	            title: "确认",
+	            text: "确认删除选中账目吗？",
+	            type: "warning",
+	            showCancelButton: true,
+	            confirmButtonColor: "#DD6B55",
+	            confirmButtonText: "删除",
+	            cancelButtonText: "取消",
+	            closeOnConfirm: true
+	        }, function () {
+	            that.save('/account/save',{action:'003',account_id:function(){
+	                var ids = [];
+	                rows.forEach(function(item){
+	                    ids.push(item.account_id);
+	                });
+	                return ids.join(',');
+	            }()},function(data){
+	                if(data.success){
+	                    that.toast("删除成功!");
+	                    Events.notify('onRefresh:account-manage');
+	                }else{
+	                    that.toast(data.message);
+	                }
 	            });
-	            return ids.join(',');
-	        }()},function(data){
-	            if(data.success){
-	                that.toast("删除信息成功!");
-	                Events.notify('onRefresh:account-manage');
-	            }else{
-	                that.toast(data.message);
-	            }
 	        });
+
 	    });
 	    //封存账目
 	    $('#encase_account_btn',this.dom).click(function(){
@@ -4024,7 +4036,7 @@ webpackJsonp([2],[
 	CompanyAddModify.prototype.init = function(options){
 	    var that = this;
 	    this.options = $.extend({action:'001'},options);
-	    that.setTitle(this.options.action == '001'?'添加公司':'编辑公司').setHeight(this.options.action == '001'?400:400).setWidth(450);
+	    that.setTitle(this.options.action == '001'?'添加公司':'编辑公司').setHeight(this.options.action == '001'?450:450).setWidth(450);
 	    frameworkBase.init.call(this,options);  
 	    this.loadBaseView();
 	    this.bindEvents();
@@ -4048,6 +4060,7 @@ webpackJsonp([2],[
 	        }
 	    });
 	    $('#confirmBtn',this.dom).click(function(){
+	        var company_code = $('#company_code',that.dom).val();
 	        var company_name = $('#company_name',that.dom).val();
 	        var company_address = $('#company_address',that.dom).val();
 
@@ -4061,6 +4074,7 @@ webpackJsonp([2],[
 	        that.save('/company/save',{
 	            action:that.options.action,
 	            company_id:that.options.company_id,
+	            company_code:company_code,
 	            company_name:company_name,
 	            company_address:company_address,
 	            render_username:render_username,
@@ -4089,6 +4103,7 @@ webpackJsonp([2],[
 	            return;
 	        }
 	        data = data.data;
+	        $('#company_code',that.dom).val(data.company_code);
 	        $('#company_name',that.dom).val(data.company_name);
 	        $('#company_address',that.dom).val(data.company_address);
 	        $('#render_username',that.dom).val(data.render_username);
@@ -4118,7 +4133,7 @@ webpackJsonp([2],[
 /* 259 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"company-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>公司名称：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入公司名称\" name=\"company_name\" id=\"company_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>公司地址：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入公司地址\" name=\"company_address\" id=\"company_address\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>渲染用户名：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入渲染客户端用户名\" name=\"render_username\" id=\"render_username\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>渲染单价：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入渲染单价\" name=\"render_price\" id=\"render_price\" type=\"text\" value=\"0.3\">\r\n            </div>\r\n            <div class=\"form-group\" style=\"height:100px;\">\r\n                <label>备注：</label>\r\n                <textarea  class=\"form-control\" placeholder=\"请输入公司备注\" name=\"company_mark\" id=\"company_mark\" ></textarea>\r\n            </div>\r\n\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
+	module.exports = "<div class=\"company-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>公司编号：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入公司编号\" name=\"company_code\" id=\"company_code\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>公司名称：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入公司名称\" name=\"company_name\" id=\"company_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>公司地址：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入公司地址\" name=\"company_address\" id=\"company_address\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>渲染用户名：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入渲染客户端用户名\" name=\"render_username\" id=\"render_username\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>渲染单价：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入渲染单价\" name=\"render_price\" id=\"render_price\" type=\"text\" value=\"0.3\">\r\n            </div>\r\n            <div class=\"form-group\" style=\"height:100px;\">\r\n                <label>备注：</label>\r\n                <textarea  class=\"form-control\" placeholder=\"请输入公司备注\" name=\"company_mark\" id=\"company_mark\" ></textarea>\r\n            </div>\r\n\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
 /* 260 */
@@ -4241,20 +4256,32 @@ webpackJsonp([2],[
 	        var rows;
 	        if(!(rows = getCheckRow()))
 	            return;
-	        that.save('/company/save',{action:'003',company_id:function(){
-	            var ids = [];
-	            rows.forEach(function(item){
-	                ids.push(item.company_id);
+	        swal({
+	            title: "确认",
+	            text: "删除该公司将会清空下面所有客户数据，确认删除吗？",
+	            type: "warning",
+	            showCancelButton: true,
+	            confirmButtonColor: "#DD6B55",
+	            confirmButtonText: "删除",
+	            cancelButtonText: "取消",
+	            closeOnConfirm: true
+	        }, function () {
+	            that.save('/company/save',{action:'003',company_id:function(){
+	                var ids = [];
+	                rows.forEach(function(item){
+	                    ids.push(item.company_id);
+	                });
+	                return ids.join(',');
+	            }()},function(data){
+	                if(data.success){
+	                    that.toast("删除公司成功!");
+	                    Events.notify('onRefresh:company-manage');
+	                }else{
+	                    that.toast(data.message);
+	                }
 	            });
-	            return ids.join(',');
-	        }()},function(data){
-	            if(data.success){
-	                that.toast("删除公司成功!");
-	                Events.notify('onRefresh:company-manage');
-	            }else{
-	                that.toast(data.message);
-	            }
 	        });
+
 	    });
 
 	    function getSelectRow(){
@@ -4391,6 +4418,7 @@ webpackJsonp([2],[
 
 	module.exports = [
 	    {field: 'checked', title: '选择', width: 20,checkbox:true},
+	    {field: 'company_code', title: '公司编号', width: 200},
 	    {field: 'company_name', title: '公司名称', width: 200},
 	    {field: 'company_address', title: '公司地址', width: 150},
 	    {field: 'company_mark', title: '备注', width: 150},
@@ -4449,8 +4477,13 @@ webpackJsonp([2],[
 	        var qq = $('#qq',that.dom).val();
 	        var mail = $('#mail',that.dom).val();
 	        var customer_mark = $('#customer_mark',that.dom).val();
+	        var company_id = $('#company_id',that.dom).attr('data-company-id');
 	        if($.trim(customer_name) === '' ){
 	            swal("提示", "请输入客户姓名!", "warning");
+	            return;
+	        }
+	        if(!company_id){
+	            swal("提示", "请选择所属公司!", "warning");
 	            return;
 	        }
 	        that.save('/customer/save',{
@@ -4462,7 +4495,7 @@ webpackJsonp([2],[
 	            tel:tel,
 	            qq:qq,
 	            mail:mail,
-	            company_id:$('#company_id',that.dom).attr('data-company-id'),
+	            company_id:company_id,
 	            customer_mark:customer_mark
 	        },function(data){
 	            if(!data.success){
@@ -4597,7 +4630,7 @@ webpackJsonp([2],[
 /* 268 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"customer-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>客户编号：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户编号\" name=\"customer_code\" id=\"customer_code\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>客户姓名：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户姓名\" name=\"customer_name\" id=\"customer_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>客户职位：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户职位\" name=\"customer_job\" id=\"customer_job\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>联系电话：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户联系电话\" name=\"tel\" id=\"tel\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>QQ：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户QQ\" name=\"qq\" id=\"qq\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>客户邮箱：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户邮箱\" name=\"mail\" id=\"mail\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\" style=\"height:100px;\">\r\n                <label>备注：</label>\r\n                    <textarea  class=\"form-control\" placeholder=\"请输入备注\" name=\"customer_mark\" id=\"customer_mark\" ></textarea>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>所属公司：</label>\r\n                <input class=\"form-control\" placeholder=\"请选择所属公司\" readonly=\"true\" name=\"company_id\" id=\"company_id\" type=\"text\" data-pid=\"0\" value=\"请选择所属公司\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
+	module.exports = "<div class=\"customer-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>客户编号：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户编号\" name=\"customer_code\" id=\"customer_code\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>客户姓名：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户姓名\" name=\"customer_name\" id=\"customer_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>客户职位：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户职位\" name=\"customer_job\" id=\"customer_job\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>联系电话：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户联系电话\" name=\"tel\" id=\"tel\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>QQ：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户QQ\" name=\"qq\" id=\"qq\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>客户邮箱：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户邮箱\" name=\"mail\" id=\"mail\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\" style=\"height:100px;\">\r\n                <label>备注：</label>\r\n                    <textarea  class=\"form-control\" placeholder=\"请输入备注\" name=\"customer_mark\" id=\"customer_mark\" ></textarea>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>所属公司：</label>\r\n                <input class=\"form-control\" placeholder=\"请选择所属公司\" readonly=\"true\" name=\"company_id\" id=\"company_id\" type=\"text\" data-company-id=\"0\" value=\"请选择所属公司\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
 /* 269 */
@@ -4911,20 +4944,32 @@ webpackJsonp([2],[
 	        var rows;
 	        if(!(rows = getCheckRow()))
 	            return;
-	        that.save('/customer/save',{action:'003',customer_id:function(){
-	            var ids = [];
-	            rows.forEach(function(item){
-	                ids.push(item.customer_id);
+	        swal({
+	            title: "确认",
+	            text: "确认删除选中用户吗？",
+	            type: "warning",
+	            showCancelButton: true,
+	            confirmButtonColor: "#DD6B55",
+	            confirmButtonText: "删除",
+	            cancelButtonText: "取消",
+	            closeOnConfirm: true
+	        }, function () {
+	            that.save('/customer/save',{action:'003',customer_id:function(){
+	                var ids = [];
+	                rows.forEach(function(item){
+	                    ids.push(item.customer_id);
+	                });
+	                return ids.join(',');
+	            }()},function(data){
+	                if(data.success){
+	                    that.toast("删除成功!");
+	                    Events.notify('onRefresh:customer-manage');
+	                }else{
+	                    that.toast(data.message);
+	                }
 	            });
-	            return ids.join(',');
-	        }()},function(data){
-	            if(data.success){
-	                that.toast("删除信息成功!");
-	                Events.notify('onRefresh:customer-manage');
-	            }else{
-	                that.toast(data.message);
-	            }
 	        });
+
 	    });
 	    $('#export_customer_btn',this.dom).on('click', function () {
 	        $('#exportFrame').attr('src', '/customer/export?company_id=' + (selectCompanyId == null?'':selectCompanyId)+'&key='+encodeURIComponent(that.searchBox.searchbox('getValue')));
