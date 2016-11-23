@@ -39,7 +39,8 @@ CompanyManage.prototype.loadBaseView = function () {
 };
 
 CompanyManage.prototype.initTable = function () {
-    var that = this;
+    var that = this, $tableMenu = $('#table-context-menu');
+    that.$tableMenu = $tableMenu;
     $('.easyui-linkbutton',that.dom).linkbutton();
     var columns = require('../../../../configs/modules/company-manage-Column.js');
     that.$table = $('#dataTable',that.dom).datagrid({
@@ -68,7 +69,25 @@ CompanyManage.prototype.initTable = function () {
                     Events.notify('onRefresh:company-manage');
             }).init({showType:'Pop',action:'002',company_id:rowData.company_id});
         },
+        onRowContextMenu:function(event,rowIndex,rowData){
+            if(!rowData)
+                return;
+            event.preventDefault();
+            that.$table.datagrid('unselectAll',rowIndex);
+            that.$table.datagrid('selectRow',rowIndex);
+            $tableMenu.menu('show',{
+                left: event.clientX,
+                top: event.clientY
+            });
+        },
         toolbar: '#company-manage-toolbar'
+    });
+    $tableMenu.menu({
+        onClick:function(item){
+            var _id = item.id, id = _id.replace('context_','');
+            $('#'+id,that.dom).click();
+        },
+        hideOnUnhover:false
     });
 
     var searchBox = $('#company-manage #home-easyui-searchbox',that.dom).searchbox({
@@ -168,6 +187,7 @@ CompanyManage.prototype.bindEvents = function () {
  */
 CompanyManage.prototype.finish = function () {
     Events.unsubscribe('onRefresh:company-manage');
+    this.$tableMenu && this.$tableMenu.menu('destroy');
     frameworkBase.finish.apply(this,arguments);
 };
 

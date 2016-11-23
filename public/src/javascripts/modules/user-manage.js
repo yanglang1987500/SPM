@@ -38,7 +38,8 @@ UserManage.prototype.loadBaseView = function () {
 };
 
 UserManage.prototype.initTable = function () {
-    var that = this;
+    var that = this, $tableMenu = $('#table-context-menu');
+    that.$tableMenu = $tableMenu;
     $('.easyui-linkbutton',this.dom).linkbutton();
     var columns = require('../../../../configs/modules/user-manage-Column.js');
     that.$table = $('#dataTable',this.dom).datagrid({
@@ -67,7 +68,25 @@ UserManage.prototype.initTable = function () {
                     Events.notify('onRefresh:user-manage');
             }).init({showType:'Pop',action:'002',user_id:rowData.user_id});
         },
+        onRowContextMenu:function(event,rowIndex,rowData){
+            if(!rowData)
+                return;
+            event.preventDefault();
+            that.$table.datagrid('unselectAll',rowIndex);
+            that.$table.datagrid('selectRow',rowIndex);
+            $tableMenu.menu('show',{
+                left: event.clientX,
+                top: event.clientY
+            });
+        },
         toolbar: '#user-manage-toolbar'
+    });
+    $tableMenu.menu({
+        onClick:function(item){
+            var _id = item.id, id = _id.replace('context_','');
+            $('#'+id,that.dom).click();
+        },
+        hideOnUnhover:false
     });
 
     var searchBox = $('#user-manage #home-easyui-searchbox',that.dom).searchbox({
@@ -204,6 +223,7 @@ UserManage.prototype.bindEvents = function () {
  */
 UserManage.prototype.finish = function () {
     Events.unsubscribe('onRefresh:user-manage');
+    this.$tableMenu && this.$tableMenu.menu('destroy');
     frameworkBase.finish.apply(this,arguments);
 };
 

@@ -42,7 +42,8 @@ ElementManage.prototype.loadBaseView = function () {
 };
 
 ElementManage.prototype.initTable = function () {
-    var that = this;
+    var that = this, $tableMenu = $('#table-context-menu');
+    that.$tableMenu = $tableMenu;
     $('.easyui-linkbutton',this.dom).linkbutton();
     var columns = require('../../../../configs/modules/element-manage-Column.js');
     that.$table = $('#dataTable',this.dom).datagrid({
@@ -71,7 +72,25 @@ ElementManage.prototype.initTable = function () {
                     Events.notify('onRefresh:element-manage');
             }).init({showType:'Pop',action:'002',element_id:rowData.element_id});
         },
+        onRowContextMenu:function(event,rowIndex,rowData){
+            if(!rowData)
+                return;
+            event.preventDefault();
+            that.$table.datagrid('unselectAll',rowIndex);
+            that.$table.datagrid('selectRow',rowIndex);
+            $tableMenu.menu('show',{
+                left: event.clientX,
+                top: event.clientY
+            });
+        },
         toolbar: '#element-manage-toolbar'
+    });
+    $tableMenu.menu({
+        onClick:function(item){
+            var _id = item.id, id = _id.replace('context_','');
+            $('#'+id,that.dom).click();
+        },
+        hideOnUnhover:false
     });
 
     var searchBox = $('#element-manage #home-easyui-searchbox',that.dom).searchbox({
@@ -240,6 +259,7 @@ ElementManage.prototype.bindEvents = function () {
  */
 ElementManage.prototype.finish = function () {
     Events.unsubscribe('onRefresh:element-manage');
+    this.$tableMenu && this.$tableMenu.menu('destroy');
     frameworkBase.finish.apply(this,arguments);
 };
 

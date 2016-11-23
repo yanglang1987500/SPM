@@ -1384,6 +1384,13 @@ body, html {
 .combo-panel {
   background-color: white !important; }
 
+/**===================修改easyui menu 菜单的样式======================**/
+.menu-shadow {
+  box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.26) !important; }
+
+.easyui-menu .fa {
+  color: #3498db; }
+
 /**===================修改easyui datebox的样式======================**/
 .datebox-button a {
   font-weight: normal !important;

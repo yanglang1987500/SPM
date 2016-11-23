@@ -42,7 +42,8 @@ OrgManage.prototype.loadBaseView = function () {
 };
 
 OrgManage.prototype.initTable = function () {
-    var that = this;
+    var that = this, $tableMenu = $('#table-context-menu');
+    that.$tableMenu = $tableMenu;
     $('.easyui-linkbutton',this.dom).linkbutton();
     var columns = require('../../../../configs/modules/org-manage-Column.js');
     that.$table = $('#dataTable',this.dom).datagrid({
@@ -71,7 +72,25 @@ OrgManage.prototype.initTable = function () {
                     Events.notify('onRefresh:org-manage');
             }).init({showType:'Pop',action:'002',user_id:rowData.user_id});
         },
+        onRowContextMenu:function(event,rowIndex,rowData){
+            if(!rowData)
+                return;
+            event.preventDefault();
+            that.$table.datagrid('unselectAll',rowIndex);
+            that.$table.datagrid('selectRow',rowIndex);
+            $tableMenu.menu('show',{
+                left: event.clientX,
+                top: event.clientY
+            });
+        },
         toolbar: '#org-manage-toolbar'
+    });
+    $tableMenu.menu({
+        onClick:function(item){
+            var _id = item.id, id = _id.replace('context_','');
+            $('#'+id,that.dom).click();
+        },
+        hideOnUnhover:false
     });
 
     var searchBox = $('#org-manage #home-easyui-searchbox',that.dom).searchbox({
@@ -115,7 +134,8 @@ OrgManage.prototype.initTable = function () {
 
 var ztreeObj = null, selectOrgId, firstRefresh = false;
 OrgManage.prototype.initOrgTree = function(){
-    var that = this;
+    var that = this, $treeMenu = $('#tree-context-menu');
+    that.$treeMenu = $treeMenu;
     firstRefresh = false;
     var setting = {
         async:{
@@ -173,9 +193,29 @@ OrgManage.prototype.initOrgTree = function(){
                         return;
                     }
                 });
+            },
+            onRightClick:function(event,treeId,treeNode){
+                if(!treeNode)
+                    return;
+                event.preventDefault();
+                ztreeObj.selectNode(treeNode, false, false);
+                selectCompanyId = treeNode.company_id;
+                Events.notify('onRefresh:org-manage');
+
+                $treeMenu.menu('show', {
+                    left: event.clientX,
+                    top: event.clientY
+                });
             }
         }
     };
+    $treeMenu.menu({
+        onClick:function(item){
+            var _id = item.id, id = _id.replace('context_','');
+            $('#'+id,that.dom).click();
+        },
+        hideOnUnhover:false
+    });
     ztreeObj = $.fn.zTree.init($("#orgTree",this.dom), setting);
 };
 
@@ -375,6 +415,8 @@ OrgManage.prototype.bindEvents = function () {
  */
 OrgManage.prototype.finish = function () {
     Events.unsubscribe('onRefresh:org-manage');
+    this.$treeMenu && this.$treeMenu.menu('destroy');
+    this.$tableMenu && this.$tableMenu.menu('destroy');
     frameworkBase.finish.apply(this,arguments);
 };
 

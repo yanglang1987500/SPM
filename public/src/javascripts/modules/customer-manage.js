@@ -43,7 +43,8 @@ CustomerManage.prototype.loadBaseView = function () {
 };
 
 CustomerManage.prototype.initTable = function () {
-    var that = this;
+    var that = this, $tableMenu = $('#table-context-menu');
+    that.$tableMenu = $tableMenu;
     $('.easyui-linkbutton',this.dom).linkbutton();
     var columns = require('../../../../configs/modules/customer-manage-Column.js');
     that.$table = $('#dataTable',this.dom).datagrid({
@@ -73,7 +74,25 @@ CustomerManage.prototype.initTable = function () {
                     Events.notify('onRefresh:customer-manage');
             }).init({showType:'Pop',action:'002',customer_id:rowData.customer_id});
         },
+        onRowContextMenu:function(event,rowIndex,rowData){
+            if(!rowData)
+                return;
+            event.preventDefault();
+            that.$table.datagrid('unselectAll',rowIndex);
+            that.$table.datagrid('selectRow',rowIndex);
+            $tableMenu.menu('show',{
+                left: event.clientX,
+                top: event.clientY
+            });
+        },
         toolbar: '#customer-manage-toolbar'
+    });
+    $tableMenu.menu({
+        onClick:function(item){
+            var _id = item.id, id = _id.replace('context_','');
+            $('#'+id,that.dom).click();
+        },
+        hideOnUnhover:false
     });
 
     var searchBox = that.searchBox = $('#customer-manage #home-easyui-searchbox',that.dom).searchbox({
@@ -117,7 +136,8 @@ CustomerManage.prototype.initTable = function () {
 
 var selectCompanyId, firstRefresh = false;
 CustomerManage.prototype.initCompanyTree = function(){
-    var that = this;
+    var that = this, $treeMenu = $('#tree-context-menu');
+    that.$treeMenu = $treeMenu;
     firstRefresh = false;
     var setting = {
         async:{
@@ -153,9 +173,50 @@ CustomerManage.prototype.initCompanyTree = function(){
                 if(firstRefresh)
                     return;
                 firstRefresh = true;
+            },
+            onRightClick:function(event,treeId,treeNode){
+                if(!treeNode)
+                    return;
+                event.preventDefault();
+                that.ztreeObj.selectNode(treeNode, false, false);
+                selectCompanyId = treeNode.company_id;
+                Events.notify('onRefresh:customer-manage');
+                var arr = ['context_modifyCompanyBtn','context_removeCompanyBtn','context_queryKernalTime','context_add_customer_btn','context_export_customer_btn'],
+                    arr2 = ['context_addCompanyBtn'];
+                if(treeNode.company_id == null){
+                    $.each(arr,function(index,id){
+                        var item = $treeMenu.menu('getItem', $('#'+id)[0]);
+                        $treeMenu.menu('disableItem', item.target);
+                    });
+                    $.each(arr2,function(index,id){
+                        var item = $treeMenu.menu('getItem', $('#'+id)[0]);
+                        $treeMenu.menu('enableItem', item.target);
+                    });
+                }else{
+                    $.each(arr,function(index,id){
+                        var item = $treeMenu.menu('getItem', $('#'+id)[0]);
+                        $treeMenu.menu('enableItem', item.target);
+                    });
+                    $.each(arr2,function(index,id){
+                        var item = $treeMenu.menu('getItem', $('#'+id)[0]);
+                        $treeMenu.menu('disableItem', item.target);
+                    });
+                }
+
+                $treeMenu.menu('show', {
+                    left: event.clientX,
+                    top: event.clientY
+                });
             }
         }
     };
+    $treeMenu.menu({
+        onClick:function(item){
+            var _id = item.id, id = _id.replace('context_','');
+            $('#'+id,that.dom).click();
+        },
+        hideOnUnhover:false
+    });
     that.ztreeObj = $.fn.zTree.init($("#companyTree",that.dom), setting,[{company_id:null,company_name:'所有公司',pId:null,isParent:true}]);
     var rootNode = that.ztreeObj.getNodes()[0];
     that.ztreeObj.expandNode(rootNode,true,true,true);
@@ -277,8 +338,8 @@ CustomerManage.prototype.bindEvents = function () {
         });
 
     });
-    
-    
+
+
     //添加客户
     $('#add_customer_btn',this.dom).click(function(){
         var nodes = that.ztreeObj.getSelectedNodes();
@@ -361,6 +422,8 @@ CustomerManage.prototype.bindEvents = function () {
  */
 CustomerManage.prototype.finish = function () {
     Events.unsubscribe('onRefresh:customer-manage');
+    this.$treeMenu && this.$treeMenu.menu('destroy');
+    this.$tableMenu && this.$tableMenu.menu('destroy');
     frameworkBase.finish.apply(this,arguments);
 };
 

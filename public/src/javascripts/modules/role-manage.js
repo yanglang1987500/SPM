@@ -39,7 +39,8 @@ RoleManage.prototype.loadBaseView = function () {
 };
 
 RoleManage.prototype.initTable = function () {
-    var that = this;
+    var that = this, $tableMenu = $('#table-context-menu');
+    that.$tableMenu = $tableMenu;
     $('.easyui-linkbutton',this.dom).linkbutton();
     var columns = require('../../../../configs/modules/role-manage-Column.js');
     that.$table = $('#dataTable',this.dom).datagrid({
@@ -68,7 +69,25 @@ RoleManage.prototype.initTable = function () {
                     Events.notify('onRefresh:role-manage');
             }).init({showType:'Pop',action:'002',role_id:rowData.role_id});
         },
+        onRowContextMenu:function(event,rowIndex,rowData){
+            if(!rowData)
+                return;
+            event.preventDefault();
+            that.$table.datagrid('unselectAll',rowIndex);
+            that.$table.datagrid('selectRow',rowIndex);
+            $tableMenu.menu('show',{
+                left: event.clientX,
+                top: event.clientY
+            });
+        },
         toolbar: '#role-manage-toolbar'
+    });
+    $tableMenu.menu({
+        onClick:function(item){
+            var _id = item.id, id = _id.replace('context_','');
+            $('#'+id,that.dom).click();
+        },
+        hideOnUnhover:false
     });
 
     var searchBox = $('#role-manage #home-easyui-searchbox',that.dom).searchbox({
@@ -183,6 +202,7 @@ RoleManage.prototype.bindEvents = function () {
  */
 RoleManage.prototype.finish = function () {
     Events.unsubscribe('onRefresh:role-manage');
+    this.$tableMenu && this.$tableMenu.menu('destroy');
     frameworkBase.finish.apply(this,arguments);
 };
 

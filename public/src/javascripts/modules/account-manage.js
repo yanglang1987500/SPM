@@ -42,7 +42,8 @@ AccountManage.prototype.loadBaseView = function () {
 };
 
 AccountManage.prototype.initTable = function () {
-    var that = this;
+    var that = this, $tableMenu = $('#table-context-menu');
+    that.$tableMenu = $tableMenu;
     $('.easyui-linkbutton',this.dom).linkbutton();
     var columns = require('../../../../configs/modules/account-manage-Column.js');
     that.$table = $('#dataTable',this.dom).datagrid({
@@ -72,7 +73,25 @@ AccountManage.prototype.initTable = function () {
                     Events.notify('onRefresh:account-manage');
             }).init({showType:'Pop',action:'002',account_id:rowData.account_id});
         },
+        onRowContextMenu:function(event,rowIndex,rowData){
+            if(!rowData)
+                return;
+            event.preventDefault();
+            that.$table.datagrid('unselectAll',rowIndex);
+            that.$table.datagrid('selectRow',rowIndex);
+            $tableMenu.menu('show',{
+                left: event.clientX,
+                top: event.clientY
+            });
+        },
         toolbar: '#account-manage-toolbar'
+    });
+    $tableMenu.menu({
+        onClick:function(item){
+            var _id = item.id, id = _id.replace('context_','');
+            $('#'+id,that.dom).click();
+        },
+        hideOnUnhover:false
     });
 
     var searchBox = $('#account-manage #home-easyui-searchbox',that.dom).searchbox({
@@ -90,7 +109,7 @@ AccountManage.prototype.initTable = function () {
 
     
 
-    var startDate = $("#startdate",that.dom).datebox({
+    var startDate = that.$startDate = $("#startdate",that.dom).datebox({
         editable:false ,
         formatter: function (date) {
             return Calendar.getInstance(date).format('yyyy-MM-dd');
@@ -104,7 +123,7 @@ AccountManage.prototype.initTable = function () {
             });
         }
     });
-    var endDate = $("#enddate",that.dom).datebox({
+    var endDate = that.$endDate = $("#enddate",that.dom).datebox({
         editable:false ,
         formatter: function (date) {
             return Calendar.getInstance(date).format('yyyy-MM-dd');
@@ -147,7 +166,8 @@ AccountManage.prototype.initTable = function () {
 
 var selectCompanyId, firstRefresh = false;
 AccountManage.prototype.initCompanyTree = function(){
-    var that = this;
+    var that = this, $treeMenu = $('#tree-context-menu');
+    that.$treeMenu = $treeMenu;
     firstRefresh = false;
     var setting = {
         async:{
@@ -183,14 +203,33 @@ AccountManage.prototype.initCompanyTree = function(){
                 if(firstRefresh)
                     return;
 
-
                 selectCompanyId = that.ztreeObj.getNodes()[0].company_id;
                 that.ztreeObj.selectNode(that.ztreeObj.getNodes()[0], false, false);
                 Events.notify('onRefresh:account-manage');
                 firstRefresh = true;
+            },
+            onRightClick:function(event,treeId,treeNode){
+                if(!treeNode)
+                    return;
+                event.preventDefault();
+                that.ztreeObj.selectNode(treeNode, false, false);
+                selectCompanyId = treeNode.company_id;
+                Events.notify('onRefresh:account-manage');
+
+                $treeMenu.menu('show', {
+                    left: event.clientX,
+                    top: event.clientY
+                });
             }
         }
     };
+    $treeMenu.menu({
+        onClick:function(item){
+            var _id = item.id, id = _id.replace('context_','');
+            $('#'+id,that.dom).click();
+        },
+        hideOnUnhover:false
+    });
     that.ztreeObj = $.fn.zTree.init($("#companyTree",that.dom), setting);
 };
 
@@ -414,6 +453,10 @@ AccountManage.prototype.bindEvents = function () {
  */
 AccountManage.prototype.finish = function () {
     Events.unsubscribe('onRefresh:account-manage');
+    this.$startDate && this.$startDate.datebox('destroy');
+    this.$endDate && this.$endDate.datebox('destroy');
+    this.$treeMenu && this.$treeMenu.menu('destroy');
+    this.$tableMenu && this.$tableMenu.menu('destroy');
     frameworkBase.finish.apply(this,arguments);
 };
 

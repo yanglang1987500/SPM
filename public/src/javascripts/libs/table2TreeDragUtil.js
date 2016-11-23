@@ -18,6 +18,8 @@ var dragUtil = {
         return false;
     },
     mouseDown:function(e){
+        if(e.which != 1)
+            return;
         var $this = $(this),multi = false;
 
         if($this.hasClass('datagrid-row-checked'))
