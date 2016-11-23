@@ -501,6 +501,9 @@ Framework.prototype = {
                     onBeforeClose : function() {
                         that.finish();
                         return false;
+                    },
+                    onMove:function(left,top){
+                        that.onMove(left,top);
                     }
                 });
                 that.dom = $('#framework_dialog>div');
@@ -534,6 +537,11 @@ Framework.prototype = {
 
         }
     },
+    /**
+     * 当模块为弹出框形式时，拖动后的回调函数
+     * 等待子类实现
+     */
+    onMove:function(left,top){},
     /**
      * 添加回调方法<br>
      * 一般来说，当调用某个模块进行处理某项业务时，其处理完毕之后需要一个回调通知，调用此方法添加即可，同一个模块可以添加多个回调方法。<br>

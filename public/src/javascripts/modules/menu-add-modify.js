@@ -93,6 +93,17 @@ MenuAddModify.prototype.bindEvents = function(){
     });
 };
 
+MenuAddModify.prototype.onMove = function(left,top){
+    if(!this.$treepanel)
+        return;
+    var $menu_parent_id = $('#menu_parent_id',this.dom);
+    var offset = $menu_parent_id.offset();
+    this.$treepanel.css({
+        left:offset.left,
+        top:offset.top+30
+    });
+};
+
 MenuAddModify.prototype.initMenuTree = function(type){
     var that = this;
     this.query('/menu/list',{menu_device:type},function(data){

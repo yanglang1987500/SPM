@@ -83,6 +83,18 @@ OrgAddModify.prototype.bindEvents = function(){
 
 };
 
+
+OrgAddModify.prototype.onMove = function(left,top){
+    if(!this.$treepanel)
+        return;
+    var $org_parent_id = $('#org_parent_id',this.dom);
+    var offset = $org_parent_id.offset();
+    this.$treepanel.css({
+        left:offset.left,
+        top:offset.top+30
+    });
+};
+
 OrgAddModify.prototype.initOrgTree = function(){
     var that = this;
     this.query('/org/list',function(data){

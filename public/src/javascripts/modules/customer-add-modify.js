@@ -95,6 +95,17 @@ CustomerAddModify.prototype.bindEvents = function(){
     this.initCompanyTree();
 };
 
+CustomerAddModify.prototype.onMove = function(left,top){
+    if(!this.$treepanel)
+        return;
+    var $company_parent_id = $('#company_id',this.dom);
+    var offset = $company_parent_id.offset();
+    this.$treepanel.css({
+        left:offset.left,
+        top:offset.top+30
+    });
+};
+
 
 CustomerAddModify.prototype.initCompanyTree = function(){
     var that = this;
