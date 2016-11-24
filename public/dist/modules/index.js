@@ -9,15 +9,15 @@ webpackJsonp([2],[
 	__webpack_require__(170);
 	__webpack_require__(171);
 	__webpack_require__(173);
-	window.toastr = __webpack_require__(186);
-	__webpack_require__(189);
-	__webpack_require__(191);
+	window.toastr = __webpack_require__(193);
+	__webpack_require__(196);
+	__webpack_require__(198);
 	var prefix = './modules/';
 	var Events = __webpack_require__(16);
-	var Router = __webpack_require__(192);
+	var Router = __webpack_require__(199);
 	Router.init();
-	__webpack_require__(195);
-	var frameBase = __webpack_require__(194);
+	__webpack_require__(202);
+	var frameBase = __webpack_require__(201);
 	var theme,_THEME_KEY_ = '_THEME_KEY';
 	 
 	if(theme = localStorage.getItem(_THEME_KEY_)){
@@ -313,7 +313,14 @@ webpackJsonp([2],[
 /* 183 */,
 /* 184 */,
 /* 185 */,
-/* 186 */
+/* 186 */,
+/* 187 */,
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */,
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -330,7 +337,7 @@ webpackJsonp([2],[
 	 */
 	/* global define */
 	(function (define) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(187)], __WEBPACK_AMD_DEFINE_RESULT__ = function ($) {
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(194)], __WEBPACK_AMD_DEFINE_RESULT__ = function ($) {
 	        return (function () {
 	            var $container;
 	            var listener;
@@ -785,31 +792,31 @@ webpackJsonp([2],[
 
 	        })();
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(188)));
+	}(__webpack_require__(195)));
 
 
 /***/ },
-/* 187 */
+/* 194 */
 /***/ function(module, exports) {
 
 	module.exports = jQuery;
 
 /***/ },
-/* 188 */
+/* 195 */
 /***/ function(module, exports) {
 
 	module.exports = function() { throw new Error("define cannot be used indirect"); };
 
 
 /***/ },
-/* 189 */
+/* 196 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 190 */,
-/* 191 */
+/* 197 */,
+/* 198 */
 /***/ function(module, exports) {
 
 	/**
@@ -901,7 +908,7 @@ webpackJsonp([2],[
 	};
 
 /***/ },
-/* 192 */
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -911,9 +918,9 @@ webpackJsonp([2],[
 	 * @module historycontrol-base
 	 */
 
-	var Router = __webpack_require__(193).Router;
+	var Router = __webpack_require__(200).Router;
 	var Events = __webpack_require__(16);
-	var frameworkBase = __webpack_require__(194);
+	var frameworkBase = __webpack_require__(201);
 
 
 	function load(_module,showType){
@@ -954,7 +961,7 @@ webpackJsonp([2],[
 	};
 
 /***/ },
-/* 193 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -966,7 +973,7 @@ webpackJsonp([2],[
 	(function(a){function k(a,b,c,d){var e=0,f=0,g=0,c=(c||"(").toString(),d=(d||")").toString(),h;for(h=0;h<a.length;h++){var i=a[h];if(i.indexOf(c,e)>i.indexOf(d,e)||~i.indexOf(c,e)&&!~i.indexOf(d,e)||!~i.indexOf(c,e)&&~i.indexOf(d,e)){f=i.indexOf(c,e),g=i.indexOf(d,e);if(~f&&!~g||!~f&&~g){var j=a.slice(0,(h||1)+1).join(b);a=[j].concat(a.slice((h||1)+1))}e=(g>f?g:f)+1,h=0}else e=0}return a}function j(a,b){var c,d=0,e="";while(c=a.substr(d).match(/[^\w\d\- %@&]*\*[^\w\d\- %@&]*/))d=c.index+c[0].length,c[0]=c[0].replace(/^\*/,"([_.()!\\ %@&a-zA-Z0-9-]+)"),e+=a.substr(0,c.index)+c[0];a=e+=a.substr(d);var f=a.match(/:([^\/]+)/ig),g,h;if(f){h=f.length;for(var j=0;j<h;j++)g=f[j],g.slice(0,2)==="::"?a=g.slice(1):a=a.replace(g,i(g,b))}return a}function i(a,b,c){c=a;for(var d in b)if(b.hasOwnProperty(d)){c=b[d](a);if(c!==a)break}return c===a?"([._a-zA-Z0-9-%()]+)":c}function h(a,b,c){if(!a.length)return c();var d=0;(function e(){b(a[d],function(b){b||b===!1?(c(b),c=function(){}):(d+=1,d===a.length?c():e())})})()}function g(a){var b=[];for(var c=0,d=a.length;c<d;c++)b=b.concat(a[c]);return b}function f(a,b){for(var c=0;c<a.length;c+=1)if(b(a[c],c,a)===!1)return}function c(){return b.hash===""||b.hash==="#"}var b=document.location,d={mode:"modern",hash:b.hash,history:!1,check:function(){var a=b.hash;a!=this.hash&&(this.hash=a,this.onHashChanged())},fire:function(){this.mode==="modern"?this.history===!0?window.onpopstate():window.onhashchange():this.onHashChanged()},init:function(a,b){function d(a){for(var b=0,c=e.listeners.length;b<c;b++)e.listeners[b](a)}var c=this;this.history=b,e.listeners||(e.listeners=[]);if("onhashchange"in window&&(document.documentMode===undefined||document.documentMode>7))this.history===!0?setTimeout(function(){window.onpopstate=d},500):window.onhashchange=d,this.mode="modern";else{var f=document.createElement("iframe");f.id="state-frame",f.style.display="none",document.body.appendChild(f),this.writeFrame(""),"onpropertychange"in document&&"attachEvent"in document&&document.attachEvent("onpropertychange",function(){event.propertyName==="location"&&c.check()}),window.setInterval(function(){c.check()},50),this.onHashChanged=d,this.mode="legacy"}e.listeners.push(a);return this.mode},destroy:function(a){if(!!e&&!!e.listeners){var b=e.listeners;for(var c=b.length-1;c>=0;c--)b[c]===a&&b.splice(c,1)}},setHash:function(a){this.mode==="legacy"&&this.writeFrame(a),this.history===!0?(window.history.pushState({},document.title,a),this.fire()):b.hash=a[0]==="/"?a:"/"+a;return this},writeFrame:function(a){var b=document.getElementById("state-frame"),c=b.contentDocument||b.contentWindow.document;c.open(),c.write("<script>_hash = '"+a+"'; onload = parent.listener.syncHash;<script>"),c.close()},syncHash:function(){var a=this._hash;a!=b.hash&&(b.hash=a);return this},onHashChanged:function(){}},e=a.Router=function(a){if(this instanceof e)this.params={},this.routes={},this.methods=["on","once","after","before"],this.scope=[],this._methods={},this._insert=this.insert,this.insert=this.insertEx,this.historySupport=(window.history!=null?window.history.pushState:null)!=null,this.configure(),this.mount(a||{});else return new e(a)};e.prototype.init=function(a){var e=this,f;this.handler=function(a){var b=a&&a.newURL||window.location.hash,c=e.history===!0?e.getPath():b.replace(/.*#/,"");e.dispatch("on",c.charAt(0)==="/"?c:"/"+c)},d.init(this.handler,this.history),this.history===!1?c()&&a?b.hash=a:c()||e.dispatch("on","/"+b.hash.replace(/^(#\/|#|\/)/,"")):(this.convert_hash_in_init?(f=c()&&a?a:c()?null:b.hash.replace(/^#/,""),f&&window.history.replaceState({},document.title,f)):f=this.getPath(),(f||this.run_in_init===!0)&&this.handler());return this},e.prototype.explode=function(){var a=this.history===!0?this.getPath():b.hash;a.charAt(1)==="/"&&(a=a.slice(1));return a.slice(1,a.length).split("/")},e.prototype.setRoute=function(a,b,c){var e=this.explode();typeof a=="number"&&typeof b=="string"?e[a]=b:typeof c=="string"?e.splice(a,b,s):e=[a],d.setHash(e.join("/"));return e},e.prototype.insertEx=function(a,b,c,d){a==="once"&&(a="on",c=function(a){var b=!1;return function(){if(!b){b=!0;return a.apply(this,arguments)}}}(c));return this._insert(a,b,c,d)},e.prototype.getRoute=function(a){var b=a;if(typeof a=="number")b=this.explode()[a];else if(typeof a=="string"){var c=this.explode();b=c.indexOf(a)}else b=this.explode();return b},e.prototype.destroy=function(){d.destroy(this.handler);return this},e.prototype.getPath=function(){var a=window.location.pathname;a.substr(0,1)!=="/"&&(a="/"+a);return a};var l=/\?.*/;e.prototype.configure=function(a){a=a||{};for(var b=0;b<this.methods.length;b++)this._methods[this.methods[b]]=!0;this.recurse=a.recurse||this.recurse||!1,this.async=a.async||!1,this.delimiter=a.delimiter||"/",this.strict=typeof a.strict=="undefined"?!0:a.strict,this.notfound=a.notfound,this.resource=a.resource,this.history=a.html5history&&this.historySupport||!1,this.run_in_init=this.history===!0&&a.run_handler_in_init!==!1,this.convert_hash_in_init=this.history===!0&&a.convert_hash_in_init!==!1,this.every={after:a.after||null,before:a.before||null,on:a.on||null};return this},e.prototype.param=function(a,b){a[0]!==":"&&(a=":"+a);var c=new RegExp(a,"g");this.params[a]=function(a){return a.replace(c,b.source||b)};return this},e.prototype.on=e.prototype.route=function(a,b,c){var d=this;!c&&typeof b=="function"&&(c=b,b=a,a="on");if(Array.isArray(b))return b.forEach(function(b){d.on(a,b,c)});b.source&&(b=b.source.replace(/\\\//ig,"/"));if(Array.isArray(a))return a.forEach(function(a){d.on(a.toLowerCase(),b,c)});b=b.split(new RegExp(this.delimiter)),b=k(b,this.delimiter),this.insert(a,this.scope.concat(b),c)},e.prototype.path=function(a,b){var c=this,d=this.scope.length;a.source&&(a=a.source.replace(/\\\//ig,"/")),a=a.split(new RegExp(this.delimiter)),a=k(a,this.delimiter),this.scope=this.scope.concat(a),b.call(this,this),this.scope.splice(d,a.length)},e.prototype.dispatch=function(a,b,c){function h(){d.last=e.after,d.invoke(d.runlist(e),d,c)}var d=this,e=this.traverse(a,b.replace(l,""),this.routes,""),f=this._invoked,g;this._invoked=!0;if(!e||e.length===0){this.last=[],typeof this.notfound=="function"&&this.invoke([this.notfound],{method:a,path:b},c);return!1}this.recurse==="forward"&&(e=e.reverse()),g=this.every&&this.every.after?[this.every.after].concat(this.last):[this.last];if(g&&g.length>0&&f){this.async?this.invoke(g,this,h):(this.invoke(g,this),h());return!0}h();return!0},e.prototype.invoke=function(a,b,c){var d=this,e;this.async?(e=function(c,d){if(Array.isArray(c))return h(c,e,d);typeof c=="function"&&c.apply(b,(a.captures||[]).concat(d))},h(a,e,function(){c&&c.apply(b,arguments)})):(e=function(c){if(Array.isArray(c))return f(c,e);if(typeof c=="function")return c.apply(b,a.captures||[]);typeof c=="string"&&d.resource&&d.resource[c].apply(b,a.captures||[])},f(a,e))},e.prototype.traverse=function(a,b,c,d,e){function l(a){function c(a){for(var b=a.length-1;b>=0;b--)Array.isArray(a[b])?(c(a[b]),a[b].length===0&&a.splice(b,1)):e(a[b])||a.splice(b,1)}function b(a){var c=[];for(var d=0;d<a.length;d++)c[d]=Array.isArray(a[d])?b(a[d]):a[d];return c}if(!e)return a;var d=b(a);d.matched=a.matched,d.captures=a.captures,d.after=a.after.filter(e),c(d);return d}var f=[],g,h,i,j,k;if(b===this.delimiter&&c[a]){j=[[c.before,c[a]].filter(Boolean)],j.after=[c.after].filter(Boolean),j.matched=!0,j.captures=[];return l(j)}for(var m in c)if(c.hasOwnProperty(m)&&(!this._methods[m]||this._methods[m]&&typeof c[m]=="object"&&!Array.isArray(c[m]))){g=h=d+this.delimiter+m,this.strict||(h+="["+this.delimiter+"]?"),i=b.match(new RegExp("^"+h));if(!i)continue;if(i[0]&&i[0]==b&&c[m][a]){j=[[c[m].before,c[m][a]].filter(Boolean)],j.after=[c[m].after].filter(Boolean),j.matched=!0,j.captures=i.slice(1),this.recurse&&c===this.routes&&(j.push([c.before,c.on].filter(Boolean)),j.after=j.after.concat([c.after].filter(Boolean)));return l(j)}j=this.traverse(a,b,c[m],g);if(j.matched){j.length>0&&(f=f.concat(j)),this.recurse&&(f.push([c[m].before,c[m].on].filter(Boolean)),j.after=j.after.concat([c[m].after].filter(Boolean)),c===this.routes&&(f.push([c.before,c.on].filter(Boolean)),j.after=j.after.concat([c.after].filter(Boolean)))),f.matched=!0,f.captures=j.captures,f.after=j.after;return l(f)}}return!1},e.prototype.insert=function(a,b,c,d){var e,f,g,h,i;b=b.filter(function(a){return a&&a.length>0}),d=d||this.routes,i=b.shift(),/\:|\*/.test(i)&&!/\\d|\\w/.test(i)&&(i=j(i,this.params));if(b.length>0){d[i]=d[i]||{};return this.insert(a,b,c,d[i])}{if(!!i||!!b.length||d!==this.routes){f=typeof d[i],g=Array.isArray(d[i]);if(d[i]&&!g&&f=="object"){e=typeof d[i][a];switch(e){case"function":d[i][a]=[d[i][a],c];return;case"object":d[i][a].push(c);return;case"undefined":d[i][a]=c;return}}else if(f=="undefined"){h={},h[a]=c,d[i]=h;return}throw new Error("Invalid route context: "+f)}e=typeof d[a];switch(e){case"function":d[a]=[d[a],c];return;case"object":d[a].push(c);return;case"undefined":d[a]=c;return}}},e.prototype.extend=function(a){function e(a){b._methods[a]=!0,b[a]=function(){var c=arguments.length===1?[a,""]:[a];b.on.apply(b,c.concat(Array.prototype.slice.call(arguments)))}}var b=this,c=a.length,d;for(d=0;d<c;d++)e(a[d])},e.prototype.runlist=function(a){var b=this.every&&this.every.before?[this.every.before].concat(g(a)):g(a);this.every&&this.every.on&&b.push(this.every.on),b.captures=a.captures,b.source=a.source;return b},e.prototype.mount=function(a,b){function d(b,d){var e=b,f=b.split(c.delimiter),g=typeof a[b],h=f[0]===""||!c._methods[f[0]],i=h?"on":e;h&&(e=e.slice((e.match(new RegExp("^"+c.delimiter))||[""])[0].length),f.shift());h&&g==="object"&&!Array.isArray(a[b])?(d=d.concat(f),c.mount(a[b],d)):(h&&(d=d.concat(e.split(c.delimiter)),d=k(d,c.delimiter)),c.insert(i,d,a[b]))}if(!!a&&typeof a=="object"&&!Array.isArray(a)){var c=this;b=b||[],Array.isArray(b)||(b=b.split(c.delimiter));for(var e in a)a.hasOwnProperty(e)&&d(e,b.slice(0))}}})( true?exports:window)
 
 /***/ },
-/* 194 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -978,7 +985,7 @@ webpackJsonp([2],[
 	 * @module framework-base
 	 */
 
-	__webpack_require__(191);
+	__webpack_require__(198);
 	var Events = __webpack_require__(16);
 
 
@@ -1457,7 +1464,8 @@ webpackJsonp([2],[
 	                that.dom = $mainview;
 	                break;
 	            case 'Pop':
-	                var pop = $('#framework_dialog').dialog({
+	                var $pop = $('<div class="framework_dialog"></div>').appendTo($('body'));
+	                var pop = $pop.dialog({
 	                    title: this.getTitle(),
 	                    width: this.getWidth(),
 	                    height: this.getHeight(),
@@ -1477,7 +1485,7 @@ webpackJsonp([2],[
 	                        that.onMove(left,top);
 	                    }
 	                });
-	                that.dom = $('#framework_dialog>div');
+	                that.dom = $pop.children();
 	                pop.parent().addClass('uk-animation-scale-up').next().addClass('uk-animation-scale-up');
 	                that.pop = pop;
 	                break;
@@ -1502,7 +1510,6 @@ webpackJsonp([2],[
 	                setTimeout(function(){
 	                    that.pop.dialog('destroy');
 	                    that.pop = null;
-	                    $('<div id="framework_dialog"></div>').appendTo($('body'));
 	                },200);
 	            },50);
 
@@ -1823,7 +1830,7 @@ webpackJsonp([2],[
 
 
 /***/ },
-/* 195 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1835,95 +1842,95 @@ webpackJsonp([2],[
 	Events.addMethod('require',function(moduleId,options){
 	    //此处有两种可能，一种是菜单，会传进来配置的./modules/aboutus（比如），另一种是直接引用模块，比如aboutus，需要判断格式
 	    var flag = /^\.\/modules\/(.*)$/.test(moduleId);
-	    return __webpack_require__(196)(flag?'./'+RegExp.$1:'./'+moduleId);
+	    return __webpack_require__(203)(flag?'./'+RegExp.$1:'./'+moduleId);
 	});
 	module.exports = {};
 
 /***/ },
-/* 196 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./aboutus": 197,
-		"./aboutus.js": 197,
-		"./account-add-modify": 201,
-		"./account-add-modify.js": 201,
-		"./account-manage": 231,
-		"./account-manage.js": 231,
-		"./async-data": 237,
-		"./async-data.js": 237,
-		"./attence-analyse": 238,
-		"./attence-analyse-widgets/attence-analyse-chart1": 241,
-		"./attence-analyse-widgets/attence-analyse-chart1.js": 241,
-		"./attence-analyse-widgets/attence-analyse-chart2": 243,
-		"./attence-analyse-widgets/attence-analyse-chart2.js": 243,
-		"./attence-analyse-widgets/attence-analyse-chart3": 244,
-		"./attence-analyse-widgets/attence-analyse-chart3.js": 244,
-		"./attence-analyse.js": 238,
-		"./attence-search": 245,
-		"./attence-search.js": 245,
-		"./authority-control": 252,
-		"./authority-control.js": 252,
-		"./company-add-modify": 256,
-		"./company-add-modify.js": 256,
-		"./company-manage": 260,
-		"./company-manage.js": 260,
-		"./customer-add-modify": 265,
-		"./customer-add-modify.js": 265,
-		"./customer-manage": 269,
-		"./customer-manage.js": 269,
-		"./dim-add-modify": 274,
-		"./dim-add-modify.js": 274,
-		"./dim-manage": 278,
-		"./dim-manage.js": 278,
-		"./element-add-modify": 282,
-		"./element-add-modify.js": 282,
-		"./element-manage": 286,
-		"./element-manage.js": 286,
-		"./framework/framework-base": 194,
-		"./framework/framework-base.js": 194,
-		"./framework/framework-chartconfig": 242,
-		"./framework/framework-chartconfig.js": 242,
-		"./framework/framework-route": 192,
-		"./framework/framework-route.js": 192,
-		"./homepage": 290,
-		"./homepage.js": 290,
-		"./menu-add-modify": 311,
-		"./menu-add-modify.js": 311,
-		"./menu-manage": 315,
-		"./menu-manage.js": 315,
-		"./message-publish": 319,
-		"./message-publish-list": 293,
-		"./message-publish-list.js": 293,
-		"./message-publish.js": 319,
-		"./org-add-modify": 334,
-		"./org-add-modify.js": 334,
-		"./org-manage": 338,
-		"./org-manage.js": 338,
-		"./password-modify": 342,
-		"./password-modify.js": 342,
-		"./report-list": 298,
-		"./report-list.js": 298,
-		"./report-view": 346,
-		"./report-view.js": 346,
-		"./role-add-modify": 350,
-		"./role-add-modify.js": 350,
-		"./role-manage": 354,
-		"./role-manage.js": 354,
-		"./role2org": 358,
-		"./role2org.js": 358,
-		"./role2user": 362,
-		"./role2user.js": 362,
-		"./user-add-modify": 366,
-		"./user-add-modify.js": 366,
-		"./user-manage": 370,
-		"./user-manage.js": 370,
-		"./user2org": 374,
-		"./user2org.js": 374,
-		"./user2role": 378,
-		"./user2role.js": 378,
-		"./webpack-base": 195,
-		"./webpack-base.js": 195
+		"./aboutus": 204,
+		"./aboutus.js": 204,
+		"./account-add-modify": 208,
+		"./account-add-modify.js": 208,
+		"./account-manage": 238,
+		"./account-manage.js": 238,
+		"./async-data": 244,
+		"./async-data.js": 244,
+		"./attence-analyse": 245,
+		"./attence-analyse-widgets/attence-analyse-chart1": 248,
+		"./attence-analyse-widgets/attence-analyse-chart1.js": 248,
+		"./attence-analyse-widgets/attence-analyse-chart2": 250,
+		"./attence-analyse-widgets/attence-analyse-chart2.js": 250,
+		"./attence-analyse-widgets/attence-analyse-chart3": 251,
+		"./attence-analyse-widgets/attence-analyse-chart3.js": 251,
+		"./attence-analyse.js": 245,
+		"./attence-search": 252,
+		"./attence-search.js": 252,
+		"./authority-control": 259,
+		"./authority-control.js": 259,
+		"./company-add-modify": 263,
+		"./company-add-modify.js": 263,
+		"./company-manage": 267,
+		"./company-manage.js": 267,
+		"./customer-add-modify": 272,
+		"./customer-add-modify.js": 272,
+		"./customer-manage": 276,
+		"./customer-manage.js": 276,
+		"./dim-add-modify": 281,
+		"./dim-add-modify.js": 281,
+		"./dim-manage": 285,
+		"./dim-manage.js": 285,
+		"./element-add-modify": 289,
+		"./element-add-modify.js": 289,
+		"./element-manage": 293,
+		"./element-manage.js": 293,
+		"./framework/framework-base": 201,
+		"./framework/framework-base.js": 201,
+		"./framework/framework-chartconfig": 249,
+		"./framework/framework-chartconfig.js": 249,
+		"./framework/framework-route": 199,
+		"./framework/framework-route.js": 199,
+		"./homepage": 297,
+		"./homepage.js": 297,
+		"./menu-add-modify": 318,
+		"./menu-add-modify.js": 318,
+		"./menu-manage": 322,
+		"./menu-manage.js": 322,
+		"./message-publish": 326,
+		"./message-publish-list": 300,
+		"./message-publish-list.js": 300,
+		"./message-publish.js": 326,
+		"./org-add-modify": 341,
+		"./org-add-modify.js": 341,
+		"./org-manage": 345,
+		"./org-manage.js": 345,
+		"./password-modify": 349,
+		"./password-modify.js": 349,
+		"./report-list": 305,
+		"./report-list.js": 305,
+		"./report-view": 353,
+		"./report-view.js": 353,
+		"./role-add-modify": 357,
+		"./role-add-modify.js": 357,
+		"./role-manage": 361,
+		"./role-manage.js": 361,
+		"./role2org": 365,
+		"./role2org.js": 365,
+		"./role2user": 369,
+		"./role2user.js": 369,
+		"./user-add-modify": 373,
+		"./user-add-modify.js": 373,
+		"./user-manage": 377,
+		"./user-manage.js": 377,
+		"./user2org": 381,
+		"./user2org.js": 381,
+		"./user2role": 385,
+		"./user2role.js": 385,
+		"./webpack-base": 202,
+		"./webpack-base.js": 202
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -1936,16 +1943,16 @@ webpackJsonp([2],[
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 196;
+	webpackContext.id = 203;
 
 
 /***/ },
-/* 197 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(198);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(205);
 	var AboutUs = function(){ };
 
 	//继承自框架基类
@@ -1967,37 +1974,37 @@ webpackJsonp([2],[
 	};
 
 	AboutUs.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(200);
+	    var html = __webpack_require__(207);
 	    this.render(html);
 	};
 
 	module.exports = new AboutUs();
 
 /***/ },
-/* 198 */
+/* 205 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 199 */,
-/* 200 */
+/* 206 */,
+/* 207 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"aboutus shadow-block\">\r\n    <H3>学校物业管理平台</H3>\r\n    <p>\r\n            该平台提供智能门禁与学生考勤系统、智能报修与投诉处理系统、学校信息发布与家校互通系统等功能\r\n    </p>\r\n</div>";
 
 /***/ },
-/* 201 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 账目新增修改模块
 	 */
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(202);
-	__webpack_require__(204);
-	__webpack_require__(223);
-	__webpack_require__(224);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(209);
+	__webpack_require__(211);
+	__webpack_require__(230);
+	__webpack_require__(231);
 	var AccountAddModify = function(){ };
 
 	//继承自框架基类
@@ -2024,7 +2031,7 @@ webpackJsonp([2],[
 
 	AccountAddModify.prototype.loadBaseView = function(options){
 	    var that = this;
-	    var html = __webpack_require__(230);
+	    var html = __webpack_require__(237);
 	    this.render(html);
 	};
 
@@ -2103,26 +2110,19 @@ webpackJsonp([2],[
 	module.exports = new AccountAddModify();
 
 /***/ },
-/* 202 */
+/* 209 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 203 */,
-/* 204 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 205 */,
-/* 206 */,
-/* 207 */,
-/* 208 */,
-/* 209 */,
 /* 210 */,
-/* 211 */,
+/* 211 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
 /* 212 */,
 /* 213 */,
 /* 214 */,
@@ -2134,7 +2134,14 @@ webpackJsonp([2],[
 /* 220 */,
 /* 221 */,
 /* 222 */,
-/* 223 */
+/* 223 */,
+/* 224 */,
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */,
+/* 230 */
 /***/ function(module, exports) {
 
 	
@@ -2303,24 +2310,24 @@ webpackJsonp([2],[
 
 
 /***/ },
-/* 224 */
+/* 231 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 225 */,
-/* 226 */,
-/* 227 */,
-/* 228 */,
-/* 229 */,
-/* 230 */
+/* 232 */,
+/* 233 */,
+/* 234 */,
+/* 235 */,
+/* 236 */,
+/* 237 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"account-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>账目名称：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入账目名称\" name=\"account_name\" id=\"account_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>已结款项：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入已结款项\" name=\"payed\" id=\"payed\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>未结款项：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入未结款项\" name=\"owed\" id=\"owed\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>开始日期：</label>\r\n                <div style=\"width: 72%;float: left;\">\r\n                    <input style=\"width:100%\"  placeholder=\"请输入项目开始日期\" name=\"account_startdate\" id=\"account_startdate\" type=\"text\" value=\"\">\r\n                </div>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>结束日期：</label>\r\n                <div style=\"width: 72%;float: left;\">\r\n                    <input style=\"width:100%\"  placeholder=\"请输入项目结束日期\" name=\"account_enddate\" id=\"account_enddate\" type=\"text\" value=\"\">\r\n                </div>\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 231 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -2328,13 +2335,13 @@ webpackJsonp([2],[
 	 * 账目管理
 	 */
 
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(232);
-	__webpack_require__(223);
-	__webpack_require__(233);
-	__webpack_require__(224);
-	__webpack_require__(234);
-	__webpack_require__(204);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(239);
+	__webpack_require__(230);
+	__webpack_require__(240);
+	__webpack_require__(231);
+	__webpack_require__(241);
+	__webpack_require__(211);
 	var AccountManage = function () {};
 
 	//继承自框架基类
@@ -2370,7 +2377,7 @@ webpackJsonp([2],[
 	    var that = this, $tableMenu = $('#table-context-menu');
 	    that.$tableMenu = $tableMenu;
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(236);
+	    var columns = __webpack_require__(243);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '',
 	        method: 'get',
@@ -2798,7 +2805,7 @@ webpackJsonp([2],[
 
 
 /***/ },
-/* 232 */
+/* 239 */
 /***/ function(module, exports) {
 
 	if ($.fn.pagination){
@@ -2870,7 +2877,7 @@ webpackJsonp([2],[
 
 
 /***/ },
-/* 233 */
+/* 240 */
 /***/ function(module, exports) {
 
 	/*
@@ -2898,14 +2905,14 @@ webpackJsonp([2],[
 
 
 /***/ },
-/* 234 */
+/* 241 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 235 */,
-/* 236 */
+/* 242 */,
+/* 243 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -2923,7 +2930,7 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 237 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -2931,7 +2938,7 @@ webpackJsonp([2],[
 	 * 无界面模块，只负责同步数据，右下角可以弹信息框或者在屏幕中间弹进度框进行显示当前进度。
 	 * 不影响其它模块的运行，在进行数据同步时其它模块可以照常切换与运行。
 	 */
-	var frameworkBase = __webpack_require__(194);
+	var frameworkBase = __webpack_require__(201);
 	var AsyncData = function(){ };
 
 	//继承自框架基类
@@ -2964,7 +2971,7 @@ webpackJsonp([2],[
 	module.exports = new AsyncData();
 
 /***/ },
-/* 238 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -2972,11 +2979,11 @@ webpackJsonp([2],[
 	 * 学生考勤统计
 	 */
 
-	var frameworkBase = __webpack_require__(194);
+	var frameworkBase = __webpack_require__(201);
 
-	__webpack_require__(232);
 	__webpack_require__(239);
-	__webpack_require__(204);
+	__webpack_require__(246);
+	__webpack_require__(211);
 	var AttenceAnalyse = function(){ };
 
 	//继承自框架基类
@@ -3031,7 +3038,7 @@ webpackJsonp([2],[
 	    }else
 	        widgetArray = WIDGETS;
 	    for(var i = 0,len = widgetArray.length;i<len;i++){
-	        var widget = __webpack_require__(196)(widgetArray[i].module);
+	        var widget = __webpack_require__(203)(widgetArray[i].module);
 	        widget.init({container:$(widgetArray[i].container)});
 	        this.widgets.push(widget);
 	    }
@@ -3101,14 +3108,14 @@ webpackJsonp([2],[
 	module.exports = attenceAnalyse;
 
 /***/ },
-/* 239 */
+/* 246 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 240 */,
-/* 241 */
+/* 247 */,
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -3116,9 +3123,9 @@ webpackJsonp([2],[
 	 * 迟到分析 饼图 angle
 	 */
 
-	var AttenceAnalyse = __webpack_require__(238);
+	var AttenceAnalyse = __webpack_require__(245);
 
-	var chartConfig = __webpack_require__(242);
+	var chartConfig = __webpack_require__(249);
 	var AttenceAnalyseModule1 = function () {};
 
 	//继承自作业分析类
@@ -3221,7 +3228,7 @@ webpackJsonp([2],[
 	module.exports = attenceAnalyseModule1;
 
 /***/ },
-/* 242 */
+/* 249 */
 /***/ function(module, exports) {
 
 	/**
@@ -3244,7 +3251,7 @@ webpackJsonp([2],[
 	};
 
 /***/ },
-/* 243 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -3252,8 +3259,8 @@ webpackJsonp([2],[
 	 * 早退比例 饼图
 	 */
 
-	var AttenceAnalyse = __webpack_require__(238);
-	var chartConfig = __webpack_require__(242);
+	var AttenceAnalyse = __webpack_require__(245);
+	var chartConfig = __webpack_require__(249);
 	var AttenceAnalyseModule2 = function () {};
 
 	//继承自作业分析类
@@ -3353,7 +3360,7 @@ webpackJsonp([2],[
 	module.exports = attenceAnalyseModule1;
 
 /***/ },
-/* 244 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -3361,8 +3368,8 @@ webpackJsonp([2],[
 	 * 按时间段进行迟到早退统计分析 柱状图
 	 */
 
-	var AttenceAnalyse = __webpack_require__(238);
-	var chartConfig = __webpack_require__(242);
+	var AttenceAnalyse = __webpack_require__(245);
+	var chartConfig = __webpack_require__(249);
 	var AttenceAnalyseModule3 = function () {};
 
 	//继承自作业分析类
@@ -3516,7 +3523,7 @@ webpackJsonp([2],[
 	module.exports = attenceAnalyseModule1;
 
 /***/ },
-/* 245 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -3524,10 +3531,10 @@ webpackJsonp([2],[
 	 * 学生考勤查询
 	 */
 
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(232);
-	__webpack_require__(246);
-	__webpack_require__(204);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(239);
+	__webpack_require__(253);
+	__webpack_require__(211);
 	var AttenceSearch = function () {};
 
 	//继承自框架基类
@@ -3552,7 +3559,7 @@ webpackJsonp([2],[
 	    var that = this;
 	    this.loadFragment('/views/modules/attence-search.html').then(function(html){
 	        that.render(html);
-	        var columns = __webpack_require__(250);
+	        var columns = __webpack_require__(257);
 	        var $table = that.$table = $('#dataTable',that.dom).datagrid({
 	            url: '/attence/search',
 	            method: 'get',
@@ -3636,19 +3643,19 @@ webpackJsonp([2],[
 	module.exports = attenceSearch;
 
 /***/ },
-/* 246 */
+/* 253 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 247 */,
-/* 248 */,
-/* 249 */,
-/* 250 */
+/* 254 */,
+/* 255 */,
+/* 256 */,
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
-	typeof window == 'undefined' && (Calendar = __webpack_require__(251));
+	typeof window == 'undefined' && (Calendar = __webpack_require__(258));
 	module.exports = [
 	    {field: 'stu_id', title: '学生id', width: 350},
 	    {field: 'stu_name', title: '学生姓名', width: 150},
@@ -3660,7 +3667,7 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 251 */
+/* 258 */
 /***/ function(module, exports) {
 
 	/**
@@ -3845,7 +3852,7 @@ webpackJsonp([2],[
 	})();
 
 /***/ },
-/* 252 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -3853,11 +3860,11 @@ webpackJsonp([2],[
 	 * @author yanglang
 	 * @type {Framework}
 	 */
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(253);
-	__webpack_require__(204);
-	__webpack_require__(223);
-	__webpack_require__(224);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(260);
+	__webpack_require__(211);
+	__webpack_require__(230);
+	__webpack_require__(231);
 	var AuthorityControl = function(){ };
 
 	//继承自框架基类
@@ -3883,7 +3890,7 @@ webpackJsonp([2],[
 	};
 
 	AuthorityControl.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(255);
+	    var html = __webpack_require__(262);
 	    this.render(html);
 	};
 
@@ -4048,30 +4055,30 @@ webpackJsonp([2],[
 	module.exports = authorityControl;
 
 /***/ },
-/* 253 */
+/* 260 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 254 */,
-/* 255 */
+/* 261 */,
+/* 262 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"authority-control\">\r\n    <ul class=\"ui-tabs\">\r\n        <li class=\"actived\">菜单权限</li>\r\n        <li>元素权限</li>\r\n    </ul>\r\n    <div class=\"ui-tabs-content\">\r\n        <div><ul class=\"ztree\" id=\"menuAuthorityTree\"></ul></div>\r\n        <div><ul class=\"ztree\" id=\"elementAuthorityTree\"></ul></div>\r\n    </div>\r\n    <span class=\"framework-button fa fa-save\" id=\"saveBtn\"></span>\r\n</div>";
 
 /***/ },
-/* 256 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 公司新增修改模块
 	 */
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(257);
-	__webpack_require__(204);
-	__webpack_require__(223);
-	__webpack_require__(224);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(264);
+	__webpack_require__(211);
+	__webpack_require__(230);
+	__webpack_require__(231);
 	var CompanyAddModify = function(){ };
 
 	//继承自框架基类
@@ -4098,7 +4105,7 @@ webpackJsonp([2],[
 
 	CompanyAddModify.prototype.loadBaseView = function(options){
 	    var that = this;
-	    var html = __webpack_require__(259);
+	    var html = __webpack_require__(266);
 	    this.render(html);
 	};
 
@@ -4174,20 +4181,20 @@ webpackJsonp([2],[
 	module.exports = new CompanyAddModify();
 
 /***/ },
-/* 257 */
+/* 264 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 258 */,
-/* 259 */
+/* 265 */,
+/* 266 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"company-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>公司编号：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入公司编号\" name=\"company_code\" id=\"company_code\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>公司名称：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入公司名称\" name=\"company_name\" id=\"company_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>公司地址：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入公司地址\" name=\"company_address\" id=\"company_address\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>渲染用户名：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入渲染客户端用户名\" name=\"render_username\" id=\"render_username\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>渲染单价：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入渲染单价\" name=\"render_price\" id=\"render_price\" type=\"text\" value=\"0.3\">\r\n            </div>\r\n            <div class=\"form-group\" style=\"height:100px;\">\r\n                <label>备注：</label>\r\n                <textarea  class=\"form-control\" placeholder=\"请输入公司备注\" name=\"company_mark\" id=\"company_mark\" ></textarea>\r\n            </div>\r\n\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 260 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -4195,11 +4202,11 @@ webpackJsonp([2],[
 	 * 公司管理
 	 */
 
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(232);
-	__webpack_require__(261);
-	__webpack_require__(204);
-	var Exchange = __webpack_require__(263);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(239);
+	__webpack_require__(268);
+	__webpack_require__(211);
+	var Exchange = __webpack_require__(270);
 	var CompanyManage = function () {};
 
 	//继承自框架基类
@@ -4234,7 +4241,7 @@ webpackJsonp([2],[
 	    var that = this, $tableMenu = $('#table-context-menu');
 	    that.$tableMenu = $tableMenu;
 	    $('.easyui-linkbutton',that.dom).linkbutton();
-	    var columns = __webpack_require__(264);
+	    var columns = __webpack_require__(271);
 	    that.$table = $('#dataTable',that.dom).datagrid({
 	        url: '',
 	        method: 'get',
@@ -4394,14 +4401,14 @@ webpackJsonp([2],[
 	module.exports = companyManage;
 
 /***/ },
-/* 261 */
+/* 268 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 262 */,
-/* 263 */
+/* 269 */,
+/* 270 */
 /***/ function(module, exports) {
 
 	/**
@@ -4484,7 +4491,7 @@ webpackJsonp([2],[
 
 
 /***/ },
-/* 264 */
+/* 271 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -4500,17 +4507,17 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 265 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 客户新增修改模块
 	 */
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(266);
-	__webpack_require__(204);
-	__webpack_require__(223);
-	__webpack_require__(224);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(273);
+	__webpack_require__(211);
+	__webpack_require__(230);
+	__webpack_require__(231);
 	var CustomerAddModify = function(){ };
 
 	//继承自框架基类
@@ -4534,7 +4541,7 @@ webpackJsonp([2],[
 
 	CustomerAddModify.prototype.loadBaseView = function(options){
 	    var that = this;
-	    var html = __webpack_require__(268);
+	    var html = __webpack_require__(275);
 	    this.render(html);
 	};
 
@@ -4702,20 +4709,20 @@ webpackJsonp([2],[
 	module.exports = new CustomerAddModify();
 
 /***/ },
-/* 266 */
+/* 273 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 267 */,
-/* 268 */
+/* 274 */,
+/* 275 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"customer-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>客户编号：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户编号\" name=\"customer_code\" id=\"customer_code\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>客户姓名：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户姓名\" name=\"customer_name\" id=\"customer_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>客户职位：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户职位\" name=\"customer_job\" id=\"customer_job\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>联系电话：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户联系电话\" name=\"tel\" id=\"tel\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>QQ：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户QQ\" name=\"qq\" id=\"qq\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>客户邮箱：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户邮箱\" name=\"mail\" id=\"mail\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\" style=\"height:100px;\">\r\n                <label>备注：</label>\r\n                    <textarea  class=\"form-control\" placeholder=\"请输入备注\" name=\"customer_mark\" id=\"customer_mark\" ></textarea>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>所属公司：</label>\r\n                <input class=\"form-control\" placeholder=\"请选择所属公司\" readonly=\"true\" name=\"company_id\" id=\"company_id\" type=\"text\" data-company-id=\"0\" value=\"请选择所属公司\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 269 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -4723,14 +4730,14 @@ webpackJsonp([2],[
 	 * 客户管理
 	 */
 
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(232);
-	__webpack_require__(223);
-	__webpack_require__(233);
-	__webpack_require__(224);
-	__webpack_require__(270);
-	__webpack_require__(204);
-	var table2TreeDragUtil = __webpack_require__(272);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(239);
+	__webpack_require__(230);
+	__webpack_require__(240);
+	__webpack_require__(231);
+	__webpack_require__(277);
+	__webpack_require__(211);
+	var table2TreeDragUtil = __webpack_require__(279);
 	var CustomerManage = function () {};
 
 	//继承自框架基类
@@ -4766,7 +4773,7 @@ webpackJsonp([2],[
 	    var that = this, $tableMenu = $('#table-context-menu');
 	    that.$tableMenu = $tableMenu;
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(273);
+	    var columns = __webpack_require__(280);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '',
 	        method: 'get',
@@ -5160,14 +5167,14 @@ webpackJsonp([2],[
 
 
 /***/ },
-/* 270 */
+/* 277 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 271 */,
-/* 272 */
+/* 278 */,
+/* 279 */
 /***/ function(module, exports) {
 
 	/**
@@ -5291,7 +5298,7 @@ webpackJsonp([2],[
 	};
 
 /***/ },
-/* 273 */
+/* 280 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -5308,17 +5315,17 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 274 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 字典项新增或修改模块
 	 */
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(275);
-	__webpack_require__(204);
-	__webpack_require__(223);
-	__webpack_require__(224);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(282);
+	__webpack_require__(211);
+	__webpack_require__(230);
+	__webpack_require__(231);
 	var DimAddModify = function(){ };
 
 	//继承自框架基类
@@ -5345,7 +5352,7 @@ webpackJsonp([2],[
 
 	DimAddModify.prototype.loadBaseView = function(options){
 	    var that = this;
-	    var html = __webpack_require__(277);
+	    var html = __webpack_require__(284);
 	    this.render(html);
 	};
 
@@ -5426,20 +5433,20 @@ webpackJsonp([2],[
 	module.exports = new DimAddModify();
 
 /***/ },
-/* 275 */
+/* 282 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 276 */,
-/* 277 */
+/* 283 */,
+/* 284 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"dim-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>字典项id：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入字典项ID\" name=\"dim_id\" id=\"dim_id\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>字典项名称：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入字典项名称\" name=\"dim_name\" id=\"dim_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>字典项值：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入字典项值\" name=\"dim_value\" id=\"dim_value\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>分组id：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入分组id\" name=\"group_id\" id=\"group_id\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>分组名称：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入分组名称\" name=\"group_name\" id=\"group_name\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 278 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -5447,10 +5454,10 @@ webpackJsonp([2],[
 	 * 字典管理模块
 	 */
 
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(232);
-	__webpack_require__(279);
-	__webpack_require__(204);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(239);
+	__webpack_require__(286);
+	__webpack_require__(211);
 	var DimManage = function () {};
 
 	//继承自框架基类
@@ -5484,7 +5491,7 @@ webpackJsonp([2],[
 	DimManage.prototype.initTable = function () {
 	    var that = this;
 	    $('.easyui-linkbutton',that.dom).linkbutton();
-	    var columns = __webpack_require__(281);
+	    var columns = __webpack_require__(288);
 	    that.$table = $('#dataTable',that.dom).datagrid({
 	        url: '/dim/list',
 	        method: 'get',
@@ -5615,14 +5622,14 @@ webpackJsonp([2],[
 	module.exports = dimManage;
 
 /***/ },
-/* 279 */
+/* 286 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 280 */,
-/* 281 */
+/* 287 */,
+/* 288 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -5636,17 +5643,17 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 282 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 元素新增修改模块
 	 */
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(283);
-	__webpack_require__(204);
-	__webpack_require__(223);
-	__webpack_require__(224);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(290);
+	__webpack_require__(211);
+	__webpack_require__(230);
+	__webpack_require__(231);
 	var ElementAddModify = function(){ };
 
 	//继承自框架基类
@@ -5671,7 +5678,7 @@ webpackJsonp([2],[
 
 	ElementAddModify.prototype.loadBaseView = function(options){
 	    var that = this;
-	    var html = __webpack_require__(285);
+	    var html = __webpack_require__(292);
 	    this.render(html);
 	};
 
@@ -5821,20 +5828,20 @@ webpackJsonp([2],[
 	module.exports = new ElementAddModify();
 
 /***/ },
-/* 283 */
+/* 290 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 284 */,
-/* 285 */
+/* 291 */,
+/* 292 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"element-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>元素名称：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入元素名称\" name=\"element_desc\" id=\"element_desc\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>元素编码：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入元素编码\" name=\"element_code\" id=\"element_code\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>所属菜单：</label>\r\n                <input class=\"form-control\" placeholder=\"请选择所属菜单\" readonly=\"true\" name=\"menu_id\" id=\"menu_id\" type=\"text\" data-pid=\"0\" value=\"根菜单\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 286 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -5842,13 +5849,13 @@ webpackJsonp([2],[
 	 * 页面元素管理
 	 */
 
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(232);
-	__webpack_require__(223);
-	__webpack_require__(224);
-	__webpack_require__(287);
-	__webpack_require__(204);
-	var table2TreeDragUtil = __webpack_require__(272);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(239);
+	__webpack_require__(230);
+	__webpack_require__(231);
+	__webpack_require__(294);
+	__webpack_require__(211);
+	var table2TreeDragUtil = __webpack_require__(279);
 	var ElementManage = function () {};
 
 	//继承自框架基类
@@ -5884,7 +5891,7 @@ webpackJsonp([2],[
 	    var that = this, $tableMenu = $('#table-context-menu');
 	    that.$tableMenu = $tableMenu;
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(289);
+	    var columns = __webpack_require__(296);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '',
 	        method: 'get',
@@ -6115,14 +6122,14 @@ webpackJsonp([2],[
 
 
 /***/ },
-/* 287 */
+/* 294 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 288 */,
-/* 289 */
+/* 295 */,
+/* 296 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -6133,7 +6140,7 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 290 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -6141,8 +6148,8 @@ webpackJsonp([2],[
 	 * homepage首页聚合模块
 	 */
 
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(291);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(298);
 	var HomePage = function(){ };
 
 	//继承自框架基类
@@ -6178,9 +6185,9 @@ webpackJsonp([2],[
 
 	HomePage.prototype.loadWidgets = function(){
 	    this.widgets = [];
-	    this.widgets.push(__webpack_require__(238));
-	    this.widgets.push(__webpack_require__(293));
-	    this.widgets.push(__webpack_require__(298));
+	    this.widgets.push(__webpack_require__(245));
+	    this.widgets.push(__webpack_require__(300));
+	    this.widgets.push(__webpack_require__(305));
 	    this.widgets.forEach(function(widget){
 	        widget.loadWidgets(WIDGETS);
 	    });
@@ -6218,14 +6225,14 @@ webpackJsonp([2],[
 	module.exports = homePage;
 
 /***/ },
-/* 291 */
+/* 298 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 292 */,
-/* 293 */
+/* 299 */,
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -6233,11 +6240,11 @@ webpackJsonp([2],[
 	 * 学校信息发布列表维护 
 	 */
 
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(232);
-	__webpack_require__(294);
-	__webpack_require__(204);
-	var juicer = __webpack_require__(296);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(239);
+	__webpack_require__(301);
+	__webpack_require__(211);
+	var juicer = __webpack_require__(303);
 	var MessagePublishList = function () {};
 
 	//继承自框架基类
@@ -6282,7 +6289,7 @@ webpackJsonp([2],[
 	MessagePublishList.prototype.initTable = function () {
 	    var that = this;
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(297);
+	    var columns = __webpack_require__(304);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '/publish/search',
 	        method: 'get',
@@ -6523,14 +6530,14 @@ webpackJsonp([2],[
 	module.exports = messagePublishList;
 
 /***/ },
-/* 294 */
+/* 301 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 295 */,
-/* 296 */
+/* 302 */,
+/* 303 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/*
@@ -7116,10 +7123,10 @@ webpackJsonp([2],[
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 297 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
-	typeof window == 'undefined' && (Calendar = __webpack_require__(251));
+	typeof window == 'undefined' && (Calendar = __webpack_require__(258));
 	module.exports = [
 	    {field: 'checked', title: '选择', width: 20,checkbox:true},
 	    {field: 'publish_id', title: '信息ID', width: 350},
@@ -7136,7 +7143,7 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 298 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -7144,14 +7151,14 @@ webpackJsonp([2],[
 	 * 报修信息列表维护 
 	 */
 
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(232);
-	__webpack_require__(299);
-	__webpack_require__(204);
-	var juicer = __webpack_require__(296);
-	__webpack_require__(301);
-	__webpack_require__(302);
-	__webpack_require__(303);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(239);
+	__webpack_require__(306);
+	__webpack_require__(211);
+	var juicer = __webpack_require__(303);
+	__webpack_require__(308);
+	__webpack_require__(309);
+	__webpack_require__(310);
 	var ReportList = function () {};
 
 	//继承自框架基类
@@ -7206,7 +7213,7 @@ webpackJsonp([2],[
 	ReportList.prototype.initTable = function () {
 	    var that = this;
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(310);
+	    var columns = __webpack_require__(317);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '/report/search',
 	        method: 'get',
@@ -7453,14 +7460,14 @@ webpackJsonp([2],[
 	module.exports = reportList;
 
 /***/ },
-/* 299 */
+/* 306 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 300 */,
-/* 301 */
+/* 307 */,
+/* 308 */
 /***/ function(module, exports) {
 
 	/**
@@ -7552,7 +7559,7 @@ webpackJsonp([2],[
 	})(jQuery);
 
 /***/ },
-/* 302 */
+/* 309 */
 /***/ function(module, exports) {
 
 	/**
@@ -7978,22 +7985,22 @@ webpackJsonp([2],[
 
 
 /***/ },
-/* 303 */
+/* 310 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 304 */,
-/* 305 */,
-/* 306 */,
-/* 307 */,
-/* 308 */,
-/* 309 */,
-/* 310 */
+/* 311 */,
+/* 312 */,
+/* 313 */,
+/* 314 */,
+/* 315 */,
+/* 316 */,
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
-	typeof window == 'undefined' && (Calendar = __webpack_require__(251));
+	typeof window == 'undefined' && (Calendar = __webpack_require__(258));
 	module.exports = [
 	    {field: 'checked', title: '选择', width: 20,checkbox:true},
 	    {field: 'report_id', title: '信息ID', width: 350},
@@ -8007,17 +8014,17 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 311 */
+/* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 菜单新增修改模块
 	 */
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(312);
-	__webpack_require__(204);
-	__webpack_require__(223);
-	__webpack_require__(224);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(319);
+	__webpack_require__(211);
+	__webpack_require__(230);
+	__webpack_require__(231);
 	var MenuAddModify = function(){ };
 
 	//继承自框架基类
@@ -8044,7 +8051,7 @@ webpackJsonp([2],[
 
 	MenuAddModify.prototype.loadBaseView = function(options){
 	    var that = this;
-	    var html = __webpack_require__(314);
+	    var html = __webpack_require__(321);
 	    this.render(html);
 
 
@@ -8199,20 +8206,20 @@ webpackJsonp([2],[
 	module.exports = new MenuAddModify();
 
 /***/ },
-/* 312 */
+/* 319 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 313 */,
-/* 314 */
+/* 320 */,
+/* 321 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"menu-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>菜单标题：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入菜单标题\" name=\"menu_title\" id=\"menu_title\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>菜单url：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入菜单url\" name=\"menu_url\" id=\"menu_url\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>菜单icon：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入菜单icon样式名\" name=\"menu_icon\" id=\"menu_icon\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>展式形式：</label>\r\n                <select id=\"show_type\" class=\"form-control\">\r\n                    <option value=\"1\" selected>普通</option>\r\n                    <option value=\"2\">弹窗</option>\r\n                    <option value=\"3\">无界面</option>\r\n                </select>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>菜单位置：</label>\r\n                <select id=\"menu_type\" class=\"form-control\">\r\n                    <option value=\"1\" selected>左侧菜单</option>\r\n                    <option value=\"2\">设置下拉菜单</option>\r\n                </select>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>设备类型：</label>\r\n                <select id=\"menu_device\" class=\"form-control\">\r\n                    <option value=\"1\" selected>PC</option>\r\n                    <option value=\"2\">H5</option>\r\n                </select>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>父级菜单：</label>\r\n                <input class=\"form-control\" placeholder=\"请选择父级菜单\" readonly=\"true\" name=\"menu_parent_id\" id=\"menu_parent_id\" type=\"text\" data-pid=\"0\" value=\"根菜单\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 315 */
+/* 322 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -8220,11 +8227,11 @@ webpackJsonp([2],[
 	 * 菜单管理
 	 */
 
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(232);
-	__webpack_require__(316);
-	__webpack_require__(204);
-	var Exchange = __webpack_require__(263);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(239);
+	__webpack_require__(323);
+	__webpack_require__(211);
+	var Exchange = __webpack_require__(270);
 	var MenuManage = function () {};
 
 	//继承自框架基类
@@ -8259,7 +8266,7 @@ webpackJsonp([2],[
 	    var that = this, $tableMenu = $('#table-context-menu');
 	    that.$tableMenu = $tableMenu;
 	    $('.easyui-linkbutton',that.dom).linkbutton();
-	    var columns = __webpack_require__(318);
+	    var columns = __webpack_require__(325);
 	    that.$table = $('#dataTable',that.dom).datagrid({
 	        url: '/menu/list',
 	        method: 'get',
@@ -8453,14 +8460,14 @@ webpackJsonp([2],[
 	module.exports = menuManage;
 
 /***/ },
-/* 316 */
+/* 323 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 317 */,
-/* 318 */
+/* 324 */,
+/* 325 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -8482,7 +8489,7 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 319 */
+/* 326 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -8490,11 +8497,11 @@ webpackJsonp([2],[
 	 * @author yanglang
 	 * @type {Framework}
 	 */
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(320);
-	__webpack_require__(322);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(327);
+	__webpack_require__(329);
 
-	__webpack_require__(330);
+	__webpack_require__(337);
 
 	var MessagePublish = function(){ };
 
@@ -8518,8 +8525,8 @@ webpackJsonp([2],[
 
 	    var that = this;
 	    __webpack_require__.e/* nsure */(3, function(){
-	        __webpack_require__(332);
-	        __webpack_require__(333);
+	        __webpack_require__(339);
+	        __webpack_require__(340);
 	        //实例化编辑器
 	        that.um = UM.getEditor('myEditor');
 	        if(that.options.action == '002'){
@@ -8531,7 +8538,7 @@ webpackJsonp([2],[
 	};
 
 	MessagePublish.prototype.loadBaseView = function(){
-	    var html = __webpack_require__(331);
+	    var html = __webpack_require__(338);
 	    this.render(html);
 	};
 
@@ -8612,27 +8619,27 @@ webpackJsonp([2],[
 	module.exports = messagePublish;
 
 /***/ },
-/* 320 */
+/* 327 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 321 */,
-/* 322 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 323 */,
-/* 324 */,
-/* 325 */,
-/* 326 */,
-/* 327 */,
 /* 328 */,
-/* 329 */,
-/* 330 */
+/* 329 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 330 */,
+/* 331 */,
+/* 332 */,
+/* 333 */,
+/* 334 */,
+/* 335 */,
+/* 336 */,
+/* 337 */
 /***/ function(module, exports) {
 
 	/**
@@ -8887,25 +8894,25 @@ webpackJsonp([2],[
 
 
 /***/ },
-/* 331 */
+/* 338 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"message-publish shadow-block\">\r\n    <!--style给定宽度可以影响编辑器的最终宽度-->\r\n    <div>\r\n        <input id=\"title\" type=\"text\" placeholder=\"请输入信息标题\" autofocus/>\r\n    </div>\r\n    <script type=\"text/plain\" id=\"myEditor\" style=\"width:100%;height:400px;\"></script>\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"submitBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>";
 
 /***/ },
-/* 332 */,
-/* 333 */,
-/* 334 */
+/* 339 */,
+/* 340 */,
+/* 341 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 组织机构新增修改模块
 	 */
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(335);
-	__webpack_require__(204);
-	__webpack_require__(223);
-	__webpack_require__(224);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(342);
+	__webpack_require__(211);
+	__webpack_require__(230);
+	__webpack_require__(231);
 	var OrgAddModify = function(){ };
 
 	//继承自框架基类
@@ -8933,7 +8940,7 @@ webpackJsonp([2],[
 
 	OrgAddModify.prototype.loadBaseView = function(options){
 	    var that = this;
-	    var html = __webpack_require__(337);
+	    var html = __webpack_require__(344);
 	    this.render(html);
 	};
 
@@ -9072,20 +9079,20 @@ webpackJsonp([2],[
 	module.exports = new OrgAddModify();
 
 /***/ },
-/* 335 */
+/* 342 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 336 */,
-/* 337 */
+/* 343 */,
+/* 344 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"org-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>组织机构标题：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入组织机构名称\" name=\"org_title\" id=\"org_title\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>父级组织机构：</label>\r\n                <input class=\"form-control\" placeholder=\"请选择父级组织机构\" readonly=\"true\" name=\"org_parent_id\" id=\"org_parent_id\" type=\"text\" data-pid=\"0\" value=\"根节点\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 338 */
+/* 345 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -9093,12 +9100,12 @@ webpackJsonp([2],[
 	 * 组织机构管理
 	 */
 
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(232);
-	__webpack_require__(223);
-	__webpack_require__(224);
-	__webpack_require__(339);
-	__webpack_require__(204);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(239);
+	__webpack_require__(230);
+	__webpack_require__(231);
+	__webpack_require__(346);
+	__webpack_require__(211);
 	var OrgManage = function () {};
 
 	//继承自框架基类
@@ -9135,7 +9142,7 @@ webpackJsonp([2],[
 	    var that = this, $tableMenu = $('#table-context-menu');
 	    that.$tableMenu = $tableMenu;
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(341);
+	    var columns = __webpack_require__(348);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '',
 	        method: 'get',
@@ -9523,14 +9530,14 @@ webpackJsonp([2],[
 
 
 /***/ },
-/* 339 */
+/* 346 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 340 */,
-/* 341 */
+/* 347 */,
+/* 348 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -9542,15 +9549,15 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 342 */
+/* 349 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 修改密码模块
 	 */
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(343);
-	__webpack_require__(204);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(350);
+	__webpack_require__(211);
 	var Crypto = __webpack_require__(20);
 	var PasswordModify = function(){ };
 
@@ -9574,7 +9581,7 @@ webpackJsonp([2],[
 	};
 
 	PasswordModify.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(345);
+	    var html = __webpack_require__(352);
 	    this.render(html);
 	};
 
@@ -9618,20 +9625,20 @@ webpackJsonp([2],[
 	module.exports = new PasswordModify();
 
 /***/ },
-/* 343 */
+/* 350 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 344 */,
-/* 345 */
+/* 351 */,
+/* 352 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"passwordmodify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>旧密码：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入旧密码\" name=\"oldpassword\" id=\"oldpassword\" type=\"password\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>新密码：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入新密码\" name=\"newpassword\" id=\"newpassword\" type=\"password\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>确认密码：</label>\r\n                <input class=\"form-control\" placeholder=\"请确认密码\" name=\"repassword\" id=\"repassword\" type=\"password\" value=\"\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span id=\"confirmBtn\" class=\"framework-button\">确认</span>\r\n                <span id=\"cancelBtn\" class=\"framework-button\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 346 */
+/* 353 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -9642,8 +9649,8 @@ webpackJsonp([2],[
 	var WIDGETS = [
 	    {container:'#report-view-container',module:'report-list',id:''}];
 
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(347);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(354);
 	var ReportView = function(){ };
 
 	//继承自框架基类
@@ -9667,9 +9674,9 @@ webpackJsonp([2],[
 	};
 
 	ReportView.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(349);
+	    var html = __webpack_require__(356);
 	    this.render(html);
-	    var reportList = __webpack_require__(298);
+	    var reportList = __webpack_require__(305);
 	    WIDGETS[0].id = this.options.report_id;
 	    reportList.loadWidgets(WIDGETS);
 	};
@@ -9707,27 +9714,27 @@ webpackJsonp([2],[
 	module.exports = messagePublish;
 
 /***/ },
-/* 347 */
+/* 354 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 348 */,
-/* 349 */
+/* 355 */,
+/* 356 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"report-view shadow-block\">\r\n    <!--style给定宽度可以影响编辑器的最终宽度-->\r\n    <div id=\"report-view-container\">\r\n    </div>\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"closeBtn\">关闭</span>\r\n    </div>\r\n</div>";
 
 /***/ },
-/* 350 */
+/* 357 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 新增修改角色模块
 	 */
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(351);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(358);
 	var RoleAddModify = function(){ };
 
 	//继承自框架基类
@@ -9756,7 +9763,7 @@ webpackJsonp([2],[
 	};
 
 	RoleAddModify.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(353);
+	    var html = __webpack_require__(360);
 	    this.render(html);
 	};
 
@@ -9810,20 +9817,20 @@ webpackJsonp([2],[
 	module.exports = new RoleAddModify();
 
 /***/ },
-/* 351 */
+/* 358 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 352 */,
-/* 353 */
+/* 359 */,
+/* 360 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"role-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>角色名：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入角色名\" name=\"role_name\" id=\"role_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 354 */
+/* 361 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -9831,10 +9838,10 @@ webpackJsonp([2],[
 	 * 角色管理模块
 	 */
 
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(232);
-	__webpack_require__(355);
-	__webpack_require__(204);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(239);
+	__webpack_require__(362);
+	__webpack_require__(211);
 	var Calendar = __webpack_require__(137);
 	var RoleManage = function () {};
 
@@ -9870,7 +9877,7 @@ webpackJsonp([2],[
 	    var that = this, $tableMenu = $('#table-context-menu');
 	    that.$tableMenu = $tableMenu;
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(357);
+	    var columns = __webpack_require__(364);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '/role/list',
 	        method: 'get',
@@ -10047,14 +10054,14 @@ webpackJsonp([2],[
 
 
 /***/ },
-/* 355 */
+/* 362 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 356 */,
-/* 357 */
+/* 363 */,
+/* 364 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -10064,14 +10071,14 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 358 */
+/* 365 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 给组织机构赋角色模块
 	 */
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(359);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(366);
 	var Role2User = function(){ };
 
 	//继承自框架基类
@@ -10094,7 +10101,7 @@ webpackJsonp([2],[
 	};
 
 	Role2User.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(361);
+	    var html = __webpack_require__(368);
 	    this.render(html);
 	};
 
@@ -10202,27 +10209,27 @@ webpackJsonp([2],[
 	module.exports = new Role2User();
 
 /***/ },
-/* 359 */
+/* 366 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 360 */,
-/* 361 */
+/* 367 */,
+/* 368 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"role2org\">\r\n    <div class=\"role2org_content_wrap\">\r\n        <div class=\"lr-choose-panel\">\r\n            <div class=\"left-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"roleList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n            <div class=\"center-operator-panel\">\r\n                <div class=\"operator-wrap\">\r\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllRole\"></span>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"right-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"mapList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 362 */
+/* 369 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 给用户赋角色模块
 	 */
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(363);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(370);
 	var Role2User = function(){ };
 
 	//继承自框架基类
@@ -10245,7 +10252,7 @@ webpackJsonp([2],[
 	};
 
 	Role2User.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(365);
+	    var html = __webpack_require__(372);
 	    this.render(html);
 	};
 
@@ -10353,27 +10360,27 @@ webpackJsonp([2],[
 	module.exports = new Role2User();
 
 /***/ },
-/* 363 */
+/* 370 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 364 */,
-/* 365 */
+/* 371 */,
+/* 372 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"role2user\">\r\n    <div class=\"role2user_content_wrap\">\r\n        <div class=\"lr-choose-panel\">\r\n            <div class=\"left-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"roleList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n            <div class=\"center-operator-panel\">\r\n                <div class=\"operator-wrap\">\r\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllRole\"></span>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"right-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"mapList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 366 */
+/* 373 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 新增修改用户模块
 	 */
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(367);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(374);
 	var UserAddModify = function(){ };
 
 	//继承自框架基类
@@ -10407,7 +10414,7 @@ webpackJsonp([2],[
 	};
 
 	UserAddModify.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(369);
+	    var html = __webpack_require__(376);
 	    this.render(html);
 	};
 
@@ -10473,20 +10480,20 @@ webpackJsonp([2],[
 	module.exports = new UserAddModify();
 
 /***/ },
-/* 367 */
+/* 374 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 368 */,
-/* 369 */
+/* 375 */,
+/* 376 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"user-add-modify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>用户名：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入用户名\" name=\"user_name\" id=\"user_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>密码：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入密码\" name=\"user_password\" id=\"user_password\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 370 */
+/* 377 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -10494,10 +10501,10 @@ webpackJsonp([2],[
 	 * 用户管理模块
 	 */
 
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(232);
-	__webpack_require__(371);
-	__webpack_require__(204);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(239);
+	__webpack_require__(378);
+	__webpack_require__(211);
 	var UserManage = function () {};
 
 	//继承自框架基类
@@ -10532,7 +10539,7 @@ webpackJsonp([2],[
 	    var that = this, $tableMenu = $('#table-context-menu');
 	    that.$tableMenu = $tableMenu;
 	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(373);
+	    var columns = __webpack_require__(380);
 	    that.$table = $('#dataTable',this.dom).datagrid({
 	        url: '/user/list',
 	        method: 'get',
@@ -10731,14 +10738,14 @@ webpackJsonp([2],[
 
 
 /***/ },
-/* 371 */
+/* 378 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 372 */,
-/* 373 */
+/* 379 */,
+/* 380 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -10750,14 +10757,14 @@ webpackJsonp([2],[
 	];
 
 /***/ },
-/* 374 */
+/* 381 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 分配用户到组织机构模块
 	 */
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(375);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(382);
 	var User2Org = function(){ };
 
 	//继承自框架基类
@@ -10780,7 +10787,7 @@ webpackJsonp([2],[
 	};
 
 	User2Org.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(377);
+	    var html = __webpack_require__(384);
 	    this.render(html);
 	};
 
@@ -10890,27 +10897,27 @@ webpackJsonp([2],[
 	module.exports = new User2Org();
 
 /***/ },
-/* 375 */
+/* 382 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 376 */,
-/* 377 */
+/* 383 */,
+/* 384 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"user2org\">\r\n    <div class=\"user2org_content_wrap\">\r\n        <div class=\"lr-choose-panel\">\r\n            <div class=\"left-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"userList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n            <div class=\"center-operator-panel\">\r\n                <div class=\"operator-wrap\">\r\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllUser\"></span>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"right-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"mapList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>\r\n";
 
 /***/ },
-/* 378 */
+/* 385 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 设置属于角色的用户模块
 	 */
-	var frameworkBase = __webpack_require__(194);
-	__webpack_require__(379);
+	var frameworkBase = __webpack_require__(201);
+	__webpack_require__(386);
 	var User2Role = function(){ };
 
 	//继承自框架基类
@@ -10933,7 +10940,7 @@ webpackJsonp([2],[
 	};
 
 	User2Role.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(381);
+	    var html = __webpack_require__(388);
 	    this.render(html);
 	};
 
@@ -11043,14 +11050,14 @@ webpackJsonp([2],[
 	module.exports = new User2Role();
 
 /***/ },
-/* 379 */
+/* 386 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 380 */,
-/* 381 */
+/* 387 */,
+/* 388 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"user2role\">\r\n    <div class=\"user2role_content_wrap\">\r\n        <div class=\"lr-choose-panel\">\r\n            <div class=\"left-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"userList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n            <div class=\"center-operator-panel\">\r\n                <div class=\"operator-wrap\">\r\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllUser\"></span>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"right-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"mapList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>\r\n";

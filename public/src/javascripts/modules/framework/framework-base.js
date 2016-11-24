@@ -486,7 +486,8 @@ Framework.prototype = {
                 that.dom = $mainview;
                 break;
             case 'Pop':
-                var pop = $('#framework_dialog').dialog({
+                var $pop = $('<div class="framework_dialog"></div>').appendTo($('body'));
+                var pop = $pop.dialog({
                     title: this.getTitle(),
                     width: this.getWidth(),
                     height: this.getHeight(),
@@ -506,7 +507,7 @@ Framework.prototype = {
                         that.onMove(left,top);
                     }
                 });
-                that.dom = $('#framework_dialog>div');
+                that.dom = $pop.children();
                 pop.parent().addClass('uk-animation-scale-up').next().addClass('uk-animation-scale-up');
                 that.pop = pop;
                 break;
@@ -531,7 +532,6 @@ Framework.prototype = {
                 setTimeout(function(){
                     that.pop.dialog('destroy');
                     that.pop = null;
-                    $('<div id="framework_dialog"></div>').appendTo($('body'));
                 },200);
             },50);
 
