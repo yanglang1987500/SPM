@@ -20,7 +20,7 @@ PasswordModify.prototype.id = 'password-modify';
 PasswordModify.prototype.init = function(options){
     var that = this;
     this.options = $.extend({},options);
-    that.setTitle('修改密码').setHeight(240).setWidth(400);
+    that.setTitle('修改密码').setHeight(245).setWidth(400);
     frameworkBase.init.call(this,options);
     this.loadBaseView();
     this.bindEvents();

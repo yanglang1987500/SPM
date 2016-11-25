@@ -5546,7 +5546,11 @@ article.content {
     margin-top: -35px;
     display: none;
     box-sizing: content-box;
-}.menu-add-modify {
+}#log-search {
+  height: 100%; }
+  #log-search .datagrid-btable {
+    font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif; }
+.menu-add-modify {
   box-sizing: border-box; }
   .menu-add-modify * {
     font-family: "MicroSoft Yahei"; }

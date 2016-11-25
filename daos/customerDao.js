@@ -33,6 +33,7 @@ module.exports = {
         mySqlPool.getConnection(function(connection){
             connection.query(selectSql+fromSql,function(err,result){
                 if(err){
+                    console.error(err);
                     _callback && _callback(err);
                     connection.release();
                     return;
@@ -47,7 +48,7 @@ module.exports = {
      * 客户列表查询(关联公司数据）
      * @param callback 回调
      */
-    customerSearch:function(params,callback){
+    customerSearchWithCompany:function(params,callback){
 
         var condition = [] , _params, _callback;
         if(Object.prototype.toString.call(params) == '[object Function]'){

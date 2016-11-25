@@ -99,7 +99,7 @@ router.get('/customer/export', function (req, res, next) {
     if (req.session.isLogin) {
         var key = req.query.key,
             company_id = req.query.company_id;
-        customerDao.customerSearch({
+        customerDao.customerSearchWithCompany({
             key:key?key:null,
             company_id:company_id?company_id:null
         },function(err,data){

@@ -6,6 +6,8 @@ var context = require('../framework/context');
 var sessionUtil = require('../framework/sessionUtil');
 var authDao = require('../daos/authDao');
 var authority = require('../framework/authority');
+var logDao = require('../daos/logDao');
+var Calendar = require('../libs/calendar');
 
 /* GET home page. */
 router.get('/login', function (req, res, next) {
@@ -43,6 +45,12 @@ router.post('/login', function (req, res, next) {
                 username:username,
                 usercode:username,
                 userid:userInfo.user_id
+            });
+            logDao.addLog({
+                user_id:userInfo.user_id,
+                user_name:username,
+                device_type:1,
+                login_time:Calendar.getInstance().format('yyyyMMdd HH:mm:ss')
             });
             authority.reloadUserRole(sessionUserInfo,function(){
                 req.session.isLogin = true;
@@ -92,6 +100,12 @@ router.post('/h5/login', function (req, res, next) {
                 username:username,
                 usercode:username,
                 userid:userInfo.user_id
+            });
+            logDao.addLog({
+                user_id:userInfo.user_id,
+                user_name:username,
+                device_type:2,
+                login_time:Calendar.getInstance().format('yyyyMMdd HH:mm:ss')
             });
             authority.reloadUserRole(sessionUserInfo,function(){
                 req.session.isLogin = true;
