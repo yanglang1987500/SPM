@@ -33,8 +33,6 @@ router.get('/', function (req, res, next) {
                 var ret = sessionUserInfo.getRoles().isPermission(menu.menu_id);
                 return ret;
             });
-            logger.error('登录成功，进入系统。');
-            console.log('console log come in');
             res.render('index', {menuList:data});
 
         });
