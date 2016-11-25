@@ -8,6 +8,7 @@ var ejs = require('ejs');
 var menuDao = require('../daos/menuDao');
 var authDao = require('../daos/authDao');
 var sessionUtil = require('../framework/sessionUtil');
+var logger = require('../framework/logger').logger('index');
 
 /*function test() {
     fs.readFile('../views/index.html', 'utf-8', function (err, data) {
@@ -32,6 +33,8 @@ router.get('/', function (req, res, next) {
                 var ret = sessionUserInfo.getRoles().isPermission(menu.menu_id);
                 return ret;
             });
+            logger.error('登录成功，进入系统。');
+            console.log('console log come in');
             res.render('index', {menuList:data});
 
         });

@@ -43,6 +43,7 @@
     "later": "^1.2.0",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
+    "log4js": "^1.0.1",
     "mongodb": "^2.1.18",
     "multiparty": "^4.1.2",
     "mysql": "^2.11.1",

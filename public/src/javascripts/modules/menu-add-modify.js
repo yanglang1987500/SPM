@@ -21,7 +21,7 @@ MenuAddModify.prototype.id = 'menu-add-modify';
 MenuAddModify.prototype.init = function(options){
     var that = this;
     this.options = $.extend({action:'001'},options);
-    that.setTitle(this.options.action == '001'?'添加菜单':'编辑菜单').setHeight(420).setWidth(400);
+    that.setTitle(this.options.action == '001'?'添加菜单':'编辑菜单').setHeight(425).setWidth(400);
     frameworkBase.init.call(this,options);
     this.loadBaseView();
     this.bindEvents();

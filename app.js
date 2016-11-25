@@ -1,14 +1,11 @@
 ﻿var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
 var session = require('cookie-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var rd = require('rd');
-var guid = require('guid');
-var bodyParser = require('body-parser');
-var parseUserAgent = require("user-agent-parser");
+var logger = require('./framework/logger');
 
 /**== 标签处理 ==**/
 var tagProcessor = require('./framework/tag-processor');
@@ -45,14 +42,18 @@ app.engine('html', function(){
 });
 app.set('view engine', 'html');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
-app.use(logger('dev'));
+
+/*====================配置日志输出===============*/
+logger.initExpress(app);
+
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+// uncomment after placing your favicon in /public
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(session({
   name: 'DataPlatform',
   secret: 'DataPlatform'
@@ -118,6 +119,9 @@ process.on('uncaughtException', function (err) {
   console.log('exception catch ...');
   console.log(err.stack);
 });
+
+
+
 
 app.listen(8080);
 
