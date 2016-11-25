@@ -10,7 +10,7 @@ log4js.configure({
         {
             "type": "dateFile",                 // 日志文件类型，可以使用日期作为文件名的占位符
             "filename": "logs/",     // 日志文件名，可以设置相对路径或绝对路径
-            "pattern": "yyyyMMddhh.log",  // 占位符，紧跟在filename后面
+            "pattern": "yyyyMMdd.log",  // 占位符，紧跟在filename后面
             "alwaysIncludePattern": true,       // 文件名是否始终包含占位符
            // "category": "logInfo"               // 记录器名
         }
