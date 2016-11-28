@@ -86,6 +86,8 @@ MenuAddModify.prototype.bindEvents = function(){
         return false;
     });
     $('#menu_device',that.dom).on('change',function(){
+        $('#menu_parent_id',that.dom).val('根节点');
+        $('#menu_parent_id',that.dom).attr('data-pid','0');
        that.initMenuTree($(this).val());
     });
 };
