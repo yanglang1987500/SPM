@@ -2,7 +2,6 @@
  * 组织机构新增修改模块
  */
 var frameworkBase = require('./framework/framework-base');
-require('../../stylesheets/modules/org-add-modify.scss');
 require('../../stylesheets/easyui.css');
 require('../libs/ztree/jquery.ztree.all.min');
 require('../libs/ztree/css/zTreeStyle/zTreeStyle.css');
@@ -135,9 +134,9 @@ OrgAddModify.prototype.initOrgTree = function(){
             }
         }
         data.data.push({'org_id':'0','org_parent_id':null,'org_title':'根节点'});
-        var ztreeObj = $.fn.zTree.init($("#_panelOrgTree",that.$treepanel), setting,data.data);
-        var nodes = ztreeObj.getNodesByParam("org_id",that.options.org_parent_id , null);
-        ztreeObj.selectNode(nodes[0], false, false);
+        that.ztreeObj = $.fn.zTree.init($("#_panelOrgTree",that.$treepanel), setting,data.data);
+        var nodes = that.ztreeObj.getNodesByParam("org_id",that.options.org_parent_id , null);
+        that.ztreeObj.selectNode(nodes[0], false, false);
     });
 };
 
@@ -165,7 +164,8 @@ OrgAddModify.prototype.restoreData = function() {
  * 由框架调用，主要用于销毁订阅的事件
  */
 OrgAddModify.prototype.finish = function () {
-    this.$treepanel.remove();
+    this.ztreeObj && this.ztreeObj.destroy();
+    this.$treepanel && this.$treepanel.remove();
     frameworkBase.finish.apply(this,arguments);
 };
 

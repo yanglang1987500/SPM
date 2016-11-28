@@ -2,7 +2,6 @@
  * 账目新增修改模块
  */
 var frameworkBase = require('./framework/framework-base');
-require('../../stylesheets/modules/account-add-modify.scss');
 require('../../stylesheets/easyui.css');
 require('../libs/ztree/jquery.ztree.all.min');
 require('../libs/ztree/css/zTreeStyle/zTreeStyle.css');

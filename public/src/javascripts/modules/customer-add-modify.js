@@ -2,7 +2,6 @@
  * 客户新增修改模块
  */
 var frameworkBase = require('./framework/framework-base');
-require('../../stylesheets/modules/customer-add-modify.scss');
 require('../../stylesheets/easyui.css');
 require('../libs/ztree/jquery.ztree.all.min');
 require('../libs/ztree/css/zTreeStyle/zTreeStyle.css');
@@ -191,6 +190,8 @@ CustomerAddModify.prototype.restoreData = function() {
  * 由框架调用，主要用于销毁订阅的事件
  */
 CustomerAddModify.prototype.finish = function () {
+    this.ztreeObj && this.ztreeObj.destroy();
+    this.$treepanel && this.$treepanel.remove();
     frameworkBase.finish.apply(this,arguments);
 };
 

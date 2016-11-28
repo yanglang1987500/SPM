@@ -2,7 +2,6 @@
  * 新增修改角色模块
  */
 var frameworkBase = require('./framework/framework-base');
-require('../../stylesheets/modules/role-add-modify.scss');
 var RoleAddModify = function(){ };
 
 //继承自框架基类

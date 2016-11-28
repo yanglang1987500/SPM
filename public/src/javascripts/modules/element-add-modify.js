@@ -2,7 +2,6 @@
  * 元素新增修改模块
  */
 var frameworkBase = require('./framework/framework-base');
-require('../../stylesheets/modules/element-add-modify.scss');
 require('../../stylesheets/easyui.css');
 require('../libs/ztree/jquery.ztree.all.min');
 require('../libs/ztree/css/zTreeStyle/zTreeStyle.css');
@@ -173,7 +172,8 @@ ElementAddModify.prototype.restoreData = function() {
  * 由框架调用，主要用于销毁订阅的事件
  */
 ElementAddModify.prototype.finish = function () {
-    this.$treepanel.remove();
+    this.ztreeObj && this.ztreeObj.destroy();
+    this.$treepanel && this.$treepanel.remove();
     frameworkBase.finish.apply(this,arguments);
 };
 

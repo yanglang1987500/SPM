@@ -2,7 +2,6 @@
  * 菜单新增修改模块
  */
 var frameworkBase = require('./framework/framework-base');
-require('../../stylesheets/modules/menu-add-modify.scss');
 require('../../stylesheets/easyui.css');
 require('../libs/ztree/jquery.ztree.all.min');
 require('../libs/ztree/css/zTreeStyle/zTreeStyle.css');
@@ -25,8 +24,10 @@ MenuAddModify.prototype.init = function(options){
     frameworkBase.init.call(this,options);
     this.loadBaseView();
     this.bindEvents();
-    if(this.options.action == '002'){
-        this.restoreData();
+    if(that.options.action == '002'){
+        that.restoreData();
+    }else{
+        that.initMenuTree(1,'0');
     }
 };
 
@@ -34,10 +35,7 @@ MenuAddModify.prototype.loadBaseView = function(options){
     var that = this;
     var html = require('../../../../views/modules/menu-add-modify.html');
     this.render(html);
-
-
-
-};  
+};
 
 MenuAddModify.prototype.bindEvents = function(){
     var that = this;
@@ -87,7 +85,6 @@ MenuAddModify.prototype.bindEvents = function(){
     this.$treepanel.click(function(){
         return false;
     });
-    this.initMenuTree(1);
     $('#menu_device',that.dom).on('change',function(){
        that.initMenuTree($(this).val());
     });
@@ -104,7 +101,7 @@ MenuAddModify.prototype.onMove = function(left,top){
     });
 };
 
-MenuAddModify.prototype.initMenuTree = function(type){
+MenuAddModify.prototype.initMenuTree = function(type,pId){
     var that = this;
     this.query('/menu/list',{menu_device:type},function(data){
         if(!data.success){
@@ -144,8 +141,13 @@ MenuAddModify.prototype.initMenuTree = function(type){
             }
         };
 
-        var ztreeObj = $.fn.zTree.init($("#menuTree",that.$treepanel), setting,data.data);
-        ztreeObj.expandNode(ztreeObj.getNodes()[0], true, false, true);
+        that.ztreeObj = $.fn.zTree.init($("#menuTree",that.$treepanel), setting,data.data);
+        that.ztreeObj.expandNode(that.ztreeObj.getNodes()[0], true, false, true);
+
+        if(pId){
+            var node = that.ztreeObj.getNodesByParam('menu_id',pId,null)[0];
+            that.ztreeObj.selectNode(node);
+        }
     });
 };
 
@@ -169,7 +171,7 @@ MenuAddModify.prototype.restoreData = function() {
         $('#show_type',that.dom).val(data.show_type);
         $('#menu_type',that.dom).val(data.menu_type);
         $('#menu_device',that.dom).val(data.menu_device);
-        that.initMenuTree(data.menu_device);
+        that.initMenuTree(data.menu_device,data.menu_parent_id);
         $('#menu_parent_id',that.dom).val(data.menu_parent_title);
         $('#menu_parent_id',that.dom).attr('data-pid',data.menu_parent_id);
     });
@@ -180,7 +182,8 @@ MenuAddModify.prototype.restoreData = function() {
  * 由框架调用，主要用于销毁订阅的事件
  */
 MenuAddModify.prototype.finish = function () {
-    this.$treepanel.remove();
+    this.ztreeObj && this.ztreeObj.destroy();
+    this.$treepanel && this.$treepanel.remove();
     frameworkBase.finish.apply(this,arguments);
 };
 
