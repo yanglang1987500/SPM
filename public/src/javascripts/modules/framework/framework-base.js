@@ -657,6 +657,7 @@ Framework.prototype = {
         toast.style.color = '#fff';
         toast.style.textAlign = 'center';
         toast.style.position = 'fixed';
+        toast.style.zIndex = '99999999999';
         toast.style.bottom = '10%';
         toast.style.left = '50%';
         toast.style.borderRadius = '3px';

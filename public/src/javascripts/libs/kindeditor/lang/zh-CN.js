@@ -233,10 +233,15 @@ KindEditor.lang({
 		'2.html' : '表格',
 		'3.html' : '项目编号'
 	},
-	'input_text_widget':'编辑文本输入框',
-	'editinput_text_widget':'编辑文本输入框',
-	'deleteinput_text_widget':'删除文本输入框',
-	'input_text_widget.name':'文本框名称'
+	'input_text_widget':'编辑单行文本输入框',
+	'editinput_text_widget':'编辑单行文本输入框',
+	'deleteinput_text_widget':'删除单行文本输入框',
+	'input_multi_widget':'编辑多行文本输入框',
+	'editinput_multi_widget':'编辑多行文本输入框',
+	'deleteinput_multi_widget':'删除多行文本输入框',
+	'input_number_widget':'编辑数字输入框',
+	'editinput_number_widget':'编辑数字输入框',
+	'deleteinput_number_widget':'删除数字输入框'
 }, 'zh-CN');
 
 KindEditor.options.langType = 'zh-CN';

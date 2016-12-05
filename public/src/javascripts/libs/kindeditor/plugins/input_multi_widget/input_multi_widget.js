@@ -8,12 +8,12 @@
  * @licence http://www.kindsoft.net/license.php
  *******************************************************************************/
 
-KindEditor.plugin('input_text_widget', function(K) {
-	var self = this, name = 'input_text_widget',uName = 'InputTextWidget', lang = self.lang(name + '.');
+KindEditor.plugin('input_multi_widget', function(K) {
+	var self = this, name = 'input_multi_widget',uName = 'InputMultiWidget', lang = self.lang(name + '.');
 	Events.subscribe('kindeditor_clear_widget_var',function(){
-		$input = null;
+		$multi = null;
 	});
-	self.plugin.input_text_widget = {
+	self.plugin.input_multi_widget = {
 		edit : function() {
 			var html = ['<div style="padding:20px;">',
 				'<div class="ke-dialog-row">',
@@ -37,37 +37,38 @@ KindEditor.plugin('input_text_widget', function(K) {
 				yesBtn : {
 					name : self.lang('yes'),
 					click : function(e) {
-						if($input){
-							$input.attr('placeholder',$('#tip',div).val()).css({
+						if($multi){
+							$multi.attr('placeholder',$('#tip',div).val()).css({
 								width:$("#width",div).val(),
 								height:$("#height",div).val()
 							});
 							self.hideDialog().focus();
-							$input = null;
+							$multi = null;
 							return;
 						}
-						self.insertHtml('<input class="ke_input_text_widget" readonly style="width:'+$("#width",div).val()+'px;height:'+$("#height",div).val()+'px;" placeholder="' + $('#tip',div).val() + '"/>').hideDialog().focus();
+						self.insertHtml('<textarea class="ke_input_multi_widget" readonly style="width:'+$("#width",div).val()+'px;height:'+$("#height",div).val()+'px;" placeholder="' + $('#tip',div).val() + '"></textarea>').hideDialog().focus();
 					}
 				}
 			});
 			var div = dialog.div;
-			if ($input) {
-				$('#tip',div).val($input.attr('placeholder'));
-				$('#width',div).val(parseInt($input.css('width')));
-				$('#height',div).val(parseInt($input.css('height')));
+			if ($multi) {
+				$('#tip',div).val($multi.attr('placeholder'));
+				$('#width',div).val(parseInt($multi.css('width')));
+				$('#height',div).val(parseInt($multi.css('height')));
 			}
 			$('#tip',div)[0].focus();
 		},
 		'delete' : function() {
-			$input && $input.remove();
-			$input = null;
+			$multi && $multi.remove();
+			$multi = null;
 		}
 	};
-	var $input = null;
-	self.plugin.getSelectedInputTextWidget = function() {
-		var res = $('input.ke_input_text_widget:focus',self.cmd.range.doc);
+	var $multi = null;
+	self.plugin.getSelectedInputMultiWidget = function() {
+		console.log($('textarea.ke_input_multi_widget:focus',self.cmd.range.doc));
+		var res = $('textarea.ke_input_multi_widget:focus',self.cmd.range.doc);
 		if(res.length>0){
-			$input = res;
+			$multi = res;
 			return res[0];
 		}
 
@@ -75,7 +76,7 @@ KindEditor.plugin('input_text_widget', function(K) {
 	};
 	$.each(['edit','delete'],function(i,val){
 		self.addContextmenu({
-			title : self.lang(val+'input_text_widget'),
+			title : self.lang(val+'input_multi_widget'),
 			click : function() {
 				self.loadPlugin(name, function() {
 					self.plugin[name][val]();
@@ -89,6 +90,6 @@ KindEditor.plugin('input_text_widget', function(K) {
 	});
 	
 
-	self.clickToolbar(name, self.plugin.input_text_widget.edit);
+	self.clickToolbar(name, self.plugin.input_multi_widget.edit);
 });
 

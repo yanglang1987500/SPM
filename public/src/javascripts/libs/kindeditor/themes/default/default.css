@@ -413,6 +413,16 @@
 	width: 16px;
 	height: 16px;
 }
+.ke-icon-edit {
+	background-position: 0px -1248px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-delete {
+	background-position: 0px -1264px;
+	width: 16px;
+	height: 16px;
+}
 /* container */
 .ke-container {
 	display: block;

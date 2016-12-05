@@ -47,8 +47,9 @@ FormDesigner.prototype.init = function(options){
                 'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
                 , 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
                 'anchor', 'link', 'unlink'
-            ],
-            filterMode:false
+            ], 
+            filterMode:false,
+            cssPath:'/src/stylesheets/editor.css'
         });
         if(that.options.action == '002'){
             that.restoreData();
@@ -81,6 +82,7 @@ FormDesigner.prototype.bindEvents = function () {
     var that = this;
 
     $('.widget-list',that.dom).on('click','li',function(){
+        Events.notify('kindeditor_clear_widget_var');
         var widget = $(this).attr('data-widget');
         that.um.clickToolbar(widget);
     });
@@ -98,7 +100,7 @@ FormDesigner.prototype.bindEvents = function () {
             form_html:content,
             form_text:that.um.text().replace(/(?:<img[^>]*?\/?>|<\/img>)/gi,'')//由于kindeditor的text获取纯文本方法会携带img标签 ，所以过滤一下
         },function(data){
-            data.success?(that.finish(true)):(that.toast(data.message));
+            data.success?(that.toast('保存成功!')):(that.toast(data.message));
         });
     });
     $('#cancelBtn',this.dom).click(function(){

@@ -5561,6 +5561,16 @@ ul.ztree.zTreeDragUL {margin:0; padding:0; position:absolute; width:auto; height
 	width: 16px;
 	height: 16px;
 }
+.ke-icon-edit {
+	background-position: 0px -1248px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-delete {
+	background-position: 0px -1264px;
+	width: 16px;
+	height: 16px;
+}
 /* container */
 .ke-container {
 	display: block;
@@ -5587,7 +5597,7 @@ ul.ztree.zTreeDragUL {margin:0; padding:0; position:absolute; width:auto; height
 	display: block;
 }
 .ke-toolbar-icon-url {
-	background-image: url(/dist/modules/4a1cec120d21d39048974839029b4789.png);
+	background-image: url(/dist/modules/46384874d388f6f7fc7ef592ebadb1ba.png);
 }
 .ke-toolbar .ke-outline {
 	border: 1px solid #F0F0EE;
@@ -5665,7 +5675,7 @@ ul.ztree.zTreeDragUL {margin:0; padding:0; position:absolute; width:auto; height
 	background-position: -0px -754px;
 	width: 15px;
 	height: 11px;
-	background-image: url(/dist/modules/4a1cec120d21d39048974839029b4789.png);
+	background-image: url(/dist/modules/46384874d388f6f7fc7ef592ebadb1ba.png);
 }
 .ke-statusbar-right-icon {
 	position: absolute;
@@ -5675,7 +5685,7 @@ ul.ztree.zTreeDragUL {margin:0; padding:0; position:absolute; width:auto; height
 	background-position: -5px -741px;
 	width: 11px;
 	height: 11px;
-	background-image: url(/dist/modules/4a1cec120d21d39048974839029b4789.png);
+	background-image: url(/dist/modules/46384874d388f6f7fc7ef592ebadb1ba.png);
 }
 /* menu */
 .ke-menu {
@@ -5834,7 +5844,7 @@ ul.ztree.zTreeDragUL {margin:0; padding:0; position:absolute; width:auto; height
 }
 .ke-dialog-icon-close {
 	display: block;
-	background: url(/dist/modules/4a1cec120d21d39048974839029b4789.png) no-repeat scroll 0px -688px;
+	background: url(/dist/modules/46384874d388f6f7fc7ef592ebadb1ba.png) no-repeat scroll 0px -688px;
 	width: 16px;
 	height: 16px;
 	position: absolute;
@@ -6127,7 +6137,7 @@ ul.ztree.zTreeDragUL {margin:0; padding:0; position:absolute; width:auto; height
 }
 .ke-swfupload-body .ke-delete {
 	display: block;
-	background: url(/dist/modules/4a1cec120d21d39048974839029b4789.png) no-repeat scroll 0px -688px;
+	background: url(/dist/modules/46384874d388f6f7fc7ef592ebadb1ba.png) no-repeat scroll 0px -688px;
 	width: 16px;
 	height: 16px;
 	position: absolute;

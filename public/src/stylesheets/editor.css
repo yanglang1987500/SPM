@@ -1,0 +1,9 @@
+@charset "UTF-8";
+.ke_input_multi_widget:focus,.ke_input_text_widget:focus,.ke_input_number_widget:focus{
+    outline:none !important;
+}
+.ke_input_text_widget,.ke_input_number_widget{
+    border:0;
+    border-bottom:1px solid #ccc;
+    background: transparent;
+}

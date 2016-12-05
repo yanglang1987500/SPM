@@ -9926,3 +9926,4 @@ KindEditor.plugin('fixtoolbar', function (K) {
         self.afterCreate(init);
     }
 });
+

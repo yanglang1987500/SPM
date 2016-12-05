@@ -55,8 +55,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(session({
-  name: 'DataPlatform',
-  secret: 'DataPlatform'
+  name: 'SPM',
+  secret: 'SPM'
 }));
 app.use(function(req, res, next) {
   res.locals.session = req.session;
