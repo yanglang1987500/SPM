@@ -95,13 +95,13 @@ CustomerManage.prototype.initTable = function () {
         hideOnUnhover:false
     });
 
-    var searchBox = that.searchBox = $('#customer-manage #home-easyui-searchbox',that.dom).searchbox({
+    var searchBox = that.searchBox = $('#home-easyui-searchbox',that.dom).searchbox({
         searcher: function (value, name) {
             Events.notify('onRefresh:customer-manage');
         },
         prompt: '请输入关键字，如客户姓名、职位或编号'
     });
-    var companySearchBox = $('#customer-manage #company-searchbox',that.dom).searchbox({
+    var companySearchBox = $('#company-searchbox',that.dom).searchbox({
         searcher: function (value, name) {
             Events.notify('onRefresh:customer-manage-company',value);
         },

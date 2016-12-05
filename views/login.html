@@ -13,9 +13,15 @@
 <body>
     <script>
         var theme = '';
-        if(theme = localStorage.getItem('_THEME_KEY')){
-            document.body.className = theme;
-        }
+
+        setTimeout(function(){
+            if(theme = localStorage.getItem('_THEME_KEY')){
+                document.body.className = theme;
+            }else{
+                document.body.className = 'bg-img-default';
+            }
+        },50);
+
     </script>
     <div class="container">
         <div class="login-panel panel panel-default">

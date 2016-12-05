@@ -180,6 +180,7 @@ CustomerAddModify.prototype.restoreData = function() {
         $('#mail',that.dom).val(data.mail);
         var node = that.ztreeObj.getNodesByParam('company_id',data.company_id,null)[0];
         that.ztreeObj.selectNode(node);
+        $('#company_id',that.dom).attr('data-company-id',data.company_id);
         $('#company_id',that.dom).val(node ? node.company_name:'');
         $('#customer_mark',that.dom).val(data.customer_mark);
     });

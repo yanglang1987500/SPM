@@ -15,11 +15,15 @@ Router.init();
 require('./modules/webpack-base');
 var frameBase = require('./modules/framework/framework-base');
 var theme,_THEME_KEY_ = '_THEME_KEY';
- 
-if(theme = localStorage.getItem(_THEME_KEY_)){
-    $('#colorMenu>li.'+theme+'').addClass('actived');
-    $('body').addClass(theme);
-}
+setTimeout(function(){
+    if(theme = localStorage.getItem(_THEME_KEY_)){
+        $('#colorMenu>li.'+theme+'').addClass('actived');
+        $('body').addClass(theme);
+    }else{
+        $('body').addClass('bg-img-default');
+    }  
+},50);
+
 Events.subscribe('onSelectMenu',function(moduleId){
     $('#menu>li').removeClass('actived');
     if(moduleId.indexOf(prefix)=='-1'){

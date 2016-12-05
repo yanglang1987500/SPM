@@ -126,7 +126,6 @@
 
 
     })();
-
     /**
      * 配置项主体。注意，此处所有涉及到路径的配置别遗漏URL变量。
      */
@@ -144,7 +143,7 @@
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的从新定义
         ,toolbar:[
             'source | undo redo | bold italic underline strikethrough | superscript subscript | forecolor backcolor | removeformat |',
-            'insertorderedlist insertunorderedlist | selectall cleardoc paragraph | fontfamily fontsize' ,
+            'insertorderedlist insertunorderedlist | selectall cleardoc paragraph | fontfamily fontsize table' ,
             '| justifyleft justifycenter justifyright justifyjustify |',
             'link unlink | emotion image video  | map',
             '| horizontal print preview ', 'drafts', 'formula'//fullscreen

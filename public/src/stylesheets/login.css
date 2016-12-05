@@ -8,12 +8,18 @@ html{
 }
 body{
     height:100%;
-    background-image: url('../images/framework/caoyuan.jpg');
+    transition:background .5s ease;
+    background: url('../images/framework/bg/default.jpg');
     background-size: 100% 100%;
-    background-repeat:no-repeat;
+    background-repeat:repeat;
     font-size: 14px;
     font-family:"宋体";
     color:#333333;
+}
+
+.bg-img-default{
+    background-image: url('../images/framework/caoyuan.jpg');
+    background-repeat: no-repeat;
 }
 .bg-img-num1{
     background: url('../images/framework/bg/bg_num1.jpg') left top repeat-x #082648;
@@ -72,6 +78,18 @@ body{
 }
 .wall-num12{
     background: url('../images/framework/bg/wall_num22.jpg') center top no-repeat fixed #000000;
+    background-size: 100% 100%;
+}
+.wall-num13{
+    background: url('../images/framework/bg/wall_num23.jpg') center top no-repeat fixed #000000;
+    background-size: 100% 100%;
+}
+.wall-num14{
+    background: url('../images/framework/bg/wall_num24.jpg') center top no-repeat fixed #000000;
+    background-size: 100% 100%;
+}
+.wall-num15{
+    background: url('../images/framework/bg/wall_num25.jpg') center top no-repeat fixed #000000;
     background-size: 100% 100%;
 }
 

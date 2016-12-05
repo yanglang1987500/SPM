@@ -101,7 +101,6 @@ module.exports = {
     },
     /**
      * 添加字典
-     * 同时写入sys_auth权限表
      * @param params
      * @param callback
      */

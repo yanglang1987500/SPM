@@ -1,0 +1,41 @@
+.form-designer{
+    padding:5px 0;
+    background-color: rgba(255,255,255,.3);
+    .edui-container,.edui-toolbar,.edui-editor-body{
+        box-shadow:none;
+        background-color:rgba(255,255,255,.3);
+    }
+    .btn-wrap{
+        padding:15px 15px;
+        text-align: center;
+    }
+    .edui-container{
+        border:0;
+    }
+    #title{
+        border:1px solid #ccc;
+        height:30px;
+        line-height: 30px;
+        padding:5px;
+        font-family: MicroSoft Yahei;
+        font-size:14px;
+        color: #3c3c3c;
+        outline: none;
+        width: 100%;
+        border-bottom: 0;
+    }
+    .widget-list{
+        list-style: none;
+        li{
+            height:30px;
+            line-height:30px;
+            padding-left:10px;
+            margin:5px;
+            border:1px solid #b8b8b8;
+            background: #e7e7e7;
+            &:hover{
+                background: #d1d1d1;
+            }
+        }
+    }
+}

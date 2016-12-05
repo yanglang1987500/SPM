@@ -22,7 +22,7 @@ router.post('/file/upload', function (req, res, next) {
             res.json(utils.returns([err,null]));
         } else {
             console.log('parse files: ' + filesTmp);
-            var inputFile = files.upfile[0];
+            var inputFile = files.imgFile[0];
             var filename = utils.guid();
             var filetype = inputFile.originalFilename.match(/.*\.(.*)$/)[1];
             var uploadedPath = inputFile.path;
@@ -37,12 +37,13 @@ router.post('/file/upload', function (req, res, next) {
             });
             res.writeHead(200, {'content-type': 'text/html;charset=utf-8'});
             res.end(JSON.stringify({
+                error:0,
                 name:filename+'.'+filetype,
                 originalName:inputFile.originalFilename,
                 size:inputFile.size,
                 state:"SUCCESS",
                 type:filetype,
-                url :filename+'.'+filetype
+                url :'/file/'+filename+'.'+filetype
             }));
         }
 
@@ -50,10 +51,14 @@ router.post('/file/upload', function (req, res, next) {
 });
 
 router.get('/file/:filename',function(req,res,next){
+    if(req.params.filename == 'upload'){
+        next();
+        return;
+    }
    fs.readFile(updateDir+req.params.filename,function(err,data){
        res.writeHead('200', {'Content-Type': 'image/jpeg'});    //写http头部信息
        res.end(data,'binary');
-   })
+   });
 });
 
 router.post('/file/remove',function(req,res,next){
@@ -61,4 +66,6 @@ router.post('/file/remove',function(req,res,next){
         res.json(utils.returns(arguments));
     });
 });
+
+
 module.exports = router;

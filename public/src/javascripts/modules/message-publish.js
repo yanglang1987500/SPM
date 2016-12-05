@@ -5,9 +5,10 @@
  */
 var frameworkBase = require('./framework/framework-base');
 require('../../stylesheets/modules/message-publish.scss');
-require('../libs/umeditor/themes/default/css/umeditor.min.css');
+//require('../libs/umeditor/themes/default/css/umeditor.min.css');
+require('../libs/kindeditor/themes/default/default.css');
 
-require('../libs/umeditor/umeditor.config');
+//require('../libs/umeditor/umeditor.config');
 
 var MessagePublish = function(){ };
 
@@ -31,10 +32,29 @@ MessagePublish.prototype.init = function(options){
 
     var that = this;
     require.ensure([],function(){
-        require('../libs/umeditor/umeditor.min');
+        /*require('../libs/umeditor/umeditor.min');
         require('../libs/umeditor/lang/zh-cn/zh-cn');
         //实例化编辑器
-        that.um = UM.getEditor('myEditor');
+        that.um = UM.getEditor('myEditor');*/
+        require('../libs/kindeditor/kindeditor-all-min');
+        require('../libs/kindeditor/lang/zh-CN');
+        that.um = window.um = KindEditor.create('#myEditor',{
+            basePath:'/src/javascripts/libs/kindeditor/',
+            resizeType:0,
+            height:470,
+            uploadJson:'/file/upload',
+            items:[
+                'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
+                'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+                'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+                'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+                'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+                'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
+                , 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+                'anchor', 'link', 'unlink'
+            ],
+            filterMode:false
+        });
         if(that.options.action == '002'){
             that.restoreData();
         }
@@ -55,7 +75,7 @@ MessagePublish.prototype.restoreData = function () {
     var that = this;
     this.query('/publish/search-id',{publish_id:this.options.publish_id},function(data){
         if(data.success){
-            that.um.setContent(data.data.publish_content);
+            that.um.html(data.data.publish_content);
             $('#title',that.dom).val(data.data.publish_title);
         }else
             that.toast(data.message);
@@ -66,7 +86,7 @@ MessagePublish.prototype.bindEvents = function () {
     var that = this;
 
     $('#submitBtn',this.dom).click(function(){
-        var content = that.um.getContent(), title = $('#title',that.dom).val();
+        var content = that.um.html(), title = $('#title',that.dom).val();
         if($.trim(content) == ''){
             swal('提示','请输入信息内容','warning');
             return;
@@ -80,7 +100,7 @@ MessagePublish.prototype.bindEvents = function () {
             publish_id:that.options.publish_id,
             publish_title:title,
             publish_content:content,
-            publish_content_pure:that.um.getContentTxt()
+            publish_content_pure:that.um.text().replace(/(?:<img[^>]*?\/?>|<\/img>)/gi,'')//由于kindeditor的text获取纯文本方法会携带img标签 ，所以过滤一下
         },function(data){
             data.success?(that.finish()):(that.toast(data.message));
         });
@@ -96,10 +116,10 @@ MessagePublish.prototype.bindEvents = function () {
  * 由框架调用，主要用于销毁订阅的事件
  */
 MessagePublish.prototype.finish = function () {
-    debugger;
     try{
         this.dom && this.dom.hide();
-        this.um.destroy();
+        //this.um.destroy();
+        this.um && this.um.remove();
         frameworkBase.finish.apply(this,arguments);
     }catch(e){
         console.log(e);
@@ -110,7 +130,7 @@ MessagePublish.prototype.finish = function () {
  */
 MessagePublish.prototype.resize = function () {
     try{
-        this.um.setWidth(this.dom.width());
+        //this.um.setWidth(this.dom.width());
     }catch(e){
         console.log(e);
     }
