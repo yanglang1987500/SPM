@@ -93,11 +93,12 @@ var Events = window.Events = {
     unsubscribe: function(eventName,callback){
         if(callback){
             var callbacks = __Events[eventName];
-            for(var i = 0; i< callbacks.length ; i++){
-                if(callbacks[i] === callback){
-                    callbacks.splice(i--,1);
+            if(callbacks)
+                for(var i = 0; i< callbacks.length ; i++){
+                    if(callbacks[i] === callback){
+                        callbacks.splice(i--,1);
+                    }
                 }
-            }
         }else
             delete __Events[eventName];
         return this;

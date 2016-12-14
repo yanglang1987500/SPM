@@ -21,7 +21,7 @@
 </template>
 
 <script>
-    import navigator from './vue-navigator.vue';
+    var navigator = require('./vue-navigator.vue');
     var utils = require('../utils/utils');
     var THEME_KEY = '_H5_THEME_KEY_';
     var methods = {

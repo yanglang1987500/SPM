@@ -12,8 +12,13 @@ html,body{
   overflow: auto;
 
 }
-
-body{
+.clearfix{
+  zoom:1;
+}
+.clearfix:after{
+  content:'';
+  display: block;
+  clear:both;
 }
 body:before {
     content: ' ';

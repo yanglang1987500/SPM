@@ -261,5 +261,15 @@ module.exports = {
         DURATION:DURATION+200
     },
     ajax:AJAX,
-    crypto:Crypto
+    crypto:Crypto,
+    djb2Code : function(str){
+        var hash = 5381;
+        for (i = 0; i < str.length; i++) {
+            char = str.charCodeAt(i);
+            hash = ((hash << 5) + hash) + char; /* hash * 33 + c */
+        }
+        return hash;
+    },
+    colors:['#8FEDD1','#D3ED8F','#EFC08D','#F09D8C','#8BC6F1',
+            '#8A8FF2','#AC89F3','#F48891','#89F3AC','#95C0E8']
 };

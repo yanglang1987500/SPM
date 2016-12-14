@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel='stylesheet' href='/src/stylesheets/editor.css'/>
+    <link rel='stylesheet' href='/src/stylesheets/easyui.css'/>
+    <style>
+        #form_container{
+            width:900px;
+            padding:50px ;
+            box-shadow: 0 1px 5px rgba(0,0,0,.4);
+            margin:50px auto;
+            font-size:12px;
+        }
+        .ke_input_details_widget:hover{
+            background: transparent;
+        }
+    </style>
+</head>
+<body>
+    <div id="form_container">
+
+    </div>
+    <script src="/src/javascripts/libs/jquery.min.js"></script>
+    <script src="/src/javascripts/libs/calendar.js"></script>
+    <script src="/src/javascripts/libs/jquery.easyui.min.js"></script>
+    <script src="/src/javascripts/libs/easyui-lang-zh_CN.js"></script>
+    <script src="/src/javascripts/libs/formDesignerWidgetsInitor.js"></script>
+    <script>
+        $(function(){
+            $.get('/form/search/043434377aca0d29ff66a572893f6096',function(data){
+               if(!data.success){
+                   alert(data.message);
+                   return;
+               }
+                $('#form_container').html(data.data.form_html.replace(/\{\{/gi,'').replace(/\}\}/gi,''));
+                formDesignerWidgetsInitor.init($('body'));
+            });
+        });
+    </script>
+</body>
+</html>

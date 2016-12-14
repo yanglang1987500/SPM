@@ -82,4 +82,23 @@ router.get('/dim/search/:id', function (req, res, next) {
     });
 });
 
+/**
+ * 查询所有字典组
+ */
+router.get('/dim/group', function (req, res, next) {
+    dimDao.dimGroupSearch(function(){
+        res.json(utils.returns(arguments));
+    });
+});
+
+/**
+ * 根据分组id查询字典项
+ */
+router.get('/dim/group/:id', function (req, res, next) {
+    var id = req.params.id;
+    dimDao.dimSearchByGroupId(id,function(){
+        res.json(utils.returns(arguments));
+    });
+});
+
 module.exports = router;

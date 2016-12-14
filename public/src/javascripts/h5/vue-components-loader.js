@@ -15,6 +15,7 @@ module.exports = {
             var menuList = data.data;
             //先将homepage路由加入
             arr.push({path:'/',component:require('./vue-components/homepage.vue')});
+            arr.push({path:'/webim-chat',component:require('./vue-components/webim-chat.vue')});
             for(var i = 0,len = menuList.length;i<len;i++){
                 if(menuList[i].menu_device == '1')
                     continue;

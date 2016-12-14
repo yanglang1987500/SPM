@@ -505,6 +505,9 @@ Framework.prototype = {
                     },
                     onMove:function(left,top){
                         that.onMove(left,top);
+                    },
+                    onResize:function(){
+                        that.dialogResize && $.isFunction(that.dialogResize) && that.dialogResize.apply(that,parentModels.slice.call(arguments,0));
                     }
                 });
                 that.dom = $pop.children();
@@ -523,6 +526,7 @@ Framework.prototype = {
         $input.length>0&&$input[0].focus();
         return that.dom;
     },
+    dialogResize:$.noop,
     _closeDialog:function(){
         var that = this;
         if(this.pop){

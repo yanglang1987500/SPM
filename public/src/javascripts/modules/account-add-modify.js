@@ -11,7 +11,7 @@ var AccountAddModify = function(){ };
 AccountAddModify.prototype = $.extend({},frameworkBase);
 AccountAddModify.prototype.id = 'account-add-modify';
 
-
+ 
 /**
  * 模块初始化入口<br>
  * @method init

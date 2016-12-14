@@ -255,6 +255,7 @@ K.options = {
 	bodyClass : 'ke-content',
 	indentChar : '\t',
 	cssPath : '',
+	jsPath : '',
 	cssData : '',
 	minWidth : 650,
 	minHeight : 100,
@@ -3563,6 +3564,7 @@ _extend(KWidget, {
 		return this;
 	},
 	draggable : function(options) {
+		console.log(options);
 		var self = this;
 		options = options || {};
 		options.moveEl = self.div;
@@ -3594,7 +3596,7 @@ var html, _direction = '';
 if ((html = document.getElementsByTagName('html'))) {
 	_direction = html[0].dir;
 }
-function _getInitHtml(themesPath, bodyClass, cssPath, cssData) {
+function _getInitHtml(themesPath, bodyClass, cssPath, cssData, jsPath) {
 	var arr = [
 		(_direction === '' ? '<html>' : '<html dir="' + _direction + '">'),
 		'<head><meta charset="utf-8" /><title></title>',
@@ -3653,9 +3655,17 @@ function _getInitHtml(themesPath, bodyClass, cssPath, cssData) {
 	if (!_isArray(cssPath)) {
 		cssPath = [cssPath];
 	}
+	if (!_isArray(jsPath)) {
+		jsPath = [jsPath];
+	}
 	_each(cssPath, function(i, path) {
 		if (path) {
 			arr.push('<link href="' + path + '" rel="stylesheet" />');
+		}
+	});
+	_each(jsPath, function(i, path) {
+		if (path) {
+			arr.push("<script async src='"+path+"' type='text/javascript'></script>");
 		}
 	});
 	if (cssData) {
@@ -3693,6 +3703,7 @@ _extend(KEdit, KWidget, {
 		var themesPath = _undef(options.themesPath, ''),
 			bodyClass = options.bodyClass,
 			cssPath = options.cssPath,
+			jsPath = options.jsPath,
 			cssData = options.cssData,
 			isDocumentDomain = location.protocol != 'res:' && location.host.replace(/:\d+/, '') !== document.domain,
 			srcScript = ('document.open();' +
@@ -3721,7 +3732,7 @@ _extend(KEdit, KWidget, {
 			if (isDocumentDomain) {
 				doc.domain = document.domain;
 			}
-			doc.write(_getInitHtml(themesPath, bodyClass, cssPath, cssData));
+			doc.write(_getInitHtml(themesPath, bodyClass, cssPath, cssData, jsPath));
 			doc.close();
 			self.win = self.iframe[0].contentWindow;
 			self.doc = doc;
@@ -5123,6 +5134,7 @@ KEditor.prototype = {
 			themesPath : self.themesPath,
 			bodyClass : self.bodyClass,
 			cssPath : self.cssPath,
+			jsPath : self.jsPath,
 			cssData : self.cssData,
 			beforeGetHtml : function(html) {
 				html = self.beforeGetHtml(html);

@@ -8,8 +8,7 @@ module.exports = {
     ],
     //页面入口文件配置
     entry:{
-        h5 : './public/src/javascripts/h5.js',
-        index : './public/src/javascripts/index.js'
+        h5 : './public/src/javascripts/h5.js'
     },
     //入口文件输出配置
     output: {

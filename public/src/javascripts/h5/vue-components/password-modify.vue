@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    import navigator from './vue-navigator.vue';
+    var navigator = require('./vue-navigator.vue');
     var utils = require('../utils/utils');
 
 

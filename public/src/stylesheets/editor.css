@@ -1,9 +1,86 @@
 @charset "UTF-8";
-.ke_input_multi_widget:focus,.ke_input_text_widget:focus,.ke_input_number_widget:focus{
+.ke_input_multi_widget:focus,.ke_input_text_widget:focus,.ke_input_number_widget:focus,.ke_input_select_widget:focus{
     outline:none !important;
+}
+.ke_input_select_widget{
+    border:1px solid #ccc;
+    background-image: url("./images/arrow_down.jpg");
+    background-position: right center;
+    background-repeat: no-repeat;
+}
+.ke_input_date_widget,.ke_input_daterange_date_widget{
+    border:1px solid #ccc;
+    background-image: url("./images/datebox_arrow.png");
+    background-position: right center;
+    background-repeat: no-repeat;
+}
+.ke_input_attachment_widget{
+    border:1px solid #ccc;
+    background-image: url("./images/upload.jpg");
+    background-position: right center;
+    background-repeat: no-repeat;
+}
+.ke_input_widget_container{
+    display: inline-block;
+    position: relative;
+    padding:5px;
+}
+.ke_input_details_widget{
+    display: block;
+}
+.widget_mask{
+    position: absolute;
+    z-index: 2;
+    left:0;
+    top:0;
+    bottom:0;
+    right:0;
+    background: transparent;
+    cursor: pointer;
+}
+.ke_input_details_widget:hover{
+    background-color: rgba(52, 152, 219, 0.1);
+}
+.widget_mask:hover{
+    background: rgba(138,165,225,.3);
+    border:1px dotted #8AA5E1;
 }
 .ke_input_text_widget,.ke_input_number_widget{
     border:0;
     border-bottom:1px solid #ccc;
     background: transparent;
+}
+.ke_input_multi_widget{
+    border:1px solid #ccc;
+}
+table{
+    border-collapse: collapse;
+}
+.addDetailBtn{
+    display: block;
+    margin:10px auto;
+    width:100px;
+    height:30px;
+    line-height:30px;
+    background-color: #3498db;
+    border-color: #3498db;
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    font-size:14px;
+    font-family: "MicroSoft Yahei";
+    text-align: center;
+    color:#fff;
+    cursor: pointer;
+}
+.addDetailBtn:hover{
+    background-color: #217dbb;
+    border-color: #2077b2;
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.5);
+}
+.ke_input_details_widget_wrapper_item{
+    min-height:30px;
+    border-radius: 2px;
+    border:1px dashed #ccc;
+    margin: 15px 0;
+    padding: 10px 0;
 }

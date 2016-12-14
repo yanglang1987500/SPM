@@ -38,7 +38,7 @@ KindEditor.plugin('input_multi_widget', function(K) {
 					name : self.lang('yes'),
 					click : function(e) {
 						if($multi){
-							$multi.attr('placeholder',$('#tip',div).val()).css({
+							$multi.find('textarea.ke_input_multi_widget').attr('placeholder',$('#tip',div).val()).css({
 								width:$("#width",div).val(),
 								height:$("#height",div).val()
 							});
@@ -46,32 +46,39 @@ KindEditor.plugin('input_multi_widget', function(K) {
 							$multi = null;
 							return;
 						}
-						self.insertHtml('<textarea class="ke_input_multi_widget" readonly style="width:'+$("#width",div).val()+'px;height:'+$("#height",div).val()+'px;" placeholder="' + $('#tip',div).val() + '"></textarea>').hideDialog().focus();
+						self.insertHtml('{{<div contenteditable="false" class="ke_input_widget_container"><textarea class="ke_input_multi_widget" readonly style="width:'+$("#width",div).val()+'px;height:'+$("#height",div).val()+'px;" placeholder="' + $('#tip',div).val() + '"></textarea>' +
+							'<div class="ke_input_multi_widget_mask widget_mask"></div>' +
+							'</div>}}').hideDialog().focus();
 					}
 				}
 			});
 			var div = dialog.div;
 			if ($multi) {
-				$('#tip',div).val($multi.attr('placeholder'));
-				$('#width',div).val(parseInt($multi.css('width')));
-				$('#height',div).val(parseInt($multi.css('height')));
+				var $input = $multi.find('textarea.ke_input_multi_widget');
+				$('#tip',div).val($input.attr('placeholder'));
+				$('#width',div).val(parseInt($input.css('width')));
+				$('#height',div).val(parseInt($input.css('height')));
 			}
 			$('#tip',div)[0].focus();
 		},
 		'delete' : function() {
+			var node = $multi[0];
+			node.previousSibling.nodeType === 3 && (node.previousSibling.nodeValue = node.previousSibling.nodeValue.replace('{{',''));
+			node.nextSibling.nodeType === 3 && (node.nextSibling.nodeValue = node.nextSibling.nodeValue.replace('}}',''));
 			$multi && $multi.remove();
 			$multi = null;
 		}
 	};
 	var $multi = null;
 	self.plugin.getSelectedInputMultiWidget = function() {
-		console.log($('textarea.ke_input_multi_widget:focus',self.cmd.range.doc));
-		var res = $('textarea.ke_input_multi_widget:focus',self.cmd.range.doc);
-		if(res.length>0){
-			$multi = res;
-			return res[0];
+		var $target = $(self.cmd.win.event.target);
+		if($target.hasClass('ke_input_multi_widget_mask')){
+			self.cmd.selection(true);
+			self.cmd.range.selectNode($target.parent()[0]);
+			self.cmd.select();
+			$multi = $target.parent();
+			return $multi;
 		}
-
 		return null;
 	};
 	$.each(['edit','delete'],function(i,val){

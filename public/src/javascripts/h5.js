@@ -8,9 +8,13 @@ var FastClick = require('./libs/fastclick');
 var Vue = require('vue');
 var VueRouter = require('vue-router');
 Vue.use(VueRouter);
+
 var Events = require('./libs/framework-events');
 var loader = require('./h5/vue-components-loader');
 require('./libs/loading/loading.js');
+var WebIM = require('./h5/utils/webIM');
+var store = require('./h5/utils/store');
+
 /**
  * 加载路由配置
  */
@@ -34,6 +38,7 @@ loader.load(function(data){
     });*/
     app = new Vue({
         router:router,
+        store:store,
         data:{
         },
         methods:{}
@@ -49,4 +54,7 @@ $(function(){
     $('#msg_holder').remove();
     window.HEIGHT = $(window).height();
     FastClick.attach(document.body);
+
+    //WebIM初始化
+    WebIM.init();
 });

@@ -13,7 +13,7 @@ var Events = require('./libs/framework-events');
 var Router = require('./modules/framework/framework-route');
 Router.init();
 require('./modules/webpack-base');
-var frameBase = require('./modules/framework/framework-base');
+var frameBase = window.frameBase = require('./modules/framework/framework-base');
 var theme,_THEME_KEY_ = '_THEME_KEY';
 setTimeout(function(){
     if(theme = localStorage.getItem(_THEME_KEY_)){
@@ -21,7 +21,7 @@ setTimeout(function(){
         $('body').addClass(theme);
     }else{
         $('body').addClass('bg-img-default');
-    }  
+    }   
 },50);
 
 Events.subscribe('onSelectMenu',function(moduleId){

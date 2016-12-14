@@ -241,7 +241,22 @@ KindEditor.lang({
 	'deleteinput_multi_widget':'删除多行文本输入框',
 	'input_number_widget':'编辑数字输入框',
 	'editinput_number_widget':'编辑数字输入框',
-	'deleteinput_number_widget':'删除数字输入框'
+	'deleteinput_number_widget':'删除数字输入框',
+	'input_select_widget':'编辑单选框',
+	'editinput_select_widget':'编辑单选框',
+	'deleteinput_select_widget':'删除单选框',
+	'input_date_widget':'编辑日期框',
+	'editinput_date_widget':'编辑日期框',
+	'deleteinput_date_widget':'删除日期框',
+	'input_daterange_widget':'编辑日期区间框',
+	'editinput_daterange_widget':'编辑日期区间',
+	'deleteinput_daterange_widget':'删除日期区间',
+	'input_attachment_widget':'编辑附件框',
+	'editinput_attachment_widget':'编辑附件框',
+	'deleteinput_attachment_widget':'删除附件框',
+	'input_details_widget':'编辑明细',
+	'editinput_details_widget':'编辑明细',
+	'deleteinput_details_widget':'删除明细'
 }, 'zh-CN');
 
 KindEditor.options.langType = 'zh-CN';

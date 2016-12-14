@@ -75,6 +75,7 @@ router.get('/h5/login', function (req, res, next) {
     res.render('loginh5', {title: 'Express', a: 'hello world'});
 });
 
+
 router.post('/h5/login', function (req, res, next) {
     var username = req.body.username;
     var password = req.body.password;

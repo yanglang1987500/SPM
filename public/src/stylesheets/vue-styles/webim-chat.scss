@@ -1,0 +1,138 @@
+#webim-chat-container {
+  background: #f6f6f6;
+  .content-wrap{
+    padding:0rem .2rem 1.5rem;
+  }
+  .chat-item {
+    min-height: 1rem;
+    margin: .3rem 0 ;
+  }
+  .chat-item-wrap {
+    position: relative;
+    padding-right:1.2rem;
+    padding-left:0;
+    float:right;
+  }
+  .chat-left{
+    float:left;
+  }
+  .chat-item-wrap.chat-left{
+    padding-left:1.2rem;
+    padding-right:0;
+  }
+  .chat-left .chat-content-wrap{
+    background: #fff;
+  }
+  .chat-content-wrap{
+    font-size: .3rem;
+    max-width:4.5rem;
+    color: #353535;
+    position: relative;
+    background: #9EEA6A;
+    min-height: .9rem;
+    top: .1rem;
+    padding: .2rem;
+    border-radius: .2rem;
+    box-shadow:.05rem .05rem .1rem rgba(0,0,0,.1);
+    line-height:1.6;
+    word-break:break-all;
+  }
+  .chat-content-wrap:before{
+    content: "";
+    position: absolute;
+    top: .25rem;
+    right: -.38rem;
+    width: 0;
+    height: 0;
+    border: .2rem solid transparent;
+    border-left:.2rem solid #9EEA6A;
+
+  }
+  .chat-left .chat-content-wrap:before{
+    top: .25rem;
+    left: -.38rem;
+    width: 0;
+    height: 0;
+    border: .2rem solid transparent;
+    border-right:.2rem solid #fff;
+
+  }
+  .chat-left .head-wrap{
+    left:0;
+    right:auto;
+  }
+  .head-wrap {
+    position: absolute;
+    right: 0rem;
+    left:auto;
+    top: .2rem;
+    width: .8rem;
+    height: .8rem;
+    .head-circle-name {
+      position: relative;
+      width: .8rem;
+      height: .8rem;
+      border-radius: 50%;
+      overflow: hidden;
+      border:1px solid #ccc;
+      background: #fff;
+      box-shadow: 0 0 .12rem rgba(0, 0, 0, .15);
+
+      h3 {
+        width: 1.5rem;
+        font-size: .5rem;
+        line-height: .8rem;
+        text-align: center;
+        color: #c1c1c1;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+  }
+  #sendBar {
+    height: 1rem;
+    width: 100%;
+    background: #fff;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.11);
+    &.fixed {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+    }
+    #editorBox {
+      position: absolute;
+      left: .1rem;
+      top: .1rem;
+      width: 6rem;
+      height: .8rem;
+      border: 1px solid #eee;
+      border-radius: .2rem;
+      box-shadow: 0 0 .2rem rgba(0, 0, 0, 0.1) inset;
+      padding: 0 .2rem;
+      font-size: .4rem;
+      &:focus {
+        outline: none;
+      }
+    }
+    #sendBtn {
+      position: absolute;
+      right: .1rem;
+      top: .1rem;
+      width: 1.2rem;
+      height: .8rem;
+      border: 1px solid #2683d1;
+      border-radius: .12rem;
+      background: #2c97f2;
+      color: #fff;
+      font-size: .3rem;
+      font-family: Arial, 'MicroSoft Yahei';
+      &:focus {
+        outline: none;
+      }
+      &:hover {
+        background: #288ADD;
+      }
+    }
+  }
+}

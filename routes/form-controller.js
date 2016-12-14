@@ -73,5 +73,10 @@ router.get('/form/search/:form_id', function (req, res, next) {
         res.json(utils.returns(arguments));
     });
 });
+router.get('/form', function (req, res, next) {
+    if (req.session.isLogin) {
+        res.render('form');
+    }
+});
 
 module.exports = router;

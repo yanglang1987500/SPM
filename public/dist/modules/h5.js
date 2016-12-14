@@ -1,4 +1,4 @@
-webpackJsonp([0],[
+webpackJsonp([0,3],[
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -12,9 +12,13 @@ webpackJsonp([0],[
 	var Vue = __webpack_require__(14);
 	var VueRouter = __webpack_require__(15);
 	Vue.use(VueRouter);
+
 	var Events = __webpack_require__(16);
 	var loader = __webpack_require__(17);
-	__webpack_require__(167);
+	__webpack_require__(185);
+	var WebIM = __webpack_require__(111);
+	var store = __webpack_require__(109);
+
 	/**
 	 * 加载路由配置
 	 */
@@ -38,6 +42,7 @@ webpackJsonp([0],[
 	    });*/
 	    app = new Vue({
 	        router:router,
+	        store:store,
 	        data:{
 	        },
 	        methods:{}
@@ -53,6 +58,9 @@ webpackJsonp([0],[
 	    $('#msg_holder').remove();
 	    window.HEIGHT = $(window).height();
 	    FastClick.attach(document.body);
+
+	    //WebIM初始化
+	    WebIM.init();
 	});
 
 
@@ -10344,7 +10352,171 @@ webpackJsonp([0],[
 	})));
 
 /***/ },
-/* 16 */,
+/* 16 */
+/***/ function(module, exports) {
+
+	/** ========================提供事件订阅机制=========================== **/
+	var __Events = {},
+	    toBeNotify = [],
+	    toBeCall = [],
+	    isCalling = false,
+	    windowLoaded = false,
+	    QUEUE_TIMEOUT = 30,//队列执行间隔时长
+	    EVENT_PREFIX = 'TEMPORARYEVENT';//临时事件名称前缀，后缀为_+时间缀
+	typeof window == 'undefined'?(window ={}):'';
+
+	var Events = window.Events = {
+	    EVENT_PREFIX:EVENT_PREFIX,
+	    addMethod:function(methodName,method){
+	        var that = this;
+	        if(typeof method === 'function' && this[methodName] == undefined){
+	            this[methodName] = function(){
+	                return method.apply(that,toBeNotify.slice.call(arguments,0));
+	            };
+	        }
+	        return this;
+	    },
+	    /**
+	     * 触发一个事件
+	     * @method notify
+	     * @param eventName 事件名称
+	     * @param data 事件数据 PS：现在支持变参，除了eventName,data以外还可以添加任意参数
+	     * @returns {Events}
+	     */
+	    notify:function(eventName,data){
+	        var eventNames = eventName.split(' '),result = {};
+	        for(var key in eventNames){
+	            var _eventName = eventNames[key];
+	            result[_eventName] = [];
+	            var eventList = __Events[_eventName],i = 0;
+	            if(eventList){
+	                var len = eventList.length;
+	                for(;i < len;i++ ){
+	                    eventList[i].apply(this,toBeNotify.slice.call(arguments,1));
+	                }
+	            }else{
+	                toBeNotify.push({
+	                    eventName:_eventName,
+	                    data:toBeNotify.slice.call(arguments,1),
+	                    scope:this
+	                });//暂时存入待触发列表
+	            }
+	            //若为临时事件，则通知一次之后马上注销
+	            if(new RegExp('^'+EVENT_PREFIX+'(_\\d+)$').test(_eventName))
+	                this.unsubscribe(_eventName);
+	        }
+
+	        return this;
+	    },
+	    /**
+	     * 给定作用域触发一个事件
+	     * @param eventName 事件名称
+	     * @param scope 作用域
+	     * @param data 事件数据，支持变参
+	     */
+	    notifyWith:function(eventName,scope,data){
+	        if (arguments.length<2)
+	            throw new TypeError('按作用域触发事件请提供事件名称与作用域');
+	        this.notify.apply(scope, [eventName].concat(toBeNotify.slice.call(arguments,2)));
+	    },
+	    /**
+	     * 订阅一个事件
+	     * @method subscribe
+	     * @param eventName 事件名称
+	     * @param callback 事件回调
+	     */
+	    subscribe: function (eventName, callback) {
+	        var i = 0,len = toBeNotify.length;
+	        if (arguments.length<2)
+	            throw new TypeError('订阅事件请提供事件名称与事件回调');
+
+	        var eventList = __Events[eventName]?__Events[eventName]:(__Events[eventName]=[]);
+	        eventList = Object.prototype.toString.call(callback) === '[object Array]'?eventList.concat(callback):eventList.push(callback);
+	        for(;i<len;i++){
+	            if(toBeNotify[i].eventName === eventName){
+	                //移除并触发之前已准备触发的事件
+	                this.notify.apply(toBeNotify[i].scope , [eventName].concat(toBeNotify[i].data));
+	                toBeNotify.splice(i,1);
+	                break;
+	            }
+	        }
+	        return this;
+	    },
+	    /**
+	     * 取消订阅事件
+	     * @method unsubscribe
+	     * @param eventName 事件名称
+	     */
+	    unsubscribe: function(eventName,callback){
+	        if(callback){
+	            var callbacks = __Events[eventName];
+	            if(callbacks)
+	                for(var i = 0; i< callbacks.length ; i++){
+	                    if(callbacks[i] === callback){
+	                        callbacks.splice(i--,1);
+	                    }
+	                }
+	        }else
+	            delete __Events[eventName];
+	        return this;
+	    },
+	    /**
+	     * 列队执行 无参时代表调起队列开始执行
+	     * @param callback 回调方法
+	     */
+	    queue:function(callback){
+	        if(arguments.length == 0 && !isCalling){
+	            _reCall();
+	            return this;
+	        }
+	        if(isCalling || !windowLoaded){
+	            toBeCall.push(callback);
+	            return this;
+	        }
+
+	        isCalling = true;
+	        callback();
+
+	        setTimeout(_reCall,QUEUE_TIMEOUT);
+	        function _reCall(){
+	            var flag = false;
+	            for(var i = 0;i < toBeCall.length;i++) {
+	                flag = true;
+	                toBeCall[i].call();
+	                setTimeout(arguments.callee,QUEUE_TIMEOUT);
+	                toBeCall.splice(i,1);
+	                break;
+	            }
+	            isCalling = flag;
+	        }
+	        return this;
+	    },
+	    isIOS9:(navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i)) && Boolean(navigator.userAgent.match(/OS [9]_\d[_\d]* like Mac OS X/i)),
+	    isMobile:/Mobile/g.test(navigator.userAgent),
+	    isIOS:(navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i)),
+	    ORIENTATION_LANDSCAPE:1,//横屏
+	    ORIENTATION_PORTRAIT:0,//竖屏
+	    orientation:0
+	};
+	//APP内 或 APP外且非IOS9
+	if(!Events.isBrowser || (Events.isBrowser && !Events.isIOS9) ){
+	    //app内直接设置为true不需要缓冲
+	    windowLoaded = true;
+	}else{
+	    if(document.readyState === 'complete'){
+	        windowLoaded = true;
+	    }else{
+	        window.addEventListener('load',function(){
+	            windowLoaded = true;
+	            Events.queue();
+	        });
+	    }
+	}
+	/** =================================================== **/
+
+	module.exports = Events;
+
+/***/ },
 /* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -10365,6 +10537,7 @@ webpackJsonp([0],[
 	            var menuList = data.data;
 	            //先将homepage路由加入
 	            arr.push({path:'/',component:__webpack_require__(22)});
+	            arr.push({path:'/webim-chat',component:__webpack_require__(105)});
 	            for(var i = 0,len = menuList.length;i<len;i++){
 	                if(menuList[i].menu_device == '1')
 	                    continue;
@@ -10372,13 +10545,13 @@ webpackJsonp([0],[
 	                if(menuList[i]['menu_url']){
 	                    var flag = /\/h5\/(.*)/.test(menuList[i]['menu_url']);
 	                    if(flag){
-	                        var mod = __webpack_require__(105)("./"+RegExp.$1+'.vue');
+	                        var mod = __webpack_require__(118)("./"+RegExp.$1+'.vue');
 	                        arr.push({path:mod.module,component:mod});
 	                        menuList[i].path = '/'+RegExp.$1;
 	                        menu.push(menuList[i]);
 	                    }
 	                }else{
-	                    var mod = __webpack_require__(139);
+	                    var mod = __webpack_require__(152);
 	                    arr.push({path:mod.module,component:mod});
 	                    menuList[i].path = '/menu-second?menu_id='+menuList[i]['menu_id'];
 	                    menu.push(menuList[i]);
@@ -10666,7 +10839,17 @@ webpackJsonp([0],[
 	        DURATION:DURATION+200
 	    },
 	    ajax:AJAX,
-	    crypto:Crypto
+	    crypto:Crypto,
+	    djb2Code : function(str){
+	        var hash = 5381;
+	        for (i = 0; i < str.length; i++) {
+	            char = str.charCodeAt(i);
+	            hash = ((hash << 5) + hash) + char; /* hash * 33 + c */
+	        }
+	        return hash;
+	    },
+	    colors:['#8FEDD1','#D3ED8F','#EFC08D','#F09D8C','#8BC6F1',
+	            '#8A8FF2','#AC89F3','#F48891','#89F3AC','#95C0E8']
 	};
 
 /***/ },
@@ -10679,8 +10862,357 @@ webpackJsonp([0],[
 	}),m.queue(d,p.isString(s)?s:"",[])),"stop"===q?(g(d)&&g(d).tweensContainer&&f!==!1&&m.each(g(d).tweensContainer,function(a,b){b.endValue=b.currentValue}),D.push(a)):("finish"===q||"finishAll"===q)&&(b[2].duration=1))}):!0})}),"stop"===q&&(m.each(D,function(a,b){l(b,!0)}),B.promise&&B.resolver(o)),a();default:if(!m.isPlainObject(q)||p.isEmptyObject(q)){if(p.isString(q)&&t.Redirects[q]){var E=m.extend({},s),F=E.duration,G=E.delay||0;return E.backwards===!0&&(o=m.extend(!0,[],o).reverse()),m.each(o,function(a,b){parseFloat(E.stagger)?E.delay=G+parseFloat(E.stagger)*a:p.isFunction(E.stagger)&&(E.delay=G+E.stagger.call(b,a,x)),E.drag&&(E.duration=parseFloat(F)||(/^(callout|transition)/.test(q)?1e3:r),E.duration=Math.max(E.duration*(E.backwards?1-a/x:(a+1)/x),.75*E.duration,200)),t.Redirects[q].call(b,b,E||{},a,x,o,B.promise?B:d)}),a()}var H="Velocity: First argument ("+q+") was not a property map, a known action, or a registered redirect. Aborting.";return B.promise?B.rejecter(new Error(H)):console.log(H),a()}C="start"}var I={lastParent:null,lastPosition:null,lastFontSize:null,lastPercentToPxWidth:null,lastPercentToPxHeight:null,lastEmToPx:null,remToPx:null,vwToPx:null,vhToPx:null},J=[];m.each(o,function(a,b){p.isNode(b)&&e.call(b)});var K,E=m.extend({},t.defaults,s);if(E.loop=parseInt(E.loop),K=2*E.loop-1,E.loop)for(var L=0;K>L;L++){var M={delay:E.delay,progress:E.progress};L===K-1&&(M.display=E.display,M.visibility=E.visibility,M.complete=E.complete),w(o,"reverse",M)}return a()}};t=m.extend(w,t),t.animate=w;var x=b.requestAnimationFrame||o;return t.State.isMobile||c.hidden===d||c.addEventListener("visibilitychange",function(){c.hidden?(x=function(a){return setTimeout(function(){a(!0)},16)},k()):x=b.requestAnimationFrame||o}),a.Velocity=t,a!==b&&(a.fn.velocity=w,a.fn.velocity.defaults=t.defaults),m.each(["Down","Up"],function(a,b){t.Redirects["slide"+b]=function(a,c,e,f,g,h){var i=m.extend({},c),j=i.begin,k=i.complete,l={height:"",marginTop:"",marginBottom:"",paddingTop:"",paddingBottom:""},n={};i.display===d&&(i.display="Down"===b?"inline"===t.CSS.Values.getDisplayType(a)?"inline-block":"block":"none"),i.begin=function(){j&&j.call(g,g);for(var c in l){n[c]=a.style[c];var d=t.CSS.getPropertyValue(a,c);l[c]="Down"===b?[d,0]:[0,d]}n.overflow=a.style.overflow,a.style.overflow="hidden"},i.complete=function(){for(var b in n)a.style[b]=n[b];k&&k.call(g,g),h&&h.resolver(g)},t(a,l,i)}}),m.each(["In","Out"],function(a,b){t.Redirects["fade"+b]=function(a,c,e,f,g,h){var i=m.extend({},c),j={opacity:"In"===b?1:0},k=i.complete;i.complete=e!==f-1?i.begin=null:function(){k&&k.call(g,g),h&&h.resolver(g)},i.display===d&&(i.display="In"===b?"auto":"none"),t(this,j,i)}}),t}(window.jQuery||window.Zepto||window,window,document)});
 
 /***/ },
-/* 20 */,
-/* 21 */,
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Created by 杨浪 on 2016/10/25.
+	 */
+	var md5 = __webpack_require__(21);
+	/**=======================================扩展加密解密===========================================**/
+	module.exports = {
+	    cert:'spm',
+	    panEncrypt: function (str, pwd) {
+	        if (pwd == null || pwd.length <= 0) {
+	            pwd = this.cert;
+	            return null;
+	        }
+	        var prand = "";
+	        for (var i = 0; i < pwd.length; i++) {
+	            prand += pwd.charCodeAt(i).toString();
+	        }
+	        var sPos = Math.floor(prand.length / 5);
+	        var mult = parseInt(prand.charAt(sPos) + prand.charAt(sPos * 2)
+	            + prand.charAt(sPos * 3) + prand.charAt(sPos * 4)
+	            + prand.charAt(sPos * 5));
+	        var incr = Math.ceil(pwd.length / 2);
+	        var modu = Math.pow(2, 31) - 1;
+	        if (mult < 2) {
+	            alert("Algorithm cannot find a suitable hash. Please choose a different password. \nPossible considerations are to choose a more complex or longer password.");
+	            return null;
+	        }
+	        var salt = Math.round(Math.random() * 1000000000) % 100000000;
+	        prand += salt;
+	        while (prand.length > 10) {
+	            prand = (parseInt(prand.substring(0, 10)) + parseInt(prand.substring(
+	                10, prand.length))).toString();
+	        }
+	        prand = (mult * prand + incr) % modu;
+	        var enc_chr = "";
+	        var enc_str = "";
+	        str = encodeURI(str);
+
+	        for (var i = 0; i < str.length; i++) {
+	            enc_chr = parseInt(str.charCodeAt(i) ^ Math.floor((prand / modu) * 255));
+	            if (enc_chr < 16) {
+	                enc_str += "0" + enc_chr.toString(16);
+	            } else
+	                enc_str += enc_chr.toString(16);
+	            prand = (mult * prand + incr) % modu;
+	        }
+	        salt = salt.toString(16);
+	        while (salt.length < 8)
+	            salt = "0" + salt;
+	        enc_str += salt;
+	        return enc_str;
+	    },
+	    panDecrypt: function (str, pwd) {
+	        if (str == null || str.length < 8) {
+	            alert("A salt value could not be extracted from the encrypted message because it's length is too short. The message cannot be decrypted.");
+	            return;
+	        }
+	        if (pwd == null || pwd.length <= 0) {
+	            pwd = this.cert;
+	            return;
+	        }
+	        var prand = "";
+	        for (var i = 0; i < pwd.length; i++) {
+	            prand += pwd.charCodeAt(i).toString();
+	        }
+	        var sPos = Math.floor(prand.length / 5);
+	        var mult = parseInt(prand.charAt(sPos) + prand.charAt(sPos * 2)
+	            + prand.charAt(sPos * 3) + prand.charAt(sPos * 4)
+	            + prand.charAt(sPos * 5));
+	        var incr = Math.round(pwd.length / 2);
+	        var modu = Math.pow(2, 31) - 1;
+	        var salt = parseInt(str.substring(str.length - 8, str.length), 16);
+	        str = str.substring(0, str.length - 8);
+	        prand += salt;
+	        while (prand.length > 10) {
+	            prand = (parseInt(prand.substring(0, 10)) + parseInt(prand.substring(
+	                10, prand.length))).toString();
+	        }
+	        prand = (mult * prand + incr) % modu;
+	        var enc_chr = "";
+	        var enc_str = "";
+	        for (var i = 0; i < str.length; i += 2) {
+	            enc_chr = parseInt(parseInt(str.substring(i, i + 2), 16)
+	                ^ Math.floor((prand / modu) * 255));
+	            enc_str += String.fromCharCode(enc_chr);
+	            prand = (mult * prand + incr) % modu;
+	        }
+	        return decodeURI(enc_str);
+	    },
+	    md5:function(val){
+	        return md5(val);
+	    }
+	};
+
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+	'use strict'
+	/*
+	 * Add integers, wrapping at 2^32. This uses 16-bit operations internally
+	 * to work around bugs in some JS interpreters.
+	 */
+	function safe_add (x, y) {
+	    var lsw = (x & 0xFFFF) + (y & 0xFFFF)
+	    var msw = (x >> 16) + (y >> 16) + (lsw >> 16)
+	    return (msw << 16) | (lsw & 0xFFFF)
+	}
+
+	/*
+	 * Bitwise rotate a 32-bit number to the left.
+	 */
+	function bit_rol (num, cnt) {
+	    return (num << cnt) | (num >>> (32 - cnt))
+	}
+
+	/*
+	 * These functions implement the four basic operations the algorithm uses.
+	 */
+	function md5_cmn (q, a, b, x, s, t) {
+	    return safe_add(bit_rol(safe_add(safe_add(a, q), safe_add(x, t)), s), b)
+	}
+	function md5_ff (a, b, c, d, x, s, t) {
+	    return md5_cmn((b & c) | ((~b) & d), a, b, x, s, t)
+	}
+	function md5_gg (a, b, c, d, x, s, t) {
+	    return md5_cmn((b & d) | (c & (~d)), a, b, x, s, t)
+	}
+	function md5_hh (a, b, c, d, x, s, t) {
+	    return md5_cmn(b ^ c ^ d, a, b, x, s, t)
+	}
+	function md5_ii (a, b, c, d, x, s, t) {
+	    return md5_cmn(c ^ (b | (~d)), a, b, x, s, t)
+	}
+
+	/*
+	 * Calculate the MD5 of an array of little-endian words, and a bit length.
+	 */
+	function binl_md5 (x, len) {
+	    /* append padding */
+	    x[len >> 5] |= 0x80 << (len % 32)
+	    x[(((len + 64) >>> 9) << 4) + 14] = len
+
+	    var i
+	    var olda
+	    var oldb
+	    var oldc
+	    var oldd
+	    var a = 1732584193
+	    var b = -271733879
+	    var c = -1732584194
+	    var d = 271733878
+
+	    for (i = 0; i < x.length; i += 16) {
+	        olda = a
+	        oldb = b
+	        oldc = c
+	        oldd = d
+
+	        a = md5_ff(a, b, c, d, x[i], 7, -680876936)
+	        d = md5_ff(d, a, b, c, x[i + 1], 12, -389564586)
+	        c = md5_ff(c, d, a, b, x[i + 2], 17, 606105819)
+	        b = md5_ff(b, c, d, a, x[i + 3], 22, -1044525330)
+	        a = md5_ff(a, b, c, d, x[i + 4], 7, -176418897)
+	        d = md5_ff(d, a, b, c, x[i + 5], 12, 1200080426)
+	        c = md5_ff(c, d, a, b, x[i + 6], 17, -1473231341)
+	        b = md5_ff(b, c, d, a, x[i + 7], 22, -45705983)
+	        a = md5_ff(a, b, c, d, x[i + 8], 7, 1770035416)
+	        d = md5_ff(d, a, b, c, x[i + 9], 12, -1958414417)
+	        c = md5_ff(c, d, a, b, x[i + 10], 17, -42063)
+	        b = md5_ff(b, c, d, a, x[i + 11], 22, -1990404162)
+	        a = md5_ff(a, b, c, d, x[i + 12], 7, 1804603682)
+	        d = md5_ff(d, a, b, c, x[i + 13], 12, -40341101)
+	        c = md5_ff(c, d, a, b, x[i + 14], 17, -1502002290)
+	        b = md5_ff(b, c, d, a, x[i + 15], 22, 1236535329)
+
+	        a = md5_gg(a, b, c, d, x[i + 1], 5, -165796510)
+	        d = md5_gg(d, a, b, c, x[i + 6], 9, -1069501632)
+	        c = md5_gg(c, d, a, b, x[i + 11], 14, 643717713)
+	        b = md5_gg(b, c, d, a, x[i], 20, -373897302)
+	        a = md5_gg(a, b, c, d, x[i + 5], 5, -701558691)
+	        d = md5_gg(d, a, b, c, x[i + 10], 9, 38016083)
+	        c = md5_gg(c, d, a, b, x[i + 15], 14, -660478335)
+	        b = md5_gg(b, c, d, a, x[i + 4], 20, -405537848)
+	        a = md5_gg(a, b, c, d, x[i + 9], 5, 568446438)
+	        d = md5_gg(d, a, b, c, x[i + 14], 9, -1019803690)
+	        c = md5_gg(c, d, a, b, x[i + 3], 14, -187363961)
+	        b = md5_gg(b, c, d, a, x[i + 8], 20, 1163531501)
+	        a = md5_gg(a, b, c, d, x[i + 13], 5, -1444681467)
+	        d = md5_gg(d, a, b, c, x[i + 2], 9, -51403784)
+	        c = md5_gg(c, d, a, b, x[i + 7], 14, 1735328473)
+	        b = md5_gg(b, c, d, a, x[i + 12], 20, -1926607734)
+
+	        a = md5_hh(a, b, c, d, x[i + 5], 4, -378558)
+	        d = md5_hh(d, a, b, c, x[i + 8], 11, -2022574463)
+	        c = md5_hh(c, d, a, b, x[i + 11], 16, 1839030562)
+	        b = md5_hh(b, c, d, a, x[i + 14], 23, -35309556)
+	        a = md5_hh(a, b, c, d, x[i + 1], 4, -1530992060)
+	        d = md5_hh(d, a, b, c, x[i + 4], 11, 1272893353)
+	        c = md5_hh(c, d, a, b, x[i + 7], 16, -155497632)
+	        b = md5_hh(b, c, d, a, x[i + 10], 23, -1094730640)
+	        a = md5_hh(a, b, c, d, x[i + 13], 4, 681279174)
+	        d = md5_hh(d, a, b, c, x[i], 11, -358537222)
+	        c = md5_hh(c, d, a, b, x[i + 3], 16, -722521979)
+	        b = md5_hh(b, c, d, a, x[i + 6], 23, 76029189)
+	        a = md5_hh(a, b, c, d, x[i + 9], 4, -640364487)
+	        d = md5_hh(d, a, b, c, x[i + 12], 11, -421815835)
+	        c = md5_hh(c, d, a, b, x[i + 15], 16, 530742520)
+	        b = md5_hh(b, c, d, a, x[i + 2], 23, -995338651)
+
+	        a = md5_ii(a, b, c, d, x[i], 6, -198630844)
+	        d = md5_ii(d, a, b, c, x[i + 7], 10, 1126891415)
+	        c = md5_ii(c, d, a, b, x[i + 14], 15, -1416354905)
+	        b = md5_ii(b, c, d, a, x[i + 5], 21, -57434055)
+	        a = md5_ii(a, b, c, d, x[i + 12], 6, 1700485571)
+	        d = md5_ii(d, a, b, c, x[i + 3], 10, -1894986606)
+	        c = md5_ii(c, d, a, b, x[i + 10], 15, -1051523)
+	        b = md5_ii(b, c, d, a, x[i + 1], 21, -2054922799)
+	        a = md5_ii(a, b, c, d, x[i + 8], 6, 1873313359)
+	        d = md5_ii(d, a, b, c, x[i + 15], 10, -30611744)
+	        c = md5_ii(c, d, a, b, x[i + 6], 15, -1560198380)
+	        b = md5_ii(b, c, d, a, x[i + 13], 21, 1309151649)
+	        a = md5_ii(a, b, c, d, x[i + 4], 6, -145523070)
+	        d = md5_ii(d, a, b, c, x[i + 11], 10, -1120210379)
+	        c = md5_ii(c, d, a, b, x[i + 2], 15, 718787259)
+	        b = md5_ii(b, c, d, a, x[i + 9], 21, -343485551)
+
+	        a = safe_add(a, olda)
+	        b = safe_add(b, oldb)
+	        c = safe_add(c, oldc)
+	        d = safe_add(d, oldd)
+	    }
+	    return [a, b, c, d]
+	}
+
+	/*
+	 * Convert an array of little-endian words to a string
+	 */
+	function binl2rstr (input) {
+	    var i
+	    var output = ''
+	    for (i = 0; i < input.length * 32; i += 8) {
+	        output += String.fromCharCode((input[i >> 5] >>> (i % 32)) & 0xFF)
+	    }
+	    return output
+	}
+
+	/*
+	 * Convert a raw string to an array of little-endian words
+	 * Characters >255 have their high-byte silently ignored.
+	 */
+	function rstr2binl (input) {
+	    var i
+	    var output = []
+	    output[(input.length >> 2) - 1] = undefined
+	    for (i = 0; i < output.length; i += 1) {
+	        output[i] = 0
+	    }
+	    for (i = 0; i < input.length * 8; i += 8) {
+	        output[i >> 5] |= (input.charCodeAt(i / 8) & 0xFF) << (i % 32)
+	    }
+	    return output
+	}
+
+	/*
+	 * Calculate the MD5 of a raw string
+	 */
+	function rstr_md5 (s) {
+	    return binl2rstr(binl_md5(rstr2binl(s), s.length * 8))
+	}
+
+	/*
+	 * Calculate the HMAC-MD5, of a key and some data (raw strings)
+	 */
+	function rstr_hmac_md5 (key, data) {
+	    var i
+	    var bkey = rstr2binl(key)
+	    var ipad = []
+	    var opad = []
+	    var hash
+	    ipad[15] = opad[15] = undefined
+	    if (bkey.length > 16) {
+	        bkey = binl_md5(bkey, key.length * 8)
+	    }
+	    for (i = 0; i < 16; i += 1) {
+	        ipad[i] = bkey[i] ^ 0x36363636
+	        opad[i] = bkey[i] ^ 0x5C5C5C5C
+	    }
+	    hash = binl_md5(ipad.concat(rstr2binl(data)), 512 + data.length * 8)
+	    return binl2rstr(binl_md5(opad.concat(hash), 512 + 128))
+	}
+
+	/*
+	 * Convert a raw string to a hex string
+	 */
+	function rstr2hex (input) {
+	    var hex_tab = '0123456789abcdef'
+	    var output = ''
+	    var x
+	    var i
+	    for (i = 0; i < input.length; i += 1) {
+	        x = input.charCodeAt(i)
+	        output += hex_tab.charAt((x >>> 4) & 0x0F) +
+	            hex_tab.charAt(x & 0x0F)
+	    }
+	    return output
+	}
+
+	/*
+	 * Encode a string as utf-8
+	 */
+	function str2rstr_utf8 (input) {
+	    return unescape(encodeURIComponent(input))
+	}
+
+	/*
+	 * Take string arguments and return either raw or hex encoded strings
+	 */
+	function raw_md5 (s) {
+	    return rstr_md5(str2rstr_utf8(s))
+	}
+	function hex_md5 (s) {
+	    return rstr2hex(raw_md5(s))
+	}
+	function raw_hmac_md5 (k, d) {
+	    return rstr_hmac_md5(str2rstr_utf8(k), str2rstr_utf8(d))
+	}
+	function hex_hmac_md5 (k, d) {
+	    return rstr2hex(raw_hmac_md5(k, d))
+	}
+
+	function md5 (string, key, raw) {
+	    if (!key) {
+	        if (!raw) {
+	            return hex_md5(string)
+	        }
+	        return raw_md5(string)
+	    }
+	    if (!raw) {
+	        return hex_hmac_md5(key, string)
+	    }
+	    return raw_hmac_md5(key, string)
+	}
+
+	module.exports = md5;
+
+
+/***/ },
 /* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -12323,18 +12855,1109 @@ webpackJsonp([0],[
 /* 105 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	var _keys = __webpack_require__(23);
+
+	var _keys2 = _interopRequireDefault(_keys);
+
+	var _typeof2 = __webpack_require__(58);
+
+	var _typeof3 = _interopRequireDefault(_typeof2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var __vue_exports__, __vue_options__;
+
+	/* styles */
+	__webpack_require__(106);
+
+	/* script */
+	__vue_exports__ = __webpack_require__(108);
+
+	/* template */
+	var __vue_template__ = __webpack_require__(117);
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
+	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
+	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
+	    return key !== "default" && key !== "__esModule";
+	  })) {
+	    console.error("named exports are not supported in *.vue files.");
+	  }
+	  __vue_options__ = __vue_exports__ = __vue_exports__.default;
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options;
+	}
+	__vue_options__.name = __vue_options__.name || "webim-chat";
+	__vue_options__.__file = "D:\\workspace\\SPM\\public\\src\\javascripts\\h5\\vue-components\\webim-chat.vue";
+	__vue_options__.render = __vue_template__.render;
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns;
+	__vue_options__._scopeId = "data-v-7d579853";
+
+	/* hot reload */
+	if (false) {
+	  (function () {
+	    var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api");
+	    hotAPI.install(require("vue"), false);
+	    if (!hotAPI.compatible) return;
+	    module.hot.accept();
+	    if (!module.hot.data) {
+	      hotAPI.createRecord("data-v-7d579853", __vue_options__);
+	    } else {
+	      hotAPI.reload("data-v-7d579853", __vue_options__);
+	    }
+	  })();
+	}
+	if (__vue_options__.functional) {
+	  console.error("[vue-loader] webim-chat.vue: functional components are not supported and should be defined in plain js files using render functions.");
+	}
+
+	module.exports = __vue_exports__;
+
+/***/ },
+/* 106 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 107 */,
+/* 108 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
+	var navigator = __webpack_require__(99);
+	var utils = __webpack_require__(18);
+	var store = __webpack_require__(109);
+	var webIM = __webpack_require__(111);
+	__webpack_require__(116);
+
+	var methods = {
+	    getColor: function getColor(name) {
+	        var num = utils.djb2Code(name);
+	        num = /^.*(\d)$/.test(num) && RegExp.$1;;
+	        return utils.colors[parseInt(num)];
+	    }
+	};
+	utils.animation.process(methods);
+	module.exports = {
+	    module: '/webim-chat',
+	    data: function data() {
+	        var chat_name = this.$route.query.chat_name;
+	        return {
+	            WINHEIGHT: window.HEIGHT,
+	            chat_name: chat_name
+	        };
+	    },
+	    methods: methods,
+	    components: { navigator: navigator },
+	    computed: {
+	        chatRecordList: function chatRecordList() {
+	            var that = this;
+	            var chat = this.$store.state.curChatList.filter(function (element, index, array) {
+	                return element.name == that.chat_name;
+	            });
+	            var record = chat.length > 0 ? chat[0].record : [];
+	            record.forEach(function (item, index) {
+	                item.read = true;
+	            });
+	            return record;
+	        }
+	    },
+	    destroyed: function destroyed() {},
+	    mounted: function mounted() {
+	        var that = this;
+	        $('#editorBox').bind('focus', function () {
+	            setTimeout(function () {
+	                $("body").scrollTo($('#webim-chat-container').height(), 0);
+	            }, 30);
+	        }).keyup(function (e) {
+	            if (e.keyCode == 13) {
+	                $('#sendBtn').click();
+	            }
+	        });
+
+	        $('#sendBtn').click(function () {
+	            var msg = $('#editorBox').val();
+	            $('#editorBox').val('');
+	            webIM.sendPrivateText(msg, that.chat_name, function (id, serverId) {
+	                store.commit('addMessage', {
+	                    read: true,
+	                    "id": serverId,
+	                    timestamp: Calendar.getInstance().format('yyyy-MM-dd HH:mm:ss'),
+	                    "type": "chat",
+	                    chat_name: that.chat_name,
+	                    "from": store.state.username,
+	                    "to": that.chat_name,
+	                    "data": msg,
+	                    "ext": {},
+	                    "error": false,
+	                    "errorText": "",
+	                    "errorCode": ""
+	                });
+	                $("body").scrollTo($('#webim-chat-container').height(), 0);
+	            });
+	        });
+	    }
+	};
+
+/***/ },
+/* 109 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Created by 杨浪 on 2016/12/12.
+	 */
+	var Vue = __webpack_require__(14);
+	var Vuex = __webpack_require__(110);
+	Vue.use(Vuex);
+
+	const store = window.store = new Vuex.Store({
+	    state:{
+	        webIMConn:null,//连接
+	        rosterList:[],//好友列表,
+	        curChatList:[],//当前聊天列表
+	        groupList:[],
+	        blackList:[]
+	    },
+	    mutations:{
+	        setUsername:function (state,username) {
+	            state.username = username;
+	        },
+	        setConn:function(state,conn){
+	            state.webIMConn = conn;
+	        },
+	        setRoster:function(state,rosterList){
+	            state.rosterList = rosterList;
+	        },
+	        setGroup:function(state,groupList){
+	            state.groupList = groupList;
+	        },
+	        setBlack:function(state,blackList){
+	            state.blackList = blackList;
+	        },
+	        addChat:function(state,chat){
+	            state.curChatList.push(chat);
+	        },
+	        /**
+	         * 新增消息
+	         * 首先判断是否已有会话，如果已有，直接在当前会话中加入消息，否则创建新会话
+	         * @param message
+	         */
+	        addMessage:function(state,message){
+	            var list = state.curChatList, curChat = null;
+	            list.forEach(function(item,index){
+	                if(item.name == message.chat_name){
+	                    curChat = item;
+	                }
+	            });
+	            if(curChat){
+	                curChat.record.push(message);
+	            }else{
+	                store.commit('addChat',{
+	                    name: message.chat_name,
+	                    id: message.id,
+	                    type:message.type,
+	                    record: [
+	                        message
+	                    ]
+	                });
+	            }
+	        }
+	    },
+	});
+
+	module.exports = store;
+
+/***/ },
+/* 110 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * vuex v2.0.0
+	 * (c) 2016 Evan You
+	 * @license MIT
+	 */
+	(function (global, factory) {
+	   true ? module.exports = factory() :
+	  typeof define === 'function' && define.amd ? define(factory) :
+	  (global.Vuex = factory());
+	}(this, (function () { 'use strict';
+
+	var devtoolHook =
+	  typeof window !== 'undefined' &&
+	  window.__VUE_DEVTOOLS_GLOBAL_HOOK__
+
+	function devtoolPlugin (store) {
+	  if (!devtoolHook) { return }
+
+	  store._devtoolHook = devtoolHook
+
+	  devtoolHook.emit('vuex:init', store)
+
+	  devtoolHook.on('vuex:travel-to-state', function (targetState) {
+	    store.replaceState(targetState)
+	  })
+
+	  store.subscribe(function (mutation, state) {
+	    devtoolHook.emit('vuex:mutation', mutation, state)
+	  })
+	}
+
+	function applyMixin (Vue) {
+	  var version = Number(Vue.version.split('.')[0])
+
+	  if (version >= 2) {
+	    var usesInit = Vue.config._lifecycleHooks.indexOf('init') > -1
+	    Vue.mixin(usesInit ? { init: vuexInit } : { beforeCreate: vuexInit })
+	  } else {
+	    // override init and inject vuex init procedure
+	    // for 1.x backwards compatibility.
+	    var _init = Vue.prototype._init
+	    Vue.prototype._init = function (options) {
+	      if ( options === void 0 ) options = {};
+
+	      options.init = options.init
+	        ? [vuexInit].concat(options.init)
+	        : vuexInit
+	      _init.call(this, options)
+	    }
+	  }
+
+	  /**
+	   * Vuex init hook, injected into each instances init hooks list.
+	   */
+
+	  function vuexInit () {
+	    var options = this.$options
+	    // store injection
+	    if (options.store) {
+	      this.$store = options.store
+	    } else if (options.parent && options.parent.$store) {
+	      this.$store = options.parent.$store
+	    }
+	  }
+	}
+
+	function mapState (states) {
+	  var res = {}
+	  normalizeMap(states).forEach(function (ref) {
+	    var key = ref.key;
+	    var val = ref.val;
+
+	    res[key] = function mappedState () {
+	      return typeof val === 'function'
+	        ? val.call(this, this.$store.state, this.$store.getters)
+	        : this.$store.state[val]
+	    }
+	  })
+	  return res
+	}
+
+	function mapMutations (mutations) {
+	  var res = {}
+	  normalizeMap(mutations).forEach(function (ref) {
+	    var key = ref.key;
+	    var val = ref.val;
+
+	    res[key] = function mappedMutation () {
+	      var args = [], len = arguments.length;
+	      while ( len-- ) args[ len ] = arguments[ len ];
+
+	      return this.$store.commit.apply(this.$store, [val].concat(args))
+	    }
+	  })
+	  return res
+	}
+
+	function mapGetters (getters) {
+	  var res = {}
+	  normalizeMap(getters).forEach(function (ref) {
+	    var key = ref.key;
+	    var val = ref.val;
+
+	    res[key] = function mappedGetter () {
+	      if (!(val in this.$store.getters)) {
+	        console.error(("[vuex] unknown getter: " + val))
+	      }
+	      return this.$store.getters[val]
+	    }
+	  })
+	  return res
+	}
+
+	function mapActions (actions) {
+	  var res = {}
+	  normalizeMap(actions).forEach(function (ref) {
+	    var key = ref.key;
+	    var val = ref.val;
+
+	    res[key] = function mappedAction () {
+	      var args = [], len = arguments.length;
+	      while ( len-- ) args[ len ] = arguments[ len ];
+
+	      return this.$store.dispatch.apply(this.$store, [val].concat(args))
+	    }
+	  })
+	  return res
+	}
+
+	function normalizeMap (map) {
+	  return Array.isArray(map)
+	    ? map.map(function (key) { return ({ key: key, val: key }); })
+	    : Object.keys(map).map(function (key) { return ({ key: key, val: map[key] }); })
+	}
+
+	function isObject (obj) {
+	  return obj !== null && typeof obj === 'object'
+	}
+
+	function isPromise (val) {
+	  return val && typeof val.then === 'function'
+	}
+
+	function assert (condition, msg) {
+	  if (!condition) { throw new Error(("[vuex] " + msg)) }
+	}
+
+	var Vue // bind on install
+
+	var Store = function Store (options) {
+	  var this$1 = this;
+	  if ( options === void 0 ) options = {};
+
+	  assert(Vue, "must call Vue.use(Vuex) before creating a store instance.")
+	  assert(typeof Promise !== 'undefined', "vuex requires a Promise polyfill in this browser.")
+
+	  var state = options.state; if ( state === void 0 ) state = {};
+	  var plugins = options.plugins; if ( plugins === void 0 ) plugins = [];
+	  var strict = options.strict; if ( strict === void 0 ) strict = false;
+
+	  // store internal state
+	  this._options = options
+	  this._committing = false
+	  this._actions = Object.create(null)
+	  this._mutations = Object.create(null)
+	  this._wrappedGetters = Object.create(null)
+	  this._runtimeModules = Object.create(null)
+	  this._subscribers = []
+	  this._watcherVM = new Vue()
+
+	    // bind commit and dispatch to self
+	  var store = this
+	  var ref = this;
+	  var dispatch = ref.dispatch;
+	  var commit = ref.commit;
+	  this.dispatch = function boundDispatch (type, payload) {
+	    return dispatch.call(store, type, payload)
+	    }
+	    this.commit = function boundCommit (type, payload, options) {
+	    return commit.call(store, type, payload, options)
+	  }
+
+	  // strict mode
+	  this.strict = strict
+
+	  // init root module.
+	  // this also recursively registers all sub-modules
+	  // and collects all module getters inside this._wrappedGetters
+	  installModule(this, state, [], options)
+
+	  // initialize the store vm, which is responsible for the reactivity
+	  // (also registers _wrappedGetters as computed properties)
+	  resetStoreVM(this, state)
+
+	  // apply plugins
+	  plugins.concat(devtoolPlugin).forEach(function (plugin) { return plugin(this$1); })
+	};
+
+	var prototypeAccessors = { state: {} };
+
+	prototypeAccessors.state.get = function () {
+	  return this._vm.state
+	};
+
+	prototypeAccessors.state.set = function (v) {
+	  assert(false, "Use store.replaceState() to explicit replace store state.")
+	};
+
+	Store.prototype.commit = function commit (type, payload, options) {
+	    var this$1 = this;
+
+	  // check object-style commit
+	  if (isObject(type) && type.type) {
+	    options = payload
+	    payload = type
+	    type = type.type
+	  }
+	  var mutation = { type: type, payload: payload }
+	  var entry = this._mutations[type]
+	  if (!entry) {
+	    console.error(("[vuex] unknown mutation type: " + type))
+	    return
+	  }
+	  this._withCommit(function () {
+	    entry.forEach(function commitIterator (handler) {
+	      handler(payload)
+	    })
+	  })
+	  if (!options || !options.silent) {
+	    this._subscribers.forEach(function (sub) { return sub(mutation, this$1.state); })
+	  }
+	};
+
+	Store.prototype.dispatch = function dispatch (type, payload) {
+	  // check object-style dispatch
+	  if (isObject(type) && type.type) {
+	    payload = type
+	    type = type.type
+	  }
+	  var entry = this._actions[type]
+	  if (!entry) {
+	    console.error(("[vuex] unknown action type: " + type))
+	    return
+	  }
+	  return entry.length > 1
+	    ? Promise.all(entry.map(function (handler) { return handler(payload); }))
+	    : entry[0](payload)
+	};
+
+	Store.prototype.subscribe = function subscribe (fn) {
+	  var subs = this._subscribers
+	  if (subs.indexOf(fn) < 0) {
+	    subs.push(fn)
+	  }
+	  return function () {
+	    var i = subs.indexOf(fn)
+	    if (i > -1) {
+	      subs.splice(i, 1)
+	    }
+	  }
+	};
+
+	Store.prototype.watch = function watch (getter, cb, options) {
+	    var this$1 = this;
+
+	  assert(typeof getter === 'function', "store.watch only accepts a function.")
+	  return this._watcherVM.$watch(function () { return getter(this$1.state); }, cb, options)
+	};
+
+	Store.prototype.replaceState = function replaceState (state) {
+	    var this$1 = this;
+
+	  this._withCommit(function () {
+	    this$1._vm.state = state
+	  })
+	};
+
+	Store.prototype.registerModule = function registerModule (path, module) {
+	  if (typeof path === 'string') { path = [path] }
+	  assert(Array.isArray(path), "module path must be a string or an Array.")
+	  this._runtimeModules[path.join('.')] = module
+	  installModule(this, this.state, path, module)
+	  // reset store to update getters...
+	  resetStoreVM(this, this.state)
+	};
+
+	Store.prototype.unregisterModule = function unregisterModule (path) {
+	    var this$1 = this;
+
+	  if (typeof path === 'string') { path = [path] }
+	  assert(Array.isArray(path), "module path must be a string or an Array.")
+	    delete this._runtimeModules[path.join('.')]
+	  this._withCommit(function () {
+	    var parentState = getNestedState(this$1.state, path.slice(0, -1))
+	    Vue.delete(parentState, path[path.length - 1])
+	  })
+	  resetStore(this)
+	};
+
+	Store.prototype.hotUpdate = function hotUpdate (newOptions) {
+	  updateModule(this._options, newOptions)
+	  resetStore(this)
+	};
+
+	Store.prototype._withCommit = function _withCommit (fn) {
+	  var committing = this._committing
+	  this._committing = true
+	  fn()
+	  this._committing = committing
+	};
+
+	Object.defineProperties( Store.prototype, prototypeAccessors );
+
+	function updateModule (targetModule, newModule) {
+	  if (newModule.actions) {
+	    targetModule.actions = newModule.actions
+	  }
+	  if (newModule.mutations) {
+	    targetModule.mutations = newModule.mutations
+	  }
+	  if (newModule.getters) {
+	    targetModule.getters = newModule.getters
+	  }
+	  if (newModule.modules) {
+	    for (var key in newModule.modules) {
+	      if (!(targetModule.modules && targetModule.modules[key])) {
+	        console.warn(
+	          "[vuex] trying to add a new module '" + key + "' on hot reloading, " +
+	          'manual reload is needed'
+	        )
+	        return
+	      }
+	      updateModule(targetModule.modules[key], newModule.modules[key])
+	    }
+	  }
+	}
+
+	function resetStore (store) {
+	  store._actions = Object.create(null)
+	  store._mutations = Object.create(null)
+	  store._wrappedGetters = Object.create(null)
+	  var state = store.state
+	  // init root module
+	  installModule(store, state, [], store._options, true)
+	  // init all runtime modules
+	  Object.keys(store._runtimeModules).forEach(function (key) {
+	    installModule(store, state, key.split('.'), store._runtimeModules[key], true)
+	  })
+	  // reset vm
+	  resetStoreVM(store, state)
+	}
+
+	function resetStoreVM (store, state) {
+	  var oldVm = store._vm
+
+	  // bind store public getters
+	  store.getters = {}
+	  var wrappedGetters = store._wrappedGetters
+	  var computed = {}
+	  Object.keys(wrappedGetters).forEach(function (key) {
+	    var fn = wrappedGetters[key]
+	    // use computed to leverage its lazy-caching mechanism
+	    computed[key] = function () { return fn(store); }
+	    Object.defineProperty(store.getters, key, {
+	      get: function () { return store._vm[key]; }
+	    })
+	  })
+
+	  // use a Vue instance to store the state tree
+	  // suppress warnings just in case the user has added
+	  // some funky global mixins
+	  var silent = Vue.config.silent
+	  Vue.config.silent = true
+	  store._vm = new Vue({
+	    data: { state: state },
+	    computed: computed
+	  })
+	  Vue.config.silent = silent
+
+	  // enable strict mode for new vm
+	  if (store.strict) {
+	    enableStrictMode(store)
+	  }
+
+	  if (oldVm) {
+	    // dispatch changes in all subscribed watchers
+	    // to force getter re-evaluation.
+	    store._withCommit(function () {
+	      oldVm.state = null
+	    })
+	    Vue.nextTick(function () { return oldVm.$destroy(); })
+	  }
+	}
+
+	function installModule (store, rootState, path, module, hot) {
+	  var isRoot = !path.length
+	  var state = module.state;
+	  var actions = module.actions;
+	  var mutations = module.mutations;
+	  var getters = module.getters;
+	  var modules = module.modules;
+
+	  // set state
+	  if (!isRoot && !hot) {
+	    var parentState = getNestedState(rootState, path.slice(0, -1))
+	    var moduleName = path[path.length - 1]
+	    store._withCommit(function () {
+	      Vue.set(parentState, moduleName, state || {})
+	    })
+	  }
+
+	  if (mutations) {
+	    Object.keys(mutations).forEach(function (key) {
+	      registerMutation(store, key, mutations[key], path)
+	    })
+	  }
+
+	  if (actions) {
+	    Object.keys(actions).forEach(function (key) {
+	      registerAction(store, key, actions[key], path)
+	    })
+	  }
+
+	  if (getters) {
+	    wrapGetters(store, getters, path)
+	  }
+
+	  if (modules) {
+	    Object.keys(modules).forEach(function (key) {
+	      installModule(store, rootState, path.concat(key), modules[key], hot)
+	    })
+	  }
+	}
+
+	function registerMutation (store, type, handler, path) {
+	  if ( path === void 0 ) path = [];
+
+	  var entry = store._mutations[type] || (store._mutations[type] = [])
+	  entry.push(function wrappedMutationHandler (payload) {
+	    handler(getNestedState(store.state, path), payload)
+	  })
+	}
+
+	function registerAction (store, type, handler, path) {
+	  if ( path === void 0 ) path = [];
+
+	  var entry = store._actions[type] || (store._actions[type] = [])
+	  var dispatch = store.dispatch;
+	  var commit = store.commit;
+	  entry.push(function wrappedActionHandler (payload, cb) {
+	    var res = handler({
+	      dispatch: dispatch,
+	      commit: commit,
+	      getters: store.getters,
+	      state: getNestedState(store.state, path),
+	      rootState: store.state
+	    }, payload, cb)
+	    if (!isPromise(res)) {
+	      res = Promise.resolve(res)
+	    }
+	    if (store._devtoolHook) {
+	      return res.catch(function (err) {
+	        store._devtoolHook.emit('vuex:error', err)
+	        throw err
+	      })
+	    } else {
+	      return res
+	    }
+	  })
+	}
+
+	function wrapGetters (store, moduleGetters, modulePath) {
+	  Object.keys(moduleGetters).forEach(function (getterKey) {
+	    var rawGetter = moduleGetters[getterKey]
+	    if (store._wrappedGetters[getterKey]) {
+	      console.error(("[vuex] duplicate getter key: " + getterKey))
+	      return
+	    }
+	    store._wrappedGetters[getterKey] = function wrappedGetter (store) {
+	      return rawGetter(
+	        getNestedState(store.state, modulePath), // local state
+	        store.getters, // getters
+	        store.state // root state
+	      )
+	    }
+	  })
+	}
+
+	function enableStrictMode (store) {
+	  store._vm.$watch('state', function () {
+	    assert(store._committing, "Do not mutate vuex store state outside mutation handlers.")
+	  }, { deep: true, sync: true })
+	}
+
+	function getNestedState (state, path) {
+	  return path.length
+	    ? path.reduce(function (state, key) { return state[key]; }, state)
+	    : state
+	}
+
+	function install (_Vue) {
+	  if (Vue) {
+	    console.error(
+	      '[vuex] already installed. Vue.use(Vuex) should be called only once.'
+	    )
+	    return
+	  }
+	  Vue = _Vue
+	  applyMixin(Vue)
+	}
+
+	// auto install in dist mode
+	if (typeof window !== 'undefined' && window.Vue) {
+	  install(window.Vue)
+	}
+
+	var index = {
+	  Store: Store,
+	  install: install,
+	  mapState: mapState,
+	  mapMutations: mapMutations,
+	  mapGetters: mapGetters,
+	  mapActions: mapActions
+	}
+
+	return index;
+
+	})));
+
+/***/ },
+/* 111 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Created by 杨浪 on 2016/12/8.
+	 */
+	/**
+	 * Created by 杨浪 on 2016/12/8.
+	 */
+	var Events = __webpack_require__(16);
+
+	var utils = __webpack_require__(18);
+	var store = __webpack_require__(109);
+
+	var ChatManage = {
+	    onConnectionOpened:function(){
+	        ChatManage.getRosters();
+	        ChatManage.getGroups();
+	        ChatManage.getBlackList();
+	    },
+	    onMessageReceive:function(message){
+	        message.chat_name = message.from;
+	        store.commit('addMessage', message);
+	    },
+	    getRosters:function(){
+	        var conn = store.state.webIMConn;
+	        //获取好友列表
+	        conn.getRoster({
+	            success: function ( roster ) {
+	                var rosterList = [];
+	                for ( var i = 0, l = roster.length; i < l; i++ ) {
+	                    var ros = roster[i];
+	                    //ros.subscription值为both/to为要显示的联系人，此处与APP需保持一致，才能保证两个客户端登录后的好友列表一致
+	                    if ( ros.subscription === 'both' || ros.subscription === 'to' ) {
+	                        rosterList.push(ros);
+	                    }
+	                }
+	                store.commit('setRoster',rosterList);
+	            }
+	        });
+	    },
+	    getGroups:function(){
+	        var conn = store.state.webIMConn;
+	        //获取群组列表
+	        conn.listRooms({
+	            success: function (rooms) {
+	                store.commit('setGroup',rooms);
+	            },
+	            error: function () {
+	                console.log('List groups error');
+	            }
+	        });
+	    },
+	    //获取黑名单列表
+	    getBlackList : function () {
+	        var conn = store.state.webIMConn;
+	        conn.getBlacklist();
+	    },
+	    /**
+	     * 更新黑名单列表
+	     * @param list
+	     */
+	    updateBlackList:function(list){
+	        var arr = [];
+	        for(var key in list){
+	            arr.push(list[key]);
+	        };
+	        store.commit('setBlack',arr);
+	    }
+	};
+
+
+
+	module.exports = {
+	    init:function(){
+	        utils.ajax.querySync('/user/password',function(data){
+	            __webpack_require__.e/* nsure */(1, function(){
+	                __webpack_require__(112);
+	                __webpack_require__(113);
+	                __webpack_require__(115);
+	                if(!data.success){
+	                    alert(data.message);
+	                    return;
+	                }
+	                var conn = new WebIM.connection({
+	                    https: WebIM.config.https,
+	                    url: WebIM.config.xmppURL,
+	                    isAutoLogin: WebIM.config.isAutoLogin,
+	                    isMultiLoginSessions: WebIM.config.isMultiLoginSessions
+	                });
+	                //注册事件总线
+	                conn.listen({
+	                    onOpened: function ( message ) {          //连接成功回调
+	                        // 如果isAutoLogin设置为false，那么必须手动设置上线，否则无法收消息
+	                        // 手动上线指的是调用conn.setPresence(); 如果conn初始化时已将isAutoLogin设置为true
+	                        // 则无需调用conn.setPresence();
+	                        Events.notify('webim_event_opened',message);
+	                    },
+	                    onClosed: function ( message ) {
+	                        console.log('webim_event_closed');
+	                        console.log(message);
+	                        Events.notify('webim_event_closed',message);
+	                    },         //连接关闭回调
+	                    onTextMessage: function ( message ) {
+	                        console.log(message);
+	                        message.timestamp = Calendar.getInstance().format('yyyy-MM-dd HH:mm:ss');
+	                        Events.notify('webim_event_message_text',message);
+	                    },    //收到文本消息
+	                    onEmojiMessage: function ( message ) {
+	                        Events.notify('webim_event_message_emoji',message);
+	                    },   //收到表情消息
+	                    onPictureMessage: function ( message ) {
+	                        Events.notify('webim_event_message_picture',message);
+	                    }, //收到图片消息
+	                    onCmdMessage: function ( message ) {
+	                        Events.notify('webim_event_message_cmd',message);
+	                    },     //收到命令消息
+	                    onAudioMessage: function ( message ) {
+	                        Events.notify('webim_event_message_audio',message);
+	                    },   //收到音频消息
+	                    onLocationMessage: function ( message ) {
+	                        Events.notify('webim_event_message_location',message);
+	                    },//收到位置消息
+	                    onFileMessage: function ( message ) {
+	                        Events.notify('webim_event_message_file',message);
+	                    },    //收到文件消息
+	                    onVideoMessage: function ( message ) {
+	                        Events.notify('webim_event_message_video',message);
+	                    },   //收到视频消息
+	                    onPresence: function ( message ) {
+	                        Events.notify('webim_event_presence',message);
+	                    },       //收到联系人订阅请求、处理群组、聊天室被踢解散等消息
+	                    onRoster: function ( message ) {
+	                        Events.notify('webim_event_roster',message);
+	                    },         //处理好友申请
+	                    onInviteMessage: function ( message ) {
+	                        Events.notify('webim_event_invitemessage',message);
+	                    },  //处理群组邀请
+	                    onOnline: function () {
+	                        Events.notify('webim_event_online');
+	                    },                  //本机网络连接成功
+	                    onOffline: function () {
+	                        console.log('webim_event_offline');
+	                        Events.notify('webim_event_offline');
+	                    },                 //本机网络掉线
+	                    onError: function ( message ) {
+	                        console.log('webim_event_error');
+	                        console.log(message);
+	                        Events.notify('webim_event_error',message);
+	                    },          //失败回调
+	                    onBlacklistUpdate: function (list) {       //黑名单变动
+	                        Events.notify('webim_event_blacklistupdate',list);
+	                    }
+	                });
+	                var options = {
+	                    apiUrl: WebIM.config.apiURL,
+	                    user: data.data.user_name,
+	                    pwd: data.data.user_password,
+	                    appKey: WebIM.config.appkey
+	                };
+	                //便于断线重连
+	                Events.subscribe('webim_login',function(){
+	                    conn.open(options);
+	                }).notify('webim_login');
+	                store.commit('setConn',conn);//注册conn到vuex store
+	                store.commit('setUsername',data.data.user_name);//注册conn到vuex store
+
+	                Events.subscribe('webim_event_opened',ChatManage.onConnectionOpened);
+	                Events.subscribe('webim_event_message_text',ChatManage.onMessageReceive);
+	                Events.subscribe('webim_event_blacklistupdate',ChatManage.updateBlackList);
+	            });
+
+	        });
+
+	    },
+	    sendPrivateText : function (text,to,callback) {
+	        var conn = store.state.webIMConn;
+	        var id = conn.getUniqueId();                 // 生成本地消息id
+	        var msg = new WebIM.message('txt', id);      // 创建文本消息
+	        msg.set({
+	            msg: text,                  // 消息内容
+	            to: to,                          // 接收消息对象（用户id）
+	            roomType: false,
+	            success: function (id, serverMsgId) {
+	                callback && callback(id, serverMsgId);
+	            },
+	            fail:function(err){
+	                alert(JSON.stringify(err));
+	                callback && callback();
+	            }
+	        });
+	        msg.body.chatType = 'singleChat';
+	        conn.send(msg.body);
+	    }
+	};
+
+/***/ },
+/* 112 */,
+/* 113 */,
+/* 114 */,
+/* 115 */,
+/* 116 */
+/***/ function(module, exports) {
+
+	;(function($){
+	    $.extend($.fn, {
+	        scrollTo: function(m,duration){
+	            var n = 0, timer = null, that = this;
+	            var smoothScroll = function(m){
+	                var per = Math.round(m / 50);
+	                n = n + per;
+	                if(n > m){
+	                    window.clearInterval(timer);
+	                    return false;
+	                }
+	                that.scrollTop(n);
+	            };
+
+	            timer = window.setInterval(function(){
+	                smoothScroll(m);
+	            }, duration!=null?duration:20);
+	        }
+	    })
+	})(Zepto)
+
+/***/ },
+/* 117 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('transition', {
+	    attrs: {
+	      "css": false
+	    },
+	    on: {
+	      "before-enter": beforeEnter,
+	      "after-enter": afterEnter,
+	      "enter": enter,
+	      "leave": leave,
+	      "before-leave": beforeLeave
+	    }
+	  }, [_h('div', {
+	    staticClass: "router-view",
+	    style: ('min-height:' + WINHEIGHT + 'px'),
+	    attrs: {
+	      "id": "webim-chat-container"
+	    }
+	  }, [_h('navigator', {
+	    attrs: {
+	      "navigator-title": chat_name
+	    }
+	  }), " ", _h('div', {
+	    staticClass: "content-wrap"
+	  }, [_h('div', {
+	    staticClass: "chat-list"
+	  }, [_l((chatRecordList), function(item) {
+	    return [_h('div', {
+	      staticClass: "chat-item clearfix",
+	      attrs: {
+	        "data-chat-id": item.id
+	      }
+	    }, [_h('div', {
+	      staticClass: "chat-item-wrap",
+	      class: {
+	        'chat-left': (item.from == chat_name)
+	      }
+	    }, [_h('div', {
+	      staticClass: "head-wrap"
+	    }, [_h('div', {
+	      staticClass: "head-circle-name"
+	    }, [_h('h3', {
+	      style: ('color:' + getColor(item.from) + '')
+	    }, [_s(item.from)])])]), " ", _h('div', {
+	      staticClass: "chat-content-wrap"
+	    }, ["\n                            " + _s(item.data) + "\n                        "])])])]
+	  })])]), " ", _m(0)])])
+	}},staticRenderFns: [function (){with(this) {
+	  return _h('div', {
+	    staticClass: "fixed",
+	    attrs: {
+	      "id": "sendBar"
+	    }
+	  }, [_h('input', {
+	    attrs: {
+	      "type": "text",
+	      "id": "editorBox"
+	    }
+	  }), " ", _h('button', {
+	    attrs: {
+	      "id": "sendBtn"
+	    }
+	  }, ["发送"])])
+	}}]}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-7d579853", module.exports)
+	  }
+	}
+
+/***/ },
+/* 118 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var map = {
-		"./aboutus.vue": 106,
-		"./attence-analyse.vue": 112,
-		"./attence-search.vue": 127,
+		"./aboutus.vue": 119,
+		"./attence-analyse.vue": 125,
+		"./attence-search.vue": 140,
 		"./homepage.vue": 22,
-		"./menu-second.vue": 139,
-		"./password-modify.vue": 144,
-		"./repair-report.vue": 149,
-		"./theme.vue": 156,
+		"./menu-second.vue": 152,
+		"./password-modify.vue": 157,
+		"./repair-report.vue": 162,
+		"./theme.vue": 169,
 		"./vue-navigator.vue": 99,
-		"./vue-pagination.vue": 131,
-		"./vue-popup.vue": 119
+		"./vue-pagination.vue": 144,
+		"./vue-popup.vue": 132,
+		"./webim-chat.vue": 105,
+		"./webim.vue": 180
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -12347,11 +13970,11 @@ webpackJsonp([0],[
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 105;
+	webpackContext.id = 118;
 
 
 /***/ },
-/* 106 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -12369,13 +13992,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(107);
+	__webpack_require__(120);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(109);
+	__vue_exports__ = __webpack_require__(122);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(110);
+	var __vue_template__ = __webpack_require__(123);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -12415,40 +14038,37 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 107 */
+/* 120 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 108 */,
-/* 109 */
+/* 121 */,
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _vueNavigator = __webpack_require__(99);
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
-	var _vueNavigator2 = _interopRequireDefault(_vueNavigator);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var utils = __webpack_require__(18); //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	var navigator = __webpack_require__(99);
+	var utils = __webpack_require__(18);
 
 	var methods = {};
 	utils.animation.process(methods);
@@ -12458,14 +14078,14 @@ webpackJsonp([0],[
 	        return { WINHEIGHT: window.HEIGHT };
 	    },
 	    methods: methods,
-	    components: { navigator: _vueNavigator2.default },
+	    components: { navigator: navigator },
 	    mounted: function mounted() {
 	        this.WINHEIGHT = window.HEIGHT;
 	    }
 	};
 
 /***/ },
-/* 110 */
+/* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -12496,7 +14116,7 @@ webpackJsonp([0],[
 	    staticClass: "content-wrap"
 	  }, [_h('img', {
 	    attrs: {
-	      "src": __webpack_require__(111)
+	      "src": __webpack_require__(124)
 	    }
 	  }), " ", _h('p', ["该平台提供智能门禁与学生考勤系统、智能报修与投诉处理系统、学校信息发布与家校互通系统等功能 "])])
 	}}]}
@@ -12508,13 +14128,13 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 111 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "5e583a50d06bccdb1e362fe2ee8462e8.png";
 
 /***/ },
-/* 112 */
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -12532,13 +14152,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(113);
+	__webpack_require__(126);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(115);
+	__vue_exports__ = __webpack_require__(128);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(126);
+	var __vue_template__ = __webpack_require__(139);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -12578,14 +14198,14 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 113 */
+/* 126 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 114 */,
-/* 115 */
+/* 127 */,
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12625,11 +14245,11 @@ webpackJsonp([0],[
 	//
 
 	var navigator = __webpack_require__(99);
-	__webpack_require__(116);
-	__webpack_require__(117);
-	var popup = __webpack_require__(119);
+	__webpack_require__(129);
+	__webpack_require__(130);
+	var popup = __webpack_require__(132);
 	var utils = __webpack_require__(18);
-	var chartConfig = __webpack_require__(124);
+	var chartConfig = __webpack_require__(137);
 	var echarts = null;
 	var methods = {
 	    onNavigatorRightBtnClick: function onNavigatorRightBtnClick() {
@@ -12683,8 +14303,8 @@ webpackJsonp([0],[
 	        setTimeout(function () {
 	            $.loading();
 	        }, utils.animation.DURATION);
-	        __webpack_require__.e/* nsure */(1, function () {
-	            echarts = __webpack_require__(125);
+	        __webpack_require__.e/* nsure */(2, function () {
+	            echarts = __webpack_require__(138);
 	            setTimeout(function () {
 	                initChart.apply(that, [{
 	                    startdate: that.startdate.replace(/-/gi, ''),
@@ -12942,20 +14562,20 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 116 */
+/* 129 */
 /***/ function(module, exports) {
 
 	window.LCalendar=function(){var e=function(){this.gearDate,this.minY=1900,this.minM=1,this.minD=1,this.maxY=2099,this.maxM=12,this.maxD=31};return e.prototype={init:function(e){if(this.type=e.type,this.trigger=document.querySelector(e.trigger),null!=this.trigger.getAttribute("data-lcalendar")){var t=this.trigger.getAttribute("data-lcalendar").split(","),a=t[0].split("-");this.minY=~~a[0],this.minM=~~a[1],this.minD=~~a[2];var r=t[1].split("-");this.maxY=~~r[0],this.maxM=~~r[1],this.maxD=~~r[2]}if(e.minDate){var a=e.minDate.split("-");this.minY=~~a[0],this.minM=~~a[1],this.minD=~~a[2]}if(e.maxDate){var r=e.maxDate.split("-");this.maxY=~~r[0],this.maxM=~~r[1],this.maxD=~~r[2]}this.bindEvent(this.type)},bindEvent:function(e){function t(e){E.gearDate=document.createElement("div"),E.gearDate.className="gearDate",E.gearDate.innerHTML='<div class="date_ctrl slideInUp"><div class="date_btn_box"><div class="date_btn lcalendar_cancel">取消</div><div class="date_btn lcalendar_finish">确定</div></div><div class="date_roll_mask"><div class="date_roll"><div><div class="gear date_yy" data-datetype="date_yy"></div><div class="date_grid"><div>年</div></div></div><div><div class="gear date_mm" data-datetype="date_mm"></div><div class="date_grid"><div>月</div></div></div><div><div class="gear date_dd" data-datetype="date_dd"></div><div class="date_grid"><div>日</div></div></div></div></div></div>',document.body.appendChild(E.gearDate),a();var t=E.gearDate.querySelector(".lcalendar_cancel");t.addEventListener("touchstart",y);var r=E.gearDate.querySelector(".lcalendar_finish");r.addEventListener("touchstart",D);var d=E.gearDate.querySelector(".date_yy"),i=E.gearDate.querySelector(".date_mm"),n=E.gearDate.querySelector(".date_dd");d.addEventListener("touchstart",m),i.addEventListener("touchstart",m),n.addEventListener("touchstart",m),d.addEventListener("touchmove",u),i.addEventListener("touchmove",u),n.addEventListener("touchmove",u),d.addEventListener("touchend",g),i.addEventListener("touchend",g),n.addEventListener("touchend",g)}function a(){var e=new Date,t={yy:e.getFullYear(),mm:e.getMonth(),dd:e.getDate()-1};/^\d{4}-\d{1,2}-\d{1,2}$/.test(E.trigger.value)?(rs=E.trigger.value.match(/(^|-)\d{1,4}/g),t.yy=rs[0]-E.minY,t.mm=rs[1].replace(/-/g,"")-1,t.dd=rs[2].replace(/-/g,"")-1):t.yy=t.yy-E.minY,E.gearDate.querySelector(".date_yy").setAttribute("val",t.yy),E.gearDate.querySelector(".date_mm").setAttribute("val",t.mm),E.gearDate.querySelector(".date_dd").setAttribute("val",t.dd),l()}function r(e){E.gearDate=document.createElement("div"),E.gearDate.className="gearDate",E.gearDate.innerHTML='<div class="date_ctrl slideInUp"><div class="date_btn_box"><div class="date_btn lcalendar_cancel">取消</div><div class="date_btn lcalendar_finish">确定</div></div><div class="date_roll_mask"><div class="ym_roll"><div><div class="gear date_yy" data-datetype="date_yy"></div><div class="date_grid"><div>年</div></div></div><div><div class="gear date_mm" data-datetype="date_mm"></div><div class="date_grid"><div>月</div></div></div></div></div></div>',document.body.appendChild(E.gearDate),d();var t=E.gearDate.querySelector(".lcalendar_cancel");t.addEventListener("touchstart",y);var a=E.gearDate.querySelector(".lcalendar_finish");a.addEventListener("touchstart",b);var r=E.gearDate.querySelector(".date_yy"),i=E.gearDate.querySelector(".date_mm");r.addEventListener("touchstart",m),i.addEventListener("touchstart",m),r.addEventListener("touchmove",u),i.addEventListener("touchmove",u),r.addEventListener("touchend",g),i.addEventListener("touchend",g)}function d(){var e=new Date,t={yy:e.getFullYear(),mm:e.getMonth()};/^\d{4}-\d{1,2}$/.test(E.trigger.value)?(rs=E.trigger.value.match(/(^|-)\d{1,4}/g),t.yy=rs[0]-E.minY,t.mm=rs[1].replace(/-/g,"")-1):t.yy=t.yy-E.minY,E.gearDate.querySelector(".date_yy").setAttribute("val",t.yy),E.gearDate.querySelector(".date_mm").setAttribute("val",t.mm),l()}function i(e){E.gearDate=document.createElement("div"),E.gearDate.className="gearDatetime",E.gearDate.innerHTML='<div class="date_ctrl slideInUp"><div class="date_btn_box"><div class="date_btn lcalendar_cancel">取消</div><div class="date_btn lcalendar_finish">确定</div></div><div class="date_roll_mask"><div class="datetime_roll"><div><div class="gear date_yy" data-datetype="date_yy"></div><div class="date_grid"><div>年</div></div></div><div><div class="gear date_mm" data-datetype="date_mm"></div><div class="date_grid"><div>月</div></div></div><div><div class="gear date_dd" data-datetype="date_dd"></div><div class="date_grid"><div>日</div></div></div><div><div class="gear time_hh" data-datetype="time_hh"></div><div class="date_grid"><div>时</div></div></div><div><div class="gear time_mm" data-datetype="time_mm"></div><div class="date_grid"><div>分</div></div></div></div></div></div>',document.body.appendChild(E.gearDate),n();var t=E.gearDate.querySelector(".lcalendar_cancel");t.addEventListener("touchstart",y);var a=E.gearDate.querySelector(".lcalendar_finish");a.addEventListener("touchstart",p);var r=E.gearDate.querySelector(".date_yy"),d=E.gearDate.querySelector(".date_mm"),i=E.gearDate.querySelector(".date_dd"),s=E.gearDate.querySelector(".time_hh"),v=E.gearDate.querySelector(".time_mm");r.addEventListener("touchstart",m),d.addEventListener("touchstart",m),i.addEventListener("touchstart",m),s.addEventListener("touchstart",m),v.addEventListener("touchstart",m),r.addEventListener("touchmove",u),d.addEventListener("touchmove",u),i.addEventListener("touchmove",u),s.addEventListener("touchmove",u),v.addEventListener("touchmove",u),r.addEventListener("touchend",g),d.addEventListener("touchend",g),i.addEventListener("touchend",g),s.addEventListener("touchend",g),v.addEventListener("touchend",g)}function n(){var e=new Date,t={yy:e.getFullYear(),mm:e.getMonth(),dd:e.getDate()-1,hh:e.getHours(),mi:e.getMinutes()};/^\d{4}-\d{1,2}-\d{1,2}\s\d{2}:\d{2}$/.test(E.trigger.value)?(rs=E.trigger.value.match(/(^|-|\s|:)\d{1,4}/g),t.yy=rs[0]-E.minY,t.mm=rs[1].replace(/-/g,"")-1,t.dd=rs[2].replace(/-/g,"")-1,t.hh=parseInt(rs[3].replace(/\s0?/g,"")),t.mi=parseInt(rs[4].replace(/:0?/g,""))):t.yy=t.yy-E.minY,E.gearDate.querySelector(".date_yy").setAttribute("val",t.yy),E.gearDate.querySelector(".date_mm").setAttribute("val",t.mm),E.gearDate.querySelector(".date_dd").setAttribute("val",t.dd),l(),E.gearDate.querySelector(".time_hh").setAttribute("val",t.hh),E.gearDate.querySelector(".time_mm").setAttribute("val",t.mi),c()}function s(e){E.gearDate=document.createElement("div"),E.gearDate.className="gearDate",E.gearDate.innerHTML='<div class="date_ctrl slideInUp"><div class="date_btn_box"><div class="date_btn lcalendar_cancel">取消</div><div class="date_btn lcalendar_finish">确定</div></div><div class="date_roll_mask"><div class="time_roll"><div><div class="gear time_hh" data-datetype="time_hh"></div><div class="date_grid"><div>时</div></div></div><div><div class="gear time_mm" data-datetype="time_mm"></div><div class="date_grid"><div>分</div></div></div></div></div></div>',document.body.appendChild(E.gearDate),v();var t=E.gearDate.querySelector(".lcalendar_cancel");t.addEventListener("touchstart",y);var a=E.gearDate.querySelector(".lcalendar_finish");a.addEventListener("touchstart",f);var r=E.gearDate.querySelector(".time_hh"),d=E.gearDate.querySelector(".time_mm");r.addEventListener("touchstart",m),d.addEventListener("touchstart",m),r.addEventListener("touchmove",u),d.addEventListener("touchmove",u),r.addEventListener("touchend",g),d.addEventListener("touchend",g)}function v(){var e=new Date,t={hh:e.getHours(),mm:e.getMinutes()};/^\d{2}:\d{2}$/.test(E.trigger.value)&&(rs=E.trigger.value.match(/(^|:)\d{2}/g),t.hh=parseInt(rs[0].replace(/^0?/g,"")),t.mm=parseInt(rs[1].replace(/:0?/g,""))),E.gearDate.querySelector(".time_hh").setAttribute("val",t.hh),E.gearDate.querySelector(".time_mm").setAttribute("val",t.mm),c()}function l(){var e=E.maxY-E.minY+1,t=E.gearDate.querySelector(".date_yy"),a="";if(t&&t.getAttribute("val")){for(var r=parseInt(t.getAttribute("val")),d=0;e-1>=d;d++)a+="<div class='tooth'>"+(E.minY+d)+"</div>";t.innerHTML=a;var i=Math.floor(parseFloat(t.getAttribute("top")));if(isNaN(i))t.style["-webkit-transform"]="translate3d(0,"+(8-2*r)+"em,0)",t.setAttribute("top",8-2*r+"em");else{i%2==0?i=i:i+=1,i>8&&(i=8);var n=8-2*(e-1);n>i&&(i=n),t.style["-webkit-transform"]="translate3d(0,"+i+"em,0)",t.setAttribute("top",i+"em"),r=Math.abs(i-8)/2,t.setAttribute("val",r)}var s=E.gearDate.querySelector(".date_mm");if(s&&s.getAttribute("val")){a="";var v=parseInt(s.getAttribute("val")),l=11,c=0;r==e-1&&(l=E.maxM-1),0==r&&(c=E.minM-1);for(var d=0;l-c+1>d;d++)a+="<div class='tooth'>"+(c+d+1)+"</div>";s.innerHTML=a,v>l?(v=l,s.setAttribute("val",v)):c>v&&(v=l,s.setAttribute("val",v)),s.style["-webkit-transform"]="translate3d(0,"+(8-2*(v-c))+"em,0)",s.setAttribute("top",8-2*(v-c)+"em");var m=E.gearDate.querySelector(".date_dd");if(m&&m.getAttribute("val")){a="";var u=parseInt(m.getAttribute("val")),g=o(r,v),_=g-1,h=0;r==e-1&&E.maxM==v+1&&(_=E.maxD-1),0==r&&E.minM==v+1&&(h=E.minD-1);for(var d=0;_-h+1>d;d++)a+="<div class='tooth'>"+(h+d+1)+"</div>";m.innerHTML=a,u>_?(u=_,m.setAttribute("val",u)):h>u&&(u=h,m.setAttribute("val",u)),m.style["-webkit-transform"]="translate3d(0,"+(8-2*(u-h))+"em,0)",m.setAttribute("top",8-2*(u-h)+"em")}}}}function c(){var e=E.gearDate.querySelector(".time_hh");if(e&&e.getAttribute("val")){for(var t="",a=parseInt(e.getAttribute("val")),r=0;23>=r;r++)t+="<div class='tooth'>"+r+"</div>";e.innerHTML=t,e.style["-webkit-transform"]="translate3d(0,"+(8-2*a)+"em,0)",e.setAttribute("top",8-2*a+"em");var d=E.gearDate.querySelector(".time_mm");if(d&&d.getAttribute("val")){for(var t="",i=parseInt(d.getAttribute("val")),r=0;59>=r;r++)t+="<div class='tooth'>"+r+"</div>";d.innerHTML=t,d.style["-webkit-transform"]="translate3d(0,"+(8-2*i)+"em,0)",d.setAttribute("top",8-2*i+"em")}}}function o(e,t){return 1==t?(e+=E.minY,e%4==0&&e%100!=0||e%400==0&&e%4e3!=0?29:28):3==t||5==t||8==t||10==t?30:31}function m(e){e.preventDefault();for(var t=e.target;;){if(t.classList.contains("gear"))break;t=t.parentElement}clearInterval(t["int_"+t.id]),t["old_"+t.id]=e.targetTouches[0].screenY,t["o_t_"+t.id]=(new Date).getTime();var a=t.getAttribute("top");a?t["o_d_"+t.id]=parseFloat(a.replace(/em/g,"")):t["o_d_"+t.id]=0,t.style.webkitTransitionDuration=t.style.transitionDuration="0ms"}function u(e){e.preventDefault();for(var t=e.target;;){if(t.classList.contains("gear"))break;t=t.parentElement}t["new_"+t.id]=e.targetTouches[0].screenY,t["n_t_"+t.id]=(new Date).getTime();var a=30*(t["new_"+t.id]-t["old_"+t.id])/window.innerHeight;t["pos_"+t.id]=t["o_d_"+t.id]+a,t.style["-webkit-transform"]="translate3d(0,"+t["pos_"+t.id]+"em,0)",t.setAttribute("top",t["pos_"+t.id]+"em"),e.targetTouches[0].screenY<1&&g(e)}function g(e){e.preventDefault();for(var t=e.target;;){if(t.classList.contains("gear"))break;t=t.parentElement}var a=(t["new_"+t.id]-t["old_"+t.id])/(t["n_t_"+t.id]-t["o_t_"+t.id]);Math.abs(a)<=.2?t["spd_"+t.id]=0>a?-.08:.08:Math.abs(a)<=.5?t["spd_"+t.id]=0>a?-.16:.16:t["spd_"+t.id]=a/2,t["pos_"+t.id]||(t["pos_"+t.id]=0),_(t)}function _(e){function t(){e.style.webkitTransitionDuration=e.style.transitionDuration="200ms",r=!0}var a=0,r=!1,d=E.maxY-E.minY+1;clearInterval(e["int_"+e.id]),e["int_"+e.id]=setInterval(function(){var i=e["pos_"+e.id],n=e["spd_"+e.id]*Math.exp(-.03*a);if(i+=n,Math.abs(n)>.1);else{var s=2*Math.round(i/2);i=s,t()}switch(i>8&&(i=8,t()),e.dataset.datetype){case"date_yy":var v=8-2*(d-1);if(v>i&&(i=v,t()),r){var l=Math.abs(i-8)/2;h(e,l),clearInterval(e["int_"+e.id])}break;case"date_mm":var c=E.gearDate.querySelector(".date_yy"),m=parseInt(c.getAttribute("val")),u=11,g=0;m==d-1&&(u=E.maxM-1),0==m&&(g=E.minM-1);var v=8-2*(u-g);if(v>i&&(i=v,t()),r){var l=Math.abs(i-8)/2+g;h(e,l),clearInterval(e["int_"+e.id])}break;case"date_dd":var c=E.gearDate.querySelector(".date_yy"),_=E.gearDate.querySelector(".date_mm"),m=parseInt(c.getAttribute("val")),y=parseInt(_.getAttribute("val")),D=o(m,y),b=D-1,p=0;m==d-1&&E.maxM==y+1&&(b=E.maxD-1),0==m&&E.minM==y+1&&(p=E.minD-1);var v=8-2*(b-p);if(v>i&&(i=v,t()),r){var l=Math.abs(i-8)/2+p;h(e,l),clearInterval(e["int_"+e.id])}break;case"time_hh":if(-38>i&&(i=-38,t()),r){var l=Math.abs(i-8)/2;h(e,l),clearInterval(e["int_"+e.id])}break;case"time_mm":if(-110>i&&(i=-110,t()),r){var l=Math.abs(i-8)/2;h(e,l),clearInterval(e["int_"+e.id])}}e["pos_"+e.id]=i,e.style["-webkit-transform"]="translate3d(0,"+i+"em,0)",e.setAttribute("top",i+"em"),a++},30)}function h(e,t){t=Math.round(t),e.setAttribute("val",t),/date/.test(e.dataset.datetype)?l():c()}function y(e){e.preventDefault();var t;try{t=new CustomEvent("input")}catch(e){t=document.createEvent("Event"),t.initEvent("input",!0,!0)}E.trigger.dispatchEvent(t),document.body.removeChild(E.gearDate),E.gearDate=null}function D(e){var t=E.maxY-E.minY+1,a=parseInt(Math.round(E.gearDate.querySelector(".date_yy").getAttribute("val"))),r=parseInt(Math.round(E.gearDate.querySelector(".date_mm").getAttribute("val")))+1;r=r>9?r:"0"+r;var d=parseInt(Math.round(E.gearDate.querySelector(".date_dd").getAttribute("val")))+1;d=d>9?d:"0"+d,E.trigger.value=a%t+E.minY+"-"+r+"-"+d,y(e)}function b(e){var t=E.maxY-E.minY+1,a=parseInt(Math.round(E.gearDate.querySelector(".date_yy").getAttribute("val"))),r=parseInt(Math.round(E.gearDate.querySelector(".date_mm").getAttribute("val")))+1;r=r>9?r:"0"+r,E.trigger.value=a%t+E.minY+"-"+r,y(e)}function p(e){var t=E.maxY-E.minY+1,a=parseInt(Math.round(E.gearDate.querySelector(".date_yy").getAttribute("val"))),r=parseInt(Math.round(E.gearDate.querySelector(".date_mm").getAttribute("val")))+1;r=r>9?r:"0"+r;var d=parseInt(Math.round(E.gearDate.querySelector(".date_dd").getAttribute("val")))+1;d=d>9?d:"0"+d;var i=parseInt(Math.round(E.gearDate.querySelector(".time_hh").getAttribute("val")));i=i>9?i:"0"+i;var n=parseInt(Math.round(E.gearDate.querySelector(".time_mm").getAttribute("val")));n=n>9?n:"0"+n,E.trigger.value=a%t+E.minY+"-"+r+"-"+d+" "+(i.length<2?"0":"")+i+(n.length<2?":0":":")+n,y(e)}function f(e){var t=parseInt(Math.round(E.gearDate.querySelector(".time_hh").getAttribute("val")));t=t>9?t:"0"+t;var a=parseInt(Math.round(E.gearDate.querySelector(".time_mm").getAttribute("val")));a=a>9?a:"0"+a,E.trigger.value=(t.length<2?"0":"")+t+(a.length<2?":0":":")+a,y(e)}var E=this;E.trigger.addEventListener("click",{ym:r,date:t,datetime:i,time:s}[e])}},e}();
 
 /***/ },
-/* 117 */
+/* 130 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 118 */,
-/* 119 */
+/* 131 */,
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -12973,13 +14593,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(120);
+	__webpack_require__(133);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(122);
+	__vue_exports__ = __webpack_require__(135);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(123);
+	var __vue_template__ = __webpack_require__(136);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -13019,14 +14639,14 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 120 */
+/* 133 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 121 */,
-/* 122 */
+/* 134 */,
+/* 135 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -13089,7 +14709,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 123 */
+/* 136 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -13107,7 +14727,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 124 */
+/* 137 */
 /***/ function(module, exports) {
 
 	/**
@@ -13130,8 +14750,8 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 125 */,
-/* 126 */
+/* 138 */,
+/* 139 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -13233,7 +14853,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 127 */
+/* 140 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -13251,13 +14871,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(128);
+	__webpack_require__(141);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(130);
+	__vue_exports__ = __webpack_require__(143);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(138);
+	var __vue_template__ = __webpack_require__(151);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -13297,14 +14917,14 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 128 */
+/* 141 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 129 */,
-/* 130 */
+/* 142 */,
+/* 143 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13354,11 +14974,11 @@ webpackJsonp([0],[
 	//
 
 	var navigator = __webpack_require__(99);
-	var pagination = __webpack_require__(131);
-	__webpack_require__(116);
-	__webpack_require__(117);
-	var popup = __webpack_require__(119);
-	__webpack_require__(137);
+	var pagination = __webpack_require__(144);
+	__webpack_require__(129);
+	__webpack_require__(130);
+	var popup = __webpack_require__(132);
+	__webpack_require__(150);
 	var utils = __webpack_require__(18);
 	var methods = {
 	    onNavigatorRightBtnClick: function onNavigatorRightBtnClick() {
@@ -13444,7 +15064,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 131 */
+/* 144 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -13462,13 +15082,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(132);
+	__webpack_require__(145);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(135);
+	__vue_exports__ = __webpack_require__(148);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(136);
+	var __vue_template__ = __webpack_require__(149);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -13507,16 +15127,16 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 132 */
+/* 145 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(133);
+	var content = __webpack_require__(146);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(134)(content, {});
+	var update = __webpack_require__(147)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -13533,7 +15153,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 133 */
+/* 146 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -13547,7 +15167,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 134 */
+/* 147 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -13769,7 +15389,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 135 */
+/* 148 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -13816,7 +15436,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 136 */
+/* 149 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -13846,8 +15466,188 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 137 */,
-/* 138 */
+/* 150 */
+/***/ function(module, exports) {
+
+	/**
+	 * @module date.js
+	 * Calendar日期类以及对Date对象扩展一个format方法
+	 * 实例化方法getInstance 支持如下链式操作
+	 * Calendar.getInstance().add(Calendar.MONTH,-1).add(Calendar.DATE,5).format('yyyyMMdd hh:mm:ss')
+	 * Calendar.getInstance().add(Calendar.WEEK,-1).getTime()
+	 * Calendar.getInstance().parse('20160120102234')
+	 * Calendar.getInstance('20160120').format('M月d日')
+	 * @method Calendar
+	 * @author yanglang
+	 * @date 20160120
+	 */
+	(function(){
+	    var Calendar = function () {
+	        throw new TypeError('请使用getInstance方法进行实例化');
+	    };
+	    typeof window == 'undefined' ? (module.exports = Calendar) : (window.Calendar = Calendar);
+
+	    Calendar.prototype = {
+	        constructor:Calendar,
+	        /**
+	         * 构造方法
+	         * @param date
+	         */
+	        init:function(date){
+	            date ? this.parse(date): this.date = new Date();
+	        },
+	        /**
+	         * @method add
+	         * @param type Calendar.YEAR Calendar.MONTH Calendar.WEEK Calendar.DATE
+	         * @param num 正数或负数
+	         */
+	        add: function (type, num) {
+	            if (isNaN(num))
+	                throw new TypeError('第二个参数必须为数字');
+	            switch (type) {
+	                case 1:
+	                    this.date.setFullYear(num + this.date.getFullYear());
+	                    break;
+	                case 2:
+	                    this.date.setMonth(num + this.date.getMonth());
+	                    break;
+	                case 3:
+	                    this.date.setDate(num + this.date.getDate());
+	                    break;
+	                case 4:
+	                    this.date.setDate(num*7 + this.date.getDate());
+	                    break;
+	                case 5:
+	                    this.date.setHours(num + this.date.getHours());
+	                    break;
+	                case 6:
+	                    this.date.setMinutes(num + this.date.getMinutes());
+	                    break;
+	            }
+	            return this;
+	        },
+	        /**
+	         * 获取Date日期对象值
+	         * @returns {Date|*|XML|string}
+	         */
+	        getTime: function () {
+	            return this.date;
+	        },
+	        /**
+	         * 将传入对象转换成Calendar实例以便进行日期操作
+	         * @method parse
+	         * @param timeObj Date日期对象 或 带时间的字符串（比如2005年05月04日 02时33分44秒）或Calendar对象
+	         */
+	        parse: function (timeObj) {
+	            var type = Object.prototype.toString.call(timeObj);
+	            if(type === '[object Date]'){
+	                this.date = timeObj;
+	            }else if(type === '[object String]'){
+	                timeObj = timeObj.replace(/[^\d]*/gm,''),len = timeObj.length;
+	                while(len<14){
+	                    timeObj+='0';
+	                    len++;
+	                }
+	                timeObj = timeObj.replace(/^(\d{4})(\d{2})(\d{2})(\d{2})?(\d{2})?(\d{2})?.*$/, '$1/$2/$3 $4:$5:$6');
+	                this.date = new Date(timeObj);
+	            }else if(type === '[object Object]' && timeObj instanceof this.constructor){
+	                this.date = timeObj.getTime();
+	            }else if(type === '[object Number]' ){
+	                this.date = new Date(timeObj);
+	            }else{
+	                throw new TypeError('暂不支持转换此数据类型');
+	            }
+	            return this;
+	        },
+	        /**
+	         * 得到格式化的日期字符串
+	         * @param fmt 格式化模板如 yyyyMMdd hh:mm:ss
+	         * @returns {String}
+	         */
+	        format:function(fmt){
+	            return this.date.format(fmt);
+	        }
+	    };
+
+	    Calendar.prototype.init.prototype = Calendar.prototype;
+
+	    /**
+	     * 获取Calendar实例
+	     * @param date optional 可选参数 可以传入一个日期对象或日期字符串或Calendar对象或时间数
+	     * @returns {Calendar.prototype.init}
+	     */
+	    Calendar.getInstance = function (date) {
+	        return new Calendar.prototype.init(date);
+	    };
+
+	    Calendar.YEAR = 1;
+	    Calendar.MONTH = 2;
+	    Calendar.DATE = 3;
+	    Calendar.WEEK = 4;
+	    Calendar.HOUR = 5;
+	    Calendar.MINUTE = 6;
+
+	    /**
+	     * 对Date的扩展，将 Date 转化为指定格式的String<br>
+	     * 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，<br>
+	     * 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)<br>
+	     * 例子：<br>
+	     * (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423<br>
+	     * (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18<br>
+	     * (new Date()).format("yyyy-MM-dd EE");  ==> 2015-08-07 周五<br>
+	     * (new Date()).format("yyyy-MM-dd EEE");  ==> 2015-08-07 星期五<br>
+	     * (new Date()).format("yyyy-MM-dd E");  ==> 2015-08-07 五<br>
+	     * @method format
+	     * @param {String} fmt format字符串
+	     * @returns {String}
+	     */
+	    Date.prototype.format = function(fmt) {
+	        var that = this;
+	        var o = {
+	            "M+" : this.getMonth() + 1, //月份
+	            "d+" : this.getDate(), //日
+	            "h+" : this.getHours() % 12 == 0 ? 12: this.getHours() % 12, //小时
+	            "H+" : this.getHours(), //小时
+	            "U+" : this.getUTCHours(), //UTC小时
+	            "m+" : this.getMinutes(), //分
+	            "s+" : this.getSeconds(), //秒
+	            "q+" : Math.floor((this.getMonth() + 3) / 3), //季度
+	            "S" : this.getMilliseconds()//毫秒
+	        };
+	        var week = {
+	            "0" : "星期天","1" : "一","2" : "二","3" : "三","4" : "四","5" : "五","6" : "六"
+	        };
+	        if (/(y+)/.test(fmt)) {
+	            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "")
+	                .substr(4 - RegExp.$1.length));
+	        }
+	        if (/(E+)/.test(fmt)) {
+	            fmt = fmt.replace(RegExp.$1,function(){
+	                if(that.getDay() == 0){
+	                    if(RegExp.$1.length > 1){
+	                        return RegExp.$1.length > 2?"星期天":"周日";
+	                    }else
+	                        return "日";
+	                }else{
+	                    if(RegExp.$1.length > 1){
+	                        return RegExp.$1.length > 2?"星期"+ week[that.getDay()]:"周"+ week[that.getDay()];
+	                    } else{
+	                        return week[that.getDay()]
+	                    }
+	                }
+	            }());
+	        }
+	        for ( var k in o) {
+	            if (new RegExp("(" + k + ")").test(fmt)) {
+	                fmt = fmt.replace(RegExp.$1,(RegExp.$1.length == 1) ? (o[k]): (("00" + o[k]).substr(("" + o[k]).length)));
+	            }
+	        }
+	        return fmt;
+	    };
+	})();
+
+/***/ },
+/* 151 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -13966,7 +15766,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 139 */
+/* 152 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -13984,13 +15784,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(140);
+	__webpack_require__(153);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(142);
+	__vue_exports__ = __webpack_require__(155);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(143);
+	var __vue_template__ = __webpack_require__(156);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -14029,14 +15829,14 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 140 */
+/* 153 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 141 */,
-/* 142 */
+/* 154 */,
+/* 155 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14094,7 +15894,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 143 */
+/* 156 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -14140,7 +15940,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 144 */
+/* 157 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -14158,13 +15958,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(145);
+	__webpack_require__(158);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(147);
+	__vue_exports__ = __webpack_require__(160);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(148);
+	var __vue_template__ = __webpack_require__(161);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -14204,47 +16004,44 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 145 */
+/* 158 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 146 */,
-/* 147 */
+/* 159 */,
+/* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _vueNavigator = __webpack_require__(99);
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
-	var _vueNavigator2 = _interopRequireDefault(_vueNavigator);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var utils = __webpack_require__(18); //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	var navigator = __webpack_require__(99);
+	var utils = __webpack_require__(18);
 
 	var methods = {
 	    onNavigatorRightBtnClick: function onNavigatorRightBtnClick() {
@@ -14285,14 +16082,14 @@ webpackJsonp([0],[
 	        return { WINHEIGHT: window.HEIGHT };
 	    },
 	    methods: methods,
-	    components: { navigator: _vueNavigator2.default },
+	    components: { navigator: navigator },
 	    mounted: function mounted() {
 	        this.WINHEIGHT = window.HEIGHT;
 	    }
 	};
 
 /***/ },
-/* 148 */
+/* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -14365,7 +16162,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 149 */
+/* 162 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -14383,13 +16180,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(150);
+	__webpack_require__(163);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(153);
+	__vue_exports__ = __webpack_require__(166);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(155);
+	var __vue_template__ = __webpack_require__(168);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -14428,15 +16225,15 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 150 */
+/* 163 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 151 */,
-/* 152 */,
-/* 153 */
+/* 164 */,
+/* 165 */,
+/* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14476,7 +16273,7 @@ webpackJsonp([0],[
 
 	var navigator = __webpack_require__(99);
 	var utils = __webpack_require__(18);
-	__webpack_require__(154);
+	__webpack_require__(167);
 	var methods = {
 	    onNavigatorRightBtnClick: function onNavigatorRightBtnClick() {
 	        var that = this;
@@ -14550,7 +16347,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 154 */
+/* 167 */
 /***/ function(module, exports) {
 
 	/**
@@ -14656,7 +16453,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 155 */
+/* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -14756,7 +16553,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 156 */
+/* 169 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -14774,13 +16571,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(157);
+	__webpack_require__(170);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(159);
+	__vue_exports__ = __webpack_require__(172);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(160);
+	var __vue_template__ = __webpack_require__(173);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -14820,25 +16617,19 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 157 */
+/* 170 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 158 */,
-/* 159 */
+/* 171 */,
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _vueNavigator = __webpack_require__(99);
-
-	var _vueNavigator2 = _interopRequireDefault(_vueNavigator);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var utils = __webpack_require__(18); //
+	//
 	//
 	//
 	//
@@ -14861,6 +16652,8 @@ webpackJsonp([0],[
 	//
 	//
 
+	var navigator = __webpack_require__(99);
+	var utils = __webpack_require__(18);
 	var THEME_KEY = '_H5_THEME_KEY_';
 	var methods = {};
 	utils.animation.process(methods);
@@ -14870,7 +16663,7 @@ webpackJsonp([0],[
 	        return { WINHEIGHT: window.HEIGHT };
 	    },
 	    methods: methods,
-	    components: { navigator: _vueNavigator2.default },
+	    components: { navigator: navigator },
 	    mounted: function mounted() {
 	        var theme;
 	        if (theme = localStorage.getItem(THEME_KEY)) {
@@ -14892,7 +16685,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 160 */
+/* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -14930,7 +16723,7 @@ webpackJsonp([0],[
 	    }
 	  }, [_h('img', {
 	    attrs: {
-	      "src": __webpack_require__(161)
+	      "src": __webpack_require__(174)
 	    }
 	  })]), " ", _h('li', {
 	    staticClass: "theme-item",
@@ -14939,7 +16732,7 @@ webpackJsonp([0],[
 	    }
 	  }, [_h('img', {
 	    attrs: {
-	      "src": __webpack_require__(162)
+	      "src": __webpack_require__(175)
 	    }
 	  })]), " ", _h('li', {
 	    staticClass: "theme-item",
@@ -14948,7 +16741,7 @@ webpackJsonp([0],[
 	    }
 	  }, [_h('img', {
 	    attrs: {
-	      "src": __webpack_require__(163)
+	      "src": __webpack_require__(176)
 	    }
 	  })]), " ", _h('li', {
 	    staticClass: "theme-item",
@@ -14957,7 +16750,7 @@ webpackJsonp([0],[
 	    }
 	  }, [_h('img', {
 	    attrs: {
-	      "src": __webpack_require__(164)
+	      "src": __webpack_require__(177)
 	    }
 	  })]), " ", _h('li', {
 	    staticClass: "theme-item",
@@ -14966,7 +16759,7 @@ webpackJsonp([0],[
 	    }
 	  }, [_h('img', {
 	    attrs: {
-	      "src": __webpack_require__(165)
+	      "src": __webpack_require__(178)
 	    }
 	  })]), " ", _h('li', {
 	    staticClass: "theme-item",
@@ -14975,7 +16768,7 @@ webpackJsonp([0],[
 	    }
 	  }, [_h('img', {
 	    attrs: {
-	      "src": __webpack_require__(166)
+	      "src": __webpack_require__(179)
 	    }
 	  })])])])
 	}}]}
@@ -14987,47 +16780,396 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 161 */
+/* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "31d4c1bfb1e4a77dea03695a19a53333.jpg";
 
 /***/ },
-/* 162 */
+/* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "156ce6d75a8c1197a83d73d81df596c0.jpg";
 
 /***/ },
-/* 163 */
+/* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "adb4276d239a427a2b7085403437e759.jpg";
 
 /***/ },
-/* 164 */
+/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "4e9f56c0f74ea2c237be56b9515864fd.jpg";
 
 /***/ },
-/* 165 */
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "1b1978c4a1f01213e6c739a345e8d988.jpg";
 
 /***/ },
-/* 166 */
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "c43d32de5fcc219daf6c0f746f80fbd2.jpg";
 
 /***/ },
-/* 167 */
+/* 180 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _keys = __webpack_require__(23);
+
+	var _keys2 = _interopRequireDefault(_keys);
+
+	var _typeof2 = __webpack_require__(58);
+
+	var _typeof3 = _interopRequireDefault(_typeof2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var __vue_exports__, __vue_options__;
+
+	/* styles */
+	__webpack_require__(181);
+
+	/* script */
+	__vue_exports__ = __webpack_require__(183);
+
+	/* template */
+	var __vue_template__ = __webpack_require__(184);
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
+	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
+	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
+	    return key !== "default" && key !== "__esModule";
+	  })) {
+	    console.error("named exports are not supported in *.vue files.");
+	  }
+	  __vue_options__ = __vue_exports__ = __vue_exports__.default;
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options;
+	}
+	__vue_options__.name = __vue_options__.name || "webim";
+	__vue_options__.__file = "D:\\workspace\\SPM\\public\\src\\javascripts\\h5\\vue-components\\webim.vue";
+	__vue_options__.render = __vue_template__.render;
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns;
+	__vue_options__._scopeId = "data-v-cd2864bc";
+
+	/* hot reload */
+	if (false) {
+	  (function () {
+	    var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api");
+	    hotAPI.install(require("vue"), false);
+	    if (!hotAPI.compatible) return;
+	    module.hot.accept();
+	    if (!module.hot.data) {
+	      hotAPI.createRecord("data-v-cd2864bc", __vue_options__);
+	    } else {
+	      hotAPI.reload("data-v-cd2864bc", __vue_options__);
+	    }
+	  })();
+	}
+	if (__vue_options__.functional) {
+	  console.error("[vue-loader] webim.vue: functional components are not supported and should be defined in plain js files using render functions.");
+	}
+
+	module.exports = __vue_exports__;
+
+/***/ },
+/* 181 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 182 */,
+/* 183 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
+	var navigator = __webpack_require__(99);
+	var utils = __webpack_require__(18);
+	var store = __webpack_require__(109);
+
+	var THEME_KEY = '_H5_THEME_KEY_';
+	var methods = {
+	    getColor: function getColor(name) {
+	        var num = utils.djb2Code(name);
+	        num = /^.*(\d)$/.test(num) && RegExp.$1;;
+	        return utils.colors[parseInt(num)];
+	    },
+	    getIdFromJid: function getIdFromJid(jid) {
+	        var id = /^(\d*)#.*$/.test(jid) && RegExp.$1;
+	        return id;
+	    },
+	    getUnreadCount: function getUnreadCount(item) {
+	        var count = 0;
+	        item.record.forEach(function (record, index) {
+	            if (!record.read) {
+	                count++;
+	            }
+	        });
+	        return count;
+	    }
+	};
+	utils.animation.process(methods);
+	module.exports = {
+	    module: '/webim',
+	    data: function data() {
+	        return { WINHEIGHT: window.HEIGHT };
+	    },
+	    methods: methods,
+	    components: { navigator: navigator },
+	    computed: {
+	        rosterList: function rosterList() {
+	            return this.$store.state.rosterList;
+	        },
+	        chatList: function chatList() {
+	            return this.$store.state.curChatList;
+	        },
+	        groupList: function groupList() {
+	            return this.$store.state.groupList;
+	        },
+	        blackList: function blackList() {
+	            return this.$store.state.blackList;
+	        }
+	    },
+	    destroyed: function destroyed() {},
+	    mounted: function mounted() {
+	        var theme;
+	        if (theme = localStorage.getItem(THEME_KEY)) {
+	            $('.theme-item').removeClass('actived');
+	            $('.theme-item[data-value=' + theme + ']').addClass('actived');
+	        }
+	        this.WINHEIGHT = window.HEIGHT;
+	        $('#tabbar').on('click', 'li', function () {
+	            var $this = $(this);
+	            $this.parent().children().removeClass('actived');
+	            $this.addClass('actived');
+	            $('.content-wrap>div').hide().eq($this.index()).show();
+	        });
+	    }
+	};
+
+/***/ },
+/* 184 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('transition', {
+	    attrs: {
+	      "css": false
+	    },
+	    on: {
+	      "before-enter": beforeEnter,
+	      "after-enter": afterEnter,
+	      "enter": enter,
+	      "leave": leave,
+	      "before-leave": beforeLeave
+	    }
+	  }, [_h('div', {
+	    staticClass: "router-view",
+	    style: ('min-height:' + WINHEIGHT + 'px'),
+	    attrs: {
+	      "id": "webim-container"
+	    }
+	  }, [_h('navigator', {
+	    attrs: {
+	      "navigator-title": "家校互通"
+	    }
+	  }), " ", _h('div', {
+	    staticClass: "content-wrap"
+	  }, [_h('div', {
+	    staticClass: "chat-list-container"
+	  }, [_h('ul', {
+	    staticClass: "chat-list"
+	  }, [_l((chatList), function(item) {
+	    return [_h('router-link', {
+	      attrs: {
+	        "to": '/webim-chat?type=1&chat_name=' + item.name
+	      }
+	    }, [_h('li', {
+	      attrs: {
+	        "data-id": item.id,
+	        "data-name": item.name
+	      }
+	    }, [_h('div', {
+	      staticClass: "li-wrap"
+	    }, [_h('div', {
+	      class: ['head-wrap', {
+	        'unread-msg': getUnreadCount(item) > 0,
+	        'unread-msg-lg9': getUnreadCount(item) > 9
+	      }],
+	      attrs: {
+	        "data-unread-count": getUnreadCount(item)
+	      }
+	    }, [_h('div', {
+	      staticClass: "head-circle-name"
+	    }, [_h('h3', {
+	      style: ('color:' + getColor(item.name) + '')
+	    }, [_s(item.name)])])]), " ", _h('p', [_s(item.name)]), " ", _h('i', [_s(item.record[item.record.length - 1].data)]), " ", _h('span', [_s(item.record[item.record.length - 1].timestamp)])])])])]
+	  })])]), " ", _h('div', {
+	    staticClass: "roster-list-container"
+	  }, [_h('ul', {
+	    staticClass: "roster-list"
+	  }, [_l((rosterList), function(item) {
+	    return [_h('router-link', {
+	      attrs: {
+	        "to": '/webim-chat?type=1&chat_name=' + item.name
+	      }
+	    }, [_h('li', {
+	      attrs: {
+	        "data-id": getIdFromJid(item.jid)
+	      }
+	    }, [_h('div', {
+	      staticClass: "li-wrap"
+	    }, [_h('div', {
+	      staticClass: "head-circle-name"
+	    }, [_h('h3', {
+	      style: ('color:' + getColor(item.name) + '')
+	    }, [_s(item.name)])]), "\n                                " + _s(item.name) + "\n                            "])])])]
+	  })])]), " ", _h('div', {
+	    staticClass: "group-list-container"
+	  }, [_h('ul', {
+	    staticClass: "group-list"
+	  }, [_l((groupList), function(item) {
+	    return [_h('router-link', {
+	      attrs: {
+	        "to": '/webim-chat?type=2&chat_name=' + item.name
+	      }
+	    }, [_h('li', {
+	      attrs: {
+	        "data-id": item.roomId
+	      }
+	    }, [_h('div', {
+	      staticClass: "li-wrap"
+	    }, ["\n                            " + _s(item.name) + "\n                            "])])])]
+	  })])]), " ", _h('div', {
+	    staticClass: "black-list-container"
+	  }, [_h('ul', {
+	    staticClass: "black-list"
+	  }, [_l((blackList), function(item) {
+	    return _h('li', [_h('div', {
+	      staticClass: "li-wrap"
+	    }, [_h('div', {
+	      staticClass: "head-circle-name"
+	    }, [_h('h3', {
+	      style: ('color:' + getColor(item.name) + '')
+	    }, [_s(item.name)])]), "\n                        " + _s(item.name) + "\n                    "])])
+	  })])])]), " ", _m(0)])])
+	}},staticRenderFns: [function (){with(this) {
+	  return _h('ul', {
+	    attrs: {
+	      "id": "tabbar"
+	    }
+	  }, [_h('li', {
+	    staticClass: "actived"
+	  }, [_h('i', {
+	    staticClass: "fa fa-commenting"
+	  }), _h('p', ["聊天"])]), " ", _h('li', [_h('i', {
+	    staticClass: "fa fa-user"
+	  }), _h('p', ["所有"])]), " ", _h('li', [_h('i', {
+	    staticClass: "fa fa-users"
+	  }), _h('p', ["群组"])]), " ", _h('li', [_h('i', {
+	    staticClass: "fa fa-user-times"
+	  }), _h('p', ["黑名单"])])])
+	}}]}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-cd2864bc", module.exports)
+	  }
+	}
+
+/***/ },
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function(window){
-	    __webpack_require__(168);
+	    __webpack_require__(186);
 	    var tmp = '<div class="loading-wrap"><div class="loading-preloader">' +
 	        '        <span></span>' +
 	        '        <span></span>' +
@@ -15055,7 +17197,7 @@ webpackJsonp([0],[
 	})(window);
 
 /***/ },
-/* 168 */
+/* 186 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
