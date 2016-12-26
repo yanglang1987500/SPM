@@ -53,6 +53,9 @@ $ node app.js
  ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-10.png)
  ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-11.png)
 
+ ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-12.png)
+ ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-13.png)
+
 
 ### PC端示例图
 
