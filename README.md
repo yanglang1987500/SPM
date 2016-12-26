@@ -33,7 +33,7 @@ $ node app.js
 示例图
 ----
 
-###移动端示例图
+### 移动端示例图
 
  ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-0.png)
  ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-1.png)
@@ -54,7 +54,7 @@ $ node app.js
  ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-11.png)
 
 
- ###PC端示例图
+### PC端示例图
 
  ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-1.jpg)
  ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-2.jpg)
