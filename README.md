@@ -35,4 +35,4 @@ $ node app.js
 
 PC端示例图
 
- ![image](https://github.com/yanglang1987500/spm/screenshot/192.168.1.109-8080-h5(iPhone 4) (1).png)
+ ![image](https://github.com/yanglang1987500/spm/screenshot/192.168.1.109-8080-0.png)
