@@ -33,7 +33,7 @@ $ node app.js
 示例图
 ----
 
-PC端示例图
+###移动端示例图
 
  ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-0.png)
  ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-1.png)
@@ -49,6 +49,23 @@ PC端示例图
 
  ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-8.png)
  ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-9.png)
- 
+
  ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-10.png)
  ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-11.png)
+
+
+ ###PC端示例图
+
+ ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-1.jpg)
+ ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-2.jpg)
+ ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-3.jpg)
+ ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-4.jpg)
+ ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-5.jpg)
+ ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-6.jpg)
+ ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-7.jpg)
+ ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-8.jpg)
+ ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-9.jpg)
+ ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-10.jpg)
+ ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-11.jpg)
+ ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-12.jpg)
+ ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-13.jpg)
