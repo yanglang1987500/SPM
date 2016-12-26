@@ -1,7 +1,6 @@
 [RenderCloud](https://github.com/yanglang1987500/spm) — SPM权限管理平台
 ==================================================
 
- ![link](https://github.com/yanglang1987500/SPM/blob/master/screenshot/style.css)
 
 简介
 ----
