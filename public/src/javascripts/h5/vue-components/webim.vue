@@ -5,12 +5,27 @@
                 v-on:before-leave="beforeLeave"
                 v-bind:css="false">
     <div class="router-view" id="webim-container"  :style="'min-height:'+WINHEIGHT+'px'">
-        <navigator navigator-title="家校互通" ></navigator>
-        <div class="content-wrap">
+        <navigator navigator-title="家校互通" :navigatorRightBtnClass="tabIndex == 1?'fa fa-search':((tabIndex)==2?'fa fa-search':'')" :on-navigator-right-btn-click="onNavigatorRightBtnClick"></navigator>
+        <div class="content-wrap" :style="'transform:translate3d('+(-tabIndex*7.5)+'rem,0,0)'">
             <div class="chat-list-container">
                 <ul class="chat-list" >
                     <template v-for="item in chatList" >
-                        <router-link v-bind:to="'/webim-chat?type=1&chat_name='+item.name">
+
+                        <router-link @click.native="routerClick" v-if="item.type == 'subscribe'" v-bind:to="'/webim-subscribe-list'">
+                            <li :data-id="item.id" :data-name="item.name">
+                                <div class="li-wrap">
+                                    <div :class="['head-wrap',{'unread-msg':getUnreadCount(item)>0,'unread-msg-lg9':getUnreadCount(item)>9}]"  :data-unread-count="getUnreadCount(item)">
+                                        <div class="head-circle-name">
+                                            <h3 :style="'color:'+getColor(item.name)+''">{{item.name}}</h3>
+                                        </div>
+                                    </div>
+                                    <p>{{item.name}}</p>
+                                    <i>{{item.record[item.record.length-1].from+'：'+item.record[item.record.length-1].status}}</i>
+                                    <span>{{item.record[item.record.length-1].timestamp}}</span>
+                                </div>
+                            </li>
+                        </router-link>
+                        <router-link @click.native="routerClick" v-else v-bind:to="'/webim-chat?type='+(item.type==='chat'?1:2)+'&chat_name='+item.name+'&roomId='+item.roomId">
                             <li :data-id="item.id" :data-name="item.name">
                                 <div class="li-wrap">
                                     <div :class="['head-wrap',{'unread-msg':getUnreadCount(item)>0,'unread-msg-lg9':getUnreadCount(item)>9}]"  :data-unread-count="getUnreadCount(item)">
@@ -30,7 +45,7 @@
             <div class="roster-list-container">
                 <ul class="roster-list">
                     <template v-for="item in rosterList" >
-                        <router-link v-bind:to="'/webim-chat?type=1&chat_name='+item.name">
+                        <router-link @click.native="routerClick" v-bind:to="'/webim-chat?type=1&chat_name='+item.name">
                             <li :data-id="getIdFromJid(item.jid)">
                                 <div class="li-wrap">
                                     <div class="head-circle-name"><h3 :style="'color:'+getColor(item.name)+''">{{item.name}}</h3></div>
@@ -44,7 +59,7 @@
             <div class="group-list-container">
                 <ul class="group-list">
                     <template v-for="item in groupList" >
-                        <router-link v-bind:to="'/webim-chat?type=2&chat_name='+item.name">
+                        <router-link @click.native="routerClick" v-bind:to="'/webim-chat?type=2&chat_name='+item.name+'&roomId='+item.roomId">
                             <li :data-id="item.roomId">
                                 <div class="li-wrap">
                                 {{item.name}}
@@ -66,10 +81,10 @@
             </div>
         </div>
         <ul id="tabbar">
-           <li class="actived"><i class="fa fa-commenting"></i><p>聊天</p></li>
-           <li><i class="fa fa-user"></i><p>所有</p></li>
-           <li><i class="fa fa-users"></i><p>群组</p></li>
-           <li><i class="fa fa-user-times"></i><p>黑名单</p></li>
+           <li :class="[{actived:(tabIndex==0)}]"><i class="fa fa-commenting"></i><p>聊天</p></li>
+           <li :class="[{actived:(tabIndex==1)}]"><i class="fa fa-user"></i><p>所有</p></li>
+           <li :class="[{actived:(tabIndex==2)}]"><i class="fa fa-users"></i><p>群组</p></li>
+           <li :class="[{actived:(tabIndex==3)}]"><i class="fa fa-user-times"></i><p>黑名单</p></li>
         </ul>
     </div>
     </transition>
@@ -100,13 +115,23 @@
                 }
             });
             return count;
+        },
+        onNavigatorRightBtnClick:function(){
+            var $li = $('#tabbar li.actived'),index = $li.index();
+            if(index == 0 || index == 3)
+                return;
+
+            Events.notify('route:isReturn',false);
+            this.$router.push('/webim-search?type='+index);
         }
     };
     utils.animation.process(methods);
     module.exports = {
         module:'/webim',
         data:function(){
-            return {WINHEIGHT:window.HEIGHT};
+            return {
+                WINHEIGHT:window.HEIGHT
+            };
         },
         methods:methods,
         components:{navigator:navigator},
@@ -122,26 +147,26 @@
             },
             blackList:function(){
                 return this.$store.state.blackList;
+            },
+            tabIndex:function(){
+                return this.$store.state.webIMTabIndex;
             }
         },
         destroyed:function(){
         },
         mounted:function() {
-            var theme ;
-            if(theme = localStorage.getItem(THEME_KEY)){
-                $('.theme-item').removeClass('actived');
-                $('.theme-item[data-value='+theme+']').addClass('actived');
-            }
+            var that = this ;
             this.WINHEIGHT = window.HEIGHT;
             $('#tabbar').on('click','li',function(){
-                var $this = $(this);
-                $this.parent().children().removeClass('actived');
-                $this.addClass('actived');
-                $('.content-wrap>div').hide().eq($this.index()).show();
+                var $this = $(this),index = $this.index();
+                selectTab(that,index);
             });
         }
     };
 
+    function selectTab(context,index){
+        context.$store.commit('setWebIMTabIndex',index);
+    }
 
 </script>
 

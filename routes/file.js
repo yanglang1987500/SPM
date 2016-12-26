@@ -22,7 +22,7 @@ router.post('/file/upload', function (req, res, next) {
             res.json(utils.returns([err,null]));
         } else {
             console.log('parse files: ' + filesTmp);
-            var inputFile = files.imgFile[0];
+            var inputFile = files.upfile[0];
             var filename = utils.guid();
             var filetype = inputFile.originalFilename.match(/.*\.(.*)$/)[1];
             var uploadedPath = inputFile.path;

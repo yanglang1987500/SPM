@@ -8,11 +8,15 @@
   }
   .content-wrap {
     padding-bottom: .9rem;
+    overflow-x:hidden;
+    width:7.5*4rem;
+    transform: translate3d(0,0,0);
+    transition:transform 0.5s ease;
     & > div {
-      display: none;
-    }
-    & > div:first-child {
       display: block;
+      width:7.5rem;
+      float:left;
+      min-height:7rem;
     }
     .roster-list {
       li {
@@ -41,14 +45,14 @@
           overflow: hidden;
           box-shadow: 0 0 .12rem rgba(0, 0, 0, .3);
           h3 {
-            width: 1.5rem;
+            width: 1rem;
             font-size: .6rem;
             line-height: .8rem;
             text-align: center;
             color: #c1c1c1;
             position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+         /*   left: 50%;
+            transform: translateX(-50%);*/
           }
         }
       }
@@ -68,7 +72,8 @@
           background-color: #DEECF8;
         }
         p {
-          color: #363636;
+          color: #484848;
+          font-size:.4rem;
           line-height: .8rem;
           font-family: Arial, "MicroSoft Yahei";
         }
@@ -103,14 +108,14 @@
             box-shadow: 0 0 .12rem rgba(0, 0, 0, .3);
 
             h3 {
-              width: 1.5rem;
+              width: 1rem;
               font-size: .6rem;
               line-height: 1rem;
               text-align: center;
               color: #c1c1c1;
               position: absolute;
-              left: 50%;
-              transform: translateX(-50%);
+              /*left: 50%;
+              transform: translateX(-50%);*/
             }
           }
           &.unread-msg[data-unread-count]:before {
@@ -181,14 +186,14 @@
           overflow: hidden;
           box-shadow: 0 0 .12rem rgba(0, 0, 0, .3);
           h3 {
-            width: 1.5rem;
+            width: 1rem;
             font-size: .6rem;
             line-height: .8rem;
             text-align: center;
             color: #c1c1c1;
             position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+            /*left: 50%;
+            transform: translateX(-50%);*/
           }
         }
       }

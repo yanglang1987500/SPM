@@ -5,6 +5,19 @@
 var menu = [];
 var utils = require('./utils/utils');
 
+/**
+ * 添加本地模块
+ * @param arr
+ */
+function loadComponent(modules){
+    //先将homepage路由加入
+    modules.push({path:'/',component:require('./vue-components/homepage.vue')});
+    modules.push({path:'/webim-chat',component:require('./vue-components/webim-chat.vue')});
+    modules.push({path:'/webim-search',component:require('./vue-components/webim-search.vue')});
+    modules.push({path:'/webim-detail',component:require('./vue-components/webim-detail.vue')});
+    modules.push({path:'/webim-subscribe-list',component:require('./vue-components/webim-subscribe-list.vue')});
+}
+
 module.exports = {
     load:function(callback){
         var arr = [];
@@ -13,9 +26,7 @@ module.exports = {
                 return;
             }
             var menuList = data.data;
-            //先将homepage路由加入
-            arr.push({path:'/',component:require('./vue-components/homepage.vue')});
-            arr.push({path:'/webim-chat',component:require('./vue-components/webim-chat.vue')});
+            loadComponent(arr);
             for(var i = 0,len = menuList.length;i<len;i++){
                 if(menuList[i].menu_device == '1')
                     continue;

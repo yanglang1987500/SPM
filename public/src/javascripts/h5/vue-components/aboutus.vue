@@ -34,7 +34,7 @@
     };
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass" rel="stylesheet/scss" scoped>
     #aboutus-container{
         .content-wrap{
             text-align: center;

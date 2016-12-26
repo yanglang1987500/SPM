@@ -8,14 +8,18 @@
 
 /**=======================================扩展动画===========================================**/
 var Velocity = require('../../libs/velocity.min');
-var isReturn = false;
+var isReturn = false, intervene = false;//是否主动介入 主动介入由isReturn控制，否则根据prePath currentPath控制（有缺陷）
 Events.subscribe('route:isReturn',function(flag){
     isReturn = flag;
+    intervene = true;
+    setTimeout(function(){
+        intervene = false;
+    },50);
 });
 var count = 999, prePath = '',currentPath = '',DURATION = 300;
 var fns = {
     beforeEnter:function(el){
-        if(prePath == this.$route.matched[0].path){
+        if(prePath == this.$route.matched[0].path && !intervene){
             isReturn = true;
             setTimeout(function(){
                 isReturn = false;
@@ -30,6 +34,7 @@ var fns = {
             'height':'0px',
             'opacity':isReturn?1:0
         });
+        //console.log(isReturn);
         Velocity(el, { translateX: isReturn?'-20%':'100%' }, { duration: 0 });
     },
     afterEnter:function(el){
@@ -44,7 +49,7 @@ var fns = {
             $(el).css({
                 opacity:1,
                 'min-height':window.HEIGHT+'px',
-                'height':'auto',
+                'height':'auto'
             });
         },50);
         Velocity(el, { translateX: '0%' },{complete:done,duration: isReturn?DURATION:DURATION});
@@ -59,6 +64,9 @@ var fns = {
             transform:null
         });
         $("body").scrollTop(0);
+    },
+    routerClick:function(){
+        Events.notify('route:isReturn',false);
     }
 };
 var fns_homepage = {

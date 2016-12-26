@@ -56,7 +56,7 @@
     };
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass" rel="stylesheet/scss" scoped>
     .popup-wrap{
         display:none;
         position:fixed;

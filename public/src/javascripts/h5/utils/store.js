@@ -5,16 +5,19 @@ var Vue = require('vue');
 var Vuex = require('vuex');
 Vue.use(Vuex);
 
+var __list = localStorage.getItem('WebIMCurChatList_'+UserInfo.username),Arr = [];
 const store = window.store = new Vuex.Store({
     state:{
         webIMConn:null,//连接
         rosterList:[],//好友列表,
-        curChatList:[],//当前聊天列表
+        curChatList:__list?JSON.parse(__list):[],//当前聊天列表
         groupList:[],
-        blackList:[]
+        blackList:[],
+        webIMTabIndex:0
     },
     mutations:{
         setUsername:function (state,username) {
+            console.log('setUserName'+username);
             state.username = username;
         },
         setConn:function(state,conn){
@@ -38,26 +41,115 @@ const store = window.store = new Vuex.Store({
          * @param message
          */
         addMessage:function(state,message){
-            var list = state.curChatList, curChat = null;
-            list.forEach(function(item,index){
-                if(item.name == message.chat_name){
-                    curChat = item;
-                }
-            });
-            if(curChat){
-                curChat.record.push(message);
-            }else{
-                store.commit('addChat',{
-                    name: message.chat_name,
-                    id: message.id,
-                    type:message.type,
-                    record: [
-                        message
-                    ]
-                });
+            console.log('addMessage');
+            if(message.type === 'chat'){
+                StoreUtil.addChatMessage(state,message);
+            }else if(message.type === 'groupchat'){
+                StoreUtil.addGroupMessage(state,message);
+            }else if(message.type === 'subscribe'){
+                StoreUtil.addSubcribeMessage(state,message);
             }
+
+            Events.notify('WebIMSaveChatList');
+        },
+        setWebIMTabIndex:function(state,index){
+            state.webIMTabIndex = index;
         }
     },
 });
+Events.subscribe('WebIMSaveChatList',function(){
+    localStorage.setItem('WebIMCurChatList_'+UserInfo.username,JSON.stringify(store.state.curChatList));
+});
+var StoreUtil = {
+    addChatMessage:function(state,message){
+        var list = state.curChatList, curChat = null, index = null;
+        list.forEach(function(item,i){
+            if(item.name == message.chat_name){
+                curChat = item;
+                index = i;
+            }
+        });
+        if(curChat){
+            curChat.record.push(message);
+            list.splice(index,1);
+            list.splice(0,0,curChat);
+        }else{
+            store.commit('addChat',{
+                name: message.chat_name,
+                id: message.id,
+                type:message.type,
+                record: [
+                    message
+                ]
+            });
+        }
+    },
+    addGroupMessage:function(state,message,recall){
+        var list = state.curChatList, curChat = null ,index = null;
+        list.forEach(function(item,i){
+            if(item.roomId == message.to){
+                curChat = item;
+                index = i;
+            }
+        });
+        if(curChat){
+            curChat.record.push(message);
+            list.splice(index,1);
+            list.splice(0,0,curChat);
+        }else{
+            //获取群组信息
+            var groupInfo;
+            state.groupList.forEach(function(item,index){
+                if(item.roomId == message.to){
+                    groupInfo = item;
+                }
+            });
+            if(!groupInfo)//暂时：群组不存在，延时处理，并且只延时一次，第二次直接放弃。
+            {
+                var callee = arguments.callee, args = arguments, that = this;
+                !recall && setTimeout(function(){
+                    callee.apply(that,Arr.slice.call(args,0).concat([true]));
+                },500);
+                return;
+            }
+            store.commit('addChat',{
+                roomId: groupInfo.roomId,//群组id
+                name:groupInfo.name,
+                id: message.id,
+                type:message.type,
+                record: [
+                    message
+                ]
+            });
+        }
+    },
+    addSubcribeMessage:function(state,message){
+        var list = state.curChatList, subcribeChat = null ,index = null;
+        list.forEach(function(item,i){
+            if(item.type == 'subscribe'){
+                subcribeChat = item;
+                index = i;
+            }
+        });
+        !message.accept_type && (message.accept_type = 1);//1 尚未决定 2 已添加 3 已拒绝
+        if(subcribeChat){
+            for(var i = 0;i<subcribeChat.record.length;i++){
+                if(subcribeChat.record[i].fromJid == message.fromJid && subcribeChat.record[i].accept_type !=3)
+                    return;
+            }
+            subcribeChat.record.push(message);
+            list.splice(index,1);
+            list.splice(0,0,subcribeChat);
+        }else{
+            store.commit('addChat',{
+                name:'好友请求',
+                type:'subscribe',
+                record: [
+                    message
+                ]
+            });
+        }
+    }
+};
 
 module.exports = store;

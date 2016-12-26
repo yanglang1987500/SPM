@@ -1,0 +1,199 @@
+@charset "UTF-8";
+
+
+.uialert_content ::-webkit-input-placeholder{
+	color: #737b7e;
+}
+
+.uialert {
+    width:80%;
+    background: #fff;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    z-index: 100000;
+    visibility: hidden;
+    font-family: MicroSoft Yahei;
+    text-align: center;
+    font-size:.6rem;
+    z-index: 100000;
+    box-shadow: 0px 0px 15px rgba(36, 36, 36, 0.4);
+    border-radius: 10px;
+}
+.uialert button{
+    font-family: MicroSoft Yahei;
+}
+.uialert.show{
+    visibility: visible;
+}
+
+.uialert .uialert_inner .h2{
+	padding-top: .1rem;
+	font-size: .5rem;
+    color: #464646;
+	border-bottom: none;
+    font-weight:normal;
+	background: transparent;
+}
+
+.uialert .uialert_content {
+	padding:.3rem 0;
+	position: relative;
+}
+
+.uialert button.action {
+    color: #74716D;
+    text-decoration: none;
+    outline: none;
+    width:80%;
+    display:block;
+    margin:8px auto;
+}
+
+.uialert button.action {
+    border-radius:.2rem;
+    outline: none;
+    font-weight: 600;
+    border: none;
+    color: #fff;
+    background: #fff;
+    font-size: .3rem;
+}
+
+.uialert_mask{
+    background:#333333;
+    width:100%;
+    height:100%;
+    position: fixed;
+    left:0;
+    top:0;
+    z-index: 99999;
+    visibility: hidden;
+    opacity: 0;
+    transition: all .3s ease;
+}
+.uialert_mask.show{
+    visibility: visible;
+    opacity: 0.7;
+}
+
+
+.uialert.dialog-open,
+.uialert.dialog-close {
+    -webkit-animation-duration: 0.4s;
+    animation-duration: 0.4s;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+
+.uialert.dialog-open {
+    -webkit-animation-name: anim-open;
+    animation-name: anim-open;
+    -webkit-animation-timing-function: cubic-bezier(0.6,0,0.4,1);
+    animation-timing-function: cubic-bezier(0.6,0,0.4,1);
+}
+
+.uialert.dialog-close{
+    -webkit-animation-name: anim-close;
+    animation-name: anim-close;
+}
+
+/*confirm对话框输入*/
+.uialert_input{
+	width: 100%;
+	padding: 10px 0 0;
+}
+.uialert_input input{
+	width: 82%;
+	height: 38px;
+	line-height: 38px;
+	margin: 0 auto;
+	border: 1px solid #ededed;
+	padding:0.2em 0.4em;
+	font-size: 16px;
+	border-radius:0;
+	box-shadow: none;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+.uialert .uialert_content .h3{
+	line-height: 1.5;
+	text-align: center;
+	color: #364850;
+	font-size: 16px;
+	margin:0;
+	padding: 0 4%;
+}
+
+.uialert .uialert_content p{
+	font-size: 16px;
+}
+
+.uialert .uialert_content .uialert_tips{
+	font-size: 12px;
+	color: #737b7e;
+	line-height: 30px;
+}
+
+.uialert .closeAlert{
+	position: absolute;
+	top: 14px;
+	right: 12px;
+	width: 26px;
+	height: 26px;
+	background: url(./icon_tc_close@2x.png) 0 0 no-repeat;
+	background-size: 100%;
+	cursor: pointer;
+}
+
+.uialert button.action {
+    text-decoration: none;
+    outline: none;
+    width:50%;
+    display:inline-block;
+    outline: none;
+    font-weight: normal;
+    border: 1px solid #ededed;
+    border-bottom:none;
+    border-left:none;
+    color: #25b8f5;
+    font-size: .4rem;
+    height:1rem;
+
+    line-height:1rem;
+    float: right;
+    margin:0;
+    border-radius: 0;
+}
+
+.uialert button:first-child{
+	border-radius: 0 0 .4rem 0;
+}
+.uialert button:last-child{
+	border-radius: 0 0 0 .4rem;
+}
+.uialert button.action:active{
+	opacity: 0.7;
+}
+
+@-webkit-keyframes anim-open {
+    0% { opacity: 0; -webkit-transform: scale3d(0, 0, 1); }
+    100% { opacity: 1; -webkit-transform: scale3d(1, 1, 1); }
+}
+
+@keyframes anim-open {
+    0% { opacity: 0; -webkit-transform: scale3d(0, 0, 1); transform: scale3d(0, 0, 1); }
+    100% { opacity: 1; -webkit-transform: scale3d(1, 1, 1); transform: scale3d(1, 1, 1); }
+}
+
+@-webkit-keyframes anim-close {
+    0% { opacity: 1; }
+    100% { opacity: 0; -webkit-transform: scale3d(0.5, 0.5, 1); }
+}
+
+@keyframes anim-close {
+    0% { opacity: 1; }
+    100% { opacity: 0; -webkit-transform: scale3d(0.5, 0.5, 1); transform: scale3d(0.5, 0.5, 1); }
+}

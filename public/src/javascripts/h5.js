@@ -5,6 +5,7 @@
 require('../stylesheets/h5.scss');
 require('../stylesheets/vue-styles/theme.scss');
 var FastClick = require('./libs/fastclick');
+require('./libs/calendar');
 var Vue = require('vue');
 var VueRouter = require('vue-router');
 Vue.use(VueRouter);

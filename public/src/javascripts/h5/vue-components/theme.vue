@@ -53,7 +53,7 @@
     };
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass" rel="stylesheet/scss" scoped>
     #theme-container{
         .content-wrap{
             text-align: center;

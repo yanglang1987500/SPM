@@ -106,6 +106,6 @@
     };
 </script>
 
-<style lang="sass" >
+<style lang="sass" rel="stylesheet/scss">
     @import "../../../stylesheets/vue-styles/repair-report.scss";
 </style>

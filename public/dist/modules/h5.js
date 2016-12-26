@@ -1,4 +1,4 @@
-webpackJsonp([0,3],[
+webpackJsonp([0],[
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -9,15 +9,16 @@ webpackJsonp([0,3],[
 	__webpack_require__(1);
 	__webpack_require__(6);
 	var FastClick = __webpack_require__(13);
-	var Vue = __webpack_require__(14);
-	var VueRouter = __webpack_require__(15);
+	__webpack_require__(14);
+	var Vue = __webpack_require__(15);
+	var VueRouter = __webpack_require__(16);
 	Vue.use(VueRouter);
 
-	var Events = __webpack_require__(16);
-	var loader = __webpack_require__(17);
-	__webpack_require__(185);
-	var WebIM = __webpack_require__(111);
-	var store = __webpack_require__(109);
+	var Events = __webpack_require__(17);
+	var loader = __webpack_require__(18);
+	__webpack_require__(196);
+	var WebIM = __webpack_require__(112);
+	var store = __webpack_require__(110);
 
 	/**
 	 * 加载路由配置
@@ -989,7 +990,8 @@ webpackJsonp([0,3],[
 
 
 /***/ },
-/* 14 */
+/* 14 */,
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -8510,7 +8512,7 @@ webpackJsonp([0,3],[
 
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -10352,172 +10354,8 @@ webpackJsonp([0,3],[
 	})));
 
 /***/ },
-/* 16 */
-/***/ function(module, exports) {
-
-	/** ========================提供事件订阅机制=========================== **/
-	var __Events = {},
-	    toBeNotify = [],
-	    toBeCall = [],
-	    isCalling = false,
-	    windowLoaded = false,
-	    QUEUE_TIMEOUT = 30,//队列执行间隔时长
-	    EVENT_PREFIX = 'TEMPORARYEVENT';//临时事件名称前缀，后缀为_+时间缀
-	typeof window == 'undefined'?(window ={}):'';
-
-	var Events = window.Events = {
-	    EVENT_PREFIX:EVENT_PREFIX,
-	    addMethod:function(methodName,method){
-	        var that = this;
-	        if(typeof method === 'function' && this[methodName] == undefined){
-	            this[methodName] = function(){
-	                return method.apply(that,toBeNotify.slice.call(arguments,0));
-	            };
-	        }
-	        return this;
-	    },
-	    /**
-	     * 触发一个事件
-	     * @method notify
-	     * @param eventName 事件名称
-	     * @param data 事件数据 PS：现在支持变参，除了eventName,data以外还可以添加任意参数
-	     * @returns {Events}
-	     */
-	    notify:function(eventName,data){
-	        var eventNames = eventName.split(' '),result = {};
-	        for(var key in eventNames){
-	            var _eventName = eventNames[key];
-	            result[_eventName] = [];
-	            var eventList = __Events[_eventName],i = 0;
-	            if(eventList){
-	                var len = eventList.length;
-	                for(;i < len;i++ ){
-	                    eventList[i].apply(this,toBeNotify.slice.call(arguments,1));
-	                }
-	            }else{
-	                toBeNotify.push({
-	                    eventName:_eventName,
-	                    data:toBeNotify.slice.call(arguments,1),
-	                    scope:this
-	                });//暂时存入待触发列表
-	            }
-	            //若为临时事件，则通知一次之后马上注销
-	            if(new RegExp('^'+EVENT_PREFIX+'(_\\d+)$').test(_eventName))
-	                this.unsubscribe(_eventName);
-	        }
-
-	        return this;
-	    },
-	    /**
-	     * 给定作用域触发一个事件
-	     * @param eventName 事件名称
-	     * @param scope 作用域
-	     * @param data 事件数据，支持变参
-	     */
-	    notifyWith:function(eventName,scope,data){
-	        if (arguments.length<2)
-	            throw new TypeError('按作用域触发事件请提供事件名称与作用域');
-	        this.notify.apply(scope, [eventName].concat(toBeNotify.slice.call(arguments,2)));
-	    },
-	    /**
-	     * 订阅一个事件
-	     * @method subscribe
-	     * @param eventName 事件名称
-	     * @param callback 事件回调
-	     */
-	    subscribe: function (eventName, callback) {
-	        var i = 0,len = toBeNotify.length;
-	        if (arguments.length<2)
-	            throw new TypeError('订阅事件请提供事件名称与事件回调');
-
-	        var eventList = __Events[eventName]?__Events[eventName]:(__Events[eventName]=[]);
-	        eventList = Object.prototype.toString.call(callback) === '[object Array]'?eventList.concat(callback):eventList.push(callback);
-	        for(;i<len;i++){
-	            if(toBeNotify[i].eventName === eventName){
-	                //移除并触发之前已准备触发的事件
-	                this.notify.apply(toBeNotify[i].scope , [eventName].concat(toBeNotify[i].data));
-	                toBeNotify.splice(i,1);
-	                break;
-	            }
-	        }
-	        return this;
-	    },
-	    /**
-	     * 取消订阅事件
-	     * @method unsubscribe
-	     * @param eventName 事件名称
-	     */
-	    unsubscribe: function(eventName,callback){
-	        if(callback){
-	            var callbacks = __Events[eventName];
-	            if(callbacks)
-	                for(var i = 0; i< callbacks.length ; i++){
-	                    if(callbacks[i] === callback){
-	                        callbacks.splice(i--,1);
-	                    }
-	                }
-	        }else
-	            delete __Events[eventName];
-	        return this;
-	    },
-	    /**
-	     * 列队执行 无参时代表调起队列开始执行
-	     * @param callback 回调方法
-	     */
-	    queue:function(callback){
-	        if(arguments.length == 0 && !isCalling){
-	            _reCall();
-	            return this;
-	        }
-	        if(isCalling || !windowLoaded){
-	            toBeCall.push(callback);
-	            return this;
-	        }
-
-	        isCalling = true;
-	        callback();
-
-	        setTimeout(_reCall,QUEUE_TIMEOUT);
-	        function _reCall(){
-	            var flag = false;
-	            for(var i = 0;i < toBeCall.length;i++) {
-	                flag = true;
-	                toBeCall[i].call();
-	                setTimeout(arguments.callee,QUEUE_TIMEOUT);
-	                toBeCall.splice(i,1);
-	                break;
-	            }
-	            isCalling = flag;
-	        }
-	        return this;
-	    },
-	    isIOS9:(navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i)) && Boolean(navigator.userAgent.match(/OS [9]_\d[_\d]* like Mac OS X/i)),
-	    isMobile:/Mobile/g.test(navigator.userAgent),
-	    isIOS:(navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i)),
-	    ORIENTATION_LANDSCAPE:1,//横屏
-	    ORIENTATION_PORTRAIT:0,//竖屏
-	    orientation:0
-	};
-	//APP内 或 APP外且非IOS9
-	if(!Events.isBrowser || (Events.isBrowser && !Events.isIOS9) ){
-	    //app内直接设置为true不需要缓冲
-	    windowLoaded = true;
-	}else{
-	    if(document.readyState === 'complete'){
-	        windowLoaded = true;
-	    }else{
-	        window.addEventListener('load',function(){
-	            windowLoaded = true;
-	            Events.queue();
-	        });
-	    }
-	}
-	/** =================================================== **/
-
-	module.exports = Events;
-
-/***/ },
-/* 17 */
+/* 17 */,
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -10525,7 +10363,20 @@ webpackJsonp([0,3],[
 	 */
 
 	var menu = [];
-	var utils = __webpack_require__(18);
+	var utils = __webpack_require__(19);
+
+	/**
+	 * 添加本地模块
+	 * @param arr
+	 */
+	function loadComponent(modules){
+	    //先将homepage路由加入
+	    modules.push({path:'/',component:__webpack_require__(23)});
+	    modules.push({path:'/webim-chat',component:__webpack_require__(106)});
+	    modules.push({path:'/webim-search',component:__webpack_require__(120)});
+	    modules.push({path:'/webim-detail',component:__webpack_require__(186)});
+	    modules.push({path:'/webim-subscribe-list',component:__webpack_require__(433)});
+	}
 
 	module.exports = {
 	    load:function(callback){
@@ -10535,9 +10386,7 @@ webpackJsonp([0,3],[
 	                return;
 	            }
 	            var menuList = data.data;
-	            //先将homepage路由加入
-	            arr.push({path:'/',component:__webpack_require__(22)});
-	            arr.push({path:'/webim-chat',component:__webpack_require__(105)});
+	            loadComponent(arr);
 	            for(var i = 0,len = menuList.length;i<len;i++){
 	                if(menuList[i].menu_device == '1')
 	                    continue;
@@ -10545,20 +10394,20 @@ webpackJsonp([0,3],[
 	                if(menuList[i]['menu_url']){
 	                    var flag = /\/h5\/(.*)/.test(menuList[i]['menu_url']);
 	                    if(flag){
-	                        var mod = __webpack_require__(118)("./"+RegExp.$1+'.vue');
+	                        var mod = __webpack_require__(125)("./"+RegExp.$1+'.vue');
 	                        arr.push({path:mod.module,component:mod});
 	                        menuList[i].path = '/'+RegExp.$1;
 	                        menu.push(menuList[i]);
 	                    }
 	                }else{
-	                    var mod = __webpack_require__(152);
+	                    var mod = __webpack_require__(158);
 	                    arr.push({path:mod.module,component:mod});
 	                    menuList[i].path = '/menu-second?menu_id='+menuList[i]['menu_id'];
 	                    menu.push(menuList[i]);
 	                }
 
 	            }
-	            arr.push({path:'*',component:__webpack_require__(22)});
+	            arr.push({path:'*',component:__webpack_require__(23)});
 	            callback && callback(arr);
 	        });
 	  /*      modules.forEach(function(item){
@@ -10573,7 +10422,7 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -10585,15 +10434,19 @@ webpackJsonp([0,3],[
 
 
 	/**=======================================扩展动画===========================================**/
-	var Velocity = __webpack_require__(19);
-	var isReturn = false;
+	var Velocity = __webpack_require__(20);
+	var isReturn = false, intervene = false;//是否主动介入 主动介入由isReturn控制，否则根据prePath currentPath控制（有缺陷）
 	Events.subscribe('route:isReturn',function(flag){
 	    isReturn = flag;
+	    intervene = true;
+	    setTimeout(function(){
+	        intervene = false;
+	    },50);
 	});
 	var count = 999, prePath = '',currentPath = '',DURATION = 300;
 	var fns = {
 	    beforeEnter:function(el){
-	        if(prePath == this.$route.matched[0].path){
+	        if(prePath == this.$route.matched[0].path && !intervene){
 	            isReturn = true;
 	            setTimeout(function(){
 	                isReturn = false;
@@ -10608,6 +10461,7 @@ webpackJsonp([0,3],[
 	            'height':'0px',
 	            'opacity':isReturn?1:0
 	        });
+	        //console.log(isReturn);
 	        Velocity(el, { translateX: isReturn?'-20%':'100%' }, { duration: 0 });
 	    },
 	    afterEnter:function(el){
@@ -10622,7 +10476,7 @@ webpackJsonp([0,3],[
 	            $(el).css({
 	                opacity:1,
 	                'min-height':window.HEIGHT+'px',
-	                'height':'auto',
+	                'height':'auto'
 	            });
 	        },50);
 	        Velocity(el, { translateX: '0%' },{complete:done,duration: isReturn?DURATION:DURATION});
@@ -10637,6 +10491,9 @@ webpackJsonp([0,3],[
 	            transform:null
 	        });
 	        $("body").scrollTop(0);
+	    },
+	    routerClick:function(){
+	        Events.notify('route:isReturn',false);
 	    }
 	};
 	var fns_homepage = {
@@ -10824,7 +10681,7 @@ webpackJsonp([0,3],[
 	/**=======================================扩展AJAX===========================================**/
 
 	//扩展加密解密
-	var Crypto = __webpack_require__(20);
+	var Crypto = __webpack_require__(21);
 
 
 
@@ -10853,7 +10710,7 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! VelocityJS.org (1.2.3). (C) 2014 Julian Shapiro. MIT @license: en.wikipedia.org/wiki/MIT_License */
@@ -10862,367 +10719,18 @@ webpackJsonp([0,3],[
 	}),m.queue(d,p.isString(s)?s:"",[])),"stop"===q?(g(d)&&g(d).tweensContainer&&f!==!1&&m.each(g(d).tweensContainer,function(a,b){b.endValue=b.currentValue}),D.push(a)):("finish"===q||"finishAll"===q)&&(b[2].duration=1))}):!0})}),"stop"===q&&(m.each(D,function(a,b){l(b,!0)}),B.promise&&B.resolver(o)),a();default:if(!m.isPlainObject(q)||p.isEmptyObject(q)){if(p.isString(q)&&t.Redirects[q]){var E=m.extend({},s),F=E.duration,G=E.delay||0;return E.backwards===!0&&(o=m.extend(!0,[],o).reverse()),m.each(o,function(a,b){parseFloat(E.stagger)?E.delay=G+parseFloat(E.stagger)*a:p.isFunction(E.stagger)&&(E.delay=G+E.stagger.call(b,a,x)),E.drag&&(E.duration=parseFloat(F)||(/^(callout|transition)/.test(q)?1e3:r),E.duration=Math.max(E.duration*(E.backwards?1-a/x:(a+1)/x),.75*E.duration,200)),t.Redirects[q].call(b,b,E||{},a,x,o,B.promise?B:d)}),a()}var H="Velocity: First argument ("+q+") was not a property map, a known action, or a registered redirect. Aborting.";return B.promise?B.rejecter(new Error(H)):console.log(H),a()}C="start"}var I={lastParent:null,lastPosition:null,lastFontSize:null,lastPercentToPxWidth:null,lastPercentToPxHeight:null,lastEmToPx:null,remToPx:null,vwToPx:null,vhToPx:null},J=[];m.each(o,function(a,b){p.isNode(b)&&e.call(b)});var K,E=m.extend({},t.defaults,s);if(E.loop=parseInt(E.loop),K=2*E.loop-1,E.loop)for(var L=0;K>L;L++){var M={delay:E.delay,progress:E.progress};L===K-1&&(M.display=E.display,M.visibility=E.visibility,M.complete=E.complete),w(o,"reverse",M)}return a()}};t=m.extend(w,t),t.animate=w;var x=b.requestAnimationFrame||o;return t.State.isMobile||c.hidden===d||c.addEventListener("visibilitychange",function(){c.hidden?(x=function(a){return setTimeout(function(){a(!0)},16)},k()):x=b.requestAnimationFrame||o}),a.Velocity=t,a!==b&&(a.fn.velocity=w,a.fn.velocity.defaults=t.defaults),m.each(["Down","Up"],function(a,b){t.Redirects["slide"+b]=function(a,c,e,f,g,h){var i=m.extend({},c),j=i.begin,k=i.complete,l={height:"",marginTop:"",marginBottom:"",paddingTop:"",paddingBottom:""},n={};i.display===d&&(i.display="Down"===b?"inline"===t.CSS.Values.getDisplayType(a)?"inline-block":"block":"none"),i.begin=function(){j&&j.call(g,g);for(var c in l){n[c]=a.style[c];var d=t.CSS.getPropertyValue(a,c);l[c]="Down"===b?[d,0]:[0,d]}n.overflow=a.style.overflow,a.style.overflow="hidden"},i.complete=function(){for(var b in n)a.style[b]=n[b];k&&k.call(g,g),h&&h.resolver(g)},t(a,l,i)}}),m.each(["In","Out"],function(a,b){t.Redirects["fade"+b]=function(a,c,e,f,g,h){var i=m.extend({},c),j={opacity:"In"===b?1:0},k=i.complete;i.complete=e!==f-1?i.begin=null:function(){k&&k.call(g,g),h&&h.resolver(g)},i.display===d&&(i.display="In"===b?"auto":"none"),t(this,j,i)}}),t}(window.jQuery||window.Zepto||window,window,document)});
 
 /***/ },
-/* 20 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Created by 杨浪 on 2016/10/25.
-	 */
-	var md5 = __webpack_require__(21);
-	/**=======================================扩展加密解密===========================================**/
-	module.exports = {
-	    cert:'spm',
-	    panEncrypt: function (str, pwd) {
-	        if (pwd == null || pwd.length <= 0) {
-	            pwd = this.cert;
-	            return null;
-	        }
-	        var prand = "";
-	        for (var i = 0; i < pwd.length; i++) {
-	            prand += pwd.charCodeAt(i).toString();
-	        }
-	        var sPos = Math.floor(prand.length / 5);
-	        var mult = parseInt(prand.charAt(sPos) + prand.charAt(sPos * 2)
-	            + prand.charAt(sPos * 3) + prand.charAt(sPos * 4)
-	            + prand.charAt(sPos * 5));
-	        var incr = Math.ceil(pwd.length / 2);
-	        var modu = Math.pow(2, 31) - 1;
-	        if (mult < 2) {
-	            alert("Algorithm cannot find a suitable hash. Please choose a different password. \nPossible considerations are to choose a more complex or longer password.");
-	            return null;
-	        }
-	        var salt = Math.round(Math.random() * 1000000000) % 100000000;
-	        prand += salt;
-	        while (prand.length > 10) {
-	            prand = (parseInt(prand.substring(0, 10)) + parseInt(prand.substring(
-	                10, prand.length))).toString();
-	        }
-	        prand = (mult * prand + incr) % modu;
-	        var enc_chr = "";
-	        var enc_str = "";
-	        str = encodeURI(str);
-
-	        for (var i = 0; i < str.length; i++) {
-	            enc_chr = parseInt(str.charCodeAt(i) ^ Math.floor((prand / modu) * 255));
-	            if (enc_chr < 16) {
-	                enc_str += "0" + enc_chr.toString(16);
-	            } else
-	                enc_str += enc_chr.toString(16);
-	            prand = (mult * prand + incr) % modu;
-	        }
-	        salt = salt.toString(16);
-	        while (salt.length < 8)
-	            salt = "0" + salt;
-	        enc_str += salt;
-	        return enc_str;
-	    },
-	    panDecrypt: function (str, pwd) {
-	        if (str == null || str.length < 8) {
-	            alert("A salt value could not be extracted from the encrypted message because it's length is too short. The message cannot be decrypted.");
-	            return;
-	        }
-	        if (pwd == null || pwd.length <= 0) {
-	            pwd = this.cert;
-	            return;
-	        }
-	        var prand = "";
-	        for (var i = 0; i < pwd.length; i++) {
-	            prand += pwd.charCodeAt(i).toString();
-	        }
-	        var sPos = Math.floor(prand.length / 5);
-	        var mult = parseInt(prand.charAt(sPos) + prand.charAt(sPos * 2)
-	            + prand.charAt(sPos * 3) + prand.charAt(sPos * 4)
-	            + prand.charAt(sPos * 5));
-	        var incr = Math.round(pwd.length / 2);
-	        var modu = Math.pow(2, 31) - 1;
-	        var salt = parseInt(str.substring(str.length - 8, str.length), 16);
-	        str = str.substring(0, str.length - 8);
-	        prand += salt;
-	        while (prand.length > 10) {
-	            prand = (parseInt(prand.substring(0, 10)) + parseInt(prand.substring(
-	                10, prand.length))).toString();
-	        }
-	        prand = (mult * prand + incr) % modu;
-	        var enc_chr = "";
-	        var enc_str = "";
-	        for (var i = 0; i < str.length; i += 2) {
-	            enc_chr = parseInt(parseInt(str.substring(i, i + 2), 16)
-	                ^ Math.floor((prand / modu) * 255));
-	            enc_str += String.fromCharCode(enc_chr);
-	            prand = (mult * prand + incr) % modu;
-	        }
-	        return decodeURI(enc_str);
-	    },
-	    md5:function(val){
-	        return md5(val);
-	    }
-	};
-
-
-/***/ },
-/* 21 */
-/***/ function(module, exports) {
-
-	'use strict'
-	/*
-	 * Add integers, wrapping at 2^32. This uses 16-bit operations internally
-	 * to work around bugs in some JS interpreters.
-	 */
-	function safe_add (x, y) {
-	    var lsw = (x & 0xFFFF) + (y & 0xFFFF)
-	    var msw = (x >> 16) + (y >> 16) + (lsw >> 16)
-	    return (msw << 16) | (lsw & 0xFFFF)
-	}
-
-	/*
-	 * Bitwise rotate a 32-bit number to the left.
-	 */
-	function bit_rol (num, cnt) {
-	    return (num << cnt) | (num >>> (32 - cnt))
-	}
-
-	/*
-	 * These functions implement the four basic operations the algorithm uses.
-	 */
-	function md5_cmn (q, a, b, x, s, t) {
-	    return safe_add(bit_rol(safe_add(safe_add(a, q), safe_add(x, t)), s), b)
-	}
-	function md5_ff (a, b, c, d, x, s, t) {
-	    return md5_cmn((b & c) | ((~b) & d), a, b, x, s, t)
-	}
-	function md5_gg (a, b, c, d, x, s, t) {
-	    return md5_cmn((b & d) | (c & (~d)), a, b, x, s, t)
-	}
-	function md5_hh (a, b, c, d, x, s, t) {
-	    return md5_cmn(b ^ c ^ d, a, b, x, s, t)
-	}
-	function md5_ii (a, b, c, d, x, s, t) {
-	    return md5_cmn(c ^ (b | (~d)), a, b, x, s, t)
-	}
-
-	/*
-	 * Calculate the MD5 of an array of little-endian words, and a bit length.
-	 */
-	function binl_md5 (x, len) {
-	    /* append padding */
-	    x[len >> 5] |= 0x80 << (len % 32)
-	    x[(((len + 64) >>> 9) << 4) + 14] = len
-
-	    var i
-	    var olda
-	    var oldb
-	    var oldc
-	    var oldd
-	    var a = 1732584193
-	    var b = -271733879
-	    var c = -1732584194
-	    var d = 271733878
-
-	    for (i = 0; i < x.length; i += 16) {
-	        olda = a
-	        oldb = b
-	        oldc = c
-	        oldd = d
-
-	        a = md5_ff(a, b, c, d, x[i], 7, -680876936)
-	        d = md5_ff(d, a, b, c, x[i + 1], 12, -389564586)
-	        c = md5_ff(c, d, a, b, x[i + 2], 17, 606105819)
-	        b = md5_ff(b, c, d, a, x[i + 3], 22, -1044525330)
-	        a = md5_ff(a, b, c, d, x[i + 4], 7, -176418897)
-	        d = md5_ff(d, a, b, c, x[i + 5], 12, 1200080426)
-	        c = md5_ff(c, d, a, b, x[i + 6], 17, -1473231341)
-	        b = md5_ff(b, c, d, a, x[i + 7], 22, -45705983)
-	        a = md5_ff(a, b, c, d, x[i + 8], 7, 1770035416)
-	        d = md5_ff(d, a, b, c, x[i + 9], 12, -1958414417)
-	        c = md5_ff(c, d, a, b, x[i + 10], 17, -42063)
-	        b = md5_ff(b, c, d, a, x[i + 11], 22, -1990404162)
-	        a = md5_ff(a, b, c, d, x[i + 12], 7, 1804603682)
-	        d = md5_ff(d, a, b, c, x[i + 13], 12, -40341101)
-	        c = md5_ff(c, d, a, b, x[i + 14], 17, -1502002290)
-	        b = md5_ff(b, c, d, a, x[i + 15], 22, 1236535329)
-
-	        a = md5_gg(a, b, c, d, x[i + 1], 5, -165796510)
-	        d = md5_gg(d, a, b, c, x[i + 6], 9, -1069501632)
-	        c = md5_gg(c, d, a, b, x[i + 11], 14, 643717713)
-	        b = md5_gg(b, c, d, a, x[i], 20, -373897302)
-	        a = md5_gg(a, b, c, d, x[i + 5], 5, -701558691)
-	        d = md5_gg(d, a, b, c, x[i + 10], 9, 38016083)
-	        c = md5_gg(c, d, a, b, x[i + 15], 14, -660478335)
-	        b = md5_gg(b, c, d, a, x[i + 4], 20, -405537848)
-	        a = md5_gg(a, b, c, d, x[i + 9], 5, 568446438)
-	        d = md5_gg(d, a, b, c, x[i + 14], 9, -1019803690)
-	        c = md5_gg(c, d, a, b, x[i + 3], 14, -187363961)
-	        b = md5_gg(b, c, d, a, x[i + 8], 20, 1163531501)
-	        a = md5_gg(a, b, c, d, x[i + 13], 5, -1444681467)
-	        d = md5_gg(d, a, b, c, x[i + 2], 9, -51403784)
-	        c = md5_gg(c, d, a, b, x[i + 7], 14, 1735328473)
-	        b = md5_gg(b, c, d, a, x[i + 12], 20, -1926607734)
-
-	        a = md5_hh(a, b, c, d, x[i + 5], 4, -378558)
-	        d = md5_hh(d, a, b, c, x[i + 8], 11, -2022574463)
-	        c = md5_hh(c, d, a, b, x[i + 11], 16, 1839030562)
-	        b = md5_hh(b, c, d, a, x[i + 14], 23, -35309556)
-	        a = md5_hh(a, b, c, d, x[i + 1], 4, -1530992060)
-	        d = md5_hh(d, a, b, c, x[i + 4], 11, 1272893353)
-	        c = md5_hh(c, d, a, b, x[i + 7], 16, -155497632)
-	        b = md5_hh(b, c, d, a, x[i + 10], 23, -1094730640)
-	        a = md5_hh(a, b, c, d, x[i + 13], 4, 681279174)
-	        d = md5_hh(d, a, b, c, x[i], 11, -358537222)
-	        c = md5_hh(c, d, a, b, x[i + 3], 16, -722521979)
-	        b = md5_hh(b, c, d, a, x[i + 6], 23, 76029189)
-	        a = md5_hh(a, b, c, d, x[i + 9], 4, -640364487)
-	        d = md5_hh(d, a, b, c, x[i + 12], 11, -421815835)
-	        c = md5_hh(c, d, a, b, x[i + 15], 16, 530742520)
-	        b = md5_hh(b, c, d, a, x[i + 2], 23, -995338651)
-
-	        a = md5_ii(a, b, c, d, x[i], 6, -198630844)
-	        d = md5_ii(d, a, b, c, x[i + 7], 10, 1126891415)
-	        c = md5_ii(c, d, a, b, x[i + 14], 15, -1416354905)
-	        b = md5_ii(b, c, d, a, x[i + 5], 21, -57434055)
-	        a = md5_ii(a, b, c, d, x[i + 12], 6, 1700485571)
-	        d = md5_ii(d, a, b, c, x[i + 3], 10, -1894986606)
-	        c = md5_ii(c, d, a, b, x[i + 10], 15, -1051523)
-	        b = md5_ii(b, c, d, a, x[i + 1], 21, -2054922799)
-	        a = md5_ii(a, b, c, d, x[i + 8], 6, 1873313359)
-	        d = md5_ii(d, a, b, c, x[i + 15], 10, -30611744)
-	        c = md5_ii(c, d, a, b, x[i + 6], 15, -1560198380)
-	        b = md5_ii(b, c, d, a, x[i + 13], 21, 1309151649)
-	        a = md5_ii(a, b, c, d, x[i + 4], 6, -145523070)
-	        d = md5_ii(d, a, b, c, x[i + 11], 10, -1120210379)
-	        c = md5_ii(c, d, a, b, x[i + 2], 15, 718787259)
-	        b = md5_ii(b, c, d, a, x[i + 9], 21, -343485551)
-
-	        a = safe_add(a, olda)
-	        b = safe_add(b, oldb)
-	        c = safe_add(c, oldc)
-	        d = safe_add(d, oldd)
-	    }
-	    return [a, b, c, d]
-	}
-
-	/*
-	 * Convert an array of little-endian words to a string
-	 */
-	function binl2rstr (input) {
-	    var i
-	    var output = ''
-	    for (i = 0; i < input.length * 32; i += 8) {
-	        output += String.fromCharCode((input[i >> 5] >>> (i % 32)) & 0xFF)
-	    }
-	    return output
-	}
-
-	/*
-	 * Convert a raw string to an array of little-endian words
-	 * Characters >255 have their high-byte silently ignored.
-	 */
-	function rstr2binl (input) {
-	    var i
-	    var output = []
-	    output[(input.length >> 2) - 1] = undefined
-	    for (i = 0; i < output.length; i += 1) {
-	        output[i] = 0
-	    }
-	    for (i = 0; i < input.length * 8; i += 8) {
-	        output[i >> 5] |= (input.charCodeAt(i / 8) & 0xFF) << (i % 32)
-	    }
-	    return output
-	}
-
-	/*
-	 * Calculate the MD5 of a raw string
-	 */
-	function rstr_md5 (s) {
-	    return binl2rstr(binl_md5(rstr2binl(s), s.length * 8))
-	}
-
-	/*
-	 * Calculate the HMAC-MD5, of a key and some data (raw strings)
-	 */
-	function rstr_hmac_md5 (key, data) {
-	    var i
-	    var bkey = rstr2binl(key)
-	    var ipad = []
-	    var opad = []
-	    var hash
-	    ipad[15] = opad[15] = undefined
-	    if (bkey.length > 16) {
-	        bkey = binl_md5(bkey, key.length * 8)
-	    }
-	    for (i = 0; i < 16; i += 1) {
-	        ipad[i] = bkey[i] ^ 0x36363636
-	        opad[i] = bkey[i] ^ 0x5C5C5C5C
-	    }
-	    hash = binl_md5(ipad.concat(rstr2binl(data)), 512 + data.length * 8)
-	    return binl2rstr(binl_md5(opad.concat(hash), 512 + 128))
-	}
-
-	/*
-	 * Convert a raw string to a hex string
-	 */
-	function rstr2hex (input) {
-	    var hex_tab = '0123456789abcdef'
-	    var output = ''
-	    var x
-	    var i
-	    for (i = 0; i < input.length; i += 1) {
-	        x = input.charCodeAt(i)
-	        output += hex_tab.charAt((x >>> 4) & 0x0F) +
-	            hex_tab.charAt(x & 0x0F)
-	    }
-	    return output
-	}
-
-	/*
-	 * Encode a string as utf-8
-	 */
-	function str2rstr_utf8 (input) {
-	    return unescape(encodeURIComponent(input))
-	}
-
-	/*
-	 * Take string arguments and return either raw or hex encoded strings
-	 */
-	function raw_md5 (s) {
-	    return rstr_md5(str2rstr_utf8(s))
-	}
-	function hex_md5 (s) {
-	    return rstr2hex(raw_md5(s))
-	}
-	function raw_hmac_md5 (k, d) {
-	    return rstr_hmac_md5(str2rstr_utf8(k), str2rstr_utf8(d))
-	}
-	function hex_hmac_md5 (k, d) {
-	    return rstr2hex(raw_hmac_md5(k, d))
-	}
-
-	function md5 (string, key, raw) {
-	    if (!key) {
-	        if (!raw) {
-	            return hex_md5(string)
-	        }
-	        return raw_md5(string)
-	    }
-	    if (!raw) {
-	        return hex_hmac_md5(key, string)
-	    }
-	    return raw_hmac_md5(key, string)
-	}
-
-	module.exports = md5;
-
-
-/***/ },
-/* 22 */
+/* 21 */,
+/* 22 */,
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _keys = __webpack_require__(23);
+	var _keys = __webpack_require__(24);
 
 	var _keys2 = _interopRequireDefault(_keys);
 
-	var _typeof2 = __webpack_require__(58);
+	var _typeof2 = __webpack_require__(59);
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -11231,13 +10739,13 @@ webpackJsonp([0,3],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(95);
+	__webpack_require__(96);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(98);
+	__vue_exports__ = __webpack_require__(99);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(104);
+	var __vue_template__ = __webpack_require__(105);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -11277,44 +10785,44 @@ webpackJsonp([0,3],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 23 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(24), __esModule: true };
-
-/***/ },
 /* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(25);
-	module.exports = __webpack_require__(45).Object.keys;
+	module.exports = { "default": __webpack_require__(25), __esModule: true };
 
 /***/ },
 /* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// 19.1.2.14 Object.keys(O)
-	var toObject = __webpack_require__(26)
-	  , $keys    = __webpack_require__(28);
+	__webpack_require__(26);
+	module.exports = __webpack_require__(46).Object.keys;
 
-	__webpack_require__(43)('keys', function(){
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 19.1.2.14 Object.keys(O)
+	var toObject = __webpack_require__(27)
+	  , $keys    = __webpack_require__(29);
+
+	__webpack_require__(44)('keys', function(){
 	  return function keys(it){
 	    return $keys(toObject(it));
 	  };
 	});
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.1.13 ToObject(argument)
-	var defined = __webpack_require__(27);
+	var defined = __webpack_require__(28);
 	module.exports = function(it){
 	  return Object(defined(it));
 	};
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports) {
 
 	// 7.2.1 RequireObjectCoercible(argument)
@@ -11324,25 +10832,25 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 19.1.2.14 / 15.2.3.14 Object.keys(O)
-	var $keys       = __webpack_require__(29)
-	  , enumBugKeys = __webpack_require__(42);
+	var $keys       = __webpack_require__(30)
+	  , enumBugKeys = __webpack_require__(43);
 
 	module.exports = Object.keys || function keys(O){
 	  return $keys(O, enumBugKeys);
 	};
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var has          = __webpack_require__(30)
-	  , toIObject    = __webpack_require__(31)
-	  , arrayIndexOf = __webpack_require__(34)(false)
-	  , IE_PROTO     = __webpack_require__(38)('IE_PROTO');
+	var has          = __webpack_require__(31)
+	  , toIObject    = __webpack_require__(32)
+	  , arrayIndexOf = __webpack_require__(35)(false)
+	  , IE_PROTO     = __webpack_require__(39)('IE_PROTO');
 
 	module.exports = function(object, names){
 	  var O      = toIObject(object)
@@ -11358,7 +10866,7 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports) {
 
 	var hasOwnProperty = {}.hasOwnProperty;
@@ -11367,28 +10875,28 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// to indexed object, toObject with fallback for non-array-like ES3 strings
-	var IObject = __webpack_require__(32)
-	  , defined = __webpack_require__(27);
+	var IObject = __webpack_require__(33)
+	  , defined = __webpack_require__(28);
 	module.exports = function(it){
 	  return IObject(defined(it));
 	};
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// fallback for non-array-like ES3 and non-enumerable old V8 strings
-	var cof = __webpack_require__(33);
+	var cof = __webpack_require__(34);
 	module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
 	  return cof(it) == 'String' ? it.split('') : Object(it);
 	};
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports) {
 
 	var toString = {}.toString;
@@ -11398,14 +10906,14 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// false -> Array#indexOf
 	// true  -> Array#includes
-	var toIObject = __webpack_require__(31)
-	  , toLength  = __webpack_require__(35)
-	  , toIndex   = __webpack_require__(37);
+	var toIObject = __webpack_require__(32)
+	  , toLength  = __webpack_require__(36)
+	  , toIndex   = __webpack_require__(38);
 	module.exports = function(IS_INCLUDES){
 	  return function($this, el, fromIndex){
 	    var O      = toIObject($this)
@@ -11424,18 +10932,18 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.1.15 ToLength
-	var toInteger = __webpack_require__(36)
+	var toInteger = __webpack_require__(37)
 	  , min       = Math.min;
 	module.exports = function(it){
 	  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
 	};
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports) {
 
 	// 7.1.4 ToInteger
@@ -11446,10 +10954,10 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var toInteger = __webpack_require__(36)
+	var toInteger = __webpack_require__(37)
 	  , max       = Math.max
 	  , min       = Math.min;
 	module.exports = function(index, length){
@@ -11458,20 +10966,20 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 38 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var shared = __webpack_require__(39)('keys')
-	  , uid    = __webpack_require__(41);
+	var shared = __webpack_require__(40)('keys')
+	  , uid    = __webpack_require__(42);
 	module.exports = function(key){
 	  return shared[key] || (shared[key] = uid(key));
 	};
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var global = __webpack_require__(40)
+	var global = __webpack_require__(41)
 	  , SHARED = '__core-js_shared__'
 	  , store  = global[SHARED] || (global[SHARED] = {});
 	module.exports = function(key){
@@ -11479,7 +10987,7 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports) {
 
 	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
@@ -11488,7 +10996,7 @@ webpackJsonp([0,3],[
 	if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports) {
 
 	var id = 0
@@ -11498,7 +11006,7 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports) {
 
 	// IE 8- don't enum bug keys
@@ -11507,13 +11015,13 @@ webpackJsonp([0,3],[
 	).split(',');
 
 /***/ },
-/* 43 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// most Object methods by ES6 should accept primitives
-	var $export = __webpack_require__(44)
-	  , core    = __webpack_require__(45)
-	  , fails   = __webpack_require__(54);
+	var $export = __webpack_require__(45)
+	  , core    = __webpack_require__(46)
+	  , fails   = __webpack_require__(55);
 	module.exports = function(KEY, exec){
 	  var fn  = (core.Object || {})[KEY] || Object[KEY]
 	    , exp = {};
@@ -11522,13 +11030,13 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 44 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var global    = __webpack_require__(40)
-	  , core      = __webpack_require__(45)
-	  , ctx       = __webpack_require__(46)
-	  , hide      = __webpack_require__(48)
+	var global    = __webpack_require__(41)
+	  , core      = __webpack_require__(46)
+	  , ctx       = __webpack_require__(47)
+	  , hide      = __webpack_require__(49)
 	  , PROTOTYPE = 'prototype';
 
 	var $export = function(type, name, source){
@@ -11588,18 +11096,18 @@ webpackJsonp([0,3],[
 	module.exports = $export;
 
 /***/ },
-/* 45 */
+/* 46 */
 /***/ function(module, exports) {
 
 	var core = module.exports = {version: '2.4.0'};
 	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 
 /***/ },
-/* 46 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// optional / simple context binding
-	var aFunction = __webpack_require__(47);
+	var aFunction = __webpack_require__(48);
 	module.exports = function(fn, that, length){
 	  aFunction(fn);
 	  if(that === undefined)return fn;
@@ -11620,7 +11128,7 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 47 */
+/* 48 */
 /***/ function(module, exports) {
 
 	module.exports = function(it){
@@ -11629,12 +11137,12 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 48 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var dP         = __webpack_require__(49)
-	  , createDesc = __webpack_require__(57);
-	module.exports = __webpack_require__(53) ? function(object, key, value){
+	var dP         = __webpack_require__(50)
+	  , createDesc = __webpack_require__(58);
+	module.exports = __webpack_require__(54) ? function(object, key, value){
 	  return dP.f(object, key, createDesc(1, value));
 	} : function(object, key, value){
 	  object[key] = value;
@@ -11642,15 +11150,15 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 49 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var anObject       = __webpack_require__(50)
-	  , IE8_DOM_DEFINE = __webpack_require__(52)
-	  , toPrimitive    = __webpack_require__(56)
+	var anObject       = __webpack_require__(51)
+	  , IE8_DOM_DEFINE = __webpack_require__(53)
+	  , toPrimitive    = __webpack_require__(57)
 	  , dP             = Object.defineProperty;
 
-	exports.f = __webpack_require__(53) ? Object.defineProperty : function defineProperty(O, P, Attributes){
+	exports.f = __webpack_require__(54) ? Object.defineProperty : function defineProperty(O, P, Attributes){
 	  anObject(O);
 	  P = toPrimitive(P, true);
 	  anObject(Attributes);
@@ -11663,17 +11171,17 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 50 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(51);
+	var isObject = __webpack_require__(52);
 	module.exports = function(it){
 	  if(!isObject(it))throw TypeError(it + ' is not an object!');
 	  return it;
 	};
 
 /***/ },
-/* 51 */
+/* 52 */
 /***/ function(module, exports) {
 
 	module.exports = function(it){
@@ -11681,24 +11189,24 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 52 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = !__webpack_require__(53) && !__webpack_require__(54)(function(){
-	  return Object.defineProperty(__webpack_require__(55)('div'), 'a', {get: function(){ return 7; }}).a != 7;
-	});
-
-/***/ },
 /* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// Thank's IE8 for his funny defineProperty
-	module.exports = !__webpack_require__(54)(function(){
-	  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
+	module.exports = !__webpack_require__(54) && !__webpack_require__(55)(function(){
+	  return Object.defineProperty(__webpack_require__(56)('div'), 'a', {get: function(){ return 7; }}).a != 7;
 	});
 
 /***/ },
 /* 54 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// Thank's IE8 for his funny defineProperty
+	module.exports = !__webpack_require__(55)(function(){
+	  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
+	});
+
+/***/ },
+/* 55 */
 /***/ function(module, exports) {
 
 	module.exports = function(exec){
@@ -11710,11 +11218,11 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 55 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(51)
-	  , document = __webpack_require__(40).document
+	var isObject = __webpack_require__(52)
+	  , document = __webpack_require__(41).document
 	  // in old IE typeof document.createElement is 'object'
 	  , is = isObject(document) && isObject(document.createElement);
 	module.exports = function(it){
@@ -11722,11 +11230,11 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 56 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.1.1 ToPrimitive(input [, PreferredType])
-	var isObject = __webpack_require__(51);
+	var isObject = __webpack_require__(52);
 	// instead of the ES6 spec version, we didn't implement @@toPrimitive case
 	// and the second argument - flag - preferred type is a string
 	module.exports = function(it, S){
@@ -11739,7 +11247,7 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 57 */
+/* 58 */
 /***/ function(module, exports) {
 
 	module.exports = function(bitmap, value){
@@ -11752,18 +11260,18 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 58 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	exports.__esModule = true;
 
-	var _iterator = __webpack_require__(59);
+	var _iterator = __webpack_require__(60);
 
 	var _iterator2 = _interopRequireDefault(_iterator);
 
-	var _symbol = __webpack_require__(79);
+	var _symbol = __webpack_require__(80);
 
 	var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -11778,28 +11286,28 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 59 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(60), __esModule: true };
-
-/***/ },
 /* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(61);
-	__webpack_require__(74);
-	module.exports = __webpack_require__(78).f('iterator');
+	module.exports = { "default": __webpack_require__(61), __esModule: true };
 
 /***/ },
 /* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
+	__webpack_require__(62);
+	__webpack_require__(75);
+	module.exports = __webpack_require__(79).f('iterator');
+
+/***/ },
+/* 62 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
-	var $at  = __webpack_require__(62)(true);
+	var $at  = __webpack_require__(63)(true);
 
 	// 21.1.3.27 String.prototype[@@iterator]()
-	__webpack_require__(63)(String, 'String', function(iterated){
+	__webpack_require__(64)(String, 'String', function(iterated){
 	  this._t = String(iterated); // target
 	  this._i = 0;                // next index
 	// 21.1.5.2.1 %StringIteratorPrototype%.next()
@@ -11814,11 +11322,11 @@ webpackJsonp([0,3],[
 	});
 
 /***/ },
-/* 62 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var toInteger = __webpack_require__(36)
-	  , defined   = __webpack_require__(27);
+	var toInteger = __webpack_require__(37)
+	  , defined   = __webpack_require__(28);
 	// true  -> String#at
 	// false -> String#codePointAt
 	module.exports = function(TO_STRING){
@@ -11836,20 +11344,20 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 63 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var LIBRARY        = __webpack_require__(64)
-	  , $export        = __webpack_require__(44)
-	  , redefine       = __webpack_require__(65)
-	  , hide           = __webpack_require__(48)
-	  , has            = __webpack_require__(30)
-	  , Iterators      = __webpack_require__(66)
-	  , $iterCreate    = __webpack_require__(67)
-	  , setToStringTag = __webpack_require__(71)
-	  , getPrototypeOf = __webpack_require__(73)
-	  , ITERATOR       = __webpack_require__(72)('iterator')
+	var LIBRARY        = __webpack_require__(65)
+	  , $export        = __webpack_require__(45)
+	  , redefine       = __webpack_require__(66)
+	  , hide           = __webpack_require__(49)
+	  , has            = __webpack_require__(31)
+	  , Iterators      = __webpack_require__(67)
+	  , $iterCreate    = __webpack_require__(68)
+	  , setToStringTag = __webpack_require__(72)
+	  , getPrototypeOf = __webpack_require__(74)
+	  , ITERATOR       = __webpack_require__(73)('iterator')
 	  , BUGGY          = !([].keys && 'next' in [].keys()) // Safari has buggy iterators w/o `next`
 	  , FF_ITERATOR    = '@@iterator'
 	  , KEYS           = 'keys'
@@ -11911,35 +11419,35 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 64 */
+/* 65 */
 /***/ function(module, exports) {
 
 	module.exports = true;
 
 /***/ },
-/* 65 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(48);
+	module.exports = __webpack_require__(49);
 
 /***/ },
-/* 66 */
+/* 67 */
 /***/ function(module, exports) {
 
 	module.exports = {};
 
 /***/ },
-/* 67 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var create         = __webpack_require__(68)
-	  , descriptor     = __webpack_require__(57)
-	  , setToStringTag = __webpack_require__(71)
+	var create         = __webpack_require__(69)
+	  , descriptor     = __webpack_require__(58)
+	  , setToStringTag = __webpack_require__(72)
 	  , IteratorPrototype = {};
 
 	// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-	__webpack_require__(48)(IteratorPrototype, __webpack_require__(72)('iterator'), function(){ return this; });
+	__webpack_require__(49)(IteratorPrototype, __webpack_require__(73)('iterator'), function(){ return this; });
 
 	module.exports = function(Constructor, NAME, next){
 	  Constructor.prototype = create(IteratorPrototype, {next: descriptor(1, next)});
@@ -11947,27 +11455,27 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 68 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-	var anObject    = __webpack_require__(50)
-	  , dPs         = __webpack_require__(69)
-	  , enumBugKeys = __webpack_require__(42)
-	  , IE_PROTO    = __webpack_require__(38)('IE_PROTO')
+	var anObject    = __webpack_require__(51)
+	  , dPs         = __webpack_require__(70)
+	  , enumBugKeys = __webpack_require__(43)
+	  , IE_PROTO    = __webpack_require__(39)('IE_PROTO')
 	  , Empty       = function(){ /* empty */ }
 	  , PROTOTYPE   = 'prototype';
 
 	// Create object with fake `null` prototype: use iframe Object with cleared prototype
 	var createDict = function(){
 	  // Thrash, waste and sodomy: IE GC bug
-	  var iframe = __webpack_require__(55)('iframe')
+	  var iframe = __webpack_require__(56)('iframe')
 	    , i      = enumBugKeys.length
 	    , lt     = '<'
 	    , gt     = '>'
 	    , iframeDocument;
 	  iframe.style.display = 'none';
-	  __webpack_require__(70).appendChild(iframe);
+	  __webpack_require__(71).appendChild(iframe);
 	  iframe.src = 'javascript:'; // eslint-disable-line no-script-url
 	  // createDict = iframe.contentWindow.Object;
 	  // html.removeChild(iframe);
@@ -11994,14 +11502,14 @@ webpackJsonp([0,3],[
 
 
 /***/ },
-/* 69 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var dP       = __webpack_require__(49)
-	  , anObject = __webpack_require__(50)
-	  , getKeys  = __webpack_require__(28);
+	var dP       = __webpack_require__(50)
+	  , anObject = __webpack_require__(51)
+	  , getKeys  = __webpack_require__(29);
 
-	module.exports = __webpack_require__(53) ? Object.defineProperties : function defineProperties(O, Properties){
+	module.exports = __webpack_require__(54) ? Object.defineProperties : function defineProperties(O, Properties){
 	  anObject(O);
 	  var keys   = getKeys(Properties)
 	    , length = keys.length
@@ -12012,30 +11520,30 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 70 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(40).document && document.documentElement;
-
-/***/ },
 /* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var def = __webpack_require__(49).f
-	  , has = __webpack_require__(30)
-	  , TAG = __webpack_require__(72)('toStringTag');
+	module.exports = __webpack_require__(41).document && document.documentElement;
+
+/***/ },
+/* 72 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var def = __webpack_require__(50).f
+	  , has = __webpack_require__(31)
+	  , TAG = __webpack_require__(73)('toStringTag');
 
 	module.exports = function(it, tag, stat){
 	  if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
 	};
 
 /***/ },
-/* 72 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var store      = __webpack_require__(39)('wks')
-	  , uid        = __webpack_require__(41)
-	  , Symbol     = __webpack_require__(40).Symbol
+	var store      = __webpack_require__(40)('wks')
+	  , uid        = __webpack_require__(42)
+	  , Symbol     = __webpack_require__(41).Symbol
 	  , USE_SYMBOL = typeof Symbol == 'function';
 
 	var $exports = module.exports = function(name){
@@ -12046,13 +11554,13 @@ webpackJsonp([0,3],[
 	$exports.store = store;
 
 /***/ },
-/* 73 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
-	var has         = __webpack_require__(30)
-	  , toObject    = __webpack_require__(26)
-	  , IE_PROTO    = __webpack_require__(38)('IE_PROTO')
+	var has         = __webpack_require__(31)
+	  , toObject    = __webpack_require__(27)
+	  , IE_PROTO    = __webpack_require__(39)('IE_PROTO')
 	  , ObjectProto = Object.prototype;
 
 	module.exports = Object.getPrototypeOf || function(O){
@@ -12064,14 +11572,14 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 74 */
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(75);
-	var global        = __webpack_require__(40)
-	  , hide          = __webpack_require__(48)
-	  , Iterators     = __webpack_require__(66)
-	  , TO_STRING_TAG = __webpack_require__(72)('toStringTag');
+	__webpack_require__(76);
+	var global        = __webpack_require__(41)
+	  , hide          = __webpack_require__(49)
+	  , Iterators     = __webpack_require__(67)
+	  , TO_STRING_TAG = __webpack_require__(73)('toStringTag');
 
 	for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList', 'CSSRuleList'], i = 0; i < 5; i++){
 	  var NAME       = collections[i]
@@ -12082,20 +11590,20 @@ webpackJsonp([0,3],[
 	}
 
 /***/ },
-/* 75 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var addToUnscopables = __webpack_require__(76)
-	  , step             = __webpack_require__(77)
-	  , Iterators        = __webpack_require__(66)
-	  , toIObject        = __webpack_require__(31);
+	var addToUnscopables = __webpack_require__(77)
+	  , step             = __webpack_require__(78)
+	  , Iterators        = __webpack_require__(67)
+	  , toIObject        = __webpack_require__(32);
 
 	// 22.1.3.4 Array.prototype.entries()
 	// 22.1.3.13 Array.prototype.keys()
 	// 22.1.3.29 Array.prototype.values()
 	// 22.1.3.30 Array.prototype[@@iterator]()
-	module.exports = __webpack_require__(63)(Array, 'Array', function(iterated, kind){
+	module.exports = __webpack_require__(64)(Array, 'Array', function(iterated, kind){
 	  this._t = toIObject(iterated); // target
 	  this._i = 0;                   // next index
 	  this._k = kind;                // kind
@@ -12121,13 +11629,13 @@ webpackJsonp([0,3],[
 	addToUnscopables('entries');
 
 /***/ },
-/* 76 */
+/* 77 */
 /***/ function(module, exports) {
 
 	module.exports = function(){ /* empty */ };
 
 /***/ },
-/* 77 */
+/* 78 */
 /***/ function(module, exports) {
 
 	module.exports = function(done, value){
@@ -12135,58 +11643,58 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 78 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports.f = __webpack_require__(72);
-
-/***/ },
 /* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(80), __esModule: true };
+	exports.f = __webpack_require__(73);
 
 /***/ },
 /* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(81);
-	__webpack_require__(92);
-	__webpack_require__(93);
-	__webpack_require__(94);
-	module.exports = __webpack_require__(45).Symbol;
+	module.exports = { "default": __webpack_require__(81), __esModule: true };
 
 /***/ },
 /* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
+	__webpack_require__(82);
+	__webpack_require__(93);
+	__webpack_require__(94);
+	__webpack_require__(95);
+	module.exports = __webpack_require__(46).Symbol;
+
+/***/ },
+/* 82 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 	// ECMAScript 6 symbols shim
-	var global         = __webpack_require__(40)
-	  , has            = __webpack_require__(30)
-	  , DESCRIPTORS    = __webpack_require__(53)
-	  , $export        = __webpack_require__(44)
-	  , redefine       = __webpack_require__(65)
-	  , META           = __webpack_require__(82).KEY
-	  , $fails         = __webpack_require__(54)
-	  , shared         = __webpack_require__(39)
-	  , setToStringTag = __webpack_require__(71)
-	  , uid            = __webpack_require__(41)
-	  , wks            = __webpack_require__(72)
-	  , wksExt         = __webpack_require__(78)
-	  , wksDefine      = __webpack_require__(83)
-	  , keyOf          = __webpack_require__(84)
-	  , enumKeys       = __webpack_require__(85)
-	  , isArray        = __webpack_require__(88)
-	  , anObject       = __webpack_require__(50)
-	  , toIObject      = __webpack_require__(31)
-	  , toPrimitive    = __webpack_require__(56)
-	  , createDesc     = __webpack_require__(57)
-	  , _create        = __webpack_require__(68)
-	  , gOPNExt        = __webpack_require__(89)
-	  , $GOPD          = __webpack_require__(91)
-	  , $DP            = __webpack_require__(49)
-	  , $keys          = __webpack_require__(28)
+	var global         = __webpack_require__(41)
+	  , has            = __webpack_require__(31)
+	  , DESCRIPTORS    = __webpack_require__(54)
+	  , $export        = __webpack_require__(45)
+	  , redefine       = __webpack_require__(66)
+	  , META           = __webpack_require__(83).KEY
+	  , $fails         = __webpack_require__(55)
+	  , shared         = __webpack_require__(40)
+	  , setToStringTag = __webpack_require__(72)
+	  , uid            = __webpack_require__(42)
+	  , wks            = __webpack_require__(73)
+	  , wksExt         = __webpack_require__(79)
+	  , wksDefine      = __webpack_require__(84)
+	  , keyOf          = __webpack_require__(85)
+	  , enumKeys       = __webpack_require__(86)
+	  , isArray        = __webpack_require__(89)
+	  , anObject       = __webpack_require__(51)
+	  , toIObject      = __webpack_require__(32)
+	  , toPrimitive    = __webpack_require__(57)
+	  , createDesc     = __webpack_require__(58)
+	  , _create        = __webpack_require__(69)
+	  , gOPNExt        = __webpack_require__(90)
+	  , $GOPD          = __webpack_require__(92)
+	  , $DP            = __webpack_require__(50)
+	  , $keys          = __webpack_require__(29)
 	  , gOPD           = $GOPD.f
 	  , dP             = $DP.f
 	  , gOPN           = gOPNExt.f
@@ -12309,11 +11817,11 @@ webpackJsonp([0,3],[
 
 	  $GOPD.f = $getOwnPropertyDescriptor;
 	  $DP.f   = $defineProperty;
-	  __webpack_require__(90).f = gOPNExt.f = $getOwnPropertyNames;
-	  __webpack_require__(87).f  = $propertyIsEnumerable;
-	  __webpack_require__(86).f = $getOwnPropertySymbols;
+	  __webpack_require__(91).f = gOPNExt.f = $getOwnPropertyNames;
+	  __webpack_require__(88).f  = $propertyIsEnumerable;
+	  __webpack_require__(87).f = $getOwnPropertySymbols;
 
-	  if(DESCRIPTORS && !__webpack_require__(64)){
+	  if(DESCRIPTORS && !__webpack_require__(65)){
 	    redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
 	  }
 
@@ -12388,7 +11896,7 @@ webpackJsonp([0,3],[
 	});
 
 	// 19.4.3.4 Symbol.prototype[@@toPrimitive](hint)
-	$Symbol[PROTOTYPE][TO_PRIMITIVE] || __webpack_require__(48)($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
+	$Symbol[PROTOTYPE][TO_PRIMITIVE] || __webpack_require__(49)($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
 	// 19.4.3.5 Symbol.prototype[@@toStringTag]
 	setToStringTag($Symbol, 'Symbol');
 	// 20.2.1.9 Math[@@toStringTag]
@@ -12397,18 +11905,18 @@ webpackJsonp([0,3],[
 	setToStringTag(global.JSON, 'JSON', true);
 
 /***/ },
-/* 82 */
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var META     = __webpack_require__(41)('meta')
-	  , isObject = __webpack_require__(51)
-	  , has      = __webpack_require__(30)
-	  , setDesc  = __webpack_require__(49).f
+	var META     = __webpack_require__(42)('meta')
+	  , isObject = __webpack_require__(52)
+	  , has      = __webpack_require__(31)
+	  , setDesc  = __webpack_require__(50).f
 	  , id       = 0;
 	var isExtensible = Object.isExtensible || function(){
 	  return true;
 	};
-	var FREEZE = !__webpack_require__(54)(function(){
+	var FREEZE = !__webpack_require__(55)(function(){
 	  return isExtensible(Object.preventExtensions({}));
 	});
 	var setMeta = function(it){
@@ -12455,25 +11963,25 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 83 */
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var global         = __webpack_require__(40)
-	  , core           = __webpack_require__(45)
-	  , LIBRARY        = __webpack_require__(64)
-	  , wksExt         = __webpack_require__(78)
-	  , defineProperty = __webpack_require__(49).f;
+	var global         = __webpack_require__(41)
+	  , core           = __webpack_require__(46)
+	  , LIBRARY        = __webpack_require__(65)
+	  , wksExt         = __webpack_require__(79)
+	  , defineProperty = __webpack_require__(50).f;
 	module.exports = function(name){
 	  var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
 	  if(name.charAt(0) != '_' && !(name in $Symbol))defineProperty($Symbol, name, {value: wksExt.f(name)});
 	};
 
 /***/ },
-/* 84 */
+/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getKeys   = __webpack_require__(28)
-	  , toIObject = __webpack_require__(31);
+	var getKeys   = __webpack_require__(29)
+	  , toIObject = __webpack_require__(32);
 	module.exports = function(object, el){
 	  var O      = toIObject(object)
 	    , keys   = getKeys(O)
@@ -12484,13 +11992,13 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 85 */
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// all enumerable object keys, includes symbols
-	var getKeys = __webpack_require__(28)
-	  , gOPS    = __webpack_require__(86)
-	  , pIE     = __webpack_require__(87);
+	var getKeys = __webpack_require__(29)
+	  , gOPS    = __webpack_require__(87)
+	  , pIE     = __webpack_require__(88);
 	module.exports = function(it){
 	  var result     = getKeys(it)
 	    , getSymbols = gOPS.f;
@@ -12504,34 +12012,34 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 86 */
+/* 87 */
 /***/ function(module, exports) {
 
 	exports.f = Object.getOwnPropertySymbols;
 
 /***/ },
-/* 87 */
+/* 88 */
 /***/ function(module, exports) {
 
 	exports.f = {}.propertyIsEnumerable;
 
 /***/ },
-/* 88 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.2.2 IsArray(argument)
-	var cof = __webpack_require__(33);
+	var cof = __webpack_require__(34);
 	module.exports = Array.isArray || function isArray(arg){
 	  return cof(arg) == 'Array';
 	};
 
 /***/ },
-/* 89 */
+/* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
-	var toIObject = __webpack_require__(31)
-	  , gOPN      = __webpack_require__(90).f
+	var toIObject = __webpack_require__(32)
+	  , gOPN      = __webpack_require__(91).f
 	  , toString  = {}.toString;
 
 	var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
@@ -12551,30 +12059,30 @@ webpackJsonp([0,3],[
 
 
 /***/ },
-/* 90 */
+/* 91 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-	var $keys      = __webpack_require__(29)
-	  , hiddenKeys = __webpack_require__(42).concat('length', 'prototype');
+	var $keys      = __webpack_require__(30)
+	  , hiddenKeys = __webpack_require__(43).concat('length', 'prototype');
 
 	exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
 	  return $keys(O, hiddenKeys);
 	};
 
 /***/ },
-/* 91 */
+/* 92 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var pIE            = __webpack_require__(87)
-	  , createDesc     = __webpack_require__(57)
-	  , toIObject      = __webpack_require__(31)
-	  , toPrimitive    = __webpack_require__(56)
-	  , has            = __webpack_require__(30)
-	  , IE8_DOM_DEFINE = __webpack_require__(52)
+	var pIE            = __webpack_require__(88)
+	  , createDesc     = __webpack_require__(58)
+	  , toIObject      = __webpack_require__(32)
+	  , toPrimitive    = __webpack_require__(57)
+	  , has            = __webpack_require__(31)
+	  , IE8_DOM_DEFINE = __webpack_require__(53)
 	  , gOPD           = Object.getOwnPropertyDescriptor;
 
-	exports.f = __webpack_require__(53) ? gOPD : function getOwnPropertyDescriptor(O, P){
+	exports.f = __webpack_require__(54) ? gOPD : function getOwnPropertyDescriptor(O, P){
 	  O = toIObject(O);
 	  P = toPrimitive(P, true);
 	  if(IE8_DOM_DEFINE)try {
@@ -12584,33 +12092,33 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 92 */
+/* 93 */
 /***/ function(module, exports) {
 
 	
 
 /***/ },
-/* 93 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(83)('asyncIterator');
-
-/***/ },
 /* 94 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(83)('observable');
+	__webpack_require__(84)('asyncIterator');
 
 /***/ },
 /* 95 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(84)('observable');
+
+/***/ },
+/* 96 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 96 */,
 /* 97 */,
-/* 98 */
+/* 98 */,
+/* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12635,12 +12143,12 @@ webpackJsonp([0,3],[
 	//
 	//
 
-	var navigator = __webpack_require__(99);
+	var navigator = __webpack_require__(100);
 
-	var utils = __webpack_require__(18);
+	var utils = __webpack_require__(19);
 	var methods = {};
 	utils.animation.processHomepage(methods);
-	var loader = __webpack_require__(17);
+	var loader = __webpack_require__(18);
 	module.exports = {
 	    module: '/',
 	    data: function data() {
@@ -12666,16 +12174,16 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 99 */
+/* 100 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _keys = __webpack_require__(23);
+	var _keys = __webpack_require__(24);
 
 	var _keys2 = _interopRequireDefault(_keys);
 
-	var _typeof2 = __webpack_require__(58);
+	var _typeof2 = __webpack_require__(59);
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -12684,13 +12192,13 @@ webpackJsonp([0,3],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(100);
+	__webpack_require__(101);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(102);
+	__vue_exports__ = __webpack_require__(103);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(103);
+	var __vue_template__ = __webpack_require__(104);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -12730,14 +12238,14 @@ webpackJsonp([0,3],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 100 */
+/* 101 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 101 */,
-/* 102 */
+/* 102 */,
+/* 103 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -12755,7 +12263,8 @@ webpackJsonp([0,3],[
 	    props: {
 	        navigatorTitle: { type: String, default: '标题' },
 	        navigatorRightBtn: { type: String, default: '' },
-	        onNavigatorRightBtnClick: { type: Function, default: function _default() {} }
+	        onNavigatorRightBtnClick: { type: Function, default: function _default() {} },
+	        navigatorRightBtnClass: { type: String, default: '' }
 	    },
 	    data: function data() {
 	        return {};
@@ -12775,12 +12284,15 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 103 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
 	  return _h('nav', {
-	    staticClass: "navigator"
+	    staticClass: "navigator",
+	    attrs: {
+	      "id": "component-navigator"
+	    }
 	  }, [_h('span', {
 	    staticClass: "navigator-btn",
 	    attrs: {
@@ -12790,7 +12302,7 @@ webpackJsonp([0,3],[
 	      "click": doReturn
 	    }
 	  }, ["返回"]), " ", _h('h1', [_s(navigatorTitle)]), " ", _h('span', {
-	    staticClass: "navigator-btn",
+	    class: ['navigator-btn', navigatorRightBtnClass],
 	    attrs: {
 	      "id": "navigatorRightBtn"
 	    },
@@ -12807,7 +12319,7 @@ webpackJsonp([0,3],[
 	}
 
 /***/ },
-/* 104 */
+/* 105 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -12852,16 +12364,16 @@ webpackJsonp([0,3],[
 	}
 
 /***/ },
-/* 105 */
+/* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _keys = __webpack_require__(23);
+	var _keys = __webpack_require__(24);
 
 	var _keys2 = _interopRequireDefault(_keys);
 
-	var _typeof2 = __webpack_require__(58);
+	var _typeof2 = __webpack_require__(59);
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -12870,13 +12382,13 @@ webpackJsonp([0,3],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(106);
+	__webpack_require__(107);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(108);
+	__vue_exports__ = __webpack_require__(109);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(117);
+	var __vue_template__ = __webpack_require__(119);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -12916,14 +12428,14 @@ webpackJsonp([0,3],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 106 */
+/* 107 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 107 */,
-/* 108 */
+/* 108 */,
+/* 109 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12962,12 +12474,19 @@ webpackJsonp([0,3],[
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
-	var navigator = __webpack_require__(99);
-	var utils = __webpack_require__(18);
-	var store = __webpack_require__(109);
-	var webIM = __webpack_require__(111);
-	__webpack_require__(116);
+	var navigator = __webpack_require__(100);
+	var utils = __webpack_require__(19);
+	var store = __webpack_require__(110);
+	var webIM = __webpack_require__(112);
 
 	var methods = {
 	    getColor: function getColor(name) {
@@ -12981,9 +12500,13 @@ webpackJsonp([0,3],[
 	    module: '/webim-chat',
 	    data: function data() {
 	        var chat_name = this.$route.query.chat_name;
+	        var chat_type = this.$route.query.type;
+	        var roomId = this.$route.query.roomId;
 	        return {
 	            WINHEIGHT: window.HEIGHT,
-	            chat_name: chat_name
+	            chat_name: chat_name,
+	            chat_type: chat_type,
+	            room_id: roomId
 	        };
 	    },
 	    methods: methods,
@@ -12999,14 +12522,18 @@ webpackJsonp([0,3],[
 	                item.read = true;
 	            });
 	            return record;
+	        },
+	        user_name: function user_name() {
+	            return store.state.username;
 	        }
 	    },
 	    destroyed: function destroyed() {},
 	    mounted: function mounted() {
 	        var that = this;
+	        Events.notify('WebIMSaveChatList');
 	        $('#editorBox').bind('focus', function () {
 	            setTimeout(function () {
-	                $("body").scrollTo($('#webim-chat-container').height(), 0);
+	                $("body").scrollTop(5000);
 	            }, 30);
 	        }).keyup(function (e) {
 	            if (e.keyCode == 13) {
@@ -13017,48 +12544,74 @@ webpackJsonp([0,3],[
 	        $('#sendBtn').click(function () {
 	            var msg = $('#editorBox').val();
 	            $('#editorBox').val('');
-	            webIM.sendPrivateText(msg, that.chat_name, function (id, serverId) {
-	                store.commit('addMessage', {
-	                    read: true,
-	                    "id": serverId,
-	                    timestamp: Calendar.getInstance().format('yyyy-MM-dd HH:mm:ss'),
-	                    "type": "chat",
-	                    chat_name: that.chat_name,
-	                    "from": store.state.username,
-	                    "to": that.chat_name,
-	                    "data": msg,
-	                    "ext": {},
-	                    "error": false,
-	                    "errorText": "",
-	                    "errorCode": ""
+	            if (that.chat_type == '1') {
+	                webIM.sendPrivateText(msg, that.chat_name, function (id, serverId) {
+	                    store.commit('addMessage', {
+	                        read: true,
+	                        "id": serverId,
+	                        timestamp: Calendar.getInstance().format('yyyy-MM-dd HH:mm:ss'),
+	                        "type": "chat",
+	                        chat_name: that.chat_name,
+	                        "from": store.state.username,
+	                        "to": that.chat_name,
+	                        "data": msg,
+	                        "ext": {},
+	                        "error": false,
+	                        "errorText": "",
+	                        "errorCode": ""
+	                    });
+	                    $("body").scrollTop(5000);
 	                });
-	                $("body").scrollTo($('#webim-chat-container').height(), 0);
-	            });
+	            } else {
+	                webIM.sendGroupText(msg, that.room_id, function (id, serverId) {
+	                    store.commit('addMessage', {
+	                        read: true,
+	                        "id": serverId,
+	                        timestamp: Calendar.getInstance().format('yyyy-MM-dd HH:mm:ss'),
+	                        "type": "groupchat",
+	                        chat_name: that.chat_name,
+	                        "from": store.state.username,
+	                        "to": that.room_id,
+	                        "data": msg,
+	                        "ext": {},
+	                        "error": false,
+	                        "errorText": "",
+	                        "errorCode": ""
+	                    });
+	                    $("body").scrollTop(5000);
+	                });
+	            }
 	        });
+	        setTimeout(function () {
+	            $("body").scrollTop(5000);
+	        }, 500);
 	    }
 	};
 
 /***/ },
-/* 109 */
+/* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by 杨浪 on 2016/12/12.
 	 */
-	var Vue = __webpack_require__(14);
-	var Vuex = __webpack_require__(110);
+	var Vue = __webpack_require__(15);
+	var Vuex = __webpack_require__(111);
 	Vue.use(Vuex);
 
+	var __list = localStorage.getItem('WebIMCurChatList_'+UserInfo.username),Arr = [];
 	const store = window.store = new Vuex.Store({
 	    state:{
 	        webIMConn:null,//连接
 	        rosterList:[],//好友列表,
-	        curChatList:[],//当前聊天列表
+	        curChatList:__list?JSON.parse(__list):[],//当前聊天列表
 	        groupList:[],
-	        blackList:[]
+	        blackList:[],
+	        webIMTabIndex:0
 	    },
 	    mutations:{
 	        setUsername:function (state,username) {
+	            console.log('setUserName'+username);
 	            state.username = username;
 	        },
 	        setConn:function(state,conn){
@@ -13082,32 +12635,121 @@ webpackJsonp([0,3],[
 	         * @param message
 	         */
 	        addMessage:function(state,message){
-	            var list = state.curChatList, curChat = null;
-	            list.forEach(function(item,index){
-	                if(item.name == message.chat_name){
-	                    curChat = item;
-	                }
-	            });
-	            if(curChat){
-	                curChat.record.push(message);
-	            }else{
-	                store.commit('addChat',{
-	                    name: message.chat_name,
-	                    id: message.id,
-	                    type:message.type,
-	                    record: [
-	                        message
-	                    ]
-	                });
+	            console.log('addMessage');
+	            if(message.type === 'chat'){
+	                StoreUtil.addChatMessage(state,message);
+	            }else if(message.type === 'groupchat'){
+	                StoreUtil.addGroupMessage(state,message);
+	            }else if(message.type === 'subscribe'){
+	                StoreUtil.addSubcribeMessage(state,message);
 	            }
+
+	            Events.notify('WebIMSaveChatList');
+	        },
+	        setWebIMTabIndex:function(state,index){
+	            state.webIMTabIndex = index;
 	        }
 	    },
 	});
+	Events.subscribe('WebIMSaveChatList',function(){
+	    localStorage.setItem('WebIMCurChatList_'+UserInfo.username,JSON.stringify(store.state.curChatList));
+	});
+	var StoreUtil = {
+	    addChatMessage:function(state,message){
+	        var list = state.curChatList, curChat = null, index = null;
+	        list.forEach(function(item,i){
+	            if(item.name == message.chat_name){
+	                curChat = item;
+	                index = i;
+	            }
+	        });
+	        if(curChat){
+	            curChat.record.push(message);
+	            list.splice(index,1);
+	            list.splice(0,0,curChat);
+	        }else{
+	            store.commit('addChat',{
+	                name: message.chat_name,
+	                id: message.id,
+	                type:message.type,
+	                record: [
+	                    message
+	                ]
+	            });
+	        }
+	    },
+	    addGroupMessage:function(state,message,recall){
+	        var list = state.curChatList, curChat = null ,index = null;
+	        list.forEach(function(item,i){
+	            if(item.roomId == message.to){
+	                curChat = item;
+	                index = i;
+	            }
+	        });
+	        if(curChat){
+	            curChat.record.push(message);
+	            list.splice(index,1);
+	            list.splice(0,0,curChat);
+	        }else{
+	            //获取群组信息
+	            var groupInfo;
+	            state.groupList.forEach(function(item,index){
+	                if(item.roomId == message.to){
+	                    groupInfo = item;
+	                }
+	            });
+	            if(!groupInfo)//暂时：群组不存在，延时处理，并且只延时一次，第二次直接放弃。
+	            {
+	                var callee = arguments.callee, args = arguments, that = this;
+	                !recall && setTimeout(function(){
+	                    callee.apply(that,Arr.slice.call(args,0).concat([true]));
+	                },500);
+	                return;
+	            }
+	            store.commit('addChat',{
+	                roomId: groupInfo.roomId,//群组id
+	                name:groupInfo.name,
+	                id: message.id,
+	                type:message.type,
+	                record: [
+	                    message
+	                ]
+	            });
+	        }
+	    },
+	    addSubcribeMessage:function(state,message){
+	        var list = state.curChatList, subcribeChat = null ,index = null;
+	        list.forEach(function(item,i){
+	            if(item.type == 'subscribe'){
+	                subcribeChat = item;
+	                index = i;
+	            }
+	        });
+	        !message.accept_type && (message.accept_type = 1);//1 尚未决定 2 已添加 3 已拒绝
+	        if(subcribeChat){
+	            for(var i = 0;i<subcribeChat.record.length;i++){
+	                if(subcribeChat.record[i].fromJid == message.fromJid && subcribeChat.record[i].accept_type !=3)
+	                    return;
+	            }
+	            subcribeChat.record.push(message);
+	            list.splice(index,1);
+	            list.splice(0,0,subcribeChat);
+	        }else{
+	            store.commit('addChat',{
+	                name:'好友请求',
+	                type:'subscribe',
+	                record: [
+	                    message
+	                ]
+	            });
+	        }
+	    }
+	};
 
 	module.exports = store;
 
 /***/ },
-/* 110 */
+/* 111 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -13640,7 +13282,7 @@ webpackJsonp([0,3],[
 	})));
 
 /***/ },
-/* 111 */
+/* 112 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -13649,10 +13291,10 @@ webpackJsonp([0,3],[
 	/**
 	 * Created by 杨浪 on 2016/12/8.
 	 */
-	var Events = __webpack_require__(16);
+	var Events = __webpack_require__(17);
 
-	var utils = __webpack_require__(18);
-	var store = __webpack_require__(109);
+	var utils = __webpack_require__(19);
+	var store = __webpack_require__(110);
 
 	var ChatManage = {
 	    onConnectionOpened:function(){
@@ -13708,6 +13350,43 @@ webpackJsonp([0,3],[
 	            arr.push(list[key]);
 	        };
 	        store.commit('setBlack',arr);
+	    },
+	    /**
+	     * 收到好友请求
+	     */
+	    onPresence:function(e){
+	        console.log(e);
+	        //（发送者希望订阅接收者的出席信息），即别人申请加你为好友
+	        if ( e.type === 'subscribe' ) {
+	            //若e.status中含有[resp:true],则表示为对方同意好友后反向添加自己为好友的消息，demo中发现此类消息，默认同意操作，完成双方互为好友；如果不含有[resp:true]，则表示为正常的对方请求添加自己为好友的申请消息。
+	            if(e && e.status === '[resp:true]'){
+	                var conn = store.state.webIMConn;
+	                conn.subscribed({
+	                    to: e.from,
+	                    message : '[resp:true]'
+	                });
+	               /* e.status = '对方已同意好友请求';
+	                e.accept_type = 2;
+	                store.commit('addMessage', e);*/
+	                return;
+	            }
+	            store.commit('addMessage', e);
+	        }
+
+	        //(发送者允许接收者接收他们的出席信息)，即别人同意你加他为好友
+	        if ( e.type === 'subscribed' ) {
+
+	        }
+
+	        //（发送者取消订阅另一个实体的出席信息）,即删除现有好友
+	        if ( e.type === 'unsubscribe' ) {
+
+	        }
+
+	        //（订阅者的请求被拒绝或以前的订阅被取消），即对方单向的删除了好友
+	        if ( e.type === 'unsubscribed' ) {
+
+	        }
 	    }
 	};
 
@@ -13715,106 +13394,107 @@ webpackJsonp([0,3],[
 
 	module.exports = {
 	    init:function(){
-	        utils.ajax.querySync('/user/password',function(data){
-	            __webpack_require__.e/* nsure */(1, function(){
-	                __webpack_require__(112);
-	                __webpack_require__(113);
-	                __webpack_require__(115);
-	                if(!data.success){
-	                    alert(data.message);
-	                    return;
-	                }
-	                var conn = new WebIM.connection({
-	                    https: WebIM.config.https,
-	                    url: WebIM.config.xmppURL,
-	                    isAutoLogin: WebIM.config.isAutoLogin,
-	                    isMultiLoginSessions: WebIM.config.isMultiLoginSessions
-	                });
-	                //注册事件总线
-	                conn.listen({
-	                    onOpened: function ( message ) {          //连接成功回调
-	                        // 如果isAutoLogin设置为false，那么必须手动设置上线，否则无法收消息
-	                        // 手动上线指的是调用conn.setPresence(); 如果conn初始化时已将isAutoLogin设置为true
-	                        // 则无需调用conn.setPresence();
-	                        Events.notify('webim_event_opened',message);
-	                    },
-	                    onClosed: function ( message ) {
-	                        console.log('webim_event_closed');
-	                        console.log(message);
-	                        Events.notify('webim_event_closed',message);
-	                    },         //连接关闭回调
-	                    onTextMessage: function ( message ) {
-	                        console.log(message);
-	                        message.timestamp = Calendar.getInstance().format('yyyy-MM-dd HH:mm:ss');
-	                        Events.notify('webim_event_message_text',message);
-	                    },    //收到文本消息
-	                    onEmojiMessage: function ( message ) {
-	                        Events.notify('webim_event_message_emoji',message);
-	                    },   //收到表情消息
-	                    onPictureMessage: function ( message ) {
-	                        Events.notify('webim_event_message_picture',message);
-	                    }, //收到图片消息
-	                    onCmdMessage: function ( message ) {
-	                        Events.notify('webim_event_message_cmd',message);
-	                    },     //收到命令消息
-	                    onAudioMessage: function ( message ) {
-	                        Events.notify('webim_event_message_audio',message);
-	                    },   //收到音频消息
-	                    onLocationMessage: function ( message ) {
-	                        Events.notify('webim_event_message_location',message);
-	                    },//收到位置消息
-	                    onFileMessage: function ( message ) {
-	                        Events.notify('webim_event_message_file',message);
-	                    },    //收到文件消息
-	                    onVideoMessage: function ( message ) {
-	                        Events.notify('webim_event_message_video',message);
-	                    },   //收到视频消息
-	                    onPresence: function ( message ) {
-	                        Events.notify('webim_event_presence',message);
-	                    },       //收到联系人订阅请求、处理群组、聊天室被踢解散等消息
-	                    onRoster: function ( message ) {
-	                        Events.notify('webim_event_roster',message);
-	                    },         //处理好友申请
-	                    onInviteMessage: function ( message ) {
-	                        Events.notify('webim_event_invitemessage',message);
-	                    },  //处理群组邀请
-	                    onOnline: function () {
-	                        Events.notify('webim_event_online');
-	                    },                  //本机网络连接成功
-	                    onOffline: function () {
-	                        console.log('webim_event_offline');
-	                        Events.notify('webim_event_offline');
-	                    },                 //本机网络掉线
-	                    onError: function ( message ) {
-	                        console.log('webim_event_error');
-	                        console.log(message);
-	                        Events.notify('webim_event_error',message);
-	                    },          //失败回调
-	                    onBlacklistUpdate: function (list) {       //黑名单变动
-	                        Events.notify('webim_event_blacklistupdate',list);
-	                    }
-	                });
-	                var options = {
-	                    apiUrl: WebIM.config.apiURL,
-	                    user: data.data.user_name,
-	                    pwd: data.data.user_password,
-	                    appKey: WebIM.config.appkey
-	                };
-	                //便于断线重连
-	                Events.subscribe('webim_login',function(){
-	                    conn.open(options);
-	                }).notify('webim_login');
-	                store.commit('setConn',conn);//注册conn到vuex store
-	                store.commit('setUsername',data.data.user_name);//注册conn到vuex store
-
-	                Events.subscribe('webim_event_opened',ChatManage.onConnectionOpened);
-	                Events.subscribe('webim_event_message_text',ChatManage.onMessageReceive);
-	                Events.subscribe('webim_event_blacklistupdate',ChatManage.updateBlackList);
+	        __webpack_require__.e/* nsure */(1, function(){
+	            __webpack_require__(113);
+	            __webpack_require__(115);
+	            __webpack_require__(117);
+	            var conn = new WebIM.connection({
+	                https: WebIM.config.https,
+	                url: WebIM.config.xmppURL,
+	                isAutoLogin: WebIM.config.isAutoLogin,
+	                isMultiLoginSessions: WebIM.config.isMultiLoginSessions
 	            });
+	            //注册事件总线
+	            conn.listen({
+	                onOpened: function ( message ) {          //连接成功回调
+	                    // 如果isAutoLogin设置为false，那么必须手动设置上线，否则无法收消息
+	                    // 手动上线指的是调用conn.setPresence(); 如果conn初始化时已将isAutoLogin设置为true
+	                    // 则无需调用conn.setPresence();
+	                    Events.notify('webim_event_opened',message);
+	                },
+	                onClosed: function ( message ) {
+	                    console.log('webim_event_closed');
+	                    console.log(message);
+	                    Events.notify('webim_event_closed',message);
+	                },         //连接关闭回调
+	                onTextMessage: function ( message ) {
+	                    console.log(message);
+	                    message.timestamp = Calendar.getInstance().format('yyyy-MM-dd HH:mm:ss');
+	                    Events.notify('webim_event_message_text',message);
+	                },    //收到文本消息
+	                onEmojiMessage: function ( message ) {
+	                    Events.notify('webim_event_message_emoji',message);
+	                },   //收到表情消息
+	                onPictureMessage: function ( message ) {
+	                    Events.notify('webim_event_message_picture',message);
+	                }, //收到图片消息
+	                onCmdMessage: function ( message ) {
+	                    Events.notify('webim_event_message_cmd',message);
+	                },     //收到命令消息
+	                onAudioMessage: function ( message ) {
+	                    Events.notify('webim_event_message_audio',message);
+	                },   //收到音频消息
+	                onLocationMessage: function ( message ) {
+	                    Events.notify('webim_event_message_location',message);
+	                },//收到位置消息
+	                onFileMessage: function ( message ) {
+	                    Events.notify('webim_event_message_file',message);
+	                },    //收到文件消息
+	                onVideoMessage: function ( message ) {
+	                    Events.notify('webim_event_message_video',message);
+	                },   //收到视频消息
+	                onPresence: function ( message ) {
+	                    Events.notify('webim_event_presence',message);
+	                },       //收到联系人订阅请求、处理群组、聊天室被踢解散等消息
+	                onRoster: function ( message ) {
+	                    Events.notify('webim_event_roster',message);
+	                },         //处理好友申请
+	                onInviteMessage: function ( message ) {
+	                    Events.notify('webim_event_invitemessage',message);
+	                },  //处理群组邀请
+	                onOnline: function () {
+	                    Events.notify('webim_event_online');
+	                },                  //本机网络连接成功
+	                onOffline: function () {
+	                    console.log('webim_event_offline');
+	                    Events.notify('webim_event_offline');
+	                },                 //本机网络掉线
+	                onError: function ( message ) {
+	                    console.log('webim_event_error');
+	                    console.log(message);
+	                    Events.notify('webim_event_error',message);
+	                },          //失败回调
+	                onBlacklistUpdate: function (list) {       //黑名单变动
+	                    Events.notify('webim_event_blacklistupdate',list);
+	                }
+	            });
+	            var options = {
+	                apiUrl: WebIM.config.apiURL,
+	                user: UserInfo.username,
+	                pwd: UserInfo.password,
+	                appKey: WebIM.config.appkey
+	            };
+	            //便于断线重连
+	            Events.subscribe('webim_login',function(){
+	                conn.open(options);
+	            }).notify('webim_login');
+	            store.commit('setConn',conn);//注册conn到vuex store
 
+
+	            Events.subscribe('webim_event_opened',ChatManage.onConnectionOpened);
+	            Events.subscribe('webim_event_message_text',ChatManage.onMessageReceive);
+	            Events.subscribe('webim_event_blacklistupdate',ChatManage.updateBlackList);
+	            Events.subscribe('webim_event_presence',ChatManage.onPresence);
 	        });
+	        store.commit('setUsername',UserInfo.username);//设置用户名到store
 
 	    },
+	    /**
+	     * 单发消息
+	     * @param text
+	     * @param to
+	     * @param callback
+	     */
 	    sendPrivateText : function (text,to,callback) {
 	        var conn = store.state.webIMConn;
 	        var id = conn.getUniqueId();                 // 生成本地消息id
@@ -13833,40 +13513,41 @@ webpackJsonp([0,3],[
 	        });
 	        msg.body.chatType = 'singleChat';
 	        conn.send(msg.body);
+	    },
+	    /**
+	     * 群组发送文本消息
+	     */
+	    sendGroupText : function (text,to,callback) {
+	        var conn = store.state.webIMConn;
+	        var id = conn.getUniqueId();            // 生成本地消息id
+	        var msg = new WebIM.message('txt', id); // 创建文本消息
+	        var option = {
+	            msg: text,             // 消息内容
+	            to: to,                     // 接收消息对象(群组id)
+	            roomType: false,
+	            chatType: 'chatRoom',
+	            success: function (id, serverMsgId) {
+	                callback && callback(id, serverMsgId);
+	            },
+	            fail: function () {
+	                alert(JSON.stringify(err));
+	                callback && callback();
+	            }
+	        };
+	        msg.set(option);
+	        msg.setGroup('groupchat');
+	        conn.send(msg.body);
 	    }
 	};
 
 /***/ },
-/* 112 */,
 /* 113 */,
 /* 114 */,
 /* 115 */,
-/* 116 */
-/***/ function(module, exports) {
-
-	;(function($){
-	    $.extend($.fn, {
-	        scrollTo: function(m,duration){
-	            var n = 0, timer = null, that = this;
-	            var smoothScroll = function(m){
-	                var per = Math.round(m / 50);
-	                n = n + per;
-	                if(n > m){
-	                    window.clearInterval(timer);
-	                    return false;
-	                }
-	                that.scrollTop(n);
-	            };
-
-	            timer = window.setInterval(function(){
-	                smoothScroll(m);
-	            }, duration!=null?duration:20);
-	        }
-	    })
-	})(Zepto)
-
-/***/ },
-/* 117 */
+/* 116 */,
+/* 117 */,
+/* 118 */,
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -13902,17 +13583,33 @@ webpackJsonp([0,3],[
 	        "data-chat-id": item.id
 	      }
 	    }, [_h('div', {
-	      staticClass: "chat-item-wrap",
 	      class: {
-	        'chat-left': (item.from == chat_name)
+	        'chat-left': (chat_type == '1' ? (item.from == chat_name) : (item.from != user_name)), 'is-group': chat_type == '2', 'chat-item-wrap': true
+	      }
+	    }, [_h('p', {
+	      staticClass: "user-name"
+	    }, [_s(item.from)]), " ", (item.from != user_name) ? _h('div', {
+	      staticClass: "head-wrap"
+	    }, [_h('router-link', {
+	      attrs: {
+	        "to": '/webim-detail?type=1&id=' + item.from + '&title=' + item.from + '&time=' + new Date().getTime()
+	      },
+	      nativeOn: {
+	        "click": function($event) {
+	          routerClick($event)
+	        }
 	      }
 	    }, [_h('div', {
+	      staticClass: "head-circle-name"
+	    }, [_h('h3', {
+	      style: ('color:' + getColor(item.from) + '')
+	    }, [_s(item.from)])])])]) : _h('div', {
 	      staticClass: "head-wrap"
 	    }, [_h('div', {
 	      staticClass: "head-circle-name"
 	    }, [_h('h3', {
 	      style: ('color:' + getColor(item.from) + '')
-	    }, [_s(item.from)])])]), " ", _h('div', {
+	    }, [_s(item.from)])])]), " ", " ", _h('div', {
 	      staticClass: "chat-content-wrap"
 	    }, ["\n                            " + _s(item.data) + "\n                        "])])])]
 	  })])]), " ", _m(0)])])
@@ -13941,23 +13638,267 @@ webpackJsonp([0,3],[
 	}
 
 /***/ },
-/* 118 */
+/* 120 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _keys = __webpack_require__(24);
+
+	var _keys2 = _interopRequireDefault(_keys);
+
+	var _typeof2 = __webpack_require__(59);
+
+	var _typeof3 = _interopRequireDefault(_typeof2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var __vue_exports__, __vue_options__;
+
+	/* styles */
+	__webpack_require__(121);
+
+	/* script */
+	__vue_exports__ = __webpack_require__(123);
+
+	/* template */
+	var __vue_template__ = __webpack_require__(124);
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
+	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
+	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
+	    return key !== "default" && key !== "__esModule";
+	  })) {
+	    console.error("named exports are not supported in *.vue files.");
+	  }
+	  __vue_options__ = __vue_exports__ = __vue_exports__.default;
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options;
+	}
+	__vue_options__.name = __vue_options__.name || "webim-search";
+	__vue_options__.__file = "D:\\workspace\\SPM\\public\\src\\javascripts\\h5\\vue-components\\webim-search.vue";
+	__vue_options__.render = __vue_template__.render;
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns;
+	__vue_options__._scopeId = "data-v-0548943a";
+
+	/* hot reload */
+	if (false) {
+	  (function () {
+	    var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api");
+	    hotAPI.install(require("vue"), false);
+	    if (!hotAPI.compatible) return;
+	    module.hot.accept();
+	    if (!module.hot.data) {
+	      hotAPI.createRecord("data-v-0548943a", __vue_options__);
+	    } else {
+	      hotAPI.reload("data-v-0548943a", __vue_options__);
+	    }
+	  })();
+	}
+	if (__vue_options__.functional) {
+	  console.error("[vue-loader] webim-search.vue: functional components are not supported and should be defined in plain js files using render functions.");
+	}
+
+	module.exports = __vue_exports__;
+
+/***/ },
+/* 121 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 122 */,
+/* 123 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
+	var navigator = __webpack_require__(100);
+	var utils = __webpack_require__(19);
+	var store = __webpack_require__(110);
+	var webIM = __webpack_require__(112);
+
+	var methods = {
+	    getColor: function getColor(name) {
+	        if (!name) return '#000';
+	        var num = utils.djb2Code(name);
+	        num = /^.*(\d)$/.test(num) && RegExp.$1;;
+	        return utils.colors[parseInt(num)];
+	    }
+	};
+	utils.animation.process(methods);
+	module.exports = {
+	    module: '/webim-search',
+	    data: function data() {
+	        var type = this.$route.query.type;
+	        return {
+	            WINHEIGHT: window.HEIGHT,
+	            type: type,
+	            dataList: [],
+	            navigatorTitle: type == '1' ? '好友查找' : '群组查找'
+	        };
+	    },
+	    methods: methods,
+	    components: { navigator: navigator },
+	    computed: {
+	        user_name: function user_name() {
+	            return store.state.username;
+	        }
+	    },
+	    destroyed: function destroyed() {},
+	    mounted: function mounted() {
+	        var that = this;
+	        $('#editorBox').keyup(function (e) {
+	            if (e.keyCode == 13) {
+	                $('#searchBtn').click();
+	            }
+	        });
+
+	        $('#searchBtn').click(function () {
+	            var key = $('#editorBox').val();
+	            if (key.trim() == '') return;
+	            utils.ajax.query('/webim/' + (that.type == '1' ? 'users' : 'groups') + '/' + key, function (data) {
+	                if (!data.success) {
+	                    $.ui.toast(data.message);
+	                    return;
+	                }
+	                var arr = [];
+	                data.data.rows.forEach(function (item, index) {
+	                    if (that.type == '1' && item.user_name != that.user_name) arr.push(item);else if (that.type == '2') arr.push(item);
+	                });
+	                if (arr.length == 0) $.ui.toast('未搜索到符合条件的记录');
+	                that.dataList = arr;
+	            });
+	        });
+	    }
+	};
+
+/***/ },
+/* 124 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('transition', {
+	    attrs: {
+	      "css": false
+	    },
+	    on: {
+	      "before-enter": beforeEnter,
+	      "after-enter": afterEnter,
+	      "enter": enter,
+	      "leave": leave,
+	      "before-leave": beforeLeave
+	    }
+	  }, [_h('div', {
+	    staticClass: "router-view",
+	    style: ('min-height:' + WINHEIGHT + 'px'),
+	    attrs: {
+	      "id": "webim-search-container"
+	    }
+	  }, [_h('navigator', {
+	    attrs: {
+	      "navigator-title": navigatorTitle
+	    }
+	  }), " ", _m(0), " ", _h('div', {
+	    staticClass: "content-wrap"
+	  }, [_h('ul', {
+	    staticClass: "roster-list"
+	  }, [_l((dataList), function(item) {
+	    return [_h('router-link', {
+	      attrs: {
+	        "to": '/webim-detail?type=' + type + '&id=' + (type == '1' ? item.user_name : item.id) + '&title=' + (type == '1' ? item.nickname : item.name)
+	      },
+	      nativeOn: {
+	        "click": function($event) {
+	          routerClick($event)
+	        }
+	      }
+	    }, [_h('li', [_h('div', {
+	      staticClass: "li-wrap"
+	    }, [_h('div', {
+	      staticClass: "head-circle-name"
+	    }, [_h('h3', {
+	      style: ('color:' + getColor(type == '1' ? item.nickname : item.name) + '')
+	    }, [_s(type == '1' ? item.nickname : item.name)])]), "\n                            " + _s(type == '1' ? item.nickname : item.name) + "\n                        "])])])]
+	  })])])])])
+	}},staticRenderFns: [function (){with(this) {
+	  return _h('div', {
+	    staticClass: "fixed",
+	    attrs: {
+	      "id": "searchBar"
+	    }
+	  }, [_h('input', {
+	    attrs: {
+	      "type": "text",
+	      "id": "editorBox"
+	    }
+	  }), " ", _h('button', {
+	    attrs: {
+	      "id": "searchBtn"
+	    }
+	  }, ["搜索"])])
+	}}]}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-0548943a", module.exports)
+	  }
+	}
+
+/***/ },
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./aboutus.vue": 119,
-		"./attence-analyse.vue": 125,
-		"./attence-search.vue": 140,
-		"./homepage.vue": 22,
-		"./menu-second.vue": 152,
-		"./password-modify.vue": 157,
-		"./repair-report.vue": 162,
-		"./theme.vue": 169,
-		"./vue-navigator.vue": 99,
-		"./vue-pagination.vue": 144,
-		"./vue-popup.vue": 132,
-		"./webim-chat.vue": 105,
-		"./webim.vue": 180
+		"./aboutus.vue": 126,
+		"./attence-analyse.vue": 132,
+		"./attence-search.vue": 147,
+		"./homepage.vue": 23,
+		"./menu-second.vue": 158,
+		"./password-modify.vue": 163,
+		"./repair-report.vue": 168,
+		"./theme.vue": 175,
+		"./vue-navigator.vue": 100,
+		"./vue-pagination.vue": 151,
+		"./vue-popup.vue": 139,
+		"./webim-chat.vue": 106,
+		"./webim-detail.vue": 186,
+		"./webim-search.vue": 120,
+		"./webim-subscribe-list.vue": 433,
+		"./webim.vue": 191
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -13970,20 +13911,20 @@ webpackJsonp([0,3],[
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 118;
+	webpackContext.id = 125;
 
 
 /***/ },
-/* 119 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _keys = __webpack_require__(23);
+	var _keys = __webpack_require__(24);
 
 	var _keys2 = _interopRequireDefault(_keys);
 
-	var _typeof2 = __webpack_require__(58);
+	var _typeof2 = __webpack_require__(59);
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -13992,13 +13933,13 @@ webpackJsonp([0,3],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(120);
+	__webpack_require__(127);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(122);
+	__vue_exports__ = __webpack_require__(129);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(123);
+	var __vue_template__ = __webpack_require__(130);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -14038,14 +13979,14 @@ webpackJsonp([0,3],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 120 */
+/* 127 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 121 */,
-/* 122 */
+/* 128 */,
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14067,8 +14008,8 @@ webpackJsonp([0,3],[
 	//
 	//
 
-	var navigator = __webpack_require__(99);
-	var utils = __webpack_require__(18);
+	var navigator = __webpack_require__(100);
+	var utils = __webpack_require__(19);
 
 	var methods = {};
 	utils.animation.process(methods);
@@ -14085,7 +14026,7 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 123 */
+/* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -14116,7 +14057,7 @@ webpackJsonp([0,3],[
 	    staticClass: "content-wrap"
 	  }, [_h('img', {
 	    attrs: {
-	      "src": __webpack_require__(124)
+	      "src": __webpack_require__(131)
 	    }
 	  }), " ", _h('p', ["该平台提供智能门禁与学生考勤系统、智能报修与投诉处理系统、学校信息发布与家校互通系统等功能 "])])
 	}}]}
@@ -14128,22 +14069,22 @@ webpackJsonp([0,3],[
 	}
 
 /***/ },
-/* 124 */
+/* 131 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "5e583a50d06bccdb1e362fe2ee8462e8.png";
 
 /***/ },
-/* 125 */
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _keys = __webpack_require__(23);
+	var _keys = __webpack_require__(24);
 
 	var _keys2 = _interopRequireDefault(_keys);
 
-	var _typeof2 = __webpack_require__(58);
+	var _typeof2 = __webpack_require__(59);
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -14152,13 +14093,13 @@ webpackJsonp([0,3],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(126);
+	__webpack_require__(133);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(128);
+	__vue_exports__ = __webpack_require__(135);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(139);
+	var __vue_template__ = __webpack_require__(146);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -14198,14 +14139,14 @@ webpackJsonp([0,3],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 126 */
+/* 133 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 127 */,
-/* 128 */
+/* 134 */,
+/* 135 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14244,12 +14185,12 @@ webpackJsonp([0,3],[
 	//
 	//
 
-	var navigator = __webpack_require__(99);
-	__webpack_require__(129);
-	__webpack_require__(130);
-	var popup = __webpack_require__(132);
-	var utils = __webpack_require__(18);
-	var chartConfig = __webpack_require__(137);
+	var navigator = __webpack_require__(100);
+	__webpack_require__(136);
+	__webpack_require__(137);
+	var popup = __webpack_require__(139);
+	var utils = __webpack_require__(19);
+	var chartConfig = __webpack_require__(144);
 	var echarts = null;
 	var methods = {
 	    onNavigatorRightBtnClick: function onNavigatorRightBtnClick() {
@@ -14304,7 +14245,7 @@ webpackJsonp([0,3],[
 	            $.loading();
 	        }, utils.animation.DURATION);
 	        __webpack_require__.e/* nsure */(2, function () {
-	            echarts = __webpack_require__(138);
+	            echarts = __webpack_require__(145);
 	            setTimeout(function () {
 	                initChart.apply(that, [{
 	                    startdate: that.startdate.replace(/-/gi, ''),
@@ -14562,29 +14503,29 @@ webpackJsonp([0,3],[
 	}
 
 /***/ },
-/* 129 */
+/* 136 */
 /***/ function(module, exports) {
 
 	window.LCalendar=function(){var e=function(){this.gearDate,this.minY=1900,this.minM=1,this.minD=1,this.maxY=2099,this.maxM=12,this.maxD=31};return e.prototype={init:function(e){if(this.type=e.type,this.trigger=document.querySelector(e.trigger),null!=this.trigger.getAttribute("data-lcalendar")){var t=this.trigger.getAttribute("data-lcalendar").split(","),a=t[0].split("-");this.minY=~~a[0],this.minM=~~a[1],this.minD=~~a[2];var r=t[1].split("-");this.maxY=~~r[0],this.maxM=~~r[1],this.maxD=~~r[2]}if(e.minDate){var a=e.minDate.split("-");this.minY=~~a[0],this.minM=~~a[1],this.minD=~~a[2]}if(e.maxDate){var r=e.maxDate.split("-");this.maxY=~~r[0],this.maxM=~~r[1],this.maxD=~~r[2]}this.bindEvent(this.type)},bindEvent:function(e){function t(e){E.gearDate=document.createElement("div"),E.gearDate.className="gearDate",E.gearDate.innerHTML='<div class="date_ctrl slideInUp"><div class="date_btn_box"><div class="date_btn lcalendar_cancel">取消</div><div class="date_btn lcalendar_finish">确定</div></div><div class="date_roll_mask"><div class="date_roll"><div><div class="gear date_yy" data-datetype="date_yy"></div><div class="date_grid"><div>年</div></div></div><div><div class="gear date_mm" data-datetype="date_mm"></div><div class="date_grid"><div>月</div></div></div><div><div class="gear date_dd" data-datetype="date_dd"></div><div class="date_grid"><div>日</div></div></div></div></div></div>',document.body.appendChild(E.gearDate),a();var t=E.gearDate.querySelector(".lcalendar_cancel");t.addEventListener("touchstart",y);var r=E.gearDate.querySelector(".lcalendar_finish");r.addEventListener("touchstart",D);var d=E.gearDate.querySelector(".date_yy"),i=E.gearDate.querySelector(".date_mm"),n=E.gearDate.querySelector(".date_dd");d.addEventListener("touchstart",m),i.addEventListener("touchstart",m),n.addEventListener("touchstart",m),d.addEventListener("touchmove",u),i.addEventListener("touchmove",u),n.addEventListener("touchmove",u),d.addEventListener("touchend",g),i.addEventListener("touchend",g),n.addEventListener("touchend",g)}function a(){var e=new Date,t={yy:e.getFullYear(),mm:e.getMonth(),dd:e.getDate()-1};/^\d{4}-\d{1,2}-\d{1,2}$/.test(E.trigger.value)?(rs=E.trigger.value.match(/(^|-)\d{1,4}/g),t.yy=rs[0]-E.minY,t.mm=rs[1].replace(/-/g,"")-1,t.dd=rs[2].replace(/-/g,"")-1):t.yy=t.yy-E.minY,E.gearDate.querySelector(".date_yy").setAttribute("val",t.yy),E.gearDate.querySelector(".date_mm").setAttribute("val",t.mm),E.gearDate.querySelector(".date_dd").setAttribute("val",t.dd),l()}function r(e){E.gearDate=document.createElement("div"),E.gearDate.className="gearDate",E.gearDate.innerHTML='<div class="date_ctrl slideInUp"><div class="date_btn_box"><div class="date_btn lcalendar_cancel">取消</div><div class="date_btn lcalendar_finish">确定</div></div><div class="date_roll_mask"><div class="ym_roll"><div><div class="gear date_yy" data-datetype="date_yy"></div><div class="date_grid"><div>年</div></div></div><div><div class="gear date_mm" data-datetype="date_mm"></div><div class="date_grid"><div>月</div></div></div></div></div></div>',document.body.appendChild(E.gearDate),d();var t=E.gearDate.querySelector(".lcalendar_cancel");t.addEventListener("touchstart",y);var a=E.gearDate.querySelector(".lcalendar_finish");a.addEventListener("touchstart",b);var r=E.gearDate.querySelector(".date_yy"),i=E.gearDate.querySelector(".date_mm");r.addEventListener("touchstart",m),i.addEventListener("touchstart",m),r.addEventListener("touchmove",u),i.addEventListener("touchmove",u),r.addEventListener("touchend",g),i.addEventListener("touchend",g)}function d(){var e=new Date,t={yy:e.getFullYear(),mm:e.getMonth()};/^\d{4}-\d{1,2}$/.test(E.trigger.value)?(rs=E.trigger.value.match(/(^|-)\d{1,4}/g),t.yy=rs[0]-E.minY,t.mm=rs[1].replace(/-/g,"")-1):t.yy=t.yy-E.minY,E.gearDate.querySelector(".date_yy").setAttribute("val",t.yy),E.gearDate.querySelector(".date_mm").setAttribute("val",t.mm),l()}function i(e){E.gearDate=document.createElement("div"),E.gearDate.className="gearDatetime",E.gearDate.innerHTML='<div class="date_ctrl slideInUp"><div class="date_btn_box"><div class="date_btn lcalendar_cancel">取消</div><div class="date_btn lcalendar_finish">确定</div></div><div class="date_roll_mask"><div class="datetime_roll"><div><div class="gear date_yy" data-datetype="date_yy"></div><div class="date_grid"><div>年</div></div></div><div><div class="gear date_mm" data-datetype="date_mm"></div><div class="date_grid"><div>月</div></div></div><div><div class="gear date_dd" data-datetype="date_dd"></div><div class="date_grid"><div>日</div></div></div><div><div class="gear time_hh" data-datetype="time_hh"></div><div class="date_grid"><div>时</div></div></div><div><div class="gear time_mm" data-datetype="time_mm"></div><div class="date_grid"><div>分</div></div></div></div></div></div>',document.body.appendChild(E.gearDate),n();var t=E.gearDate.querySelector(".lcalendar_cancel");t.addEventListener("touchstart",y);var a=E.gearDate.querySelector(".lcalendar_finish");a.addEventListener("touchstart",p);var r=E.gearDate.querySelector(".date_yy"),d=E.gearDate.querySelector(".date_mm"),i=E.gearDate.querySelector(".date_dd"),s=E.gearDate.querySelector(".time_hh"),v=E.gearDate.querySelector(".time_mm");r.addEventListener("touchstart",m),d.addEventListener("touchstart",m),i.addEventListener("touchstart",m),s.addEventListener("touchstart",m),v.addEventListener("touchstart",m),r.addEventListener("touchmove",u),d.addEventListener("touchmove",u),i.addEventListener("touchmove",u),s.addEventListener("touchmove",u),v.addEventListener("touchmove",u),r.addEventListener("touchend",g),d.addEventListener("touchend",g),i.addEventListener("touchend",g),s.addEventListener("touchend",g),v.addEventListener("touchend",g)}function n(){var e=new Date,t={yy:e.getFullYear(),mm:e.getMonth(),dd:e.getDate()-1,hh:e.getHours(),mi:e.getMinutes()};/^\d{4}-\d{1,2}-\d{1,2}\s\d{2}:\d{2}$/.test(E.trigger.value)?(rs=E.trigger.value.match(/(^|-|\s|:)\d{1,4}/g),t.yy=rs[0]-E.minY,t.mm=rs[1].replace(/-/g,"")-1,t.dd=rs[2].replace(/-/g,"")-1,t.hh=parseInt(rs[3].replace(/\s0?/g,"")),t.mi=parseInt(rs[4].replace(/:0?/g,""))):t.yy=t.yy-E.minY,E.gearDate.querySelector(".date_yy").setAttribute("val",t.yy),E.gearDate.querySelector(".date_mm").setAttribute("val",t.mm),E.gearDate.querySelector(".date_dd").setAttribute("val",t.dd),l(),E.gearDate.querySelector(".time_hh").setAttribute("val",t.hh),E.gearDate.querySelector(".time_mm").setAttribute("val",t.mi),c()}function s(e){E.gearDate=document.createElement("div"),E.gearDate.className="gearDate",E.gearDate.innerHTML='<div class="date_ctrl slideInUp"><div class="date_btn_box"><div class="date_btn lcalendar_cancel">取消</div><div class="date_btn lcalendar_finish">确定</div></div><div class="date_roll_mask"><div class="time_roll"><div><div class="gear time_hh" data-datetype="time_hh"></div><div class="date_grid"><div>时</div></div></div><div><div class="gear time_mm" data-datetype="time_mm"></div><div class="date_grid"><div>分</div></div></div></div></div></div>',document.body.appendChild(E.gearDate),v();var t=E.gearDate.querySelector(".lcalendar_cancel");t.addEventListener("touchstart",y);var a=E.gearDate.querySelector(".lcalendar_finish");a.addEventListener("touchstart",f);var r=E.gearDate.querySelector(".time_hh"),d=E.gearDate.querySelector(".time_mm");r.addEventListener("touchstart",m),d.addEventListener("touchstart",m),r.addEventListener("touchmove",u),d.addEventListener("touchmove",u),r.addEventListener("touchend",g),d.addEventListener("touchend",g)}function v(){var e=new Date,t={hh:e.getHours(),mm:e.getMinutes()};/^\d{2}:\d{2}$/.test(E.trigger.value)&&(rs=E.trigger.value.match(/(^|:)\d{2}/g),t.hh=parseInt(rs[0].replace(/^0?/g,"")),t.mm=parseInt(rs[1].replace(/:0?/g,""))),E.gearDate.querySelector(".time_hh").setAttribute("val",t.hh),E.gearDate.querySelector(".time_mm").setAttribute("val",t.mm),c()}function l(){var e=E.maxY-E.minY+1,t=E.gearDate.querySelector(".date_yy"),a="";if(t&&t.getAttribute("val")){for(var r=parseInt(t.getAttribute("val")),d=0;e-1>=d;d++)a+="<div class='tooth'>"+(E.minY+d)+"</div>";t.innerHTML=a;var i=Math.floor(parseFloat(t.getAttribute("top")));if(isNaN(i))t.style["-webkit-transform"]="translate3d(0,"+(8-2*r)+"em,0)",t.setAttribute("top",8-2*r+"em");else{i%2==0?i=i:i+=1,i>8&&(i=8);var n=8-2*(e-1);n>i&&(i=n),t.style["-webkit-transform"]="translate3d(0,"+i+"em,0)",t.setAttribute("top",i+"em"),r=Math.abs(i-8)/2,t.setAttribute("val",r)}var s=E.gearDate.querySelector(".date_mm");if(s&&s.getAttribute("val")){a="";var v=parseInt(s.getAttribute("val")),l=11,c=0;r==e-1&&(l=E.maxM-1),0==r&&(c=E.minM-1);for(var d=0;l-c+1>d;d++)a+="<div class='tooth'>"+(c+d+1)+"</div>";s.innerHTML=a,v>l?(v=l,s.setAttribute("val",v)):c>v&&(v=l,s.setAttribute("val",v)),s.style["-webkit-transform"]="translate3d(0,"+(8-2*(v-c))+"em,0)",s.setAttribute("top",8-2*(v-c)+"em");var m=E.gearDate.querySelector(".date_dd");if(m&&m.getAttribute("val")){a="";var u=parseInt(m.getAttribute("val")),g=o(r,v),_=g-1,h=0;r==e-1&&E.maxM==v+1&&(_=E.maxD-1),0==r&&E.minM==v+1&&(h=E.minD-1);for(var d=0;_-h+1>d;d++)a+="<div class='tooth'>"+(h+d+1)+"</div>";m.innerHTML=a,u>_?(u=_,m.setAttribute("val",u)):h>u&&(u=h,m.setAttribute("val",u)),m.style["-webkit-transform"]="translate3d(0,"+(8-2*(u-h))+"em,0)",m.setAttribute("top",8-2*(u-h)+"em")}}}}function c(){var e=E.gearDate.querySelector(".time_hh");if(e&&e.getAttribute("val")){for(var t="",a=parseInt(e.getAttribute("val")),r=0;23>=r;r++)t+="<div class='tooth'>"+r+"</div>";e.innerHTML=t,e.style["-webkit-transform"]="translate3d(0,"+(8-2*a)+"em,0)",e.setAttribute("top",8-2*a+"em");var d=E.gearDate.querySelector(".time_mm");if(d&&d.getAttribute("val")){for(var t="",i=parseInt(d.getAttribute("val")),r=0;59>=r;r++)t+="<div class='tooth'>"+r+"</div>";d.innerHTML=t,d.style["-webkit-transform"]="translate3d(0,"+(8-2*i)+"em,0)",d.setAttribute("top",8-2*i+"em")}}}function o(e,t){return 1==t?(e+=E.minY,e%4==0&&e%100!=0||e%400==0&&e%4e3!=0?29:28):3==t||5==t||8==t||10==t?30:31}function m(e){e.preventDefault();for(var t=e.target;;){if(t.classList.contains("gear"))break;t=t.parentElement}clearInterval(t["int_"+t.id]),t["old_"+t.id]=e.targetTouches[0].screenY,t["o_t_"+t.id]=(new Date).getTime();var a=t.getAttribute("top");a?t["o_d_"+t.id]=parseFloat(a.replace(/em/g,"")):t["o_d_"+t.id]=0,t.style.webkitTransitionDuration=t.style.transitionDuration="0ms"}function u(e){e.preventDefault();for(var t=e.target;;){if(t.classList.contains("gear"))break;t=t.parentElement}t["new_"+t.id]=e.targetTouches[0].screenY,t["n_t_"+t.id]=(new Date).getTime();var a=30*(t["new_"+t.id]-t["old_"+t.id])/window.innerHeight;t["pos_"+t.id]=t["o_d_"+t.id]+a,t.style["-webkit-transform"]="translate3d(0,"+t["pos_"+t.id]+"em,0)",t.setAttribute("top",t["pos_"+t.id]+"em"),e.targetTouches[0].screenY<1&&g(e)}function g(e){e.preventDefault();for(var t=e.target;;){if(t.classList.contains("gear"))break;t=t.parentElement}var a=(t["new_"+t.id]-t["old_"+t.id])/(t["n_t_"+t.id]-t["o_t_"+t.id]);Math.abs(a)<=.2?t["spd_"+t.id]=0>a?-.08:.08:Math.abs(a)<=.5?t["spd_"+t.id]=0>a?-.16:.16:t["spd_"+t.id]=a/2,t["pos_"+t.id]||(t["pos_"+t.id]=0),_(t)}function _(e){function t(){e.style.webkitTransitionDuration=e.style.transitionDuration="200ms",r=!0}var a=0,r=!1,d=E.maxY-E.minY+1;clearInterval(e["int_"+e.id]),e["int_"+e.id]=setInterval(function(){var i=e["pos_"+e.id],n=e["spd_"+e.id]*Math.exp(-.03*a);if(i+=n,Math.abs(n)>.1);else{var s=2*Math.round(i/2);i=s,t()}switch(i>8&&(i=8,t()),e.dataset.datetype){case"date_yy":var v=8-2*(d-1);if(v>i&&(i=v,t()),r){var l=Math.abs(i-8)/2;h(e,l),clearInterval(e["int_"+e.id])}break;case"date_mm":var c=E.gearDate.querySelector(".date_yy"),m=parseInt(c.getAttribute("val")),u=11,g=0;m==d-1&&(u=E.maxM-1),0==m&&(g=E.minM-1);var v=8-2*(u-g);if(v>i&&(i=v,t()),r){var l=Math.abs(i-8)/2+g;h(e,l),clearInterval(e["int_"+e.id])}break;case"date_dd":var c=E.gearDate.querySelector(".date_yy"),_=E.gearDate.querySelector(".date_mm"),m=parseInt(c.getAttribute("val")),y=parseInt(_.getAttribute("val")),D=o(m,y),b=D-1,p=0;m==d-1&&E.maxM==y+1&&(b=E.maxD-1),0==m&&E.minM==y+1&&(p=E.minD-1);var v=8-2*(b-p);if(v>i&&(i=v,t()),r){var l=Math.abs(i-8)/2+p;h(e,l),clearInterval(e["int_"+e.id])}break;case"time_hh":if(-38>i&&(i=-38,t()),r){var l=Math.abs(i-8)/2;h(e,l),clearInterval(e["int_"+e.id])}break;case"time_mm":if(-110>i&&(i=-110,t()),r){var l=Math.abs(i-8)/2;h(e,l),clearInterval(e["int_"+e.id])}}e["pos_"+e.id]=i,e.style["-webkit-transform"]="translate3d(0,"+i+"em,0)",e.setAttribute("top",i+"em"),a++},30)}function h(e,t){t=Math.round(t),e.setAttribute("val",t),/date/.test(e.dataset.datetype)?l():c()}function y(e){e.preventDefault();var t;try{t=new CustomEvent("input")}catch(e){t=document.createEvent("Event"),t.initEvent("input",!0,!0)}E.trigger.dispatchEvent(t),document.body.removeChild(E.gearDate),E.gearDate=null}function D(e){var t=E.maxY-E.minY+1,a=parseInt(Math.round(E.gearDate.querySelector(".date_yy").getAttribute("val"))),r=parseInt(Math.round(E.gearDate.querySelector(".date_mm").getAttribute("val")))+1;r=r>9?r:"0"+r;var d=parseInt(Math.round(E.gearDate.querySelector(".date_dd").getAttribute("val")))+1;d=d>9?d:"0"+d,E.trigger.value=a%t+E.minY+"-"+r+"-"+d,y(e)}function b(e){var t=E.maxY-E.minY+1,a=parseInt(Math.round(E.gearDate.querySelector(".date_yy").getAttribute("val"))),r=parseInt(Math.round(E.gearDate.querySelector(".date_mm").getAttribute("val")))+1;r=r>9?r:"0"+r,E.trigger.value=a%t+E.minY+"-"+r,y(e)}function p(e){var t=E.maxY-E.minY+1,a=parseInt(Math.round(E.gearDate.querySelector(".date_yy").getAttribute("val"))),r=parseInt(Math.round(E.gearDate.querySelector(".date_mm").getAttribute("val")))+1;r=r>9?r:"0"+r;var d=parseInt(Math.round(E.gearDate.querySelector(".date_dd").getAttribute("val")))+1;d=d>9?d:"0"+d;var i=parseInt(Math.round(E.gearDate.querySelector(".time_hh").getAttribute("val")));i=i>9?i:"0"+i;var n=parseInt(Math.round(E.gearDate.querySelector(".time_mm").getAttribute("val")));n=n>9?n:"0"+n,E.trigger.value=a%t+E.minY+"-"+r+"-"+d+" "+(i.length<2?"0":"")+i+(n.length<2?":0":":")+n,y(e)}function f(e){var t=parseInt(Math.round(E.gearDate.querySelector(".time_hh").getAttribute("val")));t=t>9?t:"0"+t;var a=parseInt(Math.round(E.gearDate.querySelector(".time_mm").getAttribute("val")));a=a>9?a:"0"+a,E.trigger.value=(t.length<2?"0":"")+t+(a.length<2?":0":":")+a,y(e)}var E=this;E.trigger.addEventListener("click",{ym:r,date:t,datetime:i,time:s}[e])}},e}();
 
 /***/ },
-/* 130 */
+/* 137 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 131 */,
-/* 132 */
+/* 138 */,
+/* 139 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _keys = __webpack_require__(23);
+	var _keys = __webpack_require__(24);
 
 	var _keys2 = _interopRequireDefault(_keys);
 
-	var _typeof2 = __webpack_require__(58);
+	var _typeof2 = __webpack_require__(59);
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -14593,13 +14534,13 @@ webpackJsonp([0,3],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(133);
+	__webpack_require__(140);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(135);
+	__vue_exports__ = __webpack_require__(142);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(136);
+	var __vue_template__ = __webpack_require__(143);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -14639,14 +14580,14 @@ webpackJsonp([0,3],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 133 */
+/* 140 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 134 */,
-/* 135 */
+/* 141 */,
+/* 142 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -14709,7 +14650,7 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 136 */
+/* 143 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -14727,7 +14668,7 @@ webpackJsonp([0,3],[
 	}
 
 /***/ },
-/* 137 */
+/* 144 */
 /***/ function(module, exports) {
 
 	/**
@@ -14750,8 +14691,8 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 138 */,
-/* 139 */
+/* 145 */,
+/* 146 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -14853,16 +14794,16 @@ webpackJsonp([0,3],[
 	}
 
 /***/ },
-/* 140 */
+/* 147 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _keys = __webpack_require__(23);
+	var _keys = __webpack_require__(24);
 
 	var _keys2 = _interopRequireDefault(_keys);
 
-	var _typeof2 = __webpack_require__(58);
+	var _typeof2 = __webpack_require__(59);
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -14871,13 +14812,13 @@ webpackJsonp([0,3],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(141);
+	__webpack_require__(148);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(143);
+	__vue_exports__ = __webpack_require__(150);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(151);
+	var __vue_template__ = __webpack_require__(157);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -14917,14 +14858,14 @@ webpackJsonp([0,3],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 141 */
+/* 148 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 142 */,
-/* 143 */
+/* 149 */,
+/* 150 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14973,13 +14914,13 @@ webpackJsonp([0,3],[
 	//
 	//
 
-	var navigator = __webpack_require__(99);
-	var pagination = __webpack_require__(144);
-	__webpack_require__(129);
-	__webpack_require__(130);
-	var popup = __webpack_require__(132);
-	__webpack_require__(150);
-	var utils = __webpack_require__(18);
+	var navigator = __webpack_require__(100);
+	var pagination = __webpack_require__(151);
+	__webpack_require__(136);
+	__webpack_require__(137);
+	var popup = __webpack_require__(139);
+	__webpack_require__(14);
+	var utils = __webpack_require__(19);
 	var methods = {
 	    onNavigatorRightBtnClick: function onNavigatorRightBtnClick() {
 	        this.show = true;
@@ -15064,16 +15005,16 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 144 */
+/* 151 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _keys = __webpack_require__(23);
+	var _keys = __webpack_require__(24);
 
 	var _keys2 = _interopRequireDefault(_keys);
 
-	var _typeof2 = __webpack_require__(58);
+	var _typeof2 = __webpack_require__(59);
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -15082,13 +15023,13 @@ webpackJsonp([0,3],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(145);
+	__webpack_require__(152);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(148);
+	__vue_exports__ = __webpack_require__(155);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(149);
+	var __vue_template__ = __webpack_require__(156);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -15127,16 +15068,16 @@ webpackJsonp([0,3],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 145 */
+/* 152 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(146);
+	var content = __webpack_require__(153);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(147)(content, {});
+	var update = __webpack_require__(154)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -15153,7 +15094,7 @@ webpackJsonp([0,3],[
 	}
 
 /***/ },
-/* 146 */
+/* 153 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -15167,7 +15108,7 @@ webpackJsonp([0,3],[
 
 
 /***/ },
-/* 147 */
+/* 154 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -15389,7 +15330,7 @@ webpackJsonp([0,3],[
 
 
 /***/ },
-/* 148 */
+/* 155 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -15436,7 +15377,7 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 149 */
+/* 156 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -15466,188 +15407,7 @@ webpackJsonp([0,3],[
 	}
 
 /***/ },
-/* 150 */
-/***/ function(module, exports) {
-
-	/**
-	 * @module date.js
-	 * Calendar日期类以及对Date对象扩展一个format方法
-	 * 实例化方法getInstance 支持如下链式操作
-	 * Calendar.getInstance().add(Calendar.MONTH,-1).add(Calendar.DATE,5).format('yyyyMMdd hh:mm:ss')
-	 * Calendar.getInstance().add(Calendar.WEEK,-1).getTime()
-	 * Calendar.getInstance().parse('20160120102234')
-	 * Calendar.getInstance('20160120').format('M月d日')
-	 * @method Calendar
-	 * @author yanglang
-	 * @date 20160120
-	 */
-	(function(){
-	    var Calendar = function () {
-	        throw new TypeError('请使用getInstance方法进行实例化');
-	    };
-	    typeof window == 'undefined' ? (module.exports = Calendar) : (window.Calendar = Calendar);
-
-	    Calendar.prototype = {
-	        constructor:Calendar,
-	        /**
-	         * 构造方法
-	         * @param date
-	         */
-	        init:function(date){
-	            date ? this.parse(date): this.date = new Date();
-	        },
-	        /**
-	         * @method add
-	         * @param type Calendar.YEAR Calendar.MONTH Calendar.WEEK Calendar.DATE
-	         * @param num 正数或负数
-	         */
-	        add: function (type, num) {
-	            if (isNaN(num))
-	                throw new TypeError('第二个参数必须为数字');
-	            switch (type) {
-	                case 1:
-	                    this.date.setFullYear(num + this.date.getFullYear());
-	                    break;
-	                case 2:
-	                    this.date.setMonth(num + this.date.getMonth());
-	                    break;
-	                case 3:
-	                    this.date.setDate(num + this.date.getDate());
-	                    break;
-	                case 4:
-	                    this.date.setDate(num*7 + this.date.getDate());
-	                    break;
-	                case 5:
-	                    this.date.setHours(num + this.date.getHours());
-	                    break;
-	                case 6:
-	                    this.date.setMinutes(num + this.date.getMinutes());
-	                    break;
-	            }
-	            return this;
-	        },
-	        /**
-	         * 获取Date日期对象值
-	         * @returns {Date|*|XML|string}
-	         */
-	        getTime: function () {
-	            return this.date;
-	        },
-	        /**
-	         * 将传入对象转换成Calendar实例以便进行日期操作
-	         * @method parse
-	         * @param timeObj Date日期对象 或 带时间的字符串（比如2005年05月04日 02时33分44秒）或Calendar对象
-	         */
-	        parse: function (timeObj) {
-	            var type = Object.prototype.toString.call(timeObj);
-	            if(type === '[object Date]'){
-	                this.date = timeObj;
-	            }else if(type === '[object String]'){
-	                timeObj = timeObj.replace(/[^\d]*/gm,''),len = timeObj.length;
-	                while(len<14){
-	                    timeObj+='0';
-	                    len++;
-	                }
-	                timeObj = timeObj.replace(/^(\d{4})(\d{2})(\d{2})(\d{2})?(\d{2})?(\d{2})?.*$/, '$1/$2/$3 $4:$5:$6');
-	                this.date = new Date(timeObj);
-	            }else if(type === '[object Object]' && timeObj instanceof this.constructor){
-	                this.date = timeObj.getTime();
-	            }else if(type === '[object Number]' ){
-	                this.date = new Date(timeObj);
-	            }else{
-	                throw new TypeError('暂不支持转换此数据类型');
-	            }
-	            return this;
-	        },
-	        /**
-	         * 得到格式化的日期字符串
-	         * @param fmt 格式化模板如 yyyyMMdd hh:mm:ss
-	         * @returns {String}
-	         */
-	        format:function(fmt){
-	            return this.date.format(fmt);
-	        }
-	    };
-
-	    Calendar.prototype.init.prototype = Calendar.prototype;
-
-	    /**
-	     * 获取Calendar实例
-	     * @param date optional 可选参数 可以传入一个日期对象或日期字符串或Calendar对象或时间数
-	     * @returns {Calendar.prototype.init}
-	     */
-	    Calendar.getInstance = function (date) {
-	        return new Calendar.prototype.init(date);
-	    };
-
-	    Calendar.YEAR = 1;
-	    Calendar.MONTH = 2;
-	    Calendar.DATE = 3;
-	    Calendar.WEEK = 4;
-	    Calendar.HOUR = 5;
-	    Calendar.MINUTE = 6;
-
-	    /**
-	     * 对Date的扩展，将 Date 转化为指定格式的String<br>
-	     * 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，<br>
-	     * 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)<br>
-	     * 例子：<br>
-	     * (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423<br>
-	     * (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18<br>
-	     * (new Date()).format("yyyy-MM-dd EE");  ==> 2015-08-07 周五<br>
-	     * (new Date()).format("yyyy-MM-dd EEE");  ==> 2015-08-07 星期五<br>
-	     * (new Date()).format("yyyy-MM-dd E");  ==> 2015-08-07 五<br>
-	     * @method format
-	     * @param {String} fmt format字符串
-	     * @returns {String}
-	     */
-	    Date.prototype.format = function(fmt) {
-	        var that = this;
-	        var o = {
-	            "M+" : this.getMonth() + 1, //月份
-	            "d+" : this.getDate(), //日
-	            "h+" : this.getHours() % 12 == 0 ? 12: this.getHours() % 12, //小时
-	            "H+" : this.getHours(), //小时
-	            "U+" : this.getUTCHours(), //UTC小时
-	            "m+" : this.getMinutes(), //分
-	            "s+" : this.getSeconds(), //秒
-	            "q+" : Math.floor((this.getMonth() + 3) / 3), //季度
-	            "S" : this.getMilliseconds()//毫秒
-	        };
-	        var week = {
-	            "0" : "星期天","1" : "一","2" : "二","3" : "三","4" : "四","5" : "五","6" : "六"
-	        };
-	        if (/(y+)/.test(fmt)) {
-	            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "")
-	                .substr(4 - RegExp.$1.length));
-	        }
-	        if (/(E+)/.test(fmt)) {
-	            fmt = fmt.replace(RegExp.$1,function(){
-	                if(that.getDay() == 0){
-	                    if(RegExp.$1.length > 1){
-	                        return RegExp.$1.length > 2?"星期天":"周日";
-	                    }else
-	                        return "日";
-	                }else{
-	                    if(RegExp.$1.length > 1){
-	                        return RegExp.$1.length > 2?"星期"+ week[that.getDay()]:"周"+ week[that.getDay()];
-	                    } else{
-	                        return week[that.getDay()]
-	                    }
-	                }
-	            }());
-	        }
-	        for ( var k in o) {
-	            if (new RegExp("(" + k + ")").test(fmt)) {
-	                fmt = fmt.replace(RegExp.$1,(RegExp.$1.length == 1) ? (o[k]): (("00" + o[k]).substr(("" + o[k]).length)));
-	            }
-	        }
-	        return fmt;
-	    };
-	})();
-
-/***/ },
-/* 151 */
+/* 157 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -15766,16 +15526,16 @@ webpackJsonp([0,3],[
 	}
 
 /***/ },
-/* 152 */
+/* 158 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _keys = __webpack_require__(23);
+	var _keys = __webpack_require__(24);
 
 	var _keys2 = _interopRequireDefault(_keys);
 
-	var _typeof2 = __webpack_require__(58);
+	var _typeof2 = __webpack_require__(59);
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -15784,13 +15544,13 @@ webpackJsonp([0,3],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(153);
+	__webpack_require__(159);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(155);
+	__vue_exports__ = __webpack_require__(161);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(156);
+	var __vue_template__ = __webpack_require__(162);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -15829,14 +15589,14 @@ webpackJsonp([0,3],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 153 */
+/* 159 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 154 */,
-/* 155 */
+/* 160 */,
+/* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15859,9 +15619,9 @@ webpackJsonp([0,3],[
 	//
 	//
 
-	var utils = __webpack_require__(18);
-	var navigator = __webpack_require__(99);
-	var loader = __webpack_require__(17);
+	var utils = __webpack_require__(19);
+	var navigator = __webpack_require__(100);
+	var loader = __webpack_require__(18);
 	var methods = {};
 	utils.animation.process(methods);
 	module.exports = {
@@ -15894,7 +15654,7 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 156 */
+/* 162 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -15940,16 +15700,16 @@ webpackJsonp([0,3],[
 	}
 
 /***/ },
-/* 157 */
+/* 163 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _keys = __webpack_require__(23);
+	var _keys = __webpack_require__(24);
 
 	var _keys2 = _interopRequireDefault(_keys);
 
-	var _typeof2 = __webpack_require__(58);
+	var _typeof2 = __webpack_require__(59);
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -15958,13 +15718,13 @@ webpackJsonp([0,3],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(158);
+	__webpack_require__(164);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(160);
+	__vue_exports__ = __webpack_require__(166);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(161);
+	var __vue_template__ = __webpack_require__(167);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -16004,14 +15764,14 @@ webpackJsonp([0,3],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 158 */
+/* 164 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 159 */,
-/* 160 */
+/* 165 */,
+/* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16040,8 +15800,8 @@ webpackJsonp([0,3],[
 	//
 	//
 
-	var navigator = __webpack_require__(99);
-	var utils = __webpack_require__(18);
+	var navigator = __webpack_require__(100);
+	var utils = __webpack_require__(19);
 
 	var methods = {
 	    onNavigatorRightBtnClick: function onNavigatorRightBtnClick() {
@@ -16089,7 +15849,7 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 161 */
+/* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -16162,16 +15922,16 @@ webpackJsonp([0,3],[
 	}
 
 /***/ },
-/* 162 */
+/* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _keys = __webpack_require__(23);
+	var _keys = __webpack_require__(24);
 
 	var _keys2 = _interopRequireDefault(_keys);
 
-	var _typeof2 = __webpack_require__(58);
+	var _typeof2 = __webpack_require__(59);
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -16180,13 +15940,13 @@ webpackJsonp([0,3],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(163);
+	__webpack_require__(169);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(166);
+	__vue_exports__ = __webpack_require__(172);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(168);
+	var __vue_template__ = __webpack_require__(174);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -16225,15 +15985,15 @@ webpackJsonp([0,3],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 163 */
+/* 169 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 164 */,
-/* 165 */,
-/* 166 */
+/* 170 */,
+/* 171 */,
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16271,9 +16031,9 @@ webpackJsonp([0,3],[
 	//
 	//
 
-	var navigator = __webpack_require__(99);
-	var utils = __webpack_require__(18);
-	__webpack_require__(167);
+	var navigator = __webpack_require__(100);
+	var utils = __webpack_require__(19);
+	__webpack_require__(173);
 	var methods = {
 	    onNavigatorRightBtnClick: function onNavigatorRightBtnClick() {
 	        var that = this;
@@ -16347,7 +16107,7 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 167 */
+/* 173 */
 /***/ function(module, exports) {
 
 	/**
@@ -16453,7 +16213,7 @@ webpackJsonp([0,3],[
 
 
 /***/ },
-/* 168 */
+/* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -16553,16 +16313,16 @@ webpackJsonp([0,3],[
 	}
 
 /***/ },
-/* 169 */
+/* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _keys = __webpack_require__(23);
+	var _keys = __webpack_require__(24);
 
 	var _keys2 = _interopRequireDefault(_keys);
 
-	var _typeof2 = __webpack_require__(58);
+	var _typeof2 = __webpack_require__(59);
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -16571,13 +16331,13 @@ webpackJsonp([0,3],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(170);
+	__webpack_require__(176);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(172);
+	__vue_exports__ = __webpack_require__(178);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(173);
+	var __vue_template__ = __webpack_require__(179);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -16617,14 +16377,14 @@ webpackJsonp([0,3],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 170 */
+/* 176 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 171 */,
-/* 172 */
+/* 177 */,
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16652,8 +16412,8 @@ webpackJsonp([0,3],[
 	//
 	//
 
-	var navigator = __webpack_require__(99);
-	var utils = __webpack_require__(18);
+	var navigator = __webpack_require__(100);
+	var utils = __webpack_require__(19);
 	var THEME_KEY = '_H5_THEME_KEY_';
 	var methods = {};
 	utils.animation.process(methods);
@@ -16685,7 +16445,7 @@ webpackJsonp([0,3],[
 	};
 
 /***/ },
-/* 173 */
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -16723,7 +16483,7 @@ webpackJsonp([0,3],[
 	    }
 	  }, [_h('img', {
 	    attrs: {
-	      "src": __webpack_require__(174)
+	      "src": __webpack_require__(180)
 	    }
 	  })]), " ", _h('li', {
 	    staticClass: "theme-item",
@@ -16732,7 +16492,7 @@ webpackJsonp([0,3],[
 	    }
 	  }, [_h('img', {
 	    attrs: {
-	      "src": __webpack_require__(175)
+	      "src": __webpack_require__(181)
 	    }
 	  })]), " ", _h('li', {
 	    staticClass: "theme-item",
@@ -16741,7 +16501,7 @@ webpackJsonp([0,3],[
 	    }
 	  }, [_h('img', {
 	    attrs: {
-	      "src": __webpack_require__(176)
+	      "src": __webpack_require__(182)
 	    }
 	  })]), " ", _h('li', {
 	    staticClass: "theme-item",
@@ -16750,7 +16510,7 @@ webpackJsonp([0,3],[
 	    }
 	  }, [_h('img', {
 	    attrs: {
-	      "src": __webpack_require__(177)
+	      "src": __webpack_require__(183)
 	    }
 	  })]), " ", _h('li', {
 	    staticClass: "theme-item",
@@ -16759,7 +16519,7 @@ webpackJsonp([0,3],[
 	    }
 	  }, [_h('img', {
 	    attrs: {
-	      "src": __webpack_require__(178)
+	      "src": __webpack_require__(184)
 	    }
 	  })]), " ", _h('li', {
 	    staticClass: "theme-item",
@@ -16768,7 +16528,7 @@ webpackJsonp([0,3],[
 	    }
 	  }, [_h('img', {
 	    attrs: {
-	      "src": __webpack_require__(179)
+	      "src": __webpack_require__(185)
 	    }
 	  })])])])
 	}}]}
@@ -16780,52 +16540,52 @@ webpackJsonp([0,3],[
 	}
 
 /***/ },
-/* 174 */
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "31d4c1bfb1e4a77dea03695a19a53333.jpg";
 
 /***/ },
-/* 175 */
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "156ce6d75a8c1197a83d73d81df596c0.jpg";
 
 /***/ },
-/* 176 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "adb4276d239a427a2b7085403437e759.jpg";
 
 /***/ },
-/* 177 */
+/* 183 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "4e9f56c0f74ea2c237be56b9515864fd.jpg";
 
 /***/ },
-/* 178 */
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "1b1978c4a1f01213e6c739a345e8d988.jpg";
 
 /***/ },
-/* 179 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "c43d32de5fcc219daf6c0f746f80fbd2.jpg";
 
 /***/ },
-/* 180 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _keys = __webpack_require__(23);
+	var _keys = __webpack_require__(24);
 
 	var _keys2 = _interopRequireDefault(_keys);
 
-	var _typeof2 = __webpack_require__(58);
+	var _typeof2 = __webpack_require__(59);
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -16834,13 +16594,285 @@ webpackJsonp([0,3],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(181);
+	__webpack_require__(187);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(183);
+	__vue_exports__ = __webpack_require__(189);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(184);
+	var __vue_template__ = __webpack_require__(190);
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
+	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
+	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
+	    return key !== "default" && key !== "__esModule";
+	  })) {
+	    console.error("named exports are not supported in *.vue files.");
+	  }
+	  __vue_options__ = __vue_exports__ = __vue_exports__.default;
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options;
+	}
+	__vue_options__.name = __vue_options__.name || "webim-detail";
+	__vue_options__.__file = "D:\\workspace\\SPM\\public\\src\\javascripts\\h5\\vue-components\\webim-detail.vue";
+	__vue_options__.render = __vue_template__.render;
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns;
+	__vue_options__._scopeId = "data-v-2c2027e8";
+
+	/* hot reload */
+	if (false) {
+	  (function () {
+	    var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api");
+	    hotAPI.install(require("vue"), false);
+	    if (!hotAPI.compatible) return;
+	    module.hot.accept();
+	    if (!module.hot.data) {
+	      hotAPI.createRecord("data-v-2c2027e8", __vue_options__);
+	    } else {
+	      hotAPI.reload("data-v-2c2027e8", __vue_options__);
+	    }
+	  })();
+	}
+	if (__vue_options__.functional) {
+	  console.error("[vue-loader] webim-detail.vue: functional components are not supported and should be defined in plain js files using render functions.");
+	}
+
+	module.exports = __vue_exports__;
+
+/***/ },
+/* 187 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 188 */,
+/* 189 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
+	var navigator = __webpack_require__(100);
+	var utils = __webpack_require__(19);
+	var store = __webpack_require__(110);
+	var webIM = __webpack_require__(112);
+	__webpack_require__(424);
+	__webpack_require__(426);
+	__webpack_require__(430);
+	__webpack_require__(432);
+
+	var methods = {
+	    getColor: function getColor(name) {
+	        if (!name) return '#000';
+	        var num = utils.djb2Code(name);
+	        num = /^.*(\d)$/.test(num) && RegExp.$1;;
+	        return utils.colors[parseInt(num)];
+	    }
+	};
+	utils.animation.process(methods);
+	module.exports = {
+	    module: '/webim-detail',
+	    data: function data() {
+	        var type = this.$route.query.type,
+	            id = this.$route.query.id,
+	            title = this.$route.query.title;
+	        return {
+	            NavigatorTitle: type == 1 ? '用户信息' : '群组信息',
+	            title: title,
+	            type: type,
+	            id: id
+	        };
+	    },
+	    methods: methods,
+	    components: { navigator: navigator },
+	    computed: {
+	        user_name: function user_name() {
+	            return store.state.username;
+	        },
+	        btnTitle: function btnTitle() {
+	            if (this.type == '1') {
+	                var rosterList = store.state.rosterList;
+	                for (var i = 0; i < rosterList.length; i++) {
+	                    if (rosterList[i].name == this.id) {
+	                        return '发送消息';
+	                    }
+	                }
+	            } else {
+	                var groupList = store.state.groupList;
+	                for (var i = 0; i < groupList.length; i++) {
+	                    if (groupList[i].roomId == this.id) {
+	                        return '发送消息';
+	                    }
+	                }
+	            }
+	            return this.type == '1' ? '添加好友' : '加入群组';
+	        }
+	    },
+	    destroyed: function destroyed() {},
+	    mounted: function mounted() {
+	        var that = this;
+	        $('#webim-detail-container').css('min-height', window.HEIGHT);
+	        $('#searchBtn').click(function () {
+	            var text = $(this).html();
+	            switch (text) {
+	                case '发送消息':
+	                    Events.notify('route:isReturn', false);
+	                    if (that.type == '1') {
+	                        that.$router.push('/webim-chat?type=1&chat_name=' + that.title + '&time=' + Calendar.getInstance().getTime());
+	                    } else {
+	                        that.$router.push('/webim-chat?type=2&chat_name=' + that.title + '&roomId=' + that.id + '&time=' + Calendar.getInstance().getTime());
+	                    }
+	                    break;
+	                case '添加好友':
+	                    var dialog = $.ui.alert({
+	                        content: '<input id="webim-detail-container-msg" placeholder="捎句话儿……" style="border:1px solid #ccc;height:.5rem;background:#fff;height: .8rem;width: 80%;padding:0 .1rem;"/>',
+	                        buttons: [{
+	                            name: '提交',
+	                            callback: function callback() {
+	                                var conn = that.$store.state.webIMConn;
+	                                var text = $('#webim-detail-container-msg').val();
+	                                conn.subscribe({
+	                                    to: that.id,
+	                                    message: text
+	                                });
+	                                $.ui.toast('发送请求成功！');
+	                                dialog.close();
+	                            }
+	                        }, {
+	                            name: '取消',
+	                            closable: true
+	                        }]
+	                    });
+	                    break;
+	                case '加入群组':
+	                    utils.ajax.save('/webim/groups/adduser', {
+	                        groupId: that.id,
+	                        userName: that.user_name
+	                    }, function (data) {
+	                        if (!data.success) {
+	                            $.ui.toast(data.message);
+	                            return;
+	                        }
+	                        $.ui.toast(data.message);
+	                    });
+	                    break;
+	            }
+	        });
+	        setTimeout(function () {
+	            $('#webim-detail-container').css('background', 'transparent');
+	            $('#main-content').height(window.HEIGHT - $('#head-content').height() - $('#component-navigator').height());
+	        }, 300);
+	    }
+	};
+
+/***/ },
+/* 190 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('transition', {
+	    attrs: {
+	      "css": false
+	    },
+	    on: {
+	      "before-enter": beforeEnter,
+	      "after-enter": afterEnter,
+	      "enter": enter,
+	      "leave": leave,
+	      "before-leave": beforeLeave
+	    }
+	  }, [_h('div', {
+	    staticClass: "router-view",
+	    attrs: {
+	      "id": "webim-detail-container"
+	    }
+	  }, [_h('navigator', {
+	    attrs: {
+	      "navigator-title": NavigatorTitle
+	    }
+	  }), " ", _h('div', {
+	    staticClass: "content-wrap"
+	  }, [_h('div', {
+	    staticClass: "head",
+	    attrs: {
+	      "id": "head-content"
+	    }
+	  }, [_h('div', {
+	    staticClass: "head-icon"
+	  }, [_h('div', {
+	    staticClass: "head-circle-name"
+	  }, [_h('h3', {
+	    style: ('color:' + getColor(title) + '')
+	  }, [_s(title)])])]), " ", _h('p', {
+	    staticClass: "user-name"
+	  }, [_s(title)])]), " ", _h('div', {
+	    attrs: {
+	      "id": "main-content",
+	      "style": "height:2rem;background: rgba(250, 250, 250, 0.94);"
+	    }
+	  }, [_h('button', {
+	    attrs: {
+	      "id": "searchBtn"
+	    }
+	  }, [_s(btnTitle)])])])])])
+	}},staticRenderFns: []}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-2c2027e8", module.exports)
+	  }
+	}
+
+/***/ },
+/* 191 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _keys = __webpack_require__(24);
+
+	var _keys2 = _interopRequireDefault(_keys);
+
+	var _typeof2 = __webpack_require__(59);
+
+	var _typeof3 = _interopRequireDefault(_typeof2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var __vue_exports__, __vue_options__;
+
+	/* styles */
+	__webpack_require__(192);
+
+	/* script */
+	__vue_exports__ = __webpack_require__(194);
+
+	/* template */
+	var __vue_template__ = __webpack_require__(195);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -16880,14 +16912,14 @@ webpackJsonp([0,3],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 181 */
+/* 192 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 182 */,
-/* 183 */
+/* 193 */,
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16969,10 +17001,25 @@ webpackJsonp([0,3],[
 	//
 	//
 	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
-	var navigator = __webpack_require__(99);
-	var utils = __webpack_require__(18);
-	var store = __webpack_require__(109);
+	var navigator = __webpack_require__(100);
+	var utils = __webpack_require__(19);
+	var store = __webpack_require__(110);
 
 	var THEME_KEY = '_H5_THEME_KEY_';
 	var methods = {
@@ -16993,13 +17040,23 @@ webpackJsonp([0,3],[
 	            }
 	        });
 	        return count;
+	    },
+	    onNavigatorRightBtnClick: function onNavigatorRightBtnClick() {
+	        var $li = $('#tabbar li.actived'),
+	            index = $li.index();
+	        if (index == 0 || index == 3) return;
+
+	        Events.notify('route:isReturn', false);
+	        this.$router.push('/webim-search?type=' + index);
 	    }
 	};
 	utils.animation.process(methods);
 	module.exports = {
 	    module: '/webim',
 	    data: function data() {
-	        return { WINHEIGHT: window.HEIGHT };
+	        return {
+	            WINHEIGHT: window.HEIGHT
+	        };
 	    },
 	    methods: methods,
 	    components: { navigator: navigator },
@@ -17015,27 +17072,29 @@ webpackJsonp([0,3],[
 	        },
 	        blackList: function blackList() {
 	            return this.$store.state.blackList;
+	        },
+	        tabIndex: function tabIndex() {
+	            return this.$store.state.webIMTabIndex;
 	        }
 	    },
 	    destroyed: function destroyed() {},
 	    mounted: function mounted() {
-	        var theme;
-	        if (theme = localStorage.getItem(THEME_KEY)) {
-	            $('.theme-item').removeClass('actived');
-	            $('.theme-item[data-value=' + theme + ']').addClass('actived');
-	        }
+	        var that = this;
 	        this.WINHEIGHT = window.HEIGHT;
 	        $('#tabbar').on('click', 'li', function () {
-	            var $this = $(this);
-	            $this.parent().children().removeClass('actived');
-	            $this.addClass('actived');
-	            $('.content-wrap>div').hide().eq($this.index()).show();
+	            var $this = $(this),
+	                index = $this.index();
+	            selectTab(that, index);
 	        });
 	    }
 	};
 
+	function selectTab(context, index) {
+	    context.$store.commit('setWebIMTabIndex', index);
+	}
+
 /***/ },
-/* 184 */
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -17058,18 +17117,26 @@ webpackJsonp([0,3],[
 	    }
 	  }, [_h('navigator', {
 	    attrs: {
-	      "navigator-title": "家校互通"
+	      "navigator-title": "家校互通",
+	      "navigatorRightBtnClass": tabIndex == 1 ? 'fa fa-search' : ((tabIndex) == 2 ? 'fa fa-search' : ''),
+	      "on-navigator-right-btn-click": onNavigatorRightBtnClick
 	    }
 	  }), " ", _h('div', {
-	    staticClass: "content-wrap"
+	    staticClass: "content-wrap",
+	    style: ('transform:translate3d(' + (-tabIndex * 7.5) + 'rem,0,0)')
 	  }, [_h('div', {
 	    staticClass: "chat-list-container"
 	  }, [_h('ul', {
 	    staticClass: "chat-list"
 	  }, [_l((chatList), function(item) {
-	    return [_h('router-link', {
+	    return [(item.type == 'subscribe') ? _h('router-link', {
 	      attrs: {
-	        "to": '/webim-chat?type=1&chat_name=' + item.name
+	        "to": '/webim-subscribe-list'
+	      },
+	      nativeOn: {
+	        "click": function($event) {
+	          routerClick($event)
+	        }
 	      }
 	    }, [_h('li', {
 	      attrs: {
@@ -17090,7 +17157,35 @@ webpackJsonp([0,3],[
 	      staticClass: "head-circle-name"
 	    }, [_h('h3', {
 	      style: ('color:' + getColor(item.name) + '')
-	    }, [_s(item.name)])])]), " ", _h('p', [_s(item.name)]), " ", _h('i', [_s(item.record[item.record.length - 1].data)]), " ", _h('span', [_s(item.record[item.record.length - 1].timestamp)])])])])]
+	    }, [_s(item.name)])])]), " ", _h('p', [_s(item.name)]), " ", _h('i', [_s(item.record[item.record.length - 1].from + '：' + item.record[item.record.length - 1].status)]), " ", _h('span', [_s(item.record[item.record.length - 1].timestamp)])])])]) : _h('router-link', {
+	      attrs: {
+	        "to": '/webim-chat?type=' + (item.type === 'chat' ? 1 : 2) + '&chat_name=' + item.name + '&roomId=' + item.roomId
+	      },
+	      nativeOn: {
+	        "click": function($event) {
+	          routerClick($event)
+	        }
+	      }
+	    }, [_h('li', {
+	      attrs: {
+	        "data-id": item.id,
+	        "data-name": item.name
+	      }
+	    }, [_h('div', {
+	      staticClass: "li-wrap"
+	    }, [_h('div', {
+	      class: ['head-wrap', {
+	        'unread-msg': getUnreadCount(item) > 0,
+	        'unread-msg-lg9': getUnreadCount(item) > 9
+	      }],
+	      attrs: {
+	        "data-unread-count": getUnreadCount(item)
+	      }
+	    }, [_h('div', {
+	      staticClass: "head-circle-name"
+	    }, [_h('h3', {
+	      style: ('color:' + getColor(item.name) + '')
+	    }, [_s(item.name)])])]), " ", _h('p', [_s(item.name)]), " ", _h('i', [_s(item.record[item.record.length - 1].data)]), " ", _h('span', [_s(item.record[item.record.length - 1].timestamp)])])])]), " "]
 	  })])]), " ", _h('div', {
 	    staticClass: "roster-list-container"
 	  }, [_h('ul', {
@@ -17099,6 +17194,11 @@ webpackJsonp([0,3],[
 	    return [_h('router-link', {
 	      attrs: {
 	        "to": '/webim-chat?type=1&chat_name=' + item.name
+	      },
+	      nativeOn: {
+	        "click": function($event) {
+	          routerClick($event)
+	        }
 	      }
 	    }, [_h('li', {
 	      attrs: {
@@ -17118,7 +17218,12 @@ webpackJsonp([0,3],[
 	  }, [_l((groupList), function(item) {
 	    return [_h('router-link', {
 	      attrs: {
-	        "to": '/webim-chat?type=2&chat_name=' + item.name
+	        "to": '/webim-chat?type=2&chat_name=' + item.name + '&roomId=' + item.roomId
+	      },
+	      nativeOn: {
+	        "click": function($event) {
+	          routerClick($event)
+	        }
 	      }
 	    }, [_h('li', {
 	      attrs: {
@@ -17139,23 +17244,51 @@ webpackJsonp([0,3],[
 	    }, [_h('h3', {
 	      style: ('color:' + getColor(item.name) + '')
 	    }, [_s(item.name)])]), "\n                        " + _s(item.name) + "\n                    "])])
-	  })])])]), " ", _m(0)])])
-	}},staticRenderFns: [function (){with(this) {
-	  return _h('ul', {
+	  })])])]), " ", _h('ul', {
 	    attrs: {
 	      "id": "tabbar"
 	    }
 	  }, [_h('li', {
-	    staticClass: "actived"
-	  }, [_h('i', {
+	    class: [{
+	      actived: (tabIndex == 0)
+	    }]
+	  }, [_m(0), _m(1)]), " ", _h('li', {
+	    class: [{
+	      actived: (tabIndex == 1)
+	    }]
+	  }, [_m(2), _m(3)]), " ", _h('li', {
+	    class: [{
+	      actived: (tabIndex == 2)
+	    }]
+	  }, [_m(4), _m(5)]), " ", _h('li', {
+	    class: [{
+	      actived: (tabIndex == 3)
+	    }]
+	  }, [_m(6), _m(7)])])])])
+	}},staticRenderFns: [function (){with(this) {
+	  return _h('i', {
 	    staticClass: "fa fa-commenting"
-	  }), _h('p', ["聊天"])]), " ", _h('li', [_h('i', {
+	  })
+	}},function (){with(this) {
+	  return _h('p', ["聊天"])
+	}},function (){with(this) {
+	  return _h('i', {
 	    staticClass: "fa fa-user"
-	  }), _h('p', ["所有"])]), " ", _h('li', [_h('i', {
+	  })
+	}},function (){with(this) {
+	  return _h('p', ["所有"])
+	}},function (){with(this) {
+	  return _h('i', {
 	    staticClass: "fa fa-users"
-	  }), _h('p', ["群组"])]), " ", _h('li', [_h('i', {
+	  })
+	}},function (){with(this) {
+	  return _h('p', ["群组"])
+	}},function (){with(this) {
+	  return _h('i', {
 	    staticClass: "fa fa-user-times"
-	  }), _h('p', ["黑名单"])])])
+	  })
+	}},function (){with(this) {
+	  return _h('p', ["黑名单"])
 	}}]}
 	if (false) {
 	  module.hot.accept()
@@ -17165,11 +17298,11 @@ webpackJsonp([0,3],[
 	}
 
 /***/ },
-/* 185 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function(window){
-	    __webpack_require__(186);
+	    __webpack_require__(197);
 	    var tmp = '<div class="loading-wrap"><div class="loading-preloader">' +
 	        '        <span></span>' +
 	        '        <span></span>' +
@@ -17197,10 +17330,819 @@ webpackJsonp([0,3],[
 	})(window);
 
 /***/ },
-/* 186 */
+/* 197 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */,
+/* 210 */,
+/* 211 */,
+/* 212 */,
+/* 213 */,
+/* 214 */,
+/* 215 */,
+/* 216 */,
+/* 217 */,
+/* 218 */,
+/* 219 */,
+/* 220 */,
+/* 221 */,
+/* 222 */,
+/* 223 */,
+/* 224 */,
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */,
+/* 230 */,
+/* 231 */,
+/* 232 */,
+/* 233 */,
+/* 234 */,
+/* 235 */,
+/* 236 */,
+/* 237 */,
+/* 238 */,
+/* 239 */,
+/* 240 */,
+/* 241 */,
+/* 242 */,
+/* 243 */,
+/* 244 */,
+/* 245 */,
+/* 246 */,
+/* 247 */,
+/* 248 */,
+/* 249 */,
+/* 250 */,
+/* 251 */,
+/* 252 */,
+/* 253 */,
+/* 254 */,
+/* 255 */,
+/* 256 */,
+/* 257 */,
+/* 258 */,
+/* 259 */,
+/* 260 */,
+/* 261 */,
+/* 262 */,
+/* 263 */,
+/* 264 */,
+/* 265 */,
+/* 266 */,
+/* 267 */,
+/* 268 */,
+/* 269 */,
+/* 270 */,
+/* 271 */,
+/* 272 */,
+/* 273 */,
+/* 274 */,
+/* 275 */,
+/* 276 */,
+/* 277 */,
+/* 278 */,
+/* 279 */,
+/* 280 */,
+/* 281 */,
+/* 282 */,
+/* 283 */,
+/* 284 */,
+/* 285 */,
+/* 286 */,
+/* 287 */,
+/* 288 */,
+/* 289 */,
+/* 290 */,
+/* 291 */,
+/* 292 */,
+/* 293 */,
+/* 294 */,
+/* 295 */,
+/* 296 */,
+/* 297 */,
+/* 298 */,
+/* 299 */,
+/* 300 */,
+/* 301 */,
+/* 302 */,
+/* 303 */,
+/* 304 */,
+/* 305 */,
+/* 306 */,
+/* 307 */,
+/* 308 */,
+/* 309 */,
+/* 310 */,
+/* 311 */,
+/* 312 */,
+/* 313 */,
+/* 314 */,
+/* 315 */,
+/* 316 */,
+/* 317 */,
+/* 318 */,
+/* 319 */,
+/* 320 */,
+/* 321 */,
+/* 322 */,
+/* 323 */,
+/* 324 */,
+/* 325 */,
+/* 326 */,
+/* 327 */,
+/* 328 */,
+/* 329 */,
+/* 330 */,
+/* 331 */,
+/* 332 */,
+/* 333 */,
+/* 334 */,
+/* 335 */,
+/* 336 */,
+/* 337 */,
+/* 338 */,
+/* 339 */,
+/* 340 */,
+/* 341 */,
+/* 342 */,
+/* 343 */,
+/* 344 */,
+/* 345 */,
+/* 346 */,
+/* 347 */,
+/* 348 */,
+/* 349 */,
+/* 350 */,
+/* 351 */,
+/* 352 */,
+/* 353 */,
+/* 354 */,
+/* 355 */,
+/* 356 */,
+/* 357 */,
+/* 358 */,
+/* 359 */,
+/* 360 */,
+/* 361 */,
+/* 362 */,
+/* 363 */,
+/* 364 */,
+/* 365 */,
+/* 366 */,
+/* 367 */,
+/* 368 */,
+/* 369 */,
+/* 370 */,
+/* 371 */,
+/* 372 */,
+/* 373 */,
+/* 374 */,
+/* 375 */,
+/* 376 */,
+/* 377 */,
+/* 378 */,
+/* 379 */,
+/* 380 */,
+/* 381 */,
+/* 382 */,
+/* 383 */,
+/* 384 */,
+/* 385 */,
+/* 386 */,
+/* 387 */,
+/* 388 */,
+/* 389 */,
+/* 390 */,
+/* 391 */,
+/* 392 */,
+/* 393 */,
+/* 394 */,
+/* 395 */,
+/* 396 */,
+/* 397 */,
+/* 398 */,
+/* 399 */,
+/* 400 */,
+/* 401 */,
+/* 402 */,
+/* 403 */,
+/* 404 */,
+/* 405 */,
+/* 406 */,
+/* 407 */,
+/* 408 */,
+/* 409 */,
+/* 410 */,
+/* 411 */,
+/* 412 */,
+/* 413 */,
+/* 414 */,
+/* 415 */,
+/* 416 */,
+/* 417 */,
+/* 418 */,
+/* 419 */,
+/* 420 */,
+/* 421 */,
+/* 422 */,
+/* 423 */,
+/* 424 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 425 */,
+/* 426 */
+/***/ function(module, exports) {
+
+	/**
+	 * Created by yanglang on 2015/7/25.
+	 * jquery-alert 对话框插件
+	 * @param object 参数包
+	 * 封装在$.ui（UI包）下
+	 * @author yanglang
+	 */
+	(function($) {
+	    !$.ui?$.ui={}:"";
+	    $.ui.alert = function(options){
+	        if($('.uialert').length>0)
+	            return;
+	        var defaults = {
+	        	title: '提示',
+	            content:'这是一个对话框',
+	            closeBtn:'',
+	            buttons:[{
+	                name:'确定',
+	                id:'confirmBtn',
+	                color:'#fff',
+	                bgColor:'#ff9600',
+	                callback:function(){
+
+	                },
+	                closable:true
+	            }],
+	            closable:false,
+	            autoClose: false,
+	            animationClose: false
+	        };
+
+	        if($.isPlainObject(options))
+	            var options = $.extend(defaults, options);
+	        else{
+	            defaults.content = '<h3 class="h3">'+options+'</h3>';
+	            if(arguments.length=2)
+	                defaults.buttons[0].callback = arguments[1];
+	            var options = defaults;
+	        }
+	        var alerthtml = '<div class="uialert">' +
+	        	'           <div class="'+options.closeBtn+'"></div>' +
+	            '           <div class="uialert_inner"> ' +
+	            '				<h2 class="h2">'+options.title+'</h2>'+
+	            '               <div class="uialert_content">' +
+	                                options.content +
+	            '               </div>' +
+	            '               <div class="uialert_button_container">' +
+	                                (function(){
+	                                    var buttons = options.buttons,btnStr = '';
+	                                    for(var i = 0,len = buttons.length;i<len;i++){
+	                                        var bgColor = buttons[i].bgColor?buttons[i].bgColor:'#ff9600',
+	                                            color   = buttons[i].color?buttons[i].color:"#fff",
+	                                            bdColor = buttons[i].bdColor?buttons[i].bdColor:'';
+	                                            shadow  = bdColor?'box-shadow: 0 0 0 1px '+bdColor+' inset':'',
+	                                            id      = buttons[i].id?buttons[i].id:'uialertBtn'+ i,
+	                                            name    = buttons[i].name?buttons[i].name:'确定';
+	                                        options.buttons[i].id = id;
+	                                        btnStr += '<button class="action" style="'+shadow+'" id="'+id+'" >'+name+'</button>';
+	                                    }
+	                                    return btnStr;
+	                                })()+
+	            '               </div>' +
+	            '            </div>' +
+	            '        </div>';
+	        var $alert = $(alerthtml).appendTo($('body'));
+	        $alert.css({
+	            'margin-left':(-$alert.width()/2)+'px',
+	            'margin-top':(-$alert.height()/2)+'px'
+	        });
+	        if($('.action').length == 1){
+	        	$('.action').css({
+	        		'width':'100%',
+	        		'border-radius':'0 0 10px 10px'
+	        	});
+	        }
+	        var $mask = $('<div class="uialert_mask"></div>').appendTo($('body'));
+	        var close = function(){
+	            $alert.removeClass('dialog-open').addClass('dialog-close');
+	            $mask.removeClass('show');
+	            window.setTimeout(function () {
+	                $alert.remove();
+	                $mask.remove();
+	            },400);
+	        };
+	        
+	        $alert.on('click','.closeAlert', function(){
+	    		close();
+	    	});
+	        
+	        if(options.closable){
+	            $mask.on('click', function () {
+	                close();
+	            });
+	        }
+	        if(options.autoClose){
+	        	$('.uialert_button_container').remove();
+	        	$('.uialert_content').css('margin-bottom', '20px');
+	        	window.setTimeout(function(){
+	        		close();
+	        		options.end && options.end();
+	        	},1000);
+	        }
+	        var controlObj = {
+	            close:close,
+	            get:function(selector){
+	                return $(selector,$alert);
+	            }
+	        };
+	        $alert.on('click', function(e){
+	            if(e.target.id && e.target.tagName == 'BUTTON'){
+	                var targetBtn = findButton(e.target.id);
+	                if(targetBtn.callback)
+	                    targetBtn.callback.apply(controlObj);
+	                if(targetBtn.closable)
+	                    close();
+	            }
+	            e.stopPropagation();
+	            e.cancelBubble = true;
+	            return false;
+	        });
+
+	        function findButton(id){
+	            for(var i = 0,len = options.buttons.length;i<len;i++){
+	                if(options.buttons[i].id == id)
+	                    return options.buttons[i];
+	            }
+	        }
+
+	        window.setTimeout(function(){
+	        	if(options.animationClose){
+	        		$alert.addClass('show');
+	        	}else{
+	        		$alert.addClass('show').addClass('dialog-open');
+	        	}
+	            $mask.addClass('show');
+	        },10);
+
+	        return controlObj;
+	    };
+
+
+
+	})($);
+
+
+/***/ },
+/* 427 */,
+/* 428 */,
+/* 429 */,
+/* 430 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 431 */,
+/* 432 */
+/***/ function(module, exports) {
+
+	/**
+	 * Created by IBM on 2015/3/27.
+	 * jquery-loading 加载进度插件
+	 * @param content 进度框内容
+	 * @param second  定时多少秒后关闭，单位：秒（可选参数）
+	 * 封装在$.ui（UI包）下
+	 * @author yanglang
+	 */
+	(function($) {
+	    !$.ui?$.ui={}:"";
+	    $.ui.loading = function(content,second,callback){
+	    	second = second || 1;
+	        var pophtml = '<div class="uiloading" style="width:80%;height:100px;transform:translate3d(-50%,-50%,0);-webkit-transform:translate3d(-50%,-50%,0);-moz-transform:translate3d(-50%,-50%,0)">' +
+	            '            <div class="uiloading_content"><span>' +
+	            					content +
+	            '            </span></div>' +
+	            '        </div>';
+	        var $pop = $(pophtml).appendTo($('body'));
+	        var $mask = $('<div class="uiloading_mask"></div>').appendTo($('body'));
+	        var close = function(){
+	            $pop.fadeOut(200,function() {
+	                $(this).remove();
+	            });
+	            $mask.fadeOut(200,function() {
+	                $(this).remove();
+	            });
+	        };
+	        $('.uiloading_close',$pop).click(function(){
+	            close();
+	        });
+	        $pop.fadeIn(200);
+	        $mask.css({opacity:0.7}).fadeIn(200);
+	        if(second && $.isNumeric(second)){
+	        	window.setTimeout(function(){
+	        		close();
+	        		callback && callback();
+	        	},second*1000);
+	        }
+	        return {
+	          close:close,
+	          get:function(selector){
+	        	  return $(selector,$pop);
+	          }
+	        };
+	    };
+	    $.ui.toast = function(content,second,callback){
+	        var $old = null;
+	    	if(($old = $('.uitoast')).length > 0)
+	            $old.fadeOut(200,function(){
+	                $old.remove();
+	            });
+	    	second = second || 1;
+	        var pophtml = '<div class="uitoast" style="transform:translate3d(-50%,-50%,0);-webkit-transform:translate3d(-50%,-50%,0);-moz-transform:translate3d(-50%,-50%,0)">' +
+	            '            <div class="uitoast_content">' +
+	            					content +
+	            '            </div>' +
+	            '        </div>';
+	        var $pop = $(pophtml).appendTo($('body'));
+	        var close = function(){
+	        	$pop.removeClass('show');
+	        	window.setTimeout(function(){
+	        		$pop.remove();
+	            },1000);
+	        };
+	        $('.uiloading_close',$pop).click(function(){
+	            close();
+	        });
+	        window.setTimeout(function(){
+	        	$pop.addClass('show');
+	        },10);
+	        window.setTimeout(function(){
+	        	if(second && $.isNumeric(second)){
+	            	window.setTimeout(function(){
+	            		close();
+	            	},second*1000);
+	            }
+	        },1000);
+	        
+	        callback && callback();
+	        
+	        return {
+	          close:close,
+	          get:function(selector){
+	        	  return $(selector,$pop);
+	          }
+	        };
+	    };
+	    $.ui.tips = function(content,second,callback){
+	    	if($('.uitoasttips').length > 0)
+	    		return false;
+	    	second = second || 1;
+	        var pophtml = '<div class="uitoasttips">' +
+	            '            <div class="uitoast_content">' +
+	            					content +
+	            '            </div>' +
+	            '        </div>';
+	        var $pop = $(pophtml).appendTo($('body'));
+	        var close = function(){
+	        	$pop.removeClass('show');
+	        	window.setTimeout(function(){
+	        		$pop.remove();
+	            },1000);
+	        };
+	        $('.uiloading_close',$pop).click(function(){
+	            close();
+	        });
+	        window.setTimeout(function(){
+	        	$pop.addClass('show');
+	        },10);
+	        window.setTimeout(function(){
+	        	if(second && $.isNumeric(second)){
+	            	window.setTimeout(function(){
+	            		close();
+	            	},second*1000);
+	            }
+	        },1000);
+	        
+	        callback && callback();
+	        
+	        return {
+	          close:close,
+	          get:function(selector){
+	        	  return $(selector,$pop);
+	          }
+	        };
+	    };
+	})($);
+
+
+/***/ },
+/* 433 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _keys = __webpack_require__(24);
+
+	var _keys2 = _interopRequireDefault(_keys);
+
+	var _typeof2 = __webpack_require__(59);
+
+	var _typeof3 = _interopRequireDefault(_typeof2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var __vue_exports__, __vue_options__;
+
+	/* styles */
+	__webpack_require__(434);
+
+	/* script */
+	__vue_exports__ = __webpack_require__(436);
+
+	/* template */
+	var __vue_template__ = __webpack_require__(437);
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
+	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
+	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
+	    return key !== "default" && key !== "__esModule";
+	  })) {
+	    console.error("named exports are not supported in *.vue files.");
+	  }
+	  __vue_options__ = __vue_exports__ = __vue_exports__.default;
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options;
+	}
+	__vue_options__.name = __vue_options__.name || "webim-subscribe-list";
+	__vue_options__.__file = "D:\\workspace\\SPM\\public\\src\\javascripts\\h5\\vue-components\\webim-subscribe-list.vue";
+	__vue_options__.render = __vue_template__.render;
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns;
+	__vue_options__._scopeId = "data-v-b5538808";
+
+	/* hot reload */
+	if (false) {
+	  (function () {
+	    var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api");
+	    hotAPI.install(require("vue"), false);
+	    if (!hotAPI.compatible) return;
+	    module.hot.accept();
+	    if (!module.hot.data) {
+	      hotAPI.createRecord("data-v-b5538808", __vue_options__);
+	    } else {
+	      hotAPI.reload("data-v-b5538808", __vue_options__);
+	    }
+	  })();
+	}
+	if (__vue_options__.functional) {
+	  console.error("[vue-loader] webim-subscribe-list.vue: functional components are not supported and should be defined in plain js files using render functions.");
+	}
+
+	module.exports = __vue_exports__;
+
+/***/ },
+/* 434 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 435 */,
+/* 436 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
+	var navigator = __webpack_require__(100);
+	var utils = __webpack_require__(19);
+	var store = __webpack_require__(110);
+	var webIM = __webpack_require__(112);
+
+	var methods = {
+	    getColor: function getColor(name) {
+	        var num = utils.djb2Code(name);
+	        num = /^.*(\d)$/.test(num) && RegExp.$1;;
+	        return utils.colors[parseInt(num)];
+	    },
+	    doAccept: function doAccept(item) {
+	        var conn = store.state.webIMConn;
+	        /*同意添加好友操作的实现方法*/
+	        conn.subscribed({
+	            to: item.from,
+	            message: '[resp:true]'
+	        });
+	        conn.subscribe({ //需要反向添加对方好友
+	            to: item.from,
+	            message: '[resp:true]'
+	        });
+	        item.accept_type = 2;
+	        Events.notify('WebIMSaveChatList');
+	    },
+	    doReject: function doReject(item) {
+	        var conn = store.state.webIMConn;
+	        /*拒绝添加好友的方法处理*/
+	        conn.unsubscribed({
+	            to: item.from,
+	            message: 'rejectAddFriend'
+	        });
+	        item.accept_type = 3;
+	        Events.notify('WebIMSaveChatList');
+	    }
+	};
+	utils.animation.process(methods);
+	module.exports = {
+	    module: '/webim-subscribe-list',
+	    data: function data() {
+	        return {
+	            WINHEIGHT: window.HEIGHT
+	        };
+	    },
+	    methods: methods,
+	    components: { navigator: navigator },
+	    computed: {
+	        subscribeList: function subscribeList() {
+	            var that = this;
+	            var chat = this.$store.state.curChatList.filter(function (element, index, array) {
+	                return element.type == 'subscribe';
+	            });
+	            var record = chat.length > 0 ? chat[0].record : [];
+	            record.forEach(function (item, index) {
+	                item.read = true;
+	            });
+	            return record;
+	        },
+	        user_name: function user_name() {
+	            return store.state.username;
+	        }
+	    },
+	    destroyed: function destroyed() {},
+	    mounted: function mounted() {
+	        var that = this;
+
+	        Events.notify('WebIMSaveChatList');
+	        setTimeout(function () {
+	            $("body").scrollTop(5000);
+	        }, 500);
+	    }
+	};
+
+/***/ },
+/* 437 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports={render:function (){with(this) {
+	  return _h('transition', {
+	    attrs: {
+	      "css": false
+	    },
+	    on: {
+	      "before-enter": beforeEnter,
+	      "after-enter": afterEnter,
+	      "enter": enter,
+	      "leave": leave,
+	      "before-leave": beforeLeave
+	    }
+	  }, [_h('div', {
+	    staticClass: "router-view",
+	    style: ('min-height:' + WINHEIGHT + 'px'),
+	    attrs: {
+	      "id": "webim-subscribe-list-container"
+	    }
+	  }, [_h('navigator', {
+	    attrs: {
+	      "navigator-title": "请求列表"
+	    }
+	  }), " ", _h('div', {
+	    staticClass: "content-wrap"
+	  }, [_h('div', {
+	    staticClass: "subscribe-list"
+	  }, [_l((subscribeList), function(item) {
+	    return [_h('div', {
+	      staticClass: "chat-item clearfix ",
+	      attrs: {
+	        "data-chat-id": item.id
+	      }
+	    }, [_h('div', {
+	      staticClass: "chat-item-wrap chat-left is-group"
+	    }, [_h('p', {
+	      staticClass: "user-name"
+	    }, [_s(item.from)]), " ", _h('div', {
+	      staticClass: "head-wrap"
+	    }, [_h('div', {
+	      staticClass: "head-circle-name"
+	    }, [_h('h3', {
+	      style: ('color:' + getColor(item.from) + '')
+	    }, [_s(item.from)])])]), " ", _h('div', {
+	      staticClass: "chat-content-wrap"
+	    }, [_h('p', [_s(item.status)]), " ", (item.accept_type == 1) ? _h('div', {
+	      staticClass: "btn-wrap"
+	    }, [_h('span', {
+	      staticClass: "button accept",
+	      attrs: {
+	        "id": "acceptBtn"
+	      },
+	      on: {
+	        "click": function($event) {
+	          doAccept(item)
+	        }
+	      }
+	    }, ["同意"]), " ", _h('span', {
+	      staticClass: "button reject",
+	      attrs: {
+	        "id": "rejectBtn"
+	      },
+	      on: {
+	        "click": function($event) {
+	          doReject(item)
+	        }
+	      }
+	    }, ["拒绝"])]) : _e(), " ", (item.accept_type == 2) ? _h('div', {
+	      staticClass: "btn-wrap"
+	    }, [_m(0)]) : _e(), " ", (item.accept_type == 3) ? _h('div', {
+	      staticClass: "btn-wrap"
+	    }, [_m(1)]) : _e()])])])]
+	  })])])])])
+	}},staticRenderFns: [function (){with(this) {
+	  return _h('span', {
+	    staticClass: "status"
+	  }, ["已同意"])
+	}},function (){with(this) {
+	  return _h('span', {
+	    staticClass: "status"
+	  }, ["已拒绝"])
+	}}]}
+	if (false) {
+	  module.hot.accept()
+	  if (module.hot.data) {
+	     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-b5538808", module.exports)
+	  }
+	}
 
 /***/ }
 ]);

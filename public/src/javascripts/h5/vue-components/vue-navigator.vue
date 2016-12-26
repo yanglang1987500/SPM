@@ -1,8 +1,8 @@
 <template>
-    <nav class="navigator">
+    <nav id="component-navigator" class="navigator">
         <span class="navigator-btn" id="navigatorLeftBtn" v-on:click="doReturn">返回</span>
         <h1>{{navigatorTitle}}</h1>
-        <span class="navigator-btn" id="navigatorRightBtn" v-on:click="rBtnClk">{{navigatorRightBtn}}</span>
+        <span :class="['navigator-btn',navigatorRightBtnClass] " id="navigatorRightBtn" v-on:click="rBtnClk">{{navigatorRightBtn}}</span>
     </nav>
 </template>
 
@@ -11,7 +11,8 @@
         props: {
             navigatorTitle:{type:String,default:'标题'},
             navigatorRightBtn:{type:String,default:''},
-            onNavigatorRightBtnClick:{type:Function,default:function(){}}
+            onNavigatorRightBtnClick:{type:Function,default:function(){}},
+            navigatorRightBtnClass:{type:String,default:''}
         },
         data:function(){
             return {};
@@ -31,7 +32,7 @@
     };
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass" rel="stylesheet/scss" scoped>
     nav.navigator{
         position: fixed;
         z-index: 99;
@@ -54,7 +55,11 @@
             top:0;
             width:1rem;
             height:1rem;
+            line-height:1rem;
             text-align:center;
+            &.fa{
+                font-size:.5rem;
+             }
             &#navigatorRightBtn{
                 left:auto;
                 right:0;

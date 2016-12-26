@@ -72,7 +72,7 @@
     };
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass" rel="stylesheet/scss" scoped>
     #password-modify-container{
         .panel-body{
             padding:.2rem .2rem;

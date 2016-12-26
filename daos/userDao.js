@@ -17,9 +17,10 @@ module.exports = {
     userListSearch:function(page,rows,params,callback){
         var condition = [];
         condition.push(' 1=1 ');
-        params.key && condition.push(' user_name like \'%'+params.key+'%\' ');
+        params.key && condition.push(' (user_name like \'%'+params.key+'%\' or nickname like \'%'+params.key+'%\') ');
         params.startdate && condition.push(" create_time >= '" + params.startdate+"' ");
         params.enddate && condition.push(" create_time <= '" + params.enddate+"' ");
+        params.type && condition.push(" type = " + params.type+" ");
 
         condition = condition.join(' and ');
         var selectSql = 'select * ',fromSql = ' from '+table+' where '+condition+' order by update_time desc',

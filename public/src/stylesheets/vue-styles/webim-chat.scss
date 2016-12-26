@@ -9,15 +9,38 @@
   }
   .chat-item-wrap {
     position: relative;
-    padding-right:1.2rem;
+    padding-right:1.1rem;
     padding-left:0;
     float:right;
+    .user-name{
+      font-size: .1rem;
+      text-align: left;
+      position: absolute;
+      right: 1.2rem;
+      top: 0rem;
+      display: none;
+    }
+    &.is-group{
+      margin: .15rem 0;
+      .chat-content-wrap{
+        top:.4rem;
+      }
+      .user-name{
+        display: block;
+      }
+    }
+    &.chat-left{
+      .user-name{
+        right:auto;
+        left:1.2rem;
+      }
+    }
   }
   .chat-left{
     float:left;
   }
   .chat-item-wrap.chat-left{
-    padding-left:1.2rem;
+    padding-left:1.1rem;
     padding-right:0;
   }
   .chat-left .chat-content-wrap{
@@ -79,14 +102,14 @@
       box-shadow: 0 0 .12rem rgba(0, 0, 0, .15);
 
       h3 {
-        width: 1.5rem;
+        width: .8rem;
         font-size: .5rem;
         line-height: .8rem;
         text-align: center;
         color: #c1c1c1;
         position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
+        /*left: 50%;
+        transform: translateX(-50%);*/
       }
     }
   }

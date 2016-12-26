@@ -12,7 +12,12 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel='stylesheet' href='/dist/modules/h5.css'/>
     <link rel='stylesheet' href='/dist/font-awesome-4.6.3/css/font-awesome.css'/>
-
+    <script>
+        var UserInfo = {
+            username:'<%=session.userInfo.username%>',
+            password:'<%=session.userInfo.password%>'
+        };
+    </script>
 </head>
 <body class="theme5">
 <% include h5layout.html%>

@@ -1,0 +1,64 @@
+#webim-detail-container {
+  transition:background .5s ease;
+  font-family: "MicroSoft Yahei",Arial;
+  .head{
+    height:5rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    overflow:hidden;
+  }
+  .head-icon{
+    position: relative;
+    margin-top:.8rem;
+  }
+  .head-circle-name {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: .2rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 .2rem rgba(0, 0, 0, .4);
+    background: #f9f9f9;
+    h3 {
+      width: 1rem;
+      font-size: 1rem;
+      line-height: 1.8rem;
+      text-align: center;
+      color: #c1c1c1;
+      position: absolute;
+      left: -10%;
+      /*   left: 50%;
+         transform: translateX(-50%);*/
+    }
+  }
+  .user-name{
+    margin:3.3rem auto 0;
+    text-align: center;
+    font-size:.6rem;
+    color: #f7f7f7;
+    text-shadow:0.01rem 0.01rem 0.2rem rgba(220, 219, 219, 0.29);
+  }
+  #main-content{
+    overflow: hidden;
+  }
+  #searchBtn {
+    display: block;
+    margin:0.5rem auto;
+    width: 3rem;
+    height: 1rem;
+    border: 1px solid #2c97f2;
+    box-shadow: .01rem .01rem .1rem rgba(0,0,0,.25);
+    background: #2c97f2;
+    color: #fff;
+    font-size: .3rem;
+    font-family: Arial, 'MicroSoft Yahei';
+    &:focus {
+      outline: none;
+    }
+    &:hover {
+      background: #288ADD;
+    }
+  }
+}

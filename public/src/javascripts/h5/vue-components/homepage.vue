@@ -50,7 +50,7 @@
     };
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass" rel="stylesheet/scss" scoped>
     @import "../../../stylesheets/vue-styles/homepage.scss";
 
 </style>

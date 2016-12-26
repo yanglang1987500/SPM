@@ -48,6 +48,13 @@ app.set('view engine', 'html');
 logger.initExpress(app);
 
 
+
+/*====================初始化webIM token===============*/
+var webIMDao = require('./daos/webIMDao');
+webIMDao.init();
+
+
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -122,7 +129,8 @@ process.on('uncaughtException', function (err) {
 
 
 
-
 app.listen(8080);
+
+
 
 module.exports = app;
