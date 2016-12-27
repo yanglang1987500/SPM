@@ -4,6 +4,7 @@
 
 var menu = [];
 var utils = require('./utils/utils');
+var store = require('./utils/store');
 
 /**
  * 添加本地模块
@@ -49,6 +50,14 @@ module.exports = {
             }
             arr.push({path:'*',component:require('./vue-components/homepage.vue')});
             callback && callback(arr);
+        });
+        utils.ajax.query('/auth/client',function(data){
+            if(!data.success){
+                $.ui.toast('初始化权限数据异常');
+                return;
+            }
+            store.commit('setRoleAuthorityMap',data.data.roleAuthorityMap);
+            store.commit('setUserRoles',data.data.userRoles);
         });
   /*      modules.forEach(function(item){
             var mod = require('./vue-components/'+item+'.vue');

@@ -16,12 +16,12 @@ router.get('/menu/list', function (req, res, next) {
     if (req.session.isLogin) {
         var key = req.query.key,
             show_type = req.query.show_type,
-            menu_device = req.query.menu_device,
+            menu_device = req.query.menu_device,//0代表查找所有
             menu_type = req.query.menu_type;
         menuDao.menuSearch({
             key:key?key:null,
             show_type:show_type!=undefined?show_type:null,
-            menu_device:menu_device!=undefined?menu_device:'1',
+            menu_device:menu_device!=undefined?(menu_device==='0'?null:menu_device):'1',
             menu_type:menu_type!=undefined?menu_type:null
         },function(err,data){
             res.json(utils.returns(arguments));

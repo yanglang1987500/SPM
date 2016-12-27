@@ -255,8 +255,21 @@ var AJAX = {
 
 //扩展加密解密
 var Crypto = require('../../../../../libs/crypto');
-
-
+var store = require('./store');
+/**
+ * 解析权限表达式
+ * @param expr 表达式 比如menu:/modules/homepage 或 element:/modules/org-manage:addOrg
+ */
+function parseExpr(expr){
+    var obj = {};
+    if(!expr)
+        return obj;
+    var matches = expr.match(/^(menu|element):([^:]*):?([^:]*)$/);
+    obj['auth_type'] = matches[1];
+    obj['auth_url'] = matches[2];
+    obj['auth_code'] = matches[3];
+    return obj;
+}
 
 module.exports = {
     animation:{
@@ -279,5 +292,54 @@ module.exports = {
         return hash;
     },
     colors:['#8FEDD1','#D3ED8F','#EFC08D','#F09D8C','#8BC6F1',
-            '#8A8FF2','#AC89F3','#F48891','#89F3AC','#95C0E8']
+            '#8A8FF2','#AC89F3','#F48891','#89F3AC','#95C0E8'],
+    parseAuthority:function(){
+        var that = this;
+        $('sec-authorize').each(function (i, item) {
+            var url = $(this).attr('url');
+            //鉴权
+            var ret = that.isPermission(url);
+            ret && ($(this).children().insertAfter($(this)));
+        }).remove();
+    },
+    /**
+     * 鉴权
+     * @param roles
+     * @param expr
+     * @returns {boolean}
+     */
+    isPermission:function(expr){
+        var roles = store.state.userRoles,
+            roleAuthorityMap = store.state.roleAuthorityMap;
+        for(var i = 0;i<roles.length;i++){
+            var resources = roleAuthorityMap[roles[i].role_id];
+            if(!resources)
+                continue;
+            if(expr.indexOf(':')==-1){
+                //资源id鉴权
+                for(var j = 0;j<resources.length;j++){
+                    if(resources[j].resource_id == expr){
+                        return true;
+                    }
+                }
+            }else{
+                //权限表达式鉴权
+                var expObj = parseExpr(expr);
+                for(var j = 0;j<resources.length;j++){
+                    if(expObj.auth_type == 'menu'){
+                        //菜单鉴权
+                        if(resources[j].auth_url == expObj.auth_url){
+                            return true;
+                        }
+                    }else if(expObj.auth_type == 'element'){
+                        //元素鉴权
+                        if(resources[j].auth_url == expObj.auth_url && resources[j].auth_code == expObj.auth_code){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 };

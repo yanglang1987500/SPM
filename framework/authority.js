@@ -53,6 +53,9 @@ module.exports = {
             callback && callback();
         });
     },
+    getRoleAuthorityMap:function(){
+        return roleAuthorityMap;
+    },
     parse: function (data, sessionUserInfo) {
         var $ = cheerio.load(data, {decodeEntities: false});
         $('sec-authorize').each(function (i, item) {

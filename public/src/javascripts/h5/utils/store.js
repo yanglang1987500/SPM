@@ -13,7 +13,9 @@ const store = window.store = new Vuex.Store({
         curChatList:__list?JSON.parse(__list):[],//当前聊天列表
         groupList:[],
         blackList:[],
-        webIMTabIndex:0
+        webIMTabIndex:0,
+        roleAuthorityMap:{},
+        userRoles:[]
     },
     mutations:{
         setUsername:function (state,username) {
@@ -54,6 +56,12 @@ const store = window.store = new Vuex.Store({
         },
         setWebIMTabIndex:function(state,index){
             state.webIMTabIndex = index;
+        },
+        setRoleAuthorityMap:function(state,roleAuthorityMap){
+            state.roleAuthorityMap = roleAuthorityMap;
+        },
+        setUserRoles:function(state,userRoles){
+            state.userRoles = userRoles;
         }
     },
 });

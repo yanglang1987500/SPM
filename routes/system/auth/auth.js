@@ -80,4 +80,21 @@ router.get('/auth/menu/list', function (req, res, next) {
     }
 });
 
+
+/**
+ * 查询客户端需要的所有鉴权数据
+ * 包括角色所具备的所有权限对象与当前用户所有角色
+ */
+router.get('/auth/client', function (req, res, next) {
+    if (req.session.isLogin) {
+        var roleAuthorityMap = authority.getRoleAuthorityMap();
+        var sessionUserInfo = sessionUtil.createUserInfo(req.session.userInfo);
+        var userRoles = sessionUserInfo.roles;
+        res.json(utils.returnJson(true,{
+            roleAuthorityMap:roleAuthorityMap,
+            userRoles:userRoles
+        }));
+    }
+});
+
 module.exports = router;

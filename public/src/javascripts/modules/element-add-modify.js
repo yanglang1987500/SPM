@@ -95,7 +95,7 @@ ElementAddModify.prototype.onMove = function(left,top){
 
 ElementAddModify.prototype.initMenuTree = function(){
     var that = this;
-    this.query('/menu/list',function(data){
+    this.query('/menu/list',{menu_device:'0'},function(data){
         if(!data.success){
             that.toast(data.message);
             return;
