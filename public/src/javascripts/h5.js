@@ -5,6 +5,7 @@
 require('../stylesheets/h5.scss');
 require('../stylesheets/vue-styles/theme.scss');
 var FastClick = require('./libs/fastclick');
+
 require('./libs/calendar');
 var Vue = require('vue');
 var VueRouter = require('vue-router');
@@ -37,6 +38,9 @@ loader.load(function(data){
         });
         !flag?next({path: '/'}):next();
     });*/
+    Events.subscribe('router-push',function(path){
+       router.push(path);
+    });
     app = new Vue({
         router:router,
         store:store,

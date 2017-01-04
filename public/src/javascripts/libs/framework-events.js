@@ -45,7 +45,7 @@ var Events = window.Events = {
                 });//暂时存入待触发列表
             }
             //若为临时事件，则通知一次之后马上注销
-            if(new RegExp('^'+EVENT_PREFIX+'(_\\d+)$').test(_eventName))
+            if(new RegExp('^'+EVENT_PREFIX+'(_.+)$').test(_eventName))
                 this.unsubscribe(_eventName);
         }
 

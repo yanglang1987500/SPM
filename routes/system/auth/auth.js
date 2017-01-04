@@ -87,11 +87,22 @@ router.get('/auth/menu/list', function (req, res, next) {
  */
 router.get('/auth/client', function (req, res, next) {
     if (req.session.isLogin) {
-        var roleAuthorityMap = authority.getRoleAuthorityMap();
+        var roleAuthorityMap = authority.getRoleAuthorityMap(), tmp = {};
         var sessionUserInfo = sessionUtil.createUserInfo(req.session.userInfo);
         var userRoles = sessionUserInfo.roles;
+
+        var tmp = JSON.parse(JSON.stringify(roleAuthorityMap));
+
+        for(var key in tmp){
+            var arr = tmp[key];
+            for(var i = 0;i<arr.length;i++){
+                delete arr[i].role_id;
+                delete arr[i].role_name;
+            }
+        }
+
         res.json(utils.returnJson(true,{
-            roleAuthorityMap:roleAuthorityMap,
+            roleAuthorityMap:tmp,
             userRoles:userRoles
         }));
     }

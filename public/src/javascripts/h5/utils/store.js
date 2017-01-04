@@ -91,6 +91,9 @@ var StoreUtil = {
                 ]
             });
         }
+        !message.read && $.ui.info(message.from+'：'+message.data,function(){
+            Events.notify('router-push','/webim-chat?type=1&chat_name='+message.chat_name);
+        });
     },
     addGroupMessage:function(state,message,recall){
         var list = state.curChatList, curChat = null ,index = null;
@@ -120,9 +123,10 @@ var StoreUtil = {
                 },500);
                 return;
             }
+            curChat = groupInfo;
             store.commit('addChat',{
-                roomId: groupInfo.roomId,//群组id
-                name:groupInfo.name,
+                roomId: curChat.roomId,//群组id
+                name:curChat.name,
                 id: message.id,
                 type:message.type,
                 record: [
@@ -130,6 +134,9 @@ var StoreUtil = {
                 ]
             });
         }
+        !message.read && $.ui.info(message.from+'：'+message.data,function(){
+            Events.notify('router-push','/webim-chat?type=2&chat_name='+curChat.name+'&roomId='+curChat.roomId);
+        });
     },
     addSubcribeMessage:function(state,message){
         var list = state.curChatList, subcribeChat = null ,index = null;
@@ -157,6 +164,9 @@ var StoreUtil = {
                 ]
             });
         }
+        !message.read && $.ui.info(message.from+'：'+message.status,function(){
+            Events.notify('router-push','/webim-subscribe-list');
+        });
     }
 };
 

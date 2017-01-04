@@ -10,6 +10,7 @@ var restAPI = webimConfig.appkey.replace('#','/');
 
 var __REST_GETTOKEN = "https://a1.easemob.com/"+restAPI+"/token";
 var __REST_REGISTUSER = "https://a1.easemob.com/"+restAPI+"/users";
+var __REST_REGISTGROUP = "https://a1.easemob.com/"+restAPI+"/chatgroups";
 var __REST_ADDGROUPUSER = "https://a1.easemob.com/"+restAPI+"/chatgroups/{group_id}/users/{username}";
 
 module.exports = {
@@ -74,7 +75,7 @@ module.exports = {
             data:param,
             headers: {'Content-Type':'application/json','Authorization':'Bearer '+this.token}
         };
-        client.post(__REST_REGISTUSER, args , function (data, response) {
+        client.post(__REST_REGISTGROUP, args , function (data, response) {
             logger.debug('webim add group end');
             logger.debug(JSON.stringify(data));
             callback && callback(data);

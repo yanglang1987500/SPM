@@ -6,7 +6,9 @@
  * 封装在$.ui（UI包）下
  * @author yanglang
  */
+
 (function($) {
+    var touch = require('../touch-0.2.14.min');
     !$.ui?$.ui={}:"";
     $.ui.loading = function(content,second,callback){
     	second = second || 1;
@@ -114,14 +116,69 @@
             	},second*1000);
             }
         },1000);
-        
+
         callback && callback();
-        
+
         return {
           close:close,
           get:function(selector){
         	  return $(selector,$pop);
           }
+        };
+    };
+
+    $.ui.info = function(content,_second,_callback){
+        var timeout = 5;
+        var second = _second?($.isFunction(_second)?timeout:_second):timeout;
+        var callback = _second?($.isFunction(_second)?_second:_callback):_callback;
+        var pophtml = '<div class="uitoastinfos">' +
+            '            <div class="uiinfo_content">' +
+            content +
+            '            </div>' +
+            '        </div>';
+        var $pop = $(pophtml).appendTo($('body'));
+        touch.on($pop[0],'swipeleft',function(){
+            $pop.css({
+                transform:'translate3d(-250%,0,0)'
+            });
+        });
+        touch.on($pop[0],'swiperight',function(){
+            $pop.css({
+                transform:'translate3d(350%,0,0)'
+            });
+        });
+        touch.on($pop[0],'swipeup',function(){
+            $pop.css({
+                transform:'translate3d(-50%,-100%,0)'
+            });
+        });
+        var close = function(){
+            $pop.removeClass('show');
+            window.setTimeout(function(){
+                $pop.remove();
+            },1000);
+        };
+        window.setTimeout(function(){
+            $pop.addClass('show');
+        },10);
+        window.setTimeout(function(){
+            if(second && $.isNumeric(second)){
+                window.setTimeout(function(){
+                    close();
+                },second*1000);
+            }
+        },1000);
+
+        $pop.click(function(){
+            callback && callback();
+            close();
+        });
+
+        return {
+            close:close,
+            get:function(selector){
+                return $(selector,$pop);
+            }
         };
     };
 })($);

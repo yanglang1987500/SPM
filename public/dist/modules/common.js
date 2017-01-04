@@ -76,7 +76,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 
-/******/ 			script.src = __webpack_require__.p + "chunk/" + {"0":"586800b7","1":"4a0d52a7","2":"f32336e9","3":"cbfd9b62","4":"dc6992d0","5":"c3e30807"}[chunkId] + ".chunk.min.js";
+/******/ 			script.src = __webpack_require__.p + "chunk/" + {"0":"7cc55ac0","1":"4a0d52a7","2":"677c2e25","3":"f8c61cf8","4":"6716ea34","5":"eb255e79"}[chunkId] + ".chunk.min.js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -325,7 +325,7 @@
 	                });//暂时存入待触发列表
 	            }
 	            //若为临时事件，则通知一次之后马上注销
-	            if(new RegExp('^'+EVENT_PREFIX+'(_\\d+)$').test(_eventName))
+	            if(new RegExp('^'+EVENT_PREFIX+'(_.+)$').test(_eventName))
 	                this.unsubscribe(_eventName);
 	        }
 

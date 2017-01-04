@@ -34,9 +34,7 @@
         </div>
         <div id="sendBar" class="fixed">
             <input type="text" id="editorBox" />
-            <sec-authorize url="element:/h5/webim:sendMsg">
-                <button id="sendBtn" >发送</button>
-            </sec-authorize>
+            <button id="sendBtn" >发送</button>
         </div>
     </div>
     </transition>
@@ -90,7 +88,6 @@
         destroyed:function(){
         },
         mounted:function() {
-            utils.parseAuthority();
             var that = this;
             Events.notify('WebIMSaveChatList');
             $('#editorBox').bind('focus',function(){

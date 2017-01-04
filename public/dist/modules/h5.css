@@ -159,7 +159,7 @@ nav.navigator .navigator-btn[data-v-6ddafa0c] {
     position: absolute;
     left: 0;
     top: 0;
-    width: 1rem;
+    width: 1.2rem;
     height: 1rem;
     line-height: 1rem;
     text-align: center;
@@ -189,7 +189,8 @@ nav.navigator .navigator-btn#navigatorRightBtn[data-v-6ddafa0c] {
     float: right;
 }
 #webim-chat-container .chat-item-wrap .user-name[data-v-7d579853] {
-      font-size: .1rem;
+      font-family: "MicroSoft Yahei",Arial;
+      font-size: .25rem;
       text-align: left;
       position: absolute;
       right: 1.2rem;
@@ -454,7 +455,7 @@ nav.navigator .navigator-btn#navigatorRightBtn[data-v-6ddafa0c] {
       text-align: center;
       color: #c1c1c1;
       position: absolute;
-      left: -10%;
+      white-space: nowrap;
       /*   left: 50%;
          transform: translateX(-50%);*/
 }
@@ -803,6 +804,35 @@ nav.navigator .navigator-btn#navigatorRightBtn[data-v-6ddafa0c] {
 	text-align: center;
 	font-size: 14px;
 }
+
+
+
+.uitoastinfos {
+	position: fixed;
+	top: 0;
+	left: 50%;
+	width: 7rem;
+	box-shadow: 0 0.1rem 0.3rem rgba(0,0,0,.3);
+	background-color: rgba(255, 255, 255, 0.9);
+	border-radius-left: .1rem;
+	border-bottom-left-radius: .1rem;
+	border-bottom-right-radius: .1rem;
+	z-index: 100000;
+	transition: all 1s ease;
+	-webkit-transition: all 1s ease;
+	-moz-transition: all 1s ease;
+	transform: translate3d(-50%,-100%,0);
+}
+.uitoastinfos.show {
+	transform:translate3d(-50%,0,0);
+}
+
+.uitoastinfos .uiinfo_content {
+	padding: .4rem .3rem;
+	line-height: .8rem;
+	font-size: .3rem;
+	font-family: MicroSoft Yahei,Arial;
+}
 #webim-subscribe-list-container[data-v-b5538808] {
   background: #f6f6f6;
 }
@@ -861,7 +891,8 @@ nav.navigator .navigator-btn#navigatorRightBtn[data-v-6ddafa0c] {
     float: right;
 }
 #webim-subscribe-list-container .chat-item-wrap .user-name[data-v-b5538808] {
-      font-size: .1rem;
+      font-family: "MicroSoft Yahei" ,Arial;
+      font-size: .3rem;
       text-align: left;
       position: absolute;
       right: 1.2rem;
@@ -986,7 +1017,7 @@ nav.navigator .navigator-btn#navigatorRightBtn[data-v-6ddafa0c] {
       line-height: 1rem;
       color: #fff;
       font-size: .4rem;
-      border-right: 1px solid #fff;
+      border-right: 1px solid #8ac4f3;
 }
 .condition-wrap .condition-form-btn-group .condition-button[data-v-16561188]:last-child {
         border-right: 0;
@@ -1089,7 +1120,6 @@ nav.navigator .navigator-btn#navigatorRightBtn[data-v-6ddafa0c] {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(1, 25, 35, 0.5);
   z-index: 9999;
 }
 .popup[data-v-27fd144f] {
@@ -1098,8 +1128,18 @@ nav.navigator .navigator-btn#navigatorRightBtn[data-v-6ddafa0c] {
   transform: translate3d(0, 100%, 0);
   transition: .3s all ease;
   width: 100%;
+  z-index: 10000;
   background: #fff;
   box-shadow: 0 -0.1rem 0.5rem rgba(0, 0, 0, 0.2);
+}
+.popup-mask[data-v-27fd144f] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.35);
 }
 .popup.show[data-v-27fd144f] {
   transform: translate3d(0, 0%, 0);
@@ -1124,7 +1164,7 @@ nav.navigator .navigator-btn#navigatorRightBtn[data-v-6ddafa0c] {
       line-height: 1rem;
       color: #fff;
       font-size: .4rem;
-      border-right: 1px solid #fff;
+      border-right: 1px solid #8ac4f3;
 }
 .condition-wrap .condition-form-btn-group .condition-button[data-v-58819f22]:last-child {
         border-right: 0;
@@ -1439,232 +1479,363 @@ nav.navigator .navigator-btn#navigatorRightBtn[data-v-6ddafa0c] {
         box-shadow: 0 0 0.15rem rgba(0, 0, 0, 0.2);
 }
 
+#webim-container[data-v-cd2864bc] {
+  overflow-x: hidden;
+}
 #webim-container a[data-v-cd2864bc] {
-  text-decoration: none;
-  color: #afafaf;
+    text-decoration: none;
+    color: #afafaf;
 }
 #webim-container ul[data-v-cd2864bc] {
-  list-style: none;
+    list-style: none;
 }
 #webim-container .content-wrap[data-v-cd2864bc] {
-  padding-bottom: .9rem;
-  overflow-x: hidden;
-  width: 30rem;
-  transform: translate3d(0, 0, 0);
-  transition: transform 0.5s ease;
+    padding-bottom: .9rem;
+    overflow-x: hidden;
+    width: 30rem;
+    transform: translate3d(0, 0, 0);
+    transition: transform 0.5s ease;
 }
 #webim-container .content-wrap > div[data-v-cd2864bc] {
-    display: block;
-    width: 7.5rem;
-    float: left;
-    min-height: 7rem;
+      display: block;
+      width: 7.5rem;
+      float: left;
+      min-height: 7rem;
 }
 #webim-container .content-wrap .roster-list li[data-v-cd2864bc] {
-    line-height: 1.2rem;
-    height: 1.2rem;
-    font-size: .5rem;
-    padding: 0 .2rem;
-    color: #363636;
-    position: relative;
-    font-family: Arial, "MicroSoft Yahei";
-}
-#webim-container .content-wrap .roster-list li .li-wrap[data-v-cd2864bc] {
+      line-height: 1.2rem;
+      height: 1.2rem;
+      font-size: .5rem;
+      padding: 0 .2rem;
+      color: #363636;
       position: relative;
-      padding-left: 1.2rem;
-      border-bottom: 1px solid #eee;
-}
-#webim-container .content-wrap .roster-list li[data-v-cd2864bc]:hover {
-      background-color: #DEECF8;
-}
-#webim-container .content-wrap .roster-list li .head-circle-name[data-v-cd2864bc] {
-      position: absolute;
-      left: 0;
-      top: .2rem;
-      width: .8rem;
-      height: .8rem;
-      border-radius: 50%;
-      overflow: hidden;
-      box-shadow: 0 0 0.12rem rgba(0, 0, 0, 0.3);
-}
-#webim-container .content-wrap .roster-list li .head-circle-name h3[data-v-cd2864bc] {
-        width: 1rem;
-        font-size: .6rem;
-        line-height: .8rem;
-        text-align: center;
-        color: #c1c1c1;
-        position: absolute;
-        /*   left: 50%;
-            transform: translateX(-50%);*/
-}
-#webim-container .content-wrap .chat-list li[data-v-cd2864bc] {
-    font-size: .5rem;
-    padding: 0 .2rem;
-}
-#webim-container .content-wrap .chat-list li .li-wrap[data-v-cd2864bc] {
-      padding: .2rem 0;
-      position: relative;
-      padding-left: 1.3rem;
-      border-bottom: 1px solid #eee;
-}
-#webim-container .content-wrap .chat-list li[data-v-cd2864bc]:hover {
-      background-color: #DEECF8;
-}
-#webim-container .content-wrap .chat-list li p[data-v-cd2864bc] {
-      color: #484848;
-      font-size: .4rem;
-      line-height: .8rem;
       font-family: Arial, "MicroSoft Yahei";
 }
-#webim-container .content-wrap .chat-list li i[data-v-cd2864bc] {
-      line-height: .4rem;
-      height: .4rem;
-      font-size: .3rem;
-      font-style: normal;
-      display: block;
-      overflow: hidden;
-}
-#webim-container .content-wrap .chat-list li span[data-v-cd2864bc] {
-      position: absolute;
-      color: #cdcdcd;
-      right: 0;
-      top: .2rem;
-      font-size: .25rem;
-      line-height: .8rem;
-}
-#webim-container .content-wrap .chat-list li .head-wrap[data-v-cd2864bc] {
-      position: absolute;
-      left: 0;
-      top: .3rem;
-      width: 1rem;
-      height: 1rem;
-}
-#webim-container .content-wrap .chat-list li .head-wrap .head-circle-name[data-v-cd2864bc] {
+#webim-container .content-wrap .roster-list li .li-wrap[data-v-cd2864bc] {
         position: relative;
-        width: 1rem;
-        height: 1rem;
+        padding-left: 1.2rem;
+        border-bottom: 1px solid #eee;
+        font-size: .4rem;
+}
+#webim-container .content-wrap .roster-list li[data-v-cd2864bc]:hover {
+        background-color: #DEECF8;
+}
+#webim-container .content-wrap .roster-list li .head-circle-name[data-v-cd2864bc] {
+        position: absolute;
+        left: 0;
+        top: .2rem;
+        width: .8rem;
+        height: .8rem;
         border-radius: 50%;
         overflow: hidden;
         box-shadow: 0 0 0.12rem rgba(0, 0, 0, 0.3);
 }
-#webim-container .content-wrap .chat-list li .head-wrap .head-circle-name h3[data-v-cd2864bc] {
+#webim-container .content-wrap .roster-list li .head-circle-name h3[data-v-cd2864bc] {
           width: 1rem;
           font-size: .6rem;
-          line-height: 1rem;
+          line-height: .8rem;
+          text-align: center;
+          color: #c1c1c1;
+          position: absolute;
+          /*   left: 50%;
+            transform: translateX(-50%);*/
+}
+#webim-container .content-wrap .chat-list li[data-v-cd2864bc] {
+      font-size: .5rem;
+      padding: 0 .2rem;
+}
+#webim-container .content-wrap .chat-list li .li-wrap[data-v-cd2864bc] {
+        padding: .2rem 0;
+        position: relative;
+        padding-left: 1.3rem;
+        border-bottom: 1px solid #eee;
+}
+#webim-container .content-wrap .chat-list li[data-v-cd2864bc]:hover {
+        background-color: #DEECF8;
+}
+#webim-container .content-wrap .chat-list li p[data-v-cd2864bc] {
+        color: #484848;
+        font-size: .4rem;
+        line-height: .8rem;
+        font-family: Arial, "MicroSoft Yahei";
+}
+#webim-container .content-wrap .chat-list li i[data-v-cd2864bc] {
+        line-height: .4rem;
+        height: .4rem;
+        font-size: .3rem;
+        font-style: normal;
+        display: block;
+        overflow: hidden;
+}
+#webim-container .content-wrap .chat-list li span[data-v-cd2864bc] {
+        position: absolute;
+        color: #cdcdcd;
+        right: 0;
+        top: .2rem;
+        font-size: .25rem;
+        line-height: .8rem;
+}
+#webim-container .content-wrap .chat-list li .head-wrap[data-v-cd2864bc] {
+        position: absolute;
+        left: 0;
+        top: .3rem;
+        width: 1rem;
+        height: 1rem;
+}
+#webim-container .content-wrap .chat-list li .head-wrap .head-circle-name[data-v-cd2864bc] {
+          position: relative;
+          width: 1rem;
+          height: 1rem;
+          border-radius: 50%;
+          overflow: hidden;
+          box-shadow: 0 0 0.12rem rgba(0, 0, 0, 0.3);
+}
+#webim-container .content-wrap .chat-list li .head-wrap .head-circle-name h3[data-v-cd2864bc] {
+            width: 1rem;
+            font-size: .6rem;
+            line-height: 1rem;
+            text-align: center;
+            color: #c1c1c1;
+            position: absolute;
+            /*left: 50%;
+              transform: translateX(-50%);*/
+}
+#webim-container .content-wrap .chat-list li .head-wrap.unread-msg[data-unread-count][data-v-cd2864bc]:before {
+          content: attr(data-unread-count);
+          position: absolute;
+          right: -.1rem;
+          top: -.1rem;
+          border-radius: .32rem;
+          background: red;
+          color: #fff;
+          font-size: 0.25rem;
+          text-align: center;
+          width: .32rem;
+          height: .32rem;
+          line-height: .35rem;
+          font-family: Arial;
+          padding: 0 .01rem;
+}
+#webim-container .content-wrap .chat-list li .head-wrap.unread-msg-lg9[data-v-cd2864bc]:before {
+          padding: 0 .05rem !important;
+}
+#webim-container .content-wrap .group-list li[data-v-cd2864bc] {
+      padding: 0 .2rem;
+      line-height: 1.2rem;
+      height: 1.2rem;
+      font-size: .5rem;
+      color: #363636;
+      position: relative;
+      font-family: Arial, "MicroSoft Yahei";
+}
+#webim-container .content-wrap .group-list li .li-wrap[data-v-cd2864bc] {
+        position: relative;
+        border-bottom: 1px solid #eee;
+        font-size: .4rem;
+}
+#webim-container .content-wrap .group-list li[data-v-cd2864bc]:hover {
+        background-color: #DEECF8;
+}
+#webim-container .content-wrap .black-list li[data-v-cd2864bc] {
+      line-height: 1.2rem;
+      height: 1.2rem;
+      font-size: .5rem;
+      padding: 0 .2rem;
+      color: #363636;
+      position: relative;
+      font-family: Arial, "MicroSoft Yahei";
+}
+#webim-container .content-wrap .black-list li .li-wrap[data-v-cd2864bc] {
+        position: relative;
+        padding-left: 1.2rem;
+        border-bottom: 1px solid #eee;
+}
+#webim-container .content-wrap .black-list li[data-v-cd2864bc]:hover {
+        background-color: #DEECF8;
+}
+#webim-container .content-wrap .black-list li .head-circle-name[data-v-cd2864bc] {
+        position: absolute;
+        left: 0;
+        top: .2rem;
+        width: .8rem;
+        height: .8rem;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: 0 0 0.12rem rgba(0, 0, 0, 0.3);
+}
+#webim-container .content-wrap .black-list li .head-circle-name h3[data-v-cd2864bc] {
+          width: 1rem;
+          font-size: .6rem;
+          line-height: .8rem;
           text-align: center;
           color: #c1c1c1;
           position: absolute;
           /*left: 50%;
-              transform: translateX(-50%);*/
-}
-#webim-container .content-wrap .chat-list li .head-wrap.unread-msg[data-unread-count][data-v-cd2864bc]:before {
-        content: attr(data-unread-count);
-        position: absolute;
-        right: -.1rem;
-        top: -.1rem;
-        border-radius: .32rem;
-        background: red;
-        color: #fff;
-        font-size: 0.25rem;
-        text-align: center;
-        width: .32rem;
-        height: .32rem;
-        line-height: .35rem;
-        font-family: Arial;
-        padding: 0 .01rem;
-}
-#webim-container .content-wrap .chat-list li .head-wrap.unread-msg-lg9[data-v-cd2864bc]:before {
-        padding: 0 .05rem !important;
-}
-#webim-container .content-wrap .group-list li[data-v-cd2864bc] {
-    padding: 0 .2rem;
-    line-height: 1.2rem;
-    height: 1.2rem;
-    font-size: .5rem;
-    color: #363636;
-    position: relative;
-    font-family: Arial, "MicroSoft Yahei";
-}
-#webim-container .content-wrap .group-list li .li-wrap[data-v-cd2864bc] {
-      position: relative;
-      border-bottom: 1px solid #eee;
-}
-#webim-container .content-wrap .group-list li[data-v-cd2864bc]:hover {
-      background-color: #DEECF8;
-}
-#webim-container .content-wrap .black-list li[data-v-cd2864bc] {
-    line-height: 1.2rem;
-    height: 1.2rem;
-    font-size: .5rem;
-    padding: 0 .2rem;
-    color: #363636;
-    position: relative;
-    font-family: Arial, "MicroSoft Yahei";
-}
-#webim-container .content-wrap .black-list li .li-wrap[data-v-cd2864bc] {
-      position: relative;
-      padding-left: 1.2rem;
-      border-bottom: 1px solid #eee;
-}
-#webim-container .content-wrap .black-list li[data-v-cd2864bc]:hover {
-      background-color: #DEECF8;
-}
-#webim-container .content-wrap .black-list li .head-circle-name[data-v-cd2864bc] {
-      position: absolute;
-      left: 0;
-      top: .2rem;
-      width: .8rem;
-      height: .8rem;
-      border-radius: 50%;
-      overflow: hidden;
-      box-shadow: 0 0 0.12rem rgba(0, 0, 0, 0.3);
-}
-#webim-container .content-wrap .black-list li .head-circle-name h3[data-v-cd2864bc] {
-        width: 1rem;
-        font-size: .6rem;
-        line-height: .8rem;
-        text-align: center;
-        color: #c1c1c1;
-        position: absolute;
-        /*left: 50%;
             transform: translateX(-50%);*/
 }
 #webim-container #tabbar[data-v-cd2864bc] {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  height: 1rem;
-  line-height: 1rem;
-  width: 100%;
-  box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.11);
-  background: #fff;
-  list-style: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 1rem;
+    line-height: 1rem;
+    width: 100%;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.11);
+    background: #fff;
+    list-style: none;
 }
 #webim-container #tabbar li[data-v-cd2864bc] {
-    float: left;
-    text-align: center;
-    width: 25%;
-    height: 1rem;
-    cursor: pointer;
-    border-radius: 0;
+      float: left;
+      text-align: center;
+      width: 25%;
+      height: 1rem;
+      cursor: pointer;
+      border-radius: 0;
 }
 #webim-container #tabbar li.actived[data-v-cd2864bc] {
-      color: #37AF83;
+        color: #37AF83;
 }
 #webim-container #tabbar li i[data-v-cd2864bc] {
-      line-height: .7rem;
-      font-size: .5rem;
-      display: block;
+        line-height: .7rem;
+        font-size: .5rem;
+        display: block;
 }
 #webim-container #tabbar li i.fa-users[data-v-cd2864bc] {
-        font-size: .4rem;
+          font-size: .4rem;
 }
-#webim-container #tabbar li i.fa-user-times[data-v-cd2864bc] {
-        font-size: .45rem;
+#webim-container #tabbar li i.fa-cog[data-v-cd2864bc] {
+          font-size: .55rem;
 }
 #webim-container #tabbar li p[data-v-cd2864bc] {
-      line-height: .25rem;
-      font-size: .2rem;
+        line-height: .25rem;
+        font-size: .2rem;
 }
+#webim-container .second-menu-list[data-v-cd2864bc] {
+    list-style: none;
+    overflow: hidden;
+    background: #fff;
+    margin: 0;
+}
+#webim-container .second-menu-list a[data-v-cd2864bc] {
+      text-decoration: none;
+      display: block;
+}
+#webim-container .second-menu-list .menu-list-item[data-v-cd2864bc] {
+      height: 1.2rem;
+      position: relative;
+      border-bottom: 1px solid #eee;
+      color: #00abff;
+      font-size: .5rem;
+      line-height: 1.2rem;
+      display: block;
+      text-align: left;
+      padding: 0 .4rem;
+      word-wrap: break-word;
+}
+#webim-container .second-menu-list .menu-list-item .fa[data-v-cd2864bc] {
+        width: .5rem;
+        text-align: center;
+}
+#webim-container .second-menu-list .menu-list-item span[data-v-cd2864bc] {
+        font-size: .35rem;
+        color: #656565;
+        text-align: left;
+        vertical-align: top;
+        margin-left: .3rem;
+        font-family: MicroSoft Yahei;
+}
+#webim-container .groupRosterList label[data-v-cd2864bc] {
+    width: auto;
+    float: none;
+    line-height: .8rem;
+    vertical-align: middle;
+    text-align: right;
+    padding: 0;
+}
+#webim-container .groupRosterList input[type=checkbox][data-v-cd2864bc] {
+    line-height: .8rem;
+    vertical-align: middle;
+}
+#webim-container .group-icon[data-v-cd2864bc] {
+    color: #7B7B7B;
+    font-size: .4rem;
+    margin-right: .1rem;
+}
+.condition-wrap {
+  font-size: .3rem;
+  padding: .5rem 0 0 0; }
+  .condition-wrap .condition-form-btn-group {
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch;
+    margin-top: .5rem; }
+    .condition-wrap .condition-form-btn-group .condition-button {
+      flex: auto;
+      height: 1rem;
+      background: #1ea2fb;
+      text-align: center;
+      line-height: 1rem;
+      color: #fff;
+      font-size: .4rem;
+      border-right: 1px solid #8ac4f3; }
+      .condition-wrap .condition-form-btn-group .condition-button:last-child {
+        border-right: 0; }
+      .condition-wrap .condition-form-btn-group .condition-button:hover {
+        background: #0091f3; }
+  .condition-wrap .condition-form-group {
+    margin-bottom: .1rem;
+    padding-right: .2rem;
+    line-height: 1rem;
+    height: 1rem;
+    overflow: hidden; }
+    .condition-wrap .condition-form-group label {
+      width: 28%;
+      float: left;
+      line-height: .8rem;
+      vertical-align: middle;
+      text-align: right;
+      padding-right: .2rem; }
+    .condition-wrap .condition-form-group .form-control {
+      vertical-align: middle;
+      line-height: .6rem;
+      width: 72%;
+      float: left;
+      padding: 3px 10px;
+      font-size: .3rem;
+      color: #555;
+      background-color: #fff;
+      background-image: none;
+      border: 1px solid #eee;
+      -webkit-appearance: none;
+      border-radius: 4px;
+      -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+      -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+      transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s; }
+    .condition-wrap .condition-form-group .form-control:focus {
+      border-color: #66afe9;
+      outline: 0;
+      -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6); }
+    .condition-wrap .condition-form-group .checkbox, .condition-wrap .condition-form-group .radio {
+      position: relative;
+      display: block;
+      margin-top: 10px;
+      margin-bottom: 10px; }
+    .condition-wrap .condition-form-group .checkbox label, .condition-wrap .condition-form-group .radio label {
+      min-height: 20px;
+      padding-left: 20px;
+      margin-bottom: 0;
+      font-weight: 400;
+      cursor: pointer; }
+    .condition-wrap .condition-form-group .checkbox input[type=checkbox], .condition-wrap .condition-form-group .checkbox-inline input[type=checkbox], .condition-wrap .condition-form-group .radio input[type=radio], .condition-wrap .condition-form-group .radio-inline input[type=radio] {
+      position: absolute;
+      margin-top: 4px \9;
+      margin-left: -20px; }
+    .condition-wrap .condition-form-group input[type=checkbox], .condition-wrap .condition-form-group input[type=radio] {
+      margin: 2px 0 0;
+      margin-top: 1px \9;
+      line-height: normal; }
 .loading-wrap{
     position: fixed;
     left:0;

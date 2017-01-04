@@ -1,4 +1,5 @@
 #webim-container {
+  overflow-x: hidden;
   a{
     text-decoration: none;
     color: #afafaf;
@@ -31,6 +32,7 @@
           position: relative;
           padding-left: 1.2rem;
           border-bottom: 1px solid #eee;
+          font-size: .4rem;
         }
         &:hover {
           background-color: #DEECF8;
@@ -146,6 +148,7 @@
         .li-wrap {
           position: relative;
           border-bottom: 1px solid #eee;
+          font-size: .4rem;
         }
         line-height: 1.2rem;
         height: 1.2rem;
@@ -226,8 +229,8 @@
         &.fa-users {
           font-size: .4rem;
         }
-        &.fa-user-times {
-          font-size: .45rem;
+        &.fa-cog {
+          font-size: .55rem;
         }
       }
       p {
@@ -235,5 +238,59 @@
         font-size: .2rem;
       }
     }
+  }
+
+  .second-menu-list{
+    list-style: none;
+    overflow: hidden;
+    background: #fff;
+    margin:  0;
+    a{
+      text-decoration: none;
+      display: block;
+    }
+    .menu-list-item{
+      height:1.2rem;
+      position: relative;
+      border-bottom: 1px solid #eee;
+      color:#00abff;
+      font-size:.5rem;
+      line-height: 1.2rem;
+      display: block;
+      .fa{
+        width:.5rem;
+        text-align: center;
+      }
+      span{
+        font-size: .35rem;
+        color:#656565;
+        text-align: left;
+        vertical-align: top;
+        margin-left:.3rem;
+        font-family: MicroSoft Yahei;
+      }
+      text-align: left;
+      padding:0 .4rem;
+      word-wrap:break-word;
+    }
+  }
+  .groupRosterList{
+     label{
+       width: auto;
+       float: none;
+       line-height: .8rem;
+       vertical-align: middle;
+       text-align: right;
+       padding:0;
+     }
+    input[type=checkbox]{
+      line-height: .8rem;
+      vertical-align: middle;
+    }
+  }
+  .group-icon{
+    color:#7B7B7B;
+    font-size:.4rem;
+    margin-right:.1rem;
   }
 }

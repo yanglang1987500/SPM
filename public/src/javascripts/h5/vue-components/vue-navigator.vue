@@ -1,8 +1,8 @@
 <template>
     <nav id="component-navigator" class="navigator">
-        <span class="navigator-btn" id="navigatorLeftBtn" v-on:click="doReturn">返回</span>
+        <span class="navigator-btn" id="navigatorLeftBtn" v-on:click="doReturn"><i class="fa fa-angle-left"></i> 返回</span>
         <h1>{{navigatorTitle}}</h1>
-        <span :class="['navigator-btn',navigatorRightBtnClass] " id="navigatorRightBtn" v-on:click="rBtnClk">{{navigatorRightBtn}}</span>
+        <span class="navigator-btn" :class="navigatorRightBtnClass" id="navigatorRightBtn" v-on:click="rBtnClk">{{navigatorRightBtn}}</span>
     </nav>
 </template>
 
@@ -53,7 +53,7 @@
             position: absolute;
             left:0;
             top:0;
-            width:1rem;
+            width:1.2rem;
             height:1rem;
             line-height:1rem;
             text-align:center;

@@ -13,7 +13,7 @@ var ChatManage = {
     onConnectionOpened:function(){
         ChatManage.getRosters();
         ChatManage.getGroups();
-        ChatManage.getBlackList();
+        //ChatManage.getBlackList(); 暂时去除黑名单功能
     },
     onMessageReceive:function(message){
         message.chat_name = message.from;
@@ -78,6 +78,7 @@ var ChatManage = {
                     to: e.from,
                     message : '[resp:true]'
                 });
+                ChatManage.getRosters();
                /* e.status = '对方已同意好友请求';
                 e.accept_type = 2;
                 store.commit('addMessage', e);*/
@@ -100,12 +101,18 @@ var ChatManage = {
         if ( e.type === 'unsubscribed' ) {
 
         }
+
+        //创建群组成功
+        if(e.type === 'joinPublicGroupSuccess'){
+            ChatManage.getGroups();
+        }
     }
 };
 
 
 
 module.exports = {
+    chatManage:ChatManage,
     init:function(){
         require.ensure([],function(){
             require('../../libs/webim/webim.config');
@@ -250,5 +257,21 @@ module.exports = {
         msg.set(option);
         msg.setGroup('groupchat');
         conn.send(msg.body);
+    },
+    /**
+     * 创建群组
+     */
+    createGroup : function (groupName,description,members) {
+        var conn = store.state.webIMConn;
+        var option = {
+            subject: groupName,                       // 群名称
+            description: description,         // 群简介
+            members: members,               // 以数组的形式存储需要加群的好友ID
+            optionsPublic: true,                        // 允许任何人加入
+            optionsModerate: false,                     // 加入需审批
+            optionsMembersOnly: false,                  // 不允许任何人主动加入
+            optionsAllowInvites: false                  // 允许群人员邀请
+        };
+        conn.createGroup(option);
     }
 };

@@ -117,3 +117,32 @@
 	text-align: center;
 	font-size: 14px;
 }
+
+
+
+.uitoastinfos {
+	position: fixed;
+	top: 0;
+	left: 50%;
+	width: 7rem;
+	box-shadow: 0 0.1rem 0.3rem rgba(0,0,0,.3);
+	background-color: rgba(255, 255, 255, 0.9);
+	border-radius-left: .1rem;
+	border-bottom-left-radius: .1rem;
+	border-bottom-right-radius: .1rem;
+	z-index: 100000;
+	transition: all 1s ease;
+	-webkit-transition: all 1s ease;
+	-moz-transition: all 1s ease;
+	transform: translate3d(-50%,-100%,0);
+}
+.uitoastinfos.show {
+	transform:translate3d(-50%,0,0);
+}
+
+.uitoastinfos .uiinfo_content {
+	padding: .4rem .3rem;
+	line-height: .8rem;
+	font-size: .3rem;
+	font-family: MicroSoft Yahei,Arial;
+}

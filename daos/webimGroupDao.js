@@ -17,7 +17,7 @@ module.exports = {
     groupListSearch:function(page,rows,params,callback){
         var condition = [];
         condition.push(' 1=1 ');
-        params.key && condition.push(' (name like \'%'+params.key+'%\' or description like \'%'+params.key+'%\') ');
+        params.key && condition.push(' ( id ='+ params.key +' or name like \'%'+params.key+'%\' or description like \'%'+params.key+'%\') ');
 
         condition = condition.join(' and ');
         var selectSql = 'select * ',fromSql = ' from '+table+' where '+condition,

@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var rd = require('rd');
 var logger = require('./framework/logger');
+var portConfig = require('./configs/portConfig');
 
 /**== 标签处理 ==**/
 var tagProcessor = require('./framework/tag-processor');
@@ -129,7 +130,7 @@ process.on('uncaughtException', function (err) {
 
 
 
-app.listen(8080);
+app.listen(portConfig.WEBPORT);
 
 
 
