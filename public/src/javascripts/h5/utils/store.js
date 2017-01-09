@@ -59,6 +59,8 @@ const store = window.store = new Vuex.Store({
             }
             for(var i = 0;i<names.length;i++){
                 for(var j = 0;j<state.curChatList.length;j++){
+                    if(state.curChatList[j].nickname)
+                        continue;
                     if(state.curChatList[j].type == 'chat' && state.curChatList[j].name == names[i].user_name){
                         state.curChatList[j].nickname = names[i].nickname;
                         break;
@@ -168,6 +170,7 @@ var StoreUtil = {
             store.commit('addChat',{
                 name: message.chat_name,
                 id: message.id,
+                nickname:message.ext.nickname,
                 type:'chat',
                 record: [
                     message

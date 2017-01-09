@@ -16,7 +16,6 @@ var Events = require('./libs/framework-events');
 var utils = window.utils = require('./h5/utils/utils');
 var loader = require('./h5/vue-components-loader');
 require('./libs/loading/loading.js');
-var WebIM = require('./h5/utils/webIM');
 var store = require('./h5/utils/store');
 
 /**
@@ -74,6 +73,5 @@ $(function(){
     window.HEIGHT = $(window).height();
     FastClick.attach(document.body);
 
-    //WebIM初始化
-    WebIM.init();
+    
 });

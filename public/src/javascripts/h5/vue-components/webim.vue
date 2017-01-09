@@ -125,7 +125,8 @@
     require('../../libs/toast/jquery-loading.css');
     require('../../libs/toast/jquery-loading.js');
 
-
+    //WebIM初始化
+    webIM.init();
     var THEME_KEY = '_H5_THEME_KEY_';
     var methods = {
         getColor:function(name){

@@ -17,11 +17,10 @@ webpackJsonp([0],[
 	Vue.use(VueRouter);
 
 	var Events = __webpack_require__(17);
-	var utils = window.utils = __webpack_require__(19);
-	var loader = __webpack_require__(18);
-	__webpack_require__(213);
-	var WebIM = __webpack_require__(112);
-	var store = __webpack_require__(23);
+	var utils = window.utils = __webpack_require__(18);
+	var loader = __webpack_require__(24);
+	__webpack_require__(215);
+	var store = __webpack_require__(22);
 
 	/**
 	 * 加载路由配置
@@ -78,8 +77,7 @@ webpackJsonp([0],[
 	    window.HEIGHT = $(window).height();
 	    FastClick.attach(document.body);
 
-	    //WebIM初始化
-	    WebIM.init();
+	    
 	});
 
 
@@ -10378,81 +10376,6 @@ webpackJsonp([0],[
 
 	/**
 	 * Created by 杨浪 on 2016/10/14.
-	 */
-
-	var menu = [];
-
-	var store = __webpack_require__(23);
-	/**
-	 * 添加本地模块
-	 * @param arr
-	 */
-	function loadComponent(modules){
-	    //先将homepage路由加入
-	    modules.push({path:'/',component:__webpack_require__(25)});
-	    modules.push({path:'/webim-chat',component:__webpack_require__(108)});
-	    modules.push({path:'/webim-search',component:__webpack_require__(119)});
-	    modules.push({path:'/webim-detail',component:__webpack_require__(124)});
-	    modules.push({path:'/webim-subscribe-list',component:__webpack_require__(137)});
-	}
-
-	module.exports = {
-	    load:function(callback){
-	        var arr = [];
-	        utils.ajax.query('/auth/menu/list',function(data){
-	            if(!data.success){
-	                return;
-	            }
-	            var menuList = data.data;
-	            loadComponent(arr);
-	            for(var i = 0,len = menuList.length;i<len;i++){
-	                if(menuList[i].menu_device == '1')
-	                    continue;
-	                //H5模块的路由都要求是由h5/开头 如果是父级菜单则menu_url为空
-	                if(menuList[i]['menu_url']){
-	                    var flag = /\/h5\/(.*)/.test(menuList[i]['menu_url']);
-	                    if(flag){
-	                        var mod = __webpack_require__(142)("./"+RegExp.$1+'.vue');
-	                        arr.push({path:mod.module,component:mod});
-	                        menuList[i].path = '/'+RegExp.$1;
-	                        menu.push(menuList[i]);
-	                    }
-	                }else{
-	                    var mod = __webpack_require__(175);
-	                    arr.push({path:mod.module,component:mod});
-	                    menuList[i].path = '/menu-second?menu_id='+menuList[i]['menu_id'];
-	                    menu.push(menuList[i]);
-	                }
-
-	            }
-	            arr.push({path:'*',component:__webpack_require__(25)});
-	            callback && callback(arr);
-	        });
-	        utils.ajax.query('/auth/client',function(data){
-	            if(!data.success){
-	                $.ui.toast('初始化权限数据异常');
-	                return;
-	            }
-	            store.commit('setRoleAuthorityMap',data.data.roleAuthorityMap);
-	            store.commit('setUserRoles',data.data.userRoles);
-	        });
-	  /*      modules.forEach(function(item){
-	            var mod = require('./vue-components/'+item+'.vue');
-	            arr.push({path:mod.module,component:mod});
-	        });
-	        return arr;*/
-	    },
-	    getMenu:function(){
-	        return menu;
-	    }
-	};
-
-/***/ },
-/* 19 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Created by 杨浪 on 2016/10/14.
 	 *
 	 * 辅助工具类
 	 * 目前路由动画只支持浏览器原生后退三级 更多级目前不支持
@@ -10460,7 +10383,7 @@ webpackJsonp([0],[
 
 
 	/**=======================================扩展动画===========================================**/
-	var Velocity = __webpack_require__(20);
+	var Velocity = __webpack_require__(19);
 	var isReturn = false, intervene = false;//是否主动介入 主动介入由isReturn控制，否则根据prePath currentPath控制（有缺陷）
 	Events.subscribe('route:isReturn',function(flag){
 	    isReturn = flag;
@@ -10707,8 +10630,8 @@ webpackJsonp([0],[
 	/**=======================================扩展AJAX===========================================**/
 
 	//扩展加密解密
-	var Crypto = __webpack_require__(21);
-	var store = __webpack_require__(23);
+	var Crypto = __webpack_require__(20);
+	var store = __webpack_require__(22);
 	/**
 	 * 解析权限表达式
 	 * @param expr 表达式 比如menu:/modules/homepage 或 element:/modules/org-manage:addOrg
@@ -10798,7 +10721,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 20 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! VelocityJS.org (1.2.3). (C) 2014 Julian Shapiro. MIT @license: en.wikipedia.org/wiki/MIT_License */
@@ -10807,16 +10730,16 @@ webpackJsonp([0],[
 	}),m.queue(d,p.isString(s)?s:"",[])),"stop"===q?(g(d)&&g(d).tweensContainer&&f!==!1&&m.each(g(d).tweensContainer,function(a,b){b.endValue=b.currentValue}),D.push(a)):("finish"===q||"finishAll"===q)&&(b[2].duration=1))}):!0})}),"stop"===q&&(m.each(D,function(a,b){l(b,!0)}),B.promise&&B.resolver(o)),a();default:if(!m.isPlainObject(q)||p.isEmptyObject(q)){if(p.isString(q)&&t.Redirects[q]){var E=m.extend({},s),F=E.duration,G=E.delay||0;return E.backwards===!0&&(o=m.extend(!0,[],o).reverse()),m.each(o,function(a,b){parseFloat(E.stagger)?E.delay=G+parseFloat(E.stagger)*a:p.isFunction(E.stagger)&&(E.delay=G+E.stagger.call(b,a,x)),E.drag&&(E.duration=parseFloat(F)||(/^(callout|transition)/.test(q)?1e3:r),E.duration=Math.max(E.duration*(E.backwards?1-a/x:(a+1)/x),.75*E.duration,200)),t.Redirects[q].call(b,b,E||{},a,x,o,B.promise?B:d)}),a()}var H="Velocity: First argument ("+q+") was not a property map, a known action, or a registered redirect. Aborting.";return B.promise?B.rejecter(new Error(H)):console.log(H),a()}C="start"}var I={lastParent:null,lastPosition:null,lastFontSize:null,lastPercentToPxWidth:null,lastPercentToPxHeight:null,lastEmToPx:null,remToPx:null,vwToPx:null,vhToPx:null},J=[];m.each(o,function(a,b){p.isNode(b)&&e.call(b)});var K,E=m.extend({},t.defaults,s);if(E.loop=parseInt(E.loop),K=2*E.loop-1,E.loop)for(var L=0;K>L;L++){var M={delay:E.delay,progress:E.progress};L===K-1&&(M.display=E.display,M.visibility=E.visibility,M.complete=E.complete),w(o,"reverse",M)}return a()}};t=m.extend(w,t),t.animate=w;var x=b.requestAnimationFrame||o;return t.State.isMobile||c.hidden===d||c.addEventListener("visibilitychange",function(){c.hidden?(x=function(a){return setTimeout(function(){a(!0)},16)},k()):x=b.requestAnimationFrame||o}),a.Velocity=t,a!==b&&(a.fn.velocity=w,a.fn.velocity.defaults=t.defaults),m.each(["Down","Up"],function(a,b){t.Redirects["slide"+b]=function(a,c,e,f,g,h){var i=m.extend({},c),j=i.begin,k=i.complete,l={height:"",marginTop:"",marginBottom:"",paddingTop:"",paddingBottom:""},n={};i.display===d&&(i.display="Down"===b?"inline"===t.CSS.Values.getDisplayType(a)?"inline-block":"block":"none"),i.begin=function(){j&&j.call(g,g);for(var c in l){n[c]=a.style[c];var d=t.CSS.getPropertyValue(a,c);l[c]="Down"===b?[d,0]:[0,d]}n.overflow=a.style.overflow,a.style.overflow="hidden"},i.complete=function(){for(var b in n)a.style[b]=n[b];k&&k.call(g,g),h&&h.resolver(g)},t(a,l,i)}}),m.each(["In","Out"],function(a,b){t.Redirects["fade"+b]=function(a,c,e,f,g,h){var i=m.extend({},c),j={opacity:"In"===b?1:0},k=i.complete;i.complete=e!==f-1?i.begin=null:function(){k&&k.call(g,g),h&&h.resolver(g)},i.display===d&&(i.display="In"===b?"auto":"none"),t(this,j,i)}}),t}(window.jQuery||window.Zepto||window,window,document)});
 
 /***/ },
+/* 20 */,
 /* 21 */,
-/* 22 */,
-/* 23 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by 杨浪 on 2016/12/12.
 	 */
 	var Vue = __webpack_require__(15);
-	var Vuex = __webpack_require__(24);
+	var Vuex = __webpack_require__(23);
 	Vue.use(Vuex);
 
 	var __list = localStorage.getItem('WebIMCurChatList_'+UserInfo.username),Arr = [];
@@ -10873,6 +10796,8 @@ webpackJsonp([0],[
 	            }
 	            for(var i = 0;i<names.length;i++){
 	                for(var j = 0;j<state.curChatList.length;j++){
+	                    if(state.curChatList[j].nickname)
+	                        continue;
 	                    if(state.curChatList[j].type == 'chat' && state.curChatList[j].name == names[i].user_name){
 	                        state.curChatList[j].nickname = names[i].nickname;
 	                        break;
@@ -10982,6 +10907,7 @@ webpackJsonp([0],[
 	            store.commit('addChat',{
 	                name: message.chat_name,
 	                id: message.id,
+	                nickname:message.ext.nickname,
 	                type:'chat',
 	                record: [
 	                    message
@@ -11070,7 +10996,7 @@ webpackJsonp([0],[
 	module.exports = store;
 
 /***/ },
-/* 24 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -11601,6 +11527,81 @@ webpackJsonp([0],[
 	return index;
 
 	})));
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Created by 杨浪 on 2016/10/14.
+	 */
+
+	var menu = [];
+
+	var store = __webpack_require__(22);
+	/**
+	 * 添加本地模块
+	 * @param arr
+	 */
+	function loadComponent(modules){
+	    //先将homepage路由加入
+	    modules.push({path:'/',component:__webpack_require__(25)});
+	    modules.push({path:'/webim-chat',component:__webpack_require__(108)});
+	    modules.push({path:'/webim-search',component:__webpack_require__(121)});
+	    modules.push({path:'/webim-detail',component:__webpack_require__(126)});
+	    modules.push({path:'/webim-subscribe-list',component:__webpack_require__(139)});
+	}
+
+	module.exports = {
+	    load:function(callback){
+	        var arr = [];
+	        utils.ajax.query('/auth/menu/list',function(data){
+	            if(!data.success){
+	                return;
+	            }
+	            var menuList = data.data;
+	            loadComponent(arr);
+	            for(var i = 0,len = menuList.length;i<len;i++){
+	                if(menuList[i].menu_device == '1')
+	                    continue;
+	                //H5模块的路由都要求是由h5/开头 如果是父级菜单则menu_url为空
+	                if(menuList[i]['menu_url']){
+	                    var flag = /\/h5\/(.*)/.test(menuList[i]['menu_url']);
+	                    if(flag){
+	                        var mod = __webpack_require__(144)("./"+RegExp.$1+'.vue');
+	                        arr.push({path:mod.module,component:mod});
+	                        menuList[i].path = '/'+RegExp.$1;
+	                        menu.push(menuList[i]);
+	                    }
+	                }else{
+	                    var mod = __webpack_require__(177);
+	                    arr.push({path:mod.module,component:mod});
+	                    menuList[i].path = '/menu-second?menu_id='+menuList[i]['menu_id'];
+	                    menu.push(menuList[i]);
+	                }
+
+	            }
+	            arr.push({path:'*',component:__webpack_require__(25)});
+	            callback && callback(arr);
+	        });
+	        utils.ajax.query('/auth/client',function(data){
+	            if(!data.success){
+	                $.ui.toast('初始化权限数据异常');
+	                return;
+	            }
+	            store.commit('setRoleAuthorityMap',data.data.roleAuthorityMap);
+	            store.commit('setUserRoles',data.data.userRoles);
+	        });
+	  /*      modules.forEach(function(item){
+	            var mod = require('./vue-components/'+item+'.vue');
+	            arr.push({path:mod.module,component:mod});
+	        });
+	        return arr;*/
+	    },
+	    getMenu:function(){
+	        return menu;
+	    }
+	};
 
 /***/ },
 /* 25 */
@@ -13027,10 +13028,10 @@ webpackJsonp([0],[
 
 	var navigator = __webpack_require__(102);
 
-	var utils = __webpack_require__(19);
+	var utils = __webpack_require__(18);
 	var methods = {};
 	utils.animation.processHomepage(methods);
-	var loader = __webpack_require__(18);
+	var loader = __webpack_require__(24);
 	module.exports = {
 	    module: '/',
 	    data: function data() {
@@ -13272,10 +13273,10 @@ webpackJsonp([0],[
 	__webpack_require__(109);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(111);
+	__vue_exports__ = __webpack_require__(113);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(118);
+	var __vue_template__ = __webpack_require__(120);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -13322,7 +13323,9 @@ webpackJsonp([0],[
 
 /***/ },
 /* 110 */,
-/* 111 */
+/* 111 */,
+/* 112 */,
+/* 113 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13372,9 +13375,9 @@ webpackJsonp([0],[
 	//
 
 	var navigator = __webpack_require__(102);
-	var utils = __webpack_require__(19);
-	var store = __webpack_require__(23);
-	var webIM = __webpack_require__(112);
+	var utils = __webpack_require__(18);
+	var store = __webpack_require__(22);
+	var webIM = __webpack_require__(114);
 
 	var methods = {
 	    getColor: function getColor(name) {
@@ -13516,7 +13519,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 112 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -13528,7 +13531,7 @@ webpackJsonp([0],[
 	var Events = __webpack_require__(17);
 
 
-	var store = __webpack_require__(23);
+	var store = __webpack_require__(22);
 
 	var ChatManage = {
 	    onConnectionOpened:function(){
@@ -13639,9 +13642,9 @@ webpackJsonp([0],[
 	    chatManage:ChatManage,
 	    init:function(){
 	        __webpack_require__.e/* nsure */(1, function(){
-	            __webpack_require__(113);
 	            __webpack_require__(115);
 	            __webpack_require__(117);
+	            __webpack_require__(119);
 	            var conn = new WebIM.connection({
 	                https: WebIM.config.https,
 	                url: WebIM.config.xmppURL,
@@ -13810,12 +13813,12 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 113 */,
-/* 114 */,
 /* 115 */,
 /* 116 */,
 /* 117 */,
-/* 118 */
+/* 118 */,
+/* 119 */,
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -13912,7 +13915,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 119 */
+/* 121 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -13930,13 +13933,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(120);
+	__webpack_require__(122);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(122);
+	__vue_exports__ = __webpack_require__(124);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(123);
+	var __vue_template__ = __webpack_require__(125);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -13976,14 +13979,14 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 120 */
+/* 122 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 121 */,
-/* 122 */
+/* 123 */,
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14021,9 +14024,9 @@ webpackJsonp([0],[
 	//
 
 	var navigator = __webpack_require__(102);
-	var utils = __webpack_require__(19);
-	var store = __webpack_require__(23);
-	var webIM = __webpack_require__(112);
+	var utils = __webpack_require__(18);
+	var store = __webpack_require__(22);
+	var webIM = __webpack_require__(114);
 
 	var methods = {
 	    getColor: function getColor(name) {
@@ -14081,7 +14084,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 123 */
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -14153,7 +14156,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 124 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -14171,13 +14174,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(125);
+	__webpack_require__(127);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(127);
+	__vue_exports__ = __webpack_require__(129);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(136);
+	var __vue_template__ = __webpack_require__(138);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -14217,14 +14220,14 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 125 */
+/* 127 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 126 */,
-/* 127 */
+/* 128 */,
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14254,13 +14257,13 @@ webpackJsonp([0],[
 	//
 
 	var navigator = __webpack_require__(102);
-	var utils = __webpack_require__(19);
-	var store = __webpack_require__(23);
-	var webIM = __webpack_require__(112);
-	__webpack_require__(128);
-	__webpack_require__(131);
-	__webpack_require__(132);
+	var utils = __webpack_require__(18);
+	var store = __webpack_require__(22);
+	var webIM = __webpack_require__(114);
+	__webpack_require__(130);
+	__webpack_require__(133);
 	__webpack_require__(134);
+	__webpack_require__(136);
 
 	var methods = {
 	    getColor: function getColor(name) {
@@ -14369,15 +14372,15 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 128 */
+/* 130 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 129 */,
-/* 130 */,
-/* 131 */
+/* 131 */,
+/* 132 */,
+/* 133 */
 /***/ function(module, exports) {
 
 	/**
@@ -14526,14 +14529,14 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 132 */
+/* 134 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 133 */,
-/* 134 */
+/* 135 */,
+/* 136 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -14546,7 +14549,7 @@ webpackJsonp([0],[
 	 */
 
 	(function($) {
-	    var touch = __webpack_require__(135);
+	    var touch = __webpack_require__(137);
 	    !$.ui?$.ui={}:"";
 	    $.ui.loading = function(content,second,callback){
 	    	second = second || 1;
@@ -14723,14 +14726,14 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 135 */
+/* 137 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! touchjs.min v0.2.14  2014-08-05 */
 	"use strict";!function(a,b){ true?!(__WEBPACK_AMD_DEFINE_FACTORY__ = (b), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):a.touch=b()}(this,function(){function a(){var a="mouseup mousedown mousemove mouseout",c="touchstart touchmove touchend touchcancel",d=b.hasTouch?c:a;d.split(" ").forEach(function(a){document.addEventListener(a,A,!1)})}var b={};b.PCevts={touchstart:"mousedown",touchmove:"mousemove",touchend:"mouseup",touchcancel:"mouseout"},b.hasTouch="ontouchstart"in window,b.getType=function(a){return Object.prototype.toString.call(a).match(/\s([a-z|A-Z]+)/)[1].toLowerCase()},b.getSelector=function(a){if(a.id)return"#"+a.id;if(a.className){var b=a.className.split(/\s+/);return"."+b.join(".")}return a===document?"body":a.tagName.toLowerCase()},b.matchSelector=function(a,b){return a.webkitMatchesSelector(b)},b.getEventListeners=function(a){return a.listeners},b.getPCevts=function(a){return this.PCevts[a]||a},b.forceReflow=function(){var a="reflowDivBlock",b=document.getElementById(a);b||(b=document.createElement("div"),b.id=a,document.body.appendChild(b));var c=b.parentNode,d=b.nextSibling;c.removeChild(b),c.insertBefore(b,d)},b.simpleClone=function(a){return Object.create(a)},b.getPosOfEvent=function(a){if(this.hasTouch){for(var b=[],c=null,d=0,e=a.touches.length;e>d;d++)c=a.touches[d],b.push({x:c.pageX,y:c.pageY});return b}return[{x:a.pageX,y:a.pageY}]},b.getDistance=function(a,b){var c=b.x-a.x,d=b.y-a.y;return Math.sqrt(c*c+d*d)},b.getFingers=function(a){return a.touches?a.touches.length:1},b.calScale=function(a,b){if(a.length>=2&&b.length>=2){var c=this.getDistance(a[1],a[0]),d=this.getDistance(b[1],b[0]);return d/c}return 1},b.getAngle=function(a,b){return 180*Math.atan2(b.y-a.y,b.x-a.x)/Math.PI},b.getAngle180=function(a,b){var c=Math.atan(-1*(b.y-a.y)/(b.x-a.x))*(180/Math.PI);return 0>c?c+180:c},b.getDirectionFromAngle=function(a){var b={up:-45>a&&a>-135,down:a>=45&&135>a,left:a>=135||-135>=a,right:a>=-45&&45>=a};for(var c in b)if(b[c])return c;return null},b.getXYByElement=function(a){for(var b=0,c=0;a.offsetParent;)b+=a.offsetLeft,c+=a.offsetTop,a=a.offsetParent;return{left:b,top:c}},b.reset=function(){h=i=j=null,q=o=k=l=!1,m=!1,f={},t=!1},b.isTouchMove=function(a){return"touchmove"===a.type||"mousemove"===a.type},b.isTouchEnd=function(a){return"touchend"===a.type||"mouseup"===a.type||"touchcancel"===a.type},b.env=function(){var a={},b=navigator.userAgent,c=b.match(/(Android)[\s\/]+([\d\.]+)/),d=b.match(/(iPad|iPhone|iPod)\s+OS\s([\d_\.]+)/),e=b.match(/(Windows\s+Phone)\s([\d\.]+)/),f=/WebKit\/[\d.]+/i.test(b),g=d?navigator.standalone?f:/Safari/i.test(b)&&!/CriOS/i.test(b)&&!/MQQBrowser/i.test(b):!1;return c&&(a.android=!0,a.version=c[2]),d&&(a.ios=!0,a.version=d[2].replace(/_/g,"."),a.ios7=/^7/.test(a.version),"iPad"===d[1]?a.ipad=!0:"iPhone"===d[1]?(a.iphone=!0,a.iphone5=568==screen.height):"iPod"===d[1]&&(a.ipod=!0)),e&&(a.wp=!0,a.version=e[2],a.wp8=/^8/.test(a.version)),f&&(a.webkit=!0),g&&(a.safari=!0),a}();var c={proxyid:0,proxies:[],trigger:function(a,b,c){c=c||{};var d,e={bubbles:!0,cancelable:!0,detail:c};try{"undefined"!=typeof CustomEvent?(d=new CustomEvent(b,e),a&&a.dispatchEvent(d)):(d=document.createEvent("CustomEvent"),d.initCustomEvent(b,!0,!0,c),a&&a.dispatchEvent(d))}catch(f){console.warn("Touch.js is not supported by environment.")}},bind:function(a,c,d){a.listeners=a.listeners||{},a.listeners[c]?a.listeners[c].push(d):a.listeners[c]=[d];var e=function(a){b.env.ios7&&b.forceReflow(),a.originEvent=a;for(var c in a.detail)"type"!==c&&(a[c]=a.detail[c]);a.startRotate=function(){t=!0};var e=d.call(a.target,a);"undefined"==typeof e||e||(a.stopPropagation(),a.preventDefault())};d.proxy=d.proxy||{},d.proxy[c]?d.proxy[c].push(this.proxyid++):d.proxy[c]=[this.proxyid++],this.proxies.push(e),a.addEventListener&&a.addEventListener(c,e,!1)},unbind:function(a,b,c){if(c){var d=c.proxy[b];d&&d.length&&d.forEach(function(){a.removeEventListener&&a.removeEventListener(b,this.proxies[this.proxyid],!1)})}else{var e=a.listeners[b];e&&e.length&&e.forEach(function(c){a.removeEventListener(b,c,!1)})}},delegate:function(a,c,d,e){var f=function(c){var f,g;c.originEvent=c;for(var h in c.detail)"type"!==h&&(c[h]=c.detail[h]);c.startRotate=function(){t=!0};var i=b.getSelector(a)+" "+d,j=b.matchSelector(c.target,i),k=b.matchSelector(c.target,i+" "+c.target.nodeName);if(!j&&k){for(b.env.ios7&&b.forceReflow(),f=c.target;!b.matchSelector(f,i);)f=f.parentNode;g=e.call(c.target,c),"undefined"==typeof g||g||(c.stopPropagation(),c.preventDefault())}else b.env.ios7&&b.forceReflow(),(j||k)&&(g=e.call(c.target,c),"undefined"==typeof g||g||(c.stopPropagation(),c.preventDefault()))};e.proxy=e.proxy||{},e.proxy[c]?e.proxy[c].push(this.proxyid++):e.proxy[c]=[this.proxyid++],this.proxies.push(f),a.listeners=a.listeners||{},a.listeners[c]?a.listeners[c].push(f):a.listeners[c]=[f],a.addEventListener&&a.addEventListener(c,f,!1)},undelegate:function(a,b,c,d){if(d){var e=d.proxy[b];e.length&&e.forEach(function(){a.removeEventListener&&a.removeEventListener(b,this.proxies[this.proxyid],!1)})}else{var f=a.listeners[b];f.forEach(function(c){a.removeEventListener(b,c,!1)})}}},d={tap:!0,doubleTap:!0,tapMaxDistance:10,hold:!0,tapTime:200,holdTime:650,maxDoubleTapInterval:300,swipe:!0,swipeTime:300,swipeMinDistance:18,swipeFactor:5,drag:!0,pinch:!0,minScaleRate:0,minRotationAngle:0},e={TOUCH_START:"touchstart",TOUCH_MOVE:"touchmove",TOUCH_END:"touchend",TOUCH_CANCEL:"touchcancel",MOUSE_DOWN:"mousedown",MOUSE_MOVE:"mousemove",MOUSE_UP:"mouseup",CLICK:"click",PINCH_START:"pinchstart",PINCH_END:"pinchend",PINCH:"pinch",PINCH_IN:"pinchin",PINCH_OUT:"pinchout",ROTATION_LEFT:"rotateleft",ROTATION_RIGHT:"rotateright",ROTATION:"rotate",SWIPE_START:"swipestart",SWIPING:"swiping",SWIPE_END:"swipeend",SWIPE_LEFT:"swipeleft",SWIPE_RIGHT:"swiperight",SWIPE_UP:"swipeup",SWIPE_DOWN:"swipedown",SWIPE:"swipe",DRAG:"drag",DRAGSTART:"dragstart",DRAGEND:"dragend",HOLD:"hold",TAP:"tap",DOUBLE_TAP:"doubletap"},f={start:null,move:null,end:null},g=0,h=null,i=null,j=null,k=!1,l=!1,m=!1,n={},o=!1,p=null,q=!1,r=null,s=1,t=!1,u=[],v=0,w=0,x=0,y=null,z={getAngleDiff:function(a){for(var c=parseInt(v-b.getAngle180(a[0],a[1]),10),d=0;Math.abs(c-w)>90&&d++<50;)0>w?c-=180:c+=180;return w=parseInt(c,10)},pinch:function(a){var g=a.target;if(d.pinch){if(!o)return;if(b.getFingers(a)<2&&!b.isTouchEnd(a))return;var h=b.calScale(f.start,f.move),i=this.getAngleDiff(f.move),j={type:"",originEvent:a,scale:h,rotation:i,direction:i>0?"right":"left",fingersCount:b.getFingers(a)};if(l?b.isTouchMove(a)?(j.fingerStatus="move",c.trigger(g,e.PINCH,j)):b.isTouchEnd(a)&&(j.fingerStatus="end",c.trigger(g,e.PINCH_END,j),b.reset()):(l=!0,j.fingerStatus="start",c.trigger(g,e.PINCH_START,j)),Math.abs(1-h)>d.minScaleRate){var k=b.simpleClone(j),m=1e-11;h>s?(s=h-m,c.trigger(g,e.PINCH_OUT,k,!1)):s>h&&(s=h+m,c.trigger(g,e.PINCH_IN,k,!1)),b.isTouchEnd(a)&&(s=1)}if(Math.abs(i)>d.minRotationAngle){var n,p=b.simpleClone(j);n=i>0?e.ROTATION_RIGHT:e.ROTATION_LEFT,c.trigger(g,n,p,!1),c.trigger(g,e.ROTATION,j)}}},rotateSingleFinger:function(a){var d=a.target;if(t&&b.getFingers(a)<2){if(!f.move)return;if(u.length<2){var g=b.getXYByElement(d);u=[{x:g.left+d.offsetWidth/2,y:g.top+d.offsetHeight/2},f.move[0]],v=parseInt(b.getAngle180(u[0],u[1]),10)}var h=[u[0],f.move[0]],i=this.getAngleDiff(h),j={type:"",originEvent:a,rotation:i,direction:i>0?"right":"left",fingersCount:b.getFingers(a)};b.isTouchMove(a)?j.fingerStatus="move":(b.isTouchEnd(a)||"mouseout"===a.type)&&(j.fingerStatus="end",c.trigger(d,e.PINCH_END,j),b.reset());var k=i>0?e.ROTATION_RIGHT:e.ROTATION_LEFT;c.trigger(d,k,j),c.trigger(d,e.ROTATION,j)}},swipe:function(a){var h=a.target;if(o&&f.move&&!(b.getFingers(a)>1)){var i=Date.now(),j=i-g,l=b.getDistance(f.start[0],f.move[0]),p={x:f.move[0].x-n.left,y:f.move[0].y-n.top},q=b.getAngle(f.start[0],f.move[0]),r=b.getDirectionFromAngle(q),s=j/1e3,t=10*(10-d.swipeFactor)*s*s,u={type:e.SWIPE,originEvent:a,position:p,direction:r,distance:l,distanceX:f.move[0].x-f.start[0].x,distanceY:f.move[0].y-f.start[0].y,x:f.move[0].x-f.start[0].x,y:f.move[0].y-f.start[0].y,angle:q,duration:j,fingersCount:b.getFingers(a),factor:t};if(d.swipe){var v=function(){var a=e;switch(r){case"up":c.trigger(h,a.SWIPE_UP,u);break;case"down":c.trigger(h,a.SWIPE_DOWN,u);break;case"left":c.trigger(h,a.SWIPE_LEFT,u);break;case"right":c.trigger(h,a.SWIPE_RIGHT,u)}};k?b.isTouchMove(a)?(u.fingerStatus=u.swipe="move",c.trigger(h,e.SWIPING,u),j>d.swipeTime&&j<d.swipeTime+50&&l>d.swipeMinDistance&&(v(),c.trigger(h,e.SWIPE,u,!1))):(b.isTouchEnd(a)||"mouseout"===a.type)&&(u.fingerStatus=u.swipe="end",c.trigger(h,e.SWIPE_END,u),d.swipeTime>j&&l>d.swipeMinDistance&&(v(),c.trigger(h,e.SWIPE,u,!1))):(u.fingerStatus=u.swipe="start",k=!0,c.trigger(h,e.SWIPE_START,u))}d.drag&&(m?b.isTouchMove(a)?(u.fingerStatus=u.swipe="move",c.trigger(h,e.DRAG,u)):b.isTouchEnd(a)&&(u.fingerStatus=u.swipe="end",c.trigger(h,e.DRAGEND,u)):(u.fingerStatus=u.swipe="start",m=!0,c.trigger(h,e.DRAGSTART,u)))}},tap:function(a){var h=a.target;if(d.tap){var i=Date.now(),j=i-g,k=b.getDistance(f.start[0],f.move?f.move[0]:f.start[0]);clearTimeout(p);var l=function(){if(y&&d.doubleTap&&g-x<d.maxDoubleTapInterval){var a=b.getDistance(y,f.start[0]);if(16>a)return!0}return!1}();if(l)return clearTimeout(r),void c.trigger(h,e.DOUBLE_TAP,{type:e.DOUBLE_TAP,originEvent:a,position:f.start[0]});if(d.tapMaxDistance<k)return;d.holdTime>j&&b.getFingers(a)<=1&&(q=!0,x=i,y=f.start[0],r=setTimeout(function(){c.trigger(h,e.TAP,{type:e.TAP,originEvent:a,fingersCount:b.getFingers(a),position:y})},d.tapTime))}},hold:function(a){var e=a.target;d.hold&&(clearTimeout(p),p=setTimeout(function(){if(f.start){var g=b.getDistance(f.start[0],f.move?f.move[0]:f.start[0]);d.tapMaxDistance<g||q||c.trigger(e,"hold",{type:"hold",originEvent:a,fingersCount:b.getFingers(a),position:f.start[0]})}},d.holdTime))}},A=function(a){var c=a.target;switch(a.type){case"touchstart":case"mousedown":u=[],o=!0,(!f.start||f.start.length<2)&&(f.start=b.getPosOfEvent(a)),b.getFingers(a)>=2&&(v=parseInt(b.getAngle180(f.start[0],f.start[1]),10)),g=Date.now(),h=a,n={};var d=c.getBoundingClientRect(),e=document.documentElement;n={top:d.top+(window.pageYOffset||e.scrollTop)-(e.clientTop||0),left:d.left+(window.pageXOffset||e.scrollLeft)-(e.clientLeft||0)},z.hold(a);break;case"touchmove":case"mousemove":if(!o||!f.start)return;f.move=b.getPosOfEvent(a),b.getFingers(a)>=2?z.pinch(a):t?z.rotateSingleFinger(a):z.swipe(a);break;case"touchend":case"touchcancel":case"mouseup":case"mouseout":if(!o)return;j=a,l?z.pinch(a):t?z.rotateSingleFinger(a):k?z.swipe(a):z.tap(a),b.reset(),v=0,w=0,a.touches&&1===a.touches.length&&(o=!0,t=!0)}},B=function(){function a(a){b.hasTouch||(a=b.getPCevts(a)),j.forEach(function(b){c.delegate(b,a,h,g[a])})}function d(a){b.hasTouch||(a=b.getPCevts(a)),j.forEach(function(b){c.bind(b,a,g[a])})}var e,f,g,h,i=arguments;if(i.length<2||i>4)return console.error("unexpected arguments!");var j="string"===b.getType(i[0])?document.querySelectorAll(i[0]):i[0];if(j=j.length?Array.prototype.slice.call(j):[j],3===i.length&&"string"===b.getType(i[1]))return e=i[1].split(" "),f=i[2],void e.forEach(function(a){b.hasTouch||(a=b.getPCevts(a)),j.forEach(function(b){c.bind(b,a,f)})});if(3!==i.length||"object"!==b.getType(i[1]))if(2!==i.length||"object"!==b.getType(i[1])){if(4===i.length&&"object"===b.getType(i[2]))return e=i[1].split(" "),f=i[3],void e.forEach(function(a){b.hasTouch||(a=b.getPCevts(a)),j.forEach(function(b){c.bind(b,a,f)})});if(4===i.length){var k=j[0];return e=i[1].split(" "),h=i[2],f=i[3],void e.forEach(function(a){b.hasTouch||(a=b.getPCevts(a)),c.delegate(k,a,h,f)})}}else{g=i[1];for(var l in g)d(l)}else{g=i[1],h=i[2];for(var m in g)a(m)}},C=function(){var a,d,e=arguments;if(e.length<1||e.length>4)return console.error("unexpected arguments!");var f="string"===b.getType(e[0])?document.querySelectorAll(e[0]):e[0];if(f=f.length?Array.prototype.slice.call(f):[f],1===e.length||2===e.length)return void f.forEach(function(d){a=e[1]?e[1].split(" "):Object.keys(d.listeners),a.length&&a.forEach(function(a){b.hasTouch||(a=b.getPCevts(a)),c.unbind(d,a),c.undelegate(d,a)})});if(3===e.length&&"function"===b.getType(e[2]))return d=e[2],void f.forEach(function(f){a=e[1].split(" "),a.forEach(function(a){b.hasTouch||(a=b.getPCevts(a)),c.unbind(f,a,d)})});if(3===e.length&&"string"===b.getType(e[2])){var g=e[2];return void f.forEach(function(d){a=e[1].split(" "),a.forEach(function(a){b.hasTouch||(a=b.getPCevts(a)),c.undelegate(d,a,g)})})}return 4===e.length?(d=e[3],void f.forEach(function(f){a=e[1].split(" "),a.forEach(function(a){b.hasTouch||(a=b.getPCevts(a)),c.undelegate(f,a,g,d)})})):void 0},D=function(a,d,e){var f=arguments;b.hasTouch||(d=b.getPCevts(d));var g="string"===b.getType(f[0])?document.querySelectorAll(f[0]):f[0];g=g.length?Array.prototype.call(g):[g],g.forEach(function(a){c.trigger(a,d,e)})};a();var E={};return E.on=E.bind=E.live=B,E.off=E.unbind=E.die=C,E.config=d,E.trigger=D,E});
 
 /***/ },
-/* 136 */
+/* 138 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -14788,7 +14791,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 137 */
+/* 139 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -14806,13 +14809,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(138);
+	__webpack_require__(140);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(140);
+	__vue_exports__ = __webpack_require__(142);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(141);
+	var __vue_template__ = __webpack_require__(143);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -14852,14 +14855,14 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 138 */
+/* 140 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 139 */,
-/* 140 */
+/* 141 */,
+/* 142 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14907,9 +14910,9 @@ webpackJsonp([0],[
 	//
 
 	var navigator = __webpack_require__(102);
-	var utils = __webpack_require__(19);
-	var store = __webpack_require__(23);
-	var webIM = __webpack_require__(112);
+	var utils = __webpack_require__(18);
+	var store = __webpack_require__(22);
+	var webIM = __webpack_require__(114);
 
 	var methods = {
 	    getColor: function getColor(name) {
@@ -14980,7 +14983,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 141 */
+/* 143 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -15072,27 +15075,27 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 142 */
+/* 144 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./aboutus.vue": 143,
-		"./attence-analyse.vue": 149,
-		"./attence-search.vue": 164,
+		"./aboutus.vue": 145,
+		"./attence-analyse.vue": 151,
+		"./attence-search.vue": 166,
 		"./homepage.vue": 25,
-		"./menu-second.vue": 175,
-		"./password-modify.vue": 180,
-		"./repair-report.vue": 185,
-		"./sec-authorize.vue": 192,
-		"./theme.vue": 195,
+		"./menu-second.vue": 177,
+		"./password-modify.vue": 182,
+		"./repair-report.vue": 187,
+		"./sec-authorize.vue": 194,
+		"./theme.vue": 197,
 		"./vue-navigator.vue": 102,
-		"./vue-pagination.vue": 168,
-		"./vue-popup.vue": 156,
+		"./vue-pagination.vue": 170,
+		"./vue-popup.vue": 158,
 		"./webim-chat.vue": 108,
-		"./webim-detail.vue": 124,
-		"./webim-search.vue": 119,
-		"./webim-subscribe-list.vue": 137,
-		"./webim.vue": 206
+		"./webim-detail.vue": 126,
+		"./webim-search.vue": 121,
+		"./webim-subscribe-list.vue": 139,
+		"./webim.vue": 208
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -15105,11 +15108,11 @@ webpackJsonp([0],[
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 142;
+	webpackContext.id = 144;
 
 
 /***/ },
-/* 143 */
+/* 145 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -15127,13 +15130,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(144);
+	__webpack_require__(146);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(146);
+	__vue_exports__ = __webpack_require__(148);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(147);
+	var __vue_template__ = __webpack_require__(149);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -15173,14 +15176,14 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 144 */
+/* 146 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 145 */,
-/* 146 */
+/* 147 */,
+/* 148 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15203,7 +15206,7 @@ webpackJsonp([0],[
 	//
 
 	var navigator = __webpack_require__(102);
-	var utils = __webpack_require__(19);
+	var utils = __webpack_require__(18);
 
 	var methods = {};
 	utils.animation.process(methods);
@@ -15220,7 +15223,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 147 */
+/* 149 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -15251,7 +15254,7 @@ webpackJsonp([0],[
 	    staticClass: "content-wrap"
 	  }, [_h('img', {
 	    attrs: {
-	      "src": __webpack_require__(148)
+	      "src": __webpack_require__(150)
 	    }
 	  }), " ", _h('p', ["该平台提供智能门禁与学生考勤系统、智能报修与投诉处理系统、学校信息发布与家校互通系统等功能 "])])
 	}}]}
@@ -15263,13 +15266,13 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 148 */
+/* 150 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "5e583a50d06bccdb1e362fe2ee8462e8.png";
 
 /***/ },
-/* 149 */
+/* 151 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -15287,13 +15290,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(150);
+	__webpack_require__(152);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(152);
+	__vue_exports__ = __webpack_require__(154);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(163);
+	var __vue_template__ = __webpack_require__(165);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -15333,14 +15336,14 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 150 */
+/* 152 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 151 */,
-/* 152 */
+/* 153 */,
+/* 154 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15380,11 +15383,11 @@ webpackJsonp([0],[
 	//
 
 	var navigator = __webpack_require__(102);
-	__webpack_require__(153);
-	__webpack_require__(154);
-	var popup = __webpack_require__(156);
-	var utils = __webpack_require__(19);
-	var chartConfig = __webpack_require__(161);
+	__webpack_require__(155);
+	__webpack_require__(156);
+	var popup = __webpack_require__(158);
+	var utils = __webpack_require__(18);
+	var chartConfig = __webpack_require__(163);
 	var echarts = null;
 	var methods = {
 	    onNavigatorRightBtnClick: function onNavigatorRightBtnClick() {
@@ -15439,7 +15442,7 @@ webpackJsonp([0],[
 	            $.loading();
 	        }, utils.animation.DURATION);
 	        __webpack_require__.e/* nsure */(2, function () {
-	            echarts = __webpack_require__(162);
+	            echarts = __webpack_require__(164);
 	            setTimeout(function () {
 	                initChart.apply(that, [{
 	                    startdate: that.startdate.replace(/-/gi, ''),
@@ -15697,20 +15700,20 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 153 */
+/* 155 */
 /***/ function(module, exports) {
 
 	window.LCalendar=function(){var e=function(){this.gearDate,this.minY=1900,this.minM=1,this.minD=1,this.maxY=2099,this.maxM=12,this.maxD=31};return e.prototype={init:function(e){if(this.type=e.type,this.trigger=document.querySelector(e.trigger),null!=this.trigger.getAttribute("data-lcalendar")){var t=this.trigger.getAttribute("data-lcalendar").split(","),a=t[0].split("-");this.minY=~~a[0],this.minM=~~a[1],this.minD=~~a[2];var r=t[1].split("-");this.maxY=~~r[0],this.maxM=~~r[1],this.maxD=~~r[2]}if(e.minDate){var a=e.minDate.split("-");this.minY=~~a[0],this.minM=~~a[1],this.minD=~~a[2]}if(e.maxDate){var r=e.maxDate.split("-");this.maxY=~~r[0],this.maxM=~~r[1],this.maxD=~~r[2]}this.bindEvent(this.type)},bindEvent:function(e){function t(e){E.gearDate=document.createElement("div"),E.gearDate.className="gearDate",E.gearDate.innerHTML='<div class="date_ctrl slideInUp"><div class="date_btn_box"><div class="date_btn lcalendar_cancel">取消</div><div class="date_btn lcalendar_finish">确定</div></div><div class="date_roll_mask"><div class="date_roll"><div><div class="gear date_yy" data-datetype="date_yy"></div><div class="date_grid"><div>年</div></div></div><div><div class="gear date_mm" data-datetype="date_mm"></div><div class="date_grid"><div>月</div></div></div><div><div class="gear date_dd" data-datetype="date_dd"></div><div class="date_grid"><div>日</div></div></div></div></div></div>',document.body.appendChild(E.gearDate),a();var t=E.gearDate.querySelector(".lcalendar_cancel");t.addEventListener("touchstart",y);var r=E.gearDate.querySelector(".lcalendar_finish");r.addEventListener("touchstart",D);var d=E.gearDate.querySelector(".date_yy"),i=E.gearDate.querySelector(".date_mm"),n=E.gearDate.querySelector(".date_dd");d.addEventListener("touchstart",m),i.addEventListener("touchstart",m),n.addEventListener("touchstart",m),d.addEventListener("touchmove",u),i.addEventListener("touchmove",u),n.addEventListener("touchmove",u),d.addEventListener("touchend",g),i.addEventListener("touchend",g),n.addEventListener("touchend",g)}function a(){var e=new Date,t={yy:e.getFullYear(),mm:e.getMonth(),dd:e.getDate()-1};/^\d{4}-\d{1,2}-\d{1,2}$/.test(E.trigger.value)?(rs=E.trigger.value.match(/(^|-)\d{1,4}/g),t.yy=rs[0]-E.minY,t.mm=rs[1].replace(/-/g,"")-1,t.dd=rs[2].replace(/-/g,"")-1):t.yy=t.yy-E.minY,E.gearDate.querySelector(".date_yy").setAttribute("val",t.yy),E.gearDate.querySelector(".date_mm").setAttribute("val",t.mm),E.gearDate.querySelector(".date_dd").setAttribute("val",t.dd),l()}function r(e){E.gearDate=document.createElement("div"),E.gearDate.className="gearDate",E.gearDate.innerHTML='<div class="date_ctrl slideInUp"><div class="date_btn_box"><div class="date_btn lcalendar_cancel">取消</div><div class="date_btn lcalendar_finish">确定</div></div><div class="date_roll_mask"><div class="ym_roll"><div><div class="gear date_yy" data-datetype="date_yy"></div><div class="date_grid"><div>年</div></div></div><div><div class="gear date_mm" data-datetype="date_mm"></div><div class="date_grid"><div>月</div></div></div></div></div></div>',document.body.appendChild(E.gearDate),d();var t=E.gearDate.querySelector(".lcalendar_cancel");t.addEventListener("touchstart",y);var a=E.gearDate.querySelector(".lcalendar_finish");a.addEventListener("touchstart",b);var r=E.gearDate.querySelector(".date_yy"),i=E.gearDate.querySelector(".date_mm");r.addEventListener("touchstart",m),i.addEventListener("touchstart",m),r.addEventListener("touchmove",u),i.addEventListener("touchmove",u),r.addEventListener("touchend",g),i.addEventListener("touchend",g)}function d(){var e=new Date,t={yy:e.getFullYear(),mm:e.getMonth()};/^\d{4}-\d{1,2}$/.test(E.trigger.value)?(rs=E.trigger.value.match(/(^|-)\d{1,4}/g),t.yy=rs[0]-E.minY,t.mm=rs[1].replace(/-/g,"")-1):t.yy=t.yy-E.minY,E.gearDate.querySelector(".date_yy").setAttribute("val",t.yy),E.gearDate.querySelector(".date_mm").setAttribute("val",t.mm),l()}function i(e){E.gearDate=document.createElement("div"),E.gearDate.className="gearDatetime",E.gearDate.innerHTML='<div class="date_ctrl slideInUp"><div class="date_btn_box"><div class="date_btn lcalendar_cancel">取消</div><div class="date_btn lcalendar_finish">确定</div></div><div class="date_roll_mask"><div class="datetime_roll"><div><div class="gear date_yy" data-datetype="date_yy"></div><div class="date_grid"><div>年</div></div></div><div><div class="gear date_mm" data-datetype="date_mm"></div><div class="date_grid"><div>月</div></div></div><div><div class="gear date_dd" data-datetype="date_dd"></div><div class="date_grid"><div>日</div></div></div><div><div class="gear time_hh" data-datetype="time_hh"></div><div class="date_grid"><div>时</div></div></div><div><div class="gear time_mm" data-datetype="time_mm"></div><div class="date_grid"><div>分</div></div></div></div></div></div>',document.body.appendChild(E.gearDate),n();var t=E.gearDate.querySelector(".lcalendar_cancel");t.addEventListener("touchstart",y);var a=E.gearDate.querySelector(".lcalendar_finish");a.addEventListener("touchstart",p);var r=E.gearDate.querySelector(".date_yy"),d=E.gearDate.querySelector(".date_mm"),i=E.gearDate.querySelector(".date_dd"),s=E.gearDate.querySelector(".time_hh"),v=E.gearDate.querySelector(".time_mm");r.addEventListener("touchstart",m),d.addEventListener("touchstart",m),i.addEventListener("touchstart",m),s.addEventListener("touchstart",m),v.addEventListener("touchstart",m),r.addEventListener("touchmove",u),d.addEventListener("touchmove",u),i.addEventListener("touchmove",u),s.addEventListener("touchmove",u),v.addEventListener("touchmove",u),r.addEventListener("touchend",g),d.addEventListener("touchend",g),i.addEventListener("touchend",g),s.addEventListener("touchend",g),v.addEventListener("touchend",g)}function n(){var e=new Date,t={yy:e.getFullYear(),mm:e.getMonth(),dd:e.getDate()-1,hh:e.getHours(),mi:e.getMinutes()};/^\d{4}-\d{1,2}-\d{1,2}\s\d{2}:\d{2}$/.test(E.trigger.value)?(rs=E.trigger.value.match(/(^|-|\s|:)\d{1,4}/g),t.yy=rs[0]-E.minY,t.mm=rs[1].replace(/-/g,"")-1,t.dd=rs[2].replace(/-/g,"")-1,t.hh=parseInt(rs[3].replace(/\s0?/g,"")),t.mi=parseInt(rs[4].replace(/:0?/g,""))):t.yy=t.yy-E.minY,E.gearDate.querySelector(".date_yy").setAttribute("val",t.yy),E.gearDate.querySelector(".date_mm").setAttribute("val",t.mm),E.gearDate.querySelector(".date_dd").setAttribute("val",t.dd),l(),E.gearDate.querySelector(".time_hh").setAttribute("val",t.hh),E.gearDate.querySelector(".time_mm").setAttribute("val",t.mi),c()}function s(e){E.gearDate=document.createElement("div"),E.gearDate.className="gearDate",E.gearDate.innerHTML='<div class="date_ctrl slideInUp"><div class="date_btn_box"><div class="date_btn lcalendar_cancel">取消</div><div class="date_btn lcalendar_finish">确定</div></div><div class="date_roll_mask"><div class="time_roll"><div><div class="gear time_hh" data-datetype="time_hh"></div><div class="date_grid"><div>时</div></div></div><div><div class="gear time_mm" data-datetype="time_mm"></div><div class="date_grid"><div>分</div></div></div></div></div></div>',document.body.appendChild(E.gearDate),v();var t=E.gearDate.querySelector(".lcalendar_cancel");t.addEventListener("touchstart",y);var a=E.gearDate.querySelector(".lcalendar_finish");a.addEventListener("touchstart",f);var r=E.gearDate.querySelector(".time_hh"),d=E.gearDate.querySelector(".time_mm");r.addEventListener("touchstart",m),d.addEventListener("touchstart",m),r.addEventListener("touchmove",u),d.addEventListener("touchmove",u),r.addEventListener("touchend",g),d.addEventListener("touchend",g)}function v(){var e=new Date,t={hh:e.getHours(),mm:e.getMinutes()};/^\d{2}:\d{2}$/.test(E.trigger.value)&&(rs=E.trigger.value.match(/(^|:)\d{2}/g),t.hh=parseInt(rs[0].replace(/^0?/g,"")),t.mm=parseInt(rs[1].replace(/:0?/g,""))),E.gearDate.querySelector(".time_hh").setAttribute("val",t.hh),E.gearDate.querySelector(".time_mm").setAttribute("val",t.mm),c()}function l(){var e=E.maxY-E.minY+1,t=E.gearDate.querySelector(".date_yy"),a="";if(t&&t.getAttribute("val")){for(var r=parseInt(t.getAttribute("val")),d=0;e-1>=d;d++)a+="<div class='tooth'>"+(E.minY+d)+"</div>";t.innerHTML=a;var i=Math.floor(parseFloat(t.getAttribute("top")));if(isNaN(i))t.style["-webkit-transform"]="translate3d(0,"+(8-2*r)+"em,0)",t.setAttribute("top",8-2*r+"em");else{i%2==0?i=i:i+=1,i>8&&(i=8);var n=8-2*(e-1);n>i&&(i=n),t.style["-webkit-transform"]="translate3d(0,"+i+"em,0)",t.setAttribute("top",i+"em"),r=Math.abs(i-8)/2,t.setAttribute("val",r)}var s=E.gearDate.querySelector(".date_mm");if(s&&s.getAttribute("val")){a="";var v=parseInt(s.getAttribute("val")),l=11,c=0;r==e-1&&(l=E.maxM-1),0==r&&(c=E.minM-1);for(var d=0;l-c+1>d;d++)a+="<div class='tooth'>"+(c+d+1)+"</div>";s.innerHTML=a,v>l?(v=l,s.setAttribute("val",v)):c>v&&(v=l,s.setAttribute("val",v)),s.style["-webkit-transform"]="translate3d(0,"+(8-2*(v-c))+"em,0)",s.setAttribute("top",8-2*(v-c)+"em");var m=E.gearDate.querySelector(".date_dd");if(m&&m.getAttribute("val")){a="";var u=parseInt(m.getAttribute("val")),g=o(r,v),_=g-1,h=0;r==e-1&&E.maxM==v+1&&(_=E.maxD-1),0==r&&E.minM==v+1&&(h=E.minD-1);for(var d=0;_-h+1>d;d++)a+="<div class='tooth'>"+(h+d+1)+"</div>";m.innerHTML=a,u>_?(u=_,m.setAttribute("val",u)):h>u&&(u=h,m.setAttribute("val",u)),m.style["-webkit-transform"]="translate3d(0,"+(8-2*(u-h))+"em,0)",m.setAttribute("top",8-2*(u-h)+"em")}}}}function c(){var e=E.gearDate.querySelector(".time_hh");if(e&&e.getAttribute("val")){for(var t="",a=parseInt(e.getAttribute("val")),r=0;23>=r;r++)t+="<div class='tooth'>"+r+"</div>";e.innerHTML=t,e.style["-webkit-transform"]="translate3d(0,"+(8-2*a)+"em,0)",e.setAttribute("top",8-2*a+"em");var d=E.gearDate.querySelector(".time_mm");if(d&&d.getAttribute("val")){for(var t="",i=parseInt(d.getAttribute("val")),r=0;59>=r;r++)t+="<div class='tooth'>"+r+"</div>";d.innerHTML=t,d.style["-webkit-transform"]="translate3d(0,"+(8-2*i)+"em,0)",d.setAttribute("top",8-2*i+"em")}}}function o(e,t){return 1==t?(e+=E.minY,e%4==0&&e%100!=0||e%400==0&&e%4e3!=0?29:28):3==t||5==t||8==t||10==t?30:31}function m(e){e.preventDefault();for(var t=e.target;;){if(t.classList.contains("gear"))break;t=t.parentElement}clearInterval(t["int_"+t.id]),t["old_"+t.id]=e.targetTouches[0].screenY,t["o_t_"+t.id]=(new Date).getTime();var a=t.getAttribute("top");a?t["o_d_"+t.id]=parseFloat(a.replace(/em/g,"")):t["o_d_"+t.id]=0,t.style.webkitTransitionDuration=t.style.transitionDuration="0ms"}function u(e){e.preventDefault();for(var t=e.target;;){if(t.classList.contains("gear"))break;t=t.parentElement}t["new_"+t.id]=e.targetTouches[0].screenY,t["n_t_"+t.id]=(new Date).getTime();var a=30*(t["new_"+t.id]-t["old_"+t.id])/window.innerHeight;t["pos_"+t.id]=t["o_d_"+t.id]+a,t.style["-webkit-transform"]="translate3d(0,"+t["pos_"+t.id]+"em,0)",t.setAttribute("top",t["pos_"+t.id]+"em"),e.targetTouches[0].screenY<1&&g(e)}function g(e){e.preventDefault();for(var t=e.target;;){if(t.classList.contains("gear"))break;t=t.parentElement}var a=(t["new_"+t.id]-t["old_"+t.id])/(t["n_t_"+t.id]-t["o_t_"+t.id]);Math.abs(a)<=.2?t["spd_"+t.id]=0>a?-.08:.08:Math.abs(a)<=.5?t["spd_"+t.id]=0>a?-.16:.16:t["spd_"+t.id]=a/2,t["pos_"+t.id]||(t["pos_"+t.id]=0),_(t)}function _(e){function t(){e.style.webkitTransitionDuration=e.style.transitionDuration="200ms",r=!0}var a=0,r=!1,d=E.maxY-E.minY+1;clearInterval(e["int_"+e.id]),e["int_"+e.id]=setInterval(function(){var i=e["pos_"+e.id],n=e["spd_"+e.id]*Math.exp(-.03*a);if(i+=n,Math.abs(n)>.1);else{var s=2*Math.round(i/2);i=s,t()}switch(i>8&&(i=8,t()),e.dataset.datetype){case"date_yy":var v=8-2*(d-1);if(v>i&&(i=v,t()),r){var l=Math.abs(i-8)/2;h(e,l),clearInterval(e["int_"+e.id])}break;case"date_mm":var c=E.gearDate.querySelector(".date_yy"),m=parseInt(c.getAttribute("val")),u=11,g=0;m==d-1&&(u=E.maxM-1),0==m&&(g=E.minM-1);var v=8-2*(u-g);if(v>i&&(i=v,t()),r){var l=Math.abs(i-8)/2+g;h(e,l),clearInterval(e["int_"+e.id])}break;case"date_dd":var c=E.gearDate.querySelector(".date_yy"),_=E.gearDate.querySelector(".date_mm"),m=parseInt(c.getAttribute("val")),y=parseInt(_.getAttribute("val")),D=o(m,y),b=D-1,p=0;m==d-1&&E.maxM==y+1&&(b=E.maxD-1),0==m&&E.minM==y+1&&(p=E.minD-1);var v=8-2*(b-p);if(v>i&&(i=v,t()),r){var l=Math.abs(i-8)/2+p;h(e,l),clearInterval(e["int_"+e.id])}break;case"time_hh":if(-38>i&&(i=-38,t()),r){var l=Math.abs(i-8)/2;h(e,l),clearInterval(e["int_"+e.id])}break;case"time_mm":if(-110>i&&(i=-110,t()),r){var l=Math.abs(i-8)/2;h(e,l),clearInterval(e["int_"+e.id])}}e["pos_"+e.id]=i,e.style["-webkit-transform"]="translate3d(0,"+i+"em,0)",e.setAttribute("top",i+"em"),a++},30)}function h(e,t){t=Math.round(t),e.setAttribute("val",t),/date/.test(e.dataset.datetype)?l():c()}function y(e){e.preventDefault();var t;try{t=new CustomEvent("input")}catch(e){t=document.createEvent("Event"),t.initEvent("input",!0,!0)}E.trigger.dispatchEvent(t),document.body.removeChild(E.gearDate),E.gearDate=null}function D(e){var t=E.maxY-E.minY+1,a=parseInt(Math.round(E.gearDate.querySelector(".date_yy").getAttribute("val"))),r=parseInt(Math.round(E.gearDate.querySelector(".date_mm").getAttribute("val")))+1;r=r>9?r:"0"+r;var d=parseInt(Math.round(E.gearDate.querySelector(".date_dd").getAttribute("val")))+1;d=d>9?d:"0"+d,E.trigger.value=a%t+E.minY+"-"+r+"-"+d,y(e)}function b(e){var t=E.maxY-E.minY+1,a=parseInt(Math.round(E.gearDate.querySelector(".date_yy").getAttribute("val"))),r=parseInt(Math.round(E.gearDate.querySelector(".date_mm").getAttribute("val")))+1;r=r>9?r:"0"+r,E.trigger.value=a%t+E.minY+"-"+r,y(e)}function p(e){var t=E.maxY-E.minY+1,a=parseInt(Math.round(E.gearDate.querySelector(".date_yy").getAttribute("val"))),r=parseInt(Math.round(E.gearDate.querySelector(".date_mm").getAttribute("val")))+1;r=r>9?r:"0"+r;var d=parseInt(Math.round(E.gearDate.querySelector(".date_dd").getAttribute("val")))+1;d=d>9?d:"0"+d;var i=parseInt(Math.round(E.gearDate.querySelector(".time_hh").getAttribute("val")));i=i>9?i:"0"+i;var n=parseInt(Math.round(E.gearDate.querySelector(".time_mm").getAttribute("val")));n=n>9?n:"0"+n,E.trigger.value=a%t+E.minY+"-"+r+"-"+d+" "+(i.length<2?"0":"")+i+(n.length<2?":0":":")+n,y(e)}function f(e){var t=parseInt(Math.round(E.gearDate.querySelector(".time_hh").getAttribute("val")));t=t>9?t:"0"+t;var a=parseInt(Math.round(E.gearDate.querySelector(".time_mm").getAttribute("val")));a=a>9?a:"0"+a,E.trigger.value=(t.length<2?"0":"")+t+(a.length<2?":0":":")+a,y(e)}var E=this;E.trigger.addEventListener("click",{ym:r,date:t,datetime:i,time:s}[e])}},e}();
 
 /***/ },
-/* 154 */
+/* 156 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 155 */,
-/* 156 */
+/* 157 */,
+/* 158 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -15728,13 +15731,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(157);
+	__webpack_require__(159);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(159);
+	__vue_exports__ = __webpack_require__(161);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(160);
+	var __vue_template__ = __webpack_require__(162);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -15774,14 +15777,14 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 157 */
+/* 159 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 158 */,
-/* 159 */
+/* 160 */,
+/* 161 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -15842,7 +15845,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 160 */
+/* 162 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -15864,7 +15867,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 161 */
+/* 163 */
 /***/ function(module, exports) {
 
 	/**
@@ -15887,8 +15890,8 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 162 */,
-/* 163 */
+/* 164 */,
+/* 165 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -15990,7 +15993,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 164 */
+/* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -16008,13 +16011,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(165);
+	__webpack_require__(167);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(167);
+	__vue_exports__ = __webpack_require__(169);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(174);
+	var __vue_template__ = __webpack_require__(176);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -16054,14 +16057,14 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 165 */
+/* 167 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 166 */,
-/* 167 */
+/* 168 */,
+/* 169 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16111,12 +16114,12 @@ webpackJsonp([0],[
 	//
 
 	var navigator = __webpack_require__(102);
-	var pagination = __webpack_require__(168);
-	__webpack_require__(153);
-	__webpack_require__(154);
-	var popup = __webpack_require__(156);
+	var pagination = __webpack_require__(170);
+	__webpack_require__(155);
+	__webpack_require__(156);
+	var popup = __webpack_require__(158);
 	__webpack_require__(14);
-	var utils = __webpack_require__(19);
+	var utils = __webpack_require__(18);
 	var methods = {
 	    onNavigatorRightBtnClick: function onNavigatorRightBtnClick() {
 	        this.show = true;
@@ -16201,7 +16204,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 168 */
+/* 170 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -16219,13 +16222,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(169);
+	__webpack_require__(171);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(172);
+	__vue_exports__ = __webpack_require__(174);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(173);
+	var __vue_template__ = __webpack_require__(175);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -16264,16 +16267,16 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 169 */
+/* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(170);
+	var content = __webpack_require__(172);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(171)(content, {});
+	var update = __webpack_require__(173)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -16290,7 +16293,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 170 */
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -16304,7 +16307,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 171 */
+/* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -16526,7 +16529,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 172 */
+/* 174 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -16573,7 +16576,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 173 */
+/* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -16603,7 +16606,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 174 */
+/* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -16722,7 +16725,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 175 */
+/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -16740,13 +16743,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(176);
+	__webpack_require__(178);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(178);
+	__vue_exports__ = __webpack_require__(180);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(179);
+	var __vue_template__ = __webpack_require__(181);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -16785,14 +16788,14 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 176 */
+/* 178 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 177 */,
-/* 178 */
+/* 179 */,
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16815,9 +16818,9 @@ webpackJsonp([0],[
 	//
 	//
 
-	var utils = __webpack_require__(19);
+	var utils = __webpack_require__(18);
 	var navigator = __webpack_require__(102);
-	var loader = __webpack_require__(18);
+	var loader = __webpack_require__(24);
 	var methods = {};
 	utils.animation.process(methods);
 	module.exports = {
@@ -16850,7 +16853,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 179 */
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -16896,7 +16899,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 180 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -16914,13 +16917,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(181);
+	__webpack_require__(183);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(183);
+	__vue_exports__ = __webpack_require__(185);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(184);
+	var __vue_template__ = __webpack_require__(186);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -16960,14 +16963,14 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 181 */
+/* 183 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 182 */,
-/* 183 */
+/* 184 */,
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16997,7 +17000,7 @@ webpackJsonp([0],[
 	//
 
 	var navigator = __webpack_require__(102);
-	var utils = __webpack_require__(19);
+	var utils = __webpack_require__(18);
 
 	var methods = {
 	    onNavigatorRightBtnClick: function onNavigatorRightBtnClick() {
@@ -17045,7 +17048,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 184 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -17118,7 +17121,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 185 */
+/* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -17136,13 +17139,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(186);
+	__webpack_require__(188);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(189);
+	__vue_exports__ = __webpack_require__(191);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(191);
+	var __vue_template__ = __webpack_require__(193);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -17181,15 +17184,15 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 186 */
+/* 188 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 187 */,
-/* 188 */,
-/* 189 */
+/* 189 */,
+/* 190 */,
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17228,8 +17231,8 @@ webpackJsonp([0],[
 	//
 
 	var navigator = __webpack_require__(102);
-	var utils = __webpack_require__(19);
-	__webpack_require__(190);
+	var utils = __webpack_require__(18);
+	__webpack_require__(192);
 	var methods = {
 	    onNavigatorRightBtnClick: function onNavigatorRightBtnClick() {
 	        var that = this;
@@ -17303,7 +17306,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 190 */
+/* 192 */
 /***/ function(module, exports) {
 
 	/**
@@ -17409,7 +17412,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 191 */
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -17509,7 +17512,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 192 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -17527,10 +17530,10 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* script */
-	__vue_exports__ = __webpack_require__(193);
+	__vue_exports__ = __webpack_require__(195);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(194);
+	var __vue_template__ = __webpack_require__(196);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -17569,7 +17572,7 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 193 */
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17581,7 +17584,7 @@ webpackJsonp([0],[
 	//
 	//
 
-	var utils = __webpack_require__(19);
+	var utils = __webpack_require__(18);
 
 	module.exports = {
 	    props: {
@@ -17606,7 +17609,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 194 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -17624,7 +17627,7 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 195 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -17642,13 +17645,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(196);
+	__webpack_require__(198);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(198);
+	__vue_exports__ = __webpack_require__(200);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(199);
+	var __vue_template__ = __webpack_require__(201);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -17688,14 +17691,14 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 196 */
+/* 198 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 197 */,
-/* 198 */
+/* 199 */,
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17724,7 +17727,7 @@ webpackJsonp([0],[
 	//
 
 	var navigator = __webpack_require__(102);
-	var utils = __webpack_require__(19);
+	var utils = __webpack_require__(18);
 	var THEME_KEY = '_H5_THEME_KEY_';
 	var methods = {};
 	utils.animation.process(methods);
@@ -17756,7 +17759,7 @@ webpackJsonp([0],[
 	};
 
 /***/ },
-/* 199 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -17794,7 +17797,7 @@ webpackJsonp([0],[
 	    }
 	  }, [_h('img', {
 	    attrs: {
-	      "src": __webpack_require__(200)
+	      "src": __webpack_require__(202)
 	    }
 	  })]), " ", _h('li', {
 	    staticClass: "theme-item",
@@ -17803,7 +17806,7 @@ webpackJsonp([0],[
 	    }
 	  }, [_h('img', {
 	    attrs: {
-	      "src": __webpack_require__(201)
+	      "src": __webpack_require__(203)
 	    }
 	  })]), " ", _h('li', {
 	    staticClass: "theme-item",
@@ -17812,7 +17815,7 @@ webpackJsonp([0],[
 	    }
 	  }, [_h('img', {
 	    attrs: {
-	      "src": __webpack_require__(202)
+	      "src": __webpack_require__(204)
 	    }
 	  })]), " ", _h('li', {
 	    staticClass: "theme-item",
@@ -17821,7 +17824,7 @@ webpackJsonp([0],[
 	    }
 	  }, [_h('img', {
 	    attrs: {
-	      "src": __webpack_require__(203)
+	      "src": __webpack_require__(205)
 	    }
 	  })]), " ", _h('li', {
 	    staticClass: "theme-item",
@@ -17830,7 +17833,7 @@ webpackJsonp([0],[
 	    }
 	  }, [_h('img', {
 	    attrs: {
-	      "src": __webpack_require__(204)
+	      "src": __webpack_require__(206)
 	    }
 	  })]), " ", _h('li', {
 	    staticClass: "theme-item",
@@ -17839,7 +17842,7 @@ webpackJsonp([0],[
 	    }
 	  }, [_h('img', {
 	    attrs: {
-	      "src": __webpack_require__(205)
+	      "src": __webpack_require__(207)
 	    }
 	  })])])])
 	}}]}
@@ -17851,43 +17854,43 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 200 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "31d4c1bfb1e4a77dea03695a19a53333.jpg";
 
 /***/ },
-/* 201 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "156ce6d75a8c1197a83d73d81df596c0.jpg";
 
 /***/ },
-/* 202 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "adb4276d239a427a2b7085403437e759.jpg";
 
 /***/ },
-/* 203 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "4e9f56c0f74ea2c237be56b9515864fd.jpg";
 
 /***/ },
-/* 204 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "1b1978c4a1f01213e6c739a345e8d988.jpg";
 
 /***/ },
-/* 205 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "c43d32de5fcc219daf6c0f746f80fbd2.jpg";
 
 /***/ },
-/* 206 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -17905,13 +17908,13 @@ webpackJsonp([0],[
 	var __vue_exports__, __vue_options__;
 
 	/* styles */
-	__webpack_require__(207);
+	__webpack_require__(209);
 
 	/* script */
-	__vue_exports__ = __webpack_require__(209);
+	__vue_exports__ = __webpack_require__(211);
 
 	/* template */
-	var __vue_template__ = __webpack_require__(212);
+	var __vue_template__ = __webpack_require__(214);
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {};
 	if ((0, _typeof3.default)(__vue_exports__.default) === "object" || typeof __vue_exports__.default === "function") {
 	  if ((0, _keys2.default)(__vue_exports__).some(function (key) {
@@ -17951,14 +17954,14 @@ webpackJsonp([0],[
 	module.exports = __vue_exports__;
 
 /***/ },
-/* 207 */
+/* 209 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 208 */,
-/* 209 */
+/* 210 */,
+/* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18081,15 +18084,17 @@ webpackJsonp([0],[
 	//
 
 	var navigator = __webpack_require__(102);
-	var utils = __webpack_require__(19);
-	var store = __webpack_require__(23);
-	var secAuthorize = __webpack_require__(192);
-	__webpack_require__(210);
-	var popup = __webpack_require__(156);
-	var webIM = __webpack_require__(112);
-	__webpack_require__(132);
+	var utils = __webpack_require__(18);
+	var store = __webpack_require__(22);
+	var secAuthorize = __webpack_require__(194);
+	__webpack_require__(212);
+	var popup = __webpack_require__(158);
+	var webIM = __webpack_require__(114);
 	__webpack_require__(134);
+	__webpack_require__(136);
 
+	//WebIM初始化
+	webIM.init();
 	var THEME_KEY = '_H5_THEME_KEY_';
 	var methods = {
 	    getColor: function getColor(name) {
@@ -18193,14 +18198,14 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 210 */
+/* 212 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 211 */,
-/* 212 */
+/* 213 */,
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports={render:function (){with(this) {
@@ -18507,11 +18512,11 @@ webpackJsonp([0],[
 	}
 
 /***/ },
-/* 213 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function(window){
-	    __webpack_require__(214);
+	    __webpack_require__(216);
 	    var tmp = '<div class="loading-wrap"><div class="loading-preloader">' +
 	        '        <span></span>' +
 	        '        <span></span>' +
@@ -18539,7 +18544,7 @@ webpackJsonp([0],[
 	})(window);
 
 /***/ },
-/* 214 */
+/* 216 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
