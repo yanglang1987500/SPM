@@ -17,6 +17,23 @@ const store = window.store = new Vuex.Store({
         roleAuthorityMap:{},
         userRoles:[]
     },
+    actions:{
+        refreshRosterName:function(context) {
+            var names = [];
+            for(var i = 0;i<context.state.rosterList.length;i++){
+                names.push(context.state.rosterList[i].name);
+            }
+            utils.ajax.query('/webim/userbynames',{
+                names:names.join(',')
+            },function(data){
+                if(!data.success){
+                    $.ui.toast(data.message);
+                    return;
+                }
+                context.commit('updateRosterName',data.data);
+            });
+        }
+    },
     mutations:{
         setUsername:function (state,username) {
             console.log('setUserName'+username);
@@ -27,6 +44,27 @@ const store = window.store = new Vuex.Store({
         },
         setRoster:function(state,rosterList){
             state.rosterList = rosterList;
+        },
+        updateRosterName:function(state,names){
+            if(!names){
+                return;
+            }
+            for(var i = 0;i<names.length;i++){
+                for(var j = 0;j<state.rosterList.length;j++){
+                    if(state.rosterList[j].name == names[i].user_name){
+                        state.rosterList[j].nickname = names[i].nickname;
+                        break;
+                    }
+                }
+            }
+            for(var i = 0;i<names.length;i++){
+                for(var j = 0;j<state.curChatList.length;j++){
+                    if(state.curChatList[j].type == 'chat' && state.curChatList[j].name == names[i].user_name){
+                        state.curChatList[j].nickname = names[i].nickname;
+                        break;
+                    }
+                }
+            }
         },
         setGroup:function(state,groupList){
             state.groupList = groupList;
@@ -52,6 +90,51 @@ const store = window.store = new Vuex.Store({
                 StoreUtil.addSubcribeMessage(state,message);
             }
 
+            Events.notify('WebIMSaveChatList');
+        },
+        /**
+         * 修改消息状态
+         * 参数为2个时只有state,status，代表将所有正在发送的消息置为发送失败
+         * @param state
+         * @param status
+         * @param chatName
+         * @param localId
+         * @param serverId
+         */
+        moidfyMessageStatus:function(state,obj){
+            if(Object.prototype.toString.call(obj) == '[object String]'){
+                var list = state.curChatList;
+                list.forEach(function(item,i){
+                    if(item){
+                        var record = item.record;
+                        for(var i = 0;i<record.length;i++){
+                            record[i].msgStatus == '1' && (record[i].msgStatus = obj);
+                        }
+                    }
+
+                });
+            }else{
+                var list = state.curChatList, curChat = null, index = null;
+                list.forEach(function(item,i){
+                    if(item){
+                        if(item.name == obj.chatName || item.roomId == obj.chatName){
+                            curChat = item;
+                            index = i;
+                        }
+                    }
+
+                });
+                if(!curChat)
+                    return;
+                var list = curChat.record;
+                for(var i = 0;i<list.length;i++){
+                    if(list[i].localId == obj.localId){
+                        list[i].msgStatus = obj.status;
+                        obj.serverId && (list[i].msgStatus = obj.serverId);
+                        break;
+                    }
+                }
+            }
             Events.notify('WebIMSaveChatList');
         },
         setWebIMTabIndex:function(state,index){
@@ -85,13 +168,13 @@ var StoreUtil = {
             store.commit('addChat',{
                 name: message.chat_name,
                 id: message.id,
-                type:message.type,
+                type:'chat',
                 record: [
                     message
                 ]
             });
         }
-        !message.read && $.ui.info(message.from+'：'+message.data,function(){
+        !message.read && Events.notify('message-notice-info',message.from+'：'+message.data.trim(),function(){
             Events.notify('router-push','/webim-chat?type=1&chat_name='+message.chat_name);
         });
     },
@@ -128,13 +211,13 @@ var StoreUtil = {
                 roomId: curChat.roomId,//群组id
                 name:curChat.name,
                 id: message.id,
-                type:message.type,
+                type:'groupchat',
                 record: [
                     message
                 ]
             });
         }
-        !message.read && $.ui.info(message.from+'：'+message.data,function(){
+        !message.read && Events.notify('message-notice-info',message.from+'：'+message.data.trim(),function(){
             Events.notify('router-push','/webim-chat?type=2&chat_name='+curChat.name+'&roomId='+curChat.roomId);
         });
     },
@@ -164,7 +247,7 @@ var StoreUtil = {
                 ]
             });
         }
-        !message.read && $.ui.info(message.from+'：'+message.status,function(){
+        !message.read && Events.notify('message-notice-info',message.from+'：'+message.status.trim(),function(){
             Events.notify('router-push','/webim-subscribe-list');
         });
     }

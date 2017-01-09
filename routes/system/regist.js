@@ -61,6 +61,7 @@ router.post('/h5/regist', function (req, res, next) {
         var sessionUserInfo = req.session.userInfo = sessionUtil.createUserInfo({
             username:tel,
             usercode:tel,
+            nickname:nickname,
             password:password,
             userid:param.user_id
         });

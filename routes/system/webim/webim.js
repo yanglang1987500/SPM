@@ -19,6 +19,15 @@ router.get('/webim/users/:key', function (req, res, next) {
     }
 });
 
+router.get('/webim/userbynames', function (req, res, next) {
+    if (req.session.isLogin) {
+        var names = req.query.names;
+        userDao.userListByNames(names,function(err,data){
+            res.json(utils.returns(arguments));
+        });
+    }
+});
+
 router.get('/webim/groups/:key', function (req, res, next) {
     if (req.session.isLogin) {
         var page = 1,

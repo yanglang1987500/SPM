@@ -3,9 +3,8 @@
  */
 
 var menu = [];
-var utils = require('./utils/utils');
-var store = require('./utils/store');
 
+var store = require('./utils/store');
 /**
  * 添加本地模块
  * @param arr

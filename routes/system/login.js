@@ -44,6 +44,7 @@ router.post('/login', function (req, res, next) {
             var sessionUserInfo = req.session.userInfo = sessionUtil.createUserInfo({
                 username:username,
                 usercode:username,
+                nickname:userInfo.nickname,
                 password:password,
                 userid:userInfo.user_id
             });
@@ -101,6 +102,7 @@ router.post('/h5/login', function (req, res, next) {
             var sessionUserInfo = req.session.userInfo = sessionUtil.createUserInfo({
                 username:username,
                 usercode:username,
+                nickname:userInfo.nickname,
                 password:password,
                 userid:userInfo.user_id
             });

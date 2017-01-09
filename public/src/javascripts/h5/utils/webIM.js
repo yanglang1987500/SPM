@@ -6,7 +6,7 @@
  */
 var Events = require('../../libs/framework-events');
 
-var utils = require('./utils');
+
 var store = require('./store');
 
 var ChatManage = {
@@ -24,15 +24,18 @@ var ChatManage = {
         //获取好友列表
         conn.getRoster({
             success: function ( roster ) {
-                var rosterList = [];
+                var rosterList = [],names = [];
                 for ( var i = 0, l = roster.length; i < l; i++ ) {
                     var ros = roster[i];
                     //ros.subscription值为both/to为要显示的联系人，此处与APP需保持一致，才能保证两个客户端登录后的好友列表一致
                     if ( ros.subscription === 'both' || ros.subscription === 'to' ) {
                         rosterList.push(ros);
+                        names.push(ros.name);
                     }
                 }
                 store.commit('setRoster',rosterList);
+                store.dispatch('refreshRosterName');
+
             }
         });
     },
@@ -183,6 +186,8 @@ module.exports = {
                     console.log('webim_event_error');
                     console.log(message);
                     Events.notify('webim_event_error',message);
+                    store.commit('moidfyMessageStatus','3');//遇到错误时将所有正在发送的消息置为发送失败状态
+                    Events.notify('webim_login');
                 },          //失败回调
                 onBlacklistUpdate: function (list) {       //黑名单变动
                     Events.notify('webim_event_blacklistupdate',list);
@@ -208,20 +213,24 @@ module.exports = {
         });
         store.commit('setUsername',UserInfo.username);//设置用户名到store
 
+
+
     },
     /**
      * 单发消息
      * @param text
      * @param to
      * @param callback
+     * @return id messageId
      */
-    sendPrivateText : function (text,to,callback) {
+    sendPrivateText : function (text,to,ext,callback) {
         var conn = store.state.webIMConn;
         var id = conn.getUniqueId();                 // 生成本地消息id
         var msg = new WebIM.message('txt', id);      // 创建文本消息
         msg.set({
             msg: text,                  // 消息内容
             to: to,                          // 接收消息对象（用户id）
+            ext:ext,
             roomType: false,
             success: function (id, serverMsgId) {
                 callback && callback(id, serverMsgId);
@@ -233,17 +242,19 @@ module.exports = {
         });
         msg.body.chatType = 'singleChat';
         conn.send(msg.body);
+        return id;
     },
     /**
      * 群组发送文本消息
      */
-    sendGroupText : function (text,to,callback) {
+    sendGroupText : function (text,to,ext,callback) {
         var conn = store.state.webIMConn;
         var id = conn.getUniqueId();            // 生成本地消息id
         var msg = new WebIM.message('txt', id); // 创建文本消息
         var option = {
             msg: text,             // 消息内容
             to: to,                     // 接收消息对象(群组id)
+            ext:ext,
             roomType: false,
             chatType: 'chatRoom',
             success: function (id, serverMsgId) {
@@ -257,6 +268,7 @@ module.exports = {
         msg.set(option);
         msg.setGroup('groupchat');
         conn.send(msg.body);
+        return id;
     },
     /**
      * 创建群组

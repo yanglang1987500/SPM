@@ -47,6 +47,29 @@ module.exports = {
 
     },
     /**
+     * 用户列表查询 根据用户名
+     * @param params 查询条件
+     * @param callback 回调
+     */
+    userListByNames:function(names,callback){
+        //将name列表（names,names,names）替换成'names','names','names'便于使用in语句进行批量查找
+        names = names.replace(/([^,]+)(,)?/gi,"'$1'$2");
+        var condition = ' user_name in ('+names+')';
+        var selectSql = 'select * ',fromSql = ' from '+table+' where '+condition+' ';
+        mySqlPool.getConnection(function(connection){
+            connection.query(selectSql+fromSql,function(err,result){
+                if(err){
+                    callback && callback(err);
+                    connection.release();
+                    return;
+                }
+                callback && callback(false,result);
+                connection.release();
+            });
+        });
+
+    },
+    /**
      * 根据用户id查询用户数据
      * @param user_id 用户id
      * @param callback 回调

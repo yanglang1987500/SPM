@@ -120,10 +120,11 @@
                             groupId:that.id,
                             userName:that.user_name
                         },function(data){
-                            if(!data.success){
+                            if(!data.success){7
                                 $.ui.toast(data.message);
                                 return;
                             }
+                            webIM.chatManage.getGroups();
                             $.ui.toast(data.message);
                         });
                         break;

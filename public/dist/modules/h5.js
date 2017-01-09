@@ -10,12 +10,14 @@ webpackJsonp([0],[
 	__webpack_require__(6);
 	var FastClick = __webpack_require__(13);
 
+
 	__webpack_require__(14);
 	var Vue = __webpack_require__(15);
 	var VueRouter = __webpack_require__(16);
 	Vue.use(VueRouter);
 
 	var Events = __webpack_require__(17);
+	var utils = window.utils = __webpack_require__(19);
 	var loader = __webpack_require__(18);
 	__webpack_require__(213);
 	var WebIM = __webpack_require__(112);
@@ -43,14 +45,26 @@ webpackJsonp([0],[
 	        !flag?next({path: '/'}):next();
 	    });*/
 	    Events.subscribe('router-push',function(path){
-	       router.push(path);
+	        router.push(path);
+	    }).subscribe('message-notice-info',function(message,callback){
+
+	        if(router.history.current.path != '/webim-chat' && router.history.current.path != '/webim'){
+	            message = message.trim();
+	            message = message.length>20?message.substr(0,20)+'……':message;
+
+	            $.ui.info(message,callback);
+	        }
 	    });
+	    Vue.prototype.b = function(){
+	        alert(2);
+	    }
 	    app = new Vue({
 	        router:router,
 	        store:store,
 	        data:{
 	        },
-	        methods:{}
+	        methods:{
+	        }
 	    }).$mount('#h5app');
 	});
 
@@ -10367,9 +10381,8 @@ webpackJsonp([0],[
 	 */
 
 	var menu = [];
-	var utils = __webpack_require__(19);
-	var store = __webpack_require__(23);
 
+	var store = __webpack_require__(23);
 	/**
 	 * 添加本地模块
 	 * @param arr
@@ -10818,6 +10831,23 @@ webpackJsonp([0],[
 	        roleAuthorityMap:{},
 	        userRoles:[]
 	    },
+	    actions:{
+	        refreshRosterName:function(context) {
+	            var names = [];
+	            for(var i = 0;i<context.state.rosterList.length;i++){
+	                names.push(context.state.rosterList[i].name);
+	            }
+	            utils.ajax.query('/webim/userbynames',{
+	                names:names.join(',')
+	            },function(data){
+	                if(!data.success){
+	                    $.ui.toast(data.message);
+	                    return;
+	                }
+	                context.commit('updateRosterName',data.data);
+	            });
+	        }
+	    },
 	    mutations:{
 	        setUsername:function (state,username) {
 	            console.log('setUserName'+username);
@@ -10828,6 +10858,27 @@ webpackJsonp([0],[
 	        },
 	        setRoster:function(state,rosterList){
 	            state.rosterList = rosterList;
+	        },
+	        updateRosterName:function(state,names){
+	            if(!names){
+	                return;
+	            }
+	            for(var i = 0;i<names.length;i++){
+	                for(var j = 0;j<state.rosterList.length;j++){
+	                    if(state.rosterList[j].name == names[i].user_name){
+	                        state.rosterList[j].nickname = names[i].nickname;
+	                        break;
+	                    }
+	                }
+	            }
+	            for(var i = 0;i<names.length;i++){
+	                for(var j = 0;j<state.curChatList.length;j++){
+	                    if(state.curChatList[j].type == 'chat' && state.curChatList[j].name == names[i].user_name){
+	                        state.curChatList[j].nickname = names[i].nickname;
+	                        break;
+	                    }
+	                }
+	            }
 	        },
 	        setGroup:function(state,groupList){
 	            state.groupList = groupList;
@@ -10853,6 +10904,51 @@ webpackJsonp([0],[
 	                StoreUtil.addSubcribeMessage(state,message);
 	            }
 
+	            Events.notify('WebIMSaveChatList');
+	        },
+	        /**
+	         * 修改消息状态
+	         * 参数为2个时只有state,status，代表将所有正在发送的消息置为发送失败
+	         * @param state
+	         * @param status
+	         * @param chatName
+	         * @param localId
+	         * @param serverId
+	         */
+	        moidfyMessageStatus:function(state,obj){
+	            if(Object.prototype.toString.call(obj) == '[object String]'){
+	                var list = state.curChatList;
+	                list.forEach(function(item,i){
+	                    if(item){
+	                        var record = item.record;
+	                        for(var i = 0;i<record.length;i++){
+	                            record[i].msgStatus == '1' && (record[i].msgStatus = obj);
+	                        }
+	                    }
+
+	                });
+	            }else{
+	                var list = state.curChatList, curChat = null, index = null;
+	                list.forEach(function(item,i){
+	                    if(item){
+	                        if(item.name == obj.chatName || item.roomId == obj.chatName){
+	                            curChat = item;
+	                            index = i;
+	                        }
+	                    }
+
+	                });
+	                if(!curChat)
+	                    return;
+	                var list = curChat.record;
+	                for(var i = 0;i<list.length;i++){
+	                    if(list[i].localId == obj.localId){
+	                        list[i].msgStatus = obj.status;
+	                        obj.serverId && (list[i].msgStatus = obj.serverId);
+	                        break;
+	                    }
+	                }
+	            }
 	            Events.notify('WebIMSaveChatList');
 	        },
 	        setWebIMTabIndex:function(state,index){
@@ -10886,13 +10982,13 @@ webpackJsonp([0],[
 	            store.commit('addChat',{
 	                name: message.chat_name,
 	                id: message.id,
-	                type:message.type,
+	                type:'chat',
 	                record: [
 	                    message
 	                ]
 	            });
 	        }
-	        !message.read && $.ui.info(message.from+'：'+message.data,function(){
+	        !message.read && Events.notify('message-notice-info',message.from+'：'+message.data.trim(),function(){
 	            Events.notify('router-push','/webim-chat?type=1&chat_name='+message.chat_name);
 	        });
 	    },
@@ -10929,13 +11025,13 @@ webpackJsonp([0],[
 	                roomId: curChat.roomId,//群组id
 	                name:curChat.name,
 	                id: message.id,
-	                type:message.type,
+	                type:'groupchat',
 	                record: [
 	                    message
 	                ]
 	            });
 	        }
-	        !message.read && $.ui.info(message.from+'：'+message.data,function(){
+	        !message.read && Events.notify('message-notice-info',message.from+'：'+message.data.trim(),function(){
 	            Events.notify('router-push','/webim-chat?type=2&chat_name='+curChat.name+'&roomId='+curChat.roomId);
 	        });
 	    },
@@ -10965,7 +11061,7 @@ webpackJsonp([0],[
 	                ]
 	            });
 	        }
-	        !message.read && $.ui.info(message.from+'：'+message.status,function(){
+	        !message.read && Events.notify('message-notice-info',message.from+'：'+message.status.trim(),function(){
 	            Events.notify('router-push','/webim-subscribe-list');
 	        });
 	    }
@@ -13273,6 +13369,7 @@ webpackJsonp([0],[
 	//
 	//
 	//
+	//
 
 	var navigator = __webpack_require__(102);
 	var utils = __webpack_require__(19);
@@ -13290,6 +13387,7 @@ webpackJsonp([0],[
 	module.exports = {
 	    module: '/webim-chat',
 	    data: function data() {
+
 	        var chat_name = this.$route.query.chat_name;
 	        var chat_type = this.$route.query.type;
 	        var roomId = this.$route.query.roomId;
@@ -13303,10 +13401,23 @@ webpackJsonp([0],[
 	    methods: methods,
 	    components: { navigator: navigator },
 	    computed: {
+	        nick_name: function nick_name() {
+	            var that = this,
+	                temp = '';
+	            this.$store.state.curChatList.forEach(function (element, index, array) {
+	                if (element.name == that.chat_name) {
+	                    temp = element.nickname;
+	                }
+	            });
+	            return temp ? temp : this.$route.query.chat_name;
+	        },
 	        chatRecordList: function chatRecordList() {
 	            var that = this;
 	            var chat = this.$store.state.curChatList.filter(function (element, index, array) {
-	                return element.name == that.chat_name;
+	                if (element.name == that.chat_name) {
+	                    that.nick_name = element.nick_name;
+	                    return true;
+	                }
 	            });
 	            var record = chat.length > 0 ? chat[0].record : [];
 	            record.forEach(function (item, index) {
@@ -13332,49 +13443,74 @@ webpackJsonp([0],[
 	            }
 	        });
 
+	        var height = $('.content-wrap').height();
 	        $('#sendBtn').click(function () {
+	            height = $('.content-wrap').height();
 	            var msg = $('#editorBox').val();
 	            $('#editorBox').val('');
 	            if (that.chat_type == '1') {
-	                webIM.sendPrivateText(msg, that.chat_name, function (id, serverId) {
-	                    store.commit('addMessage', {
-	                        read: true,
-	                        "id": serverId,
-	                        timestamp: Calendar.getInstance().format('yyyy-MM-dd HH:mm:ss'),
-	                        "type": "chat",
-	                        chat_name: that.chat_name,
-	                        "from": store.state.username,
-	                        "to": that.chat_name,
-	                        "data": msg,
-	                        "ext": {},
-	                        "error": false,
-	                        "errorText": "",
-	                        "errorCode": ""
+	                var localId = webIM.sendPrivateText(msg, that.chat_name, {
+	                    nickname: UserInfo.nickname
+	                }, function (id, serverId) {
+	                    store.commit('moidfyMessageStatus', {
+	                        status: '2',
+	                        chatName: that.chat_name,
+	                        localId: id,
+	                        serverId: serverId
 	                    });
-	                    $("body").scrollTop(5000);
 	                });
+	                store.commit('addMessage', {
+	                    read: true,
+	                    "localId": localId,
+	                    "id": null,
+	                    timestamp: Calendar.getInstance().format('yyyy-MM-dd HH:mm:ss'),
+	                    "type": "chat",
+	                    chat_name: that.chat_name,
+	                    "from": store.state.username,
+	                    "to": that.chat_name,
+	                    "data": msg,
+	                    "ext": {
+	                        nickname: UserInfo.nickname
+	                    },
+	                    "error": false,
+	                    msgStatus: 1, //消息状态 1为正在发送 2为已发送 3为发送失败
+	                    "errorText": "",
+	                    "errorCode": ""
+	                });
+	                $("body").scrollTop(height);
 	            } else {
-	                webIM.sendGroupText(msg, that.room_id, function (id, serverId) {
-	                    store.commit('addMessage', {
-	                        read: true,
-	                        "id": serverId,
-	                        timestamp: Calendar.getInstance().format('yyyy-MM-dd HH:mm:ss'),
-	                        "type": "groupchat",
-	                        chat_name: that.chat_name,
-	                        "from": store.state.username,
-	                        "to": that.room_id,
-	                        "data": msg,
-	                        "ext": {},
-	                        "error": false,
-	                        "errorText": "",
-	                        "errorCode": ""
+	                var localId = webIM.sendGroupText(msg, that.room_id, {
+	                    nickname: UserInfo.nickname
+	                }, function (id, serverId) {
+	                    store.commit('moidfyMessageStatus', {
+	                        status: '2',
+	                        chatName: that.room_id,
+	                        localId: id,
+	                        serverId: serverId
 	                    });
-	                    $("body").scrollTop(5000);
 	                });
+	                store.commit('addMessage', {
+	                    read: true,
+	                    "localId": localId,
+	                    "id": null,
+	                    timestamp: Calendar.getInstance().format('yyyy-MM-dd HH:mm:ss'),
+	                    "type": "groupchat",
+	                    chat_name: that.chat_name,
+	                    "from": store.state.username,
+	                    "to": that.room_id,
+	                    "data": msg,
+	                    "ext": {
+	                        nickname: UserInfo.nickname
+	                    },
+	                    "error": false,
+	                    "errorText": "",
+	                    "errorCode": ""
+	                });
+	                $("body").scrollTop(height);
 	            }
 	        });
 	        setTimeout(function () {
-	            $("body").scrollTop(5000);
+	            $("body").scrollTop(height);
 	        }, 500);
 	    }
 	};
@@ -13391,7 +13527,7 @@ webpackJsonp([0],[
 	 */
 	var Events = __webpack_require__(17);
 
-	var utils = __webpack_require__(19);
+
 	var store = __webpack_require__(23);
 
 	var ChatManage = {
@@ -13409,15 +13545,18 @@ webpackJsonp([0],[
 	        //获取好友列表
 	        conn.getRoster({
 	            success: function ( roster ) {
-	                var rosterList = [];
+	                var rosterList = [],names = [];
 	                for ( var i = 0, l = roster.length; i < l; i++ ) {
 	                    var ros = roster[i];
 	                    //ros.subscription值为both/to为要显示的联系人，此处与APP需保持一致，才能保证两个客户端登录后的好友列表一致
 	                    if ( ros.subscription === 'both' || ros.subscription === 'to' ) {
 	                        rosterList.push(ros);
+	                        names.push(ros.name);
 	                    }
 	                }
 	                store.commit('setRoster',rosterList);
+	                store.dispatch('refreshRosterName');
+
 	            }
 	        });
 	    },
@@ -13568,6 +13707,8 @@ webpackJsonp([0],[
 	                    console.log('webim_event_error');
 	                    console.log(message);
 	                    Events.notify('webim_event_error',message);
+	                    store.commit('moidfyMessageStatus','3');//遇到错误时将所有正在发送的消息置为发送失败状态
+	                    Events.notify('webim_login');
 	                },          //失败回调
 	                onBlacklistUpdate: function (list) {       //黑名单变动
 	                    Events.notify('webim_event_blacklistupdate',list);
@@ -13593,20 +13734,24 @@ webpackJsonp([0],[
 	        });
 	        store.commit('setUsername',UserInfo.username);//设置用户名到store
 
+
+
 	    },
 	    /**
 	     * 单发消息
 	     * @param text
 	     * @param to
 	     * @param callback
+	     * @return id messageId
 	     */
-	    sendPrivateText : function (text,to,callback) {
+	    sendPrivateText : function (text,to,ext,callback) {
 	        var conn = store.state.webIMConn;
 	        var id = conn.getUniqueId();                 // 生成本地消息id
 	        var msg = new WebIM.message('txt', id);      // 创建文本消息
 	        msg.set({
 	            msg: text,                  // 消息内容
 	            to: to,                          // 接收消息对象（用户id）
+	            ext:ext,
 	            roomType: false,
 	            success: function (id, serverMsgId) {
 	                callback && callback(id, serverMsgId);
@@ -13618,17 +13763,19 @@ webpackJsonp([0],[
 	        });
 	        msg.body.chatType = 'singleChat';
 	        conn.send(msg.body);
+	        return id;
 	    },
 	    /**
 	     * 群组发送文本消息
 	     */
-	    sendGroupText : function (text,to,callback) {
+	    sendGroupText : function (text,to,ext,callback) {
 	        var conn = store.state.webIMConn;
 	        var id = conn.getUniqueId();            // 生成本地消息id
 	        var msg = new WebIM.message('txt', id); // 创建文本消息
 	        var option = {
 	            msg: text,             // 消息内容
 	            to: to,                     // 接收消息对象(群组id)
+	            ext:ext,
 	            roomType: false,
 	            chatType: 'chatRoom',
 	            success: function (id, serverMsgId) {
@@ -13642,6 +13789,7 @@ webpackJsonp([0],[
 	        msg.set(option);
 	        msg.setGroup('groupchat');
 	        conn.send(msg.body);
+	        return id;
 	    },
 	    /**
 	     * 创建群组
@@ -13690,7 +13838,7 @@ webpackJsonp([0],[
 	    }
 	  }, [_h('navigator', {
 	    attrs: {
-	      "navigator-title": chat_name
+	      "navigator-title": nick_name
 	    }
 	  }), " ", _h('div', {
 	    staticClass: "content-wrap"
@@ -13703,12 +13851,13 @@ webpackJsonp([0],[
 	        "data-chat-id": item.id
 	      }
 	    }, [_h('div', {
+	      staticClass: "chat-item-wrap",
 	      class: {
-	        'chat-left': (chat_type == '1' ? (item.from == chat_name) : (item.from != user_name)), 'is-group': chat_type == '2', 'chat-item-wrap': true
+	        'chat-left': (chat_type == '1' ? (item.from == chat_name) : (item.from != user_name)), 'is-group': chat_type == '2'
 	      }
 	    }, [_h('p', {
 	      staticClass: "user-name"
-	    }, [_s(item.from)]), " ", (item.from != user_name) ? _h('div', {
+	    }, [_s(item.ext.nickname ? item.ext.nickname : item.from)]), " ", (item.from != user_name) ? _h('div', {
 	      staticClass: "head-wrap"
 	    }, [_h('router-link', {
 	      attrs: {
@@ -13722,16 +13871,21 @@ webpackJsonp([0],[
 	    }, [_h('div', {
 	      staticClass: "head-circle-name"
 	    }, [_h('h3', {
-	      style: ('color:' + getColor(item.from) + '')
-	    }, [_s(item.from)])])])]) : _h('div', {
+	      style: ('color:' + getColor(item.ext.nickname ? item.ext.nickname : item.from) + '')
+	    }, [_s(item.ext.nickname ? item.ext.nickname : item.from)])])])]) : _h('div', {
 	      staticClass: "head-wrap"
 	    }, [_h('div', {
 	      staticClass: "head-circle-name"
 	    }, [_h('h3', {
-	      style: ('color:' + getColor(item.from) + '')
-	    }, [_s(item.from)])])]), " ", " ", _h('div', {
+	      style: ('color:' + getColor(item.ext.nickname ? item.ext.nickname : item.from) + '')
+	    }, [_s(item.ext.nickname ? item.ext.nickname : item.from)])])]), " ", " ", _h('div', {
 	      staticClass: "chat-content-wrap"
-	    }, ["\n                            " + _s(item.data) + "\n                        "])])])]
+	    }, ["\n                            " + _s(item.data) + "\n                        "]), " ", _h('i', {
+	      staticClass: "msg-status",
+	      attrs: {
+	        "data-status": item.msgStatus
+	      }
+	    })])])]
 	  })])]), " ", _m(0)])])
 	}},staticRenderFns: [function (){with(this) {
 	  return _h('div', {
@@ -14197,9 +14351,11 @@ webpackJsonp([0],[
 	                        userName: that.user_name
 	                    }, function (data) {
 	                        if (!data.success) {
+	                            7;
 	                            $.ui.toast(data.message);
 	                            return;
 	                        }
+	                        webIM.chatManage.getGroups();
 	                        $.ui.toast(data.message);
 	                    });
 	                    break;
@@ -18135,8 +18291,8 @@ webpackJsonp([0],[
 	    }, [_h('div', {
 	      staticClass: "head-circle-name"
 	    }, [_h('h3', {
-	      style: ('color:' + getColor(item.name) + '')
-	    }, [_s(item.name)])])]), " ", _h('p', [_s(item.name)]), " ", _h('i', [_s(item.record[item.record.length - 1].data)]), " ", _h('span', [_s(item.record[item.record.length - 1].timestamp)])])])]), " "]
+	      style: ('color:' + getColor(item.nickname ? item.nickname : item.name) + '')
+	    }, [_s(item.nickname ? item.nickname : item.name)])])]), " ", _h('p', [_s(item.nickname ? item.nickname : item.name)]), " ", _h('i', [_s(item.record[item.record.length - 1].data)]), " ", _h('span', [_s(item.record[item.record.length - 1].timestamp)])])])]), " "]
 	  })])]), " ", _h('div', {
 	    staticClass: "roster-list-container"
 	  }, [_h('ul', {
@@ -18161,7 +18317,7 @@ webpackJsonp([0],[
 	      staticClass: "head-circle-name"
 	    }, [_h('h3', {
 	      style: ('color:' + getColor(item.name) + '')
-	    }, [_s(item.name)])]), "\n                                " + _s(item.name) + "\n                            "])])])]
+	    }, [_s(item.name)])]), "\n                                " + _s(item.nickname ? item.nickname : item.name) + "\n                            "])])])]
 	  })])]), " ", _h('div', {
 	    staticClass: "group-list-container"
 	  }, [_h('ul', {

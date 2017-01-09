@@ -6,12 +6,14 @@ require('../stylesheets/h5.scss');
 require('../stylesheets/vue-styles/theme.scss');
 var FastClick = require('./libs/fastclick');
 
+
 require('./libs/calendar');
 var Vue = require('vue');
 var VueRouter = require('vue-router');
 Vue.use(VueRouter);
 
 var Events = require('./libs/framework-events');
+var utils = window.utils = require('./h5/utils/utils');
 var loader = require('./h5/vue-components-loader');
 require('./libs/loading/loading.js');
 var WebIM = require('./h5/utils/webIM');
@@ -39,14 +41,26 @@ loader.load(function(data){
         !flag?next({path: '/'}):next();
     });*/
     Events.subscribe('router-push',function(path){
-       router.push(path);
+        router.push(path);
+    }).subscribe('message-notice-info',function(message,callback){
+
+        if(router.history.current.path != '/webim-chat' && router.history.current.path != '/webim'){
+            message = message.trim();
+            message = message.length>20?message.substr(0,20)+'……':message;
+
+            $.ui.info(message,callback);
+        }
     });
+    Vue.prototype.b = function(){
+        alert(2);
+    }
     app = new Vue({
         router:router,
         store:store,
         data:{
         },
-        methods:{}
+        methods:{
+        }
     }).$mount('#h5app');
 });
 

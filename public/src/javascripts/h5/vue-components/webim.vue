@@ -30,10 +30,10 @@
                                 <div class="li-wrap">
                                     <div :class="['head-wrap',{'unread-msg':getUnreadCount(item)>0,'unread-msg-lg9':getUnreadCount(item)>9}]"  :data-unread-count="getUnreadCount(item)">
                                         <div class="head-circle-name">
-                                            <h3 :style="'color:'+getColor(item.name)+''">{{item.name}}</h3>
+                                            <h3 :style="'color:'+getColor(item.nickname?item.nickname:item.name)+''">{{item.nickname?item.nickname:item.name}}</h3>
                                         </div>
                                     </div>
-                                    <p>{{item.name}}</p>
+                                    <p>{{item.nickname?item.nickname:item.name}}</p>
                                     <i>{{item.record[item.record.length-1].data}}</i>
                                     <span>{{item.record[item.record.length-1].timestamp}}</span>
                                 </div>
@@ -49,7 +49,7 @@
                             <li :data-id="getIdFromJid(item.jid)">
                                 <div class="li-wrap">
                                     <div class="head-circle-name"><h3 :style="'color:'+getColor(item.name)+''">{{item.name}}</h3></div>
-                                    {{item.name}}
+                                    {{item.nickname?item.nickname:item.name}}
                                 </div>
                             </li>
                         </router-link>

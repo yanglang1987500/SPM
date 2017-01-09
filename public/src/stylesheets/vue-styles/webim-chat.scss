@@ -12,10 +12,25 @@
     padding-right:1.1rem;
     padding-left:0;
     float:right;
+    .msg-status{
+      position: absolute;
+      left: -.6rem;
+      width: .4rem;
+      height: .4rem;
+      background-size: 100%;
+      top: .3rem;
+    }
+    .msg-status[data-status='1']{
+      background-image: url("../../../stylesheets/images/flower_loading.gif");
+    }
+    .msg-status[data-status='3']{
+      background-image: url("../../../stylesheets/images/tanhao.png");
+    }
     .user-name{
       font-family: "MicroSoft Yahei",Arial;
       font-size: .25rem;
       text-align: left;
+      white-space: nowrap;
       position: absolute;
       right: 1.2rem;
       top: 0rem;
@@ -105,6 +120,7 @@
       h3 {
         width: .8rem;
         font-size: .5rem;
+        white-space: nowrap;
         line-height: .8rem;
         text-align: center;
         color: #c1c1c1;
