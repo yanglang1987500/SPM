@@ -1502,6 +1502,14 @@ webpackJsonp([4],[
 	        });
 	        return ajax;
 	    },
+	    /**
+	     * 拼凑字符串
+	     * @method stringifyParam
+	     * @param {Object} param 参数
+	     * @split {String} param 分隔符1
+	     * @split2 {String} param 分隔符2
+	     * @return {String} 字符串结果
+	     */
 	    stringifyParam:function(param,split1,split2){
 	        if(!param)
 	            return '';
@@ -1517,7 +1525,7 @@ webpackJsonp([4],[
 	     * 当未设置setShowType时，默认使用Normal账户中心嵌入式进行展现<br>
 	     * 设置为Pop时，会使用弹窗控件进行弹窗展示
 	     * 设置为Container时，会使用传入的dom容器进行嵌入展示
-	     * @method setContainer
+	     * @method render
 	     * @param data html数据
 	     * @return {Dom} dom容器对象
 	     */
@@ -1588,6 +1596,9 @@ webpackJsonp([4],[
 	    /**
 	     * 当模块为弹出框形式时，拖动后的回调函数
 	     * 等待子类实现
+	     * @method onMove
+	     * @param left 左位置
+	     * @param top  上位置
 	     */
 	    onMove:function(left,top){},
 	    /**
@@ -1667,7 +1678,7 @@ webpackJsonp([4],[
 	    /**
 	     * 获取当前模块
 	     * @method getCurrent
-	     * @return {Framework} Account的子类对象
+	     * @return {Framework} FrameworkBase的子类对象
 	     */
 	    getCurrent: function () {
 	        return _currentModel;
@@ -1675,7 +1686,8 @@ webpackJsonp([4],[
 	    /**
 	     * 提供给外部使用的插件加载方式
 	     * 由子类实现该方法，并判断哪些模块是属于自己的，加载到相应的container内即可。
-	     * @param widgetConfigs [{container:jQueryDom,module:'./attence-analyse-widgets/attence-analyse-chart1'}]
+	     * @method loadWidgets
+	     * @param {Object} widgetConfigs [{container:jQueryDom,module:'./attence-analyse-widgets/attence-analyse-chart1'}]
 	     */
 	    loadWidgets:function(widgetConfigs){
 	        return false;
@@ -1683,20 +1695,23 @@ webpackJsonp([4],[
 	    /**
 	     * 提供给外部使用的插件销毁方式
 	     * 由子类实现该方法
+	     * @method destoryWidgets
 	     */
 	    destoryWidgets:function(){
 	        return false;
 	    },
 	    /**
 	     * 提供给外部使用的插件尺寸调整方法
+	     * @method resizeWidgets
 	     */
 	    resizeWidgets:function(){
 	        return false;
 	    },
 	    /**
 	     * toast 提示方法
-	     * @param msg 提示信息
-	     * @param timeout 超时时长
+	     * @method toast
+	     * @param {String} msg 提示信息
+	     * @param {Integer} timeout 超时时长
 	     */
 	    toast:function(msg,timeout){
 	        var toast = document.createElement('div');
@@ -1732,6 +1747,9 @@ webpackJsonp([4],[
 	     * 表示当调用方法时，未到达wait指定的时间间隔，则启动计时器延迟调用func函数，若后续在既未达到wait指定的时间间隔和func函数又未被调用的情况下调用返回值方法，则被调用请求将被丢弃。
 	     *  options.trailing = true;
 	     * 注意：当options.trailing = false时，效果与上面的简单实现效果相同
+	     * @method throttle
+	     * @param {Function} func 回调方法
+	     * @param {Integer} wait 等待时长
 	     */
 	    throttle : function(func, wait, options) {
 	        var context, args, result;
@@ -1769,6 +1787,16 @@ webpackJsonp([4],[
 	            return result;
 	        };
 	    },
+	    /* options的默认值
+	     *  表示首次调用返回值方法时，会马上调用func；否则仅会记录当前时刻，当第二次调用的时间间隔超过wait时，才调用func。
+	     *  options.leading = true;
+	     * 表示当调用方法时，未到达wait指定的时间间隔，则启动计时器延迟调用func函数，若后续在既未达到wait指定的时间间隔和func函数又未被调用的情况下调用返回值方法，则被调用请求将被丢弃。
+	     *  options.trailing = true;
+	     * 注意：当options.trailing = false时，效果与上面的简单实现效果相同
+	     * @method debounce
+	     * @param {Callback} func 回调方法
+	     * @param {Integer} wait 等待时长
+	     */
 	    debounce : function(func, wait, immediate) {
 	        // immediate默认为false
 	        var timeout, args, context, timestamp, result;
@@ -1804,6 +1832,13 @@ webpackJsonp([4],[
 	            return result;
 	        };
 	    },
+	    /* 
+	     * websocket调用 
+	     * @method wsCall
+	     * @param {String} eventName 服务端事件名
+	     * @param {Object} data 数据
+	     * @param {Function} callback 回调方法
+	     */
 	    wsCall:function(eventName,data,callback){
 	        var tmpId = Events.EVENT_PREFIX + '_' + (new Date()).getTime();
 	        Events.subscribe(tmpId,function(data){
@@ -1817,6 +1852,13 @@ webpackJsonp([4],[
 	        }));
 	        return tmpId;
 	    },
+	    /* 
+	     * websocket监听
+	     * @method wsListen
+	     * @param {String} eventName 服务端事件名
+	     * @param {Object} data 数据
+	     * @param {Function} callback 回调方法
+	     */
 	    wsListen:function(eventName,data,callback){
 	        var tmpId = EVENT_LISTEN_PREFIX + '_' + (new Date()).getTime();
 	        Events.subscribe(tmpId,function(data){
@@ -1830,6 +1872,11 @@ webpackJsonp([4],[
 	        }));
 	        return tmpId;
 	    },
+	    /* 
+	     * websocket取消监听
+	     * @method wsUnListen
+	     * @param {String} id 事件id
+	     */
 	    wsUnListen:function(id){
 	        Events.unsubscribe(id);
 	    }
