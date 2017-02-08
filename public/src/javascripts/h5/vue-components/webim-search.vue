@@ -33,17 +33,9 @@
     var navigator = require('./vue-navigator.vue');
     var utils = require('../utils/utils');
     var store = require('../utils/store');
-    var webIM = require('../utils/webIM');
 
-    var methods = {
-        getColor:function(name){
-            if(!name)
-                return '#000';
-            var num = utils.djb2Code(name);
-            num = /^.*(\d)$/.test(num) && RegExp.$1;;
-            return utils.colors[parseInt(num)];
-        }
-    };
+    var webIM = require('../utils/webIM/webIM');
+    var methods = {};
     utils.animation.process(methods);
     module.exports = {
         module:'/webim-search',

@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var rd = require('rd');
 var logger = require('./framework/logger');
-var portConfig = require('./configs/portConfig');
+var appConfig = require('./configs/appConfig');
 
 /**== 标签处理 ==**/
 var tagProcessor = require('./framework/tag-processor');
@@ -51,7 +51,7 @@ logger.initExpress(app);
 
 
 /*====================初始化webIM token===============*/
-var webIMDao = require('./daos/webIMDao');
+var webIMDao = require('./daos/webim/webIMDao4Ease');
 webIMDao.init();
 
 
@@ -130,7 +130,7 @@ process.on('uncaughtException', function (err) {
 
 
 
-app.listen(portConfig.WEBPORT);
+
 
 
 

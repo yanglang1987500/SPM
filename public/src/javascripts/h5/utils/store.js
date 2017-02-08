@@ -6,11 +6,17 @@ var Vuex = require('vuex');
 Vue.use(Vuex);
 
 var __list = localStorage.getItem('WebIMCurChatList_'+UserInfo.username),Arr = [];
+__list = __list?JSON.parse(__list):[];
+__list.forEach(function(item,i){
+    item.record.forEach(function(_item,_i){
+        _item.msgStatus == 1 && (_item.msgStatus = 3); //将正在发送的消息状态修改为3 发送失败 用户会重新发送
+    });
+});
 const store = window.store = new Vuex.Store({
     state:{
         webIMConn:null,//连接
         rosterList:[],//好友列表,
-        curChatList:__list?JSON.parse(__list):[],//当前聊天列表
+        curChatList:__list,//当前聊天列表
         groupList:[],
         blackList:[],
         webIMTabIndex:0,
@@ -23,7 +29,7 @@ const store = window.store = new Vuex.Store({
             for(var i = 0;i<context.state.rosterList.length;i++){
                 names.push(context.state.rosterList[i].name);
             }
-            utils.ajax.query('/webim/userbynames',{
+            utils.ajax.querySync('/webim/userbynames',{
                 names:names.join(',')
             },function(data){
                 if(!data.success){

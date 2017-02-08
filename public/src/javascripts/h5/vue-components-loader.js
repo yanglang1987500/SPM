@@ -34,9 +34,10 @@ module.exports = {
                 if(menuList[i]['menu_url']){
                     var flag = /\/h5\/(.*)/.test(menuList[i]['menu_url']);
                     if(flag){
-                        var mod = require('./vue-components/'+RegExp.$1+'.vue');
+                        var moduleName = RegExp.$1;
+                        var mod = require('./vue-components/'+moduleName+'.vue');
                         arr.push({path:mod.module,component:mod});
-                        menuList[i].path = '/'+RegExp.$1;
+                        menuList[i].path = '/'+moduleName;
                         menu.push(menuList[i]);
                     }
                 }else{

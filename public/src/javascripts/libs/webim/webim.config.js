@@ -5,7 +5,8 @@
  * In this way , others won't be influenced by this config while git pull.
  *
  */
-var config = require('../../../../../framework/webim.config');
+var config = require('../../../../../framework/webim.config'),appConfig = require('../../../../../configs/appConfig');
 
 var WebIM = window.WebIM = {};
-WebIM.config = config;
+WebIM.config = config[appConfig.WEBIM];
+module.exports = WebIM.config;

@@ -9,69 +9,78 @@ if(typeof window == 'undefined'){
     location = {};
     navigator = {};
 }
-module.exports = {
-    clientId:'YXA6l3XDwLzsEeauIV1NVen0Wg',
 
-    clientSecret:'YXA6PPwQjnIzclS2KhXKOfba2tAglD4',
-    /*
-     * XMPP server
-     */
-    xmppURL: 'im-api.easemob.com',
-    /*
-     * Backend REST API URL
-     */
-    apiURL: (location.protocol === 'https:' ? 'https:' : 'http:') + '//a1.easemob.com',
-    /*
-     * Application AppKey
-     */
-    appkey: '1112161208178849#spmchat',
-    /*
-     * Whether to use wss
-     * @parameter {Boolean} true or false
-     */
-    https: false,
-    /*
-     * isMultiLoginSessions
-     * true: A visitor can sign in to multiple webpages and receive messages at all the webpages.
-     * false: A visitor can sign in to only one webpage and receive messages at the webpage.
-     */
-    isMultiLoginSessions: true,
-    /*
-     * Set to auto sign-in
-     */
-    isAutoLogin: true,
-    /**
-     * Whether to use window.doQuery()
-     * @parameter {Boolean} true or false
-     */
-    isWindowSDK: false,
-    /**
-     * isSandBox=true:  xmppURL: 'im-api.sandbox.easemob.com',  apiURL: '//a1.sdb.easemob.com',
-     * isSandBox=false: xmppURL: 'im-api.easemob.com',          apiURL: '//a1.easemob.com',
-     * @parameter {Boolean} true or false
-     */
-    isSandBox: false,
-    /**
-     * Whether to console.log in strophe.log()
-     * @parameter {Boolean} true or false
-     */
-    isDebug: false,
-    /**
-     * will auto connect the xmpp server autoReconnectNumMax times in background when client is offline.
-     * won't auto connect if autoReconnectNumMax=0.
-     */
-    autoReconnectNumMax: 2,
-    /**
-     * the interval secons between each atuo reconnectting.
-     * works only if autoReconnectMaxNum >= 2.
-     */
-    autoReconnectInterval: 2,
-    /**
-     * webrtc supports WebKit and https only
-     */
-    isWebRTC: /WebKit/.test(navigator.userAgent) && /^https\:$/.test(window.location.protocol),
-    /**
-     * while http access,use ip directly,instead of ServerName,avoiding DNS problem.
-     */
-    isHttpDNS: false
+module.exports = {
+    Ease:{
+        clientId:'YXA6l3XDwLzsEeauIV1NVen0Wg',
+
+        clientSecret:'YXA6PPwQjnIzclS2KhXKOfba2tAglD4',
+        /*
+         * XMPP server
+         */
+        xmppURL: 'im-api.easemob.com',
+        /*
+         * Backend REST API URL
+         */
+        apiURL: (location.protocol === 'https:' ? 'https:' : 'http:') + '//a1.easemob.com',
+        /*
+         * Application AppKey
+         */
+        appkey: '1112161208178849#spmchat',
+        /*
+         * Whether to use wss
+         * @parameter {Boolean} true or false
+         */
+        https: false,
+        /*
+         * isMultiLoginSessions
+         * true: A visitor can sign in to multiple webpages and receive messages at all the webpages.
+         * false: A visitor can sign in to only one webpage and receive messages at the webpage.
+         */
+        isMultiLoginSessions: true,
+        /*
+         * Set to auto sign-in
+         */
+        isAutoLogin: true,
+        /**
+         * Whether to use window.doQuery()
+         * @parameter {Boolean} true or false
+         */
+        isWindowSDK: false,
+        /**
+         * isSandBox=true:  xmppURL: 'im-api.sandbox.easemob.com',  apiURL: '//a1.sdb.easemob.com',
+         * isSandBox=false: xmppURL: 'im-api.easemob.com',          apiURL: '//a1.easemob.com',
+         * @parameter {Boolean} true or false
+         */
+        isSandBox: false,
+        /**
+         * Whether to console.log in strophe.log()
+         * @parameter {Boolean} true or false
+         */
+        isDebug: false,
+        /**
+         * will auto connect the xmpp server autoReconnectNumMax times in background when client is offline.
+         * won't auto connect if autoReconnectNumMax=0.
+         */
+        autoReconnectNumMax: 2,
+        /**
+         * the interval secons between each atuo reconnectting.
+         * works only if autoReconnectMaxNum >= 2.
+         */
+        autoReconnectInterval: 2,
+        /**
+         * webrtc supports WebKit and https only
+         */
+        isWebRTC: /WebKit/.test(navigator.userAgent) && /^https\:$/.test(window.location.protocol),
+        /**
+         * while http access,use ip directly,instead of ServerName,avoiding DNS problem.
+         */
+        isHttpDNS: false
+    },
+    NIM:{
+        appKey:'cdc261255a39ba1218f97bc505fa924b',
+        appSecret:'3d47c36297a7',
+        nonce:'161616'
+    }
+
 };

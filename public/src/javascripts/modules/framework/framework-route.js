@@ -10,10 +10,7 @@ var Events = require('../../libs/framework-events');
 var frameworkBase = require('../framework/framework-base');
 
 
-function load(_module,showType){
-    _module = '.'+_module;
-    Events.notify('onSelectMenu',_module).require(_module).init({from:'click',showType:showType == 2?'Pop':'Normal'});
-}
+
 var auth_menus = [],router;
 
 module.exports = {
@@ -22,6 +19,10 @@ module.exports = {
             if(!data.success){
                 frameworkBase.toast(data.message);
                 return;
+            }
+            function load(_module,showType){
+                _module = '.'+_module;
+                Events.notify('onSelectMenu',_module).require(_module).init({from:'click',showType:showType == 2?'Pop':'Normal'});
             }
             var routes = {},menuList = data.data;
             for(var i = 0,len = menuList.length;i<len;i++){

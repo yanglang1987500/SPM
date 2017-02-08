@@ -14,11 +14,13 @@ Events.subscribe('route:isReturn',function(flag){
     intervene = true;
     setTimeout(function(){
         intervene = false;
+        isReturn = false;
     },50);
 });
 var count = 999, prePath = '',currentPath = '',DURATION = 300;
 var fns = {
     beforeEnter:function(el){
+        //console.log('1prePath：'+prePath+' this.$route.matched[0].path：'+this.$route.matched[0].path);
         if(prePath == this.$route.matched[0].path && !intervene){
             isReturn = true;
             setTimeout(function(){
@@ -29,11 +31,13 @@ var fns = {
         }
         currentPath = this.$route.matched[0].path;
         !isReturn && $(el).css('z-index',count++);
+        //console.log('2是否后退：'+isReturn+' 是否强制介入：'+intervene);
         $(el).css({
             'position':'fixed',
             'height':'0px',
             'opacity':isReturn?1:0
         });
+        //console.log('3currentPath：'+currentPath+' prePath：'+prePath);
         //console.log(isReturn);
         Velocity(el, { translateX: isReturn?'-20%':'100%' }, { duration: 0 });
     },
@@ -281,8 +285,22 @@ module.exports = {
         },
         DURATION:DURATION+200
     },
+    date:{
+        process:function(methods){
+            $.extend(methods,{
+                format:function(time,formatter){
+                    return Calendar.getInstance(time).format(formatter);
+                }
+            });
+        }
+    },
     ajax:AJAX,
     crypto:Crypto,
+    /**
+     * 将字符串hash化
+     * @param str
+     * @returns {number}
+     */
     djb2Code : function(str){
         var hash = 5381;
         for (i = 0; i < str.length; i++) {

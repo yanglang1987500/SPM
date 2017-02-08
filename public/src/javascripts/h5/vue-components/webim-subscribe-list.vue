@@ -43,14 +43,9 @@
     var navigator = require('./vue-navigator.vue');
     var utils = require('../utils/utils');
     var store = require('../utils/store');
-    var webIM = require('../utils/webIM');
 
+    var webIM = require('../utils/webIM/webIM');
     var methods = {
-        getColor:function(name){
-            var num = utils.djb2Code(name);
-            num = /^.*(\d)$/.test(num) && RegExp.$1;;
-            return utils.colors[parseInt(num)];
-        },
         doAccept:function(item){
             var conn = store.state.webIMConn;
             /*同意添加好友操作的实现方法*/

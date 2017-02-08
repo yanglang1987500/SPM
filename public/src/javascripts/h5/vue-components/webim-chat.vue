@@ -27,7 +27,7 @@
                             <div class="chat-content-wrap">
                                 {{item.data}}
                             </div>
-                            <i class="msg-status" :data-status="item.msgStatus"></i>
+                            <i class="msg-status" :data-status="item.msgStatus" @click="reSend(item)"></i>
                         </div>
                     </div>
                 </template>
@@ -45,13 +45,21 @@
     var navigator = require('./vue-navigator.vue');
     var utils = require('../utils/utils');
     var store = require('../utils/store');
-    var webIM = require('../utils/webIM');
+    var webIM = require('../utils/webIM/webIM');
 
     var methods = {
-        getColor:function(name){
-            var num = utils.djb2Code(name);
-            num = /^.*(\d)$/.test(num) && RegExp.$1;;
-            return utils.colors[parseInt(num)];
+        reSend:function(item){
+            if(item.msgStatus == 3)
+                webIM.sendPrivateText(item.data,item.chat_name,{
+                    nickname:UserInfo.nickname
+                },function(id,serverId){
+                    store.commit('moidfyMessageStatus',{
+                        status:'2',
+                        chatName:item.chat_name,
+                        localId:id,
+                        serverId:serverId
+                    });
+                },item.localId);
         }
     };
     utils.animation.process(methods);
@@ -73,12 +81,7 @@
         components:{navigator:navigator},
         computed:{
             nick_name:function(){
-                var that = this, temp = '';
-                this.$store.state.curChatList.forEach(function(element, index, array){
-                    if(element.name == that.chat_name){
-                        temp = element.nickname;
-                    }
-                });
+                var temp = this.$route.query.nick_name;
                 return temp?temp:this.$route.query.chat_name;
             },
             chatRecordList:function(){
@@ -141,7 +144,7 @@
                         "to":that.chat_name,
                         "data":msg,
                         "ext":{
-                            nickname:UserInfo.nickname
+                            nickname:that.alias(that.chat_name)
                         },
                         "error":false,
                         msgStatus:1,//消息状态 1为正在发送 2为已发送 3为发送失败

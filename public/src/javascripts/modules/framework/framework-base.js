@@ -9,7 +9,7 @@
 
 require('../../libs/utils');
 var Events = require('../../libs/framework-events');
-var portConfig = require('../../../../../configs/portConfig');
+var appConfig = require('../../../../../configs/appConfig');
 
 /**
  * 当前模块对象
@@ -19,6 +19,7 @@ var portConfig = require('../../../../../configs/portConfig');
 var _currentModel = null;
 
 var _fragmentCache = {};
+var debug = false;
 
 /**
  * websocket
@@ -85,6 +86,7 @@ Framework.prototype = {
         var _current = this.getCurrent();
         _current && (options.showType != 'Pop') && (!_current.finished) && _current.finish();
         _prevModule = _current;
+        debug && console.log('装载'+this.id);
         this.setCurrent();
         //由框架设置展现形式
         this.setShowType($.extend({}, options).showType);
@@ -595,6 +597,7 @@ Framework.prototype = {
             callbackcount != 0 ? this._executeCallback.apply(this, arguments) : '';
             this._callbacks.length = 0;//清空回调
         }
+        debug && console.log('卸载'+this.id);
         this.finished = true;
         this.dom = null;
         return this;
@@ -809,7 +812,7 @@ $(window).resize(frameWork.debounce(resize,70));
 
 
 /**======================websocket 封装 start================**/
-_websocket = new WebSocket('ws://'+location.host.split(':')[0]+':'+portConfig.WSPORT);
+_websocket = new WebSocket('ws://'+location.host.split(':')[0]+':'+appConfig.WSPORT);
 _websocket.onopen = function(){
 };
 _websocket.onclose  = function(){

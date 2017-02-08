@@ -9,9 +9,9 @@
         <div class="content-wrap">
            <div class="head" id="head-content">
                <div class="head-icon">
-                   <div class="head-circle-name"><h3 :style="'color:'+getColor(title)+''">{{title}}</h3></div>
+                   <div class="head-circle-name"><h3 :style="'color:'+getColor(alias(title))+''">{{alias(title)}}</h3></div>
                </div>
-               <p class="user-name" >{{title}}</p>
+               <p class="user-name" >{{alias(title)}}</p>
            </div>
             <div id="main-content" style="height:2rem;background: rgba(250, 250, 250, 0.94);">
                 <button id="searchBtn" >{{btnTitle}}</button>
@@ -25,21 +25,14 @@
     var navigator = require('./vue-navigator.vue');
     var utils = require('../utils/utils');
     var store = require('../utils/store');
-    var webIM = require('../utils/webIM');
+
+    var webIM = require('../utils/webIM/webIM');
     require('../../libs/alert/jquery-alert.css');
     require('../../libs/alert/jquery-alert.js');
     require('../../libs/toast/jquery-loading.css');
     require('../../libs/toast/jquery-loading.js');
 
-    var methods = {
-        getColor:function(name){
-            if(!name)
-                return '#000';
-            var num = utils.djb2Code(name);
-            num = /^.*(\d)$/.test(num) && RegExp.$1;;
-            return utils.colors[parseInt(num)];
-        }
-    };
+    var methods = {};
     utils.animation.process(methods);
     module.exports = {
         module:'/webim-detail',
@@ -88,7 +81,7 @@
                     case '发送消息':
                         Events.notify('route:isReturn',false);
                         if(that.type == '1'){
-                            that.$router.push('/webim-chat?type=1&chat_name='+that.title+'&time='+Calendar.getInstance().getTime());
+                            that.$router.push('/webim-chat?type=1&chat_name='+that.title+'&nick_name='+that.alias(that.title)+'&time='+Calendar.getInstance().getTime());
 
                         }else{
                             that.$router.push('/webim-chat?type=2&chat_name='+that.title+'&roomId='+that.id+'&time='+Calendar.getInstance().getTime());
@@ -100,9 +93,8 @@
                             buttons:[{
                                 name:'提交',
                                 callback:function(){
-                                    var conn = that.$store.state.webIMConn;
                                     var text = $('#webim-detail-container-msg').val();
-                                    conn.subscribe({
+                                    WebIMConn.subscribe({
                                         to: that.id,
                                         message: text
                                     });
@@ -120,7 +112,7 @@
                             groupId:that.id,
                             userName:that.user_name
                         },function(data){
-                            if(!data.success){7
+                            if(!data.success){
                                 $.ui.toast(data.message);
                                 return;
                             }

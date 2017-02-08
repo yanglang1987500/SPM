@@ -4,7 +4,7 @@ var userDao = require('../../daos/userDao');
 var utils = require('../../libs/utils');
 var context = require('../../framework/context');
 var sessionUtil = require('../../framework/sessionUtil');
-var webIMDao = require('../../daos/webIMDao');
+var webIMDao = require('../../daos/webim/webIMDao');
 var authority = require('../../framework/authority');
 var logDao = require('../../daos/logDao');
 var Calendar = require('../../libs/calendar');
@@ -71,7 +71,7 @@ router.post('/h5/regist', function (req, res, next) {
             device_type:2,
             login_time:Calendar.getInstance().format('yyyyMMdd HH:mm:ss')
         });
-        webIMDao.addUser(tel,password);
+        webIMDao.addUser(tel,nickname,password);
         authority.reloadUserRole(sessionUserInfo,function(){
             req.session.isLogin = true;
             res.redirect('/h5');
@@ -79,4 +79,5 @@ router.post('/h5/regist', function (req, res, next) {
     });
 
 });
+
 module.exports = router;

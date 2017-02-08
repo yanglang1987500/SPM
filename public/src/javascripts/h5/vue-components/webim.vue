@@ -25,7 +25,7 @@
                                 </div>
                             </li>
                         </router-link>
-                        <router-link @click.native="routerClick" v-else v-bind:to="'/webim-chat?type='+(item.type==='chat'?1:2)+'&chat_name='+item.name+'&roomId='+item.roomId">
+                        <router-link @click.native="routerClick" v-else v-bind:to="'/webim-chat?type='+(item.type==='chat'?1:2)+'&chat_name='+item.name+'&roomId='+item.roomId+'&nick_name='+alias(item.name)">
                             <li :data-id="item.id" :data-name="item.name">
                                 <div class="li-wrap">
                                     <div :class="['head-wrap',{'unread-msg':getUnreadCount(item)>0,'unread-msg-lg9':getUnreadCount(item)>9}]"  :data-unread-count="getUnreadCount(item)">
@@ -45,11 +45,11 @@
             <div class="roster-list-container">
                 <ul class="roster-list">
                     <template v-for="item in rosterList" >
-                        <router-link @click.native="routerClick" v-bind:to="'/webim-chat?type=1&chat_name='+item.name">
+                        <router-link @click.native="routerClick" v-bind:to="'/webim-chat?type=1&chat_name='+item.name+'&nick_name='+alias(item.name)">
                             <li :data-id="getIdFromJid(item.jid)">
                                 <div class="li-wrap">
-                                    <div class="head-circle-name"><h3 :style="'color:'+getColor(item.name)+''">{{item.name}}</h3></div>
-                                    {{item.nickname?item.nickname:item.name}}
+                                    <div class="head-circle-name"><h3 :style="'color:'+getColor(alias(item.name))+''">{{alias(item.name)}}</h3></div>
+                                    {{alias(item.name)}}
                                 </div>
                             </li>
                         </router-link>
@@ -121,7 +121,8 @@
     var secAuthorize = require('./sec-authorize.vue');
     require('../../../stylesheets/vue-styles/condition.scss');
     var popup = require('./vue-popup.vue');
-    var webIM = require('../utils/webIM');
+
+    var webIM = require('../utils/webIM/webIM');
     require('../../libs/toast/jquery-loading.css');
     require('../../libs/toast/jquery-loading.js');
 
@@ -129,13 +130,9 @@
     webIM.init();
     var THEME_KEY = '_H5_THEME_KEY_';
     var methods = {
-        getColor:function(name){
-            var num = utils.djb2Code(name);
-            num = /^.*(\d)$/.test(num) && RegExp.$1;;
-            return utils.colors[parseInt(num)];
-        },
         getIdFromJid:function(jid){
             var id = /^(\d*)#.*$/.test(jid) && RegExp.$1;
+            console.log(RegExp.$1);
             return id;
         },
         getUnreadCount:function(item){

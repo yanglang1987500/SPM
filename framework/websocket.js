@@ -5,7 +5,7 @@
 var ws = require("nodejs-websocket")
 var guid = require('guid');
 var Events = require('./framework-events');
-var portConfig = require('../configs/portConfig');
+var appConfig = require('../configs/appConfig');
 
 var server = ws.createServer(function (conn) {
     var client_id = guid.raw();
@@ -27,7 +27,7 @@ var server = ws.createServer(function (conn) {
         console.log("Connection closed");
     });
 
-}).listen(portConfig.WSPORT);
+}).listen(appConfig.WSPORT);
 
 function doBroadcast(obj,clientId) {
     var stringify = JSON.stringify(obj);

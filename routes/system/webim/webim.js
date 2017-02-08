@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var userDao = require('../../../daos/userDao');
-var webIMDao = require('../../../daos/webIMDao');
+var appConfig = require('../../../configs/appConfig');
+var webIMDao = require('../../../daos/webim/webIMDao');
 var groupDao = require('../../../daos/webimGroupDao');
 var utils = require('../../../libs/utils');
 
@@ -49,19 +50,20 @@ router.post('/webim/groups', function (req, res, next) {
         var name = req.body.name,
             desc = req.body.desc,
             members = req.body.members;
-        webIMDao.addGroup({
-            "groupname":name, //群组名称，此属性为必须的
+        var params = {
+            "name":name, //群组名称，此属性为必须的
             "desc":desc, //群组描述，此属性为必须的
-            "public":true, //是否是公开群，此属性为必须的
-            "maxusers":300, //群组成员最大数（包括群主），值为数值类型，默认值200，最大值2000，此属性为可选的
-            "approval":true, //加入公开群是否需要批准，默认值是false（加入公开群不需要群主批准），此属性为必选的，私有群必须为true
             "members":members, //群组成员，此属性为可选的，但是如果加了此项，数组元素至少一个（注：群主jma1不需要写入到members里面）
             "owner":req.session.userInfo.username //群组的管理员，此属性为必须的
-        },function(data){
+        };
+        if(!members || members.length == 0)
+            delete params.members;
+        webIMDao.addGroup(params,function(data){
             groupDao.addGroup({
-                id:data.data.groupid,
+                id:appConfig.WEBIM == 'Ease'?data.data.groupid:data.tid,
                 name:name,
-                description:desc
+                description:desc,
+                owner:req.session.userInfo.username
             },function(err,data){
                 res.json(utils.returns(arguments));
             });
@@ -77,10 +79,11 @@ router.post('/webim/groups/adduser', function (req, res, next) {
         var userName = req.body.userName,
             groupId = req.body.groupId;
         webIMDao.addUser2Group(groupId,userName,function(data){
-            if(data.data.result)
+            console.log(data);
+            if(data.data && data.data.result)
                 res.json(utils.returnJson(true,'加入群组成功'));
             else
-                res.json(utils.returnJson(false,'加入群组失败'));
+                res.json(utils.returnJson(false,'加入群组失败：'+data.error_description));
 
         });
     }
