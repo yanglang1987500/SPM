@@ -1,4 +1,4 @@
-<!--[SPM](https://github.com/yanglang1987500/spm) — SPM权限管理平台
+[SPM](https://github.com/yanglang1987500/spm) — SPM权限管理平台
 ==================================================
 
 
@@ -73,4 +73,4 @@ $ node app.js
  ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-11.jpg)
  ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-12.jpg)
  ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-13.jpg)
--->
+
