@@ -1,0 +1,136 @@
+[2017-03-31 09:46:55.602] [DEBUG] webIMDao4Ease - webim server init token start
+[2017-03-31 09:46:55.620] [INFO] console - D:\workspace\spm\routes\attence.js
+[2017-03-31 09:46:55.622] [INFO] console - D:\workspace\spm\routes\customer\account.js
+[2017-03-31 09:46:55.624] [INFO] console - D:\workspace\spm\routes\customer\company.js
+[2017-03-31 09:46:55.625] [INFO] console - D:\workspace\spm\routes\customer\customer.js
+[2017-03-31 09:46:55.905] [INFO] console - D:\workspace\spm\routes\file.js
+[2017-03-31 09:46:55.909] [INFO] console - D:\workspace\spm\routes\form-controller.js
+[2017-03-31 09:46:55.911] [INFO] console - D:\workspace\spm\routes\publish.js
+[2017-03-31 09:46:55.912] [INFO] console - D:\workspace\spm\routes\report.js
+[2017-03-31 09:46:55.913] [INFO] console - D:\workspace\spm\routes\system\auth\auth.js
+[2017-03-31 09:46:55.915] [INFO] console - D:\workspace\spm\routes\system\auth\element.js
+[2017-03-31 09:46:55.916] [INFO] console - D:\workspace\spm\routes\system\auth\org.js
+[2017-03-31 09:46:55.918] [INFO] console - D:\workspace\spm\routes\system\auth\role.js
+[2017-03-31 09:46:55.920] [INFO] console - D:\workspace\spm\routes\system\auth\users.js
+[2017-03-31 09:46:55.921] [INFO] console - D:\workspace\spm\routes\system\dim.js
+[2017-03-31 09:46:55.922] [INFO] console - D:\workspace\spm\routes\system\index.js
+[2017-03-31 09:46:55.923] [INFO] console - D:\workspace\spm\routes\system\log\logsearch.js
+[2017-03-31 09:46:55.924] [INFO] console - D:\workspace\spm\routes\system\login.js
+[2017-03-31 09:46:55.925] [INFO] console - D:\workspace\spm\routes\system\menu.js
+[2017-03-31 09:46:55.927] [INFO] console - D:\workspace\spm\routes\system\regist.js
+[2017-03-31 09:46:55.928] [INFO] console - D:\workspace\spm\routes\system\webim\webim.js
+[2017-03-31 09:46:55.992] [INFO] console - 加载资源映射文件
+[2017-03-31 09:46:56.258] [DEBUG] webIMDao4Ease - webim server init token end
+[2017-03-31 09:46:56.258] [DEBUG] webIMDao4Ease - {"access_token":"YWMtzaHTuhWzEeewS8GaOSQZCAAAAAAAAAAAAAAAAAAAAAGXdcPAvOwR5q4hXU1V6fRaAgMAAAFbIgp_zwBPGgAZfB5bh-84ne8lNQb-gjR2O6T8RGe1MKC8ZUBYnbu1-A","expires_in":5183999,"application":"9775c3c0-bcec-11e6-ae21-5d4d55e9f45a"}
+[2017-03-31 09:47:08.751] [INFO] express - ::1 - - "GET / HTTP/1.1" 200 3581 "" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:08.884] [INFO] express - ::1 - - "GET /dist/modules/animation.css HTTP/1.1" 200 12564 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:08.887] [INFO] express - ::1 - - "GET /dist/font-awesome-4.6.3/css/font-awesome.min.css HTTP/1.1" 200 31000 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:08.890] [INFO] express - ::1 - - "GET /dist/modules/common.js HTTP/1.1" 200 37326 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:08.891] [INFO] express - ::1 - - "GET /dist/modules/jquery.min.js HTTP/1.1" 200 95104 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:08.939] [INFO] express - ::1 - - "GET /dist/modules/index.css HTTP/1.1" 200 180051 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:08.944] [INFO] express - ::1 - - "GET /dist/modules/jquery.easyui.min.js HTTP/1.1" 200 354812 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:08.951] [INFO] express - ::1 - - "GET /dist/modules/index.js HTTP/1.1" 200 482906 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:08.986] [INFO] express - ::1 - - "GET /dist/modules/8d0e6d8ded7c7988575e74d1f5b784ca.jpg HTTP/1.1" 200 7602 "http://localhost:8080/dist/modules/index.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:08.988] [INFO] express - ::1 - - "GET /dist/font-awesome-4.6.3/fonts/fontawesome-webfont.woff2?v=4.7.0 HTTP/1.1" 200 77160 "http://localhost:8080/dist/font-awesome-4.6.3/css/font-awesome.min.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:09.102] [INFO] express - ::1 - - "GET /auth/menu/list?_=1490924829095 HTTP/1.1" 200 2123 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:09.191] [INFO] express - ::1 - - "GET /dist/modules/4967993b5fcc9a81baff6cc305b79ec1.jpg HTTP/1.1" 200 207522 "http://localhost:8080/dist/modules/index.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:11.924] [WARN] express - ::1 - - "GET /logout HTTP/1.1" 302 56 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:11.936] [INFO] express - ::1 - - "GET /login HTTP/1.1" 200 2399 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:11.938] [INFO] console - Connection closed
+[2017-03-31 09:47:11.939] [INFO] console - exception catch ...
+[2017-03-31 09:47:11.940] [INFO] console - Error: read ECONNRESET
+    at exports._errnoException (util.js:1022:11)
+    at TCP.onread (net.js:569:26)
+[2017-03-31 09:47:11.945] [WARN] express - ::1 - - "GET /src/javascripts/libs/crypto.js HTTP/1.1" 304 - "http://localhost:8080/login" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:11.946] [INFO] express - ::1 - - "GET /dist/modules/login.css HTTP/1.1" 200 6957 "http://localhost:8080/login" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:11.990] [INFO] express - ::1 - - "GET /dist/images/framework/bg/default.jpg HTTP/1.1" 200 7602 "http://localhost:8080/dist/modules/login.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:11.998] [INFO] express - ::1 - - "GET /dist/images/framework/logo.png HTTP/1.1" 200 15613 "http://localhost:8080/dist/modules/login.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:12.021] [INFO] express - ::1 - - "GET /dist/images/framework/bg/wall_num9.jpg HTTP/1.1" 200 207522 "http://localhost:8080/dist/modules/login.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:16.081] [INFO] console - 开始执行transaction，共执行1条数据
+[2017-03-31 09:47:16.116] [INFO] console - transaction error: null
+[2017-03-31 09:47:16.159] [WARN] express - ::1 - - "POST /login HTTP/1.1" 302 46 "http://localhost:8080/login" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:16.159] [INFO] console - transaction info: {"fieldCount":0,"affectedRows":0,"insertId":0,"serverStatus":2,"warningCount":0,"message":"","protocol41":true,"changedRows":0}
+[2017-03-31 09:47:16.170] [INFO] express - ::1 - - "GET / HTTP/1.1" 200 5929 "http://localhost:8080/login" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:16.193] [WARN] express - ::1 - - "GET /dist/modules/animation.css HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:16.193] [WARN] express - ::1 - - "GET /dist/font-awesome-4.6.3/css/font-awesome.min.css HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:16.194] [WARN] express - ::1 - - "GET /dist/modules/index.css HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:16.195] [WARN] express - ::1 - - "GET /dist/modules/jquery.min.js HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:16.195] [WARN] express - ::1 - - "GET /dist/modules/jquery.easyui.min.js HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:16.195] [WARN] express - ::1 - - "GET /dist/modules/common.js HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:16.202] [WARN] express - ::1 - - "GET /dist/modules/index.js HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:16.302] [INFO] express - ::1 - - "GET /auth/menu/list?_=1490924836296 HTTP/1.1" 200 3208 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:16.304] [WARN] express - ::1 - - "GET /dist/modules/8d0e6d8ded7c7988575e74d1f5b784ca.jpg HTTP/1.1" 304 - "http://localhost:8080/dist/modules/index.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:16.305] [WARN] express - ::1 - - "GET /dist/font-awesome-4.6.3/fonts/fontawesome-webfont.woff2?v=4.7.0 HTTP/1.1" 304 - "http://localhost:8080/dist/font-awesome-4.6.3/css/font-awesome.min.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:16.366] [WARN] express - ::1 - - "GET /dist/modules/4967993b5fcc9a81baff6cc305b79ec1.jpg HTTP/1.1" 304 - "http://localhost:8080/dist/modules/index.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:18.529] [INFO] express - ::1 - - "GET /views/modules/user-manage.html?1490924838500 HTTP/1.1" 200 2315 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:18.599] [INFO] express - ::1 - - "GET /dist/modules/a272cc592e2e977079eb6585f6d06888.gif HTTP/1.1" 200 1737 "http://localhost:8080/dist/modules/index.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:18.644] [INFO] express - ::1 - - "GET /dist/modules/1dca49ddc1df6eb2958fd679ac91cb70.png HTTP/1.1" 200 3033 "http://localhost:8080/dist/modules/index.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:18.703] [WARN] express - ::1 - - "GET /user/list?page=1&rows=20 HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:18.945] [INFO] express - ::1 - - "GET /views/modules/role-manage.html?1490924838933 HTTP/1.1" 200 2002 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:18.992] [WARN] express - ::1 - - "GET /role/list HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:19.248] [INFO] express - ::1 - - "GET /views/modules/org-manage.html?1490924839241 HTTP/1.1" 200 4364 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:19.316] [INFO] express - ::1 - - "GET /org/listbypid?_=1490924839303 HTTP/1.1" 200 319 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:19.331] [INFO] express - ::1 - - "GET /dist/modules/524f504c45ed6ca333a485533a9beb9c.png HTTP/1.1" 200 11173 "http://localhost:8080/dist/modules/index.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:47:19.342] [INFO] console - select t2.*  from sys_org t1,sys_user t2,sys_org_user t3 WHERE  t1.org_id = t3.org_id  and  t3.user_id = t2.user_id   and  t1.org_id = '474ef7e262b945b02cc9478a859eb192'  limit 0,20
+[2017-03-31 09:47:19.361] [WARN] express - ::1 - - "GET /org/orguser?org_id=474ef7e262b945b02cc9478a859eb192&key=&startdate=&enddate=&page=1&rows=20 HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:34.699] [INFO] console - change
+[2017-03-31 09:48:34.700] [INFO] console - 加载资源映射文件
+[2017-03-31 09:48:34.798] [INFO] console - change
+[2017-03-31 09:48:34.801] [INFO] console - 加载资源映射文件
+[2017-03-31 09:48:40.784] [WARN] express - ::1 - - "GET / HTTP/1.1" 304 - "http://localhost:8080/login" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:40.787] [INFO] console - Connection closed
+[2017-03-31 09:48:40.787] [INFO] console - exception catch ...
+[2017-03-31 09:48:40.787] [INFO] console - Error: read ECONNRESET
+    at exports._errnoException (util.js:1022:11)
+    at TCP.onread (net.js:569:26)
+[2017-03-31 09:48:40.797] [INFO] express - ::1 - - "GET /dist/modules/animation.css HTTP/1.1" 200 12564 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:40.803] [INFO] express - ::1 - - "GET /dist/font-awesome-4.6.3/css/font-awesome.min.css HTTP/1.1" 200 31000 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:40.804] [INFO] express - ::1 - - "GET /dist/modules/jquery.min.js HTTP/1.1" 200 95104 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:40.819] [INFO] express - ::1 - - "GET /dist/modules/common.js HTTP/1.1" 200 37326 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:40.825] [INFO] express - ::1 - - "GET /dist/modules/index.css HTTP/1.1" 200 180051 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:40.832] [INFO] express - ::1 - - "GET /dist/modules/jquery.easyui.min.js HTTP/1.1" 200 354812 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:40.843] [INFO] express - ::1 - - "GET /dist/modules/index.js HTTP/1.1" 200 482922 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:40.918] [INFO] express - ::1 - - "GET /dist/modules/8d0e6d8ded7c7988575e74d1f5b784ca.jpg HTTP/1.1" 200 7602 "http://localhost:8080/dist/modules/index.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:40.919] [INFO] express - ::1 - - "GET /dist/font-awesome-4.6.3/fonts/fontawesome-webfont.woff2?v=4.7.0 HTTP/1.1" 200 77160 "http://localhost:8080/dist/font-awesome-4.6.3/css/font-awesome.min.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:40.966] [INFO] express - ::1 - - "GET /auth/menu/list?_=1490924920942 HTTP/1.1" 200 3208 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:41.043] [INFO] express - ::1 - - "GET /views/modules/org-manage.html?1490924921001 HTTP/1.1" 200 4364 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:41.044] [INFO] express - ::1 - - "GET /favicon.ico HTTP/1.1" 200 1086 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:41.051] [INFO] express - ::1 - - "GET /dist/modules/4967993b5fcc9a81baff6cc305b79ec1.jpg HTTP/1.1" 200 207522 "http://localhost:8080/dist/modules/index.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:41.125] [INFO] express - ::1 - - "GET /dist/modules/a272cc592e2e977079eb6585f6d06888.gif HTTP/1.1" 200 1737 "http://localhost:8080/dist/modules/index.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:41.152] [INFO] express - ::1 - - "GET /dist/modules/1dca49ddc1df6eb2958fd679ac91cb70.png HTTP/1.1" 200 3033 "http://localhost:8080/dist/modules/index.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:41.209] [INFO] express - ::1 - - "GET /org/listbypid?_=1490924921158 HTTP/1.1" 200 319 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:41.340] [INFO] express - ::1 - - "GET /dist/modules/524f504c45ed6ca333a485533a9beb9c.png HTTP/1.1" 200 11173 "http://localhost:8080/dist/modules/index.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:41.359] [INFO] console - select t2.*  from sys_org t1,sys_user t2,sys_org_user t3 WHERE  t1.org_id = t3.org_id  and  t3.user_id = t2.user_id   and  t1.org_id = '474ef7e262b945b02cc9478a859eb192'  limit 0,20
+[2017-03-31 09:48:41.362] [WARN] express - ::1 - - "GET /org/orguser?org_id=474ef7e262b945b02cc9478a859eb192&key=&startdate=&enddate=&page=1&rows=20 HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:43.412] [INFO] express - ::1 - - "GET /views/modules/user-manage.html?1490924923376 HTTP/1.1" 200 2315 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:43.508] [WARN] express - ::1 - - "GET /user/list?page=1&rows=20 HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:46.820] [INFO] console - change
+[2017-03-31 09:48:46.820] [INFO] console - 加载资源映射文件
+[2017-03-31 09:48:46.830] [INFO] console - change
+[2017-03-31 09:48:46.830] [INFO] console - 加载资源映射文件
+[2017-03-31 09:48:47.307] [WARN] express - ::1 - - "GET / HTTP/1.1" 304 - "http://localhost:8080/login" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:47.312] [INFO] console - Connection closed
+[2017-03-31 09:48:47.312] [INFO] console - exception catch ...
+[2017-03-31 09:48:47.312] [INFO] console - Error: read ECONNRESET
+    at exports._errnoException (util.js:1022:11)
+    at TCP.onread (net.js:569:26)
+[2017-03-31 09:48:47.318] [WARN] express - ::1 - - "GET /dist/modules/animation.css HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:47.318] [WARN] express - ::1 - - "GET /dist/font-awesome-4.6.3/css/font-awesome.min.css HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:47.324] [WARN] express - ::1 - - "GET /dist/modules/jquery.min.js HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:47.324] [WARN] express - ::1 - - "GET /dist/modules/jquery.easyui.min.js HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:47.325] [INFO] express - ::1 - - "GET /dist/modules/index.css HTTP/1.1" 200 180051 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:47.326] [INFO] express - ::1 - - "GET /dist/modules/common.js HTTP/1.1" 200 28547 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:47.335] [INFO] express - ::1 - - "GET /dist/modules/index.js HTTP/1.1" 200 482923 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:47.354] [WARN] express - ::1 - - "GET /dist/modules/8d0e6d8ded7c7988575e74d1f5b784ca.jpg HTTP/1.1" 304 - "http://localhost:8080/dist/modules/index.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:47.355] [WARN] express - ::1 - - "GET /dist/font-awesome-4.6.3/fonts/fontawesome-webfont.woff2?v=4.7.0 HTTP/1.1" 304 - "http://localhost:8080/dist/font-awesome-4.6.3/css/font-awesome.min.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:47.393] [INFO] express - ::1 - - "GET /auth/menu/list?_=1490924927378 HTTP/1.1" 200 3208 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:48.381] [INFO] express - ::1 - - "GET /views/modules/user-manage.html?1490924928360 HTTP/1.1" 200 2315 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:48.382] [WARN] express - ::1 - - "GET /dist/modules/4967993b5fcc9a81baff6cc305b79ec1.jpg HTTP/1.1" 304 - "http://localhost:8080/dist/modules/index.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:48.384] [INFO] express - ::1 - - "GET /favicon.ico HTTP/1.1" 200 1086 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:48.447] [WARN] express - ::1 - - "GET /dist/modules/a272cc592e2e977079eb6585f6d06888.gif HTTP/1.1" 304 - "http://localhost:8080/dist/modules/index.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:48.462] [WARN] express - ::1 - - "GET /dist/modules/1dca49ddc1df6eb2958fd679ac91cb70.png HTTP/1.1" 304 - "http://localhost:8080/dist/modules/index.css" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:48.489] [WARN] express - ::1 - - "GET /user/list?page=1&rows=20 HTTP/1.1" 304 - "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+[2017-03-31 09:48:50.736] [INFO] console - change
+[2017-03-31 09:48:50.736] [INFO] console - 加载资源映射文件
+[2017-03-31 09:48:50.743] [INFO] console - change
+[2017-03-31 09:48:50.743] [INFO] console - 加载资源映射文件
