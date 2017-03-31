@@ -5,6 +5,7 @@ var session = require('cookie-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var rd = require('rd');
+var fs = require('fs');
 var logger = require('./framework/logger');
 var appConfig = require('./configs/appConfig');
 
@@ -32,8 +33,10 @@ var websocket = require('./framework/websocket');
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', function(){
   //处理自定义标签解析
+
   var args = arguments;
   ejs.renderFile.apply(this,[].slice.call(arguments,0,2).concat([function(err,data){
+    err && console.log(err);
     if(args.length==3){
       var sessionUserInfo = sessionUtil.createUserInfo(args[1].session.userInfo);
       //此处如有标签需要实时从数据库异步取数，可能要加入promise
@@ -70,6 +73,30 @@ app.use(function(req, res, next) {
   res.locals.session = req.session;
   next();
 });
+
+var ResourceMap = {}, __DIST__ = '/dist/modules/';
+function loadResourceMap(){
+  fs.readFile(path.join(__dirname,'resource_map.json'),{encoding:'utf-8'},function(err,ret){
+      if(err)
+        throw err;
+      console.log('加载资源映射文件');
+      ret && (ResourceMap = JSON.parse(ret));
+  });
+}
+loadResourceMap();
+fs.watch(path.join(__dirname,'resource_map.json'),function(event){
+    console.log(event);
+    loadResourceMap();
+})
+
+app.locals.getJs = function(resource) {
+    return __DIST__+ResourceMap[resource].js;
+};
+app.locals.getCss = function(resource) {
+    var res = ResourceMap[resource]
+    return __DIST__+ResourceMap[resource].css;
+};
+
 
 
 /**

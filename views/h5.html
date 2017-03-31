@@ -10,8 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <!-- iphone设备中的safari私有meta标签，它表示：允许全屏模式浏览 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <link rel='stylesheet' href='/dist/modules/h5.css'/>
-    <link rel='stylesheet' href='/dist/font-awesome-4.6.3/css/font-awesome.css'/>
+    <link rel='stylesheet' href='<%=getCss("h5")%>'/>
+    <link rel='stylesheet' href='/dist/font-awesome-4.6.3/css/font-awesome.min.css'/>
     <script>
         var UserInfo = {
             username:'<%=session.userInfo.username%>',
@@ -31,8 +31,8 @@
              </div></div>
     <router-view></router-view>
 </div>
-<script src="/src/javascripts/libs/zepto.min.js"></script>
-<script src="/dist/modules/common.js"></script>
-<script src="/dist/modules/h5.js"></script>
+<script src="/dist/modules/zepto.min.js"></script>
+<script src="<%=getJs('common')%>"></script>
+<script src="<%=getJs('h5')%>"></script>
 </body>
 </html>

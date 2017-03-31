@@ -7,6 +7,9 @@
 Events.addMethod('require',function(moduleId,options){
     //此处有两种可能，一种是菜单，会传进来配置的./modules/aboutus（比如），另一种是直接引用模块，比如aboutus，需要判断格式
     var flag = /^\.\/modules\/(.*)$/.test(moduleId);
-    return require(flag?'./'+RegExp.$1:'./'+moduleId);
+    var module = require(flag?'./'+RegExp.$1:'./'+moduleId);
+    if(module.default)
+    	return module.default;
+    return module;
 });
 module.exports = {};

@@ -29,6 +29,8 @@ const store = window.store = new Vuex.Store({
             for(var i = 0;i<context.state.rosterList.length;i++){
                 names.push(context.state.rosterList[i].name);
             }
+            if(names.length == 0)
+                return;
             utils.ajax.querySync('/webim/userbynames',{
                 names:names.join(',')
             },function(data){

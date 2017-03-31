@@ -9,10 +9,11 @@
     <![endif]-->
     <link rel="icon" href="favicon.ico" />
     <link rel='stylesheet' href='/dist/modules/animation.css'/>
-    <link rel='stylesheet' href='/dist/font-awesome-4.6.3/css/font-awesome.css'/>
-    <link rel='stylesheet' href='/dist/modules/index.css'/>
+    <link rel='stylesheet' href='/dist/font-awesome-4.6.3/css/font-awesome.min.css'/>
+    <link rel='stylesheet' href='<%=getCss("index")%>'/>
 </head>
 <body>
+
 <div class="container">
     <div class="topbar">
         <div class="logobar">智能管理平台</div>
@@ -117,9 +118,9 @@
 </div>
 <div id="framework_dialog"></div>
 <iframe id="exportFrame" style="display: none"></iframe>
-<script src="/src/javascripts/libs/jquery.min.js"></script>
-<script src="/src/javascripts/libs/jquery.easyui.min.js"></script>
-<script src="/dist/modules/common.js"></script>
-<script src="/dist/modules/index.js"></script>
+<script src="/dist/modules/jquery.min.js"></script>
+<script src="/dist/modules/jquery.easyui.min.js"></script>
+<script src="<%=getJs('common')%>"></script>
+<script src="<%=getJs('index')%>"></script>
 </body>
 </html>
