@@ -16,7 +16,7 @@ webpackJsonp([4],[
 	var Events = __webpack_require__(18);
 	var Router = __webpack_require__(258);
 	Router.init();
-	__webpack_require__(261);
+	__webpack_require__(263);
 	var frameBase = window.frameBase = __webpack_require__(260);
 	var theme,_THEME_KEY_ = '_THEME_KEY';
 	setTimeout(function(){
@@ -985,37 +985,36 @@ webpackJsonp([4],[
 	var Events = __webpack_require__(18);
 	var frameworkBase = __webpack_require__(260);
 
-
-
-	var auth_menus = [],router;
+	var auth_menus = [],
+	    router;
 
 	module.exports = {
-	    init:function(){
-	        frameworkBase.query('/auth/menu/list',function(data){
-	            if(!data.success){
+	    init: function init() {
+	        frameworkBase.query('/auth/menu/list', function (data) {
+	            if (!data.success) {
 	                frameworkBase.toast(data.message);
 	                return;
 	            }
-	            function load(_module,showType){
-	                _module = '.'+_module;
-	                Events.notify('onSelectMenu',_module).require(_module).init({from:'click',showType:showType == 2?'Pop':'Normal'});
+	            function load(_module, showType) {
+	                _module = '.' + _module;
+	                Events.notify('onSelectMenu', _module).require(_module).init({ from: 'click', showType: showType == 2 ? 'Pop' : 'Normal' });
 	            }
-	            var routes = {},menuList = data.data;
-	            for(var i = 0,len = menuList.length;i<len;i++){
-	                if(menuList[i]['menu_device'] !=1 )
-	                    continue;
-	                routes[menuList[i]['menu_url']] = load.bind(null,menuList[i]['menu_url'],menuList[i]['show_type']);
-	                auth_menus.push(menuList[i]['menu_url'])
+	            var routes = {},
+	                menuList = data.data;
+	            for (var i = 0, len = menuList.length; i < len; i++) {
+	                if (menuList[i]['menu_device'] != 1) continue;
+	                routes[menuList[i]['menu_url']] = load.bind(null, menuList[i]['menu_url'], menuList[i]['show_type']);
+	                auth_menus.push(menuList[i]['menu_url']);
 	            }
 
 	            router = Router(routes);
 	            router.init();
 	        });
 	    },
-	    isPermission:function(url){
+	    isPermission: function isPermission(url) {
 	        var flag = false;
-	        auth_menus.forEach(function(item){
-	            if(item == url){
+	        auth_menus.forEach(function (item) {
+	            if (item == url) {
 	                flag = true;
 	                return false;
 	            }
@@ -1039,6 +1038,12 @@ webpackJsonp([4],[
 /***/ },
 /* 260 */
 /***/ function(module, exports, __webpack_require__) {
+
+	var _stringify = __webpack_require__(261);
+
+	var _stringify2 = _interopRequireDefault(_stringify);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/**
 	 * 框架基类模块<br>
@@ -1092,7 +1097,6 @@ webpackJsonp([4],[
 	 */
 	var _prevModule = null;
 
-
 	/**
 	 * 框架基类模块<br>
 	 * 提供一些基础的公共方法<br>
@@ -1101,17 +1105,16 @@ webpackJsonp([4],[
 	 * 只需设置showType类型，就可以多种形态进行展现<br>
 	 * 目前支持弹窗与普通展现、无界面三种形式<br>
 	 * 此套架构的优点在于：解耦目前所有模块，功能上各模块互相提供API接口进行调用，各模块API由各自统一进行维护。<br>
-	 * 此外，由于采用CMD模式架构，所以理论上支持无限量模块数目进行加载，浏览器的加载速度仍然飞快，扩展性非常好。<br>
+	 * 此外，由于采用CMD模式架构，所以理论上支持无限量模块数目进行加载。<br>
 	 * @version 1.0
 	 * @author 杨浪
 	 * @class Framework
 	 * @constructor
 	 *
 	 */
-	var Framework = function () {
+	var Framework = function Framework() {
 	    this.baseTitle = window.document.title;
 	};
-
 
 	Framework.prototype = {
 	    /**
@@ -1122,19 +1125,18 @@ webpackJsonp([4],[
 	     * @param {Object} options 初始参数(对象)
 	     *
 	     */
-	    init: function (options) {
+	    init: function init(options) {
 	        //初始化
-	        options = $.extend({},options);
+	        options = $.extend({}, options);
 	        var _current = this.getCurrent();
-	        _current && (options.showType != 'Pop') && (!_current.finished) && _current.finish();
+	        _current && options.showType != 'Pop' && !_current.finished && _current.finish();
 	        _prevModule = _current;
-	        debug && console.log('装载'+this.id);
+	        debug && console.log('装载' + this.id);
 	        this.setCurrent();
 	        //由框架设置展现形式
 	        this.setShowType($.extend({}, options).showType);
 	        this.finished = false;
-	        Events.notifyWith('init',this, options);
-
+	        Events.notifyWith('init', this, options);
 	    },
 	    /**
 	     * 对Framework框架进行扩展
@@ -1142,15 +1144,12 @@ webpackJsonp([4],[
 	     * @param model 模块id 或 id列表
 	     * @param callback 回调方法
 	     */
-	    extend: function (model) {
+	    extend: function extend(model) {
 	        var that = this;
 	        var models = [];
-	        if (!$.isArray(model))
-	            models.push(model);
-	        else
-	            models = model;
+	        if (!$.isArray(model)) models.push(model);else models = model;
 
-	        for(var i = 0;i<models.length;i++){
+	        for (var i = 0; i < models.length; i++) {
 	            if (!parentModels.hasModel(models[i])) {
 	                parentModels.push(models[i]);
 	            }
@@ -1161,7 +1160,7 @@ webpackJsonp([4],[
 	     * @method excludeExtension
 	     * @param modelId 扩展id
 	     */
-	    excludeExtension: function (modelId) {
+	    excludeExtension: function excludeExtension(modelId) {
 	        var that = this;
 	        for (var i = 0; i < parentModels.length; i++) {
 	            if (parentModels[i].id == modelId) {
@@ -1175,7 +1174,7 @@ webpackJsonp([4],[
 	     * @method excludeExtensions
 	     * @param modelIds 扩展id列表
 	     */
-	    excludeExtensions: function (modelIds) {
+	    excludeExtensions: function excludeExtensions(modelIds) {
 	        for (var i = 0; i < modelIds.length; i++) {
 	            this.excludeExtension(modelIds[i]);
 	        }
@@ -1186,12 +1185,10 @@ webpackJsonp([4],[
 	     * @param funName 接口方法名
 	     * @param param 可选参数
 	     */
-	    _callExtendInterface: function (funName, param) {
-	        if (!parentModels)
-	            return;
+	    _callExtendInterface: function _callExtendInterface(funName, param) {
+	        if (!parentModels) return;
 	        for (var i = 0; i < parentModels.length; i++) {
-	            if (parentModels[i][funName] && $.isFunction(parentModels[i][funName]))
-	                parentModels[i][funName].call(this, param);
+	            if (parentModels[i][funName] && $.isFunction(parentModels[i][funName])) parentModels[i][funName].call(this, param);
 	        }
 	    },
 	    /**
@@ -1205,7 +1202,7 @@ webpackJsonp([4],[
 	     * @param {Boolean} isSame 是否仍然是同一个模块进行刷新操作
 	     * @return {Boolean} true同意 false拒绝
 	     */
-	    onClose: function (callback, isSame) {
+	    onClose: function onClose(callback, isSame) {
 	        return true;
 	    },
 	    /**
@@ -1215,7 +1212,7 @@ webpackJsonp([4],[
 	     * @param {String} baseTitle 标题
 	     * @return {Framework} self
 	     */
-	    setBaseTitle: function (baseTitle) {
+	    setBaseTitle: function setBaseTitle(baseTitle) {
 	        this.baseTitle = baseTitle;
 	        return this;
 	    },
@@ -1225,7 +1222,7 @@ webpackJsonp([4],[
 	     * @chainable
 	     * @return {String} baseTitle 标题
 	     */
-	    getBaseTitle: function () {
+	    getBaseTitle: function getBaseTitle() {
 	        return this.baseTitle ? this.baseTitle : '未知标题';
 	    },
 	    /**
@@ -1235,7 +1232,7 @@ webpackJsonp([4],[
 	     * @param {String} title 标题
 	     * @return {Framework} self
 	     */
-	    setTitle: function (title) {
+	    setTitle: function setTitle(title) {
 	        this.title = title;
 	        return this;
 	    },
@@ -1245,7 +1242,7 @@ webpackJsonp([4],[
 	     * @chainable
 	     * @return {String} title 标题
 	     */
-	    getTitle: function () {
+	    getTitle: function getTitle() {
 	        return this.title ? this.title : '未知标题';
 	    },
 	    /**
@@ -1255,7 +1252,7 @@ webpackJsonp([4],[
 	     * @param {Number} width 弹窗宽度
 	     * @return {Framework} self
 	     */
-	    setWidth: function (width) {
+	    setWidth: function setWidth(width) {
 	        this.width = width;
 	        return this;
 	    },
@@ -1265,7 +1262,7 @@ webpackJsonp([4],[
 	     * @chainable
 	     * @return {Number} width 弹窗宽度
 	     */
-	    getWidth: function () {
+	    getWidth: function getWidth() {
 	        return this.width ? this.width : 400;
 	    },
 	    /**
@@ -1275,7 +1272,7 @@ webpackJsonp([4],[
 	     * @param {Number} height 弹窗高度
 	     * @return {Framework} self
 	     */
-	    setHeight: function (height) {
+	    setHeight: function setHeight(height) {
 	        this.height = height;
 	        return this;
 	    },
@@ -1285,7 +1282,7 @@ webpackJsonp([4],[
 	     * @chainable
 	     * @return {Number} height 弹窗高度
 	     */
-	    getHeight: function () {
+	    getHeight: function getHeight() {
 	        return this.height ? this.height : 400;
 	    },
 	    /**
@@ -1295,7 +1292,7 @@ webpackJsonp([4],[
 	     * @param {Boolean} flag 弹窗是否需要显示标题
 	     * @return {Framework} self
 	     */
-	    setNeedtitle: function (flag) {
+	    setNeedtitle: function setNeedtitle(flag) {
 	        this.needtitle = flag !== undefined ? flag : true;
 	        return this;
 	    },
@@ -1305,7 +1302,7 @@ webpackJsonp([4],[
 	     * @chainable
 	     * @return {Boolean}
 	     */
-	    isNeedtitle: function () {
+	    isNeedtitle: function isNeedtitle() {
 	        //默认有标题栏
 	        return this.needtitle === undefined ? true : this.needtitle;
 	    },
@@ -1319,8 +1316,8 @@ webpackJsonp([4],[
 	     * 'Container' 自定义容器嵌入模式<br>
 	     * @returns {Framework} self
 	     */
-	    setShowType: function (type) {
-	        this.showType = (type ? type : 'Normal');
+	    setShowType: function setShowType(type) {
+	        this.showType = type ? type : 'Normal';
 	        return this;
 	    },
 	    /**
@@ -1330,7 +1327,7 @@ webpackJsonp([4],[
 	     * @chainable
 	     * @return {String} showType 模块展现形式
 	     */
-	    getShowType: function () {
+	    getShowType: function getShowType() {
 	        return this.showType === undefined ? 'Normal' : this.showType;
 	    },
 	    /**
@@ -1338,7 +1335,7 @@ webpackJsonp([4],[
 	     * @method getContainer
 	     * @return {Dom} dom容器对象
 	     */
-	    getContainer: function () {
+	    getContainer: function getContainer() {
 	        return this.dom;
 	    },
 	    /**
@@ -1346,19 +1343,18 @@ webpackJsonp([4],[
 	     * @param url
 	     * @param callback
 	     */
-	    loadFragment:function(url,callback){
+	    loadFragment: function loadFragment(url, callback) {
 	        var $def = $.Deferred();
-	        if(_fragmentCache[url]){
-	            setTimeout(function(){
-	                callback&&callback(_fragmentCache[url]);
+	        if (_fragmentCache[url]) {
+	            setTimeout(function () {
+	                callback && callback(_fragmentCache[url]);
 	                $def.resolve(_fragmentCache[url]);
 	            });
-	        }else{
-	            url += (/\?/g.test(url)?'&':'?')+(new Date().getTime());
-	            $.get(url,function(data){
-	                if(!_fragmentCache[url])
-	                    _fragmentCache[url] = data;
-	                callback&&callback(data);
+	        } else {
+	            url += (/\?/g.test(url) ? '&' : '?') + new Date().getTime();
+	            $.get(url, function (data) {
+	                if (!_fragmentCache[url]) _fragmentCache[url] = data;
+	                callback && callback(data);
 	                $def.resolve(data);
 	            });
 	        }
@@ -1373,8 +1369,11 @@ webpackJsonp([4],[
 	     * @param _param 参数对象 可选
 	     * @param {Function} _callback 回调方法 可选
 	     */
-	    query: function (url, _param, _callback) {
-	        var that = this, aLen = arguments.length, callback, param;
+	    query: function query(url, _param, _callback) {
+	        var that = this,
+	            aLen = arguments.length,
+	            callback,
+	            param;
 	        if (aLen == 2) {
 	            if ($.isFunction(_param)) {
 	                callback = _param;
@@ -1392,8 +1391,11 @@ webpackJsonp([4],[
 	     * @param _param 参数对象 可选
 	     * @param {Function} _callback 回调方法 可选
 	     */
-	    querySync: function (url, _param, _callback) {
-	        var that = this, aLen = arguments.length, callback, param;
+	    querySync: function querySync(url, _param, _callback) {
+	        var that = this,
+	            aLen = arguments.length,
+	            callback,
+	            param;
 	        if (aLen == 2) {
 	            if ($.isFunction(_param)) {
 	                callback = _param;
@@ -1412,8 +1414,11 @@ webpackJsonp([4],[
 	     * @param _param 参数对象 可选
 	     * @param {Function} _callback 回调方法 可选
 	     */
-	    save: function (url, _param, _callback) {
-	        var that = this, aLen = arguments.length, callback, param;
+	    save: function save(url, _param, _callback) {
+	        var that = this,
+	            aLen = arguments.length,
+	            callback,
+	            param;
 	        if (aLen == 2) {
 	            if ($.isFunction(_param)) {
 	                callback = _param;
@@ -1431,8 +1436,11 @@ webpackJsonp([4],[
 	     * @param _param 参数对象 可选
 	     * @param {Function} _callback 回调方法 可选
 	     */
-	    saveSync: function (url, _param, _callback) {
-	        var that = this, aLen = arguments.length, callback, param;
+	    saveSync: function saveSync(url, _param, _callback) {
+	        var that = this,
+	            aLen = arguments.length,
+	            callback,
+	            param;
 	        if (aLen == 2) {
 	            if ($.isFunction(_param)) {
 	                callback = _param;
@@ -1453,7 +1461,7 @@ webpackJsonp([4],[
 	     * @param {Function} callback 回调方法
 	     * @param {Boolean} async 是否异步
 	     */
-	    _doPostJson: function (url, param, callback, async) {
+	    _doPostJson: function _doPostJson(url, param, callback, async) {
 	        var ajax = $.ajax({
 	            url: url,
 	            type: 'post',
@@ -1461,12 +1469,11 @@ webpackJsonp([4],[
 	            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 	            async: async,
 	            data: param,
-	            cache:false,
-	            success: function (json) {
-	                if (callback)
-	                    callback(json);
+	            cache: false,
+	            success: function success(json) {
+	                if (callback) callback(json);
 	            },
-	            error: function(){
+	            error: function error() {
 	                console.log("error");
 	            }
 	        });
@@ -1483,20 +1490,19 @@ webpackJsonp([4],[
 	     * @param {Function} callback 回调方法
 	     * @param {Boolean} async 是否异步
 	     */
-	    _doGetJson: function (url, param, callback, async) {
+	    _doGetJson: function _doGetJson(url, param, callback, async) {
 	        var ajax = $.ajax({
 	            url: url,
 	            type: 'get',
 	            dataType: 'json',
 	            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 	            async: async,
-	            cache:false,
+	            cache: false,
 	            data: param,
-	            success: function (json) {
-	                if (callback)
-	                    callback(json);
+	            success: function success(json) {
+	                if (callback) callback(json);
 	            },
-	            error: function(){
+	            error: function error() {
 	                console.log("error");
 	            }
 	        });
@@ -1510,12 +1516,11 @@ webpackJsonp([4],[
 	     * @split2 {String} param 分隔符2
 	     * @return {String} 字符串结果
 	     */
-	    stringifyParam:function(param,split1,split2){
-	        if(!param)
-	            return '';
+	    stringifyParam: function stringifyParam(param, split1, split2) {
+	        if (!param) return '';
 	        var arr = [];
-	        for(var key in param){
-	            arr.push(key+split1+param[key]);
+	        for (var key in param) {
+	            arr.push(key + split1 + param[key]);
 	        }
 	        return arr.join(split2);
 	    },
@@ -1529,7 +1534,7 @@ webpackJsonp([4],[
 	     * @param data html数据
 	     * @return {Dom} dom容器对象
 	     */
-	    render: function (data) {
+	    render: function render(data) {
 	        var that = this;
 	        switch (this.getShowType()) {
 	            case 'Normal':
@@ -1544,22 +1549,22 @@ webpackJsonp([4],[
 	                    width: this.getWidth(),
 	                    height: this.getHeight(),
 	                    closed: false,
-	                    content:data,
+	                    content: data,
 	                    modal: true,
-	                    collapsible:true,
-	                    minimizable:false,
-	                    maximizable:true,
-	                    maximized:false,
-	                    resizable:true,
-	                    onBeforeClose : function() {
+	                    collapsible: true,
+	                    minimizable: false,
+	                    maximizable: true,
+	                    maximized: false,
+	                    resizable: true,
+	                    onBeforeClose: function onBeforeClose() {
 	                        that.finish();
 	                        return false;
 	                    },
-	                    onMove:function(left,top){
-	                        that.onMove(left,top);
+	                    onMove: function onMove(left, top) {
+	                        that.onMove(left, top);
 	                    },
-	                    onResize:function(){
-	                        that.dialogResize && $.isFunction(that.dialogResize) && that.dialogResize.apply(that,parentModels.slice.call(arguments,0));
+	                    onResize: function onResize() {
+	                        that.dialogResize && $.isFunction(that.dialogResize) && that.dialogResize.apply(that, parentModels.slice.call(arguments, 0));
 	                    }
 	                });
 	                that.dom = $pop.children();
@@ -1570,27 +1575,26 @@ webpackJsonp([4],[
 	                that.dom = null;
 	                break;
 	        }
-	        Events.notifyWith('onRendered',that, that.dom);
-	        setTimeout(function(){
+	        Events.notifyWith('onRendered', that, that.dom);
+	        setTimeout(function () {
 	            Events.notify('onWindowResize');
-	        },100);
-	        var $input = $('input[autofocus]',that.dom);
-	        $input.length>0&&$input[0].focus();
+	        }, 100);
+	        var $input = $('input[autofocus]', that.dom);
+	        $input.length > 0 && $input[0].focus();
 	        return that.dom;
 	    },
-	    dialogResize:$.noop,
-	    _closeDialog:function(){
+	    dialogResize: $.noop,
+	    _closeDialog: function _closeDialog() {
 	        var that = this;
-	        if(this.pop){
+	        if (this.pop) {
 	            this.pop.parent().removeClass('uk-animation-scale-up').next().removeClass('uk-animation-scale-up');
-	            setTimeout(function(){
+	            setTimeout(function () {
 	                that.pop.parent().addClass('uk-animation-reverse uk-animation-scale-up').next().addClass('uk-animation-reverse uk-animation-scale-up');
-	                setTimeout(function(){
+	                setTimeout(function () {
 	                    that.pop.dialog('destroy');
 	                    that.pop = null;
-	                },200);
-	            },50);
-
+	                }, 200);
+	            }, 50);
 	        }
 	    },
 	    /**
@@ -1600,7 +1604,7 @@ webpackJsonp([4],[
 	     * @param left 左位置
 	     * @param top  上位置
 	     */
-	    onMove:function(left,top){},
+	    onMove: function onMove(left, top) {},
 	    /**
 	     * 添加回调方法<br>
 	     * 一般来说，当调用某个模块进行处理某项业务时，其处理完毕之后需要一个回调通知，调用此方法添加即可，同一个模块可以添加多个回调方法。<br>
@@ -1609,9 +1613,8 @@ webpackJsonp([4],[
 	     * @chainable
 	     * @param {Function} callback 方法
 	     */
-	    addCallback: function (callback) {
-	        if (!this._callbacks)
-	            this._callbacks = [];
+	    addCallback: function addCallback(callback) {
+	        if (!this._callbacks) this._callbacks = [];
 	        this._callbacks.push({
 	            model: this,
 	            func: callback
@@ -1622,9 +1625,8 @@ webpackJsonp([4],[
 	     * 清空回调堆栈
 	     * @method clearCallback
 	     */
-	    clearCallback: function () {
-	        if (this._callbacks)
-	            this._callbacks.length = 0;
+	    clearCallback: function clearCallback() {
+	        if (this._callbacks) this._callbacks.length = 0;
 	    },
 	    /**
 	     * 模块任务结束<br>
@@ -1633,24 +1635,22 @@ webpackJsonp([4],[
 	     * @chainable
 	     * @return {Framework} self
 	     */
-	    finish: function () {
+	    finish: function finish() {
 	        if (this._callbacks) {
 	            var callbackcount = this._callbacks.length;
-	        } else
-	            var callbackcount = 0;
+	        } else var callbackcount = 0;
 
 	        if (this.getShowType() === 'Pop') {
-	            if (this.pop != null)
-	                this._closeDialog();
+	            if (this.pop != null) this._closeDialog();
 	            _prevModule && this.setCurrent.apply(_prevModule);
 	        }
-	        Events.notifyWith('onFinished',this);
+	        Events.notifyWith('onFinished', this);
 
 	        if (this._callbacks) {
 	            callbackcount != 0 ? this._executeCallback.apply(this, arguments) : '';
-	            this._callbacks.length = 0;//清空回调
+	            this._callbacks.length = 0; //清空回调
 	        }
-	        debug && console.log('卸载'+this.id);
+	        debug && console.log('卸载' + this.id);
 	        this.finished = true;
 	        this.dom = null;
 	        return this;
@@ -1660,7 +1660,7 @@ webpackJsonp([4],[
 	     * @method _executeCallback
 	     * @private 内部使用
 	     */
-	    _executeCallback: function () {
+	    _executeCallback: function _executeCallback() {
 	        var callbacks = this._callbacks;
 	        for (var i = 0, len = callbacks.length; i < len; i++) {
 	            callbacks[i].func.apply(this, arguments);
@@ -1672,7 +1672,7 @@ webpackJsonp([4],[
 	     * 内部若如果存在账户中心菜单选中的回调方法，则调用。
 	     * @method setCurrent
 	     */
-	    setCurrent: function () {
+	    setCurrent: function setCurrent() {
 	        _currentModel = this;
 	    },
 	    /**
@@ -1680,7 +1680,7 @@ webpackJsonp([4],[
 	     * @method getCurrent
 	     * @return {Framework} FrameworkBase的子类对象
 	     */
-	    getCurrent: function () {
+	    getCurrent: function getCurrent() {
 	        return _currentModel;
 	    },
 	    /**
@@ -1689,7 +1689,7 @@ webpackJsonp([4],[
 	     * @method loadWidgets
 	     * @param {Object} widgetConfigs [{container:jQueryDom,module:'./attence-analyse-widgets/attence-analyse-chart1'}]
 	     */
-	    loadWidgets:function(widgetConfigs){
+	    loadWidgets: function loadWidgets(widgetConfigs) {
 	        return false;
 	    },
 	    /**
@@ -1697,14 +1697,14 @@ webpackJsonp([4],[
 	     * 由子类实现该方法
 	     * @method destoryWidgets
 	     */
-	    destoryWidgets:function(){
+	    destoryWidgets: function destoryWidgets() {
 	        return false;
 	    },
 	    /**
 	     * 提供给外部使用的插件尺寸调整方法
 	     * @method resizeWidgets
 	     */
-	    resizeWidgets:function(){
+	    resizeWidgets: function resizeWidgets() {
 	        return false;
 	    },
 	    /**
@@ -1713,7 +1713,7 @@ webpackJsonp([4],[
 	     * @param {String} msg 提示信息
 	     * @param {Integer} timeout 超时时长
 	     */
-	    toast:function(msg,timeout){
+	    toast: function toast(msg, timeout) {
 	        var toast = document.createElement('div');
 	        toast.style.opacity = '0';
 	        toast.style.padding = '7px 10px';
@@ -1729,17 +1729,17 @@ webpackJsonp([4],[
 	        toast.style.transform = 'translateX(-50%)';
 	        toast.style.transition = 'opacity .3s ease';
 	        toast.style.backgroundColor = 'rgba(39, 39, 39, 0.6)';
-	        toast.innerHTML = '<p>'+msg+'</p>';
+	        toast.innerHTML = '<p>' + msg + '</p>';
 	        document.body.appendChild(toast);
-	        setTimeout(function(){
+	        setTimeout(function () {
 	            toast.style.opacity = '1';
-	        },50);
-	        setTimeout(function(){
+	        }, 50);
+	        setTimeout(function () {
 	            toast.style.opacity = '0';
-	            setTimeout(function(){
+	            setTimeout(function () {
 	                document.body.removeChild(toast);
-	            },300);
-	        },timeout?timeout:2000);
+	            }, 300);
+	        }, timeout ? timeout : 2000);
 	    },
 	    /* options的默认值
 	     *  表示首次调用返回值方法时，会马上调用func；否则仅会记录当前时刻，当第二次调用的时间间隔超过wait时，才调用func。
@@ -1751,18 +1751,18 @@ webpackJsonp([4],[
 	     * @param {Function} func 回调方法
 	     * @param {Integer} wait 等待时长
 	     */
-	    throttle : function(func, wait, options) {
+	    throttle: function throttle(func, wait, options) {
 	        var context, args, result;
 	        var timeout = null;
 	        var previous = 0;
 	        if (!options) options = {};
-	        var later = function() {
+	        var later = function later() {
 	            previous = options.leading === false ? 0 : Date.now();
 	            timeout = null;
 	            result = func.apply(context, args);
 	            if (!timeout) context = args = null;
 	        };
-	        return function() {
+	        return function () {
 	            var now = Date.now();
 	            if (!previous && options.leading === false) previous = now;
 	            // 计算剩余时间
@@ -1797,11 +1797,11 @@ webpackJsonp([4],[
 	     * @param {Callback} func 回调方法
 	     * @param {Integer} wait 等待时长
 	     */
-	    debounce : function(func, wait, immediate) {
+	    debounce: function debounce(func, wait, immediate) {
 	        // immediate默认为false
 	        var timeout, args, context, timestamp, result;
 
-	        var later = function() {
+	        var later = function later() {
 	            // 当wait指定的时间间隔期间多次调用_.debounce返回的函数，则会不断更新timestamp的值，导致last < wait && last >= 0一直为true，从而不断启动新的计时器延时执行func
 	            var last = Date.now() - timestamp;
 
@@ -1816,7 +1816,7 @@ webpackJsonp([4],[
 	            }
 	        };
 
-	        return function() {
+	        return function () {
 	            context = this;
 	            args = arguments;
 	            timestamp = Date.now();
@@ -1839,16 +1839,16 @@ webpackJsonp([4],[
 	     * @param {Object} data 数据
 	     * @param {Function} callback 回调方法
 	     */
-	    wsCall:function(eventName,data,callback){
-	        var tmpId = Events.EVENT_PREFIX + '_' + (new Date()).getTime();
-	        Events.subscribe(tmpId,function(data){
+	    wsCall: function wsCall(eventName, data, callback) {
+	        var tmpId = Events.EVENT_PREFIX + '_' + new Date().getTime();
+	        Events.subscribe(tmpId, function (data) {
 	            callback && callback(data);
 	        });
-	        _websocket.send(JSON.stringify({
-	            callbackId:tmpId,
-	            clientId:_websocket.client_id,
-	            eventName:eventName,
-	            data:data
+	        _websocket.send((0, _stringify2.default)({
+	            callbackId: tmpId,
+	            clientId: _websocket.client_id,
+	            eventName: eventName,
+	            data: data
 	        }));
 	        return tmpId;
 	    },
@@ -1859,16 +1859,16 @@ webpackJsonp([4],[
 	     * @param {Object} data 数据
 	     * @param {Function} callback 回调方法
 	     */
-	    wsListen:function(eventName,data,callback){
-	        var tmpId = EVENT_LISTEN_PREFIX + '_' + (new Date()).getTime();
-	        Events.subscribe(tmpId,function(data){
+	    wsListen: function wsListen(eventName, data, callback) {
+	        var tmpId = EVENT_LISTEN_PREFIX + '_' + new Date().getTime();
+	        Events.subscribe(tmpId, function (data) {
 	            callback && callback(data);
 	        });
-	        _websocket.send(JSON.stringify({
-	            callbackId:tmpId,
-	            clientId:_websocket.client_id,
-	            eventName:eventName,
-	            data:data
+	        _websocket.send((0, _stringify2.default)({
+	            callbackId: tmpId,
+	            clientId: _websocket.client_id,
+	            eventName: eventName,
+	            data: data
 	        }));
 	        return tmpId;
 	    },
@@ -1877,79 +1877,75 @@ webpackJsonp([4],[
 	     * @method wsUnListen
 	     * @param {String} id 事件id
 	     */
-	    wsUnListen:function(id){
+	    wsUnListen: function wsUnListen(id) {
 	        Events.unsubscribe(id);
 	    }
 	};
 
 	var frameWork = window.fw = new Framework();
 
-
 	/**======================订阅resize事件，通过debounce进行函数节流处理start================**/
 	/**
 	 * 订阅resize事件，通过debounce进行函数节流处理
 	 */
-	var resize = function(){
-	    try{
+	var resize = function resize() {
+	    try {
 	        Events.notify('onWindowResize');
-	    }catch(e){}
+	    } catch (e) {}
 	};
 
-	$(window).resize(frameWork.debounce(resize,70));
+	$(window).resize(frameWork.debounce(resize, 70));
 	/**======================订阅resize事件，通过debounce进行函数节流处理end================**/
 
-
-
 	/**======================websocket 封装 start================**/
-	_websocket = new WebSocket('ws://'+location.host.split(':')[0]+':'+appConfig.WSPORT);
-	_websocket.onopen = function(){
+	_websocket = new WebSocket('ws://' + location.host.split(':')[0] + ':' + appConfig.WSPORT);
+	_websocket.onopen = function () {};
+	_websocket.onclose = function () {
+	    console.log('ws close');
 	};
-	_websocket.onclose  = function(){
-	  console.log('ws close');
+	_websocket.onerror = function () {
+	    console.log('ws onerror ');
 	};
-	_websocket.onerror  = function(){
-	  console.log('ws onerror ');
-	};
-	_websocket.onmessage  = function(e){
-	    try{
+	_websocket.onmessage = function (e) {
+	    try {
 	        transfer(e);
-	    }catch(ex){
+	    } catch (ex) {
 	        console.log(ex);
 	    }
 	};
 	var CLIENT_ID_REG = /^__CLIENT_ID__:(.*)$/;
-	function transfer(e){
+	function transfer(e) {
 	    var data = e.data;
-	    if(data.match(CLIENT_ID_REG)){
+	    if (data.match(CLIENT_ID_REG)) {
 	        _websocket.client_id = RegExp.$1;
-	    }else{
+	    } else {
 	        var data = JSON.parse(e.data);
-	        Events.notify(data.callbackId,data.data);
+	        Events.notify(data.callbackId, data.data);
 	    }
-
 	}
-
 
 	/**======================websocket 封装 end================**/
 
-
-
 	module.exports = frameWork;
-
-
-
-
-
-
-
-
-
-
-
-
 
 /***/ },
 /* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(262), __esModule: true };
+
+/***/ },
+/* 262 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var core  = __webpack_require__(49)
+	  , $JSON = core.JSON || (core.JSON = {stringify: JSON.stringify});
+	module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
+	  return $JSON.stringify.apply($JSON, arguments);
+	};
+
+/***/ },
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1958,106 +1954,108 @@ webpackJsonp([4],[
 	 * webpack的require在没有给变量的情况下会自动扫描当前文件目录下（递归）所有的尚未打包的js文件并进行打包。
 	 */
 
-	Events.addMethod('require',function(moduleId,options){
+	Events.addMethod('require', function (moduleId, options) {
 	    //此处有两种可能，一种是菜单，会传进来配置的./modules/aboutus（比如），另一种是直接引用模块，比如aboutus，需要判断格式
 	    var flag = /^\.\/modules\/(.*)$/.test(moduleId);
-	    return __webpack_require__(262)(flag?'./'+RegExp.$1:'./'+moduleId);
+	    var module = __webpack_require__(264)(flag ? './' + RegExp.$1 : './' + moduleId);
+	    if (module.default) return module.default;
+	    return module;
 	});
 	module.exports = {};
 
 /***/ },
-/* 262 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./aboutus": 263,
-		"./aboutus.js": 263,
-		"./account-add-modify": 267,
-		"./account-add-modify.js": 267,
-		"./account-manage": 295,
-		"./account-manage.js": 295,
-		"./async-data": 301,
-		"./async-data.js": 301,
-		"./attence-analyse": 302,
-		"./attence-analyse-widgets/attence-analyse-chart1": 305,
-		"./attence-analyse-widgets/attence-analyse-chart1.js": 305,
-		"./attence-analyse-widgets/attence-analyse-chart2": 307,
-		"./attence-analyse-widgets/attence-analyse-chart2.js": 307,
-		"./attence-analyse-widgets/attence-analyse-chart3": 308,
-		"./attence-analyse-widgets/attence-analyse-chart3.js": 308,
-		"./attence-analyse.js": 302,
-		"./attence-search": 309,
-		"./attence-search.js": 309,
-		"./authority-control": 316,
-		"./authority-control.js": 316,
-		"./company-add-modify": 320,
-		"./company-add-modify.js": 320,
-		"./company-manage": 322,
-		"./company-manage.js": 322,
-		"./customer-add-modify": 327,
-		"./customer-add-modify.js": 327,
-		"./customer-manage": 329,
-		"./customer-manage.js": 329,
-		"./dim-add-modify": 334,
-		"./dim-add-modify.js": 334,
-		"./dim-manage": 338,
-		"./dim-manage.js": 338,
-		"./element-add-modify": 342,
-		"./element-add-modify.js": 342,
-		"./element-manage": 344,
-		"./element-manage.js": 344,
-		"./form-designer": 348,
-		"./form-designer.js": 348,
-		"./form-manage": 367,
-		"./form-manage.js": 367,
+		"./aboutus": 265,
+		"./aboutus.js": 265,
+		"./account-add-modify": 269,
+		"./account-add-modify.js": 269,
+		"./account-manage": 297,
+		"./account-manage.js": 297,
+		"./async-data": 303,
+		"./async-data.js": 303,
+		"./attence-analyse": 304,
+		"./attence-analyse-widgets/attence-analyse-chart1": 307,
+		"./attence-analyse-widgets/attence-analyse-chart1.js": 307,
+		"./attence-analyse-widgets/attence-analyse-chart2": 309,
+		"./attence-analyse-widgets/attence-analyse-chart2.js": 309,
+		"./attence-analyse-widgets/attence-analyse-chart3": 310,
+		"./attence-analyse-widgets/attence-analyse-chart3.js": 310,
+		"./attence-analyse.js": 304,
+		"./attence-search": 311,
+		"./attence-search.js": 311,
+		"./authority-control": 318,
+		"./authority-control.js": 318,
+		"./company-add-modify": 322,
+		"./company-add-modify.js": 322,
+		"./company-manage": 324,
+		"./company-manage.js": 324,
+		"./customer-add-modify": 329,
+		"./customer-add-modify.js": 329,
+		"./customer-manage": 331,
+		"./customer-manage.js": 331,
+		"./dim-add-modify": 336,
+		"./dim-add-modify.js": 336,
+		"./dim-manage": 340,
+		"./dim-manage.js": 340,
+		"./element-add-modify": 344,
+		"./element-add-modify.js": 344,
+		"./element-manage": 346,
+		"./element-manage.js": 346,
+		"./form-designer": 350,
+		"./form-designer.js": 350,
+		"./form-manage": 369,
+		"./form-manage.js": 369,
 		"./framework/framework-base": 260,
 		"./framework/framework-base.js": 260,
-		"./framework/framework-chartconfig": 306,
-		"./framework/framework-chartconfig.js": 306,
+		"./framework/framework-chartconfig": 308,
+		"./framework/framework-chartconfig.js": 308,
 		"./framework/framework-route": 258,
 		"./framework/framework-route.js": 258,
-		"./helloworld": 371,
-		"./helloworld.js": 371,
-		"./homepage": 375,
-		"./homepage.js": 375,
-		"./log-search": 396,
-		"./log-search.js": 396,
-		"./menu-add-modify": 400,
-		"./menu-add-modify.js": 400,
-		"./menu-manage": 402,
-		"./menu-manage.js": 402,
-		"./message-publish": 406,
-		"./message-publish-list": 378,
-		"./message-publish-list.js": 378,
-		"./message-publish.js": 406,
-		"./org-add-modify": 411,
-		"./org-add-modify.js": 411,
-		"./org-manage": 413,
-		"./org-manage.js": 413,
-		"./password-modify": 417,
-		"./password-modify.js": 417,
-		"./report-list": 383,
-		"./report-list.js": 383,
-		"./report-view": 421,
-		"./report-view.js": 421,
-		"./role-add-modify": 425,
-		"./role-add-modify.js": 425,
-		"./role-manage": 427,
-		"./role-manage.js": 427,
-		"./role2org": 431,
-		"./role2org.js": 431,
-		"./role2user": 435,
-		"./role2user.js": 435,
-		"./user-add-modify": 439,
-		"./user-add-modify.js": 439,
-		"./user-manage": 441,
-		"./user-manage.js": 441,
-		"./user2org": 445,
-		"./user2org.js": 445,
-		"./user2role": 449,
-		"./user2role.js": 449,
-		"./webpack-base": 261,
-		"./webpack-base.js": 261
+		"./helloworld": 373,
+		"./helloworld.js": 373,
+		"./homepage": 377,
+		"./homepage.js": 377,
+		"./log-search": 398,
+		"./log-search.js": 398,
+		"./menu-add-modify": 402,
+		"./menu-add-modify.js": 402,
+		"./menu-manage": 404,
+		"./menu-manage.js": 404,
+		"./message-publish": 408,
+		"./message-publish-list": 380,
+		"./message-publish-list.js": 380,
+		"./message-publish.js": 408,
+		"./org-add-modify": 413,
+		"./org-add-modify.js": 413,
+		"./org-manage": 415,
+		"./org-manage.js": 415,
+		"./password-modify": 419,
+		"./password-modify.js": 419,
+		"./report-list": 385,
+		"./report-list.js": 385,
+		"./report-view": 423,
+		"./report-view.js": 423,
+		"./role-add-modify": 427,
+		"./role-add-modify.js": 427,
+		"./role-manage": 429,
+		"./role-manage.js": 429,
+		"./role2org": 433,
+		"./role2org.js": 433,
+		"./role2user": 437,
+		"./role2user.js": 437,
+		"./user-add-modify": 441,
+		"./user-add-modify.js": 441,
+		"./user-manage": 443,
+		"./user-manage.js": 443,
+		"./user2org": 447,
+		"./user2org.js": 447,
+		"./user2role": 451,
+		"./user2role.js": 451,
+		"./webpack-base": 263,
+		"./webpack-base.js": 263
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -2070,158 +2068,164 @@ webpackJsonp([4],[
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 262;
+	webpackContext.id = 264;
 
 
 /***/ },
-/* 263 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
-	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(264);
-	var AboutUs = function(){ };
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _frameworkBase = __webpack_require__(260);
+
+	var _frameworkBase2 = _interopRequireDefault(_frameworkBase);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	__webpack_require__(266);
+	var AboutUs = function AboutUs() {};
 
 	//继承自框架基类
-	AboutUs.prototype = $.extend({},frameworkBase);
+	AboutUs.prototype = $.extend({}, _frameworkBase2.default);
 	AboutUs.prototype.id = 'aboutus';
-
 
 	/**
 	 * 模块初始化入口<br>
 	 * @method init
 	 * @param options 参数对象
 	 */
-	AboutUs.prototype.init = function(options){ 
+	AboutUs.prototype.init = function (options) {
 	    var that = this;
-	    this.options = $.extend({},options);
+	    this.options = $.extend({}, options);
 	    that.setTitle('关于我们').setHeight(700).setWidth(780);
-	    frameworkBase.init.call(this,options);
+	    _frameworkBase2.default.init.call(this, options);
 	    this.loadBaseView();
 	};
 
-	AboutUs.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(266);
+	AboutUs.prototype.loadBaseView = function (options) {
+	    var html = __webpack_require__(268);
 	    this.render(html);
 	};
 
-	module.exports = new AboutUs();
+	var aboutus = new AboutUs();
+
+	exports.default = aboutus;
 
 /***/ },
-/* 264 */
+/* 266 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 265 */,
-/* 266 */
+/* 267 */,
+/* 268 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"aboutus shadow-block\">\r\n    <H3>学校物业管理平台</H3>\r\n    <p>\r\n            该平台提供智能门禁与学生考勤系统、智能报修与投诉处理系统、学校信息发布与家校互通系统等功能\r\n    </p>\r\n</div>";
+	module.exports = "<div class=\"aboutus shadow-block\">\n    <H3>学校物业管理平台</H3>\n    <p>\n            该平台提供智能门禁与学生考勤系统、智能报修与投诉处理系统、学校信息发布与家校互通系统等功能\n    </p>\n</div>";
 
 /***/ },
-/* 267 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 账目新增修改模块
 	 */
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(268);
-	__webpack_require__(287);
-	__webpack_require__(288);
-	var AccountAddModify = function(){ };
+	__webpack_require__(270);
+	__webpack_require__(289);
+	__webpack_require__(290);
+	var AccountAddModify = function AccountAddModify() {};
 
 	//继承自框架基类
-	AccountAddModify.prototype = $.extend({},frameworkBase);
+	AccountAddModify.prototype = $.extend({}, frameworkBase);
 	AccountAddModify.prototype.id = 'account-add-modify';
 
-	 
 	/**
 	 * 模块初始化入口<br>
 	 * @method init
 	 * @param options 参数对象
 	 */
-	AccountAddModify.prototype.init = function(options){
+	AccountAddModify.prototype.init = function (options) {
 	    var that = this;
-	    this.options = $.extend({action:'001'},options);
-	    that.setTitle(this.options.action == '001'?'添加账目':'编辑账目').setHeight(330).setWidth(400);
-	    frameworkBase.init.call(this,options);
+	    this.options = $.extend({ action: '001' }, options);
+	    that.setTitle(this.options.action == '001' ? '添加账目' : '编辑账目').setHeight(330).setWidth(400);
+	    frameworkBase.init.call(this, options);
 	    this.loadBaseView();
 	    this.bindEvents();
-	    if(that.options.action == '002'){
+	    if (that.options.action == '002') {
 	        that.restoreData();
 	    }
 	};
 
-	AccountAddModify.prototype.loadBaseView = function(options){
+	AccountAddModify.prototype.loadBaseView = function (options) {
 	    var that = this;
-	    var html = __webpack_require__(294);
+	    var html = __webpack_require__(296);
 	    this.render(html);
 	};
 
-	AccountAddModify.prototype.bindEvents = function(){
+	AccountAddModify.prototype.bindEvents = function () {
 	    var that = this;
-	    var account_startdate = $("#account_startdate",that.dom).datebox({
-	        editable:false ,
-	        formatter: function (date) {
+	    var account_startdate = $("#account_startdate", that.dom).datebox({
+	        editable: false,
+	        formatter: function formatter(date) {
 	            return Calendar.getInstance(date).format('yyyy-MM-dd');
 	        }
 	    });
-	    var account_enddate = $("#account_enddate",that.dom).datebox({
-	        editable:false ,
-	        formatter: function (date) {
+	    var account_enddate = $("#account_enddate", that.dom).datebox({
+	        editable: false,
+	        formatter: function formatter(date) {
 	            return Calendar.getInstance(date).format('yyyy-MM-dd');
 	        }
 	    });
-	    $('#confirmBtn',this.dom).click(function(){
-	        var account_name = $('#account_name',that.dom).val();
-	        var payed = $('#payed',that.dom).val();
-	        var owed = $('#owed',that.dom).val();
-	        var startdate = account_startdate.combo('getValue').replace(/-/gi,'');
-	        var enddate = account_enddate.combo('getValue').replace(/-/gi,'');
-	        if($.trim(account_name) === '' ){
+	    $('#confirmBtn', this.dom).click(function () {
+	        var account_name = $('#account_name', that.dom).val();
+	        var payed = $('#payed', that.dom).val();
+	        var owed = $('#owed', that.dom).val();
+	        var startdate = account_startdate.combo('getValue').replace(/-/gi, '');
+	        var enddate = account_enddate.combo('getValue').replace(/-/gi, '');
+	        if ($.trim(account_name) === '') {
 	            swal("提示", "请输入账目名称!", "warning");
 	            return;
 	        }
-	        that.save('/account/save',{
-	            action:that.options.action,
-	            account_id:that.options.account_id,
-	            account_name:account_name,
-	            payed:payed,
-	            owed:owed,
-	            account_startdate:startdate,
-	            account_enddate:enddate,
-	            company_id:that.options.company_id
-	        },function(data){
-	            if(!data.success){
+	        that.save('/account/save', {
+	            action: that.options.action,
+	            account_id: that.options.account_id,
+	            account_name: account_name,
+	            payed: payed,
+	            owed: owed,
+	            account_startdate: startdate,
+	            account_enddate: enddate,
+	            company_id: that.options.company_id
+	        }, function (data) {
+	            if (!data.success) {
 	                that.toast(data.message);
 	                return;
 	            }
 	            that.finish(true);
 	        });
-
 	    });
-	    $('#cancelBtn',this.dom).click(function(){
+	    $('#cancelBtn', this.dom).click(function () {
 	        that.finish(false);
 	    });
 	};
 
-
-	AccountAddModify.prototype.restoreData = function() {
+	AccountAddModify.prototype.restoreData = function () {
 	    var that = this;
-	    this.query('/account/search/'+this.options.account_id,function(data){
-	        if(!data.success){
+	    this.query('/account/search/' + this.options.account_id, function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
 	        data = data.data;
-	        $('#account_name',that.dom).val(data.account_name);
-	        data.account_startdate && $('#account_startdate',that.dom).datebox("setValue",Calendar.getInstance(data.account_startdate).format('yyyy-MM-dd'));
-	        data.account_enddate && $('#account_enddate',that.dom).datebox("setValue",Calendar.getInstance(data.account_enddate).format('yyyy-MM-dd'));
-	        $('#payed',that.dom).val(data.payed);
-	        $('#owed',that.dom).val(data.owed);
+	        $('#account_name', that.dom).val(data.account_name);
+	        data.account_startdate && $('#account_startdate', that.dom).datebox("setValue", Calendar.getInstance(data.account_startdate).format('yyyy-MM-dd'));
+	        data.account_enddate && $('#account_enddate', that.dom).datebox("setValue", Calendar.getInstance(data.account_enddate).format('yyyy-MM-dd'));
+	        $('#payed', that.dom).val(data.payed);
+	        $('#owed', that.dom).val(data.owed);
 	    });
 	};
 
@@ -2230,20 +2234,18 @@ webpackJsonp([4],[
 	 * 由框架调用，主要用于销毁订阅的事件
 	 */
 	AccountAddModify.prototype.finish = function () {
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	module.exports = new AccountAddModify();
 
 /***/ },
-/* 268 */
+/* 270 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 269 */,
-/* 270 */,
 /* 271 */,
 /* 272 */,
 /* 273 */,
@@ -2260,7 +2262,9 @@ webpackJsonp([4],[
 /* 284 */,
 /* 285 */,
 /* 286 */,
-/* 287 */
+/* 287 */,
+/* 288 */,
+/* 289 */
 /***/ function(module, exports) {
 
 	
@@ -2429,24 +2433,24 @@ webpackJsonp([4],[
 
 
 /***/ },
-/* 288 */
+/* 290 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 289 */,
-/* 290 */,
 /* 291 */,
 /* 292 */,
 /* 293 */,
-/* 294 */
+/* 294 */,
+/* 295 */,
+/* 296 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"account-add-modify add-modify-form\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>账目名称：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入账目名称\" name=\"account_name\" id=\"account_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>已结款项：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入已结款项\" name=\"payed\" id=\"payed\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>未结款项：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入未结款项\" name=\"owed\" id=\"owed\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>开始日期：</label>\r\n                <div style=\"width: 72%;float: left;\">\r\n                    <input style=\"width:100%\"  placeholder=\"请输入项目开始日期\" name=\"account_startdate\" id=\"account_startdate\" type=\"text\" value=\"\">\r\n                </div>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>结束日期：</label>\r\n                <div style=\"width: 72%;float: left;\">\r\n                    <input style=\"width:100%\"  placeholder=\"请输入项目结束日期\" name=\"account_enddate\" id=\"account_enddate\" type=\"text\" value=\"\">\r\n                </div>\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
+	module.exports = "<div class=\"account-add-modify add-modify-form\">\n    <div class=\"panel-body\">\n            <div class=\"form-group\">\n                <label>账目名称：</label>\n                <input class=\"form-control\" placeholder=\"请输入账目名称\" name=\"account_name\" id=\"account_name\" type=\"text\" autofocus>\n            </div>\n            <div class=\"form-group\">\n                <label>已结款项：</label>\n                <input class=\"form-control\" placeholder=\"请输入已结款项\" name=\"payed\" id=\"payed\" type=\"text\" value=\"\">\n            </div>\n            <div class=\"form-group\">\n                <label>未结款项：</label>\n                <input class=\"form-control\" placeholder=\"请输入未结款项\" name=\"owed\" id=\"owed\" type=\"text\" value=\"\">\n            </div>\n            <div class=\"form-group\">\n                <label>开始日期：</label>\n                <div style=\"width: 72%;float: left;\">\n                    <input style=\"width:100%\"  placeholder=\"请输入项目开始日期\" name=\"account_startdate\" id=\"account_startdate\" type=\"text\" value=\"\">\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <label>结束日期：</label>\n                <div style=\"width: 72%;float: left;\">\n                    <input style=\"width:100%\"  placeholder=\"请输入项目结束日期\" name=\"account_enddate\" id=\"account_enddate\" type=\"text\" value=\"\">\n                </div>\n            </div>\n            <div class=\"btn-wrap\">\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\n            </div>\n    </div>\n</div>\n";
 
 /***/ },
-/* 295 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -2455,18 +2459,17 @@ webpackJsonp([4],[
 	 */
 
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(296);
-	__webpack_require__(287);
-	__webpack_require__(297);
-	__webpack_require__(288);
 	__webpack_require__(298);
-	__webpack_require__(268);
-	var AccountManage = function () {};
+	__webpack_require__(289);
+	__webpack_require__(299);
+	__webpack_require__(290);
+	__webpack_require__(300);
+	__webpack_require__(270);
+	var AccountManage = function AccountManage() {};
 
 	//继承自框架基类
 	AccountManage.prototype = $.extend({}, frameworkBase);
 	AccountManage.prototype.id = 'account-manage';
-
 
 	/**
 	 * 模块初始化入口<br>
@@ -2483,9 +2486,9 @@ webpackJsonp([4],[
 
 	AccountManage.prototype.loadBaseView = function () {
 	    var that = this;
-	    this.loadFragment('/views/modules/account-manage.html').then(function(html){
+	    this.loadFragment('/views/modules/account-manage.html').then(function (html) {
 	        that.render(html);
-	        $('.tablecontainer',that.dom).height(that.dom.height()-55);
+	        $('.tablecontainer', that.dom).height(that.dom.height() - 55);
 	        that.initTable();
 	        that.initCompanyTree();
 	        that.bindEvents();
@@ -2493,15 +2496,16 @@ webpackJsonp([4],[
 	};
 
 	AccountManage.prototype.initTable = function () {
-	    var that = this, $tableMenu = $('#table-context-menu');
+	    var that = this,
+	        $tableMenu = $('#table-context-menu');
 	    that.$tableMenu = $tableMenu;
-	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(300);
-	    that.$table = $('#dataTable',this.dom).datagrid({
+	    $('.easyui-linkbutton', this.dom).linkbutton();
+	    var columns = __webpack_require__(302);
+	    that.$table = $('#dataTable', this.dom).datagrid({
 	        url: '',
 	        method: 'get',
 	        columns: [columns],
-	        cache:false,
+	        cache: false,
 	        pagination: false,
 	        pageSize: 20,
 	        ctrlSelect: true,
@@ -2511,26 +2515,24 @@ webpackJsonp([4],[
 	        striped: true,
 	        fit: true,
 	        fitColumns: true,
-	        loadFilter: function (data) {
-	            if(!data.success){
+	        loadFilter: function loadFilter(data) {
+	            if (!data.success) {
 	                that.toast(data.message);
 	            }
 
-	            return {rows: data.data, total: data.data.length};
+	            return { rows: data.data, total: data.data.length };
 	        },
-	        onDblClickRow: function (rowIndex, rowData) {
-	            Events.require('account-add-modify').addCallback(function(flag){
-	                if(flag)
-	                    Events.notify('onRefresh:account-manage');
-	            }).init({showType:'Pop',action:'002',account_id:rowData.account_id});
+	        onDblClickRow: function onDblClickRow(rowIndex, rowData) {
+	            Events.require('account-add-modify').addCallback(function (flag) {
+	                if (flag) Events.notify('onRefresh:account-manage');
+	            }).init({ showType: 'Pop', action: '002', account_id: rowData.account_id });
 	        },
-	        onRowContextMenu:function(event,rowIndex,rowData){
-	            if(!rowData)
-	                return;
+	        onRowContextMenu: function onRowContextMenu(event, rowIndex, rowData) {
+	            if (!rowData) return;
 	            event.preventDefault();
-	            that.$table.datagrid('unselectAll',rowIndex);
-	            that.$table.datagrid('selectRow',rowIndex);
-	            $tableMenu.menu('show',{
+	            that.$table.datagrid('unselectAll', rowIndex);
+	            that.$table.datagrid('selectRow', rowIndex);
+	            $tableMenu.menu('show', {
 	                left: event.clientX,
 	                top: event.clientY
 	            });
@@ -2538,130 +2540,128 @@ webpackJsonp([4],[
 	        toolbar: '#account-manage-toolbar'
 	    });
 	    $tableMenu.menu({
-	        onClick:function(item){
-	            var _id = item.id, id = _id.replace('context_','');
-	            $('#'+id,that.dom).click();
+	        onClick: function onClick(item) {
+	            var _id = item.id,
+	                id = _id.replace('context_', '');
+	            $('#' + id, that.dom).click();
 	        },
-	        hideOnUnhover:false
+	        hideOnUnhover: false
 	    });
 
-	    var searchBox = $('#account-manage #home-easyui-searchbox',that.dom).searchbox({
-	        searcher: function (value, name) {
+	    var searchBox = $('#account-manage #home-easyui-searchbox', that.dom).searchbox({
+	        searcher: function searcher(value, name) {
 	            Events.notify('onRefresh:account-manage');
 	        },
 	        prompt: '请输入关键字，如账目名称'
 	    });
-	    var companySearchBox = $('#account-manage #company-searchbox',that.dom).searchbox({
-	        searcher: function (value, name) {
-	            Events.notify('onRefresh:account-manage-company',value);
+	    var companySearchBox = $('#account-manage #company-searchbox', that.dom).searchbox({
+	        searcher: function searcher(value, name) {
+	            Events.notify('onRefresh:account-manage-company', value);
 	        },
 	        prompt: '请输入关键字，如公司名称或渲染用户名'
 	    });
 
-	    
+	    var startDate = that.$startDate = $("#startdate", that.dom).datebox({
+	        editable: false,
+	        formatter: function formatter(date) {
+	            return Calendar.getInstance(date).format('yyyy-MM-dd');
+	        },
+	        onChange: function onChange(date) {
+	            Events.notify('onRefresh:account-manage', {
+	                company_id: selectCompanyId,
+	                key: searchBox.searchbox('getValue'),
+	                startdate: startDate.combo('getValue').replace(/-/gi, ''),
+	                enddate: endDate.combo('getValue').replace(/-/gi, '')
+	            });
+	        }
+	    });
+	    var endDate = that.$endDate = $("#enddate", that.dom).datebox({
+	        editable: false,
+	        formatter: function formatter(date) {
+	            return Calendar.getInstance(date).format('yyyy-MM-dd');
+	        },
+	        onChange: function onChange(date) {
+	            Events.notify('onRefresh:account-manage', {
+	                company_id: selectCompanyId,
+	                key: searchBox.searchbox('getValue'),
+	                startdate: startDate.combo('getValue').replace(/-/gi, ''),
+	                enddate: endDate.combo('getValue').replace(/-/gi, '')
+	            });
+	        }
+	    });
 
-	    var startDate = that.$startDate = $("#startdate",that.dom).datebox({
-	        editable:false ,
-	        formatter: function (date) {
-	            return Calendar.getInstance(date).format('yyyy-MM-dd');
-	        },
-	        onChange:function(date) {
-	            Events.notify('onRefresh:account-manage', {
-	                company_id:selectCompanyId,
-	                key:searchBox.searchbox('getValue'),
-	                startdate: startDate.combo('getValue').replace(/-/gi, ''),
-	                enddate: endDate.combo('getValue').replace(/-/gi, '')
-	            });
-	        }
-	    });
-	    var endDate = that.$endDate = $("#enddate",that.dom).datebox({
-	        editable:false ,
-	        formatter: function (date) {
-	            return Calendar.getInstance(date).format('yyyy-MM-dd');
-	        },
-	        onChange:function(date) {
-	            Events.notify('onRefresh:account-manage', {
-	                company_id:selectCompanyId,
-	                key:searchBox.searchbox('getValue'),
-	                startdate: startDate.combo('getValue').replace(/-/gi, ''),
-	                enddate: endDate.combo('getValue').replace(/-/gi, '')
-	            });
-	        }
-	    });
-	    
 	    //订阅刷新消息
-	    Events.subscribe('onRefresh:account-manage',function(){
+	    Events.subscribe('onRefresh:account-manage', function () {
 	        var opts = that.$table.datagrid("options");
 	        opts.url = "/account/list";
-	        that.$table.datagrid('load',{
-	            company_id:selectCompanyId,
-	            key:searchBox.searchbox('getValue'),
-	            startdate:startDate.combo('getValue').replace(/-/gi,''),
-	            enddate:endDate.combo('getValue').replace(/-/gi,'')
+	        that.$table.datagrid('load', {
+	            company_id: selectCompanyId,
+	            key: searchBox.searchbox('getValue'),
+	            startdate: startDate.combo('getValue').replace(/-/gi, ''),
+	            enddate: endDate.combo('getValue').replace(/-/gi, '')
 	        });
 	    });
-	    
+
 	    //订阅公司树刷新
-	    Events.subscribe('onRefresh:account-manage-company',function(value){
+	    Events.subscribe('onRefresh:account-manage-company', function (value) {
 	        var nodes = that.ztreeObj.getNodes();
 	        //先将全部节点隐藏
 	        that.ztreeObj.hideNodes(nodes);
 	        var _nodes = [];
-	        $.each(nodes,function(index,node){
-	            if(node.company_name.indexOf(value)!=-1 || (node.render_username && node.render_username.indexOf(value)!=-1))
-	                _nodes.push(node);
+	        $.each(nodes, function (index, node) {
+	            if (node.company_name.indexOf(value) != -1 || node.render_username && node.render_username.indexOf(value) != -1) _nodes.push(node);
 	        });
 	        that.ztreeObj.showNodes(_nodes);
 	    });
 	};
 
-	var selectCompanyId, firstRefresh = false;
-	AccountManage.prototype.initCompanyTree = function(){
-	    var that = this, $treeMenu = $('#tree-context-menu');
+	var selectCompanyId,
+	    firstRefresh = false;
+	AccountManage.prototype.initCompanyTree = function () {
+	    var that = this,
+	        $treeMenu = $('#tree-context-menu');
 	    that.$treeMenu = $treeMenu;
 	    firstRefresh = false;
 	    var setting = {
-	        async:{
-	            enable:true,
-	            url:'/company/list',
-	            type:'get',
-	            dataFilter: function(treeId, parentNode, responseData){
-	                $.each(responseData,function(index,item){
+	        async: {
+	            enable: true,
+	            url: '/company/list',
+	            type: 'get',
+	            dataFilter: function dataFilter(treeId, parentNode, responseData) {
+	                $.each(responseData, function (index, item) {
 	                    item.iconSkin = 'icon01';
 	                });
 	                return responseData;
 	            }
 	        },
-	        data:{
-	            key:{
-	                name:'company_name',
-	                title:'company_name'
+	        data: {
+	            key: {
+	                name: 'company_name',
+	                title: 'company_name'
 	            },
-	            simpleData:{
-	                idKey:'company_id',
-	                pIdKey:'pId'
+	            simpleData: {
+	                idKey: 'company_id',
+	                pIdKey: 'pId'
 	            },
-	            keep:{
-	                parent:true
+	            keep: {
+	                parent: true
 	            }
 	        },
-	        callback:{
-	            onClick:function(event, treeId, treeNode){
+	        callback: {
+	            onClick: function onClick(event, treeId, treeNode) {
 	                selectCompanyId = treeNode.company_id;
 	                Events.notify('onRefresh:account-manage');
 	            },
-	            onAsyncSuccess:function(){
-	                if(firstRefresh)
-	                    return;
+	            onAsyncSuccess: function onAsyncSuccess() {
+	                if (firstRefresh) return;
 
 	                selectCompanyId = that.ztreeObj.getNodes()[0].company_id;
 	                that.ztreeObj.selectNode(that.ztreeObj.getNodes()[0], false, false);
 	                Events.notify('onRefresh:account-manage');
 	                firstRefresh = true;
 	            },
-	            onRightClick:function(event,treeId,treeNode){
-	                if(!treeNode)
-	                    return;
+	            onRightClick: function onRightClick(event, treeId, treeNode) {
+	                if (!treeNode) return;
 	                event.preventDefault();
 	                that.ztreeObj.selectNode(treeNode, false, false);
 	                selectCompanyId = treeNode.company_id;
@@ -2675,13 +2675,14 @@ webpackJsonp([4],[
 	        }
 	    };
 	    $treeMenu.menu({
-	        onClick:function(item){
-	            var _id = item.id, id = _id.replace('context_','');
-	            $('#'+id,that.dom).click();
+	        onClick: function onClick(item) {
+	            var _id = item.id,
+	                id = _id.replace('context_', '');
+	            $('#' + id, that.dom).click();
 	        },
-	        hideOnUnhover:false
+	        hideOnUnhover: false
 	    });
-	    that.ztreeObj = $.fn.zTree.init($("#companyTree",that.dom), setting);
+	    that.ztreeObj = $.fn.zTree.init($("#companyTree", that.dom), setting);
 	};
 
 	/**
@@ -2691,29 +2692,30 @@ webpackJsonp([4],[
 	    var that = this;
 
 	    //添加公司
-	    $('#addCompanyBtn',this.dom).click(function(){
-	        Events.require('company-add-modify').addCallback(function(flag){
-	            if(flag){
+	    $('#addCompanyBtn', this.dom).click(function () {
+	        Events.require('company-add-modify').addCallback(function (flag) {
+	            if (flag) {
 	                that.ztreeObj.reAsyncChildNodes(null, "refresh");
 	                that.toast('保存成功！');
 	            }
-	        }).init({showType:'Pop'});
+	        }).init({ showType: 'Pop' });
 	    });
 	    //编辑公司
-	    $('#modifyCompanyBtn',this.dom).click(function(){
-	        var nodes = that.ztreeObj.getSelectedNodes(),company_id;
-	        if(nodes.length>0){
+	    $('#modifyCompanyBtn', this.dom).click(function () {
+	        var nodes = that.ztreeObj.getSelectedNodes(),
+	            company_id;
+	        if (nodes.length > 0) {
 	            company_id = nodes[0].company_id;
-	        }else{
+	        } else {
 	            swal("提示", "请先选择一条数据!", "warning");
 	            return;
 	        }
-	        Events.require('company-add-modify').addCallback(function(flag){
-	            if(flag){
+	        Events.require('company-add-modify').addCallback(function (flag) {
+	            if (flag) {
 	                that.ztreeObj.reAsyncChildNodes(null, "refresh");
 	                that.toast('保存成功！');
 	            }
-	        }).init({showType:'Pop',action:'002',company_id:company_id});
+	        }).init({ showType: 'Pop', action: '002', company_id: company_id });
 	    });
 	    //删除公司
 	    $('#removeCompanyBtn', this.dom).click(function () {
@@ -2732,7 +2734,7 @@ webpackJsonp([4],[
 	            cancelButtonText: "取消",
 	            closeOnConfirm: true
 	        }, function () {
-	            that.save('/company/save', {action:'003',company_id: nodes[0].company_id}, function (data) {
+	            that.save('/company/save', { action: '003', company_id: nodes[0].company_id }, function (data) {
 	                if (!data.success) {
 	                    that.toast(data.message);
 	                    return;
@@ -2744,70 +2746,64 @@ webpackJsonp([4],[
 	                that.toast('删除成功！');
 	            });
 	        });
-
 	    });
 
 	    //查询公司核时
-	    $('#queryKernalTime',this.dom).click(function(){
-	        var nodes = that.ztreeObj.getSelectedNodes(),company_id;
-	        if(nodes.length>0){
+	    $('#queryKernalTime', this.dom).click(function () {
+	        var nodes = that.ztreeObj.getSelectedNodes(),
+	            company_id;
+	        if (nodes.length > 0) {
 	            company_id = nodes[0].company_id;
-	        }else{
+	        } else {
 	            swal("提示", "请先选择公司!", "warning");
 	            return;
 	        }
-	        if(!nodes[0].render_username){
+	        if (!nodes[0].render_username) {
 	            swal("提示", "请先配置该公司的渲染账目端用户名!", "warning");
 	            return;
 	        }
-	        that.query('/company/kernal/'+company_id,function(data){
-	            if(!data.success){
+	        that.query('/company/kernal/' + company_id, function (data) {
+	            if (!data.success) {
 	                swal("核时查询", data.message);
 	                return;
 	            }
 	            data = data.data;
-	            swal("核时查询", '【'+nodes[0].company_name+'】的核时数为：'+data.kernal+'，单价为：'+data.price+'元/核时，总价为：'+(data.kernal*data.price).toFixed(2)+'元');
+	            swal("核时查询", '【' + nodes[0].company_name + '】的核时数为：' + data.kernal + '，单价为：' + data.price + '元/核时，总价为：' + (data.kernal * data.price).toFixed(2) + '元');
 	        });
-
 	    });
-	    
-	    
+
 	    //添加账目
-	    $('#add_account_btn',this.dom).click(function(){
+	    $('#add_account_btn', this.dom).click(function () {
 	        var nodes = that.ztreeObj.getSelectedNodes();
-	        if(nodes.length == 0){
+	        if (nodes.length == 0) {
 	            swal("提示", "请先选择一个公司!", "warning");
 	            return;
 	        }
-	        Events.require('account-add-modify').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:account-manage');
-	        }).init({showType:'Pop',company_id:nodes[0].company_id});
+	        Events.require('account-add-modify').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:account-manage');
+	        }).init({ showType: 'Pop', company_id: nodes[0].company_id });
 	    });
 	    //修改账目
-	    $('#modify_account_btn',this.dom).click(function(){
+	    $('#modify_account_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        if(rowData.is_encased){
-	            var msg = $('#encase_account_btn',this.dom).length>0?'账目已封存，请先解除封存再执行编辑操作!':'账目已封存，您没有权限修改，请联系管理员!';
+	        if (!(rowData = getSelectRow())) return;
+	        if (rowData.is_encased) {
+	            var msg = $('#encase_account_btn', this.dom).length > 0 ? '账目已封存，请先解除封存再执行编辑操作!' : '账目已封存，您没有权限修改，请联系管理员!';
 	            swal("提示", msg, "warning");
 	            return;
 	        }
-	        Events.require('account-add-modify').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:account-manage');
-	        }).init({showType:'Pop',action:'002',account_id:rowData.account_id});
+	        Events.require('account-add-modify').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:account-manage');
+	        }).init({ showType: 'Pop', action: '002', account_id: rowData.account_id });
 	    });
 	    //删除账目
-	    $('#delete_account_btn',this.dom).click(function(){
+	    $('#delete_account_btn', this.dom).click(function () {
 	        var rows;
-	        if(!(rows = getCheckRow()))
-	            return;
-	        for(var i = 0;i<rows.length;i++){
-	            if(rows[i].is_encased){
+	        if (!(rows = getCheckRow())) return;
+	        for (var i = 0; i < rows.length; i++) {
+	            if (rows[i].is_encased) {
 
-	                var msg = $('#encase_account_btn',this.dom).length>0?'账目已封存，请先解除封存再执行删除操作!':'存在已封存账目，您没有权限删除，请联系管理员!';
+	                var msg = $('#encase_account_btn', this.dom).length > 0 ? '账目已封存，请先解除封存再执行删除操作!' : '存在已封存账目，您没有权限删除，请联系管理员!';
 	                swal("提示", msg, "warning");
 	                return;
 	            }
@@ -2822,75 +2818,72 @@ webpackJsonp([4],[
 	            cancelButtonText: "取消",
 	            closeOnConfirm: true
 	        }, function () {
-	            that.save('/account/save',{action:'003',account_id:function(){
-	                var ids = [];
-	                rows.forEach(function(item){
-	                    ids.push(item.account_id);
-	                });
-	                return ids.join(',');
-	            }()},function(data){
-	                if(data.success){
+	            that.save('/account/save', { action: '003', account_id: function () {
+	                    var ids = [];
+	                    rows.forEach(function (item) {
+	                        ids.push(item.account_id);
+	                    });
+	                    return ids.join(',');
+	                }() }, function (data) {
+	                if (data.success) {
 	                    that.toast("删除成功!");
 	                    Events.notify('onRefresh:account-manage');
-	                }else{
+	                } else {
 	                    that.toast(data.message);
 	                }
 	            });
 	        });
-
 	    });
 	    //封存账目
-	    $('#encase_account_btn',this.dom).click(function(){
+	    $('#encase_account_btn', this.dom).click(function () {
 	        var rows;
-	        if(!(rows = getCheckRow()))
-	            return;
-	        that.save('/account/save',{action:'004',account_id:function(){
-	            var ids = [];
-	            rows.forEach(function(item){
-	                ids.push(item.account_id);
-	            });
-	            return ids.join(',');
-	        }()},function(data){
-	            if(data.success){
+	        if (!(rows = getCheckRow())) return;
+	        that.save('/account/save', { action: '004', account_id: function () {
+	                var ids = [];
+	                rows.forEach(function (item) {
+	                    ids.push(item.account_id);
+	                });
+	                return ids.join(',');
+	            }() }, function (data) {
+	            if (data.success) {
 	                that.toast("封存账目成功!");
 	                Events.notify('onRefresh:account-manage');
-	            }else{
+	            } else {
 	                that.toast(data.message);
 	            }
 	        });
 	    });
 	    //解除封存账目
-	    $('#unencase_account_btn',this.dom).click(function(){
+	    $('#unencase_account_btn', this.dom).click(function () {
 	        var rows;
-	        if(!(rows = getCheckRow()))
-	            return;
-	        that.save('/account/save',{action:'005',account_id:function(){
-	            var ids = [];
-	            rows.forEach(function(item){
-	                ids.push(item.account_id);
-	            });
-	            return ids.join(',');
-	        }()},function(data){
-	            if(data.success){
+	        if (!(rows = getCheckRow())) return;
+	        that.save('/account/save', { action: '005', account_id: function () {
+	                var ids = [];
+	                rows.forEach(function (item) {
+	                    ids.push(item.account_id);
+	                });
+	                return ids.join(',');
+	            }() }, function (data) {
+	            if (data.success) {
 	                that.toast("解除封存账目成功!");
 	                Events.notify('onRefresh:account-manage');
-	            }else{
+	            } else {
 	                that.toast(data.message);
 	            }
 	        });
 	    });
 
-	    function getSelectRow(){
+	    function getSelectRow() {
 	        var rowData = that.$table.datagrid('getSelected');
-	        if(!rowData){
+	        if (!rowData) {
 	            swal("提示", "请先选择一条数据!", "warning");
 	            return;
 	        }
 	        return rowData;
 	    }
-	    function getCheckRow(){
+	    function getCheckRow() {
 	        var rows = that.$table.datagrid('getChecked');
-	        if(rows.length == 0){
+	        if (rows.length == 0) {
 	            swal("提示", "请至少选择一条数据!", "warning");
 	            return;
 	        }
@@ -2908,23 +2901,20 @@ webpackJsonp([4],[
 	    this.$endDate && this.$endDate.datebox('destroy');
 	    this.$treeMenu && this.$treeMenu.menu('destroy');
 	    this.$tableMenu && this.$tableMenu.menu('destroy');
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	var accountManage = new AccountManage();
-	Events.subscribe('onWindowResize',function(){
-	    if(!accountManage.dom)
-	        return;
-	    $('.tablecontainer',accountManage.dom).height(accountManage.dom.height()-15-$('.condition-wrap',accountManage.dom).height());
+	Events.subscribe('onWindowResize', function () {
+	    if (!accountManage.dom) return;
+	    $('.tablecontainer', accountManage.dom).height(accountManage.dom.height() - 15 - $('.condition-wrap', accountManage.dom).height());
 	    accountManage.$table.datagrid('resize');
 	});
 
 	module.exports = accountManage;
 
-
-
 /***/ },
-/* 296 */
+/* 298 */
 /***/ function(module, exports) {
 
 	if ($.fn.pagination){
@@ -2996,7 +2986,7 @@ webpackJsonp([4],[
 
 
 /***/ },
-/* 297 */
+/* 299 */
 /***/ function(module, exports) {
 
 	/*
@@ -3024,14 +3014,14 @@ webpackJsonp([4],[
 
 
 /***/ },
-/* 298 */
+/* 300 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 299 */,
-/* 300 */
+/* 301 */,
+/* 302 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -3049,7 +3039,7 @@ webpackJsonp([4],[
 	];
 
 /***/ },
-/* 301 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -3058,39 +3048,34 @@ webpackJsonp([4],[
 	 * 不影响其它模块的运行，在进行数据同步时其它模块可以照常切换与运行。
 	 */
 	var frameworkBase = __webpack_require__(260);
-	var AsyncData = function(){ };
+	var AsyncData = function AsyncData() {};
 
 	//继承自框架基类
-	AsyncData.prototype = $.extend({},frameworkBase);
+	AsyncData.prototype = $.extend({}, frameworkBase);
 	AsyncData.prototype.id = 'async-data';
-
 
 	/**
 	 * 模块初始化入口<br>
 	 * @method init
 	 * @param options 参数对象
 	 */
-	AsyncData.prototype.init = function(options){
-	    var that = this;
-	    this.options = $.extend({},options);
-	    frameworkBase.init.call(this,options);
-	    var count = 10;
-	    this.wsListen('websocket:async-data',{},function(){
-	            
-	    });
-	    window.setTimeout(function(){
-	        console.log('同步数据。。。'+count);
-	        count--;
-	        if(count>0)
-	            setTimeout(arguments.callee,1000);
-	    },1000);
+	AsyncData.prototype.init = function (options) {
+	  var that = this;
+	  this.options = $.extend({}, options);
+	  frameworkBase.init.call(this, options);
+	  var count = 10;
+	  this.wsListen('websocket:async-data', {}, function () {});
+	  window.setTimeout(function () {
+	    console.log('同步数据。。。' + count);
+	    count--;
+	    if (count > 0) setTimeout(arguments.callee, 1000);
+	  }, 1000);
 	};
-
 
 	module.exports = new AsyncData();
 
 /***/ },
-/* 302 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -3100,39 +3085,36 @@ webpackJsonp([4],[
 
 	var frameworkBase = __webpack_require__(260);
 
-	__webpack_require__(296);
-	__webpack_require__(303);
-	__webpack_require__(268);
-	var AttenceAnalyse = function(){ };
+	__webpack_require__(298);
+	__webpack_require__(305);
+	__webpack_require__(270);
+	var AttenceAnalyse = function AttenceAnalyse() {};
 
 	//继承自框架基类
-	AttenceAnalyse.prototype = $.extend({},frameworkBase);
+	AttenceAnalyse.prototype = $.extend({}, frameworkBase);
 	AttenceAnalyse.prototype.id = 'attence-analyse';
 
 	//子模块配置
-	var WIDGETS = [
-	    {container:'#attence-analyse-chart1',module:'./attence-analyse-widgets/attence-analyse-chart1'},
-	    {container:'#attence-analyse-chart2',module:'./attence-analyse-widgets/attence-analyse-chart2'},
-	    {container:'#attence-analyse-chart3',module:'./attence-analyse-widgets/attence-analyse-chart3'}];
+	var WIDGETS = [{ container: '#attence-analyse-chart1', module: './attence-analyse-widgets/attence-analyse-chart1' }, { container: '#attence-analyse-chart2', module: './attence-analyse-widgets/attence-analyse-chart2' }, { container: '#attence-analyse-chart3', module: './attence-analyse-widgets/attence-analyse-chart3' }];
 	/**
 	 * 模块初始化入口<br>
 	 * @method init
 	 * @param options 参数对象
 	 */
-	AttenceAnalyse.prototype.init = function(options){
+	AttenceAnalyse.prototype.init = function (options) {
 	    var that = this;
-	    this.options = $.extend({},options);
+	    this.options = $.extend({}, options);
 	    that.setTitle('学生考勤统计').setHeight(700).setWidth(780);
-	    frameworkBase.init.call(this,options);
+	    frameworkBase.init.call(this, options);
 	    this.loadBaseView();
 	};
 
 	/**
 	 * 加载基础视图
 	 */
-	AttenceAnalyse.prototype.loadBaseView = function(){
+	AttenceAnalyse.prototype.loadBaseView = function () {
 	    var that = this;
-	    this.loadFragment('/views/modules/attence-analyse.html').then(function(html){
+	    this.loadFragment('/views/modules/attence-analyse.html').then(function (html) {
 	        that.render(html);
 	        that.bindEvents();
 	        that.loadWidgets();
@@ -3142,56 +3124,54 @@ webpackJsonp([4],[
 	/**
 	 * 加载插件
 	 */
-	AttenceAnalyse.prototype.loadWidgets = function(temp){
+	AttenceAnalyse.prototype.loadWidgets = function (temp) {
 	    this.widgets = [];
 	    var widgetArray = [];
-	    if(temp && $.isArray(temp)){
-	        temp.forEach(function(i){
-	            WIDGETS.forEach(function(j){
-	               if(i.module == j.module){
-	                   widgetArray.push(i);
-	                   return false;
-	               }
+	    if (temp && $.isArray(temp)) {
+	        temp.forEach(function (i) {
+	            WIDGETS.forEach(function (j) {
+	                if (i.module == j.module) {
+	                    widgetArray.push(i);
+	                    return false;
+	                }
 	            });
 	        });
-	    }else
-	        widgetArray = WIDGETS;
-	    for(var i = 0,len = widgetArray.length;i<len;i++){
-	        var widget = __webpack_require__(262)(widgetArray[i].module);
-	        widget.init({container:$(widgetArray[i].container)});
+	    } else widgetArray = WIDGETS;
+	    for (var i = 0, len = widgetArray.length; i < len; i++) {
+	        var widget = __webpack_require__(264)(widgetArray[i].module);
+	        widget.init({ container: $(widgetArray[i].container) });
 	        this.widgets.push(widget);
 	    }
-	    Events.notify('onRefresh:attence-analyse',{type:0});
+	    Events.notify('onRefresh:attence-analyse', { type: 0 });
 	};
 
-
-	AttenceAnalyse.prototype.bindEvents = function(){
+	AttenceAnalyse.prototype.bindEvents = function () {
 	    var that = this;
-	    $('#jobHistoryGrainSelector',this.dom).on('change',function(){
+	    $('#jobHistoryGrainSelector', this.dom).on('change', function () {
 	        var value = $(this).val();
-	        Events.notify('onRefresh:attence-analyse',{type:value});
+	        Events.notify('onRefresh:attence-analyse', { type: value });
 	    });
-	    var startDate = $("#startdate",that.dom).datebox({
-	        editable:false ,
-	        formatter: function (date) {
+	    var startDate = $("#startdate", that.dom).datebox({
+	        editable: false,
+	        formatter: function formatter(date) {
 	            return Calendar.getInstance(date).format('yyyy-MM-dd');
 	        },
-	        onChange:function(date){
-	            Events.notify('onRefresh:attence-analyse',{
-	                startdate:startDate.combo('getValue').replace(/-/gi,''),
-	                enddate:endDate.combo('getValue').replace(/-/gi,'')
+	        onChange: function onChange(date) {
+	            Events.notify('onRefresh:attence-analyse', {
+	                startdate: startDate.combo('getValue').replace(/-/gi, ''),
+	                enddate: endDate.combo('getValue').replace(/-/gi, '')
 	            });
 	        }
 	    });
-	    var endDate = $("#enddate",that.dom).datebox({
-	        editable:false ,
-	        formatter: function (date) {
+	    var endDate = $("#enddate", that.dom).datebox({
+	        editable: false,
+	        formatter: function formatter(date) {
 	            return Calendar.getInstance(date).format('yyyy-MM-dd');
 	        },
-	        onChange:function(date){
-	            Events.notify('onRefresh:attence-analyse',{
-	                startdate:startDate.combo('getValue').replace(/-/gi,''),
-	                enddate:endDate.combo('getValue').replace(/-/gi,'')
+	        onChange: function onChange(date) {
+	            Events.notify('onRefresh:attence-analyse', {
+	                startdate: startDate.combo('getValue').replace(/-/gi, ''),
+	                enddate: endDate.combo('getValue').replace(/-/gi, '')
 	            });
 	        }
 	    });
@@ -3201,7 +3181,7 @@ webpackJsonp([4],[
 	 * 调整widgets尺寸
 	 */
 	AttenceAnalyse.prototype.resizeWidgets = function () {
-	    attenceAnalyse.widgets.forEach(function(widget){
+	    attenceAnalyse.widgets.forEach(function (widget) {
 	        widget.resize();
 	    });
 	};
@@ -3212,14 +3192,13 @@ webpackJsonp([4],[
 	 */
 	AttenceAnalyse.prototype.finish = function () {
 	    Events.unsubscribe('onRefresh:attence-analyse');
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 	var attenceAnalyse = new AttenceAnalyse();
-	Events.subscribe('onWindowResize',function(){
-	    if(!attenceAnalyse.dom || !attenceAnalyse.widgets)
-	        return;
-	    $('.charts-container',attenceAnalyse.dom).height(attenceAnalyse.dom.height()-55);
-	    attenceAnalyse.widgets.forEach(function(widget){
+	Events.subscribe('onWindowResize', function () {
+	    if (!attenceAnalyse.dom || !attenceAnalyse.widgets) return;
+	    $('.charts-container', attenceAnalyse.dom).height(attenceAnalyse.dom.height() - 55);
+	    attenceAnalyse.widgets.forEach(function (widget) {
 	        widget.resize();
 	    });
 	});
@@ -3227,14 +3206,14 @@ webpackJsonp([4],[
 	module.exports = attenceAnalyse;
 
 /***/ },
-/* 303 */
+/* 305 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 304 */,
-/* 305 */
+/* 306 */,
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -3242,10 +3221,10 @@ webpackJsonp([4],[
 	 * 迟到分析 饼图 angle
 	 */
 
-	var AttenceAnalyse = __webpack_require__(302);
+	var AttenceAnalyse = __webpack_require__(304);
 
-	var chartConfig = __webpack_require__(306);
-	var AttenceAnalyseModule1 = function () {};
+	var chartConfig = __webpack_require__(308);
+	var AttenceAnalyseModule1 = function AttenceAnalyseModule1() {};
 
 	//继承自作业分析类
 	AttenceAnalyseModule1.prototype = $.extend({}, AttenceAnalyse);
@@ -3255,85 +3234,83 @@ webpackJsonp([4],[
 	    var that = this;
 	    this.options = $.extend({}, options);
 	    that.setTitle('迟到比例');
-	    __webpack_require__.e/* nsure */(3/* duplicate */, function(){
+	    __webpack_require__.e/* nsure */(3/* duplicate */, function () {
 	        var echarts = __webpack_require__(170);
 	        that.myChart = echarts.init(that.options.container[0]);
 	    });
 
-	    Events.subscribe('onRefresh:attence-analyse',function(option){
-	        $.extend(option,{type:1,action:'001'});
-	        var callee = arguments.callee, context = this;
-	        if(that.myChart)
-	            that.refreshChart(option);
-	        else
-	            setTimeout(function(){
-	                callee.call(context,option);
-	            },100);
+	    Events.subscribe('onRefresh:attence-analyse', function (option) {
+	        $.extend(option, { type: 1, action: '001' });
+	        var callee = arguments.callee,
+	            context = this;
+	        if (that.myChart) that.refreshChart(option);else setTimeout(function () {
+	            callee.call(context, option);
+	        }, 100);
 	    });
-
 	};
 
 	AttenceAnalyseModule1.prototype.refreshChart = function (option) {
 	    var that = this;
 	    this.query('/attence/analyse', option, function (ret) {
-	        if(!ret.success){
+	        if (!ret.success) {
 	            that.toast(ret.message);
 	            return;
 	        }
-	        var results = ret.data,data = [],legends = [];
-	        for(var i = 0;i<results.length;i++){
-	            data.push({value:results[i].cnt,name:results[i].isout==1?'迟到':'正常',isout:results[i].isout});
-	            legends.push(results[i].isout==1?'迟到':'正常');
+	        var results = ret.data,
+	            data = [],
+	            legends = [];
+	        for (var i = 0; i < results.length; i++) {
+	            data.push({ value: results[i].cnt, name: results[i].isout == 1 ? '迟到' : '正常', isout: results[i].isout });
+	            legends.push(results[i].isout == 1 ? '迟到' : '正常');
 	        }
-	        that.myChart.setOption(
-	            {
-	                color:['#009587','#FE5621'],
-	                backgroundColor: chartConfig.BGCOLOR,
-	                title: {
-	                    text: '迟到比例',
-	                    left: 'center',
-	                    top: 20,
-	                    textStyle:  chartConfig.TITLE_STYLE
-	                },
-	                legend: {
-	                    orient: 'vertical',
-	                    x: '10',
-	                    y:'10',
-	                    data:legends,
-	                    textStyle: chartConfig.LEGEND_STYLE
-	                },
-	                tooltip : {
-	                    trigger: 'item',
-	                    formatter: "{a} <br/>{b} : {c} ({d}%)"
-	                },
-	                series : [
-	                    {
-	                        name:'迟到比例',
-	                        type:'pie',
-	                        roseType: 'angle',
-	                        radius : '55%',
-	                        center: chartConfig.CHART_CENTER,
-	                        data:data.sort(function (a, b) { return a.isout - b.isout}),
-	                        label: {
-	                            normal: {
-	                                textStyle: {
-	                                    color: '#ffffff'
-	                                }
-	                            }
-	                        },
-	                        labelLine: {
-	                            normal: {
-	                                lineStyle: {
-	                                    color: '#ffffff'
-	                                },
-	                                smooth: 0.2,
-	                                length: 10,
-	                                length2: 20
-	                            }
+	        that.myChart.setOption({
+	            color: ['#009587', '#FE5621'],
+	            backgroundColor: chartConfig.BGCOLOR,
+	            title: {
+	                text: '迟到比例',
+	                left: 'center',
+	                top: 20,
+	                textStyle: chartConfig.TITLE_STYLE
+	            },
+	            legend: {
+	                orient: 'vertical',
+	                x: '10',
+	                y: '10',
+	                data: legends,
+	                textStyle: chartConfig.LEGEND_STYLE
+	            },
+	            tooltip: {
+	                trigger: 'item',
+	                formatter: "{a} <br/>{b} : {c} ({d}%)"
+	            },
+	            series: [{
+	                name: '迟到比例',
+	                type: 'pie',
+	                roseType: 'angle',
+	                radius: '55%',
+	                center: chartConfig.CHART_CENTER,
+	                data: data.sort(function (a, b) {
+	                    return a.isout - b.isout;
+	                }),
+	                label: {
+	                    normal: {
+	                        textStyle: {
+	                            color: '#ffffff'
 	                        }
 	                    }
-	                ]
-	            });
+	                },
+	                labelLine: {
+	                    normal: {
+	                        lineStyle: {
+	                            color: '#ffffff'
+	                        },
+	                        smooth: 0.2,
+	                        length: 10,
+	                        length2: 20
+	                    }
+	                }
+	            }]
+	        });
 	    });
 	};
 
@@ -3343,11 +3320,10 @@ webpackJsonp([4],[
 
 	var attenceAnalyseModule1 = new AttenceAnalyseModule1();
 
-
 	module.exports = attenceAnalyseModule1;
 
 /***/ },
-/* 306 */
+/* 308 */
 /***/ function(module, exports) {
 
 	/**
@@ -3356,21 +3332,21 @@ webpackJsonp([4],[
 	module.exports = {
 	    TITLE_STYLE: {
 	        color: '#ffffff',
-	        fontWeight:'normal',
-	        fontSize:16
+	        fontWeight: 'normal',
+	        fontSize: 16
 	    },
-	    LEGEND_STYLE:{
+	    LEGEND_STYLE: {
 	        color: '#ffffff',
-	        fontWeight:'normal',
-	        fontSize:12
+	        fontWeight: 'normal',
+	        fontSize: 12
 	    },
-	    COLORS:['#009587','#FE5621'],
-	    BGCOLOR:'TRANSPARENT',
-	    CHART_CENTER:['50%', '60%']
+	    COLORS: ['#009587', '#FE5621'],
+	    BGCOLOR: 'TRANSPARENT',
+	    CHART_CENTER: ['50%', '60%']
 	};
 
 /***/ },
-/* 307 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -3378,9 +3354,9 @@ webpackJsonp([4],[
 	 * 早退比例 饼图
 	 */
 
-	var AttenceAnalyse = __webpack_require__(302);
-	var chartConfig = __webpack_require__(306);
-	var AttenceAnalyseModule2 = function () {};
+	var AttenceAnalyse = __webpack_require__(304);
+	var chartConfig = __webpack_require__(308);
+	var AttenceAnalyseModule2 = function AttenceAnalyseModule2() {};
 
 	//继承自作业分析类
 	AttenceAnalyseModule2.prototype = $.extend({}, AttenceAnalyse);
@@ -3390,82 +3366,81 @@ webpackJsonp([4],[
 	    var that = this;
 	    this.options = $.extend({}, options);
 	    that.setTitle('早退比例');
-	    __webpack_require__.e/* nsure */(3/* duplicate */, function(){
+	    __webpack_require__.e/* nsure */(3/* duplicate */, function () {
 	        var echarts = __webpack_require__(170);
 	        that.myChart = echarts.init(that.options.container[0]);
 	    });
-	    Events.subscribe('onRefresh:attence-analyse',function(option){
-	        $.extend(option,{type:0,action:'001'});
-	        var callee = arguments.callee, context = this;
-	        if(that.myChart)
-	            that.refreshChart(option);
-	        else
-	            setTimeout(function(){
-	                callee.call(context,option);
-	            },100);
+	    Events.subscribe('onRefresh:attence-analyse', function (option) {
+	        $.extend(option, { type: 0, action: '001' });
+	        var callee = arguments.callee,
+	            context = this;
+	        if (that.myChart) that.refreshChart(option);else setTimeout(function () {
+	            callee.call(context, option);
+	        }, 100);
 	    });
 	};
 
 	AttenceAnalyseModule2.prototype.refreshChart = function (option) {
 	    var that = this;
 	    this.query('/attence/analyse', option, function (ret) {
-	        if(!ret.success){
+	        if (!ret.success) {
 	            that.toast(ret.message);
 	            return;
 	        }
-	        var results = ret.data,data = [],legends = [];
-	        for(var i = 0;i<results.length;i++){
-	            data.push({value:results[i].cnt,name:results[i].isout==1?'早退':'正常',isout:results[i].isout});
-	            legends.push(results[i].isout==1?'早退':'正常');
+	        var results = ret.data,
+	            data = [],
+	            legends = [];
+	        for (var i = 0; i < results.length; i++) {
+	            data.push({ value: results[i].cnt, name: results[i].isout == 1 ? '早退' : '正常', isout: results[i].isout });
+	            legends.push(results[i].isout == 1 ? '早退' : '正常');
 	        }
-	        that.myChart.setOption(
-	            {
-	                color:['#3498DB','#E74C3C'],
-	                backgroundColor: chartConfig.BGCOLOR,
-	                title: {
-	                    text: '早退比例',
-	                    left: 'center',
-	                    top: 20,
-	                    textStyle: chartConfig.TITLE_STYLE
-	                },
-	                legend: {
-	                    orient: 'vertical',
-	                    x: '10',
-	                    y:'10',
-	                    data:legends,
-	                    textStyle: chartConfig.LEGEND_STYLE
-	                },
-	                tooltip : {
-	                    trigger: 'item',
-	                    formatter: "{a} <br/>{b} : {c} ({d}%)"
-	                },
-	                series : [
-	                    {
-	                        name:'早退比例',
-	                        type:'pie',
-	                        radius : ['25%','55%'],
-	                        center: chartConfig.CHART_CENTER,
-	                        data:data.sort(function (a, b) { return a.isout - b.isout}),
-	                        label: {
-	                            normal: {
-	                                textStyle: {
-	                                    color: '#ffffff'
-	                                }
-	                            }
-	                        },
-	                        labelLine: {
-	                            normal: {
-	                                lineStyle: {
-	                                    color: '#ffffff'
-	                                },
-	                                smooth: 0.2,
-	                                length: 10,
-	                                length2: 20
-	                            }
+	        that.myChart.setOption({
+	            color: ['#3498DB', '#E74C3C'],
+	            backgroundColor: chartConfig.BGCOLOR,
+	            title: {
+	                text: '早退比例',
+	                left: 'center',
+	                top: 20,
+	                textStyle: chartConfig.TITLE_STYLE
+	            },
+	            legend: {
+	                orient: 'vertical',
+	                x: '10',
+	                y: '10',
+	                data: legends,
+	                textStyle: chartConfig.LEGEND_STYLE
+	            },
+	            tooltip: {
+	                trigger: 'item',
+	                formatter: "{a} <br/>{b} : {c} ({d}%)"
+	            },
+	            series: [{
+	                name: '早退比例',
+	                type: 'pie',
+	                radius: ['25%', '55%'],
+	                center: chartConfig.CHART_CENTER,
+	                data: data.sort(function (a, b) {
+	                    return a.isout - b.isout;
+	                }),
+	                label: {
+	                    normal: {
+	                        textStyle: {
+	                            color: '#ffffff'
 	                        }
 	                    }
-	                ]
-	            });
+	                },
+	                labelLine: {
+	                    normal: {
+	                        lineStyle: {
+	                            color: '#ffffff'
+	                        },
+	                        smooth: 0.2,
+	                        length: 10,
+	                        length2: 20
+	                    }
+	                }
+	            }]
+	        });
 	    });
 	};
 
@@ -3475,11 +3450,10 @@ webpackJsonp([4],[
 
 	var attenceAnalyseModule1 = new AttenceAnalyseModule2();
 
-
 	module.exports = attenceAnalyseModule1;
 
 /***/ },
-/* 308 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -3487,9 +3461,9 @@ webpackJsonp([4],[
 	 * 按时间段进行迟到早退统计分析 柱状图
 	 */
 
-	var AttenceAnalyse = __webpack_require__(302);
-	var chartConfig = __webpack_require__(306);
-	var AttenceAnalyseModule3 = function () {};
+	var AttenceAnalyse = __webpack_require__(304);
+	var chartConfig = __webpack_require__(308);
+	var AttenceAnalyseModule3 = function AttenceAnalyseModule3() {};
 
 	//继承自作业分析类
 	AttenceAnalyseModule3.prototype = $.extend({}, AttenceAnalyse);
@@ -3499,36 +3473,39 @@ webpackJsonp([4],[
 	    var that = this;
 	    this.options = $.extend({}, options);
 	    that.setTitle('按时间段进行迟到早退统计分析');
-	    __webpack_require__.e/* nsure */(3/* duplicate */, function(){
+	    __webpack_require__.e/* nsure */(3/* duplicate */, function () {
 	        var echarts = __webpack_require__(170);
 	        that.myChart = echarts.init(that.options.container[0]);
 	    });
-	    Events.subscribe('onRefresh:attence-analyse',function(option){
-	        $.extend(option,{action:'002'});
-	        var callee = arguments.callee, context = this;
-	        if(that.myChart)
-	            that.refreshChart(option);
-	        else
-	            setTimeout(function(){
-	                callee.call(context,option);
-	            },100);
+	    Events.subscribe('onRefresh:attence-analyse', function (option) {
+	        $.extend(option, { action: '002' });
+	        var callee = arguments.callee,
+	            context = this;
+	        if (that.myChart) that.refreshChart(option);else setTimeout(function () {
+	            callee.call(context, option);
+	        }, 100);
 	    });
 	};
 
 	AttenceAnalyseModule3.prototype.refreshChart = function (option) {
 	    var that = this;
 	    this.query('/attence/analyse', option, function (ret) {
-	        if(!ret.success){
+	        if (!ret.success) {
 	            that.toast(ret.message);
 	            return;
 	        }
-	        var results = ret.data,dims = [],chidaoData = [], normal1Data = [], zaotuiData = [], normal2Data = [];
-	        for(var i = 0;i<results.length;i++){
+	        var results = ret.data,
+	            dims = [],
+	            chidaoData = [],
+	            normal1Data = [],
+	            zaotuiData = [],
+	            normal2Data = [];
+	        for (var i = 0; i < results.length; i++) {
 	            dims.push(results[i].date);
-	            (results[i].type == 1 && results[i].isout == 1) && (chidaoData.push(results[i].cnt));
-	            (results[i].type == 1 && results[i].isout == 0) && (normal1Data.push(results[i].cnt));
-	            (results[i].type == 0 && results[i].isout == 1) && (zaotuiData.push(results[i].cnt));
-	            (results[i].type == 0 && results[i].isout == 0) && (normal2Data.push(results[i].cnt));
+	            results[i].type == 1 && results[i].isout == 1 && chidaoData.push(results[i].cnt);
+	            results[i].type == 1 && results[i].isout == 0 && normal1Data.push(results[i].cnt);
+	            results[i].type == 0 && results[i].isout == 1 && zaotuiData.push(results[i].cnt);
+	            results[i].type == 0 && results[i].isout == 0 && normal2Data.push(results[i].cnt);
 	        }
 	        that.myChart.setOption({
 	            color: ['#3398DB', '#969696'],
@@ -3541,15 +3518,15 @@ webpackJsonp([4],[
 	            },
 	            tooltip: {
 	                trigger: 'axis',
-	                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-	                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+	                axisPointer: { // 坐标轴指示器，坐标轴触发有效
+	                    type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
 	                }
 	            },
-	            legend:{
-	                top:10,
-	                x:10,
-	                y:10,
-	                data:['迟到','正常上学','早退','正常放学'],
+	            legend: {
+	                top: 10,
+	                x: 10,
+	                y: 10,
+	                data: ['迟到', '正常上学', '早退', '正常放学'],
 	                textStyle: chartConfig.LEGEND_STYLE
 	            },
 	            grid: {
@@ -3558,76 +3535,65 @@ webpackJsonp([4],[
 	                bottom: '3%',
 	                containLabel: true
 	            },
-	            xAxis: [
-	                {
-	                    type: 'category',
-	                    data: dims,
-	                    axisTick: {
-	                        alignWithLabel: true
-	                    },
-	                    axisLabel :{
-	                        textStyle:{
-	                            color:"#ffffff"
+	            xAxis: [{
+	                type: 'category',
+	                data: dims,
+	                axisTick: {
+	                    alignWithLabel: true
+	                },
+	                axisLabel: {
+	                    textStyle: {
+	                        color: "#ffffff"
 
-	                        }
 	                    }
 	                }
-	            ],
-	            yAxis: [
-	                {
-	                    type: 'value',
-	                    axisLabel:
-	                    {
-	                        textStyle:{
-	                            color:"#ffffff"
+	            }],
+	            yAxis: [{
+	                type: 'value',
+	                axisLabel: {
+	                    textStyle: {
+	                        color: "#ffffff"
 
-	                        }
 	                    }
 	                }
-	            ],
-	            series: [
-	                {
-	                    name: '迟到',
-	                    type: 'bar',
-	                    data: chidaoData,
-	                    itemStyle:{
-	                        normal:{
-	                            color:'#FE5621'
-	                        }
-	                    }
-	                },
-
-	                {
-	                    name: '正常上学',
-	                    type: 'bar',
-	                    data: normal1Data,
-	                    itemStyle:{
-	                        normal:{
-	                            color:'#009587'
-	                        }
-	                    }
-	                },
-	                {
-	                    name: '早退',
-	                    type: 'bar',
-	                    data: zaotuiData,
-	                    itemStyle:{
-	                        normal:{
-	                            color:'#E74C3C'
-	                        }
-	                    }
-	                },
-	                {
-	                    name: '正常放学',
-	                    type: 'bar',
-	                    data: normal2Data,
-	                    itemStyle:{
-	                        normal:{
-	                            color:'#3498DB'
-	                        }
+	            }],
+	            series: [{
+	                name: '迟到',
+	                type: 'bar',
+	                data: chidaoData,
+	                itemStyle: {
+	                    normal: {
+	                        color: '#FE5621'
 	                    }
 	                }
-	            ]
+	            }, {
+	                name: '正常上学',
+	                type: 'bar',
+	                data: normal1Data,
+	                itemStyle: {
+	                    normal: {
+	                        color: '#009587'
+	                    }
+	                }
+	            }, {
+	                name: '早退',
+	                type: 'bar',
+	                data: zaotuiData,
+	                itemStyle: {
+	                    normal: {
+	                        color: '#E74C3C'
+	                    }
+	                }
+	            }, {
+	                name: '正常放学',
+	                type: 'bar',
+	                data: normal2Data,
+	                itemStyle: {
+	                    normal: {
+	                        color: '#3498DB'
+	                    }
+	                }
+	            }]
 	        });
 	    });
 	};
@@ -3638,11 +3604,10 @@ webpackJsonp([4],[
 
 	var attenceAnalyseModule1 = new AttenceAnalyseModule3();
 
-
 	module.exports = attenceAnalyseModule1;
 
 /***/ },
-/* 309 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -3651,15 +3616,14 @@ webpackJsonp([4],[
 	 */
 
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(296);
-	__webpack_require__(310);
-	__webpack_require__(268);
-	var AttenceSearch = function () {};
+	__webpack_require__(298);
+	__webpack_require__(312);
+	__webpack_require__(270);
+	var AttenceSearch = function AttenceSearch() {};
 
 	//继承自框架基类
 	AttenceSearch.prototype = $.extend({}, frameworkBase);
 	AttenceSearch.prototype.id = 'attence-search';
-
 
 	/**
 	 * 模块初始化入口<br>
@@ -3676,15 +3640,15 @@ webpackJsonp([4],[
 
 	AttenceSearch.prototype.loadBaseView = function () {
 	    var that = this;
-	    this.loadFragment('/views/modules/attence-search.html').then(function(html){
+	    this.loadFragment('/views/modules/attence-search.html').then(function (html) {
 	        that.render(html);
-	        var columns = __webpack_require__(314);
-	        var $table = that.$table = $('#dataTable',that.dom).datagrid({
+	        var columns = __webpack_require__(316);
+	        var $table = that.$table = $('#dataTable', that.dom).datagrid({
 	            url: '/attence/search',
 	            method: 'get',
 	            columns: [columns],
 	            pagination: true,
-	            cache:false,
+	            cache: false,
 	            pageSize: 20,
 	            ctrlSelect: true,
 	            checkOnSelect: true,
@@ -3693,53 +3657,51 @@ webpackJsonp([4],[
 	            striped: true,
 	            fit: true,
 	            fitColumns: true,
-	            loadFilter: function (data) {
-	                if(!data.success){
+	            loadFilter: function loadFilter(data) {
+	                if (!data.success) {
 	                    that.toast(data.message);
 	                }
 	                return data.data;
 	            },
-	            onDblClickRow: function (rowIndex, rowData) {
-	            }
+	            onDblClickRow: function onDblClickRow(rowIndex, rowData) {}
 	        });
 
-	        var searchBox = $('#attence-search #home-easyui-searchbox',that.dom).searchbox({
-	            searcher: function (value, name) {
+	        var searchBox = $('#attence-search #home-easyui-searchbox', that.dom).searchbox({
+	            searcher: function searcher(value, name) {
 	                Events.notify('onRefresh:attence-search');
 	            },
-	            menu:'#attence-type-select',
+	            menu: '#attence-type-select',
 	            prompt: '请输关键字，如学生名字'
 	        });
 
-	        var startDate = $("#startdate",that.dom).datetimebox({
-	            editable:false ,
-	            formatter: function (date) {
+	        var startDate = $("#startdate", that.dom).datetimebox({
+	            editable: false,
+	            formatter: function formatter(date) {
 	                return Calendar.getInstance(date).format('yyyy-MM-dd HH:mm:ss');
 	            },
-	            onChange:function(date){
+	            onChange: function onChange(date) {
 	                Events.notify('onRefresh:attence-search');
 	            }
 	        });
-	        var endDate = $("#enddate",that.dom).datetimebox({
-	            editable:false ,
-	            formatter: function (date) {
+	        var endDate = $("#enddate", that.dom).datetimebox({
+	            editable: false,
+	            formatter: function formatter(date) {
 	                return Calendar.getInstance(date).format('yyyy-MM-dd HH:mm:ss');
 	            },
-	            onChange:function(date){
+	            onChange: function onChange(date) {
 	                Events.notify('onRefresh:attence-search');
 	            }
 	        });
 
-	        Events.subscribe('onRefresh:attence-search',function(){
-	            $table.datagrid('load',{
-	                key:searchBox.searchbox('getValue'),
-	                type:searchBox.searchbox('getName'),
-	                startdate:startDate.combo('getValue').replace(/-/gi,''),
-	                enddate:endDate.combo('getValue').replace(/-/gi,'')
+	        Events.subscribe('onRefresh:attence-search', function () {
+	            $table.datagrid('load', {
+	                key: searchBox.searchbox('getValue'),
+	                type: searchBox.searchbox('getName'),
+	                startdate: startDate.combo('getValue').replace(/-/gi, ''),
+	                enddate: endDate.combo('getValue').replace(/-/gi, '')
 	            });
 	        });
 	    });
-
 	};
 
 	/**
@@ -3748,33 +3710,32 @@ webpackJsonp([4],[
 	 */
 	AttenceSearch.prototype.finish = function () {
 	    Events.unsubscribe('onRefresh:attence-search');
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	var attenceSearch = new AttenceSearch();
-	Events.subscribe('onWindowResize',function(){
-	    if(!attenceSearch.dom)
-	        return;
-	    $('.tablecontainer',attenceSearch.dom).height(attenceSearch.dom.height()-15-$('.condition-wrap',attenceSearch.dom).height());
+	Events.subscribe('onWindowResize', function () {
+	    if (!attenceSearch.dom) return;
+	    $('.tablecontainer', attenceSearch.dom).height(attenceSearch.dom.height() - 15 - $('.condition-wrap', attenceSearch.dom).height());
 	    attenceSearch.$table.datagrid('resize');
 	});
 
 	module.exports = attenceSearch;
 
 /***/ },
-/* 310 */
+/* 312 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 311 */,
-/* 312 */,
 /* 313 */,
-/* 314 */
+/* 314 */,
+/* 315 */,
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
-	typeof window == 'undefined' && (Calendar = __webpack_require__(315));
+	typeof window == 'undefined' && (Calendar = __webpack_require__(317));
 	module.exports = [
 	    {field: 'stu_id', title: '学生id', width: 350},
 	    {field: 'stu_name', title: '学生姓名', width: 150},
@@ -3786,7 +3747,7 @@ webpackJsonp([4],[
 	];
 
 /***/ },
-/* 315 */
+/* 317 */
 /***/ function(module, exports) {
 
 	/**
@@ -3971,7 +3932,7 @@ webpackJsonp([4],[
 	})();
 
 /***/ },
-/* 316 */
+/* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -3980,27 +3941,26 @@ webpackJsonp([4],[
 	 * @type {Framework}
 	 */
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(317);
-	__webpack_require__(268);
-	__webpack_require__(287);
-	__webpack_require__(288);
-	var AuthorityControl = function(){ };
+	__webpack_require__(319);
+	__webpack_require__(270);
+	__webpack_require__(289);
+	__webpack_require__(290);
+	var AuthorityControl = function AuthorityControl() {};
 
 	//继承自框架基类
-	AuthorityControl.prototype = $.extend({},frameworkBase);
+	AuthorityControl.prototype = $.extend({}, frameworkBase);
 	AuthorityControl.prototype.id = 'authority-control';
-
 
 	/**
 	 * 模块初始化入口<br>
 	 * @method init
 	 * @param options 参数对象
 	 */
-	AuthorityControl.prototype.init = function(options){
+	AuthorityControl.prototype.init = function (options) {
 	    var that = this;
-	    this.options = $.extend({},options);
+	    this.options = $.extend({}, options);
 	    that.setTitle('权限赋值').setHeight(500).setWidth(500);
-	    frameworkBase.init.call(this,options);
+	    frameworkBase.init.call(this, options);
 	    this.loadBaseView();
 	    this.bindEvents();
 	    this.initMenuAuthority();
@@ -4008,8 +3968,8 @@ webpackJsonp([4],[
 	    this.restoreData();
 	};
 
-	AuthorityControl.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(319);
+	AuthorityControl.prototype.loadBaseView = function (options) {
+	    var html = __webpack_require__(321);
 	    this.render(html);
 	};
 
@@ -4018,7 +3978,6 @@ webpackJsonp([4],[
 	 */
 	AuthorityControl.prototype.restoreData = function () {
 	    var that = this;
-
 	};
 
 	/**
@@ -4026,40 +3985,38 @@ webpackJsonp([4],[
 	 */
 	AuthorityControl.prototype.initMenuAuthority = function () {
 	    var that = this;
-	    this.query('/auth/menu',{role_id:this.options.role_id},function(data){
-	        if(!data.success){
+	    this.query('/auth/menu', { role_id: this.options.role_id }, function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
-	        $.each(data.data,function(index,item){
-	           item.full_name = item.menu_title+'【'+(item.menu_device == '1'?'PC':'H5')+'】';
+	        $.each(data.data, function (index, item) {
+	            item.full_name = item.menu_title + '【' + (item.menu_device == '1' ? 'PC' : 'H5') + '】';
 	        });
 	        var setting = {
-	            check:{
-	                enable:true,
-	                chkboxType:{ "Y" : "ps", "N" : "s" }
+	            check: {
+	                enable: true,
+	                chkboxType: { "Y": "ps", "N": "s" }
 	            },
-	            data:{
-	                keep:{
-	                    parent:true,
-	                    leaf:true
+	            data: {
+	                keep: {
+	                    parent: true,
+	                    leaf: true
 	                },
-	                simpleData:{
-	                    enable:true,
-	                    idKey:'menu_id',
-	                    pIdKey:'menu_parent_id',
-	                    rootPId:null
+	                simpleData: {
+	                    enable: true,
+	                    idKey: 'menu_id',
+	                    pIdKey: 'menu_parent_id',
+	                    rootPId: null
 	                },
-	                key:{
-	                    name:'full_name'
+	                key: {
+	                    name: 'full_name'
 	                }
 	            },
-	            callback:{
-
-	            }
+	            callback: {}
 	        };
-	        data.data.push({'menu_id':'0','menu_parent_id':null,'menu_title':'根节点','full_name':'根节点','menu_url':''});
-	        that.menuAuthorityTree = $.fn.zTree.init($("#menuAuthorityTree",this.dom), setting,data.data);
+	        data.data.push({ 'menu_id': '0', 'menu_parent_id': null, 'menu_title': '根节点', 'full_name': '根节点', 'menu_url': '' });
+	        that.menuAuthorityTree = $.fn.zTree.init($("#menuAuthorityTree", this.dom), setting, data.data);
 	        that.menuAuthorityTree.expandNode(that.menuAuthorityTree.getNodes()[0], true, false, true);
 	    });
 	};
@@ -4069,43 +4026,38 @@ webpackJsonp([4],[
 	 */
 	AuthorityControl.prototype.initElementAuthority = function () {
 	    var that = this;
-	    this.query('/auth/element',{role_id:this.options.role_id},function(data){
-	        if(!data.success){
+	    this.query('/auth/element', { role_id: this.options.role_id }, function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
-	        $.each(data.data,function(index,item){
-	            if(item.node_type == 'menu')
-	                item.full_name = '菜单：'+item.node_title+'【'+(item.node_device == '1'?'PC':'H5')+'】';
-	            else
-	                item.full_name = '元素：'+item.node_title;
+	        $.each(data.data, function (index, item) {
+	            if (item.node_type == 'menu') item.full_name = '菜单：' + item.node_title + '【' + (item.node_device == '1' ? 'PC' : 'H5') + '】';else item.full_name = '元素：' + item.node_title;
 	        });
 	        var setting = {
-	            check:{
-	                enable:true,
-	                chkboxType:{ "Y" : "ps", "N" : "s" }
+	            check: {
+	                enable: true,
+	                chkboxType: { "Y": "ps", "N": "s" }
 	            },
-	            data:{
-	                keep:{
-	                    parent:true,
-	                    leaf:true
+	            data: {
+	                keep: {
+	                    parent: true,
+	                    leaf: true
 	                },
-	                simpleData:{
-	                    enable:true,
-	                    idKey:'node_id',
-	                    pIdKey:'parent_id',
-	                    rootPId:null
+	                simpleData: {
+	                    enable: true,
+	                    idKey: 'node_id',
+	                    pIdKey: 'parent_id',
+	                    rootPId: null
 	                },
-	                key:{
-	                    name:'full_name'
+	                key: {
+	                    name: 'full_name'
 	                }
 	            },
-	            callback:{
-
-	            }
+	            callback: {}
 	        };
-	        data.data.push({'node_id':'0','parent_id':null,'node_title':'根节点','full_name':'根节点','node_value':'','node_type':'menu'});
-	        that.elementAuthorityTree = $.fn.zTree.init($("#elementAuthorityTree",this.dom), setting,data.data);
+	        data.data.push({ 'node_id': '0', 'parent_id': null, 'node_title': '根节点', 'full_name': '根节点', 'node_value': '', 'node_type': 'menu' });
+	        that.elementAuthorityTree = $.fn.zTree.init($("#elementAuthorityTree", this.dom), setting, data.data);
 	        that.elementAuthorityTree.expandNode(that.elementAuthorityTree.getNodes()[0], true, false, true);
 	    });
 	};
@@ -4115,40 +4067,38 @@ webpackJsonp([4],[
 	 */
 	AuthorityControl.prototype.bindEvents = function () {
 	    var that = this;
-	    $('.ui-tabs',this.dom).on('click','li',function(){
+	    $('.ui-tabs', this.dom).on('click', 'li', function () {
 	        var $this = $(this);
-	        if(!$this.hasClass('actived')){
+	        if (!$this.hasClass('actived')) {
 	            $('.ui-tabs>li.actived').removeClass('actived');
 	            $this.addClass('actived');
 	            $('.ui-tabs-content>div').hide().eq($this.index()).show();
 	        }
 	    });
-	    $('#saveBtn',this.dom).click(function(){
+	    $('#saveBtn', this.dom).click(function () {
 	        //获取被勾选的节点数组
 	        var checkedMenuNodes = that.menuAuthorityTree.getCheckedNodes(true);
 	        var checkedElementNodes = that.elementAuthorityTree.getCheckedNodes(true);
-	        that.save('/auth/save',{
-	            role_id:that.options.role_id,
-	            auth_menu_ids:function(){
+	        that.save('/auth/save', {
+	            role_id: that.options.role_id,
+	            auth_menu_ids: function () {
 	                var ids = [];
-	                for(var i = 0;i<checkedMenuNodes.length;i++){
-	                    if(checkedMenuNodes[i].menu_id == '0')
-	                        continue;
+	                for (var i = 0; i < checkedMenuNodes.length; i++) {
+	                    if (checkedMenuNodes[i].menu_id == '0') continue;
 	                    ids.push(checkedMenuNodes[i].auth_id);
 	                }
 	                return ids.join(';');
 	            }(),
-	            auth_element_ids:function(){
+	            auth_element_ids: function () {
 	                var ids = [];
-	                for(var i = 0;i<checkedElementNodes.length;i++){
-	                    if(checkedElementNodes[i].node_type == 'menu')
-	                        continue;
+	                for (var i = 0; i < checkedElementNodes.length; i++) {
+	                    if (checkedElementNodes[i].node_type == 'menu') continue;
 	                    ids.push(checkedElementNodes[i].auth_id);
 	                }
 	                return ids.join(';');
 	            }()
-	        },function(data){
-	            if(!data.success){
+	        }, function (data) {
+	            if (!data.success) {
 	                that.toast(data.message);
 	                return;
 	            }
@@ -4162,9 +4112,9 @@ webpackJsonp([4],[
 	 * 由框架调用，主要用于销毁订阅的事件
 	 */
 	AuthorityControl.prototype.finish = function () {
-	    try{
-	        frameworkBase.finish.apply(this,arguments);
-	    }catch(e){
+	    try {
+	        frameworkBase.finish.apply(this, arguments);
+	    } catch (e) {
 	        console.log(e);
 	    }
 	};
@@ -4174,117 +4124,114 @@ webpackJsonp([4],[
 	module.exports = authorityControl;
 
 /***/ },
-/* 317 */
+/* 319 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 318 */,
-/* 319 */
+/* 320 */,
+/* 321 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"authority-control\">\r\n    <ul class=\"ui-tabs\">\r\n        <li class=\"actived\">菜单权限</li>\r\n        <li>元素权限</li>\r\n    </ul>\r\n    <div class=\"ui-tabs-content\">\r\n        <div><ul class=\"ztree\" id=\"menuAuthorityTree\"></ul></div>\r\n        <div><ul class=\"ztree\" id=\"elementAuthorityTree\"></ul></div>\r\n    </div>\r\n    <span class=\"framework-button fa fa-save\" id=\"saveBtn\"></span>\r\n</div>";
+	module.exports = "<div class=\"authority-control\">\n    <ul class=\"ui-tabs\">\n        <li class=\"actived\">菜单权限</li>\n        <li>元素权限</li>\n    </ul>\n    <div class=\"ui-tabs-content\">\n        <div><ul class=\"ztree\" id=\"menuAuthorityTree\"></ul></div>\n        <div><ul class=\"ztree\" id=\"elementAuthorityTree\"></ul></div>\n    </div>\n    <span class=\"framework-button fa fa-save\" id=\"saveBtn\"></span>\n</div>";
 
 /***/ },
-/* 320 */
+/* 322 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 公司新增修改模块
 	 */
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(268);
-	__webpack_require__(287);
-	__webpack_require__(288);
-	var CompanyAddModify = function(){ };
+	__webpack_require__(270);
+	__webpack_require__(289);
+	__webpack_require__(290);
+	var CompanyAddModify = function CompanyAddModify() {};
 
 	//继承自框架基类
-	CompanyAddModify.prototype = $.extend({},frameworkBase);
+	CompanyAddModify.prototype = $.extend({}, frameworkBase);
 	CompanyAddModify.prototype.id = 'company-add-modify';
-
 
 	/**
 	 * 模块初始化入口<br>
 	 * @method init
 	 * @param options 参数对象
 	 */
-	CompanyAddModify.prototype.init = function(options){
+	CompanyAddModify.prototype.init = function (options) {
 	    var that = this;
-	    this.options = $.extend({action:'001'},options);
-	    that.setTitle(this.options.action == '001'?'添加公司':'编辑公司').setHeight(this.options.action == '001'?450:450).setWidth(450);
-	    frameworkBase.init.call(this,options);  
+	    this.options = $.extend({ action: '001' }, options);
+	    that.setTitle(this.options.action == '001' ? '添加公司' : '编辑公司').setHeight(this.options.action == '001' ? 450 : 450).setWidth(450);
+	    frameworkBase.init.call(this, options);
 	    this.loadBaseView();
 	    this.bindEvents();
-	    if(this.options.action == '002'){
+	    if (this.options.action == '002') {
 	        this.restoreData();
 	    }
 	};
 
-	CompanyAddModify.prototype.loadBaseView = function(options){
+	CompanyAddModify.prototype.loadBaseView = function (options) {
 	    var that = this;
-	    var html = __webpack_require__(321);
+	    var html = __webpack_require__(323);
 	    this.render(html);
 	};
 
-	CompanyAddModify.prototype.bindEvents = function(){
+	CompanyAddModify.prototype.bindEvents = function () {
 	    var that = this;
-	    var payed_deadline = $("#payed_deadline",that.dom).datebox({
-	        editable:false ,
-	        formatter: function (date) {
+	    var payed_deadline = $("#payed_deadline", that.dom).datebox({
+	        editable: false,
+	        formatter: function formatter(date) {
 	            return Calendar.getInstance(date).format('yyyy-MM-dd');
 	        }
 	    });
-	    $('#confirmBtn',this.dom).click(function(){
-	        var company_code = $('#company_code',that.dom).val();
-	        var company_name = $('#company_name',that.dom).val();
-	        var company_address = $('#company_address',that.dom).val();
+	    $('#confirmBtn', this.dom).click(function () {
+	        var company_code = $('#company_code', that.dom).val();
+	        var company_name = $('#company_name', that.dom).val();
+	        var company_address = $('#company_address', that.dom).val();
 
-	        var render_username = $('#render_username',that.dom).val();
-	        var render_price = $('#render_price',that.dom).val();
-	        var company_mark = $('#company_mark',that.dom).val();
-	        if($.trim(company_name) === '' ){
+	        var render_username = $('#render_username', that.dom).val();
+	        var render_price = $('#render_price', that.dom).val();
+	        var company_mark = $('#company_mark', that.dom).val();
+	        if ($.trim(company_name) === '') {
 	            swal("提示", "请输入公司名称!", "warning");
 	            return;
 	        }
-	        that.save('/company/save',{
-	            action:that.options.action,
-	            company_id:that.options.company_id,
-	            company_code:company_code,
-	            company_name:company_name,
-	            company_address:company_address,
-	            render_username:render_username,
-	            render_price:render_price,
-	            company_mark:company_mark,
-	        },function(data){
-	            if(!data.success){
+	        that.save('/company/save', {
+	            action: that.options.action,
+	            company_id: that.options.company_id,
+	            company_code: company_code,
+	            company_name: company_name,
+	            company_address: company_address,
+	            render_username: render_username,
+	            render_price: render_price,
+	            company_mark: company_mark
+	        }, function (data) {
+	            if (!data.success) {
 	                that.toast(data.message);
 	                return;
 	            }
 	            that.finish(true);
 	        });
-
 	    });
-	    $('#cancelBtn',this.dom).click(function(){
+	    $('#cancelBtn', this.dom).click(function () {
 	        that.finish(false);
 	    });
-
 	};
 
-	CompanyAddModify.prototype.restoreData = function() {
+	CompanyAddModify.prototype.restoreData = function () {
 	    var that = this;
-	    this.query('/company/search/'+this.options.company_id,function(data){
-	        if(!data.success){
+	    this.query('/company/search/' + this.options.company_id, function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
 	        data = data.data;
-	        $('#company_code',that.dom).val(data.company_code);
-	        $('#company_name',that.dom).val(data.company_name);
-	        $('#company_address',that.dom).val(data.company_address);
-	        $('#render_username',that.dom).val(data.render_username);
-	        $('#render_price',that.dom).val(data.render_price);
-	        $('#company_mark',that.dom).val(data.company_mark);
+	        $('#company_code', that.dom).val(data.company_code);
+	        $('#company_name', that.dom).val(data.company_name);
+	        $('#company_address', that.dom).val(data.company_address);
+	        $('#render_username', that.dom).val(data.render_username);
+	        $('#render_price', that.dom).val(data.render_price);
+	        $('#company_mark', that.dom).val(data.company_mark);
 	    });
 	};
 
@@ -4293,19 +4240,19 @@ webpackJsonp([4],[
 	 * 由框架调用，主要用于销毁订阅的事件
 	 */
 	CompanyAddModify.prototype.finish = function () {
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	module.exports = new CompanyAddModify();
 
 /***/ },
-/* 321 */
+/* 323 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"company-add-modify add-modify-form\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>公司编号：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入公司编号\" name=\"company_code\" id=\"company_code\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>公司名称：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入公司名称\" name=\"company_name\" id=\"company_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>公司地址：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入公司地址\" name=\"company_address\" id=\"company_address\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>渲染用户名：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入渲染客户端用户名\" name=\"render_username\" id=\"render_username\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>渲染单价：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入渲染单价\" name=\"render_price\" id=\"render_price\" type=\"text\" value=\"0.3\">\r\n            </div>\r\n            <div class=\"form-group\" style=\"height:100px;\">\r\n                <label>备注：</label>\r\n                <textarea  class=\"form-control\" placeholder=\"请输入公司备注\" name=\"company_mark\" id=\"company_mark\" ></textarea>\r\n            </div>\r\n\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
+	module.exports = "<div class=\"company-add-modify add-modify-form\">\n    <div class=\"panel-body\">\n            <div class=\"form-group\">\n                <label>公司编号：</label>\n                <input class=\"form-control\" placeholder=\"请输入公司编号\" name=\"company_code\" id=\"company_code\" type=\"text\" autofocus>\n            </div>\n            <div class=\"form-group\">\n                <label>公司名称：</label>\n                <input class=\"form-control\" placeholder=\"请输入公司名称\" name=\"company_name\" id=\"company_name\" type=\"text\" autofocus>\n            </div>\n            <div class=\"form-group\">\n                <label>公司地址：</label>\n                <input class=\"form-control\" placeholder=\"请输入公司地址\" name=\"company_address\" id=\"company_address\" type=\"text\" value=\"\">\n            </div>\n            <div class=\"form-group\">\n                <label>渲染用户名：</label>\n                <input class=\"form-control\" placeholder=\"请输入渲染客户端用户名\" name=\"render_username\" id=\"render_username\" type=\"text\" value=\"\">\n            </div>\n            <div class=\"form-group\">\n                <label>渲染单价：</label>\n                <input class=\"form-control\" placeholder=\"请输入渲染单价\" name=\"render_price\" id=\"render_price\" type=\"text\" value=\"0.3\">\n            </div>\n            <div class=\"form-group\" style=\"height:100px;\">\n                <label>备注：</label>\n                <textarea  class=\"form-control\" placeholder=\"请输入公司备注\" name=\"company_mark\" id=\"company_mark\" ></textarea>\n            </div>\n\n            <div class=\"btn-wrap\">\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\n            </div>\n    </div>\n</div>\n";
 
 /***/ },
-/* 322 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -4314,16 +4261,15 @@ webpackJsonp([4],[
 	 */
 
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(296);
-	__webpack_require__(323);
-	__webpack_require__(268);
-	var Exchange = __webpack_require__(325);
-	var CompanyManage = function () {};
+	__webpack_require__(298);
+	__webpack_require__(325);
+	__webpack_require__(270);
+	var Exchange = __webpack_require__(327);
+	var CompanyManage = function CompanyManage() {};
 
 	//继承自框架基类
 	CompanyManage.prototype = $.extend({}, frameworkBase);
 	CompanyManage.prototype.id = 'company-manage';
-
 
 	/**
 	 * 模块初始化入口<br>
@@ -4340,24 +4286,25 @@ webpackJsonp([4],[
 
 	CompanyManage.prototype.loadBaseView = function () {
 	    var that = this;
-	    this.loadFragment('/views/modules/company-manage.html').then(function(html){
+	    this.loadFragment('/views/modules/company-manage.html').then(function (html) {
 	        that.render(html);
-	        $('.tablecontainer',that.dom).height(that.dom.height()-55);
+	        $('.tablecontainer', that.dom).height(that.dom.height() - 55);
 	        that.initTable();
 	        that.bindEvents();
 	    });
 	};
 
 	CompanyManage.prototype.initTable = function () {
-	    var that = this, $tableMenu = $('#table-context-menu');
+	    var that = this,
+	        $tableMenu = $('#table-context-menu');
 	    that.$tableMenu = $tableMenu;
-	    $('.easyui-linkbutton',that.dom).linkbutton();
-	    var columns = __webpack_require__(326);
-	    that.$table = $('#dataTable',that.dom).datagrid({
+	    $('.easyui-linkbutton', that.dom).linkbutton();
+	    var columns = __webpack_require__(328);
+	    that.$table = $('#dataTable', that.dom).datagrid({
 	        url: '',
 	        method: 'get',
 	        columns: [columns],
-	        cache:false,
+	        cache: false,
 	        pagination: false,
 	        pageSize: 20,
 	        ctrlSelect: true,
@@ -4367,25 +4314,23 @@ webpackJsonp([4],[
 	        striped: true,
 	        fit: true,
 	        fitColumns: true,
-	        loadFilter: function (data) {
-	            if(!data){
+	        loadFilter: function loadFilter(data) {
+	            if (!data) {
 	                that.toast('查询失败');
 	            }
-	            return {rows: data, total: data.length};
+	            return { rows: data, total: data.length };
 	        },
-	        onDblClickRow: function (rowIndex, rowData) {
-	            Events.require('company-add-modify').addCallback(function(flag){
-	                if(flag)
-	                    Events.notify('onRefresh:company-manage');
-	            }).init({showType:'Pop',action:'002',company_id:rowData.company_id});
+	        onDblClickRow: function onDblClickRow(rowIndex, rowData) {
+	            Events.require('company-add-modify').addCallback(function (flag) {
+	                if (flag) Events.notify('onRefresh:company-manage');
+	            }).init({ showType: 'Pop', action: '002', company_id: rowData.company_id });
 	        },
-	        onRowContextMenu:function(event,rowIndex,rowData){
-	            if(!rowData)
-	                return;
+	        onRowContextMenu: function onRowContextMenu(event, rowIndex, rowData) {
+	            if (!rowData) return;
 	            event.preventDefault();
-	            that.$table.datagrid('unselectAll',rowIndex);
-	            that.$table.datagrid('selectRow',rowIndex);
-	            $tableMenu.menu('show',{
+	            that.$table.datagrid('unselectAll', rowIndex);
+	            that.$table.datagrid('selectRow', rowIndex);
+	            $tableMenu.menu('show', {
 	                left: event.clientX,
 	                top: event.clientY
 	            });
@@ -4393,27 +4338,27 @@ webpackJsonp([4],[
 	        toolbar: '#company-manage-toolbar'
 	    });
 	    $tableMenu.menu({
-	        onClick:function(item){
-	            var _id = item.id, id = _id.replace('context_','');
-	            $('#'+id,that.dom).click();
+	        onClick: function onClick(item) {
+	            var _id = item.id,
+	                id = _id.replace('context_', '');
+	            $('#' + id, that.dom).click();
 	        },
-	        hideOnUnhover:false
+	        hideOnUnhover: false
 	    });
 
-	    var searchBox = $('#company-manage #home-easyui-searchbox',that.dom).searchbox({
-	        searcher: function (value, name) {
+	    var searchBox = $('#company-manage #home-easyui-searchbox', that.dom).searchbox({
+	        searcher: function searcher(value, name) {
 	            Events.notify('onRefresh:company-manage');
 	        },
 	        prompt: '请输关键字，如公司名称或渲染用户名'
 	    });
 
-
 	    //订阅刷新公司
-	    Events.subscribe('onRefresh:company-manage',function(){
+	    Events.subscribe('onRefresh:company-manage', function () {
 	        var opts = that.$table.datagrid("options");
 	        opts.url = "/company/list";
-	        that.$table.datagrid('load',{
-	            key:searchBox.searchbox('getValue')
+	        that.$table.datagrid('load', {
+	            key: searchBox.searchbox('getValue')
 	        });
 	    }).notify('onRefresh:company-manage');
 	};
@@ -4423,27 +4368,23 @@ webpackJsonp([4],[
 	CompanyManage.prototype.bindEvents = function () {
 	    var that = this;
 	    //添加公司
-	    $('#add_company_btn',this.dom).click(function(){
-	        Events.require('company-add-modify').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:company-manage');
-	        }).init({showType:'Pop'});
+	    $('#add_company_btn', this.dom).click(function () {
+	        Events.require('company-add-modify').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:company-manage');
+	        }).init({ showType: 'Pop' });
 	    });
 	    //修改公司
-	    $('#modify_company_btn',this.dom).click(function(){
+	    $('#modify_company_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        Events.require('company-add-modify').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:company-manage');
-	        }).init({showType:'Pop',action:'002',company_id:rowData.company_id});
+	        if (!(rowData = getSelectRow())) return;
+	        Events.require('company-add-modify').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:company-manage');
+	        }).init({ showType: 'Pop', action: '002', company_id: rowData.company_id });
 	    });
 	    //删除公司
-	    $('#delete_company_btn',this.dom).click(function(){
+	    $('#delete_company_btn', this.dom).click(function () {
 	        var rows;
-	        if(!(rows = getCheckRow()))
-	            return;
+	        if (!(rows = getCheckRow())) return;
 	        swal({
 	            title: "确认",
 	            text: "删除该公司将会清空下面所有客户数据，确认删除吗？",
@@ -4454,41 +4395,39 @@ webpackJsonp([4],[
 	            cancelButtonText: "取消",
 	            closeOnConfirm: true
 	        }, function () {
-	            that.save('/company/save',{action:'003',company_id:function(){
-	                var ids = [];
-	                rows.forEach(function(item){
-	                    ids.push(item.company_id);
-	                });
-	                return ids.join(',');
-	            }()},function(data){
-	                if(data.success){
+	            that.save('/company/save', { action: '003', company_id: function () {
+	                    var ids = [];
+	                    rows.forEach(function (item) {
+	                        ids.push(item.company_id);
+	                    });
+	                    return ids.join(',');
+	                }() }, function (data) {
+	                if (data.success) {
 	                    that.toast("删除公司成功!");
 	                    Events.notify('onRefresh:company-manage');
-	                }else{
+	                } else {
 	                    that.toast(data.message);
 	                }
 	            });
 	        });
-
 	    });
 
-	    function getSelectRow(){
+	    function getSelectRow() {
 	        var rowData = that.$table.datagrid('getSelected');
-	        if(!rowData){
+	        if (!rowData) {
 	            swal("提示", "请先选择一条数据!", "warning");
 	            return;
 	        }
 	        return rowData;
 	    }
-	    function getCheckRow(){
+	    function getCheckRow() {
 	        var rows = that.$table.datagrid('getChecked');
-	        if(rows.length == 0){
+	        if (rows.length == 0) {
 	            swal("提示", "请至少选择一条数据!", "warning");
 	            return;
 	        }
 	        return rows;
 	    }
-
 	};
 
 	/**
@@ -4498,28 +4437,27 @@ webpackJsonp([4],[
 	CompanyManage.prototype.finish = function () {
 	    Events.unsubscribe('onRefresh:company-manage');
 	    this.$tableMenu && this.$tableMenu.menu('destroy');
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	var companyManage = new CompanyManage();
-	Events.subscribe('onWindowResize',function(){
-	    if(!companyManage.dom)
-	        return;
-	    $('.tablecontainer',companyManage.dom).height(companyManage.dom.height()-15-$('.condition-wrap',companyManage.dom).height());
+	Events.subscribe('onWindowResize', function () {
+	    if (!companyManage.dom) return;
+	    $('.tablecontainer', companyManage.dom).height(companyManage.dom.height() - 15 - $('.condition-wrap', companyManage.dom).height());
 	    companyManage.$table.datagrid('resize');
 	});
 
 	module.exports = companyManage;
 
 /***/ },
-/* 323 */
+/* 325 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 324 */,
-/* 325 */
+/* 326 */,
+/* 327 */
 /***/ function(module, exports) {
 
 	/**
@@ -4602,7 +4540,7 @@ webpackJsonp([4],[
 
 
 /***/ },
-/* 326 */
+/* 328 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -4618,194 +4556,190 @@ webpackJsonp([4],[
 	];
 
 /***/ },
-/* 327 */
+/* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 客户新增修改模块
 	 */
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(268);
-	__webpack_require__(287);
-	__webpack_require__(288);
-	var CustomerAddModify = function(){ };
+	__webpack_require__(270);
+	__webpack_require__(289);
+	__webpack_require__(290);
+	var CustomerAddModify = function CustomerAddModify() {};
 
 	//继承自框架基类
-	CustomerAddModify.prototype = $.extend({},frameworkBase);
+	CustomerAddModify.prototype = $.extend({}, frameworkBase);
 	CustomerAddModify.prototype.id = 'customer-add-modify';
-
 
 	/**
 	 * 模块初始化入口<br>
 	 * @method init
 	 * @param options 参数对象
 	 */
-	CustomerAddModify.prototype.init = function(options){
+	CustomerAddModify.prototype.init = function (options) {
 	    var that = this;
-	    this.options = $.extend({action:'001'},options);
-	    that.setTitle(this.options.action == '001'?'添加客户':'编辑客户').setHeight(540).setWidth(400);
-	    frameworkBase.init.call(this,options);
+	    this.options = $.extend({ action: '001' }, options);
+	    that.setTitle(this.options.action == '001' ? '添加客户' : '编辑客户').setHeight(540).setWidth(400);
+	    frameworkBase.init.call(this, options);
 	    this.loadBaseView();
 	    this.bindEvents();
 	};
 
-	CustomerAddModify.prototype.loadBaseView = function(options){
+	CustomerAddModify.prototype.loadBaseView = function (options) {
 	    var that = this;
-	    var html = __webpack_require__(328);
+	    var html = __webpack_require__(330);
 	    this.render(html);
 	};
 
-	CustomerAddModify.prototype.bindEvents = function(){
+	CustomerAddModify.prototype.bindEvents = function () {
 	    var that = this;
-	    $('#confirmBtn',this.dom).click(function(){
-	        var customer_code = $('#customer_code',that.dom).val();
-	        var customer_name = $('#customer_name',that.dom).val();
-	        var customer_job = $('#customer_job',that.dom).val();
-	        var tel = $('#tel',that.dom).val();
-	        var qq = $('#qq',that.dom).val();
-	        var mail = $('#mail',that.dom).val();
-	        var customer_mark = $('#customer_mark',that.dom).val();
-	        var company_id = $('#company_id',that.dom).attr('data-company-id');
-	        if($.trim(customer_name) === '' ){
+	    $('#confirmBtn', this.dom).click(function () {
+	        var customer_code = $('#customer_code', that.dom).val();
+	        var customer_name = $('#customer_name', that.dom).val();
+	        var customer_job = $('#customer_job', that.dom).val();
+	        var tel = $('#tel', that.dom).val();
+	        var qq = $('#qq', that.dom).val();
+	        var mail = $('#mail', that.dom).val();
+	        var customer_mark = $('#customer_mark', that.dom).val();
+	        var company_id = $('#company_id', that.dom).attr('data-company-id');
+	        if ($.trim(customer_name) === '') {
 	            swal("提示", "请输入客户姓名!", "warning");
 	            return;
 	        }
-	        if(!company_id){
+	        if (!company_id) {
 	            swal("提示", "请选择所属公司!", "warning");
 	            return;
 	        }
-	        that.save('/customer/save',{
-	            action:that.options.action,
-	            customer_id:that.options.customer_id,
-	            customer_code:customer_code,
-	            customer_name:customer_name,
-	            customer_job:customer_job,
-	            tel:tel,
-	            qq:qq,
-	            mail:mail,
-	            company_id:company_id,
-	            customer_mark:customer_mark
-	        },function(data){
-	            if(!data.success){
+	        that.save('/customer/save', {
+	            action: that.options.action,
+	            customer_id: that.options.customer_id,
+	            customer_code: customer_code,
+	            customer_name: customer_name,
+	            customer_job: customer_job,
+	            tel: tel,
+	            qq: qq,
+	            mail: mail,
+	            company_id: company_id,
+	            customer_mark: customer_mark
+	        }, function (data) {
+	            if (!data.success) {
 	                that.toast(data.message);
 	                return;
 	            }
 	            that.finish(true);
 	        });
-
 	    });
-	    $('#cancelBtn',this.dom).click(function(){
+	    $('#cancelBtn', this.dom).click(function () {
 	        that.finish(false);
 	    });
 
 	    this.$treepanel = $('<div id="menu_tree_panel" class="dropdown_panel"><ul id="menuPanelTree" class="ztree"></ul></div>').appendTo($('body'));
-	    var $company_parent_id = $('#company_id',this.dom);
+	    var $company_parent_id = $('#company_id', this.dom);
 
-	    $company_parent_id.click(function(){
+	    $company_parent_id.click(function () {
 	        var offset = $company_parent_id.offset();
 	        that.$treepanel.css({
-	            left:offset.left,
-	            top:offset.top+30,
-	            width:$company_parent_id.outerWidth()
+	            left: offset.left,
+	            top: offset.top + 30,
+	            width: $company_parent_id.outerWidth()
 	        });
-	        that.$treepanel.is(':visible')?(that.$treepanel.hide()):(that.$treepanel.show());
+	        that.$treepanel.is(':visible') ? that.$treepanel.hide() : that.$treepanel.show();
 	        return false;
 	    });
-	    this.$treepanel.click(function(){
+	    this.$treepanel.click(function () {
 	        return false;
 	    });
 	    this.initCompanyTree();
 	};
 
-	CustomerAddModify.prototype.onMove = function(left,top){
-	    if(!this.$treepanel)
-	        return;
-	    var $company_parent_id = $('#company_id',this.dom);
+	CustomerAddModify.prototype.onMove = function (left, top) {
+	    if (!this.$treepanel) return;
+	    var $company_parent_id = $('#company_id', this.dom);
 	    var offset = $company_parent_id.offset();
 	    this.$treepanel.css({
-	        left:offset.left,
-	        top:offset.top+30
+	        left: offset.left,
+	        top: offset.top + 30
 	    });
 	};
 
-
-	CustomerAddModify.prototype.initCompanyTree = function(){
+	CustomerAddModify.prototype.initCompanyTree = function () {
 	    var that = this;
-	    this.query('/company/list',function(data){
-	        if(!data){
+	    this.query('/company/list', function (data) {
+	        if (!data) {
 	            that.toast('查询公司出错');
 	            return;
 	        }
-	        data.push({'company_id':0,'pId':null,'company_name':'根节点'});
-	        $.each(data,function(index,item){
+	        data.push({ 'company_id': 0, 'pId': null, 'company_name': '根节点' });
+	        $.each(data, function (index, item) {
 	            item.iconSkin = 'icon01';
 	        });
 	        var setting = {
-	            data:{
-	                keep:{
-	                    parent:true,
-	                    leaf:true
+	            data: {
+	                keep: {
+	                    parent: true,
+	                    leaf: true
 	                },
-	                simpleData:{
-	                    enable:true,
-	                    idKey:'company_id',
-	                    pIdKey:'pId',
-	                    rootPId:null
+	                simpleData: {
+	                    enable: true,
+	                    idKey: 'company_id',
+	                    pIdKey: 'pId',
+	                    rootPId: null
 	                },
-	                key:{
-	                    name:'company_name'
+	                key: {
+	                    name: 'company_name'
 	                }
 	            },
-	            callback:{
-	                onClick:function(event, treeId, treeNode){
+	            callback: {
+	                onClick: function onClick(event, treeId, treeNode) {
 	                    //根元素不让选
-	                    if(treeNode.company_id != '0'){
-	                        $('#company_id',that.dom).val(treeNode.company_name);
-	                        $('#company_id',that.dom).attr('data-company-id',treeNode.company_id);
+	                    if (treeNode.company_id != '0') {
+	                        $('#company_id', that.dom).val(treeNode.company_name);
+	                        $('#company_id', that.dom).attr('data-company-id', treeNode.company_id);
 	                        hidePanel();
 	                    }
 	                }
 	            }
 	        };
-	        that.ztreeObj = $.fn.zTree.init($("#menuPanelTree",that.$treepanel), setting, data);
+	        that.ztreeObj = $.fn.zTree.init($("#menuPanelTree", that.$treepanel), setting, data);
 	        that.ztreeObj.expandNode(that.ztreeObj.getNodes()[0], true, false, true);
 
-	        if(that.options.action == '002'){
+	        if (that.options.action == '002') {
 	            that.restoreData();
-	        }else{
-	            var node = that.ztreeObj.getNodesByParam('company_id',that.options.company_id,null)[0];
+	        } else {
+	            var node = that.ztreeObj.getNodesByParam('company_id', that.options.company_id, null)[0];
 	            that.ztreeObj.selectNode(node);
-	            $('#company_id',that.dom).val(node ? node.company_name : '');
-	            $('#company_id',that.dom).attr('data-company-id',that.options.company_id);
+	            $('#company_id', that.dom).val(node ? node.company_name : '');
+	            $('#company_id', that.dom).attr('data-company-id', that.options.company_id);
 	        }
 	    });
 	};
 
-	function hidePanel(){
+	function hidePanel() {
 	    $('.dropdown_panel').hide();
 	}
-	$('body').on('click',function(){
+	$('body').on('click', function () {
 	    hidePanel();
 	});
-	CustomerAddModify.prototype.restoreData = function() {
+	CustomerAddModify.prototype.restoreData = function () {
 	    var that = this;
-	    this.query('/customer/search/'+this.options.customer_id,function(data){
-	        if(!data.success){
+	    this.query('/customer/search/' + this.options.customer_id, function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
 	        data = data.data;
-	        $('#customer_code',that.dom).val(data.customer_code);
-	        $('#customer_name',that.dom).val(data.customer_name);
-	        $('#customer_job',that.dom).val(data.customer_job);
-	        $('#tel',that.dom).val(data.tel);
-	        $('#qq',that.dom).val(data.qq);
-	        $('#mail',that.dom).val(data.mail);
-	        var node = that.ztreeObj.getNodesByParam('company_id',data.company_id,null)[0];
+	        $('#customer_code', that.dom).val(data.customer_code);
+	        $('#customer_name', that.dom).val(data.customer_name);
+	        $('#customer_job', that.dom).val(data.customer_job);
+	        $('#tel', that.dom).val(data.tel);
+	        $('#qq', that.dom).val(data.qq);
+	        $('#mail', that.dom).val(data.mail);
+	        var node = that.ztreeObj.getNodesByParam('company_id', data.company_id, null)[0];
 	        that.ztreeObj.selectNode(node);
-	        $('#company_id',that.dom).attr('data-company-id',data.company_id);
-	        $('#company_id',that.dom).val(node ? node.company_name:'');
-	        $('#customer_mark',that.dom).val(data.customer_mark);
+	        $('#company_id', that.dom).attr('data-company-id', data.company_id);
+	        $('#company_id', that.dom).val(node ? node.company_name : '');
+	        $('#customer_mark', that.dom).val(data.customer_mark);
 	    });
 	};
 
@@ -4816,19 +4750,19 @@ webpackJsonp([4],[
 	CustomerAddModify.prototype.finish = function () {
 	    this.ztreeObj && this.ztreeObj.destroy();
 	    this.$treepanel && this.$treepanel.remove();
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	module.exports = new CustomerAddModify();
 
 /***/ },
-/* 328 */
+/* 330 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"customer-add-modify add-modify-form\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>客户编号：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户编号\" name=\"customer_code\" id=\"customer_code\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>客户姓名：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户姓名\" name=\"customer_name\" id=\"customer_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>客户职位：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户职位\" name=\"customer_job\" id=\"customer_job\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>联系电话：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户联系电话\" name=\"tel\" id=\"tel\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>QQ：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户QQ\" name=\"qq\" id=\"qq\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>客户邮箱：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入客户邮箱\" name=\"mail\" id=\"mail\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\" style=\"height:100px;\">\r\n                <label>备注：</label>\r\n                    <textarea  class=\"form-control\" placeholder=\"请输入备注\" name=\"customer_mark\" id=\"customer_mark\" ></textarea>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>所属公司：</label>\r\n                <input class=\"form-control\" placeholder=\"请选择所属公司\" readonly=\"true\" name=\"company_id\" id=\"company_id\" type=\"text\" data-company-id=\"0\" value=\"请选择所属公司\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
+	module.exports = "<div class=\"customer-add-modify add-modify-form\">\n    <div class=\"panel-body\">\n            <div class=\"form-group\">\n                <label>客户编号：</label>\n                <input class=\"form-control\" placeholder=\"请输入客户编号\" name=\"customer_code\" id=\"customer_code\" type=\"text\" autofocus>\n            </div>\n            <div class=\"form-group\">\n                <label>客户姓名：</label>\n                <input class=\"form-control\" placeholder=\"请输入客户姓名\" name=\"customer_name\" id=\"customer_name\" type=\"text\" autofocus>\n            </div>\n            <div class=\"form-group\">\n                <label>客户职位：</label>\n                <input class=\"form-control\" placeholder=\"请输入客户职位\" name=\"customer_job\" id=\"customer_job\" type=\"text\" value=\"\">\n            </div>\n            <div class=\"form-group\">\n                <label>联系电话：</label>\n                <input class=\"form-control\" placeholder=\"请输入客户联系电话\" name=\"tel\" id=\"tel\" type=\"text\" value=\"\">\n            </div>\n            <div class=\"form-group\">\n                <label>QQ：</label>\n                <input class=\"form-control\" placeholder=\"请输入客户QQ\" name=\"qq\" id=\"qq\" type=\"text\" value=\"\">\n            </div>\n            <div class=\"form-group\">\n                <label>客户邮箱：</label>\n                <input class=\"form-control\" placeholder=\"请输入客户邮箱\" name=\"mail\" id=\"mail\" type=\"text\" value=\"\">\n            </div>\n            <div class=\"form-group\" style=\"height:100px;\">\n                <label>备注：</label>\n                    <textarea  class=\"form-control\" placeholder=\"请输入备注\" name=\"customer_mark\" id=\"customer_mark\" ></textarea>\n            </div>\n            <div class=\"form-group\">\n                <label>所属公司：</label>\n                <input class=\"form-control\" placeholder=\"请选择所属公司\" readonly=\"true\" name=\"company_id\" id=\"company_id\" type=\"text\" data-company-id=\"0\" value=\"请选择所属公司\">\n            </div>\n            <div class=\"btn-wrap\">\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\n            </div>\n    </div>\n</div>\n";
 
 /***/ },
-/* 329 */
+/* 331 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -4837,19 +4771,18 @@ webpackJsonp([4],[
 	 */
 
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(296);
-	__webpack_require__(287);
-	__webpack_require__(297);
-	__webpack_require__(288);
-	__webpack_require__(330);
-	__webpack_require__(268);
-	var table2TreeDragUtil = __webpack_require__(332);
-	var CustomerManage = function () {};
+	__webpack_require__(298);
+	__webpack_require__(289);
+	__webpack_require__(299);
+	__webpack_require__(290);
+	__webpack_require__(332);
+	__webpack_require__(270);
+	var table2TreeDragUtil = __webpack_require__(334);
+	var CustomerManage = function CustomerManage() {};
 
 	//继承自框架基类
 	CustomerManage.prototype = $.extend({}, frameworkBase);
 	CustomerManage.prototype.id = 'customer-manage';
-
 
 	/**
 	 * 模块初始化入口<br>
@@ -4866,9 +4799,9 @@ webpackJsonp([4],[
 
 	CustomerManage.prototype.loadBaseView = function () {
 	    var that = this;
-	    this.loadFragment('/views/modules/customer-manage.html').then(function(html){
+	    this.loadFragment('/views/modules/customer-manage.html').then(function (html) {
 	        that.render(html);
-	        $('.tablecontainer',that.dom).height(that.dom.height()-55);
+	        $('.tablecontainer', that.dom).height(that.dom.height() - 55);
 	        that.initTable();
 	        that.initCompanyTree();
 	        that.bindEvents();
@@ -4876,15 +4809,16 @@ webpackJsonp([4],[
 	};
 
 	CustomerManage.prototype.initTable = function () {
-	    var that = this, $tableMenu = $('#table-context-menu');
+	    var that = this,
+	        $tableMenu = $('#table-context-menu');
 	    that.$tableMenu = $tableMenu;
-	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(333);
-	    that.$table = $('#dataTable',this.dom).datagrid({
+	    $('.easyui-linkbutton', this.dom).linkbutton();
+	    var columns = __webpack_require__(335);
+	    that.$table = $('#dataTable', this.dom).datagrid({
 	        url: '',
 	        method: 'get',
 	        columns: [columns],
-	        cache:false,
+	        cache: false,
 	        pagination: false,
 	        pageSize: 20,
 	        ctrlSelect: true,
@@ -4894,26 +4828,24 @@ webpackJsonp([4],[
 	        striped: true,
 	        fit: true,
 	        fitColumns: true,
-	        loadFilter: function (data) {
-	            if(!data.success){
+	        loadFilter: function loadFilter(data) {
+	            if (!data.success) {
 	                that.toast(data.message);
 	            }
 
-	            return {rows: data.data, total: data.data.length};
+	            return { rows: data.data, total: data.data.length };
 	        },
-	        onDblClickRow: function (rowIndex, rowData) {
-	            Events.require('customer-add-modify').addCallback(function(flag){
-	                if(flag)
-	                    Events.notify('onRefresh:customer-manage');
-	            }).init({showType:'Pop',action:'002',customer_id:rowData.customer_id});
+	        onDblClickRow: function onDblClickRow(rowIndex, rowData) {
+	            Events.require('customer-add-modify').addCallback(function (flag) {
+	                if (flag) Events.notify('onRefresh:customer-manage');
+	            }).init({ showType: 'Pop', action: '002', customer_id: rowData.customer_id });
 	        },
-	        onRowContextMenu:function(event,rowIndex,rowData){
-	            if(!rowData)
-	                return;
+	        onRowContextMenu: function onRowContextMenu(event, rowIndex, rowData) {
+	            if (!rowData) return;
 	            event.preventDefault();
-	            that.$table.datagrid('unselectAll',rowIndex);
-	            that.$table.datagrid('selectRow',rowIndex);
-	            $tableMenu.menu('show',{
+	            that.$table.datagrid('unselectAll', rowIndex);
+	            that.$table.datagrid('selectRow', rowIndex);
+	            $tableMenu.menu('show', {
 	                left: event.clientX,
 	                top: event.clientY
 	            });
@@ -4921,117 +4853,112 @@ webpackJsonp([4],[
 	        toolbar: '#customer-manage-toolbar'
 	    });
 	    $tableMenu.menu({
-	        onClick:function(item){
-	            var _id = item.id, id = _id.replace('context_','');
-	            $('#'+id,that.dom).click();
+	        onClick: function onClick(item) {
+	            var _id = item.id,
+	                id = _id.replace('context_', '');
+	            $('#' + id, that.dom).click();
 	        },
-	        hideOnUnhover:false
+	        hideOnUnhover: false
 	    });
 
-	    var searchBox = that.searchBox = $('#home-easyui-searchbox',that.dom).searchbox({
-	        searcher: function (value, name) {
+	    var searchBox = that.searchBox = $('#home-easyui-searchbox', that.dom).searchbox({
+	        searcher: function searcher(value, name) {
 	            Events.notify('onRefresh:customer-manage');
 	        },
 	        prompt: '请输入关键字，如客户姓名、职位或编号'
 	    });
-	    var companySearchBox = $('#company-searchbox',that.dom).searchbox({
-	        searcher: function (value, name) {
-	            Events.notify('onRefresh:customer-manage-company',value);
+	    var companySearchBox = $('#company-searchbox', that.dom).searchbox({
+	        searcher: function searcher(value, name) {
+	            Events.notify('onRefresh:customer-manage-company', value);
 	        },
 	        prompt: '请输入关键字，如公司名称或渲染用户名'
 	    });
 
 	    //订阅刷新消息
-	    Events.subscribe('onRefresh:customer-manage',function(){
+	    Events.subscribe('onRefresh:customer-manage', function () {
 	        var opts = that.$table.datagrid("options");
-	        if(!opts.url)
-	            opts.url = "/customer/list";
-	        else
-	            that.$table.datagrid('load',{
-	                company_id:selectCompanyId,
-	                key:searchBox.searchbox('getValue')
-	            });
+	        if (!opts.url) opts.url = "/customer/list";else that.$table.datagrid('load', {
+	            company_id: selectCompanyId,
+	            key: searchBox.searchbox('getValue')
+	        });
 	    });
 
-
 	    //订阅公司树刷新
-	    Events.subscribe('onRefresh:customer-manage-company',function(value){
-	        var _nodes = that.ztreeObj.getNodesByFilter(function(node){
-	            if(node.company_name.indexOf(value)!=-1 || (node.render_username && node.render_username.indexOf(value)!=-1))
-	                return true;
-	            if(node.company_id == null)
-	                return true;
+	    Events.subscribe('onRefresh:customer-manage-company', function (value) {
+	        var _nodes = that.ztreeObj.getNodesByFilter(function (node) {
+	            if (node.company_name.indexOf(value) != -1 || node.render_username && node.render_username.indexOf(value) != -1) return true;
+	            if (node.company_id == null) return true;
 	            that.ztreeObj.hideNode(node);
 	        });
 	        that.ztreeObj.showNodes(_nodes);
 	    });
 	};
 
-	var selectCompanyId, firstRefresh = false;
-	CustomerManage.prototype.initCompanyTree = function(){
-	    var that = this, $treeMenu = $('#tree-context-menu');
+	var selectCompanyId,
+	    firstRefresh = false;
+	CustomerManage.prototype.initCompanyTree = function () {
+	    var that = this,
+	        $treeMenu = $('#tree-context-menu');
 	    that.$treeMenu = $treeMenu;
 	    firstRefresh = false;
 	    var setting = {
-	        async:{
-	            enable:true,
-	            url:'/company/list',
-	            type:'get',
-	            dataFilter: function(treeId, parentNode, responseData){
-	                $.each(responseData,function(index,item){
+	        async: {
+	            enable: true,
+	            url: '/company/list',
+	            type: 'get',
+	            dataFilter: function dataFilter(treeId, parentNode, responseData) {
+	                $.each(responseData, function (index, item) {
 	                    item.iconSkin = 'icon01';
 	                });
 	                return responseData;
 	            }
 	        },
-	        data:{
-	            key:{
-	                name:'company_name',
-	                title:'company_name'
+	        data: {
+	            key: {
+	                name: 'company_name',
+	                title: 'company_name'
 	            },
-	            simpleData:{
-	                idKey:'company_id',
-	                pIdKey:'pId'
+	            simpleData: {
+	                idKey: 'company_id',
+	                pIdKey: 'pId'
 	            },
-	            keep:{
-	                parent:true
+	            keep: {
+	                parent: true
 	            }
 	        },
-	        callback:{
-	            onClick:function(event, treeId, treeNode){
+	        callback: {
+	            onClick: function onClick(event, treeId, treeNode) {
 	                selectCompanyId = treeNode.company_id;
 	                Events.notify('onRefresh:customer-manage');
 	            },
-	            onAsyncSuccess:function(){
-	                if(firstRefresh)
-	                    return;
+	            onAsyncSuccess: function onAsyncSuccess() {
+	                if (firstRefresh) return;
 	                firstRefresh = true;
 	            },
-	            onRightClick:function(event,treeId,treeNode){
-	                if(!treeNode)
-	                    return;
+	            onRightClick: function onRightClick(event, treeId, treeNode) {
+	                if (!treeNode) return;
 	                event.preventDefault();
 	                that.ztreeObj.selectNode(treeNode, false, false);
 	                selectCompanyId = treeNode.company_id;
 	                Events.notify('onRefresh:customer-manage');
-	                var arr = ['context_modifyCompanyBtn','context_removeCompanyBtn','context_queryKernalTime','context_add_customer_btn','context_export_customer_btn'],
+	                var arr = ['context_modifyCompanyBtn', 'context_removeCompanyBtn', 'context_queryKernalTime', 'context_add_customer_btn', 'context_export_customer_btn'],
 	                    arr2 = ['context_addCompanyBtn'];
-	                if(treeNode.company_id == null){
-	                    $.each(arr,function(index,id){
-	                        var item = $treeMenu.menu('getItem', $('#'+id)[0]);
+	                if (treeNode.company_id == null) {
+	                    $.each(arr, function (index, id) {
+	                        var item = $treeMenu.menu('getItem', $('#' + id)[0]);
 	                        $treeMenu.menu('disableItem', item.target);
 	                    });
-	                    $.each(arr2,function(index,id){
-	                        var item = $treeMenu.menu('getItem', $('#'+id)[0]);
+	                    $.each(arr2, function (index, id) {
+	                        var item = $treeMenu.menu('getItem', $('#' + id)[0]);
 	                        $treeMenu.menu('enableItem', item.target);
 	                    });
-	                }else{
-	                    $.each(arr,function(index,id){
-	                        var item = $treeMenu.menu('getItem', $('#'+id)[0]);
+	                } else {
+	                    $.each(arr, function (index, id) {
+	                        var item = $treeMenu.menu('getItem', $('#' + id)[0]);
 	                        $treeMenu.menu('enableItem', item.target);
 	                    });
-	                    $.each(arr2,function(index,id){
-	                        var item = $treeMenu.menu('getItem', $('#'+id)[0]);
+	                    $.each(arr2, function (index, id) {
+	                        var item = $treeMenu.menu('getItem', $('#' + id)[0]);
 	                        $treeMenu.menu('disableItem', item.target);
 	                    });
 	                }
@@ -5044,44 +4971,44 @@ webpackJsonp([4],[
 	        }
 	    };
 	    $treeMenu.menu({
-	        onClick:function(item){
-	            var _id = item.id, id = _id.replace('context_','');
-	            $('#'+id,that.dom).click();
+	        onClick: function onClick(item) {
+	            var _id = item.id,
+	                id = _id.replace('context_', '');
+	            $('#' + id, that.dom).click();
 	        },
-	        hideOnUnhover:false
+	        hideOnUnhover: false
 	    });
-	    that.ztreeObj = $.fn.zTree.init($("#companyTree",that.dom), setting,[{company_id:null,company_name:'所有公司',pId:null,isParent:true}]);
+	    that.ztreeObj = $.fn.zTree.init($("#companyTree", that.dom), setting, [{ company_id: null, company_name: '所有公司', pId: null, isParent: true }]);
 	    var rootNode = that.ztreeObj.getNodes()[0];
-	    that.ztreeObj.expandNode(rootNode,true,true,true);
+	    that.ztreeObj.expandNode(rootNode, true, true, true);
 	    selectCompanyId = that.ztreeObj.getNodes()[0].company_id;
 	    that.ztreeObj.selectNode(rootNode, false, false);
 	    Events.notify('onRefresh:customer-manage');
 	    table2TreeDragUtil.init({
-	        table:that.$table,
-	        tree:that.ztreeObj,
-	        titleField:'customer_name',
-	        callback:function(list,treeNode,isCopy){
+	        table: that.$table,
+	        tree: that.ztreeObj,
+	        titleField: 'customer_name',
+	        callback: function callback(list, treeNode, isCopy) {
 	            var nodes = that.ztreeObj.getSelectedNodes();
-	            if(treeNode == nodes[0]){
+	            if (treeNode == nodes[0]) {
 	                return;
 	            }
-	            that.save('/customer/save',{action:'004',is_copy:isCopy,company_id:treeNode.company_id,customer_id:function(){
-	                var ids = [];
-	                list.forEach(function(item){
-	                    ids.push(item.customer_id);
-	                });
-	                return ids.join(',');
-	            }()},function(data){
-	                if(data.success){
-	                    that.toast("客户已"+(isCopy?'复制':'移动')+"到【"+treeNode.company_name+"】下。");
+	            that.save('/customer/save', { action: '004', is_copy: isCopy, company_id: treeNode.company_id, customer_id: function () {
+	                    var ids = [];
+	                    list.forEach(function (item) {
+	                        ids.push(item.customer_id);
+	                    });
+	                    return ids.join(',');
+	                }() }, function (data) {
+	                if (data.success) {
+	                    that.toast("客户已" + (isCopy ? '复制' : '移动') + "到【" + treeNode.company_name + "】下。");
 	                    Events.notify('onRefresh:customer-manage');
-	                }else{
+	                } else {
 	                    that.toast(data.message);
 	                }
 	            });
 	        }
 	    });
-
 	};
 
 	/**
@@ -5091,30 +5018,31 @@ webpackJsonp([4],[
 	    var that = this;
 
 	    //添加公司
-	    $('#addCompanyBtn',this.dom).click(function(){
-	        Events.require('company-add-modify').addCallback(function(flag){
-	            if(flag){
+	    $('#addCompanyBtn', this.dom).click(function () {
+	        Events.require('company-add-modify').addCallback(function (flag) {
+	            if (flag) {
 	                var nodes = that.ztreeObj.getSelectedNodes();
 	                that.ztreeObj.reAsyncChildNodes(nodes[0], "refresh");
 	                that.toast('保存成功！');
 	            }
-	        }).init({showType:'Pop'});
+	        }).init({ showType: 'Pop' });
 	    });
 	    //编辑公司
-	    $('#modifyCompanyBtn',this.dom).click(function(){
-	        var nodes = that.ztreeObj.getSelectedNodes(),company_id;
-	        if(nodes.length>0){
+	    $('#modifyCompanyBtn', this.dom).click(function () {
+	        var nodes = that.ztreeObj.getSelectedNodes(),
+	            company_id;
+	        if (nodes.length > 0) {
 	            company_id = nodes[0].company_id;
-	        }else{
+	        } else {
 	            swal("提示", "请先选择一条数据!", "warning");
 	            return;
 	        }
-	        Events.require('company-add-modify').addCallback(function(flag){
-	            if(flag){
+	        Events.require('company-add-modify').addCallback(function (flag) {
+	            if (flag) {
 	                that.ztreeObj.reAsyncChildNodes(null, "refresh");
 	                that.toast('保存成功！');
 	            }
-	        }).init({showType:'Pop',action:'002',company_id:company_id});
+	        }).init({ showType: 'Pop', action: '002', company_id: company_id });
 	    });
 	    //删除公司
 	    $('#removeCompanyBtn', this.dom).click(function () {
@@ -5133,7 +5061,7 @@ webpackJsonp([4],[
 	            cancelButtonText: "取消",
 	            closeOnConfirm: true
 	        }, function () {
-	            that.save('/company/save', {action:'003',company_id: nodes[0].company_id}, function (data) {
+	            that.save('/company/save', { action: '003', company_id: nodes[0].company_id }, function (data) {
 	                if (!data.success) {
 	                    that.toast(data.message);
 	                    return;
@@ -5145,61 +5073,55 @@ webpackJsonp([4],[
 	                that.toast('删除成功！');
 	            });
 	        });
-
 	    });
 
 	    //查询公司核时
-	    $('#queryKernalTime',this.dom).click(function(){
-	        var nodes = that.ztreeObj.getSelectedNodes(),company_id;
-	        if(nodes.length>0){
+	    $('#queryKernalTime', this.dom).click(function () {
+	        var nodes = that.ztreeObj.getSelectedNodes(),
+	            company_id;
+	        if (nodes.length > 0) {
 	            company_id = nodes[0].company_id;
-	        }else{
+	        } else {
 	            swal("提示", "请先选择公司!", "warning");
 	            return;
 	        }
-	        if(!nodes[0].render_username){
+	        if (!nodes[0].render_username) {
 	            swal("提示", "请先配置该公司的渲染客户端用户名!", "warning");
 	            return;
 	        }
-	        that.query('/company/kernal/'+company_id,function(data){
-	            if(!data.success){
+	        that.query('/company/kernal/' + company_id, function (data) {
+	            if (!data.success) {
 	                swal("核时查询", data.message);
 	                return;
 	            }
 	            data = data.data;
-	            swal("核时查询", '【'+nodes[0].company_name+'】的核时数为：'+data.kernal+'，单价为：'+data.price+'元/核时，总价为：'+(data.kernal*data.price).toFixed(2)+'元');
+	            swal("核时查询", '【' + nodes[0].company_name + '】的核时数为：' + data.kernal + '，单价为：' + data.price + '元/核时，总价为：' + (data.kernal * data.price).toFixed(2) + '元');
 	        });
-
 	    });
 
-
 	    //添加客户
-	    $('#add_customer_btn',this.dom).click(function(){
+	    $('#add_customer_btn', this.dom).click(function () {
 	        var nodes = that.ztreeObj.getSelectedNodes();
-	        if(nodes.length == 0){
+	        if (nodes.length == 0) {
 	            swal("提示", "请先选择一个公司!", "warning");
 	            return;
 	        }
-	        Events.require('customer-add-modify').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:customer-manage');
-	        }).init({showType:'Pop',company_id:nodes[0].company_id});
+	        Events.require('customer-add-modify').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:customer-manage');
+	        }).init({ showType: 'Pop', company_id: nodes[0].company_id });
 	    });
 	    //修改客户
-	    $('#modify_customer_btn',this.dom).click(function(){
+	    $('#modify_customer_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        Events.require('customer-add-modify').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:customer-manage');
-	        }).init({showType:'Pop',action:'002',customer_id:rowData.customer_id});
+	        if (!(rowData = getSelectRow())) return;
+	        Events.require('customer-add-modify').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:customer-manage');
+	        }).init({ showType: 'Pop', action: '002', customer_id: rowData.customer_id });
 	    });
 	    //删除客户
-	    $('#delete_customer_btn',this.dom).click(function(){
+	    $('#delete_customer_btn', this.dom).click(function () {
 	        var rows;
-	        if(!(rows = getCheckRow()))
-	            return;
+	        if (!(rows = getCheckRow())) return;
 	        swal({
 	            title: "确认",
 	            text: "确认删除选中用户吗？",
@@ -5210,38 +5132,37 @@ webpackJsonp([4],[
 	            cancelButtonText: "取消",
 	            closeOnConfirm: true
 	        }, function () {
-	            that.save('/customer/save',{action:'003',customer_id:function(){
-	                var ids = [];
-	                rows.forEach(function(item){
-	                    ids.push(item.customer_id);
-	                });
-	                return ids.join(',');
-	            }()},function(data){
-	                if(data.success){
+	            that.save('/customer/save', { action: '003', customer_id: function () {
+	                    var ids = [];
+	                    rows.forEach(function (item) {
+	                        ids.push(item.customer_id);
+	                    });
+	                    return ids.join(',');
+	                }() }, function (data) {
+	                if (data.success) {
 	                    that.toast("删除成功!");
 	                    Events.notify('onRefresh:customer-manage');
-	                }else{
+	                } else {
 	                    that.toast(data.message);
 	                }
 	            });
 	        });
-
 	    });
-	    $('#export_customer_btn',this.dom).on('click', function () {
-	        $('#exportFrame').attr('src', '/customer/export?company_id=' + (selectCompanyId == null?'':selectCompanyId)+'&key='+encodeURIComponent(that.searchBox.searchbox('getValue')));
+	    $('#export_customer_btn', this.dom).on('click', function () {
+	        $('#exportFrame').attr('src', '/customer/export?company_id=' + (selectCompanyId == null ? '' : selectCompanyId) + '&key=' + encodeURIComponent(that.searchBox.searchbox('getValue')));
 	    });
 
-	    function getSelectRow(){
+	    function getSelectRow() {
 	        var rowData = that.$table.datagrid('getSelected');
-	        if(!rowData){
+	        if (!rowData) {
 	            swal("提示", "请先选择一条数据!", "warning");
 	            return;
 	        }
 	        return rowData;
 	    }
-	    function getCheckRow(){
+	    function getCheckRow() {
 	        var rows = that.$table.datagrid('getChecked');
-	        if(rows.length == 0){
+	        if (rows.length == 0) {
 	            swal("提示", "请至少选择一条数据!", "warning");
 	            return;
 	        }
@@ -5257,30 +5178,27 @@ webpackJsonp([4],[
 	    Events.unsubscribe('onRefresh:customer-manage');
 	    this.$treeMenu && this.$treeMenu.menu('destroy');
 	    this.$tableMenu && this.$tableMenu.menu('destroy');
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	var customerManage = new CustomerManage();
-	Events.subscribe('onWindowResize',function(){
-	    if(!customerManage.dom)
-	        return;
-	    $('.tablecontainer',customerManage.dom).height(customerManage.dom.height()-15-$('.condition-wrap',customerManage.dom).height());
+	Events.subscribe('onWindowResize', function () {
+	    if (!customerManage.dom) return;
+	    $('.tablecontainer', customerManage.dom).height(customerManage.dom.height() - 15 - $('.condition-wrap', customerManage.dom).height());
 	    customerManage.$table.datagrid('resize');
 	});
 
 	module.exports = customerManage;
 
-
-
 /***/ },
-/* 330 */
+/* 332 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 331 */,
-/* 332 */
+/* 333 */,
+/* 334 */
 /***/ function(module, exports) {
 
 	/**
@@ -5404,7 +5322,7 @@ webpackJsonp([4],[
 	};
 
 /***/ },
-/* 333 */
+/* 335 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -5421,110 +5339,108 @@ webpackJsonp([4],[
 	];
 
 /***/ },
-/* 334 */
+/* 336 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 字典项新增或修改模块
 	 */
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(335);
-	__webpack_require__(268);
-	__webpack_require__(287);
-	__webpack_require__(288);
-	var DimAddModify = function(){ };
+	__webpack_require__(337);
+	__webpack_require__(270);
+	__webpack_require__(289);
+	__webpack_require__(290);
+	var DimAddModify = function DimAddModify() {};
 
 	//继承自框架基类
-	DimAddModify.prototype = $.extend({},frameworkBase);
+	DimAddModify.prototype = $.extend({}, frameworkBase);
 	DimAddModify.prototype.id = 'dim-add-modify';
-
 
 	/**
 	 * 模块初始化入口<br>
 	 * @method init
 	 * @param options 参数对象
 	 */
-	DimAddModify.prototype.init = function(options){
+	DimAddModify.prototype.init = function (options) {
 	    var that = this;
-	    this.options = $.extend({action:'001'},options);
-	    that.setTitle(this.options.action == '001'?'添加字典项':'编辑字典项').setHeight(340).setWidth(400);
-	    frameworkBase.init.call(this,options);
+	    this.options = $.extend({ action: '001' }, options);
+	    that.setTitle(this.options.action == '001' ? '添加字典项' : '编辑字典项').setHeight(340).setWidth(400);
+	    frameworkBase.init.call(this, options);
 	    this.loadBaseView();
 	    this.bindEvents();
-	    if(this.options.action == '002'){
+	    if (this.options.action == '002') {
 	        this.restoreData();
 	    }
 	};
 
-	DimAddModify.prototype.loadBaseView = function(options){
+	DimAddModify.prototype.loadBaseView = function (options) {
 	    var that = this;
-	    var html = __webpack_require__(337);
+	    var html = __webpack_require__(339);
 	    this.render(html);
 	};
 
-	DimAddModify.prototype.bindEvents = function(){
+	DimAddModify.prototype.bindEvents = function () {
 	    var that = this;
-	    $('#confirmBtn',this.dom).click(function(){
-	        var dim_id = $('#dim_id',that.dom).val();
-	        var dim_name = $('#dim_name',that.dom).val();
-	        var dim_value = $('#dim_value',that.dom).val();
-	        var group_id = $('#group_id',that.dom).val();
-	        var group_name = $('#group_name',that.dom).val();
-	        if($.trim(dim_id) === '' ){
+	    $('#confirmBtn', this.dom).click(function () {
+	        var dim_id = $('#dim_id', that.dom).val();
+	        var dim_name = $('#dim_name', that.dom).val();
+	        var dim_value = $('#dim_value', that.dom).val();
+	        var group_id = $('#group_id', that.dom).val();
+	        var group_name = $('#group_name', that.dom).val();
+	        if ($.trim(dim_id) === '') {
 	            swal("提示", "请输入字典项id!", "warning");
 	            return;
 	        }
-	        if($.trim(dim_name) === '' ){
+	        if ($.trim(dim_name) === '') {
 	            swal("提示", "请输入字典项名称!", "warning");
 	            return;
 	        }
-	        if($.trim(dim_value) === '' ){
+	        if ($.trim(dim_value) === '') {
 	            swal("提示", "请输入字典项值!", "warning");
 	            return;
 	        }
-	        if($.trim(group_id) === '' ){
+	        if ($.trim(group_id) === '') {
 	            swal("提示", "请输入分组id!", "warning");
 	            return;
 	        }
-	        if($.trim(group_name) === '' ){
+	        if ($.trim(group_name) === '') {
 	            swal("提示", "请输入分组名称!", "warning");
 	            return;
 	        }
-	        that.save('/dim/save',{
-	            action:that.options.action,
-	            id:that.options.id,
-	            dim_id:dim_id,
-	            dim_name:dim_name,
-	            dim_value:dim_value,
-	            group_id:group_id,
-	            group_name:group_name
-	        },function(data){
-	            if(!data.success){
+	        that.save('/dim/save', {
+	            action: that.options.action,
+	            id: that.options.id,
+	            dim_id: dim_id,
+	            dim_name: dim_name,
+	            dim_value: dim_value,
+	            group_id: group_id,
+	            group_name: group_name
+	        }, function (data) {
+	            if (!data.success) {
 	                that.toast(data.message);
 	                return;
 	            }
 	            that.finish(true);
 	        });
-
 	    });
-	    $('#cancelBtn',this.dom).click(function(){
+	    $('#cancelBtn', this.dom).click(function () {
 	        that.finish(false);
 	    });
 	};
 
-	DimAddModify.prototype.restoreData = function() {
+	DimAddModify.prototype.restoreData = function () {
 	    var that = this;
-	    this.query('/dim/search/'+this.options.id,function(data){
-	        if(!data.success){
+	    this.query('/dim/search/' + this.options.id, function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
 	        data = data.data;
-	        $('#dim_id',that.dom).val(data.dim_id);
-	        $('#dim_name',that.dom).val(data.dim_name);
-	        $('#dim_value',that.dom).val(data.dim_value);
-	        $('#group_id',that.dom).val(data.group_id);
-	        $('#group_name',that.dom).val(data.group_name);
+	        $('#dim_id', that.dom).val(data.dim_id);
+	        $('#dim_name', that.dom).val(data.dim_name);
+	        $('#dim_value', that.dom).val(data.dim_value);
+	        $('#group_id', that.dom).val(data.group_id);
+	        $('#group_name', that.dom).val(data.group_name);
 	    });
 	};
 
@@ -5533,26 +5449,26 @@ webpackJsonp([4],[
 	 * 由框架调用，主要用于销毁订阅的事件
 	 */
 	DimAddModify.prototype.finish = function () {
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	module.exports = new DimAddModify();
 
 /***/ },
-/* 335 */
+/* 337 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 336 */,
-/* 337 */
+/* 338 */,
+/* 339 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"dim-add-modify add-modify-form\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>字典项id：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入字典项ID\" name=\"dim_id\" id=\"dim_id\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>字典项名称：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入字典项名称\" name=\"dim_name\" id=\"dim_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>字典项值：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入字典项值\" name=\"dim_value\" id=\"dim_value\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>分组id：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入分组id\" name=\"group_id\" id=\"group_id\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>分组名称：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入分组名称\" name=\"group_name\" id=\"group_name\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
+	module.exports = "<div class=\"dim-add-modify add-modify-form\">\n    <div class=\"panel-body\">\n            <div class=\"form-group\">\n                <label>字典项id：</label>\n                <input class=\"form-control\" placeholder=\"请输入字典项ID\" name=\"dim_id\" id=\"dim_id\" type=\"text\" autofocus>\n            </div>\n            <div class=\"form-group\">\n                <label>字典项名称：</label>\n                <input class=\"form-control\" placeholder=\"请输入字典项名称\" name=\"dim_name\" id=\"dim_name\" type=\"text\" autofocus>\n            </div>\n            <div class=\"form-group\">\n                <label>字典项值：</label>\n                <input class=\"form-control\" placeholder=\"请输入字典项值\" name=\"dim_value\" id=\"dim_value\" type=\"text\" value=\"\">\n            </div>\n            <div class=\"form-group\">\n                <label>分组id：</label>\n                <input class=\"form-control\" placeholder=\"请输入分组id\" name=\"group_id\" id=\"group_id\" type=\"text\" value=\"\">\n            </div>\n            <div class=\"form-group\">\n                <label>分组名称：</label>\n                <input class=\"form-control\" placeholder=\"请输入分组名称\" name=\"group_name\" id=\"group_name\" type=\"text\" value=\"\">\n            </div>\n            <div class=\"btn-wrap\">\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\n            </div>\n    </div>\n</div>\n";
 
 /***/ },
-/* 338 */
+/* 340 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -5561,15 +5477,14 @@ webpackJsonp([4],[
 	 */
 
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(296);
-	__webpack_require__(339);
-	__webpack_require__(268);
-	var DimManage = function () {};
+	__webpack_require__(298);
+	__webpack_require__(341);
+	__webpack_require__(270);
+	var DimManage = function DimManage() {};
 
 	//继承自框架基类
 	DimManage.prototype = $.extend({}, frameworkBase);
 	DimManage.prototype.id = 'dim-manage';
-
 
 	/**
 	 * 模块初始化入口<br>
@@ -5586,9 +5501,9 @@ webpackJsonp([4],[
 
 	DimManage.prototype.loadBaseView = function () {
 	    var that = this;
-	    this.loadFragment('/views/modules/dim-manage.html').then(function(html){
+	    this.loadFragment('/views/modules/dim-manage.html').then(function (html) {
 	        that.render(html);
-	        $('.tablecontainer',that.dom).height(that.dom.height()-55);
+	        $('.tablecontainer', that.dom).height(that.dom.height() - 55);
 	        that.initTable();
 	        that.bindEvents();
 	    });
@@ -5596,13 +5511,13 @@ webpackJsonp([4],[
 
 	DimManage.prototype.initTable = function () {
 	    var that = this;
-	    $('.easyui-linkbutton',that.dom).linkbutton();
-	    var columns = __webpack_require__(341);
-	    that.$table = $('#dataTable',that.dom).datagrid({
+	    $('.easyui-linkbutton', that.dom).linkbutton();
+	    var columns = __webpack_require__(343);
+	    that.$table = $('#dataTable', that.dom).datagrid({
 	        url: '/dim/list',
 	        method: 'get',
 	        columns: [columns],
-	        cache:false,
+	        cache: false,
 	        pagination: false,
 	        pageSize: 20,
 	        ctrlSelect: true,
@@ -5612,38 +5527,37 @@ webpackJsonp([4],[
 	        striped: true,
 	        fit: true,
 	        fitColumns: true,
-	        loadFilter: function (data) {
-	            if(!data.success){
+	        loadFilter: function loadFilter(data) {
+	            if (!data.success) {
 	                that.toast(data.message);
 	            }
-	            return {rows: data.data, total: data.data.length};
+	            return { rows: data.data, total: data.data.length };
 	        },
-	        onDblClickRow: function (rowIndex, rowData) {
-	            Events.require('dim-add-modify').addCallback(function(flag){
-	                if(flag)
-	                    Events.notify('onRefresh:dim-manage');
-	            }).init({showType:'Pop',action:'002',id:rowData.id});
+	        onDblClickRow: function onDblClickRow(rowIndex, rowData) {
+	            Events.require('dim-add-modify').addCallback(function (flag) {
+	                if (flag) Events.notify('onRefresh:dim-manage');
+	            }).init({ showType: 'Pop', action: '002', id: rowData.id });
 	        },
 	        toolbar: '#dim-manage-toolbar'
 	    });
 
-	    var searchBox = $('#dim-manage #home-easyui-searchbox',that.dom).searchbox({
-	        searcher: function (value, name) {
+	    var searchBox = $('#dim-manage #home-easyui-searchbox', that.dom).searchbox({
+	        searcher: function searcher(value, name) {
 	            Events.notify('onRefresh:dim-manage');
 	        },
 	        prompt: '请输关键字，如维度名称、维度值'
 	    });
 
 	    //绑定下拉框事件 通知刷新字典
-	    $('#group_id',that.dom).on('change',function(){
+	    $('#group_id', that.dom).on('change', function () {
 	        Events.notify('onRefresh:dim-manage');
 	    });
 
 	    //订阅刷新字典
-	    Events.subscribe('onRefresh:dim-manage',function(){
-	        that.$table.datagrid('load',{
-	            key:searchBox.searchbox('getValue'),
-	            group_id:$('#group_id',that.dom).val()
+	    Events.subscribe('onRefresh:dim-manage', function () {
+	        that.$table.datagrid('load', {
+	            key: searchBox.searchbox('getValue'),
+	            group_id: $('#group_id', that.dom).val()
 	        });
 	    });
 	};
@@ -5653,54 +5567,50 @@ webpackJsonp([4],[
 	DimManage.prototype.bindEvents = function () {
 	    var that = this;
 	    //添加字典项
-	    $('#add_dim_btn',this.dom).click(function(){
-	        Events.require('dim-add-modify').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:dim-manage');
-	        }).init({showType:'Pop'});
+	    $('#add_dim_btn', this.dom).click(function () {
+	        Events.require('dim-add-modify').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:dim-manage');
+	        }).init({ showType: 'Pop' });
 	    });
 	    //修改字典项
-	    $('#modify_dim_btn',this.dom).click(function(){
+	    $('#modify_dim_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        Events.require('dim-add-modify').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:dim-manage');
-	        }).init({showType:'Pop',action:'002',id:rowData.id});
+	        if (!(rowData = getSelectRow())) return;
+	        Events.require('dim-add-modify').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:dim-manage');
+	        }).init({ showType: 'Pop', action: '002', id: rowData.id });
 	    });
 	    //删除字典项
-	    $('#delete_dim_btn',this.dom).click(function(){
+	    $('#delete_dim_btn', this.dom).click(function () {
 	        var rows;
-	        if(!(rows = getCheckRow()))
-	            return;
-	        that.save('/dim/save',{action:'003',id:function(){
-	            var ids = [];
-	            rows.forEach(function(item){
-	                ids.push(item.id);
-	            });
-	            return ids.join(',');
-	        }()},function(data){
-	            if(data.success){
+	        if (!(rows = getCheckRow())) return;
+	        that.save('/dim/save', { action: '003', id: function () {
+	                var ids = [];
+	                rows.forEach(function (item) {
+	                    ids.push(item.id);
+	                });
+	                return ids.join(',');
+	            }() }, function (data) {
+	            if (data.success) {
 	                that.toast("删除字典成功!");
 	                Events.notify('onRefresh:dim-manage');
-	            }else{
+	            } else {
 	                that.toast(data.message);
 	            }
 	        });
 	    });
-	    
-	    function getSelectRow(){
+
+	    function getSelectRow() {
 	        var rowData = that.$table.datagrid('getSelected');
-	        if(!rowData){
+	        if (!rowData) {
 	            swal("提示", "请先选择一条数据!", "warning");
 	            return;
 	        }
 	        return rowData;
 	    }
-	    function getCheckRow(){
+	    function getCheckRow() {
 	        var rows = that.$table.datagrid('getChecked');
-	        if(rows.length == 0){
+	        if (rows.length == 0) {
 	            swal("提示", "请至少选择一条数据!", "warning");
 	            return;
 	        }
@@ -5714,28 +5624,27 @@ webpackJsonp([4],[
 	 */
 	DimManage.prototype.finish = function () {
 	    Events.unsubscribe('onRefresh:dim-manage');
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	var dimManage = new DimManage();
-	Events.subscribe('onWindowResize',function(){
-	    if(!dimManage.dom)
-	        return;
-	    $('.tablecontainer',dimManage.dom).height(dimManage.dom.height()-15-$('.condition-wrap',dimManage.dom).height());
+	Events.subscribe('onWindowResize', function () {
+	    if (!dimManage.dom) return;
+	    $('.tablecontainer', dimManage.dom).height(dimManage.dom.height() - 15 - $('.condition-wrap', dimManage.dom).height());
 	    dimManage.$table.datagrid('resize');
 	});
 
 	module.exports = dimManage;
 
 /***/ },
-/* 339 */
+/* 341 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 340 */,
-/* 341 */
+/* 342 */,
+/* 343 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -5749,174 +5658,168 @@ webpackJsonp([4],[
 	];
 
 /***/ },
-/* 342 */
+/* 344 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 元素新增修改模块
 	 */
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(268);
-	__webpack_require__(287);
-	__webpack_require__(288);
-	var ElementAddModify = function(){ };
+	__webpack_require__(270);
+	__webpack_require__(289);
+	__webpack_require__(290);
+	var ElementAddModify = function ElementAddModify() {};
 
 	//继承自框架基类
-	ElementAddModify.prototype = $.extend({},frameworkBase);
+	ElementAddModify.prototype = $.extend({}, frameworkBase);
 	ElementAddModify.prototype.id = 'element-add-modify';
-
 
 	/**
 	 * 模块初始化入口<br>
 	 * @method init
 	 * @param options 参数对象
 	 */
-	ElementAddModify.prototype.init = function(options){
+	ElementAddModify.prototype.init = function (options) {
 	    var that = this;
-	    this.options = $.extend({action:'001'},options);
-	    that.setTitle(this.options.action == '001'?'添加元素':'编辑元素').setHeight(250).setWidth(400);
-	    frameworkBase.init.call(this,options);
+	    this.options = $.extend({ action: '001' }, options);
+	    that.setTitle(this.options.action == '001' ? '添加元素' : '编辑元素').setHeight(250).setWidth(400);
+	    frameworkBase.init.call(this, options);
 	    this.loadBaseView();
 	    this.bindEvents();
-
 	};
 
-	ElementAddModify.prototype.loadBaseView = function(options){
+	ElementAddModify.prototype.loadBaseView = function (options) {
 	    var that = this;
-	    var html = __webpack_require__(343);
+	    var html = __webpack_require__(345);
 	    this.render(html);
 	};
 
-	ElementAddModify.prototype.bindEvents = function(){
+	ElementAddModify.prototype.bindEvents = function () {
 	    var that = this;
-	    $('#confirmBtn',this.dom).click(function(){
-	        var element_code = $('#element_code',that.dom).val();
-	        var element_desc = $('#element_desc',that.dom).val();
-	        if($.trim(element_code) === '' ){
+	    $('#confirmBtn', this.dom).click(function () {
+	        var element_code = $('#element_code', that.dom).val();
+	        var element_desc = $('#element_desc', that.dom).val();
+	        if ($.trim(element_code) === '') {
 	            swal("提示", "请输入元素编码!", "warning");
 	            return;
 	        }
-	        that.save('/element/save',{
-	            action:that.options.action,
-	            element_id:that.options.element_id,
-	            element_code:element_code,
-	            element_desc:element_desc,
-	            menu_id:$('#menu_id',that.dom).attr('data-pid')
-	        },function(data){
-	            if(!data.success){
+	        that.save('/element/save', {
+	            action: that.options.action,
+	            element_id: that.options.element_id,
+	            element_code: element_code,
+	            element_desc: element_desc,
+	            menu_id: $('#menu_id', that.dom).attr('data-pid')
+	        }, function (data) {
+	            if (!data.success) {
 	                that.toast(data.message);
 	                return;
 	            }
 	            that.finish(true);
 	        });
-
 	    });
-	    $('#cancelBtn',this.dom).click(function(){
+	    $('#cancelBtn', this.dom).click(function () {
 	        that.finish(false);
 	    });
 
 	    this.$treepanel = $('<div id="menu_tree_panel" class="dropdown_panel"><ul id="menuPanelTree" class="ztree"></ul></div>').appendTo($('body'));
-	    var $menu_parent_id = $('#menu_id',this.dom);
+	    var $menu_parent_id = $('#menu_id', this.dom);
 
-	    $menu_parent_id.click(function(){
+	    $menu_parent_id.click(function () {
 	        var offset = $menu_parent_id.offset();
 	        that.$treepanel.css({
-	            left:offset.left,
-	            top:offset.top+30,
-	            width:$menu_parent_id.outerWidth()
+	            left: offset.left,
+	            top: offset.top + 30,
+	            width: $menu_parent_id.outerWidth()
 	        });
-	        that.$treepanel.is(':visible')?(that.$treepanel.hide()):(that.$treepanel.show());
+	        that.$treepanel.is(':visible') ? that.$treepanel.hide() : that.$treepanel.show();
 	        return false;
 	    });
-	    this.$treepanel.click(function(){
+	    this.$treepanel.click(function () {
 	        return false;
 	    });
 	    this.initMenuTree();
-
 	};
 
-
-	ElementAddModify.prototype.onMove = function(left,top){
-	    if(!this.$treepanel)
-	        return;
-	    var $menu_parent_id = $('#menu_id',this.dom);
+	ElementAddModify.prototype.onMove = function (left, top) {
+	    if (!this.$treepanel) return;
+	    var $menu_parent_id = $('#menu_id', this.dom);
 	    var offset = $menu_parent_id.offset();
 	    this.$treepanel.css({
-	        left:offset.left,
-	        top:offset.top+30
+	        left: offset.left,
+	        top: offset.top + 30
 	    });
 	};
 
-	ElementAddModify.prototype.initMenuTree = function(){
+	ElementAddModify.prototype.initMenuTree = function () {
 	    var that = this;
-	    this.query('/menu/list',{menu_device:'0'},function(data){
-	        if(!data.success){
+	    this.query('/menu/list', { menu_device: '0' }, function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
-	        data.data.push({'menu_id':'0','menu_parent_id':null,'menu_title':'根节点','menu_url':''});
+	        data.data.push({ 'menu_id': '0', 'menu_parent_id': null, 'menu_title': '根节点', 'menu_url': '' });
 	        var setting = {
-	            data:{
-	                keep:{
-	                    parent:true,
-	                    leaf:true
+	            data: {
+	                keep: {
+	                    parent: true,
+	                    leaf: true
 	                },
-	                simpleData:{
-	                    enable:true,
-	                    idKey:'menu_id',
-	                    pIdKey:'menu_parent_id',
-	                    rootPId:null
+	                simpleData: {
+	                    enable: true,
+	                    idKey: 'menu_id',
+	                    pIdKey: 'menu_parent_id',
+	                    rootPId: null
 	                },
-	                key:{
-	                    name:'menu_title',
-	                    title:'menu_title'
+	                key: {
+	                    name: 'menu_title',
+	                    title: 'menu_title'
 	                }
 	            },
-	            callback:{
-	                onClick:function(event, treeId, treeNode){
+	            callback: {
+	                onClick: function onClick(event, treeId, treeNode) {
 	                    //根元素不让选
-	                    if(treeNode.menu_id != '0'){
-	                        $('#menu_id',that.dom).val(treeNode.menu_title);
-	                        $('#menu_id',that.dom).attr('data-pid',treeNode.menu_id);
+	                    if (treeNode.menu_id != '0') {
+	                        $('#menu_id', that.dom).val(treeNode.menu_title);
+	                        $('#menu_id', that.dom).attr('data-pid', treeNode.menu_id);
 	                        hidePanel();
 	                    }
 	                }
 	            }
 	        };
 
-	        that.ztreeObj = $.fn.zTree.init($("#menuPanelTree",that.$treepanel), setting,data.data);
+	        that.ztreeObj = $.fn.zTree.init($("#menuPanelTree", that.$treepanel), setting, data.data);
 	        that.ztreeObj.expandNode(that.ztreeObj.getNodes()[0], true, false, true);
 
-	        if(that.options.action == '002'){
+	        if (that.options.action == '002') {
 	            that.restoreData();
-	        }else{
-	            var node = that.ztreeObj.getNodesByParam('menu_id',that.options.menu_id,null)[0];
+	        } else {
+	            var node = that.ztreeObj.getNodesByParam('menu_id', that.options.menu_id, null)[0];
 	            that.ztreeObj.selectNode(node);
-	            $('#menu_id',that.dom).val(node.menu_title);
-	            $('#menu_id',that.dom).attr('data-pid',that.options.menu_id);
+	            $('#menu_id', that.dom).val(node.menu_title);
+	            $('#menu_id', that.dom).attr('data-pid', that.options.menu_id);
 	        }
 	    });
 	};
 
-	function hidePanel(){
+	function hidePanel() {
 	    $('.dropdown_panel').hide();
 	}
-	$('body').on('click',function(){
+	$('body').on('click', function () {
 	    hidePanel();
 	});
-	ElementAddModify.prototype.restoreData = function() {
+	ElementAddModify.prototype.restoreData = function () {
 	    var that = this;
-	    this.query('/element/search/'+this.options.element_id,function(data){
-	        if(!data.success){
+	    this.query('/element/search/' + this.options.element_id, function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
 	        data = data.data;
-	        $('#element_code',that.dom).val(data.element_code);
-	        $('#element_desc',that.dom).val(data.element_desc);
-	        $('#menu_id',that.dom).attr('data-pid',data.menu_id);
-	        var node = that.ztreeObj.getNodesByParam('menu_id',data.menu_id,null)[0];
-	        $('#menu_id',that.dom).val(node.menu_title);
+	        $('#element_code', that.dom).val(data.element_code);
+	        $('#element_desc', that.dom).val(data.element_desc);
+	        $('#menu_id', that.dom).attr('data-pid', data.menu_id);
+	        var node = that.ztreeObj.getNodesByParam('menu_id', data.menu_id, null)[0];
+	        $('#menu_id', that.dom).val(node.menu_title);
 	        that.ztreeObj.selectNode(node);
 	    });
 	};
@@ -5928,19 +5831,19 @@ webpackJsonp([4],[
 	ElementAddModify.prototype.finish = function () {
 	    this.ztreeObj && this.ztreeObj.destroy();
 	    this.$treepanel && this.$treepanel.remove();
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	module.exports = new ElementAddModify();
 
 /***/ },
-/* 343 */
+/* 345 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"element-add-modify add-modify-form\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>元素名称：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入元素名称\" name=\"element_desc\" id=\"element_desc\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>元素编码：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入元素编码\" name=\"element_code\" id=\"element_code\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>所属菜单：</label>\r\n                <input class=\"form-control\" placeholder=\"请选择所属菜单\" readonly=\"true\" name=\"menu_id\" id=\"menu_id\" type=\"text\" data-pid=\"0\" value=\"根菜单\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
+	module.exports = "<div class=\"element-add-modify add-modify-form\">\n    <div class=\"panel-body\">\n            <div class=\"form-group\">\n                <label>元素名称：</label>\n                <input class=\"form-control\" placeholder=\"请输入元素名称\" name=\"element_desc\" id=\"element_desc\" type=\"text\" autofocus>\n            </div>\n            <div class=\"form-group\">\n                <label>元素编码：</label>\n                <input class=\"form-control\" placeholder=\"请输入元素编码\" name=\"element_code\" id=\"element_code\" type=\"text\" value=\"\">\n            </div>\n            <div class=\"form-group\">\n                <label>所属菜单：</label>\n                <input class=\"form-control\" placeholder=\"请选择所属菜单\" readonly=\"true\" name=\"menu_id\" id=\"menu_id\" type=\"text\" data-pid=\"0\" value=\"根菜单\">\n            </div>\n            <div class=\"btn-wrap\">\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\n            </div>\n    </div>\n</div>\n";
 
 /***/ },
-/* 344 */
+/* 346 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -5949,18 +5852,17 @@ webpackJsonp([4],[
 	 */
 
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(296);
-	__webpack_require__(287);
-	__webpack_require__(288);
-	__webpack_require__(345);
-	__webpack_require__(268);
-	var table2TreeDragUtil = __webpack_require__(332);
-	var ElementManage = function () {};
+	__webpack_require__(298);
+	__webpack_require__(289);
+	__webpack_require__(290);
+	__webpack_require__(347);
+	__webpack_require__(270);
+	var table2TreeDragUtil = __webpack_require__(334);
+	var ElementManage = function ElementManage() {};
 
 	//继承自框架基类
 	ElementManage.prototype = $.extend({}, frameworkBase);
 	ElementManage.prototype.id = 'element-manage';
-
 
 	/**
 	 * 模块初始化入口<br>
@@ -5977,9 +5879,9 @@ webpackJsonp([4],[
 
 	ElementManage.prototype.loadBaseView = function () {
 	    var that = this;
-	    this.loadFragment('/views/modules/element-manage.html').then(function(html){
+	    this.loadFragment('/views/modules/element-manage.html').then(function (html) {
 	        that.render(html);
-	        $('.tablecontainer',that.dom).height(that.dom.height()-55);
+	        $('.tablecontainer', that.dom).height(that.dom.height() - 55);
 	        that.initTable();
 	        that.initMenuTree();
 	        that.bindEvents();
@@ -5987,15 +5889,16 @@ webpackJsonp([4],[
 	};
 
 	ElementManage.prototype.initTable = function () {
-	    var that = this, $tableMenu = $('#table-context-menu');
+	    var that = this,
+	        $tableMenu = $('#table-context-menu');
 	    that.$tableMenu = $tableMenu;
-	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(347);
-	    that.$table = $('#dataTable',this.dom).datagrid({
+	    $('.easyui-linkbutton', this.dom).linkbutton();
+	    var columns = __webpack_require__(349);
+	    that.$table = $('#dataTable', this.dom).datagrid({
 	        url: '',
 	        method: 'get',
 	        columns: [columns],
-	        cache:false,
+	        cache: false,
 	        pagination: false,
 	        pageSize: 20,
 	        ctrlSelect: true,
@@ -6005,25 +5908,23 @@ webpackJsonp([4],[
 	        striped: true,
 	        fit: true,
 	        fitColumns: true,
-	        loadFilter: function (data) {
-	            if(!data.success){
+	        loadFilter: function loadFilter(data) {
+	            if (!data.success) {
 	                that.toast(data.message);
 	            }
-	            return {rows: data.data, total: data.data.length};
+	            return { rows: data.data, total: data.data.length };
 	        },
-	        onDblClickRow: function (rowIndex, rowData) {
-	            Events.require('element-add-modify').addCallback(function(flag){
-	                if(flag)
-	                    Events.notify('onRefresh:element-manage');
-	            }).init({showType:'Pop',action:'002',element_id:rowData.element_id});
+	        onDblClickRow: function onDblClickRow(rowIndex, rowData) {
+	            Events.require('element-add-modify').addCallback(function (flag) {
+	                if (flag) Events.notify('onRefresh:element-manage');
+	            }).init({ showType: 'Pop', action: '002', element_id: rowData.element_id });
 	        },
-	        onRowContextMenu:function(event,rowIndex,rowData){
-	            if(!rowData)
-	                return;
+	        onRowContextMenu: function onRowContextMenu(event, rowIndex, rowData) {
+	            if (!rowData) return;
 	            event.preventDefault();
-	            that.$table.datagrid('unselectAll',rowIndex);
-	            that.$table.datagrid('selectRow',rowIndex);
-	            $tableMenu.menu('show',{
+	            that.$table.datagrid('unselectAll', rowIndex);
+	            that.$table.datagrid('selectRow', rowIndex);
+	            $tableMenu.menu('show', {
 	                left: event.clientX,
 	                top: event.clientY
 	            });
@@ -6031,93 +5932,94 @@ webpackJsonp([4],[
 	        toolbar: '#element-manage-toolbar'
 	    });
 	    $tableMenu.menu({
-	        onClick:function(item){
-	            var _id = item.id, id = _id.replace('context_','');
-	            $('#'+id,that.dom).click();
+	        onClick: function onClick(item) {
+	            var _id = item.id,
+	                id = _id.replace('context_', '');
+	            $('#' + id, that.dom).click();
 	        },
-	        hideOnUnhover:false
+	        hideOnUnhover: false
 	    });
 
-	    var searchBox = $('#element-manage #home-easyui-searchbox',that.dom).searchbox({
-	        searcher: function (value, name) {
+	    var searchBox = $('#element-manage #home-easyui-searchbox', that.dom).searchbox({
+	        searcher: function searcher(value, name) {
 	            Events.notify('onRefresh:element-manage');
 	        },
 	        prompt: '请输关键字，如元素名称或编码'
 	    });
 
 	    //订阅刷新消息
-	    Events.subscribe('onRefresh:element-manage',function(menu_id){
+	    Events.subscribe('onRefresh:element-manage', function (menu_id) {
 	        var opts = that.$table.datagrid("options");
 	        opts.url = "/element/list";
-	        that.$table.datagrid('load',{
-	            menu_id:selectMenuId,
-	            key:searchBox.searchbox('getValue')
+	        that.$table.datagrid('load', {
+	            menu_id: selectMenuId,
+	            key: searchBox.searchbox('getValue')
 	        });
 	    });
 	};
 
 	var selectMenuId;
-	ElementManage.prototype.initMenuTree = function(){
+	ElementManage.prototype.initMenuTree = function () {
 	    var that = this;
-	    this.query('/menu/list',{menu_device:'0'},function(data){
-	        if(!data.success){
+	    this.query('/menu/list', { menu_device: '0' }, function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
-	        data.data.push({'menu_id':'0','menu_parent_id':null,'menu_title':'根节点','menu_url':''});
+	        data.data.push({ 'menu_id': '0', 'menu_parent_id': null, 'menu_title': '根节点', 'menu_url': '' });
 	        var setting = {
-	            data:{
-	                keep:{
-	                    parent:true,
-	                    leaf:true
+	            data: {
+	                keep: {
+	                    parent: true,
+	                    leaf: true
 	                },
-	                simpleData:{
-	                    enable:true,
-	                    idKey:'menu_id',
-	                    pIdKey:'menu_parent_id',
-	                    rootPId:null
+	                simpleData: {
+	                    enable: true,
+	                    idKey: 'menu_id',
+	                    pIdKey: 'menu_parent_id',
+	                    rootPId: null
 	                },
-	                key:{
-	                    name:'menu_title',
-	                    title:'menu_title'
+	                key: {
+	                    name: 'menu_title',
+	                    title: 'menu_title'
 	                }
 	            },
-	            callback:{
-	                onClick:function(event, treeId, treeNode){
+	            callback: {
+	                onClick: function onClick(event, treeId, treeNode) {
 	                    selectMenuId = treeNode.menu_id;
 	                    Events.notify('onRefresh:element-manage');
 	                }
 	            }
 	        };
 
-	        that.ztreeObj = $.fn.zTree.init($("#menuTree",that.dom), setting,data.data);
+	        that.ztreeObj = $.fn.zTree.init($("#menuTree", that.dom), setting, data.data);
 	        that.ztreeObj.expandNode(that.ztreeObj.getNodes()[0], true, false, true);
 	        selectMenuId = that.ztreeObj.getNodes()[0].menu_id;
 	        that.ztreeObj.selectNode(that.ztreeObj.getNodes()[0], false, false);
 	        table2TreeDragUtil.init({
-	            table:that.$table,
-	            tree:that.ztreeObj,
-	            titleField:'element_desc',
-	            callback:function(list,treeNode,isCopy){
+	            table: that.$table,
+	            tree: that.ztreeObj,
+	            titleField: 'element_desc',
+	            callback: function callback(list, treeNode, isCopy) {
 	                var nodes = that.ztreeObj.getSelectedNodes();
-	                if(treeNode == nodes[0]){
+	                if (treeNode == nodes[0]) {
 	                    return;
 	                }
-	                if(treeNode.menu_parent_id == null){
+	                if (treeNode.menu_parent_id == null) {
 	                    that.toast("根节点下不允许配置元素!");
 	                    return;
 	                }
-	                that.save('/element/save',{action:'004',is_copy:isCopy,menu_id:treeNode.menu_id,element_id:function(){
-	                    var ids = [];
-	                    list.forEach(function(item){
-	                        ids.push(item.element_id);
-	                    });
-	                    return ids.join(',');
-	                }()},function(data){
-	                    if(data.success){
-	                        that.toast("元素已"+(isCopy?'复制':'移动')+"到【"+treeNode.menu_title+"】下。");
+	                that.save('/element/save', { action: '004', is_copy: isCopy, menu_id: treeNode.menu_id, element_id: function () {
+	                        var ids = [];
+	                        list.forEach(function (item) {
+	                            ids.push(item.element_id);
+	                        });
+	                        return ids.join(',');
+	                    }() }, function (data) {
+	                    if (data.success) {
+	                        that.toast("元素已" + (isCopy ? '复制' : '移动') + "到【" + treeNode.menu_title + "】下。");
 	                        Events.notify('onRefresh:element-manage');
-	                    }else{
+	                    } else {
 	                        that.toast(data.message);
 	                    }
 	                });
@@ -6134,63 +6036,59 @@ webpackJsonp([4],[
 	    var that = this;
 
 	    //添加元素
-	    $('#add_element_btn',this.dom).click(function(){
+	    $('#add_element_btn', this.dom).click(function () {
 	        var nodes = that.ztreeObj.getSelectedNodes();
-	        if(nodes.length == 0){
+	        if (nodes.length == 0) {
 	            swal("提示", "请先选择一个菜单节点!", "warning");
 	            return;
 	        }
-	        if(nodes[0].menu_id == '0'){
+	        if (nodes[0].menu_id == '0') {
 	            swal("提示", "根菜单节点上不允许创建元素!", "warning");
 	            return;
 	        }
-	        Events.require('element-add-modify').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:element-manage');
-	        }).init({showType:'Pop',menu_id:nodes[0].menu_id});
+	        Events.require('element-add-modify').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:element-manage');
+	        }).init({ showType: 'Pop', menu_id: nodes[0].menu_id });
 	    });
 	    //修改元素
-	    $('#modify_element_btn',this.dom).click(function(){
+	    $('#modify_element_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        Events.require('element-add-modify').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:element-manage');
-	        }).init({showType:'Pop',action:'002',element_id:rowData.element_id});
+	        if (!(rowData = getSelectRow())) return;
+	        Events.require('element-add-modify').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:element-manage');
+	        }).init({ showType: 'Pop', action: '002', element_id: rowData.element_id });
 	    });
 	    //删除元素
-	    $('#delete_element_btn',this.dom).click(function(){
+	    $('#delete_element_btn', this.dom).click(function () {
 	        var rows;
-	        if(!(rows = getCheckRow()))
-	            return;
-	        that.save('/element/save',{action:'003',element_id:function(){
-	            var ids = [];
-	            rows.forEach(function(item){
-	                ids.push(item.element_id);
-	            });
-	            return ids.join(',');
-	        }()},function(data){
-	            if(data.success){
+	        if (!(rows = getCheckRow())) return;
+	        that.save('/element/save', { action: '003', element_id: function () {
+	                var ids = [];
+	                rows.forEach(function (item) {
+	                    ids.push(item.element_id);
+	                });
+	                return ids.join(',');
+	            }() }, function (data) {
+	            if (data.success) {
 	                that.toast("删除信息成功!");
 	                Events.notify('onRefresh:element-manage');
-	            }else{
+	            } else {
 	                that.toast(data.message);
 	            }
 	        });
 	    });
 
-	    function getSelectRow(){
+	    function getSelectRow() {
 	        var rowData = that.$table.datagrid('getSelected');
-	        if(!rowData){
+	        if (!rowData) {
 	            swal("提示", "请先选择一条数据!", "warning");
 	            return;
 	        }
 	        return rowData;
 	    }
-	    function getCheckRow(){
+	    function getCheckRow() {
 	        var rows = that.$table.datagrid('getChecked');
-	        if(rows.length == 0){
+	        if (rows.length == 0) {
 	            swal("提示", "请至少选择一条数据!", "warning");
 	            return;
 	        }
@@ -6205,30 +6103,27 @@ webpackJsonp([4],[
 	ElementManage.prototype.finish = function () {
 	    Events.unsubscribe('onRefresh:element-manage');
 	    this.$tableMenu && this.$tableMenu.menu('destroy');
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	var elementManage = new ElementManage();
-	Events.subscribe('onWindowResize',function(){
-	    if(!elementManage.dom)
-	        return;
-	    $('.tablecontainer',elementManage.dom).height(elementManage.dom.height()-15-$('.condition-wrap',elementManage.dom).height());
+	Events.subscribe('onWindowResize', function () {
+	    if (!elementManage.dom) return;
+	    $('.tablecontainer', elementManage.dom).height(elementManage.dom.height() - 15 - $('.condition-wrap', elementManage.dom).height());
 	    elementManage.$table.datagrid('resize');
 	});
 
 	module.exports = elementManage;
 
-
-
 /***/ },
-/* 345 */
+/* 347 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 346 */,
-/* 347 */
+/* 348 */,
+/* 349 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -6239,7 +6134,7 @@ webpackJsonp([4],[
 	];
 
 /***/ },
-/* 348 */
+/* 350 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -6248,91 +6143,82 @@ webpackJsonp([4],[
 	 * @type {Framework}
 	 */
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(349);
 	__webpack_require__(351);
+	__webpack_require__(353);
 
-
-	var FormDesigner = function(){ };
+	var FormDesigner = function FormDesigner() {};
 
 	//继承自框架基类
-	FormDesigner.prototype = $.extend({},frameworkBase);
+	FormDesigner.prototype = $.extend({}, frameworkBase);
 	FormDesigner.prototype.id = 'form-designer';
-
 
 	/**
 	 * 模块初始化入口<br>
 	 * @method init
 	 * @param options 参数对象
 	 */
-	FormDesigner.prototype.init = function(options){
+	FormDesigner.prototype.init = function (options) {
 	    var that = this;
-	    this.options = $.extend({action:'001'},options);
+	    this.options = $.extend({ action: '001' }, options);
 	    that.setTitle('自定义表单设计器').setHeight(700).setWidth(900);
-	    frameworkBase.init.call(this,options);
+	    frameworkBase.init.call(this, options);
 	    this.loadBaseView();
 	    this.bindEvents();
 
 	    var that = this;
-	    __webpack_require__.e/* nsure */(5, function(){
+	    __webpack_require__.e/* nsure */(5, function () {
 	        //实例化编辑器
-	        __webpack_require__(357);
-	        __webpack_require__(358);
-
 	        __webpack_require__(359);
 	        __webpack_require__(360);
+
 	        __webpack_require__(361);
 	        __webpack_require__(362);
 	        __webpack_require__(363);
 	        __webpack_require__(364);
 	        __webpack_require__(365);
 	        __webpack_require__(366);
+	        __webpack_require__(367);
+	        __webpack_require__(368);
 
-	        that.um = window.um = KindEditor.create('#myEditor',{
-	            basePath:'/src/javascripts/libs/kindeditor/',
-	            resizeType:0,
-	            height:550,
-	            uploadJson:'/file/upload',
-	            items:[
-	                'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
-	                'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
-	                'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
-	                'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
-	                'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
-	                'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
-	                , 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
-	                'anchor', 'link', 'unlink'
-	            ], 
-	            filterMode:false,
-	            cssPath:'/src/stylesheets/editor.css',
-	            jsPath:['/src/javascripts/libs/jquery.min.js','/src/javascripts/libs/kindeditor/kindeditor-extend.js']
+	        that.um = window.um = KindEditor.create('#myEditor', {
+	            basePath: '/src/javascripts/libs/kindeditor/',
+	            resizeType: 0,
+	            height: 550,
+	            uploadJson: '/file/upload',
+	            items: ['source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste', 'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript', 'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/', 'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',, 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak', 'anchor', 'link', 'unlink'],
+	            filterMode: false,
+	            cssPath: '/src/stylesheets/editor.css',
+	            jsPath: ['/src/javascripts/libs/jquery.min.js', '/src/javascripts/libs/kindeditor/kindeditor-extend.js']
 	        });
 
-	        Events.subscribe('kindeditor_extend_location_point',function(node){
+	        Events.subscribe('kindeditor_extend_location_point', function (node) {
 	            that.um.cmd.selection(true);
 	            that.um.cmd.range.selectNode(node);
 	            that.um.cmd.range.collapse(true);
 	            that.um.cmd.select();
-	        }).subscribe('kindeditor_extend_insert_node',function(node){
-	            try{
-	                that.um.insertHtml('{{'+node.outerHTML+'}}');
-	                node.previousSibling.nodeType === 3 && (node.previousSibling.nodeValue = node.previousSibling.nodeValue.replace('{{',''));
-	                node.nextSibling.nodeType === 3 && (node.nextSibling.nodeValue = node.nextSibling.nodeValue.replace('}}',''));
+	        }).subscribe('kindeditor_extend_insert_node', function (node) {
+	            try {
+	                that.um.insertHtml('{{' + node.outerHTML + '}}');
+	                node.previousSibling.nodeType === 3 && (node.previousSibling.nodeValue = node.previousSibling.nodeValue.replace('{{', ''));
+	                node.nextSibling.nodeType === 3 && (node.nextSibling.nodeValue = node.nextSibling.nodeValue.replace('}}', ''));
 	                $(node).remove();
-	            }catch(e){console.log(e);}
+	            } catch (e) {
+	                console.log(e);
+	            }
 	        });
-	        
-	        if(that.options.action == '002'){
+
+	        if (that.options.action == '002') {
 	            that.restoreData();
 	        }
 	    });
 	};
 
-	FormDesigner.prototype.dialogResize = function(width,height){
-	    $('.ke-edit',this.dom).css('height',height-210);
-	    $('.ke-edit-iframe',this.dom).css('height',height-210);
+	FormDesigner.prototype.dialogResize = function (width, height) {
+	    $('.ke-edit', this.dom).css('height', height - 210);
+	    $('.ke-edit-iframe', this.dom).css('height', height - 210);
 	};
-	FormDesigner.prototype.loadBaseView = function(){
-	    var html = __webpack_require__(356);
+	FormDesigner.prototype.loadBaseView = function () {
+	    var html = __webpack_require__(358);
 	    this.render(html);
 	};
 
@@ -6341,45 +6227,45 @@ webpackJsonp([4],[
 	 */
 	FormDesigner.prototype.restoreData = function () {
 	    var that = this;
-	    this.query('/form/search/'+this.options.form_id,function(data){
-	        if(data.success){
+	    this.query('/form/search/' + this.options.form_id, function (data) {
+	        if (data.success) {
 	            that.um.html(data.data.form_html);
-	            $('#title',that.dom).val(data.data.form_title);
-	        }else
-	            that.toast(data.message);
+	            $('#title', that.dom).val(data.data.form_title);
+	        } else that.toast(data.message);
 	    });
 	};
 
 	FormDesigner.prototype.bindEvents = function () {
 	    var that = this;
 
-	    $('.widget-list',that.dom).on('click','li',function(){
+	    $('.widget-list', that.dom).on('click', 'li', function () {
 	        Events.notify('kindeditor_clear_widget_var');
 	        var widget = $(this).attr('data-widget');
 	        that.um.clickToolbar(widget);
 	    });
 
-	    $('#submitBtn',this.dom).click(function(){
-	        var content = that.um.html(), title = $('#title',that.dom).val();
-	        if($.trim(title) == ''){
-	            swal('提示','请输入表单标题','warning');
+	    $('#submitBtn', this.dom).click(function () {
+	        var content = that.um.html(),
+	            title = $('#title', that.dom).val();
+	        if ($.trim(title) == '') {
+	            swal('提示', '请输入表单标题', 'warning');
 	            return;
 	        }
-	        that.save('/form/save',{
-	            action:that.options.action,
-	            form_id:that.options.form_id,
-	            form_title:title,
-	            form_html:content,
-	            form_text:that.um.text().replace(/(?:<img[^>]*?\/?>|<\/img>)/gi,'')//由于kindeditor的text获取纯文本方法会携带img标签 ，所以过滤一下
-	        },function(data){
+	        that.save('/form/save', {
+	            action: that.options.action,
+	            form_id: that.options.form_id,
+	            form_title: title,
+	            form_html: content,
+	            form_text: that.um.text().replace(/(?:<img[^>]*?\/?>|<\/img>)/gi, '') //由于kindeditor的text获取纯文本方法会携带img标签 ，所以过滤一下
+	        }, function (data) {
 	            Events.notify('onRefresh:form-manage');
-	            data.success?(that.toast('保存成功!')):(that.toast(data.message));
+	            data.success ? that.toast('保存成功!') : that.toast(data.message);
 	        });
 	    });
-	    $('#cancelBtn',this.dom).click(function(){
+	    $('#cancelBtn', this.dom).click(function () {
 	        that.finish();
 	    });
-	    $('#title',this.dom)[0].focus();
+	    $('#title', this.dom)[0].focus();
 	};
 
 	/**
@@ -6387,12 +6273,12 @@ webpackJsonp([4],[
 	 * 由框架调用，主要用于销毁订阅的事件
 	 */
 	FormDesigner.prototype.finish = function () {
-	    try{
+	    try {
 	        this.dom && this.dom.hide();
 	        this.um && this.um.remove();
-	        frameworkBase.finish.apply(this,arguments);
+	        frameworkBase.finish.apply(this, arguments);
 	        Events.unsubscribe('kindeditor_extend_location_point').unsubscribe('kindeditor_extend_insert_node');
-	    }catch(e){
+	    } catch (e) {
 	        console.log(e);
 	    }
 	};
@@ -6400,29 +6286,21 @@ webpackJsonp([4],[
 	 * 重新调整大小
 	 */
 	FormDesigner.prototype.resize = function () {
-	    try{
+	    try {
 	        //this.um.setWidth(this.dom.width());
-	    }catch(e){
+	    } catch (e) {
 	        console.log(e);
 	    }
 	};
 	var formDesigner = new FormDesigner();
-	Events.subscribe('onWindowResize',function(){
-	    if(!formDesigner.dom || !formDesigner.um)
-	        return;
+	Events.subscribe('onWindowResize', function () {
+	    if (!formDesigner.dom || !formDesigner.um) return;
 	    formDesigner.resize();
 	});
 
 	module.exports = formDesigner;
 
 /***/ },
-/* 349 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 350 */,
 /* 351 */
 /***/ function(module, exports) {
 
@@ -6430,17 +6308,22 @@ webpackJsonp([4],[
 
 /***/ },
 /* 352 */,
-/* 353 */,
-/* 354 */,
-/* 355 */,
-/* 356 */
+/* 353 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"form-designer shadow-block\" style=\"height:100%\">\r\n    <div class=\"lr-panel-wrap\" style=\"position: relative\">\r\n        <div class=\"lr-panel-left\" style=\"width: 150px\">\r\n            <ul class=\"widget-list\">\r\n                <li data-widget='input_text_widget'>单行输入框</li>\r\n                <li data-widget='input_multi_widget'>多行输入框</li>\r\n                <li data-widget='input_number_widget'>数字输入框</li>\r\n                <li data-widget='input_select_widget'>下拉选择框</li>\r\n                <li data-widget='input_date_widget'>日期</li>\r\n                <li data-widget='input_daterange_widget'>日期区间</li>\r\n                <li data-widget='input_details_widget'>明细</li>\r\n                <li data-widget='input_attachment_widget'>附件</li>\r\n            </ul>\r\n        </div>\r\n        <div class=\"lr-panel-right\" style=\"padding-left:160px;\">\r\n            <div>\r\n                <input id=\"title\" type=\"text\" placeholder=\"请输入表单标题\" autofocus/>\r\n            </div>\r\n            <script type=\"text/plain\" id=\"myEditor\" style=\"width:100%;height:400px;\"></script>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"submitBtn\">保存</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">关闭</span>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n</div>";
+	// removed by extract-text-webpack-plugin
 
 /***/ },
+/* 354 */,
+/* 355 */,
+/* 356 */,
 /* 357 */,
-/* 358 */,
+/* 358 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"form-designer shadow-block\" style=\"height:100%\">\n    <div class=\"lr-panel-wrap\" style=\"position: relative\">\n        <div class=\"lr-panel-left\" style=\"width: 150px\">\n            <ul class=\"widget-list\">\n                <li data-widget='input_text_widget'>单行输入框</li>\n                <li data-widget='input_multi_widget'>多行输入框</li>\n                <li data-widget='input_number_widget'>数字输入框</li>\n                <li data-widget='input_select_widget'>下拉选择框</li>\n                <li data-widget='input_date_widget'>日期</li>\n                <li data-widget='input_daterange_widget'>日期区间</li>\n                <li data-widget='input_details_widget'>明细</li>\n                <li data-widget='input_attachment_widget'>附件</li>\n            </ul>\n        </div>\n        <div class=\"lr-panel-right\" style=\"padding-left:160px;\">\n            <div>\n                <input id=\"title\" type=\"text\" placeholder=\"请输入表单标题\" autofocus/>\n            </div>\n            <script type=\"text/plain\" id=\"myEditor\" style=\"width:100%;height:400px;\"></script>\n            <div class=\"btn-wrap\">\n                <span class=\"framework-button\" id=\"submitBtn\">保存</span>\n                <span class=\"framework-button\" id=\"cancelBtn\">关闭</span>\n            </div>\n        </div>\n    </div>\n\n</div>";
+
+/***/ },
 /* 359 */,
 /* 360 */,
 /* 361 */,
@@ -6449,7 +6332,9 @@ webpackJsonp([4],[
 /* 364 */,
 /* 365 */,
 /* 366 */,
-/* 367 */
+/* 367 */,
+/* 368 */,
+/* 369 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -6458,15 +6343,14 @@ webpackJsonp([4],[
 	 */
 
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(296);
-	__webpack_require__(368);
-	__webpack_require__(268);
-	var FormManage = function () {};
+	__webpack_require__(298);
+	__webpack_require__(370);
+	__webpack_require__(270);
+	var FormManage = function FormManage() {};
 
 	//继承自框架基类
 	FormManage.prototype = $.extend({}, frameworkBase);
 	FormManage.prototype.id = 'form-manage';
-
 
 	/**
 	 * 模块初始化入口<br>
@@ -6483,17 +6367,17 @@ webpackJsonp([4],[
 
 	FormManage.prototype.loadBaseView = function () {
 	    var that = this;
-	    this.loadFragment('/views/modules/form-manage.html').then(function(html){
+	    this.loadFragment('/views/modules/form-manage.html').then(function (html) {
 	        that.render(html);
 	        that.bindEvents();
-	        var columns = __webpack_require__(370);
-	        $('.easyui-linkbutton',that.dom).linkbutton();
-	        var $table = that.$table = $('#dataTable',that.dom).datagrid({
+	        var columns = __webpack_require__(372);
+	        $('.easyui-linkbutton', that.dom).linkbutton();
+	        var $table = that.$table = $('#dataTable', that.dom).datagrid({
 	            url: '/form/list',
 	            method: 'get',
 	            columns: [columns],
 	            pagination: true,
-	            cache:false,
+	            cache: false,
 	            pageSize: 20,
 	            ctrlSelect: true,
 	            checkOnSelect: true,
@@ -6502,38 +6386,35 @@ webpackJsonp([4],[
 	            striped: true,
 	            fit: true,
 	            fitColumns: true,
-	            loadFilter: function (data) {
-	                if(!data.success){
+	            loadFilter: function loadFilter(data) {
+	                if (!data.success) {
 	                    that.toast(data.message);
 	                }
 
-	                return {rows: data.data, total: data.data.length};
+	                return { rows: data.data, total: data.data.length };
 	            },
-	            onDblClickRow: function (rowIndex, rowData) {
-	                Events.require('form-designer').addCallback(function(flag){
-	                    if(flag)
-	                        Events.notify('onRefresh:form-manage');
-	                }).init({showType:'Pop',action:'002',form_id:rowData.form_id});
+	            onDblClickRow: function onDblClickRow(rowIndex, rowData) {
+	                Events.require('form-designer').addCallback(function (flag) {
+	                    if (flag) Events.notify('onRefresh:form-manage');
+	                }).init({ showType: 'Pop', action: '002', form_id: rowData.form_id });
 	            },
 	            toolbar: '#form-manage-toolbar'
 	        });
 
-	        var searchBox = $('#home-easyui-searchbox',that.dom).searchbox({
-	            searcher: function (value, name) {
+	        var searchBox = $('#home-easyui-searchbox', that.dom).searchbox({
+	            searcher: function searcher(value, name) {
 	                Events.notify('onRefresh:form-manage');
 	            },
 	            prompt: '请输关键字，如自定义表单标题'
 	        });
 
-	        Events.subscribe('onRefresh:form-manage',function(){
-	            $table.datagrid('load',{
-	                key:searchBox.searchbox('getValue')
+	        Events.subscribe('onRefresh:form-manage', function () {
+	            $table.datagrid('load', {
+	                key: searchBox.searchbox('getValue')
 	            });
 	        });
 	    });
-
 	};
-
 
 	/**
 	 * 绑定按钮点击事件
@@ -6541,54 +6422,50 @@ webpackJsonp([4],[
 	FormManage.prototype.bindEvents = function () {
 	    var that = this;
 	    //添加自定义表单
-	    $('#add_form_btn',this.dom).click(function(){
-	        Events.require('form-designer').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:form-manage');
-	        }).init({showType:'Pop'});
+	    $('#add_form_btn', this.dom).click(function () {
+	        Events.require('form-designer').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:form-manage');
+	        }).init({ showType: 'Pop' });
 	    });
 	    //修改自定义表单
-	    $('#modify_form_btn',this.dom).click(function(){
+	    $('#modify_form_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        Events.require('form-designer').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:form-manage');
-	        }).init({showType:'Pop',action:'002',form_id:rowData.form_id});
+	        if (!(rowData = getSelectRow())) return;
+	        Events.require('form-designer').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:form-manage');
+	        }).init({ showType: 'Pop', action: '002', form_id: rowData.form_id });
 	    });
 	    //删除自定义表单
-	    $('#delete_form_btn',this.dom).click(function(){
+	    $('#delete_form_btn', this.dom).click(function () {
 	        var rows;
-	        if(!(rows = getCheckRow()))
-	            return;
-	        that.save('/form/save',{action:'003',form_id:function(){
-	            var ids = [];
-	            rows.forEach(function(item){
-	                ids.push(item.form_id);
-	            });
-	            return ids.join(',');
-	        }()},function(data){
-	            if(data.success){
+	        if (!(rows = getCheckRow())) return;
+	        that.save('/form/save', { action: '003', form_id: function () {
+	                var ids = [];
+	                rows.forEach(function (item) {
+	                    ids.push(item.form_id);
+	                });
+	                return ids.join(',');
+	            }() }, function (data) {
+	            if (data.success) {
 	                that.toast("删除表单成功!");
 	                Events.notify('onRefresh:form-manage');
-	            }else{
+	            } else {
 	                that.toast(data.message);
 	            }
 	        });
 	    });
 
-	    function getSelectRow(){
+	    function getSelectRow() {
 	        var rowData = that.$table.datagrid('getSelected');
-	        if(!rowData){
+	        if (!rowData) {
 	            swal("提示", "请先选择一条数据!", "warning");
 	            return;
 	        }
 	        return rowData;
 	    }
-	    function getCheckRow(){
+	    function getCheckRow() {
 	        var rows = that.$table.datagrid('getChecked');
-	        if(rows.length == 0){
+	        if (rows.length == 0) {
 	            swal("提示", "请至少选择一条数据!", "warning");
 	            return;
 	        }
@@ -6596,35 +6473,33 @@ webpackJsonp([4],[
 	    }
 	};
 
-
 	/**
 	 * 销毁方法
 	 * 由框架调用，主要用于销毁订阅的事件
 	 */
 	FormManage.prototype.finish = function () {
 	    Events.unsubscribe('onRefresh:form-manage');
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	var attenceSearch = new FormManage();
-	Events.subscribe('onWindowResize',function(){
-	    if(!attenceSearch.dom)
-	        return;
-	    $('.tablecontainer',attenceSearch.dom).height(attenceSearch.dom.height()-15-$('.condition-wrap',attenceSearch.dom).height());
+	Events.subscribe('onWindowResize', function () {
+	    if (!attenceSearch.dom) return;
+	    $('.tablecontainer', attenceSearch.dom).height(attenceSearch.dom.height() - 15 - $('.condition-wrap', attenceSearch.dom).height());
 	    attenceSearch.$table.datagrid('resize');
 	});
 
 	module.exports = attenceSearch;
 
 /***/ },
-/* 368 */
+/* 370 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 369 */,
-/* 370 */
+/* 371 */,
+/* 372 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -6637,60 +6512,56 @@ webpackJsonp([4],[
 	];
 
 /***/ },
-/* 371 */
+/* 373 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(372);
-	var Helloworld = function(){ };
+	__webpack_require__(374);
+	var Helloworld = function Helloworld() {};
 
 	//继承自框架基类
-	Helloworld.prototype = $.extend({},frameworkBase);
+	Helloworld.prototype = $.extend({}, frameworkBase);
 	Helloworld.prototype.id = 'helloworld';
-
 
 	/**
 	 * 模块初始化入口<br>
 	 * @method init
 	 * @param options 参数对象
 	 */
-	Helloworld.prototype.init = function(options){ 
+	Helloworld.prototype.init = function (options) {
 	    var that = this;
-	    this.options = $.extend({},options);
+	    this.options = $.extend({}, options);
 	    that.setTitle('关于我们').setHeight(700).setWidth(780);
-	    frameworkBase.init.call(this,options);
+	    frameworkBase.init.call(this, options);
 	    this.loadBaseView();
 	};
 
-	Helloworld.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(374);
+	Helloworld.prototype.loadBaseView = function (options) {
+	    var html = __webpack_require__(376);
 	    this.render(html);
 
-
 	    //TODO 
-
-	    
 
 	};
 
 	module.exports = new Helloworld();
 
 /***/ },
-/* 372 */
+/* 374 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 373 */,
-/* 374 */
+/* 375 */,
+/* 376 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"helloworld shadow-block\">\r\n    <H3>helloworld</H3>\r\n    <p>\r\n            该平台提供智能门禁与学生考勤系统、智能报修与投诉处理系统、学校信息发布与家校互通系统等功能\r\n    </p>\r\n</div>";
+	module.exports = "<div class=\"helloworld shadow-block\">\n    <H3>helloworld</H3>\n    <p>\n            该平台提供智能门禁与学生考勤系统、智能报修与投诉处理系统、学校信息发布与家校互通系统等功能\n    </p>\n</div>";
 
 /***/ },
-/* 375 */
+/* 377 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -6699,90 +6570,84 @@ webpackJsonp([4],[
 	 */
 
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(376);
-	var HomePage = function(){ };
+	__webpack_require__(378);
+	var HomePage = function HomePage() {};
 
 	//继承自框架基类
-	HomePage.prototype = $.extend({},frameworkBase);
+	HomePage.prototype = $.extend({}, frameworkBase);
 	HomePage.prototype.id = 'homepage';
 
-	var WIDGETS = [
-	    {container:'#attence-analyse-chart1',module:'./attence-analyse-widgets/attence-analyse-chart1'},
-	    {container:'#attence-analyse-chart2',module:'./attence-analyse-widgets/attence-analyse-chart2'},
-	    {container:'#message-publish-list',module:'message-publish-list'},
-	    {container:'#report-list',module:'report-list'}];
+	var WIDGETS = [{ container: '#attence-analyse-chart1', module: './attence-analyse-widgets/attence-analyse-chart1' }, { container: '#attence-analyse-chart2', module: './attence-analyse-widgets/attence-analyse-chart2' }, { container: '#message-publish-list', module: 'message-publish-list' }, { container: '#report-list', module: 'report-list' }];
 
 	/**
 	 * 模块初始化入口<br>
 	 * @method init
 	 * @param options 参数对象
 	 */
-	HomePage.prototype.init = function(options){
+	HomePage.prototype.init = function (options) {
 	    var that = this;
-	    this.options = $.extend({},options);
+	    this.options = $.extend({}, options);
 	    that.setTitle('首页聚合').setHeight(700).setWidth(780);
-	    frameworkBase.init.call(this,options);
+	    frameworkBase.init.call(this, options);
 	    this.loadBaseView();
 	};
 
-	HomePage.prototype.loadBaseView = function(){
+	HomePage.prototype.loadBaseView = function () {
 	    var that = this;
-	    this.loadFragment('/views/modules/homepage.html').then(function(html){
+	    this.loadFragment('/views/modules/homepage.html').then(function (html) {
 	        that.render(html);
 	        that.loadWidgets();
 	    });
 	};
 
-	HomePage.prototype.loadWidgets = function(){
+	HomePage.prototype.loadWidgets = function () {
 	    this.widgets = [];
-	    this.widgets.push(__webpack_require__(302));
-	    this.widgets.push(__webpack_require__(378));
-	    this.widgets.push(__webpack_require__(383));
-	    this.widgets.forEach(function(widget){
+	    this.widgets.push(__webpack_require__(304));
+	    this.widgets.push(__webpack_require__(380));
+	    this.widgets.push(__webpack_require__(385));
+	    this.widgets.forEach(function (widget) {
 	        widget.loadWidgets(WIDGETS);
 	    });
-	}; 
+	};
 
 	/**
 	 * 销毁方法
 	 * 由框架调用，主要用于销毁订阅的事件
 	 */
 	HomePage.prototype.finish = function () {
-	    try{
-	        if(this.widgets && this.widgets.length)
-	            this.widgets.forEach(function(widget){
-	                widget.destoryWidgets();
-	            });
-	        frameworkBase.finish.apply(this,arguments);
-	    }catch(e){
+	    try {
+	        if (this.widgets && this.widgets.length) this.widgets.forEach(function (widget) {
+	            widget.destoryWidgets();
+	        });
+	        frameworkBase.finish.apply(this, arguments);
+	    } catch (e) {
 	        console.log(e);
 	    }
 	};
 
 	var homePage = new HomePage();
 
-	Events.subscribe('onWindowResize',function(){
-	    if(homePage.dom){
-	        $('#message-publish-list',homePage.dom).height(homePage.dom.height()-38);
-	        $('#report-list',homePage.dom).height(homePage.dom.height()-386);
+	Events.subscribe('onWindowResize', function () {
+	    if (homePage.dom) {
+	        $('#message-publish-list', homePage.dom).height(homePage.dom.height() - 38);
+	        $('#report-list', homePage.dom).height(homePage.dom.height() - 386);
 	    }
-	    if(homePage.widgets)
-	        homePage.widgets.forEach(function(widget){
-	            widget.resizeWidgets();
-	        });
+	    if (homePage.widgets) homePage.widgets.forEach(function (widget) {
+	        widget.resizeWidgets();
+	    });
 	});
 
 	module.exports = homePage;
 
 /***/ },
-/* 376 */
+/* 378 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 377 */,
-/* 378 */
+/* 379 */,
+/* 380 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -6791,27 +6656,16 @@ webpackJsonp([4],[
 	 */
 
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(296);
-	__webpack_require__(379);
-	__webpack_require__(268);
-	var juicer = __webpack_require__(381);
-	var MessagePublishList = function () {};
+	__webpack_require__(298);
+	__webpack_require__(381);
+	__webpack_require__(270);
+	var juicer = __webpack_require__(383);
+	var MessagePublishList = function MessagePublishList() {};
 
 	//继承自框架基类
 	MessagePublishList.prototype = $.extend({}, frameworkBase);
 	MessagePublishList.prototype.id = 'message-publish-list';
-	var widgetTpl = "<ul>" +
-	    "{@each rows as it}" +
-	        "<li class='shadow-block view-block'>" +
-	    "    <header class='title'>" +
-	    "    <span class='fa fa-bell'></span>" +
-	    "     ${it.publish_title}" +
-	    "    <i>${it.update_time}</i>" +
-	    "    </header>" +
-	    "    <article class='content clearfix'>$${it.publish_content}</article>" +
-	    "    </li>" +
-	    "     {@/each}" +
-	"    </ul>";
+	var widgetTpl = "<ul>" + "{@each rows as it}" + "<li class='shadow-block view-block'>" + "    <header class='title'>" + "    <span class='fa fa-bell'></span>" + "     ${it.publish_title}" + "    <i>${it.update_time}</i>" + "    </header>" + "    <article class='content clearfix'>$${it.publish_content}</article>" + "    </li>" + "     {@/each}" + "    </ul>";
 
 	/**
 	 * 模块初始化入口<br>
@@ -6828,9 +6682,9 @@ webpackJsonp([4],[
 
 	MessagePublishList.prototype.loadBaseView = function () {
 	    var that = this;
-	    this.loadFragment('/views/modules/message-publish-list.html').then(function(html){
+	    this.loadFragment('/views/modules/message-publish-list.html').then(function (html) {
 	        that.render(html);
-	        $('.tablecontainer',that.dom).height(that.dom.height()-55);
+	        $('.tablecontainer', that.dom).height(that.dom.height() - 55);
 	        that.initTable();
 	        that.bindEvents();
 	    });
@@ -6838,13 +6692,13 @@ webpackJsonp([4],[
 
 	MessagePublishList.prototype.initTable = function () {
 	    var that = this;
-	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(382);
-	    that.$table = $('#dataTable',this.dom).datagrid({
+	    $('.easyui-linkbutton', this.dom).linkbutton();
+	    var columns = __webpack_require__(384);
+	    that.$table = $('#dataTable', this.dom).datagrid({
 	        url: '/publish/search',
 	        method: 'get',
 	        columns: [columns],
-	        cache:false,
+	        cache: false,
 	        pagination: true,
 	        pageSize: 20,
 	        ctrlSelect: true,
@@ -6854,63 +6708,62 @@ webpackJsonp([4],[
 	        striped: true,
 	        fit: true,
 	        fitColumns: true,
-	        loadFilter: function (data) {
-	            if(!data.success){
+	        loadFilter: function loadFilter(data) {
+	            if (!data.success) {
 	                that.toast(data.message);
 	            }
 	            return data.data;
 	        },
-	        onDblClickRow: function (rowIndex, rowData) {
-	            Events.require('message-publish').addCallback(function(){
+	        onDblClickRow: function onDblClickRow(rowIndex, rowData) {
+	            Events.require('message-publish').addCallback(function () {
 	                that.init();
-	            }).init({showType:'Pop',action:'002',publish_id:rowData.publish_id});
+	            }).init({ showType: 'Pop', action: '002', publish_id: rowData.publish_id });
 	        },
 	        toolbar: '#message-publish-list-toolbar'
 	    });
 
-	    var searchBox = $('#message-publish-list #home-easyui-searchbox',that.dom).searchbox({
-	        searcher: function (value, name) {
+	    var searchBox = $('#message-publish-list #home-easyui-searchbox', that.dom).searchbox({
+	        searcher: function searcher(value, name) {
 	            Events.notify('onRefresh:message-publish-list');
 	        },
 	        prompt: '请输关键字，如公告标题'
 	    });
 
-	    var startDate = $("#startdate",that.dom).datebox({
-	        editable:false ,
-	        formatter: function (date) {
+	    var startDate = $("#startdate", that.dom).datebox({
+	        editable: false,
+	        formatter: function formatter(date) {
 	            return Calendar.getInstance(date).format('yyyy-MM-dd');
 	        },
-	        onChange:function(date){
+	        onChange: function onChange(date) {
 	            Events.notify('onRefresh:message-publish-list');
 	        }
 	    });
-	    var endDate = $("#enddate",that.dom).datebox({
-	        editable:false ,
-	        formatter: function (date) {
+	    var endDate = $("#enddate", that.dom).datebox({
+	        editable: false,
+	        formatter: function formatter(date) {
 	            return Calendar.getInstance(date).format('yyyy-MM-dd');
 	        },
-	        onChange:function(date){
+	        onChange: function onChange(date) {
 	            Events.notify('onRefresh:message-publish-list');
 	        }
 	    });
 
 	    //绑定下拉框事件 通知刷新消息
-	    $('#is_show,#is_publish',this.dom).on('change',function(){
+	    $('#is_show,#is_publish', this.dom).on('change', function () {
 	        Events.notify('onRefresh:message-publish-list');
 	    });
 
 	    //订阅刷新消息
-	    Events.subscribe('onRefresh:message-publish-list',function(){
-	        that.$table.datagrid('load',{
-	            key:searchBox.searchbox('getValue'),
-	            is_show:$('#is_show',that.dom).val(),
-	            is_publish:$('#is_publish',that.dom).val(),
-	            startdate:startDate.combo('getValue').replace(/-/gi,''),
-	            enddate:endDate.combo('getValue').replace(/-/gi,'')
+	    Events.subscribe('onRefresh:message-publish-list', function () {
+	        that.$table.datagrid('load', {
+	            key: searchBox.searchbox('getValue'),
+	            is_show: $('#is_show', that.dom).val(),
+	            is_publish: $('#is_publish', that.dom).val(),
+	            startdate: startDate.combo('getValue').replace(/-/gi, ''),
+	            enddate: endDate.combo('getValue').replace(/-/gi, '')
 	        });
 	    });
 	};
-
 
 	/**
 	 * 绑定按钮点击事件
@@ -6918,106 +6771,101 @@ webpackJsonp([4],[
 	MessagePublishList.prototype.bindEvents = function () {
 	    var that = this;
 	    //添加信息
-	    $('#add_message_btn',this.dom).click(function(){
-	        Events.require('message-publish').addCallback(function(){
+	    $('#add_message_btn', this.dom).click(function () {
+	        Events.require('message-publish').addCallback(function () {
 	            Events.notify('onRefresh:message-publish-list');
-	        }).init({showType:'Pop'});
+	        }).init({ showType: 'Pop' });
 	    });
 	    //修改信息
-	    $('#modify_message_btn',this.dom).click(function(){
+	    $('#modify_message_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        Events.require('message-publish').addCallback(function(){
+	        if (!(rowData = getSelectRow())) return;
+	        Events.require('message-publish').addCallback(function () {
 	            Events.notify('onRefresh:message-publish-list');
-	        }).init({showType:'Pop',action:'002',publish_id:rowData.publish_id});
+	        }).init({ showType: 'Pop', action: '002', publish_id: rowData.publish_id });
 	    });
 	    //删除信息
-	    $('#delete_message_btn',this.dom).click(function(){
+	    $('#delete_message_btn', this.dom).click(function () {
 	        var rows;
-	        if(!(rows = getCheckRow()))
-	            return;
-	        that.save('/publish/save',{action:'003',publish_id:function(){
-	            var ids = [];
-	            rows.forEach(function(item){
-	                ids.push(item.publish_id);
-	            });
-	            return ids.join(',');
-	        }()},function(data){
-	            if(data.success){
+	        if (!(rows = getCheckRow())) return;
+	        that.save('/publish/save', { action: '003', publish_id: function () {
+	                var ids = [];
+	                rows.forEach(function (item) {
+	                    ids.push(item.publish_id);
+	                });
+	                return ids.join(',');
+	            }() }, function (data) {
+	            if (data.success) {
 	                that.toast("删除信息成功!");
 	                Events.notify('onRefresh:message-publish-list');
-	            }else{
+	            } else {
 	                that.toast(data.message);
 	            }
 	        });
 	    });
 	    //设置显示隐藏
-	    $('#set_show_btn',this.dom).click(function(){
+	    $('#set_show_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        that.save('/publish/save',{
-	            action:'002',
-	            publish_id:rowData.publish_id,
-	            is_show:rowData.is_show == '0'?'1':'0'
-	        },function(data){
-	            if(data.success){
-	                that.toast((rowData.is_show == '0'?'显示':'隐藏')+"信息成功!");
+	        if (!(rowData = getSelectRow())) return;
+	        that.save('/publish/save', {
+	            action: '002',
+	            publish_id: rowData.publish_id,
+	            is_show: rowData.is_show == '0' ? '1' : '0'
+	        }, function (data) {
+	            if (data.success) {
+	                that.toast((rowData.is_show == '0' ? '显示' : '隐藏') + "信息成功!");
 	                Events.notify('onRefresh:message-publish-list');
-	            }else{
+	            } else {
 	                that.toast(data.message);
 	            }
 	        });
 	    });
 	    //发布信息
-	    $('#publish_btn',this.dom).click(function(){
+	    $('#publish_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        that.save('/publish/save',{
-	            action:'002',
-	            publish_id:rowData.publish_id,
-	            is_publish:'1'
-	        },function(data){
-	            if(data.success){
+	        if (!(rowData = getSelectRow())) return;
+	        that.save('/publish/save', {
+	            action: '002',
+	            publish_id: rowData.publish_id,
+	            is_publish: '1'
+	        }, function (data) {
+	            if (data.success) {
 	                that.toast("发布信息成功!");
 	                Events.notify('onRefresh:message-publish-list');
-	            }else{
+	            } else {
 	                that.toast(data.message);
 	            }
 	        });
 	    });
 	    //取消发布信息
-	    $('#unpublish_btn',this.dom).click(function(){
+	    $('#unpublish_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return; 
-	        that.save('/publish/save',{
-	            action:'002',
-	            publish_id:rowData.publish_id,
-	            is_publish:'0'
-	        },function(data){
-	            if(data.success){
+	        if (!(rowData = getSelectRow())) return;
+	        that.save('/publish/save', {
+	            action: '002',
+	            publish_id: rowData.publish_id,
+	            is_publish: '0'
+	        }, function (data) {
+	            if (data.success) {
 	                that.toast("取消发布信息成功!");
 	                Events.notify('onRefresh:message-publish-list');
-	            }else{
+	            } else {
 	                that.toast(data.message);
 	            }
 	        });
 	    });
 
-	    function getSelectRow(){
+	    function getSelectRow() {
 	        var rowData = that.$table.datagrid('getSelected');
-	        if(!rowData){
+	        if (!rowData) {
 	            swal("提示", "请先选择一条数据!", "warning");
 	            return;
 	        }
 	        return rowData;
 	    }
-	    function getCheckRow(){
+	    function getCheckRow() {
 	        var rows = that.$table.datagrid('getChecked');
-	        if(rows.length == 0){
+	        if (rows.length == 0) {
 	            swal("提示", "请至少选择一条数据!", "warning");
 	            return;
 	        }
@@ -7028,36 +6876,36 @@ webpackJsonp([4],[
 	/**
 	 * 加载插件
 	 */
-	MessagePublishList.prototype.loadWidgets = function(temp){
-	    var widget = null,that = this;
-	    if(temp && $.isArray(temp)){
-	        temp.forEach(function(i){
-	           if(i.module.indexOf('message-publish-list')!=-1){
-	               widget = i;
-	               return false;
-	           }
+	MessagePublishList.prototype.loadWidgets = function (temp) {
+	    var widget = null,
+	        that = this;
+	    if (temp && $.isArray(temp)) {
+	        temp.forEach(function (i) {
+	            if (i.module.indexOf('message-publish-list') != -1) {
+	                widget = i;
+	                return false;
+	            }
 	        });
 	    }
-	    if(widget == null)
-	        return;
+	    if (widget == null) return;
 	    var $dom = $(widget.container);
-	    this.query('/publish/search',{detail:true},function(ret){
-	        if(!ret.success){
+	    this.query('/publish/search', { detail: true }, function (ret) {
+	        if (!ret.success) {
 	            that.toast(ret.message);
 	            return;
 	        }
 	        var html = juicer(widgetTpl, ret.data);
 	        $dom.html(html);
 	    });
-	    Events.subscribe('websocket:message-publish-new',function(data){
-	        $dom.find('ul').prepend('<li class="shadow-block view-block uk-animation-scale-up"><header class="title"><span class="fa fa-bell"></span> '+data.publish_title+'<i>'+data.update_time+'</i></header><article class="content clearfix">'+data.publish_content+'</article></li>');
+	    Events.subscribe('websocket:message-publish-new', function (data) {
+	        $dom.find('ul').prepend('<li class="shadow-block view-block uk-animation-scale-up"><header class="title"><span class="fa fa-bell"></span> ' + data.publish_title + '<i>' + data.update_time + '</i></header><article class="content clearfix">' + data.publish_content + '</article></li>');
 	    });
 	};
 
 	/**
 	 * 销毁插件
 	 */
-	MessagePublishList.prototype.destoryWidgets = function(){
+	MessagePublishList.prototype.destoryWidgets = function () {
 	    Events.unsubscribe('websocket:message-publish-new');
 	};
 	/**
@@ -7066,28 +6914,27 @@ webpackJsonp([4],[
 	 */
 	MessagePublishList.prototype.finish = function () {
 	    Events.unsubscribe('onRefresh:message-publish-list');
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	var messagePublishList = new MessagePublishList();
-	Events.subscribe('onWindowResize',function(){
-	    if(!messagePublishList.dom)
-	        return;
-	    $('.tablecontainer',messagePublishList.dom).height(messagePublishList.dom.height()-15-$('.condition-wrap',messagePublishList.dom).height());
+	Events.subscribe('onWindowResize', function () {
+	    if (!messagePublishList.dom) return;
+	    $('.tablecontainer', messagePublishList.dom).height(messagePublishList.dom.height() - 15 - $('.condition-wrap', messagePublishList.dom).height());
 	    messagePublishList.$table.datagrid('resize');
 	});
 
 	module.exports = messagePublishList;
 
 /***/ },
-/* 379 */
+/* 381 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 380 */,
-/* 381 */
+/* 382 */,
+/* 383 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/*
@@ -7673,10 +7520,10 @@ webpackJsonp([4],[
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 382 */
+/* 384 */
 /***/ function(module, exports, __webpack_require__) {
 
-	typeof window == 'undefined' && (Calendar = __webpack_require__(315));
+	typeof window == 'undefined' && (Calendar = __webpack_require__(317));
 	module.exports = [
 	    {field: 'checked', title: '选择', width: 20,checkbox:true},
 	    {field: 'publish_id', title: '信息ID', width: 350},
@@ -7693,8 +7540,14 @@ webpackJsonp([4],[
 	];
 
 /***/ },
-/* 383 */
+/* 385 */
 /***/ function(module, exports, __webpack_require__) {
+
+	var _stringify = __webpack_require__(261);
+
+	var _stringify2 = _interopRequireDefault(_stringify);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/**
 	 * Created by yanglang on 2016/4/13.
@@ -7702,40 +7555,20 @@ webpackJsonp([4],[
 	 */
 
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(296);
-	__webpack_require__(384);
-	__webpack_require__(268);
-	var juicer = __webpack_require__(381);
+	__webpack_require__(298);
 	__webpack_require__(386);
-	__webpack_require__(387);
+	__webpack_require__(270);
+	var juicer = __webpack_require__(383);
 	__webpack_require__(388);
-	var ReportList = function () {};
+	__webpack_require__(389);
+	__webpack_require__(390);
+	var ReportList = function ReportList() {};
 
 	//继承自框架基类
 	ReportList.prototype = $.extend({}, frameworkBase);
 	ReportList.prototype.id = 'report-list';
-	var widgetLiTpl = "<li class='shadow-block view-block ${it.new?\"uk-animation-scale-up\":\"\"}'>" +
-	    "    <header class='title'>" +
-	    "    <span class='fa fa-bell' style='color:${it.is_handle==\"1\"?\"#009587\":\"#E74C3C\"}'></span>" +
-	    "     ${it.report_title}" +
-	    "    <i>${it.update_time}</i>" +
-	    "    </header>" +
-	    "    <article class='content clearfix'><p>$${it.report_content}</p>" +
-	    "       <dl class='content clearfix'>" +
-	    "       {@each it.photos as photo}  " +
-	    "           <dd><img class='overview' src='${host}/${photo}'></dd>" +
-	    "       {@/each}" +
-	    "       </dl>" +
-	    "   </article>" +
-
-	    "    </li>" ;
-	var widgetTpl = "<ul>" +
-	    "{@each rows as it}" +
-	    widgetLiTpl+
-	    "     {@/each}" +
-	    "    </ul>";
-
-
+	var widgetLiTpl = "<li class='shadow-block view-block ${it.new?\"uk-animation-scale-up\":\"\"}'>" + "    <header class='title'>" + "    <span class='fa fa-bell' style='color:${it.is_handle==\"1\"?\"#009587\":\"#E74C3C\"}'></span>" + "     ${it.report_title}" + "    <i>${it.update_time}</i>" + "    </header>" + "    <article class='content clearfix'><p>$${it.report_content}</p>" + "       <dl class='content clearfix'>" + "       {@each it.photos as photo}  " + "           <dd><img class='overview' src='${host}/${photo}'></dd>" + "       {@/each}" + "       </dl>" + "   </article>" + "    </li>";
+	var widgetTpl = "<ul>" + "{@each rows as it}" + widgetLiTpl + "     {@/each}" + "    </ul>";
 
 	/**
 	 * 模块初始化入口<br>
@@ -7752,9 +7585,9 @@ webpackJsonp([4],[
 
 	ReportList.prototype.loadBaseView = function () {
 	    var that = this;
-	    this.loadFragment('/views/modules/report-list.html').then(function(html){
+	    this.loadFragment('/views/modules/report-list.html').then(function (html) {
 	        that.render(html);
-	        $('.tablecontainer',that.dom).height(that.dom.height()-55);
+	        $('.tablecontainer', that.dom).height(that.dom.height() - 55);
 	        that.initTable();
 	        that.bindEvents();
 	    });
@@ -7762,13 +7595,13 @@ webpackJsonp([4],[
 
 	ReportList.prototype.initTable = function () {
 	    var that = this;
-	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(395);
-	    that.$table = $('#dataTable',this.dom).datagrid({
+	    $('.easyui-linkbutton', this.dom).linkbutton();
+	    var columns = __webpack_require__(397);
+	    that.$table = $('#dataTable', this.dom).datagrid({
 	        url: '/report/search',
 	        method: 'get',
 	        columns: [columns],
-	        cache:false,
+	        cache: false,
 	        pagination: true,
 	        pageSize: 20,
 	        ctrlSelect: true,
@@ -7778,60 +7611,59 @@ webpackJsonp([4],[
 	        striped: true,
 	        fit: true,
 	        fitColumns: true,
-	        loadFilter: function (data) {
-	            if(!data.success){
+	        loadFilter: function loadFilter(data) {
+	            if (!data.success) {
 	                that.toast(data.message);
 	            }
 	            return data.data;
 	        },
-	        onDblClickRow: function (rowIndex, rowData) {
-	            Events.require('report-view').init({showType:'Pop',report_id:rowData.report_id});
+	        onDblClickRow: function onDblClickRow(rowIndex, rowData) {
+	            Events.require('report-view').init({ showType: 'Pop', report_id: rowData.report_id });
 	        },
 	        toolbar: '#report-list-toolbar'
 	    });
 
-	    var searchBox = $('#report-list #home-easyui-searchbox',that.dom).searchbox({
-	        searcher: function (value, name) {
+	    var searchBox = $('#report-list #home-easyui-searchbox', that.dom).searchbox({
+	        searcher: function searcher(value, name) {
 	            Events.notify('onRefresh:report-list');
 	        },
 	        prompt: '请输关键字，如报修标题'
 	    });
 
-	    var startDate = $("#startdate",that.dom).datebox({
-	        editable:false ,
-	        formatter: function (date) {
+	    var startDate = $("#startdate", that.dom).datebox({
+	        editable: false,
+	        formatter: function formatter(date) {
 	            return Calendar.getInstance(date).format('yyyy-MM-dd');
 	        },
-	        onChange:function(date){
+	        onChange: function onChange(date) {
 	            Events.notify('onRefresh:report-list');
 	        }
 	    });
-	    var endDate = $("#enddate",that.dom).datebox({
-	        editable:false ,
-	        formatter: function (date) {
+	    var endDate = $("#enddate", that.dom).datebox({
+	        editable: false,
+	        formatter: function formatter(date) {
 	            return Calendar.getInstance(date).format('yyyy-MM-dd');
 	        },
-	        onChange:function(date){
+	        onChange: function onChange(date) {
 	            Events.notify('onRefresh:report-list');
 	        }
 	    });
 
 	    //绑定下拉框事件 通知刷新消息
-	    $('#is_handle',this.dom).on('change',function(){
+	    $('#is_handle', this.dom).on('change', function () {
 	        Events.notify('onRefresh:report-list');
 	    });
 
 	    //订阅刷新消息
-	    Events.subscribe('onRefresh:report-list',function(){
-	        that.$table.datagrid('load',{
-	            key:searchBox.searchbox('getValue'),
-	            is_handle:$('#is_handle',that.dom).val(),
-	            startdate:startDate.combo('getValue').replace(/-/gi,''),
-	            enddate:endDate.combo('getValue').replace(/-/gi,'')
+	    Events.subscribe('onRefresh:report-list', function () {
+	        that.$table.datagrid('load', {
+	            key: searchBox.searchbox('getValue'),
+	            is_handle: $('#is_handle', that.dom).val(),
+	            startdate: startDate.combo('getValue').replace(/-/gi, ''),
+	            enddate: endDate.combo('getValue').replace(/-/gi, '')
 	        });
 	    });
 	};
-
 
 	/**
 	 * 绑定按钮点击事件
@@ -7839,62 +7671,59 @@ webpackJsonp([4],[
 	ReportList.prototype.bindEvents = function () {
 	    var that = this;
 
-	    $('#view_message_btn',this.dom).click(function(){
+	    $('#view_message_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        Events.require('report-view').init({showType:'Pop',report_id:rowData.report_id});
+	        if (!(rowData = getSelectRow())) return;
+	        Events.require('report-view').init({ showType: 'Pop', report_id: rowData.report_id });
 	    });
 	    //删除信息
-	    $('#delete_message_btn',this.dom).click(function(){
+	    $('#delete_message_btn', this.dom).click(function () {
 	        var rows;
-	        if(!(rows = getCheckRow()))
-	            return;
-	        that.save('/report/save',{action:'003',report_id:function(){
-	            var ids = [];
-	            rows.forEach(function(item){
-	                ids.push(item.report_id);
-	            });
-	            return ids.join(',');
-	        }()},function(data){
-	            if(data.success){
+	        if (!(rows = getCheckRow())) return;
+	        that.save('/report/save', { action: '003', report_id: function () {
+	                var ids = [];
+	                rows.forEach(function (item) {
+	                    ids.push(item.report_id);
+	                });
+	                return ids.join(',');
+	            }() }, function (data) {
+	            if (data.success) {
 	                that.toast("删除信息成功!");
 	                Events.notify('onRefresh:report-list');
-	            }else{
+	            } else {
 	                that.toast(data.message);
 	            }
 	        });
 	    });
 	    //设置是否已处理
-	    $('#set_handle_btn',this.dom).click(function(){
+	    $('#set_handle_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        that.save('/report/save',{
-	            action:'002',
-	            report_id:rowData.report_id,
-	            is_handle:rowData.is_handle == '0'?'1':'0'
-	        },function(data){
-	            if(data.success){
-	                that.toast((rowData.is_handle == '0'?'已处理':'未处理'));
+	        if (!(rowData = getSelectRow())) return;
+	        that.save('/report/save', {
+	            action: '002',
+	            report_id: rowData.report_id,
+	            is_handle: rowData.is_handle == '0' ? '1' : '0'
+	        }, function (data) {
+	            if (data.success) {
+	                that.toast(rowData.is_handle == '0' ? '已处理' : '未处理');
 	                Events.notify('onRefresh:report-list');
-	            }else{
+	            } else {
 	                that.toast(data.message);
 	            }
 	        });
 	    });
 
-	    function getSelectRow(){
+	    function getSelectRow() {
 	        var rowData = that.$table.datagrid('getSelected');
-	        if(!rowData){
+	        if (!rowData) {
 	            swal("提示", "请先选择一条数据!", "warning");
 	            return;
 	        }
 	        return rowData;
 	    }
-	    function getCheckRow(){
+	    function getCheckRow() {
 	        var rows = that.$table.datagrid('getChecked');
-	        if(rows.length == 0){
+	        if (rows.length == 0) {
 	            swal("提示", "请至少选择一条数据!", "warning");
 	            return;
 	        }
@@ -7905,81 +7734,74 @@ webpackJsonp([4],[
 	/**
 	 * 加载插件
 	 */
-	ReportList.prototype.loadWidgets = function(temp){
-	    var widget = null,that = this;
-	    if(temp && $.isArray(temp)){
-	        temp.forEach(function(i){
-	           if(i.module.indexOf('report-list')!=-1){
-	               widget = i;
-	               return false;
-	           }
+	ReportList.prototype.loadWidgets = function (temp) {
+	    var widget = null,
+	        that = this;
+	    if (temp && $.isArray(temp)) {
+	        temp.forEach(function (i) {
+	            if (i.module.indexOf('report-list') != -1) {
+	                widget = i;
+	                return false;
+	            }
 	        });
 	    }
-	    if(widget == null)
-	        return;
+	    if (widget == null) return;
 	    var $dom = $(widget.container);
-	    if(widget.id){
-	        this.query('/report/search-id',{report_id:widget.id},function(ret){
-	            if(!ret.success){
+	    if (widget.id) {
+	        this.query('/report/search-id', { report_id: widget.id }, function (ret) {
+	            if (!ret.success) {
 	                that.toast(ret.message);
 	                return;
 	            }
-	            if(ret.data.photos == '')
-	                ret.data.photos = [];
-	            else
-	                ret.data.photos = ret.data.photos.split(';');
+	            if (ret.data.photos == '') ret.data.photos = [];else ret.data.photos = ret.data.photos.split(';');
 	            ret.data.host = $.getDomain();
-	            var html = juicer(widgetTpl, {rows:[ret.data]});
+	            var html = juicer(widgetTpl, { rows: [ret.data] });
 	            $dom.html(html);
 	        });
-	    }else{
-	        this.query('/report/search',{detail:true},function(ret){
-	            if(!ret.success){
+	    } else {
+	        this.query('/report/search', { detail: true }, function (ret) {
+	            if (!ret.success) {
 	                that.toast(ret.message);
 	                return;
 	            }
-	            ret.data.rows.forEach(function(item){
-	                if(item.photos == '')
-	                    item.photos = [];
-	                else
-	                    item.photos = item.photos.split(';');
+	            ret.data.rows.forEach(function (item) {
+	                if (item.photos == '') item.photos = [];else item.photos = item.photos.split(';');
 	            });
 	            ret.data.host = $.getDomain();
 	            var html = juicer(widgetTpl, ret.data);
 	            $dom.html(html);
-
 	        });
 	    }
 
-	    Events.subscribe('websocket:report-new',function(data){
-	        console.log(JSON.stringify(data));
-	        data.photos = data.photos?data.photos.split(';'):[];
+	    Events.subscribe('websocket:report-new', function (data) {
+	        console.log((0, _stringify2.default)(data));
+	        data.photos = data.photos ? data.photos.split(';') : [];
 	        data.new = true;
 	        var obj = {
-	            it:data,
-	            host:$.getDomain()
+	            it: data,
+	            host: $.getDomain()
 	        };
 
 	        var html = juicer(widgetLiTpl, obj);
 	        $dom.find('ul').prepend(html);
 	    });
-	    $dom.on('click','.overview',function(){
+	    $dom.on('click', '.overview', function () {
 	        var $this = $(this);
-	        $.lightbox(function(){
+	        $.lightbox(function () {
 	            var array = [];
-	            $this.parent().parent().find('.overview').each(function(){
+	            $this.parent().parent().find('.overview').each(function () {
 	                array.push($(this).attr('src'));
 	            });
 	            return array;
-	        }(),$this.parent().index(),{
-	            left:function(){
-	                return $this.offset().left-$(window).scrollLeft();
+	        }(), $this.parent().index(), {
+	            left: function () {
+	                return $this.offset().left - $(window).scrollLeft();
 	            }(),
-	            top:function(){
-	                return $this.offset().top-$(window).scrollTop();
+	            top: function () {
+	                return $this.offset().top - $(window).scrollTop();
 	            }(),
-	            width:$this.width(),
-	            height:$this.height()
+	            width: $this.width(),
+	            height: $this.height()
 	        });
 	    });
 	};
@@ -7987,7 +7809,7 @@ webpackJsonp([4],[
 	/**
 	 * 销毁插件
 	 */
-	ReportList.prototype.destoryWidgets = function(){
+	ReportList.prototype.destoryWidgets = function () {
 	    Events.unsubscribe('websocket:report-new');
 	};
 	/**
@@ -7996,28 +7818,27 @@ webpackJsonp([4],[
 	 */
 	ReportList.prototype.finish = function () {
 	    Events.unsubscribe('onRefresh:report-list');
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	var reportList = new ReportList();
-	Events.subscribe('onWindowResize',function(){
-	    if(!reportList.dom)
-	        return;
-	    $('.tablecontainer',reportList.dom).height(reportList.dom.height()-15-$('.condition-wrap',reportList.dom).height());
+	Events.subscribe('onWindowResize', function () {
+	    if (!reportList.dom) return;
+	    $('.tablecontainer', reportList.dom).height(reportList.dom.height() - 15 - $('.condition-wrap', reportList.dom).height());
 	    reportList.$table.datagrid('resize');
 	});
 
 	module.exports = reportList;
 
 /***/ },
-/* 384 */
+/* 386 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 385 */,
-/* 386 */
+/* 387 */,
+/* 388 */
 /***/ function(module, exports) {
 
 	/**
@@ -8109,7 +7930,7 @@ webpackJsonp([4],[
 	})(jQuery);
 
 /***/ },
-/* 387 */
+/* 389 */
 /***/ function(module, exports) {
 
 	/**
@@ -8535,22 +8356,22 @@ webpackJsonp([4],[
 
 
 /***/ },
-/* 388 */
+/* 390 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 389 */,
-/* 390 */,
 /* 391 */,
 /* 392 */,
 /* 393 */,
 /* 394 */,
-/* 395 */
+/* 395 */,
+/* 396 */,
+/* 397 */
 /***/ function(module, exports, __webpack_require__) {
 
-	typeof window == 'undefined' && (Calendar = __webpack_require__(315));
+	typeof window == 'undefined' && (Calendar = __webpack_require__(317));
 	module.exports = [
 	    {field: 'checked', title: '选择', width: 20,checkbox:true},
 	    {field: 'report_id', title: '信息ID', width: 350},
@@ -8564,7 +8385,7 @@ webpackJsonp([4],[
 	];
 
 /***/ },
-/* 396 */
+/* 398 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -8573,15 +8394,14 @@ webpackJsonp([4],[
 	 */
 
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(296);
-	__webpack_require__(397);
-	__webpack_require__(268);
-	var LogSearch = function () {};
+	__webpack_require__(298);
+	__webpack_require__(399);
+	__webpack_require__(270);
+	var LogSearch = function LogSearch() {};
 
 	//继承自框架基类
 	LogSearch.prototype = $.extend({}, frameworkBase);
 	LogSearch.prototype.id = 'log-search';
-
 
 	/**
 	 * 模块初始化入口<br>
@@ -8598,15 +8418,15 @@ webpackJsonp([4],[
 
 	LogSearch.prototype.loadBaseView = function () {
 	    var that = this;
-	    this.loadFragment('/views/modules/log-search.html').then(function(html){
+	    this.loadFragment('/views/modules/log-search.html').then(function (html) {
 	        that.render(html);
-	        var columns = __webpack_require__(399);
-	        var $table = that.$table = $('#dataTable',that.dom).datagrid({
+	        var columns = __webpack_require__(401);
+	        var $table = that.$table = $('#dataTable', that.dom).datagrid({
 	            url: '/log/list',
 	            method: 'get',
 	            columns: [columns],
 	            pagination: true,
-	            cache:false,
+	            cache: false,
 	            pageSize: 20,
 	            ctrlSelect: true,
 	            checkOnSelect: true,
@@ -8615,23 +8435,20 @@ webpackJsonp([4],[
 	            striped: true,
 	            fit: true,
 	            fitColumns: true,
-	            loadFilter: function (data) {
-	                if(!data.success){
+	            loadFilter: function loadFilter(data) {
+	                if (!data.success) {
 	                    that.toast(data.message);
 	                }
 
-	                return {rows: data.data, total: data.data.length};
+	                return { rows: data.data, total: data.data.length };
 	            },
-	            onDblClickRow: function (rowIndex, rowData) {
-	            }
+	            onDblClickRow: function onDblClickRow(rowIndex, rowData) {}
 	        });
 
-
-	        Events.subscribe('onRefresh:log-search',function(){
-	            $table.datagrid('load',{});
+	        Events.subscribe('onRefresh:log-search', function () {
+	            $table.datagrid('load', {});
 	        });
 	    });
-
 	};
 
 	/**
@@ -8640,31 +8457,30 @@ webpackJsonp([4],[
 	 */
 	LogSearch.prototype.finish = function () {
 	    Events.unsubscribe('onRefresh:log-search');
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	var attenceSearch = new LogSearch();
-	Events.subscribe('onWindowResize',function(){
-	    if(!attenceSearch.dom)
-	        return;
-	    $('.tablecontainer',attenceSearch.dom).height(attenceSearch.dom.height()-15-$('.condition-wrap',attenceSearch.dom).height());
+	Events.subscribe('onWindowResize', function () {
+	    if (!attenceSearch.dom) return;
+	    $('.tablecontainer', attenceSearch.dom).height(attenceSearch.dom.height() - 15 - $('.condition-wrap', attenceSearch.dom).height());
 	    attenceSearch.$table.datagrid('resize');
 	});
 
 	module.exports = attenceSearch;
 
 /***/ },
-/* 397 */
+/* 399 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 398 */,
-/* 399 */
+/* 400 */,
+/* 401 */
 /***/ function(module, exports, __webpack_require__) {
 
-	typeof window == 'undefined' && (Calendar = __webpack_require__(315));
+	typeof window == 'undefined' && (Calendar = __webpack_require__(317));
 	module.exports = [
 	    {field: 'user_id', title: '用户id', width: 200},
 	    {field: 'user_name', title: '用户名', width: 100},
@@ -8677,187 +8493,183 @@ webpackJsonp([4],[
 	];
 
 /***/ },
-/* 400 */
+/* 402 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 菜单新增修改模块
 	 */
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(268);
-	__webpack_require__(287);
-	__webpack_require__(288);
-	var MenuAddModify = function(){ };
+	__webpack_require__(270);
+	__webpack_require__(289);
+	__webpack_require__(290);
+	var MenuAddModify = function MenuAddModify() {};
 
 	//继承自框架基类
-	MenuAddModify.prototype = $.extend({},frameworkBase);
+	MenuAddModify.prototype = $.extend({}, frameworkBase);
 	MenuAddModify.prototype.id = 'menu-add-modify';
-
 
 	/**
 	 * 模块初始化入口<br>
 	 * @method init
 	 * @param options 参数对象
 	 */
-	MenuAddModify.prototype.init = function(options){
+	MenuAddModify.prototype.init = function (options) {
 	    var that = this;
-	    this.options = $.extend({action:'001'},options);
-	    that.setTitle(this.options.action == '001'?'添加菜单':'编辑菜单').setHeight(425).setWidth(400);
-	    frameworkBase.init.call(this,options);
+	    this.options = $.extend({ action: '001' }, options);
+	    that.setTitle(this.options.action == '001' ? '添加菜单' : '编辑菜单').setHeight(425).setWidth(400);
+	    frameworkBase.init.call(this, options);
 	    this.loadBaseView();
 	    this.bindEvents();
-	    if(that.options.action == '002'){
+	    if (that.options.action == '002') {
 	        that.restoreData();
-	    }else{
-	        that.initMenuTree(1,'0');
+	    } else {
+	        that.initMenuTree(1, '0');
 	    }
 	};
 
-	MenuAddModify.prototype.loadBaseView = function(options){
+	MenuAddModify.prototype.loadBaseView = function (options) {
 	    var that = this;
-	    var html = __webpack_require__(401);
+	    var html = __webpack_require__(403);
 	    this.render(html);
 	};
 
-	MenuAddModify.prototype.bindEvents = function(){
+	MenuAddModify.prototype.bindEvents = function () {
 	    var that = this;
-	    $('#confirmBtn',this.dom).click(function(){
-	        var menu_title = $('#menu_title',that.dom).val();
-	        var menu_url = $('#menu_url',that.dom).val();
-	        if($.trim(menu_title) === '' ){
+	    $('#confirmBtn', this.dom).click(function () {
+	        var menu_title = $('#menu_title', that.dom).val();
+	        var menu_url = $('#menu_url', that.dom).val();
+	        if ($.trim(menu_title) === '') {
 	            swal("提示", "请输入菜单标题!", "warning");
 	            return;
 	        }
-	        that.save('/menu/save',{
-	            action:that.options.action,
-	            menu_id:that.options.menu_id,
-	            menu_title:menu_title,
-	            menu_url:menu_url,
-	            show_type:$('#show_type',that.dom).val(),
-	            menu_type:$('#menu_type',that.dom).val(),
-	            menu_icon:$('#menu_icon',that.dom).val(),
-	            menu_device:$('#menu_device',that.dom).val(),
-	            menu_parent_id:$('#menu_parent_id',that.dom).attr('data-pid')
-	        },function(data){
-	            if(!data.success){
+	        that.save('/menu/save', {
+	            action: that.options.action,
+	            menu_id: that.options.menu_id,
+	            menu_title: menu_title,
+	            menu_url: menu_url,
+	            show_type: $('#show_type', that.dom).val(),
+	            menu_type: $('#menu_type', that.dom).val(),
+	            menu_icon: $('#menu_icon', that.dom).val(),
+	            menu_device: $('#menu_device', that.dom).val(),
+	            menu_parent_id: $('#menu_parent_id', that.dom).attr('data-pid')
+	        }, function (data) {
+	            if (!data.success) {
 	                that.toast(data.message);
 	                return;
 	            }
 	            that.finish(true);
 	        });
-
 	    });
-	    $('#cancelBtn',this.dom).click(function(){
+	    $('#cancelBtn', this.dom).click(function () {
 	        that.finish(false);
 	    });
 
 	    this.$treepanel = $('<div id="menu_tree_panel" class="dropdown_panel"><ul id="menuTree" class="ztree"></ul></div>').appendTo($('body'));
-	    var $menu_parent_id = $('#menu_parent_id',this.dom);
+	    var $menu_parent_id = $('#menu_parent_id', this.dom);
 
-	    $menu_parent_id.click(function(){
+	    $menu_parent_id.click(function () {
 	        var offset = $menu_parent_id.offset();
 	        that.$treepanel.css({
-	            left:offset.left,
-	            top:offset.top+30,
-	            width:$menu_parent_id.outerWidth()
+	            left: offset.left,
+	            top: offset.top + 30,
+	            width: $menu_parent_id.outerWidth()
 	        });
-	        that.$treepanel.is(':visible')?(that.$treepanel.hide()):(that.$treepanel.show());
+	        that.$treepanel.is(':visible') ? that.$treepanel.hide() : that.$treepanel.show();
 	        return false;
 	    });
-	    this.$treepanel.click(function(){
+	    this.$treepanel.click(function () {
 	        return false;
 	    });
-	    $('#menu_device',that.dom).on('change',function(){
-	        $('#menu_parent_id',that.dom).val('根节点');
-	        $('#menu_parent_id',that.dom).attr('data-pid','0');
-	       that.initMenuTree($(this).val());
+	    $('#menu_device', that.dom).on('change', function () {
+	        $('#menu_parent_id', that.dom).val('根节点');
+	        $('#menu_parent_id', that.dom).attr('data-pid', '0');
+	        that.initMenuTree($(this).val());
 	    });
 	};
 
-	MenuAddModify.prototype.onMove = function(left,top){
-	    if(!this.$treepanel)
-	        return;
-	    var $menu_parent_id = $('#menu_parent_id',this.dom);
+	MenuAddModify.prototype.onMove = function (left, top) {
+	    if (!this.$treepanel) return;
+	    var $menu_parent_id = $('#menu_parent_id', this.dom);
 	    var offset = $menu_parent_id.offset();
 	    this.$treepanel.css({
-	        left:offset.left,
-	        top:offset.top+30
+	        left: offset.left,
+	        top: offset.top + 30
 	    });
 	};
 
-	MenuAddModify.prototype.initMenuTree = function(type,pId){
+	MenuAddModify.prototype.initMenuTree = function (type, pId) {
 	    var that = this;
-	    this.query('/menu/list',{menu_device:type},function(data){
-	        if(!data.success){
+	    this.query('/menu/list', { menu_device: type }, function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
-	        data.data.push({'menu_id':'0','menu_parent_id':null,'menu_title':'根节点','menu_url':''});
+	        data.data.push({ 'menu_id': '0', 'menu_parent_id': null, 'menu_title': '根节点', 'menu_url': '' });
 	        var setting = {
-	            data:{
-	                keep:{
-	                    parent:true,
-	                    leaf:true
+	            data: {
+	                keep: {
+	                    parent: true,
+	                    leaf: true
 	                },
-	                simpleData:{
-	                    enable:true,
-	                    idKey:'menu_id',
-	                    pIdKey:'menu_parent_id',
-	                    rootPId:null
+	                simpleData: {
+	                    enable: true,
+	                    idKey: 'menu_id',
+	                    pIdKey: 'menu_parent_id',
+	                    rootPId: null
 	                },
-	                key:{
-	                    name:'menu_title',
-	                    title:'menu_title'
+	                key: {
+	                    name: 'menu_title',
+	                    title: 'menu_title'
 	                }
 	            },
-	            callback:{
-	                onClick:function(event, treeId, treeNode){
+	            callback: {
+	                onClick: function onClick(event, treeId, treeNode) {
 	                    //包括自己在内，如果层级大于2则不让选
-	                    if(treeNode.getPath().length <3){
+	                    if (treeNode.getPath().length < 3) {
 	                        //编辑模式下不让选择自己为自己的父节点 
-	                        if(that.options.action == '002' && that.options.menu_id == treeNode.menu_id)
-	                            return;
-	                        $('#menu_parent_id',that.dom).val(treeNode.menu_title);
-	                        $('#menu_parent_id',that.dom).attr('data-pid',treeNode.menu_id);
+	                        if (that.options.action == '002' && that.options.menu_id == treeNode.menu_id) return;
+	                        $('#menu_parent_id', that.dom).val(treeNode.menu_title);
+	                        $('#menu_parent_id', that.dom).attr('data-pid', treeNode.menu_id);
 	                        hidePanel();
 	                    }
 	                }
 	            }
 	        };
 
-	        that.ztreeObj = $.fn.zTree.init($("#menuTree",that.$treepanel), setting,data.data);
+	        that.ztreeObj = $.fn.zTree.init($("#menuTree", that.$treepanel), setting, data.data);
 	        that.ztreeObj.expandNode(that.ztreeObj.getNodes()[0], true, false, true);
 
-	        if(pId){
-	            var node = that.ztreeObj.getNodesByParam('menu_id',pId,null)[0];
+	        if (pId) {
+	            var node = that.ztreeObj.getNodesByParam('menu_id', pId, null)[0];
 	            that.ztreeObj.selectNode(node);
 	        }
 	    });
 	};
 
-	function hidePanel(){
+	function hidePanel() {
 	    $('.dropdown_panel').hide();
 	}
-	$('body').on('click',function(){
+	$('body').on('click', function () {
 	    hidePanel();
 	});
-	MenuAddModify.prototype.restoreData = function() {
+	MenuAddModify.prototype.restoreData = function () {
 	    var that = this;
-	    this.query('/menu/search/'+this.options.menu_id,function(data){
-	        if(!data.success){
+	    this.query('/menu/search/' + this.options.menu_id, function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
 	        data = data.data;
-	        $('#menu_title',that.dom).val(data.menu_title);
-	        $('#menu_url',that.dom).val(data.menu_url);
-	        $('#menu_icon',that.dom).val(data.menu_icon);
-	        $('#show_type',that.dom).val(data.show_type);
-	        $('#menu_type',that.dom).val(data.menu_type);
-	        $('#menu_device',that.dom).val(data.menu_device);
-	        that.initMenuTree(data.menu_device,data.menu_parent_id);
-	        $('#menu_parent_id',that.dom).val(data.menu_parent_title);
-	        $('#menu_parent_id',that.dom).attr('data-pid',data.menu_parent_id);
+	        $('#menu_title', that.dom).val(data.menu_title);
+	        $('#menu_url', that.dom).val(data.menu_url);
+	        $('#menu_icon', that.dom).val(data.menu_icon);
+	        $('#show_type', that.dom).val(data.show_type);
+	        $('#menu_type', that.dom).val(data.menu_type);
+	        $('#menu_device', that.dom).val(data.menu_device);
+	        that.initMenuTree(data.menu_device, data.menu_parent_id);
+	        $('#menu_parent_id', that.dom).val(data.menu_parent_title);
+	        $('#menu_parent_id', that.dom).attr('data-pid', data.menu_parent_id);
 	    });
 	};
 
@@ -8868,19 +8680,19 @@ webpackJsonp([4],[
 	MenuAddModify.prototype.finish = function () {
 	    this.ztreeObj && this.ztreeObj.destroy();
 	    this.$treepanel && this.$treepanel.remove();
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	module.exports = new MenuAddModify();
 
 /***/ },
-/* 401 */
+/* 403 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"menu-add-modify add-modify-form\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>菜单标题：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入菜单标题\" name=\"menu_title\" id=\"menu_title\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>菜单url：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入菜单url\" name=\"menu_url\" id=\"menu_url\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>菜单icon：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入菜单icon样式名\" name=\"menu_icon\" id=\"menu_icon\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>展式形式：</label>\r\n                <select id=\"show_type\" class=\"form-control\">\r\n                    <option value=\"1\" selected>普通</option>\r\n                    <option value=\"2\">弹窗</option>\r\n                    <option value=\"3\">无界面</option>\r\n                </select>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>菜单位置：</label>\r\n                <select id=\"menu_type\" class=\"form-control\">\r\n                    <option value=\"1\" selected>左侧菜单</option>\r\n                    <option value=\"2\">设置下拉菜单</option>\r\n                </select>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>设备类型：</label>\r\n                <select id=\"menu_device\" class=\"form-control\">\r\n                    <option value=\"1\" selected>PC</option>\r\n                    <option value=\"2\">H5</option>\r\n                </select>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>父级菜单：</label>\r\n                <input class=\"form-control\" placeholder=\"请选择父级菜单\" readonly=\"true\" name=\"menu_parent_id\" id=\"menu_parent_id\" type=\"text\" data-pid=\"0\" value=\"根菜单\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
+	module.exports = "<div class=\"menu-add-modify add-modify-form\">\n    <div class=\"panel-body\">\n            <div class=\"form-group\">\n                <label>菜单标题：</label>\n                <input class=\"form-control\" placeholder=\"请输入菜单标题\" name=\"menu_title\" id=\"menu_title\" type=\"text\" autofocus>\n            </div>\n            <div class=\"form-group\">\n                <label>菜单url：</label>\n                <input class=\"form-control\" placeholder=\"请输入菜单url\" name=\"menu_url\" id=\"menu_url\" type=\"text\" value=\"\">\n            </div>\n            <div class=\"form-group\">\n                <label>菜单icon：</label>\n                <input class=\"form-control\" placeholder=\"请输入菜单icon样式名\" name=\"menu_icon\" id=\"menu_icon\" type=\"text\" value=\"\">\n            </div>\n            <div class=\"form-group\">\n                <label>展式形式：</label>\n                <select id=\"show_type\" class=\"form-control\">\n                    <option value=\"1\" selected>普通</option>\n                    <option value=\"2\">弹窗</option>\n                    <option value=\"3\">无界面</option>\n                </select>\n            </div>\n            <div class=\"form-group\">\n                <label>菜单位置：</label>\n                <select id=\"menu_type\" class=\"form-control\">\n                    <option value=\"1\" selected>左侧菜单</option>\n                    <option value=\"2\">设置下拉菜单</option>\n                </select>\n            </div>\n            <div class=\"form-group\">\n                <label>设备类型：</label>\n                <select id=\"menu_device\" class=\"form-control\">\n                    <option value=\"1\" selected>PC</option>\n                    <option value=\"2\">H5</option>\n                </select>\n            </div>\n            <div class=\"form-group\">\n                <label>父级菜单：</label>\n                <input class=\"form-control\" placeholder=\"请选择父级菜单\" readonly=\"true\" name=\"menu_parent_id\" id=\"menu_parent_id\" type=\"text\" data-pid=\"0\" value=\"根菜单\">\n            </div>\n            <div class=\"btn-wrap\">\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\n            </div>\n    </div>\n</div>\n";
 
 /***/ },
-/* 402 */
+/* 404 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -8889,16 +8701,15 @@ webpackJsonp([4],[
 	 */
 
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(296);
-	__webpack_require__(403);
-	__webpack_require__(268);
-	var Exchange = __webpack_require__(325);
-	var MenuManage = function () {};
+	__webpack_require__(298);
+	__webpack_require__(405);
+	__webpack_require__(270);
+	var Exchange = __webpack_require__(327);
+	var MenuManage = function MenuManage() {};
 
 	//继承自框架基类
 	MenuManage.prototype = $.extend({}, frameworkBase);
 	MenuManage.prototype.id = 'menu-manage';
-
 
 	/**
 	 * 模块初始化入口<br>
@@ -8915,24 +8726,25 @@ webpackJsonp([4],[
 
 	MenuManage.prototype.loadBaseView = function () {
 	    var that = this;
-	    this.loadFragment('/views/modules/menu-manage.html').then(function(html){
+	    this.loadFragment('/views/modules/menu-manage.html').then(function (html) {
 	        that.render(html);
-	        $('.tablecontainer',that.dom).height(that.dom.height()-55);
+	        $('.tablecontainer', that.dom).height(that.dom.height() - 55);
 	        that.initTable();
 	        that.bindEvents();
 	    });
 	};
 
 	MenuManage.prototype.initTable = function () {
-	    var that = this, $tableMenu = $('#table-context-menu');
+	    var that = this,
+	        $tableMenu = $('#table-context-menu');
 	    that.$tableMenu = $tableMenu;
-	    $('.easyui-linkbutton',that.dom).linkbutton();
-	    var columns = __webpack_require__(405);
-	    that.$table = $('#dataTable',that.dom).datagrid({
+	    $('.easyui-linkbutton', that.dom).linkbutton();
+	    var columns = __webpack_require__(407);
+	    that.$table = $('#dataTable', that.dom).datagrid({
 	        url: '/menu/list',
 	        method: 'get',
 	        columns: [columns],
-	        cache:false,
+	        cache: false,
 	        pagination: false,
 	        pageSize: 20,
 	        ctrlSelect: true,
@@ -8942,25 +8754,23 @@ webpackJsonp([4],[
 	        striped: true,
 	        fit: true,
 	        fitColumns: true,
-	        loadFilter: function (data) {
-	            if(!data.success){
+	        loadFilter: function loadFilter(data) {
+	            if (!data.success) {
 	                that.toast(data.message);
 	            }
-	            return {rows: data.data, total: data.data.length};
+	            return { rows: data.data, total: data.data.length };
 	        },
-	        onDblClickRow: function (rowIndex, rowData) {
-	            Events.require('menu-add-modify').addCallback(function(flag){
-	                if(flag)
-	                    Events.notify('onRefresh:menu-manage');
-	            }).init({showType:'Pop',action:'002',menu_id:rowData.menu_id});
+	        onDblClickRow: function onDblClickRow(rowIndex, rowData) {
+	            Events.require('menu-add-modify').addCallback(function (flag) {
+	                if (flag) Events.notify('onRefresh:menu-manage');
+	            }).init({ showType: 'Pop', action: '002', menu_id: rowData.menu_id });
 	        },
-	        onRowContextMenu:function(event,rowIndex,rowData){
-	            if(!rowData)
-	                return;
+	        onRowContextMenu: function onRowContextMenu(event, rowIndex, rowData) {
+	            if (!rowData) return;
 	            event.preventDefault();
-	            that.$table.datagrid('unselectAll',rowIndex);
-	            that.$table.datagrid('selectRow',rowIndex);
-	            $tableMenu.menu('show',{
+	            that.$table.datagrid('unselectAll', rowIndex);
+	            that.$table.datagrid('selectRow', rowIndex);
+	            $tableMenu.menu('show', {
 	                left: event.clientX,
 	                top: event.clientY
 	            });
@@ -8968,32 +8778,33 @@ webpackJsonp([4],[
 	        toolbar: '#menu-manage-toolbar'
 	    });
 	    $tableMenu.menu({
-	        onClick:function(item){
-	            var _id = item.id, id = _id.replace('context_','');
-	            $('#'+id,that.dom).click();
+	        onClick: function onClick(item) {
+	            var _id = item.id,
+	                id = _id.replace('context_', '');
+	            $('#' + id, that.dom).click();
 	        },
-	        hideOnUnhover:false
+	        hideOnUnhover: false
 	    });
-	 
-	    var searchBox = $('#menu-manage #home-easyui-searchbox',that.dom).searchbox({
-	        searcher: function (value, name) {
+
+	    var searchBox = $('#menu-manage #home-easyui-searchbox', that.dom).searchbox({
+	        searcher: function searcher(value, name) {
 	            Events.notify('onRefresh:menu-manage');
 	        },
 	        prompt: '请输关键字，如菜单标题、菜单url'
 	    });
 
 	    //绑定下拉框事件 通知刷新菜单
-	    $('#show_type,#menu_type,#menu_device',that.dom).on('change',function(){
+	    $('#show_type,#menu_type,#menu_device', that.dom).on('change', function () {
 	        Events.notify('onRefresh:menu-manage');
 	    });
 
 	    //订阅刷新菜单
-	    Events.subscribe('onRefresh:menu-manage',function(){
-	        that.$table.datagrid('load',{
-	            key:searchBox.searchbox('getValue'),
-	            show_type:$('#show_type',that.dom).val(),
-	            menu_device:$('#menu_device',that.dom).val(),
-	            menu_type:$('#menu_type',that.dom).val()
+	    Events.subscribe('onRefresh:menu-manage', function () {
+	        that.$table.datagrid('load', {
+	            key: searchBox.searchbox('getValue'),
+	            show_type: $('#show_type', that.dom).val(),
+	            menu_device: $('#menu_device', that.dom).val(),
+	            menu_type: $('#menu_type', that.dom).val()
 	        });
 	    });
 	};
@@ -9003,96 +8814,90 @@ webpackJsonp([4],[
 	MenuManage.prototype.bindEvents = function () {
 	    var that = this;
 	    //添加菜单
-	    $('#add_menu_btn',this.dom).click(function(){
-	        Events.require('menu-add-modify').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:menu-manage');
-	        }).init({showType:'Pop'});
+	    $('#add_menu_btn', this.dom).click(function () {
+	        Events.require('menu-add-modify').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:menu-manage');
+	        }).init({ showType: 'Pop' });
 	    });
 	    //修改菜单
-	    $('#modify_menu_btn',this.dom).click(function(){
+	    $('#modify_menu_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        Events.require('menu-add-modify').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:menu-manage');
-	        }).init({showType:'Pop',action:'002',menu_id:rowData.menu_id});
+	        if (!(rowData = getSelectRow())) return;
+	        Events.require('menu-add-modify').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:menu-manage');
+	        }).init({ showType: 'Pop', action: '002', menu_id: rowData.menu_id });
 	    });
 	    //删除菜单
-	    $('#delete_menu_btn',this.dom).click(function(){
+	    $('#delete_menu_btn', this.dom).click(function () {
 	        var rows;
-	        if(!(rows = getCheckRow()))
-	            return;
-	        that.save('/menu/save',{action:'003',menu_id:function(){
-	            var ids = [];
-	            rows.forEach(function(item){
-	                ids.push(item.menu_id);
-	            });
-	            return ids.join(',');
-	        }()},function(data){
-	            if(data.success){
+	        if (!(rows = getCheckRow())) return;
+	        that.save('/menu/save', { action: '003', menu_id: function () {
+	                var ids = [];
+	                rows.forEach(function (item) {
+	                    ids.push(item.menu_id);
+	                });
+	                return ids.join(',');
+	            }() }, function (data) {
+	            if (data.success) {
 	                that.toast("删除菜单成功!");
 	                Events.notify('onRefresh:menu-manage');
-	            }else{
+	            } else {
 	                that.toast(data.message);
 	            }
 	        });
 	    });
 
-	    $('#moveup_menu_btn',this.dom).click(function(){
+	    $('#moveup_menu_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        var exRow = Exchange.moveupRow(that.$table,rowData);
-	        exchangeOrder(rowData,exRow);
+	        if (!(rowData = getSelectRow())) return;
+	        var exRow = Exchange.moveupRow(that.$table, rowData);
+	        exchangeOrder(rowData, exRow);
 	    });
 
-	    $('#movedown_menu_btn',this.dom).click(function(){
+	    $('#movedown_menu_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        var exRow = Exchange.movedownRow(that.$table,rowData);
-	        exchangeOrder(rowData,exRow);
+	        if (!(rowData = getSelectRow())) return;
+	        var exRow = Exchange.movedownRow(that.$table, rowData);
+	        exchangeOrder(rowData, exRow);
 	    });
 
-	    function getSelectRow(){
+	    function getSelectRow() {
 	        var rowData = that.$table.datagrid('getSelected');
-	        if(!rowData){
+	        if (!rowData) {
 	            swal("提示", "请先选择一条数据!", "warning");
 	            return;
 	        }
 	        return rowData;
 	    }
-	    function getCheckRow(){
+	    function getCheckRow() {
 	        var rows = that.$table.datagrid('getChecked');
-	        if(rows.length == 0){
+	        if (rows.length == 0) {
 	            swal("提示", "请至少选择一条数据!", "warning");
 	            return;
 	        }
 	        return rows;
 	    }
 
-	    function exchangeOrder(rowData,rowData2){
+	    function exchangeOrder(rowData, rowData2) {
 	        var tmpOrder = rowData.menu_order;
 	        rowData.menu_order = rowData2.menu_order;
 	        rowData2.menu_order = tmpOrder;
-	        that.save('/menu/save',{
-	            action:'002',
-	            menu_id:rowData.menu_id,
-	            menu_order:rowData.menu_order,
-	        },function(data){
-	            if(!data.success){
+	        that.save('/menu/save', {
+	            action: '002',
+	            menu_id: rowData.menu_id,
+	            menu_order: rowData.menu_order
+	        }, function (data) {
+	            if (!data.success) {
 	                that.toast(data.message);
 	                return;
 	            }
 	        });
-	        that.save('/menu/save',{
-	            action:'002',
-	            menu_id:rowData2.menu_id,
-	            menu_order:rowData2.menu_order,
-	        },function(data){
-	            if(!data.success){
+	        that.save('/menu/save', {
+	            action: '002',
+	            menu_id: rowData2.menu_id,
+	            menu_order: rowData2.menu_order
+	        }, function (data) {
+	            if (!data.success) {
 	                that.toast(data.message);
 	                return;
 	            }
@@ -9107,28 +8912,27 @@ webpackJsonp([4],[
 	MenuManage.prototype.finish = function () {
 	    Events.unsubscribe('onRefresh:menu-manage');
 	    this.$tableMenu && this.$tableMenu.menu('destroy');
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	var menuManage = new MenuManage();
-	Events.subscribe('onWindowResize',function(){
-	    if(!menuManage.dom)
-	        return;
-	    $('.tablecontainer',menuManage.dom).height(menuManage.dom.height()-15-$('.condition-wrap',menuManage.dom).height());
+	Events.subscribe('onWindowResize', function () {
+	    if (!menuManage.dom) return;
+	    $('.tablecontainer', menuManage.dom).height(menuManage.dom.height() - 15 - $('.condition-wrap', menuManage.dom).height());
 	    menuManage.$table.datagrid('resize');
 	});
 
 	module.exports = menuManage;
 
 /***/ },
-/* 403 */
+/* 405 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 404 */,
-/* 405 */
+/* 406 */,
+/* 407 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -9150,7 +8954,7 @@ webpackJsonp([4],[
 	];
 
 /***/ },
-/* 406 */
+/* 408 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -9159,67 +8963,55 @@ webpackJsonp([4],[
 	 * @type {Framework}
 	 */
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(407);
+	__webpack_require__(409);
 	//require('../libs/umeditor/themes/default/css/umeditor.min.css');
-	__webpack_require__(351);
+	__webpack_require__(353);
 
 	//require('../libs/umeditor/umeditor.config');
 
-	var MessagePublish = function(){ };
+	var MessagePublish = function MessagePublish() {};
 
 	//继承自框架基类
-	MessagePublish.prototype = $.extend({},frameworkBase);
+	MessagePublish.prototype = $.extend({}, frameworkBase);
 	MessagePublish.prototype.id = 'message-publish';
-
 
 	/**
 	 * 模块初始化入口<br>
 	 * @method init
 	 * @param options 参数对象
 	 */
-	MessagePublish.prototype.init = function(options){
+	MessagePublish.prototype.init = function (options) {
 	    var that = this;
-	    this.options = $.extend({action:'001'},options);
+	    this.options = $.extend({ action: '001' }, options);
 	    that.setTitle('学校信息发布').setHeight(610).setWidth(780);
-	    frameworkBase.init.call(this,options);
+	    frameworkBase.init.call(this, options);
 	    this.loadBaseView();
 	    this.bindEvents();
 
 	    var that = this;
-	    __webpack_require__.e/* nsure */(6, function(){
+	    __webpack_require__.e/* nsure */(6, function () {
 	        /*require('../libs/umeditor/umeditor.min');
 	        require('../libs/umeditor/lang/zh-cn/zh-cn');
 	        //实例化编辑器
 	        that.um = UM.getEditor('myEditor');*/
-	        __webpack_require__(410);
-	        __webpack_require__(358);
-	        that.um = window.um = KindEditor.create('#myEditor',{
-	            basePath:'/src/javascripts/libs/kindeditor/',
-	            resizeType:0,
-	            height:470,
-	            uploadJson:'/file/upload',
-	            items:[
-	                'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
-	                'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
-	                'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
-	                'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
-	                'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
-	                'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
-	                , 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
-	                'anchor', 'link', 'unlink'
-	            ],
-	            filterMode:false
+	        __webpack_require__(412);
+	        __webpack_require__(360);
+	        that.um = window.um = KindEditor.create('#myEditor', {
+	            basePath: '/src/javascripts/libs/kindeditor/',
+	            resizeType: 0,
+	            height: 470,
+	            uploadJson: '/file/upload',
+	            items: ['source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste', 'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript', 'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/', 'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',, 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak', 'anchor', 'link', 'unlink'],
+	            filterMode: false
 	        });
-	        if(that.options.action == '002'){
+	        if (that.options.action == '002') {
 	            that.restoreData();
 	        }
 	    });
-
-
 	};
 
-	MessagePublish.prototype.loadBaseView = function(){
-	    var html = __webpack_require__(409);
+	MessagePublish.prototype.loadBaseView = function () {
+	    var html = __webpack_require__(411);
 	    this.render(html);
 	};
 
@@ -9228,42 +9020,42 @@ webpackJsonp([4],[
 	 */
 	MessagePublish.prototype.restoreData = function () {
 	    var that = this;
-	    this.query('/publish/search-id',{publish_id:this.options.publish_id},function(data){
-	        if(data.success){
+	    this.query('/publish/search-id', { publish_id: this.options.publish_id }, function (data) {
+	        if (data.success) {
 	            that.um.html(data.data.publish_content);
-	            $('#title',that.dom).val(data.data.publish_title);
-	        }else
-	            that.toast(data.message);
+	            $('#title', that.dom).val(data.data.publish_title);
+	        } else that.toast(data.message);
 	    });
 	};
 
 	MessagePublish.prototype.bindEvents = function () {
 	    var that = this;
 
-	    $('#submitBtn',this.dom).click(function(){
-	        var content = that.um.html(), title = $('#title',that.dom).val();
-	        if($.trim(content) == ''){
-	            swal('提示','请输入信息内容','warning');
+	    $('#submitBtn', this.dom).click(function () {
+	        var content = that.um.html(),
+	            title = $('#title', that.dom).val();
+	        if ($.trim(content) == '') {
+	            swal('提示', '请输入信息内容', 'warning');
 	            return;
 	        }
-	        if($.trim(title) == ''){
-	            swal('提示','请输入标题','warning');
+	        if ($.trim(title) == '') {
+	            swal('提示', '请输入标题', 'warning');
 	            return;
 	        }
-	        that.save('/publish/save',{
-	            action:that.options.action,
-	            publish_id:that.options.publish_id,
-	            publish_title:title,
-	            publish_content:content,
-	            publish_content_pure:that.um.text().replace(/(?:<img[^>]*?\/?>|<\/img>)/gi,'')//由于kindeditor的text获取纯文本方法会携带img标签 ，所以过滤一下
-	        },function(data){
-	            data.success?(that.finish()):(that.toast(data.message));
+	        that.save('/publish/save', {
+	            action: that.options.action,
+	            publish_id: that.options.publish_id,
+	            publish_title: title,
+	            publish_content: content,
+	            publish_content_pure: that.um.text().replace(/(?:<img[^>]*?\/?>|<\/img>)/gi, '') //由于kindeditor的text获取纯文本方法会携带img标签 ，所以过滤一下
+	        }, function (data) {
+	            data.success ? that.finish() : that.toast(data.message);
 	        });
 	    });
-	    $('#cancelBtn',this.dom).click(function(){
+	    $('#cancelBtn', this.dom).click(function () {
 	        that.finish();
 	    });
-	    $('#title',this.dom)[0].focus();
+	    $('#title', this.dom)[0].focus();
 	};
 
 	/**
@@ -9271,12 +9063,12 @@ webpackJsonp([4],[
 	 * 由框架调用，主要用于销毁订阅的事件
 	 */
 	MessagePublish.prototype.finish = function () {
-	    try{
+	    try {
 	        this.dom && this.dom.hide();
 	        //this.um.destroy();
 	        this.um && this.um.remove();
-	        frameworkBase.finish.apply(this,arguments);
-	    }catch(e){
+	        frameworkBase.finish.apply(this, arguments);
+	    } catch (e) {
 	        console.log(e);
 	    }
 	};
@@ -9284,197 +9076,191 @@ webpackJsonp([4],[
 	 * 重新调整大小
 	 */
 	MessagePublish.prototype.resize = function () {
-	    try{
+	    try {
 	        //this.um.setWidth(this.dom.width());
-	    }catch(e){
+	    } catch (e) {
 	        console.log(e);
 	    }
 	};
 	var messagePublish = new MessagePublish();
-	Events.subscribe('onWindowResize',function(){
-	    if(!messagePublish.dom || !messagePublish.um)
-	        return;
+	Events.subscribe('onWindowResize', function () {
+	    if (!messagePublish.dom || !messagePublish.um) return;
 	    messagePublish.resize();
 	});
 
 	module.exports = messagePublish;
 
 /***/ },
-/* 407 */
+/* 409 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 408 */,
-/* 409 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class=\"message-publish shadow-block\">\r\n    <!--style给定宽度可以影响编辑器的最终宽度-->\r\n    <div>\r\n        <input id=\"title\" type=\"text\" placeholder=\"请输入信息标题\" autofocus/>\r\n    </div>\r\n    <script type=\"text/plain\" id=\"myEditor\" style=\"width:100%;height:400px;\"></script>\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"submitBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>";
-
-/***/ },
 /* 410 */,
 /* 411 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"message-publish shadow-block\">\n    <!--style给定宽度可以影响编辑器的最终宽度-->\n    <div>\n        <input id=\"title\" type=\"text\" placeholder=\"请输入信息标题\" autofocus/>\n    </div>\n    <script type=\"text/plain\" id=\"myEditor\" style=\"width:100%;height:400px;\"></script>\n    <div class=\"btn-wrap\">\n        <span class=\"framework-button\" id=\"submitBtn\">提交</span>\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\n    </div>\n</div>";
+
+/***/ },
+/* 412 */,
+/* 413 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 组织机构新增修改模块
 	 */
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(268);
-	__webpack_require__(287);
-	__webpack_require__(288);
-	var OrgAddModify = function(){ };
+	__webpack_require__(270);
+	__webpack_require__(289);
+	__webpack_require__(290);
+	var OrgAddModify = function OrgAddModify() {};
 
 	//继承自框架基类
-	OrgAddModify.prototype = $.extend({},frameworkBase);
+	OrgAddModify.prototype = $.extend({}, frameworkBase);
 	OrgAddModify.prototype.id = 'org-add-modify';
-
 
 	/**
 	 * 模块初始化入口<br>
 	 * @method init
 	 * @param options 参数对象
 	 */
-	OrgAddModify.prototype.init = function(options){
+	OrgAddModify.prototype.init = function (options) {
 	    var that = this;
-	    this.options = $.extend({action:'001'},options);
-	    that.setTitle(this.options.action == '001'?'添加组织机构':'编辑组织机构').setHeight(this.options.action == '001'?200:150).setWidth(400);
-	    frameworkBase.init.call(this,options);
+	    this.options = $.extend({ action: '001' }, options);
+	    that.setTitle(this.options.action == '001' ? '添加组织机构' : '编辑组织机构').setHeight(this.options.action == '001' ? 200 : 150).setWidth(400);
+	    frameworkBase.init.call(this, options);
 	    this.loadBaseView();
 	    this.bindEvents();
-	    if(this.options.action == '002'){
-	        $('#org_parent_id',that.dom).parent().hide();
+	    if (this.options.action == '002') {
+	        $('#org_parent_id', that.dom).parent().hide();
 	        this.restoreData();
 	    }
 	};
 
-	OrgAddModify.prototype.loadBaseView = function(options){
+	OrgAddModify.prototype.loadBaseView = function (options) {
 	    var that = this;
-	    var html = __webpack_require__(412);
+	    var html = __webpack_require__(414);
 	    this.render(html);
 	};
 
-	OrgAddModify.prototype.bindEvents = function(){
+	OrgAddModify.prototype.bindEvents = function () {
 	    var that = this;
-	    $('#confirmBtn',this.dom).click(function(){
-	        var org_title = $('#org_title',that.dom).val();
-	        if($.trim(org_title) === '' ){
+	    $('#confirmBtn', this.dom).click(function () {
+	        var org_title = $('#org_title', that.dom).val();
+	        if ($.trim(org_title) === '') {
 	            swal("提示", "请输入组织机构标题!", "warning");
 	            return;
 	        }
-	        that.save('/org/save',{
-	            action:that.options.action,
-	            org_id:that.options.org_id,
-	            org_title:org_title,
-	            org_parent_id:$('#org_parent_id',that.dom).attr('data-pid')
-	        },function(data){
-	            if(!data.success){
+	        that.save('/org/save', {
+	            action: that.options.action,
+	            org_id: that.options.org_id,
+	            org_title: org_title,
+	            org_parent_id: $('#org_parent_id', that.dom).attr('data-pid')
+	        }, function (data) {
+	            if (!data.success) {
 	                that.toast(data.message);
 	                return;
 	            }
-	            that.finish(true,$('#org_parent_id',that.dom).attr('data-pid'));
+	            that.finish(true, $('#org_parent_id', that.dom).attr('data-pid'));
 	        });
-
 	    });
-	    $('#cancelBtn',this.dom).click(function(){
+	    $('#cancelBtn', this.dom).click(function () {
 	        that.finish(false);
 	    });
 
 	    this.$treepanel = $('<div id="org_tree_panel" class="dropdown_panel"><ul id="_panelOrgTree" class="ztree"></ul></div>').appendTo($('body'));
-	    var $org_parent_id = $('#org_parent_id',this.dom);
+	    var $org_parent_id = $('#org_parent_id', this.dom);
 
-	    $org_parent_id.click(function(){
+	    $org_parent_id.click(function () {
 	        var offset = $org_parent_id.offset();
 	        that.$treepanel.css({
-	            left:offset.left,
-	            top:offset.top+30,
-	            width:$org_parent_id.outerWidth()
+	            left: offset.left,
+	            top: offset.top + 30,
+	            width: $org_parent_id.outerWidth()
 	        });
-	        that.$treepanel.is(':visible')?(that.$treepanel.hide()):(that.$treepanel.show());
+	        that.$treepanel.is(':visible') ? that.$treepanel.hide() : that.$treepanel.show();
 	        return false;
 	    });
-	    this.$treepanel.click(function(){
+	    this.$treepanel.click(function () {
 	        return false;
 	    });
 	    this.initOrgTree();
-
 	};
 
-
-	OrgAddModify.prototype.onMove = function(left,top){
-	    if(!this.$treepanel)
-	        return;
-	    var $org_parent_id = $('#org_parent_id',this.dom);
+	OrgAddModify.prototype.onMove = function (left, top) {
+	    if (!this.$treepanel) return;
+	    var $org_parent_id = $('#org_parent_id', this.dom);
 	    var offset = $org_parent_id.offset();
 	    this.$treepanel.css({
-	        left:offset.left,
-	        top:offset.top+30
+	        left: offset.left,
+	        top: offset.top + 30
 	    });
 	};
 
-	OrgAddModify.prototype.initOrgTree = function(){
+	OrgAddModify.prototype.initOrgTree = function () {
 	    var that = this;
-	    this.query('/org/list',function(data){
-	        if(!data.success){
+	    this.query('/org/list', function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
 	        var setting = {
-	            data:{
-	                keep:{
-	                    parent:true,
-	                    leaf:true
+	            data: {
+	                keep: {
+	                    parent: true,
+	                    leaf: true
 	                },
-	                simpleData:{
-	                    enable:true,
-	                    idKey:'org_id',
-	                    pIdKey:'org_parent_id',
-	                    rootPId:null
+	                simpleData: {
+	                    enable: true,
+	                    idKey: 'org_id',
+	                    pIdKey: 'org_parent_id',
+	                    rootPId: null
 	                },
-	                key:{
-	                    name:'org_title',
-	                    title:'org_title'
+	                key: {
+	                    name: 'org_title',
+	                    title: 'org_title'
 	                }
 	            },
-	            callback:{
-	                onClick:function(event, treeId, treeNode){
-	                    $('#org_parent_id',that.dom).val(treeNode.org_title);
-	                    $('#org_parent_id',that.dom).attr('data-pid',treeNode.org_id);
+	            callback: {
+	                onClick: function onClick(event, treeId, treeNode) {
+	                    $('#org_parent_id', that.dom).val(treeNode.org_title);
+	                    $('#org_parent_id', that.dom).attr('data-pid', treeNode.org_id);
 	                    hidePanel();
 	                }
 	            }
 	        };
-	        for(var i = 0,len = data.data.length;i<len;i++){
+	        for (var i = 0, len = data.data.length; i < len; i++) {
 	            data.data[i].isParent = true;
-	            if(data.data[i].org_id == that.options.org_parent_id){
-	                $('#org_parent_id',that.dom).val(data.data[i].org_title);
-	                $('#org_parent_id',that.dom).attr('data-pid',data.data[i].org_id);
+	            if (data.data[i].org_id == that.options.org_parent_id) {
+	                $('#org_parent_id', that.dom).val(data.data[i].org_title);
+	                $('#org_parent_id', that.dom).attr('data-pid', data.data[i].org_id);
 	            }
 	        }
-	        data.data.push({'org_id':'0','org_parent_id':null,'org_title':'根节点'});
-	        that.ztreeObj = $.fn.zTree.init($("#_panelOrgTree",that.$treepanel), setting,data.data);
-	        var nodes = that.ztreeObj.getNodesByParam("org_id",that.options.org_parent_id , null);
+	        data.data.push({ 'org_id': '0', 'org_parent_id': null, 'org_title': '根节点' });
+	        that.ztreeObj = $.fn.zTree.init($("#_panelOrgTree", that.$treepanel), setting, data.data);
+	        var nodes = that.ztreeObj.getNodesByParam("org_id", that.options.org_parent_id, null);
 	        that.ztreeObj.selectNode(nodes[0], false, false);
 	    });
 	};
 
-	function hidePanel(){
+	function hidePanel() {
 	    $('.dropdown_panel').hide();
 	}
-	$('body').on('click',function(){
+	$('body').on('click', function () {
 	    hidePanel();
 	});
-	OrgAddModify.prototype.restoreData = function() {
+	OrgAddModify.prototype.restoreData = function () {
 	    var that = this;
-	    this.query('/org/search/'+this.options.org_id,function(data){
-	        if(!data.success){
+	    this.query('/org/search/' + this.options.org_id, function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
 	        data = data.data;
-	        $('#org_title',that.dom).val(data.org_title);
-	        $('#org_parent_id',that.dom).attr('data-pid',data.org_parent_id);
+	        $('#org_title', that.dom).val(data.org_title);
+	        $('#org_parent_id', that.dom).attr('data-pid', data.org_parent_id);
 	    });
 	};
 
@@ -9485,19 +9271,19 @@ webpackJsonp([4],[
 	OrgAddModify.prototype.finish = function () {
 	    this.ztreeObj && this.ztreeObj.destroy();
 	    this.$treepanel && this.$treepanel.remove();
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	module.exports = new OrgAddModify();
 
 /***/ },
-/* 412 */
+/* 414 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"org-add-modify add-modify-form\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>组织机构标题：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入组织机构名称\" name=\"org_title\" id=\"org_title\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>父级组织机构：</label>\r\n                <input class=\"form-control\" placeholder=\"请选择父级组织机构\" readonly=\"true\" name=\"org_parent_id\" id=\"org_parent_id\" type=\"text\" data-pid=\"0\" value=\"根节点\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
+	module.exports = "<div class=\"org-add-modify add-modify-form\">\n    <div class=\"panel-body\">\n            <div class=\"form-group\">\n                <label>组织机构标题：</label>\n                <input class=\"form-control\" placeholder=\"请输入组织机构名称\" name=\"org_title\" id=\"org_title\" type=\"text\" autofocus>\n            </div>\n            <div class=\"form-group\">\n                <label>父级组织机构：</label>\n                <input class=\"form-control\" placeholder=\"请选择父级组织机构\" readonly=\"true\" name=\"org_parent_id\" id=\"org_parent_id\" type=\"text\" data-pid=\"0\" value=\"根节点\">\n            </div>\n            <div class=\"btn-wrap\">\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\n            </div>\n    </div>\n</div>\n";
 
 /***/ },
-/* 413 */
+/* 415 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -9506,17 +9292,16 @@ webpackJsonp([4],[
 	 */
 
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(296);
-	__webpack_require__(287);
-	__webpack_require__(288);
-	__webpack_require__(414);
-	__webpack_require__(268);
-	var OrgManage = function () {};
+	__webpack_require__(298);
+	__webpack_require__(289);
+	__webpack_require__(290);
+	__webpack_require__(416);
+	__webpack_require__(270);
+	var OrgManage = function OrgManage() {};
 
 	//继承自框架基类
 	OrgManage.prototype = $.extend({}, frameworkBase);
 	OrgManage.prototype.id = 'org-manage';
-
 
 	/**
 	 * 模块初始化入口<br>
@@ -9529,14 +9314,13 @@ webpackJsonp([4],[
 	    that.setTitle('组织机构管理').setHeight(700).setWidth(780);
 	    frameworkBase.init.call(this, options);
 	    this.loadBaseView();
-
 	};
 
 	OrgManage.prototype.loadBaseView = function () {
 	    var that = this;
-	    this.loadFragment('/views/modules/org-manage.html').then(function(html){
+	    this.loadFragment('/views/modules/org-manage.html').then(function (html) {
 	        that.render(html);
-	        $('.tablecontainer',that.dom).height(that.dom.height()-55);
+	        $('.tablecontainer', that.dom).height(that.dom.height() - 55);
 	        that.initTable();
 	        that.initOrgTree();
 	        that.bindEvents();
@@ -9544,15 +9328,16 @@ webpackJsonp([4],[
 	};
 
 	OrgManage.prototype.initTable = function () {
-	    var that = this, $tableMenu = $('#table-context-menu');
+	    var that = this,
+	        $tableMenu = $('#table-context-menu');
 	    that.$tableMenu = $tableMenu;
-	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(416);
-	    that.$table = $('#dataTable',this.dom).datagrid({
+	    $('.easyui-linkbutton', this.dom).linkbutton();
+	    var columns = __webpack_require__(418);
+	    that.$table = $('#dataTable', this.dom).datagrid({
 	        url: '',
 	        method: 'get',
 	        columns: [columns],
-	        cache:false,
+	        cache: false,
 	        pagination: true,
 	        pageSize: 20,
 	        ctrlSelect: true,
@@ -9562,25 +9347,23 @@ webpackJsonp([4],[
 	        striped: true,
 	        fit: true,
 	        fitColumns: true,
-	        loadFilter: function (data) {
-	            if(!data.success){
+	        loadFilter: function loadFilter(data) {
+	            if (!data.success) {
 	                that.toast(data.message);
 	            }
 	            return data.data;
 	        },
-	        onDblClickRow: function (rowIndex, rowData) {
-	            Events.require('user-add-modify').addCallback(function(flag){
-	                if(flag)
-	                    Events.notify('onRefresh:org-manage');
-	            }).init({showType:'Pop',action:'002',user_id:rowData.user_id});
+	        onDblClickRow: function onDblClickRow(rowIndex, rowData) {
+	            Events.require('user-add-modify').addCallback(function (flag) {
+	                if (flag) Events.notify('onRefresh:org-manage');
+	            }).init({ showType: 'Pop', action: '002', user_id: rowData.user_id });
 	        },
-	        onRowContextMenu:function(event,rowIndex,rowData){
-	            if(!rowData)
-	                return;
+	        onRowContextMenu: function onRowContextMenu(event, rowIndex, rowData) {
+	            if (!rowData) return;
 	            event.preventDefault();
-	            that.$table.datagrid('unselectAll',rowIndex);
-	            that.$table.datagrid('selectRow',rowIndex);
-	            $tableMenu.menu('show',{
+	            that.$table.datagrid('unselectAll', rowIndex);
+	            that.$table.datagrid('selectRow', rowIndex);
+	            $tableMenu.menu('show', {
 	                left: event.clientX,
 	                top: event.clientY
 	            });
@@ -9588,117 +9371,119 @@ webpackJsonp([4],[
 	        toolbar: '#org-manage-toolbar'
 	    });
 	    $tableMenu.menu({
-	        onClick:function(item){
-	            var _id = item.id, id = _id.replace('context_','');
-	            $('#'+id,that.dom).click();
+	        onClick: function onClick(item) {
+	            var _id = item.id,
+	                id = _id.replace('context_', '');
+	            $('#' + id, that.dom).click();
 	        },
-	        hideOnUnhover:false
+	        hideOnUnhover: false
 	    });
 
-	    var searchBox = $('#org-manage #home-easyui-searchbox',that.dom).searchbox({
-	        searcher: function (value, name) {
+	    var searchBox = $('#org-manage #home-easyui-searchbox', that.dom).searchbox({
+	        searcher: function searcher(value, name) {
 	            Events.notify('onRefresh:org-manage');
 	        },
 	        prompt: '请输关键字，如用户名'
 	    });
 
-	    var startDate = $("#startdate",that.dom).datebox({
-	        editable:false ,
-	        formatter: function (date) {
+	    var startDate = $("#startdate", that.dom).datebox({
+	        editable: false,
+	        formatter: function formatter(date) {
 	            return Calendar.getInstance(date).format('yyyy-MM-dd');
 	        },
-	        onChange:function(date){
+	        onChange: function onChange(date) {
 	            Events.notify('onRefresh:org-manage');
 	        }
 	    });
-	    var endDate = $("#enddate",that.dom).datebox({
-	        editable:false ,
-	        formatter: function (date) {
+	    var endDate = $("#enddate", that.dom).datebox({
+	        editable: false,
+	        formatter: function formatter(date) {
 	            return Calendar.getInstance(date).format('yyyy-MM-dd');
 	        },
-	        onChange:function(date){
+	        onChange: function onChange(date) {
 	            Events.notify('onRefresh:org-manage');
 	        }
 	    });
 
 	    //订阅刷新消息
-	    Events.subscribe('onRefresh:org-manage',function(org_id){
+	    Events.subscribe('onRefresh:org-manage', function (org_id) {
 	        var opts = that.$table.datagrid("options");
 	        opts.url = "/org/orguser";
-	        that.$table.datagrid('load',{
-	            org_id:selectOrgId,
-	            key:searchBox.searchbox('getValue'),
-	            startdate:startDate.combo('getValue').replace(/-/gi,''),
-	            enddate:endDate.combo('getValue').replace(/-/gi,'')
+	        that.$table.datagrid('load', {
+	            org_id: selectOrgId,
+	            key: searchBox.searchbox('getValue'),
+	            startdate: startDate.combo('getValue').replace(/-/gi, ''),
+	            enddate: endDate.combo('getValue').replace(/-/gi, '')
 	        });
 	    });
 	};
 
-	var ztreeObj = null, selectOrgId, firstRefresh = false;
-	OrgManage.prototype.initOrgTree = function(){
-	    var that = this, $treeMenu = $('#tree-context-menu');
+	var ztreeObj = null,
+	    selectOrgId,
+	    firstRefresh = false;
+	OrgManage.prototype.initOrgTree = function () {
+	    var that = this,
+	        $treeMenu = $('#tree-context-menu');
 	    that.$treeMenu = $treeMenu;
 	    firstRefresh = false;
 	    var setting = {
-	        async:{
-	            enable:true,
-	            url:'/org/listbypid',
-	            autoParam:['org_id'],
-	            type:'get'
+	        async: {
+	            enable: true,
+	            url: '/org/listbypid',
+	            autoParam: ['org_id'],
+	            type: 'get'
 	        },
-	        edit:{
-	            enable:true,
-	            showRemoveBtn:false,
-	            showRenameBtn:false,
-	            drag:{
-	                prev:false,
-	                next:false,
-	                inner:true,
-	                isMove:true,
-	                isCopy:false
+	        edit: {
+	            enable: true,
+	            showRemoveBtn: false,
+	            showRenameBtn: false,
+	            drag: {
+	                prev: false,
+	                next: false,
+	                inner: true,
+	                isMove: true,
+	                isCopy: false
 	            }
 	        },
-	        data:{
-	            key:{
-	                name:'org_title',
-	                title:'org_title'
+	        data: {
+	            key: {
+	                name: 'org_title',
+	                title: 'org_title'
 	            },
-	            simpleData:{
-	                idKey:'org_id',
-	                pIdKey:'org_parent_id'
+	            simpleData: {
+	                idKey: 'org_id',
+	                pIdKey: 'org_parent_id'
 	            },
-	            keep:{
-	                parent:true
+	            keep: {
+	                parent: true
 	            }
 	        },
-	        callback:{
-	            onClick:function(event, treeId, treeNode){
+	        callback: {
+	            onClick: function onClick(event, treeId, treeNode) {
 	                selectOrgId = treeNode.org_id;
 	                Events.notify('onRefresh:org-manage');
 	            },
-	            onAsyncSuccess:function(){
-	                if(firstRefresh)
-	                    return;
+	            onAsyncSuccess: function onAsyncSuccess() {
+	                if (firstRefresh) return;
 	                selectOrgId = ztreeObj.getNodes()[0].org_id;
 	                ztreeObj.selectNode(ztreeObj.getNodes()[0], false, false);
 	                Events.notify('onRefresh:org-manage');
 	                firstRefresh = true;
 	            },
-	            onDrop:function(event, treeId, treeNodes, targetNode, moveType){
-	                that.save('/org/save',{
-	                    action:'002',
-	                    org_id:treeNodes[0].org_id,
-	                    org_parent_id:targetNode?targetNode.org_id:'0'
-	                },function(data){
-	                    if(!data.success){
+	            onDrop: function onDrop(event, treeId, treeNodes, targetNode, moveType) {
+	                that.save('/org/save', {
+	                    action: '002',
+	                    org_id: treeNodes[0].org_id,
+	                    org_parent_id: targetNode ? targetNode.org_id : '0'
+	                }, function (data) {
+	                    if (!data.success) {
 	                        that.toast(data.message);
 	                        return;
 	                    }
 	                });
 	            },
-	            onRightClick:function(event,treeId,treeNode){
-	                if(!treeNode)
-	                    return;
+	            onRightClick: function onRightClick(event, treeId, treeNode) {
+	                if (!treeNode) return;
 	                event.preventDefault();
 	                ztreeObj.selectNode(treeNode, false, false);
 	                selectCompanyId = treeNode.company_id;
@@ -9712,13 +9497,14 @@ webpackJsonp([4],[
 	        }
 	    };
 	    $treeMenu.menu({
-	        onClick:function(item){
-	            var _id = item.id, id = _id.replace('context_','');
-	            $('#'+id,that.dom).click();
+	        onClick: function onClick(item) {
+	            var _id = item.id,
+	                id = _id.replace('context_', '');
+	            $('#' + id, that.dom).click();
 	        },
-	        hideOnUnhover:false
+	        hideOnUnhover: false
 	    });
-	    ztreeObj = $.fn.zTree.init($("#orgTree",this.dom), setting);
+	    ztreeObj = $.fn.zTree.init($("#orgTree", this.dom), setting);
 	};
 
 	/**
@@ -9727,46 +9513,49 @@ webpackJsonp([4],[
 	OrgManage.prototype.bindEvents = function () {
 	    var that = this;
 	    //添加组织机构
-	    $('#addOrgBtn',this.dom).click(function(){
-	        var nodes = ztreeObj.getSelectedNodes(),org_parent_id;
-	        if(nodes.length>0){
+	    $('#addOrgBtn', this.dom).click(function () {
+	        var nodes = ztreeObj.getSelectedNodes(),
+	            org_parent_id;
+	        if (nodes.length > 0) {
 	            org_parent_id = nodes[0].org_id;
 	        }
-	        Events.require('org-add-modify').addCallback(function(flag,_org_id){
-	            if(flag){
+	        Events.require('org-add-modify').addCallback(function (flag, _org_id) {
+	            if (flag) {
 	                //TODO 添加新节点
-	                if(_org_id == '0'){
+	                if (_org_id == '0') {
 	                    ztreeObj.reAsyncChildNodes(null, "refresh");
-	                }else{
+	                } else {
 	                    var nodes = ztreeObj.getNodesByParam("org_id", _org_id, null);
 	                    ztreeObj.reAsyncChildNodes(nodes[0], "refresh");
 	                }
 	                that.toast('保存成功！');
 	            }
-	        }).init({showType:'Pop',org_parent_id:org_parent_id});
+	        }).init({ showType: 'Pop', org_parent_id: org_parent_id });
 	    });
 	    //编辑组织机构
-	    $('#modifyOrgBtn',this.dom).click(function(){
-	        var nodes = ztreeObj.getSelectedNodes(),org_id,org_parent_id;
-	        if(nodes.length>0){
+	    $('#modifyOrgBtn', this.dom).click(function () {
+	        var nodes = ztreeObj.getSelectedNodes(),
+	            org_id,
+	            org_parent_id;
+	        if (nodes.length > 0) {
 	            org_id = nodes[0].org_id;
 	            org_parent_id = nodes[0].org_parent_id;
-	        }else{
+	        } else {
 	            swal("提示", "请先选择一条数据!", "warning");
 	            return;
 	        }
-	        Events.require('org-add-modify').addCallback(function(flag,_org_id){
-	            if(flag){
+	        Events.require('org-add-modify').addCallback(function (flag, _org_id) {
+	            if (flag) {
 	                //TODO 添加新节点
-	                if(_org_id == '0'){
+	                if (_org_id == '0') {
 	                    ztreeObj.reAsyncChildNodes(null, "refresh");
-	                }else{
+	                } else {
 	                    var nodes = ztreeObj.getNodesByParam("org_id", org_id, null);
 	                    ztreeObj.reAsyncChildNodes(nodes[0].getParentNode(), "refresh");
 	                }
 	                that.toast('保存成功！');
 	            }
-	        }).init({showType:'Pop',action:'002',org_id:org_id,org_parent_id:org_parent_id});
+	        }).init({ showType: 'Pop', action: '002', org_id: org_id, org_parent_id: org_parent_id });
 	    });
 	    //删除组织机构
 	    $('#removeOrgBtn', this.dom).click(function () {
@@ -9785,7 +9574,7 @@ webpackJsonp([4],[
 	            cancelButtonText: "取消",
 	            closeOnConfirm: true
 	        }, function () {
-	            that.save('/org/save', {action:'003',org_id: nodes[0].org_id}, function (data) {
+	            that.save('/org/save', { action: '003', org_id: nodes[0].org_id }, function (data) {
 	                if (!data.success) {
 	                    that.toast(data.message);
 	                    return;
@@ -9794,58 +9583,50 @@ webpackJsonp([4],[
 	                that.toast('删除成功！');
 	            });
 	        });
-
 	    });
 	    //编辑组织机构用户
-	    $('#modify_org_user_btn',this.dom).click(function(){
+	    $('#modify_org_user_btn', this.dom).click(function () {
 	        var nodes = ztreeObj.getSelectedNodes();
 	        if (nodes.length == 0) {
 	            swal("提示", "请先选择要操作的组织机构数据!", "warning");
 	            return;
 	        }
-	        Events.require('user2org').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:org-manage');
-	        }).init({showType:'Pop',org_id:nodes[0].org_id});
+	        Events.require('user2org').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:org-manage');
+	        }).init({ showType: 'Pop', org_id: nodes[0].org_id });
 	    });
 
 	    //添加用户
-	    $('#add_user_btn',this.dom).click(function(){
+	    $('#add_user_btn', this.dom).click(function () {
 	        var nodes = ztreeObj.getSelectedNodes();
 	        if (nodes.length == 0) {
 	            swal("提示", "请先选择组织机构数据!", "warning");
 	            return;
 	        }
-	        Events.require('user-add-modify').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:org-manage');
-	        }).init({showType:'Pop',org_id:nodes[0].org_id});
+	        Events.require('user-add-modify').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:org-manage');
+	        }).init({ showType: 'Pop', org_id: nodes[0].org_id });
 	    });
 	    //修改信息
-	    $('#modify_user_btn',this.dom).click(function(){
+	    $('#modify_user_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        Events.require('user-add-modify').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:org-manage');
-	        }).init({showType:'Pop',action:'002',user_id:rowData.user_id});
+	        if (!(rowData = getSelectRow())) return;
+	        Events.require('user-add-modify').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:org-manage');
+	        }).init({ showType: 'Pop', action: '002', user_id: rowData.user_id });
 	    });
 	    //修改密码
-	    $('#modify_password_btn',this.dom).click(function(){
+	    $('#modify_password_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        Events.require('user-add-modify').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:org-manage');
-	        }).init({showType:'Pop',action:'003',user_id:rowData.user_id});
+	        if (!(rowData = getSelectRow())) return;
+	        Events.require('user-add-modify').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:org-manage');
+	        }).init({ showType: 'Pop', action: '003', user_id: rowData.user_id });
 	    });
 	    //删除信息
-	    $('#delete_user_btn',this.dom).click(function(){
+	    $('#delete_user_btn', this.dom).click(function () {
 	        var rows;
-	        if(!(rows = getCheckRow()))
-	            return;
+	        if (!(rows = getCheckRow())) return;
 	        swal({
 	            title: "确认",
 	            text: "删除选中用户将会清空此用户所属于组织机构以及其所拥有的角色关联数据，确认删除吗？",
@@ -9856,17 +9637,17 @@ webpackJsonp([4],[
 	            cancelButtonText: "取消",
 	            closeOnConfirm: true
 	        }, function () {
-	            that.save('/user/save',{action:'004',user_id:function(){
-	                var ids = [];
-	                rows.forEach(function(item){
-	                    ids.push(item.user_id);
-	                });
-	                return ids.join(',');
-	            }()},function(data){
-	                if(data.success){
+	            that.save('/user/save', { action: '004', user_id: function () {
+	                    var ids = [];
+	                    rows.forEach(function (item) {
+	                        ids.push(item.user_id);
+	                    });
+	                    return ids.join(',');
+	                }() }, function (data) {
+	                if (data.success) {
 	                    that.toast("删除用户成功!");
 	                    Events.notify('onRefresh:org-manage');
-	                }else{
+	                } else {
 	                    that.toast(data.message);
 	                }
 	            });
@@ -9876,34 +9657,33 @@ webpackJsonp([4],[
 	    /**
 	     * 为用户分配角色
 	     */
-	    $('#auth_role_btn',this.dom).click(function(){
+	    $('#auth_role_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        Events.require('role2user').init({showType:'Pop',user_id:rowData.user_id});
+	        if (!(rowData = getSelectRow())) return;
+	        Events.require('role2user').init({ showType: 'Pop', user_id: rowData.user_id });
 	    });
 	    /**
 	     * 为组织机构分配角色
 	     */
-	    $('#authRoleOrgBtn',this.dom).click(function(){
+	    $('#authRoleOrgBtn', this.dom).click(function () {
 	        var nodes = ztreeObj.getSelectedNodes();
 	        if (nodes.length == 0) {
 	            swal("提示", "请先选择要操作的组织机构数据!", "warning");
 	            return;
 	        }
-	        Events.require('role2org').init({showType:'Pop',org_id:nodes[0].org_id});
+	        Events.require('role2org').init({ showType: 'Pop', org_id: nodes[0].org_id });
 	    });
-	    function getSelectRow(){
+	    function getSelectRow() {
 	        var rowData = that.$table.datagrid('getSelected');
-	        if(!rowData){
+	        if (!rowData) {
 	            swal("提示", "请先选择一条数据!", "warning");
 	            return;
 	        }
 	        return rowData;
 	    }
-	    function getCheckRow(){
+	    function getCheckRow() {
 	        var rows = that.$table.datagrid('getChecked');
-	        if(rows.length == 0){
+	        if (rows.length == 0) {
 	            swal("提示", "请至少选择一条数据!", "warning");
 	            return;
 	        }
@@ -9919,30 +9699,27 @@ webpackJsonp([4],[
 	    Events.unsubscribe('onRefresh:org-manage');
 	    this.$treeMenu && this.$treeMenu.menu('destroy');
 	    this.$tableMenu && this.$tableMenu.menu('destroy');
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	var orgManage = new OrgManage();
-	Events.subscribe('onWindowResize',function(){
-	    if(!orgManage.dom)
-	        return;
-	    $('.tablecontainer',orgManage.dom).height(orgManage.dom.height()-15-$('.condition-wrap',orgManage.dom).height());
+	Events.subscribe('onWindowResize', function () {
+	    if (!orgManage.dom) return;
+	    $('.tablecontainer', orgManage.dom).height(orgManage.dom.height() - 15 - $('.condition-wrap', orgManage.dom).height());
 	    orgManage.$table.datagrid('resize');
 	});
 
 	module.exports = orgManage;
 
-
-
 /***/ },
-/* 414 */
+/* 416 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 415 */,
-/* 416 */
+/* 417 */,
+/* 418 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -9954,96 +9731,94 @@ webpackJsonp([4],[
 	];
 
 /***/ },
-/* 417 */
+/* 419 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 修改密码模块
 	 */
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(418);
-	__webpack_require__(268);
+	__webpack_require__(420);
+	__webpack_require__(270);
 	var Crypto = __webpack_require__(21);
-	var PasswordModify = function(){ };
+	var PasswordModify = function PasswordModify() {};
 
 	//继承自框架基类
-	PasswordModify.prototype = $.extend({},frameworkBase);
+	PasswordModify.prototype = $.extend({}, frameworkBase);
 	PasswordModify.prototype.id = 'password-modify';
-
 
 	/**
 	 * 模块初始化入口<br>
 	 * @method init
 	 * @param options 参数对象
 	 */
-	PasswordModify.prototype.init = function(options){
+	PasswordModify.prototype.init = function (options) {
 	    var that = this;
-	    this.options = $.extend({},options);
+	    this.options = $.extend({}, options);
 	    that.setTitle('修改密码').setHeight(245).setWidth(400);
-	    frameworkBase.init.call(this,options);
+	    frameworkBase.init.call(this, options);
 	    this.loadBaseView();
 	    this.bindEvents();
 	};
 
-	PasswordModify.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(420);
+	PasswordModify.prototype.loadBaseView = function (options) {
+	    var html = __webpack_require__(422);
 	    this.render(html);
 	};
 
-	PasswordModify.prototype.bindEvents = function(){
+	PasswordModify.prototype.bindEvents = function () {
 	    var that = this;
-	    $('#confirmBtn',this.dom).click(function(){
-	        var oldPassword = $('#oldpassword',that.dom).val();
-	        var newPassword = $('#newpassword',that.dom).val();
-	        var rePassword = $('#repassword',that.dom).val();
-	        if($.trim(oldPassword) === '' ){
+	    $('#confirmBtn', this.dom).click(function () {
+	        var oldPassword = $('#oldpassword', that.dom).val();
+	        var newPassword = $('#newpassword', that.dom).val();
+	        var rePassword = $('#repassword', that.dom).val();
+	        if ($.trim(oldPassword) === '') {
 	            swal("提示", "请输入原始密码!", "warning");
 	            return;
 	        }
-	        if($.trim(newPassword) === '' ){
+	        if ($.trim(newPassword) === '') {
 	            swal("提示", "请输入新密码!", "warning");
 	            return;
 	        }
-	        if($.trim(rePassword) !== $.trim(newPassword) ){
+	        if ($.trim(rePassword) !== $.trim(newPassword)) {
 	            swal("提示", "确认密码与新密码不一致!", "warning");
 	            return;
 	        }
-	        that.save('/user/passwordmodify',{
-	            oldPassword:Crypto.md5(oldPassword),
-	            newPassword:Crypto.md5(newPassword)
-	        },function(data){
-	            if(data.success){
+	        that.save('/user/passwordmodify', {
+	            oldPassword: Crypto.md5(oldPassword),
+	            newPassword: Crypto.md5(newPassword)
+	        }, function (data) {
+	            if (data.success) {
 	                swal("成功", '修改成功', "success");
 	                that.finish();
-	            }else{
+	            } else {
 	                swal("抱歉", data.message, "error");
 	            }
 	        });
-
 	    });
-	    $('#cancelBtn',this.dom).click(function(){
+	    $('#cancelBtn', this.dom).click(function () {
 	        that.finish();
 	    });
-	    $('#oldpassword',this.dom)[0].focus();
+	    $('#oldpassword', this.dom)[0].focus();
 	};
 
 	module.exports = new PasswordModify();
 
 /***/ },
-/* 418 */
+/* 420 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 419 */,
-/* 420 */
+/* 421 */,
+/* 422 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"passwordmodify\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>旧密码：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入旧密码\" name=\"oldpassword\" id=\"oldpassword\" type=\"password\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>新密码：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入新密码\" name=\"newpassword\" id=\"newpassword\" type=\"password\" value=\"\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>确认密码：</label>\r\n                <input class=\"form-control\" placeholder=\"请确认密码\" name=\"repassword\" id=\"repassword\" type=\"password\" value=\"\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span id=\"confirmBtn\" class=\"framework-button\">确认</span>\r\n                <span id=\"cancelBtn\" class=\"framework-button\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
+	module.exports = "<div class=\"passwordmodify\">\n    <div class=\"panel-body\">\n            <div class=\"form-group\">\n                <label>旧密码：</label>\n                <input class=\"form-control\" placeholder=\"请输入旧密码\" name=\"oldpassword\" id=\"oldpassword\" type=\"password\" autofocus>\n            </div>\n            <div class=\"form-group\">\n                <label>新密码：</label>\n                <input class=\"form-control\" placeholder=\"请输入新密码\" name=\"newpassword\" id=\"newpassword\" type=\"password\" value=\"\">\n            </div>\n            <div class=\"form-group\">\n                <label>确认密码：</label>\n                <input class=\"form-control\" placeholder=\"请确认密码\" name=\"repassword\" id=\"repassword\" type=\"password\" value=\"\">\n            </div>\n            <div class=\"btn-wrap\">\n                <span id=\"confirmBtn\" class=\"framework-button\">确认</span>\n                <span id=\"cancelBtn\" class=\"framework-button\">取消</span>\n            </div>\n    </div>\n</div>\n";
 
 /***/ },
-/* 421 */
+/* 423 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -10051,37 +9826,35 @@ webpackJsonp([4],[
 	 * @author yanglang
 	 * @type {Framework}
 	 */
-	var WIDGETS = [
-	    {container:'#report-view-container',module:'report-list',id:''}];
+	var WIDGETS = [{ container: '#report-view-container', module: 'report-list', id: '' }];
 
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(422);
-	var ReportView = function(){ };
+	__webpack_require__(424);
+	var ReportView = function ReportView() {};
 
 	//继承自框架基类
-	ReportView.prototype = $.extend({},frameworkBase);
+	ReportView.prototype = $.extend({}, frameworkBase);
 	ReportView.prototype.id = 'report-view';
-
 
 	/**
 	 * 模块初始化入口<br>
 	 * @method init
 	 * @param options 参数对象
 	 */
-	ReportView.prototype.init = function(options){
+	ReportView.prototype.init = function (options) {
 	    var that = this;
-	    this.options = $.extend({action:'001'},options);
+	    this.options = $.extend({ action: '001' }, options);
 	    that.setTitle('报修信息查看').setHeight(400).setWidth(680);
-	    frameworkBase.init.call(this,options);
+	    frameworkBase.init.call(this, options);
 	    this.loadBaseView();
 	    this.bindEvents();
 	    this.restoreData();
 	};
 
-	ReportView.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(424);
+	ReportView.prototype.loadBaseView = function (options) {
+	    var html = __webpack_require__(426);
 	    this.render(html);
-	    var reportList = __webpack_require__(383);
+	    var reportList = __webpack_require__(385);
 	    WIDGETS[0].id = this.options.report_id;
 	    reportList.loadWidgets(WIDGETS);
 	};
@@ -10091,12 +9864,11 @@ webpackJsonp([4],[
 	 */
 	ReportView.prototype.restoreData = function () {
 	    var that = this;
-
 	};
 
 	ReportView.prototype.bindEvents = function () {
 	    var that = this;
-	    $('#closeBtn',this.dom).click(function(){
+	    $('#closeBtn', this.dom).click(function () {
 	        that.finish();
 	    });
 	};
@@ -10106,107 +9878,105 @@ webpackJsonp([4],[
 	 * 由框架调用，主要用于销毁订阅的事件
 	 */
 	ReportView.prototype.finish = function () {
-	    try{
-	        frameworkBase.finish.apply(this,arguments);
-	    }catch(e){
+	    try {
+	        frameworkBase.finish.apply(this, arguments);
+	    } catch (e) {
 	        console.log(e);
 	    }
 	};
 
 	var messagePublish = new ReportView();
 
-
 	module.exports = messagePublish;
 
 /***/ },
-/* 422 */
+/* 424 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 423 */,
-/* 424 */
+/* 425 */,
+/* 426 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"report-view shadow-block\">\r\n    <!--style给定宽度可以影响编辑器的最终宽度-->\r\n    <div id=\"report-view-container\">\r\n    </div>\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"closeBtn\">关闭</span>\r\n    </div>\r\n</div>";
+	module.exports = "<div class=\"report-view shadow-block\">\n    <!--style给定宽度可以影响编辑器的最终宽度-->\n    <div id=\"report-view-container\">\n    </div>\n    <div class=\"btn-wrap\">\n        <span class=\"framework-button\" id=\"closeBtn\">关闭</span>\n    </div>\n</div>";
 
 /***/ },
-/* 425 */
+/* 427 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 新增修改角色模块
 	 */
 	var frameworkBase = __webpack_require__(260);
-	var RoleAddModify = function(){ };
+	var RoleAddModify = function RoleAddModify() {};
 
 	//继承自框架基类
-	RoleAddModify.prototype = $.extend({},frameworkBase);
+	RoleAddModify.prototype = $.extend({}, frameworkBase);
 	RoleAddModify.prototype.id = 'role-add-modify';
 
 	var ACTIONS = {
-	    '001':{title:'添加角色',height:150},
-	    '002':{title:'编辑角色',height:150}
+	    '001': { title: '添加角色', height: 150 },
+	    '002': { title: '编辑角色', height: 150 }
 	};
 	/**
 	 * 模块初始化入口<br>
 	 * @method init
 	 * @param options 参数对象
 	 */
-	RoleAddModify.prototype.init = function(options){
+	RoleAddModify.prototype.init = function (options) {
 	    var that = this;
-	    this.options = $.extend({action:'001'},options);
+	    this.options = $.extend({ action: '001' }, options);
 	    that.setTitle(ACTIONS[this.options.action].title).setHeight(ACTIONS[this.options.action].height).setWidth(400);
-	    frameworkBase.init.call(this,options);
+	    frameworkBase.init.call(this, options);
 	    this.loadBaseView();
 	    this.bindEvents();
-	    if(this.options.action == '002' ){
+	    if (this.options.action == '002') {
 	        this.restoreData();
 	    }
 	};
 
-	RoleAddModify.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(426);
+	RoleAddModify.prototype.loadBaseView = function (options) {
+	    var html = __webpack_require__(428);
 	    this.render(html);
 	};
 
-	RoleAddModify.prototype.bindEvents = function(){
+	RoleAddModify.prototype.bindEvents = function () {
 	    var that = this;
-	    $('#confirmBtn',this.dom).click(function(){
-	        var role_name = $('#role_name',that.dom).val();
-	        if($.trim(role_name) === '' ){
+	    $('#confirmBtn', this.dom).click(function () {
+	        var role_name = $('#role_name', that.dom).val();
+	        if ($.trim(role_name) === '') {
 	            swal("提示", "请输入角色名!", "warning");
 	            return;
 	        }
 	        var params = {
-	            action:that.options.action,
-	            role_id:that.options.role_id,
-	            role_name:role_name
+	            action: that.options.action,
+	            role_id: that.options.role_id,
+	            role_name: role_name
 	        };
-	        that.save('/role/save',params,function(data){
-	            if(!data.success){
+	        that.save('/role/save', params, function (data) {
+	            if (!data.success) {
 	                that.toast(data.message);
 	                return;
 	            }
 	            that.finish(true);
 	        });
-
 	    });
-	    $('#cancelBtn',this.dom).click(function(){
+	    $('#cancelBtn', this.dom).click(function () {
 	        that.finish(false);
 	    });
 	};
 
-	RoleAddModify.prototype.restoreData = function() {
+	RoleAddModify.prototype.restoreData = function () {
 	    var that = this;
-	    this.query('/role/search/'+this.options.role_id,function(data){
-	        if(!data.success){
+	    this.query('/role/search/' + this.options.role_id, function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
 	        data = data.data;
-	        $('#role_name',that.dom).val(data.role_name);
+	        $('#role_name', that.dom).val(data.role_name);
 	    });
 	};
 
@@ -10215,19 +9985,19 @@ webpackJsonp([4],[
 	 * 由框架调用，主要用于销毁订阅的事件
 	 */
 	RoleAddModify.prototype.finish = function () {
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	module.exports = new RoleAddModify();
 
 /***/ },
-/* 426 */
+/* 428 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"role-add-modify add-modify-form\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>角色名：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入角色名\" name=\"role_name\" id=\"role_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
+	module.exports = "<div class=\"role-add-modify add-modify-form\">\n    <div class=\"panel-body\">\n            <div class=\"form-group\">\n                <label>角色名：</label>\n                <input class=\"form-control\" placeholder=\"请输入角色名\" name=\"role_name\" id=\"role_name\" type=\"text\" autofocus>\n            </div>\n            <div class=\"btn-wrap\">\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\n            </div>\n    </div>\n</div>\n";
 
 /***/ },
-/* 427 */
+/* 429 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -10236,16 +10006,15 @@ webpackJsonp([4],[
 	 */
 
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(296);
-	__webpack_require__(428);
-	__webpack_require__(268);
+	__webpack_require__(298);
+	__webpack_require__(430);
+	__webpack_require__(270);
 	var Calendar = __webpack_require__(14);
-	var RoleManage = function () {};
+	var RoleManage = function RoleManage() {};
 
 	//继承自框架基类
 	RoleManage.prototype = $.extend({}, frameworkBase);
 	RoleManage.prototype.id = 'role-manage';
-
 
 	/**
 	 * 模块初始化入口<br>
@@ -10262,24 +10031,25 @@ webpackJsonp([4],[
 
 	RoleManage.prototype.loadBaseView = function () {
 	    var that = this;
-	    this.loadFragment('/views/modules/role-manage.html').then(function(html){
+	    this.loadFragment('/views/modules/role-manage.html').then(function (html) {
 	        that.render(html);
-	        $('.tablecontainer',that.dom).height(that.dom.height()-55);
+	        $('.tablecontainer', that.dom).height(that.dom.height() - 55);
 	        that.initTable();
 	        that.bindEvents();
 	    });
 	};
 
 	RoleManage.prototype.initTable = function () {
-	    var that = this, $tableMenu = $('#table-context-menu');
+	    var that = this,
+	        $tableMenu = $('#table-context-menu');
 	    that.$tableMenu = $tableMenu;
-	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(430);
-	    that.$table = $('#dataTable',this.dom).datagrid({
+	    $('.easyui-linkbutton', this.dom).linkbutton();
+	    var columns = __webpack_require__(432);
+	    that.$table = $('#dataTable', this.dom).datagrid({
 	        url: '/role/list',
 	        method: 'get',
 	        columns: [columns],
-	        cache:false,
+	        cache: false,
 	        pagination: false,
 	        pageSize: 20,
 	        ctrlSelect: true,
@@ -10289,25 +10059,23 @@ webpackJsonp([4],[
 	        striped: true,
 	        fit: true,
 	        fitColumns: false,
-	        loadFilter: function (data) {
-	            if(!data.success){
+	        loadFilter: function loadFilter(data) {
+	            if (!data.success) {
 	                that.toast(data.message);
 	            }
-	            return {rows: data.data, total: data.data.length};
+	            return { rows: data.data, total: data.data.length };
 	        },
-	        onDblClickRow: function (rowIndex, rowData) {
-	            Events.require('role-add-modify').addCallback(function(flag){
-	                if(flag)
-	                    Events.notify('onRefresh:role-manage');
-	            }).init({showType:'Pop',action:'002',role_id:rowData.role_id});
+	        onDblClickRow: function onDblClickRow(rowIndex, rowData) {
+	            Events.require('role-add-modify').addCallback(function (flag) {
+	                if (flag) Events.notify('onRefresh:role-manage');
+	            }).init({ showType: 'Pop', action: '002', role_id: rowData.role_id });
 	        },
-	        onRowContextMenu:function(event,rowIndex,rowData){
-	            if(!rowData)
-	                return;
+	        onRowContextMenu: function onRowContextMenu(event, rowIndex, rowData) {
+	            if (!rowData) return;
 	            event.preventDefault();
-	            that.$table.datagrid('unselectAll',rowIndex);
-	            that.$table.datagrid('selectRow',rowIndex);
-	            $tableMenu.menu('show',{
+	            that.$table.datagrid('unselectAll', rowIndex);
+	            that.$table.datagrid('selectRow', rowIndex);
+	            $tableMenu.menu('show', {
 	                left: event.clientX,
 	                top: event.clientY
 	            });
@@ -10315,25 +10083,25 @@ webpackJsonp([4],[
 	        toolbar: '#role-manage-toolbar'
 	    });
 	    $tableMenu.menu({
-	        onClick:function(item){
-	            var _id = item.id, id = _id.replace('context_','');
-	            $('#'+id,that.dom).click();
+	        onClick: function onClick(item) {
+	            var _id = item.id,
+	                id = _id.replace('context_', '');
+	            $('#' + id, that.dom).click();
 	        },
-	        hideOnUnhover:false
+	        hideOnUnhover: false
 	    });
 
-	    var searchBox = $('#role-manage #home-easyui-searchbox',that.dom).searchbox({
-	        searcher: function (value, name) {
+	    var searchBox = $('#role-manage #home-easyui-searchbox', that.dom).searchbox({
+	        searcher: function searcher(value, name) {
 	            Events.notify('onRefresh:role-manage');
 	        },
 	        prompt: '请输关键字，如角色名'
 	    });
 
-
 	    //订阅刷新消息
-	    Events.subscribe('onRefresh:role-manage',function(){
-	        that.$table.datagrid('load',{
-	            key:searchBox.searchbox('getValue')
+	    Events.subscribe('onRefresh:role-manage', function () {
+	        that.$table.datagrid('load', {
+	            key: searchBox.searchbox('getValue')
 	        });
 	    });
 	};
@@ -10344,43 +10112,35 @@ webpackJsonp([4],[
 	RoleManage.prototype.bindEvents = function () {
 	    var that = this;
 	    //添加信息
-	    $('#add_role_btn',this.dom).click(function(){
-	        Events.require('role-add-modify').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:role-manage');
-	        }).init({showType:'Pop'});
+	    $('#add_role_btn', this.dom).click(function () {
+	        Events.require('role-add-modify').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:role-manage');
+	        }).init({ showType: 'Pop' });
 	    });
 	    //修改信息
-	    $('#modify_role_btn',this.dom).click(function(){
+	    $('#modify_role_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        Events.require('role-add-modify').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:role-manage');
-	        }).init({showType:'Pop',action:'002',role_id:rowData.role_id});
+	        if (!(rowData = getSelectRow())) return;
+	        Events.require('role-add-modify').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:role-manage');
+	        }).init({ showType: 'Pop', action: '002', role_id: rowData.role_id });
 	    });
 	    //赋权
-	    $('#authority_btn',this.dom).click(function(){
+	    $('#authority_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        Events.require('authority-control').addCallback(function(flag){
-	        }).init({showType:'Pop',role_id:rowData.role_id});
+	        if (!(rowData = getSelectRow())) return;
+	        Events.require('authority-control').addCallback(function (flag) {}).init({ showType: 'Pop', role_id: rowData.role_id });
 	    });
 	    //设置属于当前角色的用户
-	    $('#role_user_btn',this.dom).click(function(){
+	    $('#role_user_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        Events.require('user2role').addCallback(function(flag){
-	        }).init({showType:'Pop',role_id:rowData.role_id});
+	        if (!(rowData = getSelectRow())) return;
+	        Events.require('user2role').addCallback(function (flag) {}).init({ showType: 'Pop', role_id: rowData.role_id });
 	    });
 	    //删除信息
-	    $('#delete_role_btn',this.dom).click(function(){
+	    $('#delete_role_btn', this.dom).click(function () {
 	        var rows;
-	        if(!(rows = getCheckRow()))
-	            return;
+	        if (!(rows = getCheckRow())) return;
 	        swal({
 	            title: "确认",
 	            text: "删除选中角色将会清空此角色所关联的组织机构与用户关系，确认删除吗？",
@@ -10391,36 +10151,34 @@ webpackJsonp([4],[
 	            cancelButtonText: "取消",
 	            closeOnConfirm: true
 	        }, function () {
-	            that.save('/role/save',{action:'003',role_id:function(){
-	                var ids = [];
-	                rows.forEach(function(item){
-	                    ids.push(item.role_id);
-	                });
-	                return ids.join(',');
-	            }()},function(data){
-	                if(data.success){
+	            that.save('/role/save', { action: '003', role_id: function () {
+	                    var ids = [];
+	                    rows.forEach(function (item) {
+	                        ids.push(item.role_id);
+	                    });
+	                    return ids.join(',');
+	                }() }, function (data) {
+	                if (data.success) {
 	                    that.toast("删除角色成功!");
 	                    Events.notify('onRefresh:role-manage');
-	                }else{
+	                } else {
 	                    that.toast(data.message);
 	                }
 	            });
 	        });
-
 	    });
-	   
 
-	    function getSelectRow(){
+	    function getSelectRow() {
 	        var rowData = that.$table.datagrid('getSelected');
-	        if(!rowData){
+	        if (!rowData) {
 	            swal("提示", "请先选择一条数据!", "warning");
 	            return;
 	        }
 	        return rowData;
 	    }
-	    function getCheckRow(){
+	    function getCheckRow() {
 	        var rows = that.$table.datagrid('getChecked');
-	        if(rows.length == 0){
+	        if (rows.length == 0) {
 	            swal("提示", "请至少选择一条数据!", "warning");
 	            return;
 	        }
@@ -10435,30 +10193,27 @@ webpackJsonp([4],[
 	RoleManage.prototype.finish = function () {
 	    Events.unsubscribe('onRefresh:role-manage');
 	    this.$tableMenu && this.$tableMenu.menu('destroy');
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	var roleManage = new RoleManage();
-	Events.subscribe('onWindowResize',function(){
-	    if(!roleManage.dom)
-	        return;
-	    $('.tablecontainer',roleManage.dom).height(roleManage.dom.height()-15-$('.condition-wrap',roleManage.dom).height());
+	Events.subscribe('onWindowResize', function () {
+	    if (!roleManage.dom) return;
+	    $('.tablecontainer', roleManage.dom).height(roleManage.dom.height() - 15 - $('.condition-wrap', roleManage.dom).height());
 	    roleManage.$table.datagrid('resize');
 	});
 
 	module.exports = roleManage;
 
-
-
 /***/ },
-/* 428 */
+/* 430 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 429 */,
-/* 430 */
+/* 431 */,
+/* 432 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -10468,18 +10223,18 @@ webpackJsonp([4],[
 	];
 
 /***/ },
-/* 431 */
+/* 433 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 给组织机构赋角色模块
 	 */
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(432);
-	var Role2User = function(){ };
+	__webpack_require__(434);
+	var Role2User = function Role2User() {};
 
 	//继承自框架基类
-	Role2User.prototype = $.extend({},frameworkBase);
+	Role2User.prototype = $.extend({}, frameworkBase);
 	Role2User.prototype.id = 'role2org';
 
 	/**
@@ -10487,9 +10242,9 @@ webpackJsonp([4],[
 	 * @method init
 	 * @param options 参数对象
 	 */
-	Role2User.prototype.init = function(options){
+	Role2User.prototype.init = function (options) {
 	    var that = this;
-	    this.options = $.extend({},options);
+	    this.options = $.extend({}, options);
 	    that.setTitle('给组织机构赋角色').setHeight(500).setWidth(600);
 	    frameworkBase.init.call(this, options);
 	    this.loadBaseView();
@@ -10497,101 +10252,99 @@ webpackJsonp([4],[
 	    this.restoreData();
 	};
 
-	Role2User.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(434);
+	Role2User.prototype.loadBaseView = function (options) {
+	    var html = __webpack_require__(436);
 	    this.render(html);
 	};
 
-	Role2User.prototype.bindEvents = function(){
-	    this.dom.on('selectstart',function(){
+	Role2User.prototype.bindEvents = function () {
+	    this.dom.on('selectstart', function () {
 	        return false;
 	    });
 	    var that = this;
-	    $('.list-panel',this.dom).on('click','li.list-item',function(){
+	    $('.list-panel', this.dom).on('click', 'li.list-item', function () {
 	        var $this = $(this);
 	        $this.parent().find('.list-item').removeClass('selected').end().end().addClass('selected');
 	    });
-	    $('#mapList',this.dom).on('dblclick','li.list-item',function(){
+	    $('#mapList', this.dom).on('dblclick', 'li.list-item', function () {
 	        removeItem($(this));
 	    });
-	    $('#roleList',this.dom).on('dblclick','li.list-item',function(){
+	    $('#roleList', this.dom).on('dblclick', 'li.list-item', function () {
 	        roleItemClick($(this));
 	    });
-	    $('#addRole',this.dom).click(function(){
+	    $('#addRole', this.dom).click(function () {
 	        var $item = $('#roleList .list-item.selected');
 	        roleItemClick($item);
 	    });
-	    function roleItemClick($item){
+	    function roleItemClick($item) {
 	        var role_id = $item.attr('data-role-id');
-	        if($('#mapList .list-item[data-role-id="'+role_id+'"]').length == 0){
+	        if ($('#mapList .list-item[data-role-id="' + role_id + '"]').length == 0) {
 	            var role_name = $item.html();
-	            $('<li class="list-item" data-role-id="'+role_id+'">'+role_name+'</li>').appendTo($('#mapList'));
+	            $('<li class="list-item" data-role-id="' + role_id + '">' + role_name + '</li>').appendTo($('#mapList'));
 	        }
 	    }
-	    function removeItem($item){
+	    function removeItem($item) {
 	        $item.remove();
 	    }
-	    $('#removeRole',this.dom).click(function(){
+	    $('#removeRole', this.dom).click(function () {
 	        var $item = $('#mapList .list-item.selected');
 	        removeItem($item);
 	    });
-	    $('#addAllRole',this.dom).click(function(){
-	        $('#roleList .list-item').each(function(){
+	    $('#addAllRole', this.dom).click(function () {
+	        $('#roleList .list-item').each(function () {
 	            roleItemClick($(this));
 	        });
 	    });
-	    $('#removeAllRole',this.dom).click(function(){
+	    $('#removeAllRole', this.dom).click(function () {
 	        $('#mapList .list-item').remove();
 	    });
 
-
-	    $('#confirmBtn',this.dom).click(function(){
-	        that.save('/role/orgrole/',{
-	            org_id:that.options.org_id,
-	            role_ids:function(){
+	    $('#confirmBtn', this.dom).click(function () {
+	        that.save('/role/orgrole/', {
+	            org_id: that.options.org_id,
+	            role_ids: function () {
 	                var ids = [];
-	                $('#mapList .list-item').each(function(){
+	                $('#mapList .list-item').each(function () {
 	                    ids.push($(this).attr('data-role-id'));
-	                }) ;
+	                });
 	                return ids.join(';');
 	            }()
-	        },function(data){
-	            if(!data.success){
-	               that.toast(data.message);
-	               return;
+	        }, function (data) {
+	            if (!data.success) {
+	                that.toast(data.message);
+	                return;
 	            }
 	            that.finish(true);
 	        });
-
 	    });
-	    $('#cancelBtn',this.dom).click(function(){
+	    $('#cancelBtn', this.dom).click(function () {
 	        that.finish(false);
 	    });
 	};
 
-	Role2User.prototype.restoreData = function() {
+	Role2User.prototype.restoreData = function () {
 	    var that = this;
-	    this.query('/role/list',function(data){
-	        if(!data.success){
+	    this.query('/role/list', function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
 	        var html = '';
-	        for(var i = 0,len = data.data.length;i<len;i++){
-	            html += '<li class="list-item" data-role-id="'+data.data[i].role_id+'">'+data.data[i].role_name+'</li>'
+	        for (var i = 0, len = data.data.length; i < len; i++) {
+	            html += '<li class="list-item" data-role-id="' + data.data[i].role_id + '">' + data.data[i].role_name + '</li>';
 	        }
-	        $('#roleList',that.dom).html(html);
+	        $('#roleList', that.dom).html(html);
 	    });
-	    this.query('/role/orgrole',{org_id:this.options.org_id},function(data){
-	        if(!data.success){
+	    this.query('/role/orgrole', { org_id: this.options.org_id }, function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
 	        var html = '';
-	        for(var i = 0,len = data.data.length;i<len;i++){
-	            html += '<li class="list-item" data-role-id="'+data.data[i].role_id+'">'+data.data[i].role_name+'</li>'
+	        for (var i = 0, len = data.data.length; i < len; i++) {
+	            html += '<li class="list-item" data-role-id="' + data.data[i].role_id + '">' + data.data[i].role_name + '</li>';
 	        }
-	        $('#mapList',that.dom).html(html);
+	        $('#mapList', that.dom).html(html);
 	    });
 	};
 
@@ -10600,37 +10353,37 @@ webpackJsonp([4],[
 	 * 由框架调用，主要用于销毁订阅的事件
 	 */
 	Role2User.prototype.finish = function () {
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	module.exports = new Role2User();
 
 /***/ },
-/* 432 */
+/* 434 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 433 */,
-/* 434 */
+/* 435 */,
+/* 436 */
 /***/ function(module, exports) {
 
-	module.exports = "<div id=\"role2org\">\r\n    <div class=\"role2org_content_wrap\">\r\n        <div class=\"lr-choose-panel\">\r\n            <div class=\"left-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"roleList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n            <div class=\"center-operator-panel\">\r\n                <div class=\"operator-wrap\">\r\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllRole\"></span>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"right-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"mapList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>\r\n";
+	module.exports = "<div id=\"role2org\">\n    <div class=\"role2org_content_wrap\">\n        <div class=\"lr-choose-panel\">\n            <div class=\"left-choose-panel\">\n                <div class=\"panel-flow-wrap\">\n                    <ul id=\"roleList\" class=\"list-panel\">\n                    </ul>\n                </div>\n            </div>\n            <div class=\"center-operator-panel\">\n                <div class=\"operator-wrap\">\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addRole\"></span>\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeRole\"></span>\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllRole\"></span>\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllRole\"></span>\n                </div>\n\n            </div>\n            <div class=\"right-choose-panel\">\n                <div class=\"panel-flow-wrap\">\n                    <ul id=\"mapList\" class=\"list-panel\">\n                    </ul>\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div class=\"btn-wrap\">\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\n    </div>\n</div>\n";
 
 /***/ },
-/* 435 */
+/* 437 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 给用户赋角色模块
 	 */
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(436);
-	var Role2User = function(){ };
+	__webpack_require__(438);
+	var Role2User = function Role2User() {};
 
 	//继承自框架基类
-	Role2User.prototype = $.extend({},frameworkBase);
+	Role2User.prototype = $.extend({}, frameworkBase);
 	Role2User.prototype.id = 'role2user';
 
 	/**
@@ -10638,9 +10391,9 @@ webpackJsonp([4],[
 	 * @method init
 	 * @param options 参数对象
 	 */
-	Role2User.prototype.init = function(options){
+	Role2User.prototype.init = function (options) {
 	    var that = this;
-	    this.options = $.extend({},options);
+	    this.options = $.extend({}, options);
 	    that.setTitle('给用户赋角色').setHeight(500).setWidth(600);
 	    frameworkBase.init.call(this, options);
 	    this.loadBaseView();
@@ -10648,101 +10401,99 @@ webpackJsonp([4],[
 	    this.restoreData();
 	};
 
-	Role2User.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(438);
+	Role2User.prototype.loadBaseView = function (options) {
+	    var html = __webpack_require__(440);
 	    this.render(html);
 	};
 
-	Role2User.prototype.bindEvents = function(){
-	    this.dom.on('selectstart',function(){
+	Role2User.prototype.bindEvents = function () {
+	    this.dom.on('selectstart', function () {
 	        return false;
 	    });
 	    var that = this;
-	    $('.list-panel',this.dom).on('click','li.list-item',function(){
+	    $('.list-panel', this.dom).on('click', 'li.list-item', function () {
 	        var $this = $(this);
 	        $this.parent().find('.list-item').removeClass('selected').end().end().addClass('selected');
 	    });
-	    $('#mapList',this.dom).on('dblclick','li.list-item',function(){
+	    $('#mapList', this.dom).on('dblclick', 'li.list-item', function () {
 	        removeItem($(this));
 	    });
-	    $('#roleList',this.dom).on('dblclick','li.list-item',function(){
+	    $('#roleList', this.dom).on('dblclick', 'li.list-item', function () {
 	        roleItemClick($(this));
 	    });
-	    $('#addRole',this.dom).click(function(){
+	    $('#addRole', this.dom).click(function () {
 	        var $item = $('#roleList .list-item.selected');
 	        roleItemClick($item);
 	    });
-	    function roleItemClick($item){
+	    function roleItemClick($item) {
 	        var role_id = $item.attr('data-role-id');
-	        if($('#mapList .list-item[data-role-id="'+role_id+'"]').length == 0){
+	        if ($('#mapList .list-item[data-role-id="' + role_id + '"]').length == 0) {
 	            var role_name = $item.html();
-	            $('<li class="list-item" data-role-id="'+role_id+'">'+role_name+'</li>').appendTo($('#mapList'));
+	            $('<li class="list-item" data-role-id="' + role_id + '">' + role_name + '</li>').appendTo($('#mapList'));
 	        }
 	    }
-	    function removeItem($item){
+	    function removeItem($item) {
 	        $item.remove();
 	    }
-	    $('#removeRole',this.dom).click(function(){
+	    $('#removeRole', this.dom).click(function () {
 	        var $item = $('#mapList .list-item.selected');
 	        removeItem($item);
 	    });
-	    $('#addAllRole',this.dom).click(function(){
-	        $('#roleList .list-item').each(function(){
+	    $('#addAllRole', this.dom).click(function () {
+	        $('#roleList .list-item').each(function () {
 	            roleItemClick($(this));
 	        });
 	    });
-	    $('#removeAllRole',this.dom).click(function(){
+	    $('#removeAllRole', this.dom).click(function () {
 	        $('#mapList .list-item').remove();
 	    });
 
-
-	    $('#confirmBtn',this.dom).click(function(){
-	        that.save('/role/userrole/',{
-	            user_id:that.options.user_id,
-	            role_ids:function(){
+	    $('#confirmBtn', this.dom).click(function () {
+	        that.save('/role/userrole/', {
+	            user_id: that.options.user_id,
+	            role_ids: function () {
 	                var ids = [];
-	                $('#mapList .list-item').each(function(){
+	                $('#mapList .list-item').each(function () {
 	                    ids.push($(this).attr('data-role-id'));
-	                }) ;
+	                });
 	                return ids.join(';');
 	            }()
-	        },function(data){
-	            if(!data.success){
-	               that.toast(data.message);
-	               return;
+	        }, function (data) {
+	            if (!data.success) {
+	                that.toast(data.message);
+	                return;
 	            }
 	            that.finish(true);
 	        });
-
 	    });
-	    $('#cancelBtn',this.dom).click(function(){
+	    $('#cancelBtn', this.dom).click(function () {
 	        that.finish(false);
 	    });
 	};
 
-	Role2User.prototype.restoreData = function() {
+	Role2User.prototype.restoreData = function () {
 	    var that = this;
-	    this.query('/role/list',function(data){
-	        if(!data.success){
+	    this.query('/role/list', function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
 	        var html = '';
-	        for(var i = 0,len = data.data.length;i<len;i++){
-	            html += '<li class="list-item" data-role-id="'+data.data[i].role_id+'">'+data.data[i].role_name+'</li>'
+	        for (var i = 0, len = data.data.length; i < len; i++) {
+	            html += '<li class="list-item" data-role-id="' + data.data[i].role_id + '">' + data.data[i].role_name + '</li>';
 	        }
-	        $('#roleList',that.dom).html(html);
+	        $('#roleList', that.dom).html(html);
 	    });
-	    this.query('/role/userrole',{user_id:this.options.user_id},function(data){
-	        if(!data.success){
+	    this.query('/role/userrole', { user_id: this.options.user_id }, function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
 	        var html = '';
-	        for(var i = 0,len = data.data.length;i<len;i++){
-	            html += '<li class="list-item" data-role-id="'+data.data[i].role_id+'">'+data.data[i].role_name+'</li>'
+	        for (var i = 0, len = data.data.length; i < len; i++) {
+	            html += '<li class="list-item" data-role-id="' + data.data[i].role_id + '">' + data.data[i].role_name + '</li>';
 	        }
-	        $('#mapList',that.dom).html(html);
+	        $('#mapList', that.dom).html(html);
 	    });
 	};
 
@@ -10751,117 +10502,115 @@ webpackJsonp([4],[
 	 * 由框架调用，主要用于销毁订阅的事件
 	 */
 	Role2User.prototype.finish = function () {
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	module.exports = new Role2User();
 
 /***/ },
-/* 436 */
+/* 438 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 437 */,
-/* 438 */
+/* 439 */,
+/* 440 */
 /***/ function(module, exports) {
 
-	module.exports = "<div id=\"role2user\">\r\n    <div class=\"role2user_content_wrap\">\r\n        <div class=\"lr-choose-panel\">\r\n            <div class=\"left-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"roleList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n            <div class=\"center-operator-panel\">\r\n                <div class=\"operator-wrap\">\r\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllRole\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllRole\"></span>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"right-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"mapList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>\r\n";
+	module.exports = "<div id=\"role2user\">\n    <div class=\"role2user_content_wrap\">\n        <div class=\"lr-choose-panel\">\n            <div class=\"left-choose-panel\">\n                <div class=\"panel-flow-wrap\">\n                    <ul id=\"roleList\" class=\"list-panel\">\n                    </ul>\n                </div>\n            </div>\n            <div class=\"center-operator-panel\">\n                <div class=\"operator-wrap\">\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addRole\"></span>\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeRole\"></span>\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllRole\"></span>\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllRole\"></span>\n                </div>\n\n            </div>\n            <div class=\"right-choose-panel\">\n                <div class=\"panel-flow-wrap\">\n                    <ul id=\"mapList\" class=\"list-panel\">\n                    </ul>\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div class=\"btn-wrap\">\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\n    </div>\n</div>\n";
 
 /***/ },
-/* 439 */
+/* 441 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 新增修改用户模块
 	 */
 	var frameworkBase = __webpack_require__(260);
-	var UserAddModify = function(){ };
+	var UserAddModify = function UserAddModify() {};
 
 	//继承自框架基类
-	UserAddModify.prototype = $.extend({},frameworkBase);
+	UserAddModify.prototype = $.extend({}, frameworkBase);
 	UserAddModify.prototype.id = 'user-add-modify';
 
 	var ACTIONS = {
-	    '001':{title:'添加用户',height:200},
-	    '002':{title:'编辑用户',height:150},
-	    '003':{title:'修改密码',height:200}
+	    '001': { title: '添加用户', height: 200 },
+	    '002': { title: '编辑用户', height: 150 },
+	    '003': { title: '修改密码', height: 200 }
 	};
 	/**
 	 * 模块初始化入口<br>
 	 * @method init
 	 * @param options 参数对象
 	 */
-	UserAddModify.prototype.init = function(options){
+	UserAddModify.prototype.init = function (options) {
 	    var that = this;
-	    this.options = $.extend({action:'001'},options);
+	    this.options = $.extend({ action: '001' }, options);
 	    that.setTitle(ACTIONS[this.options.action].title).setHeight(ACTIONS[this.options.action].height).setWidth(400);
-	    frameworkBase.init.call(this,options);
+	    frameworkBase.init.call(this, options);
 	    this.loadBaseView();
 	    this.bindEvents();
-	    if(this.options.action == '002' || this.options.action == '003'){
+	    if (this.options.action == '002' || this.options.action == '003') {
 	        this.restoreData();
-	        if(this.options.action == '002'){
-	            $('#user_password,#user_repassword',this.dom).parent().hide();
-	        }else
-	            $('#user_name',this.dom).attr('disabled',true);
+	        if (this.options.action == '002') {
+	            $('#user_password,#user_repassword', this.dom).parent().hide();
+	        } else $('#user_name', this.dom).attr('disabled', true);
 	    }
 	};
 
-	UserAddModify.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(440);
+	UserAddModify.prototype.loadBaseView = function (options) {
+	    var html = __webpack_require__(442);
 	    this.render(html);
 	};
 
-	UserAddModify.prototype.bindEvents = function(){
+	UserAddModify.prototype.bindEvents = function () {
 	    var that = this;
-	    $('#confirmBtn',this.dom).click(function(){
-	        var user_name = $('#user_name',that.dom).val();
-	        var user_password = $('#user_password',that.dom).val();
-	        if($.trim(user_name) === '' ){
+	    $('#confirmBtn', this.dom).click(function () {
+	        var user_name = $('#user_name', that.dom).val();
+	        var user_password = $('#user_password', that.dom).val();
+	        if ($.trim(user_name) === '') {
 	            swal("提示", "请输入用户名!", "warning");
 	            return;
 	        }
-	        if($.trim(user_password) === '' && that.options.action!='002' ){
+	        if ($.trim(user_password) === '' && that.options.action != '002') {
 	            swal("提示", "请输入密码!", "warning");
 	            return;
 	        }
 	        var params = {
-	            action:that.options.action,
-	            user_id:that.options.user_id,
-	            user_name:user_name,
-	            user_password:user_password
+	            action: that.options.action,
+	            user_id: that.options.user_id,
+	            user_name: user_name,
+	            user_password: user_password
 	        };
-	        if(that.options.action == '002'){
+	        if (that.options.action == '002') {
 	            //修改用户名不需要改动密码
 	            delete params.user_password;
 	        }
 	        //新增用户时，判断一下是否给了org_id，如果有的话，则创建组织机构与此用户的关系
-	        (that.options.org_id && that.options.action=='001') && (params.org_id = that.options.org_id);
-	        that.save('/user/save',params,function(data){
-	            if(!data.success){
+	        that.options.org_id && that.options.action == '001' && (params.org_id = that.options.org_id);
+	        that.save('/user/save', params, function (data) {
+	            if (!data.success) {
 	                that.toast(data.message);
 	                return;
 	            }
 	            that.finish(true);
 	        });
-
 	    });
-	    $('#cancelBtn',this.dom).click(function(){
+	    $('#cancelBtn', this.dom).click(function () {
 	        that.finish(false);
 	    });
 	};
 
-	UserAddModify.prototype.restoreData = function() {
+	UserAddModify.prototype.restoreData = function () {
 	    var that = this;
-	    this.query('/user/search/'+this.options.user_id,function(data){
-	        if(!data.success){
+	    this.query('/user/search/' + this.options.user_id, function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
 	        data = data.data;
-	        $('#user_name',that.dom).val(data.user_name);
+	        $('#user_name', that.dom).val(data.user_name);
 	    });
 	};
 
@@ -10870,19 +10619,19 @@ webpackJsonp([4],[
 	 * 由框架调用，主要用于销毁订阅的事件
 	 */
 	UserAddModify.prototype.finish = function () {
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	module.exports = new UserAddModify();
 
 /***/ },
-/* 440 */
+/* 442 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"user-add-modify add-modify-form\">\r\n    <div class=\"panel-body\">\r\n            <div class=\"form-group\">\r\n                <label>用户名：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入用户名\" name=\"user_name\" id=\"user_name\" type=\"text\" autofocus>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <label>密码：</label>\r\n                <input class=\"form-control\" placeholder=\"请输入密码\" name=\"user_password\" id=\"user_password\" type=\"text\" value=\"\">\r\n            </div>\r\n            <div class=\"btn-wrap\">\r\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n            </div>\r\n    </div>\r\n</div>\r\n";
+	module.exports = "<div class=\"user-add-modify add-modify-form\">\n    <div class=\"panel-body\">\n            <div class=\"form-group\">\n                <label>用户名：</label>\n                <input class=\"form-control\" placeholder=\"请输入用户名\" name=\"user_name\" id=\"user_name\" type=\"text\" autofocus>\n            </div>\n            <div class=\"form-group\">\n                <label>密码：</label>\n                <input class=\"form-control\" placeholder=\"请输入密码\" name=\"user_password\" id=\"user_password\" type=\"text\" value=\"\">\n            </div>\n            <div class=\"btn-wrap\">\n                <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\n                <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\n            </div>\n    </div>\n</div>\n";
 
 /***/ },
-/* 441 */
+/* 443 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -10891,15 +10640,14 @@ webpackJsonp([4],[
 	 */
 
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(296);
-	__webpack_require__(442);
-	__webpack_require__(268);
-	var UserManage = function () {};
+	__webpack_require__(298);
+	__webpack_require__(444);
+	__webpack_require__(270);
+	var UserManage = function UserManage() {};
 
 	//继承自框架基类
 	UserManage.prototype = $.extend({}, frameworkBase);
 	UserManage.prototype.id = 'user-manage';
-
 
 	/**
 	 * 模块初始化入口<br>
@@ -10916,24 +10664,25 @@ webpackJsonp([4],[
 
 	UserManage.prototype.loadBaseView = function () {
 	    var that = this;
-	    this.loadFragment('/views/modules/user-manage.html').then(function(html){
+	    this.loadFragment('/views/modules/user-manage.html').then(function (html) {
 	        that.render(html);
-	        $('.tablecontainer',that.dom).height(that.dom.height()-55);
+	        $('.tablecontainer', that.dom).height(that.dom.height() - 55);
 	        that.initTable();
 	        that.bindEvents();
 	    });
 	};
 
 	UserManage.prototype.initTable = function () {
-	    var that = this, $tableMenu = $('#table-context-menu');
+	    var that = this,
+	        $tableMenu = $('#table-context-menu');
 	    that.$tableMenu = $tableMenu;
-	    $('.easyui-linkbutton',this.dom).linkbutton();
-	    var columns = __webpack_require__(444);
-	    that.$table = $('#dataTable',this.dom).datagrid({
+	    $('.easyui-linkbutton', this.dom).linkbutton();
+	    var columns = __webpack_require__(446);
+	    that.$table = $('#dataTable', this.dom).datagrid({
 	        url: '/user/list',
 	        method: 'get',
 	        columns: [columns],
-	        cache:false,
+	        cache: false,
 	        pagination: true,
 	        pageSize: 20,
 	        ctrlSelect: true,
@@ -10943,25 +10692,23 @@ webpackJsonp([4],[
 	        striped: true,
 	        fit: true,
 	        fitColumns: true,
-	        loadFilter: function (data) {
-	            if(!data.success){
+	        loadFilter: function loadFilter(data) {
+	            if (!data.success) {
 	                that.toast(data.message);
 	            }
 	            return data.data;
 	        },
-	        onDblClickRow: function (rowIndex, rowData) {
-	            Events.require('user-add-modify').addCallback(function(flag){
-	                if(flag)
-	                    Events.notify('onRefresh:user-manage');
-	            }).init({showType:'Pop',action:'002',user_id:rowData.user_id});
+	        onDblClickRow: function onDblClickRow(rowIndex, rowData) {
+	            Events.require('user-add-modify').addCallback(function (flag) {
+	                if (flag) Events.notify('onRefresh:user-manage');
+	            }).init({ showType: 'Pop', action: '002', user_id: rowData.user_id });
 	        },
-	        onRowContextMenu:function(event,rowIndex,rowData){
-	            if(!rowData)
-	                return;
+	        onRowContextMenu: function onRowContextMenu(event, rowIndex, rowData) {
+	            if (!rowData) return;
 	            event.preventDefault();
-	            that.$table.datagrid('unselectAll',rowIndex);
-	            that.$table.datagrid('selectRow',rowIndex);
-	            $tableMenu.menu('show',{
+	            that.$table.datagrid('unselectAll', rowIndex);
+	            that.$table.datagrid('selectRow', rowIndex);
+	            $tableMenu.menu('show', {
 	                left: event.clientX,
 	                top: event.clientY
 	            });
@@ -10969,45 +10716,46 @@ webpackJsonp([4],[
 	        toolbar: '#user-manage-toolbar'
 	    });
 	    $tableMenu.menu({
-	        onClick:function(item){
-	            var _id = item.id, id = _id.replace('context_','');
-	            $('#'+id,that.dom).click();
+	        onClick: function onClick(item) {
+	            var _id = item.id,
+	                id = _id.replace('context_', '');
+	            $('#' + id, that.dom).click();
 	        },
-	        hideOnUnhover:false
+	        hideOnUnhover: false
 	    });
 
-	    var searchBox = $('#user-manage #home-easyui-searchbox',that.dom).searchbox({
-	        searcher: function (value, name) {
+	    var searchBox = $('#user-manage #home-easyui-searchbox', that.dom).searchbox({
+	        searcher: function searcher(value, name) {
 	            Events.notify('onRefresh:user-manage');
 	        },
 	        prompt: '请输关键字，如用户名'
 	    });
 
-	    var startDate = $("#startdate",that.dom).datebox({
-	        editable:false ,
-	        formatter: function (date) {
+	    var startDate = $("#startdate", that.dom).datebox({
+	        editable: false,
+	        formatter: function formatter(date) {
 	            return Calendar.getInstance(date).format('yyyy-MM-dd');
 	        },
-	        onChange:function(date){
+	        onChange: function onChange(date) {
 	            Events.notify('onRefresh:user-manage');
 	        }
 	    });
-	    var endDate = $("#enddate",that.dom).datebox({
-	        editable:false ,
-	        formatter: function (date) {
+	    var endDate = $("#enddate", that.dom).datebox({
+	        editable: false,
+	        formatter: function formatter(date) {
 	            return Calendar.getInstance(date).format('yyyy-MM-dd');
 	        },
-	        onChange:function(date){
+	        onChange: function onChange(date) {
 	            Events.notify('onRefresh:user-manage');
 	        }
 	    });
 
 	    //订阅刷新消息
-	    Events.subscribe('onRefresh:user-manage',function(){
-	        that.$table.datagrid('load',{
-	            key:searchBox.searchbox('getValue'),
-	            startdate:startDate.combo('getValue').replace(/-/gi,''),
-	            enddate:endDate.combo('getValue').replace(/-/gi,'')
+	    Events.subscribe('onRefresh:user-manage', function () {
+	        that.$table.datagrid('load', {
+	            key: searchBox.searchbox('getValue'),
+	            startdate: startDate.combo('getValue').replace(/-/gi, ''),
+	            enddate: endDate.combo('getValue').replace(/-/gi, '')
 	        });
 	    });
 	};
@@ -11018,37 +10766,31 @@ webpackJsonp([4],[
 	UserManage.prototype.bindEvents = function () {
 	    var that = this;
 	    //添加用户
-	    $('#add_user_btn',this.dom).click(function(){
-	        Events.require('user-add-modify').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:user-manage');
-	        }).init({showType:'Pop'});
+	    $('#add_user_btn', this.dom).click(function () {
+	        Events.require('user-add-modify').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:user-manage');
+	        }).init({ showType: 'Pop' });
 	    });
 	    //修改用户
-	    $('#modify_user_btn',this.dom).click(function(){
+	    $('#modify_user_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        Events.require('user-add-modify').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:user-manage');
-	        }).init({showType:'Pop',action:'002',user_id:rowData.user_id});
+	        if (!(rowData = getSelectRow())) return;
+	        Events.require('user-add-modify').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:user-manage');
+	        }).init({ showType: 'Pop', action: '002', user_id: rowData.user_id });
 	    });
 	    //修改密码
-	    $('#modify_password_btn',this.dom).click(function(){
+	    $('#modify_password_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        Events.require('user-add-modify').addCallback(function(flag){
-	            if(flag)
-	                Events.notify('onRefresh:user-manage');
-	        }).init({showType:'Pop',action:'003',user_id:rowData.user_id});
+	        if (!(rowData = getSelectRow())) return;
+	        Events.require('user-add-modify').addCallback(function (flag) {
+	            if (flag) Events.notify('onRefresh:user-manage');
+	        }).init({ showType: 'Pop', action: '003', user_id: rowData.user_id });
 	    });
 	    //删除用户
-	    $('#delete_user_btn',this.dom).click(function(){
+	    $('#delete_user_btn', this.dom).click(function () {
 	        var rows;
-	        if(!(rows = getCheckRow()))
-	            return;
+	        if (!(rows = getCheckRow())) return;
 	        swal({
 	            title: "确认",
 	            text: "删除选中用户将会清空此用户所属于组织机构以及其所拥有的角色关联数据，确认删除吗？",
@@ -11059,44 +10801,42 @@ webpackJsonp([4],[
 	            cancelButtonText: "取消",
 	            closeOnConfirm: true
 	        }, function () {
-	            that.save('/user/save',{action:'004',user_id:function(){
-	                var ids = [];
-	                rows.forEach(function(item){
-	                    ids.push(item.user_id);
-	                });
-	                return ids.join(',');
-	            }()},function(data){
-	                if(data.success){
+	            that.save('/user/save', { action: '004', user_id: function () {
+	                    var ids = [];
+	                    rows.forEach(function (item) {
+	                        ids.push(item.user_id);
+	                    });
+	                    return ids.join(',');
+	                }() }, function (data) {
+	                if (data.success) {
 	                    that.toast("删除用户成功!");
 	                    Events.notify('onRefresh:user-manage');
-	                }else{
+	                } else {
 	                    that.toast(data.message);
 	                }
 	            });
 	        });
-
 	    });
 	    /**
 	     * 为用户分配角色
 	     */
-	    $('#auth_role_btn',this.dom).click(function(){
+	    $('#auth_role_btn', this.dom).click(function () {
 	        var rowData;
-	        if(!(rowData = getSelectRow()))
-	            return;
-	        Events.require('role2user').init({showType:'Pop',user_id:rowData.user_id});
+	        if (!(rowData = getSelectRow())) return;
+	        Events.require('role2user').init({ showType: 'Pop', user_id: rowData.user_id });
 	    });
-	    
-	    function getSelectRow(){
+
+	    function getSelectRow() {
 	        var rowData = that.$table.datagrid('getSelected');
-	        if(!rowData){
+	        if (!rowData) {
 	            swal("提示", "请先选择一条数据!", "warning");
 	            return;
 	        }
 	        return rowData;
 	    }
-	    function getCheckRow(){
+	    function getCheckRow() {
 	        var rows = that.$table.datagrid('getChecked');
-	        if(rows.length == 0){
+	        if (rows.length == 0) {
 	            swal("提示", "请至少选择一条数据!", "warning");
 	            return;
 	        }
@@ -11111,30 +10851,27 @@ webpackJsonp([4],[
 	UserManage.prototype.finish = function () {
 	    Events.unsubscribe('onRefresh:user-manage');
 	    this.$tableMenu && this.$tableMenu.menu('destroy');
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	var userManage = new UserManage();
-	Events.subscribe('onWindowResize',function(){
-	    if(!userManage.dom)
-	        return;
-	    $('.tablecontainer',userManage.dom).height(userManage.dom.height()-15-$('.condition-wrap',userManage.dom).height());
+	Events.subscribe('onWindowResize', function () {
+	    if (!userManage.dom) return;
+	    $('.tablecontainer', userManage.dom).height(userManage.dom.height() - 15 - $('.condition-wrap', userManage.dom).height());
 	    userManage.$table.datagrid('resize');
 	});
 
 	module.exports = userManage;
 
-
-
 /***/ },
-/* 442 */
+/* 444 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 443 */,
-/* 444 */
+/* 445 */,
+/* 446 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -11146,18 +10883,18 @@ webpackJsonp([4],[
 	];
 
 /***/ },
-/* 445 */
+/* 447 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 分配用户到组织机构模块
 	 */
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(446);
-	var User2Org = function(){ };
+	__webpack_require__(448);
+	var User2Org = function User2Org() {};
 
 	//继承自框架基类
-	User2Org.prototype = $.extend({},frameworkBase);
+	User2Org.prototype = $.extend({}, frameworkBase);
 	User2Org.prototype.id = 'user2org';
 
 	/**
@@ -11165,9 +10902,9 @@ webpackJsonp([4],[
 	 * @method init
 	 * @param options 参数对象
 	 */
-	User2Org.prototype.init = function(options){
+	User2Org.prototype.init = function (options) {
 	    var that = this;
-	    this.options = $.extend({},options);
+	    this.options = $.extend({}, options);
 	    that.setTitle('编辑组织机构下的用户').setHeight(500).setWidth(600);
 	    frameworkBase.init.call(this, options);
 	    this.loadBaseView();
@@ -11175,103 +10912,100 @@ webpackJsonp([4],[
 	    this.restoreData();
 	};
 
-	User2Org.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(448);
+	User2Org.prototype.loadBaseView = function (options) {
+	    var html = __webpack_require__(450);
 	    this.render(html);
 	};
 
-	User2Org.prototype.bindEvents = function(){
-	    this.dom.on('selectstart',function(){
+	User2Org.prototype.bindEvents = function () {
+	    this.dom.on('selectstart', function () {
 	        return false;
 	    });
 	    var that = this;
-	    $('.list-panel',this.dom).on('click','li.list-item',function(){
+	    $('.list-panel', this.dom).on('click', 'li.list-item', function () {
 	        var $this = $(this);
 	        $this.parent().find('.list-item').removeClass('selected').end().end().addClass('selected');
 	    });
-	    $('#mapList',this.dom).on('dblclick','li.list-item',function(){
+	    $('#mapList', this.dom).on('dblclick', 'li.list-item', function () {
 	        removeItem($(this));
 	    });
-	    $('#userList',this.dom).on('dblclick','li.list-item',function(){
+	    $('#userList', this.dom).on('dblclick', 'li.list-item', function () {
 	        roleItemClick($(this));
 	    });
-	    $('#addUser',this.dom).click(function(){
+	    $('#addUser', this.dom).click(function () {
 	        var $item = $('#userList .list-item.selected');
 	        roleItemClick($item);
 	    });
-	    function roleItemClick($item){
-	        if($item.length == 0)
-	            return;
+	    function roleItemClick($item) {
+	        if ($item.length == 0) return;
 	        var user_id = $item.attr('data-user-id');
-	        if($('#mapList .list-item[data-user-id="'+user_id+'"]').length == 0){
+	        if ($('#mapList .list-item[data-user-id="' + user_id + '"]').length == 0) {
 	            var role_name = $item.html();
-	            $('<li class="list-item" data-user-id="'+user_id+'">'+role_name+'</li>').appendTo($('#mapList'));
+	            $('<li class="list-item" data-user-id="' + user_id + '">' + role_name + '</li>').appendTo($('#mapList'));
 	        }
 	    }
-	    function removeItem($item){
+	    function removeItem($item) {
 	        $item.remove();
 	    }
-	    $('#removeUser',this.dom).click(function(){
+	    $('#removeUser', this.dom).click(function () {
 	        var $item = $('#mapList .list-item.selected');
 	        removeItem($item);
 	    });
-	    $('#addAllUser',this.dom).click(function(){
-	        $('#userList .list-item').each(function(){
+	    $('#addAllUser', this.dom).click(function () {
+	        $('#userList .list-item').each(function () {
 	            roleItemClick($(this));
 	        });
 	    });
-	    $('#removeAllUser',this.dom).click(function(){
+	    $('#removeAllUser', this.dom).click(function () {
 	        $('#mapList .list-item').remove();
 	    });
 
-
-	    $('#confirmBtn',this.dom).click(function(){
-	        that.save('/org/orguser/',{
-	            org_id:that.options.org_id,
-	            user_ids:function(){
+	    $('#confirmBtn', this.dom).click(function () {
+	        that.save('/org/orguser/', {
+	            org_id: that.options.org_id,
+	            user_ids: function () {
 	                var ids = [];
-	                $('#mapList .list-item').each(function(){
+	                $('#mapList .list-item').each(function () {
 	                    ids.push($(this).attr('data-user-id'));
-	                }) ;
+	                });
 	                return ids.join(';');
 	            }()
-	        },function(data){
-	            if(!data.success){
-	               that.toast(data.message);
-	               return;
+	        }, function (data) {
+	            if (!data.success) {
+	                that.toast(data.message);
+	                return;
 	            }
 	            that.finish(true);
 	        });
-
 	    });
-	    $('#cancelBtn',this.dom).click(function(){
+	    $('#cancelBtn', this.dom).click(function () {
 	        that.finish(false);
 	    });
 	};
 
-	User2Org.prototype.restoreData = function() {
+	User2Org.prototype.restoreData = function () {
 	    var that = this;
-	    this.query('/user/list',{page:1,rows:999999},function(data){
-	        if(!data.success){
+	    this.query('/user/list', { page: 1, rows: 999999 }, function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
 	        var html = '';
-	        for(var i = 0,len = data.data.total;i<len;i++){
-	            html += '<li class="list-item" data-user-id="'+data.data.rows[i].user_id+'">'+data.data.rows[i].user_name+'</li>'
+	        for (var i = 0, len = data.data.total; i < len; i++) {
+	            html += '<li class="list-item" data-user-id="' + data.data.rows[i].user_id + '">' + data.data.rows[i].user_name + '</li>';
 	        }
-	        $('#userList',that.dom).html(html);
+	        $('#userList', that.dom).html(html);
 	    });
-	    this.query('/org/orguser',{org_id:this.options.org_id,page:1,rows:99999},function(data){
-	        if(!data.success){
+	    this.query('/org/orguser', { org_id: this.options.org_id, page: 1, rows: 99999 }, function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
 	        var html = '';
-	        for(var i = 0,len = data.data.total;i<len;i++){
-	            html += '<li class="list-item" data-user-id="'+data.data.rows[i].user_id+'">'+data.data.rows[i].user_name+'</li>'
+	        for (var i = 0, len = data.data.total; i < len; i++) {
+	            html += '<li class="list-item" data-user-id="' + data.data.rows[i].user_id + '">' + data.data.rows[i].user_name + '</li>';
 	        }
-	        $('#mapList',that.dom).html(html);
+	        $('#mapList', that.dom).html(html);
 	    });
 	};
 
@@ -11280,37 +11014,37 @@ webpackJsonp([4],[
 	 * 由框架调用，主要用于销毁订阅的事件
 	 */
 	User2Org.prototype.finish = function () {
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	module.exports = new User2Org();
 
 /***/ },
-/* 446 */
+/* 448 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 447 */,
-/* 448 */
+/* 449 */,
+/* 450 */
 /***/ function(module, exports) {
 
-	module.exports = "<div id=\"user2org\">\r\n    <div class=\"user2org_content_wrap\">\r\n        <div class=\"lr-choose-panel\">\r\n            <div class=\"left-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"userList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n            <div class=\"center-operator-panel\">\r\n                <div class=\"operator-wrap\">\r\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllUser\"></span>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"right-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"mapList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>\r\n";
+	module.exports = "<div id=\"user2org\">\n    <div class=\"user2org_content_wrap\">\n        <div class=\"lr-choose-panel\">\n            <div class=\"left-choose-panel\">\n                <div class=\"panel-flow-wrap\">\n                    <ul id=\"userList\" class=\"list-panel\">\n                    </ul>\n                </div>\n            </div>\n            <div class=\"center-operator-panel\">\n                <div class=\"operator-wrap\">\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addUser\"></span>\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeUser\"></span>\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllUser\"></span>\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllUser\"></span>\n                </div>\n\n            </div>\n            <div class=\"right-choose-panel\">\n                <div class=\"panel-flow-wrap\">\n                    <ul id=\"mapList\" class=\"list-panel\">\n                    </ul>\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div class=\"btn-wrap\">\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\n    </div>\n</div>\n";
 
 /***/ },
-/* 449 */
+/* 451 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 设置属于角色的用户模块
 	 */
 	var frameworkBase = __webpack_require__(260);
-	__webpack_require__(450);
-	var User2Role = function(){ };
+	__webpack_require__(452);
+	var User2Role = function User2Role() {};
 
 	//继承自框架基类
-	User2Role.prototype = $.extend({},frameworkBase);
+	User2Role.prototype = $.extend({}, frameworkBase);
 	User2Role.prototype.id = 'user2role';
 
 	/**
@@ -11318,9 +11052,9 @@ webpackJsonp([4],[
 	 * @method init
 	 * @param options 参数对象
 	 */
-	User2Role.prototype.init = function(options){
+	User2Role.prototype.init = function (options) {
 	    var that = this;
-	    this.options = $.extend({},options);
+	    this.options = $.extend({}, options);
 	    that.setTitle('编辑角色下的用户').setHeight(500).setWidth(600);
 	    frameworkBase.init.call(this, options);
 	    this.loadBaseView();
@@ -11328,103 +11062,100 @@ webpackJsonp([4],[
 	    this.restoreData();
 	};
 
-	User2Role.prototype.loadBaseView = function(options){
-	    var html = __webpack_require__(452);
+	User2Role.prototype.loadBaseView = function (options) {
+	    var html = __webpack_require__(454);
 	    this.render(html);
 	};
 
-	User2Role.prototype.bindEvents = function(){
-	    this.dom.on('selectstart',function(){
+	User2Role.prototype.bindEvents = function () {
+	    this.dom.on('selectstart', function () {
 	        return false;
 	    });
 	    var that = this;
-	    $('.list-panel',this.dom).on('click','li.list-item',function(){
+	    $('.list-panel', this.dom).on('click', 'li.list-item', function () {
 	        var $this = $(this);
 	        $this.parent().find('.list-item').removeClass('selected').end().end().addClass('selected');
 	    });
-	    $('#mapList',this.dom).on('dblclick','li.list-item',function(){
+	    $('#mapList', this.dom).on('dblclick', 'li.list-item', function () {
 	        removeItem($(this));
 	    });
-	    $('#userList',this.dom).on('dblclick','li.list-item',function(){
+	    $('#userList', this.dom).on('dblclick', 'li.list-item', function () {
 	        roleItemClick($(this));
 	    });
-	    $('#addUser',this.dom).click(function(){
+	    $('#addUser', this.dom).click(function () {
 	        var $item = $('#userList .list-item.selected');
 	        roleItemClick($item);
 	    });
-	    function roleItemClick($item){
-	        if($item.length == 0)
-	            return;
+	    function roleItemClick($item) {
+	        if ($item.length == 0) return;
 	        var user_id = $item.attr('data-user-id');
-	        if($('#mapList .list-item[data-user-id="'+user_id+'"]').length == 0){
+	        if ($('#mapList .list-item[data-user-id="' + user_id + '"]').length == 0) {
 	            var role_name = $item.html();
-	            $('<li class="list-item" data-user-id="'+user_id+'">'+role_name+'</li>').appendTo($('#mapList'));
+	            $('<li class="list-item" data-user-id="' + user_id + '">' + role_name + '</li>').appendTo($('#mapList'));
 	        }
 	    }
-	    function removeItem($item){
+	    function removeItem($item) {
 	        $item.remove();
 	    }
-	    $('#removeUser',this.dom).click(function(){
+	    $('#removeUser', this.dom).click(function () {
 	        var $item = $('#mapList .list-item.selected');
 	        removeItem($item);
 	    });
-	    $('#addAllUser',this.dom).click(function(){
-	        $('#userList .list-item').each(function(){
+	    $('#addAllUser', this.dom).click(function () {
+	        $('#userList .list-item').each(function () {
 	            roleItemClick($(this));
 	        });
 	    });
-	    $('#removeAllUser',this.dom).click(function(){
+	    $('#removeAllUser', this.dom).click(function () {
 	        $('#mapList .list-item').remove();
 	    });
 
-
-	    $('#confirmBtn',this.dom).click(function(){
-	        that.save('/role/roleuser/',{
-	            role_id:that.options.role_id,
-	            user_ids:function(){
+	    $('#confirmBtn', this.dom).click(function () {
+	        that.save('/role/roleuser/', {
+	            role_id: that.options.role_id,
+	            user_ids: function () {
 	                var ids = [];
-	                $('#mapList .list-item').each(function(){
+	                $('#mapList .list-item').each(function () {
 	                    ids.push($(this).attr('data-user-id'));
-	                }) ;
+	                });
 	                return ids.join(';');
 	            }()
-	        },function(data){
-	            if(!data.success){
-	               that.toast(data.message);
-	               return;
+	        }, function (data) {
+	            if (!data.success) {
+	                that.toast(data.message);
+	                return;
 	            }
 	            that.finish(true);
 	        });
-
 	    });
-	    $('#cancelBtn',this.dom).click(function(){
+	    $('#cancelBtn', this.dom).click(function () {
 	        that.finish(false);
 	    });
 	};
 
-	User2Role.prototype.restoreData = function() {
+	User2Role.prototype.restoreData = function () {
 	    var that = this;
-	    this.query('/user/list',{page:1,rows:999999},function(data){
-	        if(!data.success){
+	    this.query('/user/list', { page: 1, rows: 999999 }, function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
 	        var html = '';
-	        for(var i = 0,len = data.data.total;i<len;i++){
-	            html += '<li class="list-item" data-user-id="'+data.data.rows[i].user_id+'">'+data.data.rows[i].user_name+'</li>'
+	        for (var i = 0, len = data.data.total; i < len; i++) {
+	            html += '<li class="list-item" data-user-id="' + data.data.rows[i].user_id + '">' + data.data.rows[i].user_name + '</li>';
 	        }
-	        $('#userList',that.dom).html(html);
+	        $('#userList', that.dom).html(html);
 	    });
-	    this.query('/role/roleuser',{role_id:this.options.role_id,page:1,rows:99999},function(data){
-	        if(!data.success){
+	    this.query('/role/roleuser', { role_id: this.options.role_id, page: 1, rows: 99999 }, function (data) {
+	        if (!data.success) {
 	            that.toast(data.message);
 	            return;
 	        }
 	        var html = '';
-	        for(var i = 0,len = data.data.length;i<len;i++){
-	            html += '<li class="list-item" data-user-id="'+data.data[i].user_id+'">'+data.data[i].user_name+'</li>'
+	        for (var i = 0, len = data.data.length; i < len; i++) {
+	            html += '<li class="list-item" data-user-id="' + data.data[i].user_id + '">' + data.data[i].user_name + '</li>';
 	        }
-	        $('#mapList',that.dom).html(html);
+	        $('#mapList', that.dom).html(html);
 	    });
 	};
 
@@ -11433,23 +11164,23 @@ webpackJsonp([4],[
 	 * 由框架调用，主要用于销毁订阅的事件
 	 */
 	User2Role.prototype.finish = function () {
-	    frameworkBase.finish.apply(this,arguments);
+	    frameworkBase.finish.apply(this, arguments);
 	};
 
 	module.exports = new User2Role();
 
 /***/ },
-/* 450 */
+/* 452 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 451 */,
-/* 452 */
+/* 453 */,
+/* 454 */
 /***/ function(module, exports) {
 
-	module.exports = "<div id=\"user2role\">\r\n    <div class=\"user2role_content_wrap\">\r\n        <div class=\"lr-choose-panel\">\r\n            <div class=\"left-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"userList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n            <div class=\"center-operator-panel\">\r\n                <div class=\"operator-wrap\">\r\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllUser\"></span>\r\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllUser\"></span>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"right-choose-panel\">\r\n                <div class=\"panel-flow-wrap\">\r\n                    <ul id=\"mapList\" class=\"list-panel\">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"btn-wrap\">\r\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\r\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\r\n    </div>\r\n</div>\r\n";
+	module.exports = "<div id=\"user2role\">\n    <div class=\"user2role_content_wrap\">\n        <div class=\"lr-choose-panel\">\n            <div class=\"left-choose-panel\">\n                <div class=\"panel-flow-wrap\">\n                    <ul id=\"userList\" class=\"list-panel\">\n                    </ul>\n                </div>\n            </div>\n            <div class=\"center-operator-panel\">\n                <div class=\"operator-wrap\">\n                    <span class=\"choose-btn fa fa-angle-right\" id=\"addUser\"></span>\n                    <span class=\"choose-btn fa fa-angle-left\" id=\"removeUser\"></span>\n                    <span class=\"choose-btn fa fa-angle-double-right\" id=\"addAllUser\"></span>\n                    <span class=\"choose-btn fa fa-angle-double-left\" id=\"removeAllUser\"></span>\n                </div>\n\n            </div>\n            <div class=\"right-choose-panel\">\n                <div class=\"panel-flow-wrap\">\n                    <ul id=\"mapList\" class=\"list-panel\">\n                    </ul>\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <div class=\"btn-wrap\">\n        <span class=\"framework-button\" id=\"confirmBtn\">提交</span>\n        <span class=\"framework-button\" id=\"cancelBtn\">取消</span>\n    </div>\n</div>\n";
 
 /***/ }
 ]);
