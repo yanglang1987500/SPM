@@ -36,41 +36,41 @@ $ node app.js
 
 ### 移动端示例图
 
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-0.png)
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-1.png)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/192.168.1.109-8080-0.png)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/192.168.1.109-8080-1.png)
 
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-2.png)
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-3.png)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/192.168.1.109-8080-2.png)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/192.168.1.109-8080-3.png)
 
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-4.png)
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-5.png)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/192.168.1.109-8080-4.png)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/192.168.1.109-8080-5.png)
 
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-6.png)
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-7.png)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/192.168.1.109-8080-6.png)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/192.168.1.109-8080-7.png)
 
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-8.png)
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-9.png)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/192.168.1.109-8080-8.png)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/192.168.1.109-8080-9.png)
 
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-10.png)
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-11.png)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/192.168.1.109-8080-10.png)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/192.168.1.109-8080-11.png)
 
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-12.png)
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/192.168.1.109-8080-13.png)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/192.168.1.109-8080-12.png)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/192.168.1.109-8080-13.png)
 
 
 ### PC端示例图
 
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-1.jpg)
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-2.jpg)
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-3.jpg)
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-4.jpg)
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-5.jpg)
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-6.jpg)
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-7.jpg)
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-8.jpg)
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-9.jpg)
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-10.jpg)
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-11.jpg)
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-12.jpg)
- ![image](https://github.com/yanglang1987500/SPM/blob/master/screenshot/PC-13.jpg)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/PC-1.jpg)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/PC-2.jpg)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/PC-3.jpg)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/PC-4.jpg)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/PC-5.jpg)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/PC-6.jpg)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/PC-7.jpg)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/PC-8.jpg)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/PC-9.jpg)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/PC-10.jpg)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/PC-11.jpg)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/PC-12.jpg)
+ ![image](https://yanglang1987500.github.io/SPM/screenshot/PC-13.jpg)
 
